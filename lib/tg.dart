@@ -7,5 +7,8 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
+part 'src/core.dart';
+part 'src/client.dart';
 part 'src/schema.dart';
+part 'src/mtproto.dart';
 part 'src/obfuscation.dart';

@@ -1,24 +1,7 @@
 part of '../tg.dart';
 
 bool _bit(int value, int bit) => (value & (1 << bit)) != 0;
-
-/// Telegram object class.
-abstract class TlObject {
-  /// Constructor.
-  const TlObject._();
-}
-
-/// Base Constructor class.
-abstract class TlConstructor extends TlObject {
-  /// Constructor.
-  const TlConstructor._() : super._();
-}
-
-/// Base Method class.
-abstract class TlMethod<ReturnType> extends TlObject {
-  /// Constructor.
-  const TlMethod._() : super._();
-}
+void _writeInt(Uint8List buffer, int start, int value) {}
 
 /// Predicate Error.
 abstract class ErrorBase extends TlConstructor {
@@ -49,6 +32,9 @@ class Error extends ErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc4b9f9bb);
+    // _writeint(buffer, 0, code);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -73,6 +59,7 @@ class InputPeerEmpty extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f3b18ea);
     return 0;
   }
 }
@@ -91,6 +78,7 @@ class InputPeerSelf extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7da07ec9);
     return 0;
   }
 }
@@ -114,6 +102,8 @@ class InputPeerChat extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35a95cb9);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -141,6 +131,9 @@ class InputPeerUser extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdde8a54c);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -168,6 +161,9 @@ class InputPeerChannel extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x27bcbbfc);
+    // _writelong(buffer, 0, channelId);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -199,6 +195,10 @@ class InputPeerUserFromMessage extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa87b0a1c);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -230,6 +230,10 @@ class InputPeerChannelFromMessage extends InputPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd2a0840);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, channelId);
     return 0;
   }
 }
@@ -254,6 +258,7 @@ class InputUserEmpty extends InputUserBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb98886cf);
     return 0;
   }
 }
@@ -272,6 +277,7 @@ class InputUserSelf extends InputUserBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf7c1b13f);
     return 0;
   }
 }
@@ -299,6 +305,9 @@ class InputUser extends InputUserBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf21158c6);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -330,6 +339,10 @@ class InputUserFromMessage extends InputUserBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1da448e2);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -371,6 +384,11 @@ class InputPhoneContact extends InputContactBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf392b7f4);
+    // _writelong(buffer, 0, clientId);
+    // _writestring(buffer, 0, phone);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
     return 0;
   }
 }
@@ -412,6 +430,11 @@ class InputFile extends InputFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf52ff27f);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, parts);
+    // _writestring(buffer, 0, name);
+    // _writestring(buffer, 0, md5Checksum);
     return 0;
   }
 }
@@ -443,6 +466,10 @@ class InputFileBig extends InputFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa4f0bb5);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, parts);
+    // _writestring(buffer, 0, name);
     return 0;
   }
 }
@@ -467,6 +494,7 @@ class InputMediaEmpty extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9664f57f);
     return 0;
   }
 }
@@ -479,8 +507,8 @@ class InputMediaUploadedPhoto extends InputMediaBase {
   const InputMediaUploadedPhoto({
     required this.flags,
     required this.file,
-    required this.stickers,
-    required this.ttlSeconds,
+    this.stickers,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -500,17 +528,17 @@ class InputMediaUploadedPhoto extends InputMediaBase {
   /// Stickers.
   final List<InputDocumentBase>? stickers;
 
-  /// If [stickers] exists.
-  bool get hasStickersField => _bit(flags, 0);
-
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e287d04);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, spoiler);
+    // _writeInputFile(buffer, 0, file);
+    // _writeflags.0?Vector<InputDocument>(buffer, 0, stickers);
+    // _writeflags.1?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -523,7 +551,7 @@ class InputMediaPhoto extends InputMediaBase {
   const InputMediaPhoto({
     required this.flags,
     required this.id,
-    required this.ttlSeconds,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -543,11 +571,13 @@ class InputMediaPhoto extends InputMediaBase {
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb3ba0635);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, spoiler);
+    // _writeInputPhoto(buffer, 0, id);
+    // _writeflags.0?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -571,6 +601,8 @@ class InputMediaGeoPoint extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf9c44144);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
     return 0;
   }
 }
@@ -606,6 +638,11 @@ class InputMediaContact extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf8ab7dfb);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writestring(buffer, 0, vcard);
     return 0;
   }
 }
@@ -618,11 +655,11 @@ class InputMediaUploadedDocument extends InputMediaBase {
   const InputMediaUploadedDocument({
     required this.flags,
     required this.file,
-    required this.thumb,
+    this.thumb,
     required this.mimeType,
     required this.attributes,
-    required this.stickers,
-    required this.ttlSeconds,
+    this.stickers,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -648,9 +685,6 @@ class InputMediaUploadedDocument extends InputMediaBase {
   /// Thumb.
   final InputFileBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 2);
-
   /// Mime Type.
   final String mimeType;
 
@@ -660,17 +694,22 @@ class InputMediaUploadedDocument extends InputMediaBase {
   /// Stickers.
   final List<InputDocumentBase>? stickers;
 
-  /// If [stickers] exists.
-  bool get hasStickersField => _bit(flags, 0);
-
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5b38c6c1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, nosoundVideo);
+    // _writeflags.4?true(buffer, 0, forceFile);
+    // _writeflags.5?true(buffer, 0, spoiler);
+    // _writeInputFile(buffer, 0, file);
+    // _writeflags.2?InputFile(buffer, 0, thumb);
+    // _writestring(buffer, 0, mimeType);
+    // _writeVector<DocumentAttribute>(buffer, 0, attributes);
+    // _writeflags.0?Vector<InputDocument>(buffer, 0, stickers);
+    // _writeflags.1?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -683,8 +722,8 @@ class InputMediaDocument extends InputMediaBase {
   const InputMediaDocument({
     required this.flags,
     required this.id,
-    required this.ttlSeconds,
-    required this.query,
+    this.ttlSeconds,
+    this.query,
   }) : super._();
 
   /// Deserialize.
@@ -704,17 +743,17 @@ class InputMediaDocument extends InputMediaBase {
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 0);
-
   /// Query.
   final String? query;
 
-  /// If [query] exists.
-  bool get hasQueryField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x33473058);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, spoiler);
+    // _writeInputDocument(buffer, 0, id);
+    // _writeflags.0?int(buffer, 0, ttlSeconds);
+    // _writeflags.1?string(buffer, 0, query);
     return 0;
   }
 }
@@ -758,6 +797,13 @@ class InputMediaVenue extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc13d1c11);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, address);
+    // _writestring(buffer, 0, provider);
+    // _writestring(buffer, 0, venueId);
+    // _writestring(buffer, 0, venueType);
     return 0;
   }
 }
@@ -770,7 +816,7 @@ class InputMediaPhotoExternal extends InputMediaBase {
   const InputMediaPhotoExternal({
     required this.flags,
     required this.url,
-    required this.ttlSeconds,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -790,11 +836,13 @@ class InputMediaPhotoExternal extends InputMediaBase {
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe5bbfe1a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, spoiler);
+    // _writestring(buffer, 0, url);
+    // _writeflags.0?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -807,7 +855,7 @@ class InputMediaDocumentExternal extends InputMediaBase {
   const InputMediaDocumentExternal({
     required this.flags,
     required this.url,
-    required this.ttlSeconds,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -827,11 +875,13 @@ class InputMediaDocumentExternal extends InputMediaBase {
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfb52dc99);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, spoiler);
+    // _writestring(buffer, 0, url);
+    // _writeflags.0?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -855,6 +905,8 @@ class InputMediaGame extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd33f43f3);
+    // _writeInputGame(buffer, 0, id);
     return 0;
   }
 }
@@ -868,13 +920,13 @@ class InputMediaInvoice extends InputMediaBase {
     required this.flags,
     required this.title,
     required this.description,
-    required this.photo,
+    this.photo,
     required this.invoice,
     required this.payload,
     required this.provider,
     required this.providerData,
-    required this.startParam,
-    required this.extendedMedia,
+    this.startParam,
+    this.extendedMedia,
   }) : super._();
 
   /// Deserialize.
@@ -894,9 +946,6 @@ class InputMediaInvoice extends InputMediaBase {
   /// Photo.
   final InputWebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Invoice.
   final InvoiceBase invoice;
 
@@ -912,17 +961,22 @@ class InputMediaInvoice extends InputMediaBase {
   /// Start Param.
   final String? startParam;
 
-  /// If [startParam] exists.
-  bool get hasStartParamField => _bit(flags, 1);
-
   /// Extended Media.
   final InputMediaBase? extendedMedia;
 
-  /// If [extendedMedia] exists.
-  bool get hasExtendedMediaField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8eb5a6d5);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.0?InputWebDocument(buffer, 0, photo);
+    // _writeInvoice(buffer, 0, invoice);
+    // _writebytes(buffer, 0, payload);
+    // _writestring(buffer, 0, provider);
+    // _writeDataJSON(buffer, 0, providerData);
+    // _writeflags.1?string(buffer, 0, startParam);
+    // _writeflags.2?InputMedia(buffer, 0, extendedMedia);
     return 0;
   }
 }
@@ -935,9 +989,9 @@ class InputMediaGeoLive extends InputMediaBase {
   const InputMediaGeoLive({
     required this.flags,
     required this.geoPoint,
-    required this.heading,
-    required this.period,
-    required this.proximityNotificationRadius,
+    this.heading,
+    this.period,
+    this.proximityNotificationRadius,
   }) : super._();
 
   /// Deserialize.
@@ -957,23 +1011,21 @@ class InputMediaGeoLive extends InputMediaBase {
   /// Heading.
   final int? heading;
 
-  /// If [heading] exists.
-  bool get hasHeadingField => _bit(flags, 2);
-
   /// Period.
   final int? period;
-
-  /// If [period] exists.
-  bool get hasPeriodField => _bit(flags, 1);
 
   /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
-  /// If [proximityNotificationRadius] exists.
-  bool get hasProximityNotificationRadiusField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x971fa843);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, stopped);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writeflags.2?int(buffer, 0, heading);
+    // _writeflags.1?int(buffer, 0, period);
+    // _writeflags.3?int(buffer, 0, proximityNotificationRadius);
     return 0;
   }
 }
@@ -986,9 +1038,9 @@ class InputMediaPoll extends InputMediaBase {
   const InputMediaPoll({
     required this.flags,
     required this.poll,
-    required this.correctAnswers,
-    required this.solution,
-    required this.solutionEntities,
+    this.correctAnswers,
+    this.solution,
+    this.solutionEntities,
   }) : super._();
 
   /// Deserialize.
@@ -1005,23 +1057,20 @@ class InputMediaPoll extends InputMediaBase {
   /// Correct Answers.
   final List<Uint8List>? correctAnswers;
 
-  /// If [correctAnswers] exists.
-  bool get hasCorrectAnswersField => _bit(flags, 0);
-
   /// Solution.
   final String? solution;
-
-  /// If [solution] exists.
-  bool get hasSolutionField => _bit(flags, 1);
 
   /// Solution Entities.
   final List<MessageEntityBase>? solutionEntities;
 
-  /// If [solutionEntities] exists.
-  bool get hasSolutionEntitiesField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0f94e5f1);
+    // _write#(buffer, 0, flags);
+    // _writePoll(buffer, 0, poll);
+    // _writeflags.0?Vector<bytes>(buffer, 0, correctAnswers);
+    // _writeflags.1?string(buffer, 0, solution);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, solutionEntities);
     return 0;
   }
 }
@@ -1045,6 +1094,8 @@ class InputMediaDice extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe66fbf7b);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -1072,6 +1123,9 @@ class InputMediaStory extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x89fdd778);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -1108,6 +1162,12 @@ class InputMediaWebPage extends InputMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc21b8849);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, forceLargeMedia);
+    // _writeflags.1?true(buffer, 0, forceSmallMedia);
+    // _writeflags.2?true(buffer, 0, optional);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -1132,6 +1192,7 @@ class InputChatPhotoEmpty extends InputChatPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ca48f57);
     return 0;
   }
 }
@@ -1143,10 +1204,10 @@ class InputChatUploadedPhoto extends InputChatPhotoBase {
   /// Input Chat Uploaded Photo constructor.
   const InputChatUploadedPhoto({
     required this.flags,
-    required this.file,
-    required this.video,
-    required this.videoStartTs,
-    required this.videoEmojiMarkup,
+    this.file,
+    this.video,
+    this.videoStartTs,
+    this.videoEmojiMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -1160,29 +1221,23 @@ class InputChatUploadedPhoto extends InputChatPhotoBase {
   /// File.
   final InputFileBase? file;
 
-  /// If [file] exists.
-  bool get hasFileField => _bit(flags, 0);
-
   /// Video.
   final InputFileBase? video;
-
-  /// If [video] exists.
-  bool get hasVideoField => _bit(flags, 1);
 
   /// Video Start Ts.
   final double? videoStartTs;
 
-  /// If [videoStartTs] exists.
-  bool get hasVideoStartTsField => _bit(flags, 2);
-
   /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
-  /// If [videoEmojiMarkup] exists.
-  bool get hasVideoEmojiMarkupField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdcdaec0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?InputFile(buffer, 0, file);
+    // _writeflags.1?InputFile(buffer, 0, video);
+    // _writeflags.2?double(buffer, 0, videoStartTs);
+    // _writeflags.3?VideoSize(buffer, 0, videoEmojiMarkup);
     return 0;
   }
 }
@@ -1206,6 +1261,8 @@ class InputChatPhoto extends InputChatPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8953ad37);
+    // _writeInputPhoto(buffer, 0, id);
     return 0;
   }
 }
@@ -1230,6 +1287,7 @@ class InputGeoPointEmpty extends InputGeoPointBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe4c123d6);
     return 0;
   }
 }
@@ -1243,7 +1301,7 @@ class InputGeoPoint extends InputGeoPointBase {
     required this.flags,
     required this.lat,
     required this.long,
-    required this.accuracyRadius,
+    this.accuracyRadius,
   }) : super._();
 
   /// Deserialize.
@@ -1263,11 +1321,13 @@ class InputGeoPoint extends InputGeoPointBase {
   /// Accuracy Radius.
   final int? accuracyRadius;
 
-  /// If [accuracyRadius] exists.
-  bool get hasAccuracyRadiusField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48222faf);
+    // _write#(buffer, 0, flags);
+    // _writedouble(buffer, 0, lat);
+    // _writedouble(buffer, 0, long);
+    // _writeflags.0?int(buffer, 0, accuracyRadius);
     return 0;
   }
 }
@@ -1292,6 +1352,7 @@ class InputPhotoEmpty extends InputPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1cd7bf0d);
     return 0;
   }
 }
@@ -1323,6 +1384,10 @@ class InputPhoto extends InputPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3bb3b94a);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
     return 0;
   }
 }
@@ -1364,6 +1429,11 @@ class InputFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdfdaabe1);
+    // _writelong(buffer, 0, volumeId);
+    // _writeint(buffer, 0, localId);
+    // _writelong(buffer, 0, secret);
+    // _writebytes(buffer, 0, fileReference);
     return 0;
   }
 }
@@ -1391,6 +1461,9 @@ class InputEncryptedFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf5235d55);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -1426,6 +1499,11 @@ class InputDocumentFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbad07584);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
+    // _writestring(buffer, 0, thumbSize);
     return 0;
   }
 }
@@ -1453,6 +1531,9 @@ class InputSecureFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcbc7ee28);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -1471,6 +1552,7 @@ class InputTakeoutFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x29be5899);
     return 0;
   }
 }
@@ -1506,6 +1588,11 @@ class InputPhotoFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x40181ffe);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
+    // _writestring(buffer, 0, thumbSize);
     return 0;
   }
 }
@@ -1549,6 +1636,13 @@ class InputPhotoLegacyFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd83466f3);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
+    // _writelong(buffer, 0, volumeId);
+    // _writeint(buffer, 0, localId);
+    // _writelong(buffer, 0, secret);
     return 0;
   }
 }
@@ -1583,6 +1677,11 @@ class InputPeerPhotoFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x37257e99);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, big);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, photoId);
     return 0;
   }
 }
@@ -1610,6 +1709,9 @@ class InputStickerSetThumb extends InputFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9d84f3db);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeint(buffer, 0, thumbVersion);
     return 0;
   }
 }
@@ -1624,8 +1726,8 @@ class InputGroupCallStream extends InputFileLocationBase {
     required this.call,
     required this.timeMs,
     required this.scale,
-    required this.videoChannel,
-    required this.videoQuality,
+    this.videoChannel,
+    this.videoQuality,
   }) : super._();
 
   /// Deserialize.
@@ -1648,17 +1750,18 @@ class InputGroupCallStream extends InputFileLocationBase {
   /// Video Channel.
   final int? videoChannel;
 
-  /// If [videoChannel] exists.
-  bool get hasVideoChannelField => _bit(flags, 0);
-
   /// Video Quality.
   final int? videoQuality;
 
-  /// If [videoQuality] exists.
-  bool get hasVideoQualityField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0598a92a);
+    // _write#(buffer, 0, flags);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writelong(buffer, 0, timeMs);
+    // _writeint(buffer, 0, scale);
+    // _writeflags.0?int(buffer, 0, videoChannel);
+    // _writeflags.0?int(buffer, 0, videoQuality);
     return 0;
   }
 }
@@ -1688,6 +1791,8 @@ class PeerUser extends PeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x59511722);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -1711,6 +1816,8 @@ class PeerChat extends PeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x36c6019a);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -1734,6 +1841,8 @@ class PeerChannel extends PeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2a5371e);
+    // _writelong(buffer, 0, channelId);
     return 0;
   }
 }
@@ -1758,6 +1867,7 @@ class StorageFileUnknown extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaa963b05);
     return 0;
   }
 }
@@ -1776,6 +1886,7 @@ class StorageFilePartial extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x40bc6f52);
     return 0;
   }
 }
@@ -1794,6 +1905,7 @@ class StorageFileJpeg extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x007efe0e);
     return 0;
   }
 }
@@ -1812,6 +1924,7 @@ class StorageFileGif extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcae1aadf);
     return 0;
   }
 }
@@ -1830,6 +1943,7 @@ class StorageFilePng extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a4f63c0);
     return 0;
   }
 }
@@ -1848,6 +1962,7 @@ class StorageFilePdf extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xae1e508d);
     return 0;
   }
 }
@@ -1866,6 +1981,7 @@ class StorageFileMp3 extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x528a0677);
     return 0;
   }
 }
@@ -1884,6 +2000,7 @@ class StorageFileMov extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4b09ebbc);
     return 0;
   }
 }
@@ -1902,6 +2019,7 @@ class StorageFileMp4 extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb3cea0e4);
     return 0;
   }
 }
@@ -1920,6 +2038,7 @@ class StorageFileWebp extends StorageFileTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1081464c);
     return 0;
   }
 }
@@ -1949,6 +2068,8 @@ class UserEmpty extends UserBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd3bc4b7a);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -1962,18 +2083,18 @@ class User extends UserBase {
     required this.flags,
     required this.flags2,
     required this.id,
-    required this.accessHash,
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.phone,
-    required this.photo,
-    required this.status,
-    required this.botInfoVersion,
-    required this.restrictionReason,
-    required this.botInlinePlaceholder,
-    required this.langCode,
-    required this.emojiStatus,
+    this.accessHash,
+    this.firstName,
+    this.lastName,
+    this.username,
+    this.phone,
+    this.photo,
+    this.status,
+    this.botInfoVersion,
+    this.restrictionReason,
+    this.botInlinePlaceholder,
+    this.langCode,
+    this.emojiStatus,
     required this.usernames,
     required this.storiesMaxId,
     required this.color,
@@ -2063,101 +2184,95 @@ class User extends UserBase {
   /// Access Hash.
   final int? accessHash;
 
-  /// If [accessHash] exists.
-  bool get hasAccessHashField => _bit(flags, 0);
-
   /// First Name.
   final String? firstName;
-
-  /// If [firstName] exists.
-  bool get hasFirstNameField => _bit(flags, 1);
 
   /// Last Name.
   final String? lastName;
 
-  /// If [lastName] exists.
-  bool get hasLastNameField => _bit(flags, 2);
-
   /// Username.
   final String? username;
-
-  /// If [username] exists.
-  bool get hasUsernameField => _bit(flags, 3);
 
   /// Phone.
   final String? phone;
 
-  /// If [phone] exists.
-  bool get hasPhoneField => _bit(flags, 4);
-
   /// Photo.
   final UserProfilePhotoBase? photo;
-
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 5);
 
   /// Status.
   final UserStatusBase? status;
 
-  /// If [status] exists.
-  bool get hasStatusField => _bit(flags, 6);
-
   /// Bot Info Version.
   final int? botInfoVersion;
-
-  /// If [botInfoVersion] exists.
-  bool get hasBotInfoVersionField => _bit(flags, 14);
 
   /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
 
-  /// If [restrictionReason] exists.
-  bool get hasRestrictionReasonField => _bit(flags, 18);
-
   /// Bot Inline Placeholder.
   final String? botInlinePlaceholder;
-
-  /// If [botInlinePlaceholder] exists.
-  bool get hasBotInlinePlaceholderField => _bit(flags, 19);
 
   /// Lang Code.
   final String? langCode;
 
-  /// If [langCode] exists.
-  bool get hasLangCodeField => _bit(flags, 22);
-
   /// Emoji Status.
   final EmojiStatusBase? emojiStatus;
-
-  /// If [emojiStatus] exists.
-  bool get hasEmojiStatusField => _bit(flags, 30);
 
   /// usernames: flags2.0?Vector<Username>
   final List<UsernameBase>? usernames;
 
-  /// If [usernames] exists.
-  bool get hasUsernamesField => _bit(flags2, 0);
-
   /// stories_max_id: flags2.5?int
   final int? storiesMaxId;
-
-  /// If [storiesMaxId] exists.
-  bool get hasStoriesMaxIdField => _bit(flags2, 5);
 
   /// color: flags2.8?PeerColor
   final PeerColorBase? color;
 
-  /// If [color] exists.
-  bool get hasColorField => _bit(flags2, 8);
-
   /// profile_color: flags2.9?PeerColor
   final PeerColorBase? profileColor;
 
-  /// If [profileColor] exists.
-  bool get hasProfileColorField => _bit(flags2, 9);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x215c4438);
+    // _write#(buffer, 0, flags);
+    // _writeflags.10?true(buffer, 0, self);
+    // _writeflags.11?true(buffer, 0, contact);
+    // _writeflags.12?true(buffer, 0, mutualContact);
+    // _writeflags.13?true(buffer, 0, deleted);
+    // _writeflags.14?true(buffer, 0, bot);
+    // _writeflags.15?true(buffer, 0, botChatHistory);
+    // _writeflags.16?true(buffer, 0, botNochats);
+    // _writeflags.17?true(buffer, 0, verified);
+    // _writeflags.18?true(buffer, 0, restricted);
+    // _writeflags.20?true(buffer, 0, min);
+    // _writeflags.21?true(buffer, 0, botInlineGeo);
+    // _writeflags.23?true(buffer, 0, support);
+    // _writeflags.24?true(buffer, 0, scam);
+    // _writeflags.25?true(buffer, 0, applyMinPhoto);
+    // _writeflags.26?true(buffer, 0, fake);
+    // _writeflags.27?true(buffer, 0, botAttachMenu);
+    // _writeflags.28?true(buffer, 0, premium);
+    // _writeflags.29?true(buffer, 0, attachMenuEnabled);
+    // _write#(buffer, 0, flags2);
+    // _writeflags2.1?true(buffer, 0, botCanEdit);
+    // _writeflags2.2?true(buffer, 0, closeFriend);
+    // _writeflags2.3?true(buffer, 0, storiesHidden);
+    // _writeflags2.4?true(buffer, 0, storiesUnavailable);
+    // _writelong(buffer, 0, id);
+    // _writeflags.0?long(buffer, 0, accessHash);
+    // _writeflags.1?string(buffer, 0, firstName);
+    // _writeflags.2?string(buffer, 0, lastName);
+    // _writeflags.3?string(buffer, 0, username);
+    // _writeflags.4?string(buffer, 0, phone);
+    // _writeflags.5?UserProfilePhoto(buffer, 0, photo);
+    // _writeflags.6?UserStatus(buffer, 0, status);
+    // _writeflags.14?int(buffer, 0, botInfoVersion);
+    // _writeflags.18?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // _writeflags.19?string(buffer, 0, botInlinePlaceholder);
+    // _writeflags.22?string(buffer, 0, langCode);
+    // _writeflags.30?EmojiStatus(buffer, 0, emojiStatus);
+    // _writeflags2.0?Vector<Username>(buffer, 0, usernames);
+    // _writeflags2.5?int(buffer, 0, storiesMaxId);
+    // _writeflags2.8?PeerColor(buffer, 0, color);
+    // _writeflags2.9?PeerColor(buffer, 0, profileColor);
     return 0;
   }
 }
@@ -2182,6 +2297,7 @@ class UserProfilePhotoEmpty extends UserProfilePhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4f11bae1);
     return 0;
   }
 }
@@ -2194,7 +2310,7 @@ class UserProfilePhoto extends UserProfilePhotoBase {
   const UserProfilePhoto({
     required this.flags,
     required this.photoId,
-    required this.strippedThumb,
+    this.strippedThumb,
     required this.dcId,
   }) : super._();
 
@@ -2218,14 +2334,18 @@ class UserProfilePhoto extends UserProfilePhotoBase {
   /// Stripped Thumb.
   final Uint8List? strippedThumb;
 
-  /// If [strippedThumb] exists.
-  bool get hasStrippedThumbField => _bit(flags, 1);
-
   /// Dc Id.
   final int dcId;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x82d1f706);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hasVideo);
+    // _writeflags.2?true(buffer, 0, personal);
+    // _writelong(buffer, 0, photoId);
+    // _writeflags.1?bytes(buffer, 0, strippedThumb);
+    // _writeint(buffer, 0, dcId);
     return 0;
   }
 }
@@ -2250,6 +2370,7 @@ class UserStatusEmpty extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x09d05049);
     return 0;
   }
 }
@@ -2273,6 +2394,8 @@ class UserStatusOnline extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xedb93949);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -2296,6 +2419,8 @@ class UserStatusOffline extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x008c703f);
+    // _writeint(buffer, 0, wasOnline);
     return 0;
   }
 }
@@ -2314,6 +2439,7 @@ class UserStatusRecently extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe26f42f1);
     return 0;
   }
 }
@@ -2332,6 +2458,7 @@ class UserStatusLastWeek extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x07bf09fc);
     return 0;
   }
 }
@@ -2350,6 +2477,7 @@ class UserStatusLastMonth extends UserStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77ebc742);
     return 0;
   }
 }
@@ -2379,6 +2507,8 @@ class ChatEmpty extends ChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x29562865);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -2396,9 +2526,9 @@ class Chat extends ChatBase {
     required this.participantsCount,
     required this.date,
     required this.version,
-    required this.migratedTo,
-    required this.adminRights,
-    required this.defaultBannedRights,
+    this.migratedTo,
+    this.adminRights,
+    this.defaultBannedRights,
   }) : super._();
 
   /// Deserialize.
@@ -2440,7 +2570,7 @@ class Chat extends ChatBase {
   final int participantsCount;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Version.
   final int version;
@@ -2448,23 +2578,31 @@ class Chat extends ChatBase {
   /// Migrated To.
   final InputChannelBase? migratedTo;
 
-  /// If [migratedTo] exists.
-  bool get hasMigratedToField => _bit(flags, 6);
-
   /// Admin Rights.
   final ChatAdminRightsBase? adminRights;
-
-  /// If [adminRights] exists.
-  bool get hasAdminRightsField => _bit(flags, 14);
 
   /// Default Banned Rights.
   final ChatBannedRightsBase? defaultBannedRights;
 
-  /// If [defaultBannedRights] exists.
-  bool get hasDefaultBannedRightsField => _bit(flags, 18);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x41cbf256);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.2?true(buffer, 0, left);
+    // _writeflags.5?true(buffer, 0, deactivated);
+    // _writeflags.23?true(buffer, 0, callActive);
+    // _writeflags.24?true(buffer, 0, callNotEmpty);
+    // _writeflags.25?true(buffer, 0, noforwards);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, title);
+    // _writeChatPhoto(buffer, 0, photo);
+    // _writeint(buffer, 0, participantsCount);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, version);
+    // _writeflags.6?InputChannel(buffer, 0, migratedTo);
+    // _writeflags.14?ChatAdminRights(buffer, 0, adminRights);
+    // _writeflags.18?ChatBannedRights(buffer, 0, defaultBannedRights);
     return 0;
   }
 }
@@ -2492,6 +2630,9 @@ class ChatForbidden extends ChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6592a1a7);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -2505,16 +2646,16 @@ class Channel extends ChatBase {
     required this.flags,
     required this.flags2,
     required this.id,
-    required this.accessHash,
+    this.accessHash,
     required this.title,
-    required this.username,
+    this.username,
     required this.photo,
     required this.date,
-    required this.restrictionReason,
-    required this.adminRights,
-    required this.bannedRights,
-    required this.defaultBannedRights,
-    required this.participantsCount,
+    this.restrictionReason,
+    this.adminRights,
+    this.bannedRights,
+    this.defaultBannedRights,
+    this.participantsCount,
     required this.usernames,
     required this.storiesMaxId,
     required this.color,
@@ -2609,92 +2750,96 @@ class Channel extends ChatBase {
   /// Access Hash.
   final int? accessHash;
 
-  /// If [accessHash] exists.
-  bool get hasAccessHashField => _bit(flags, 13);
-
   /// Title.
   final String title;
 
   /// Username.
   final String? username;
 
-  /// If [username] exists.
-  bool get hasUsernameField => _bit(flags, 6);
-
   /// Photo.
   final ChatPhotoBase photo;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
 
-  /// If [restrictionReason] exists.
-  bool get hasRestrictionReasonField => _bit(flags, 9);
-
   /// Admin Rights.
   final ChatAdminRightsBase? adminRights;
-
-  /// If [adminRights] exists.
-  bool get hasAdminRightsField => _bit(flags, 14);
 
   /// Banned Rights.
   final ChatBannedRightsBase? bannedRights;
 
-  /// If [bannedRights] exists.
-  bool get hasBannedRightsField => _bit(flags, 15);
-
   /// Default Banned Rights.
   final ChatBannedRightsBase? defaultBannedRights;
-
-  /// If [defaultBannedRights] exists.
-  bool get hasDefaultBannedRightsField => _bit(flags, 18);
 
   /// Participants Count.
   final int? participantsCount;
 
-  /// If [participantsCount] exists.
-  bool get hasParticipantsCountField => _bit(flags, 17);
-
   /// usernames: flags2.0?Vector<Username>
   final List<UsernameBase>? usernames;
-
-  /// If [usernames] exists.
-  bool get hasUsernamesField => _bit(flags2, 0);
 
   /// stories_max_id: flags2.4?int
   final int? storiesMaxId;
 
-  /// If [storiesMaxId] exists.
-  bool get hasStoriesMaxIdField => _bit(flags2, 4);
-
   /// color: flags2.7?PeerColor
   final PeerColorBase? color;
-
-  /// If [color] exists.
-  bool get hasColorField => _bit(flags2, 7);
 
   /// profile_color: flags2.8?PeerColor
   final PeerColorBase? profileColor;
 
-  /// If [profileColor] exists.
-  bool get hasProfileColorField => _bit(flags2, 8);
-
   /// emoji_status: flags2.9?EmojiStatus
   final EmojiStatusBase? emojiStatus;
-
-  /// If [emojiStatus] exists.
-  bool get hasEmojiStatusField => _bit(flags2, 9);
 
   /// level: flags2.10?int
   final int? level;
 
-  /// If [level] exists.
-  bool get hasLevelField => _bit(flags2, 10);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0aadfc8f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.2?true(buffer, 0, left);
+    // _writeflags.5?true(buffer, 0, broadcast);
+    // _writeflags.7?true(buffer, 0, verified);
+    // _writeflags.8?true(buffer, 0, megagroup);
+    // _writeflags.9?true(buffer, 0, restricted);
+    // _writeflags.11?true(buffer, 0, signatures);
+    // _writeflags.12?true(buffer, 0, min);
+    // _writeflags.19?true(buffer, 0, scam);
+    // _writeflags.20?true(buffer, 0, hasLink);
+    // _writeflags.21?true(buffer, 0, hasGeo);
+    // _writeflags.22?true(buffer, 0, slowmodeEnabled);
+    // _writeflags.23?true(buffer, 0, callActive);
+    // _writeflags.24?true(buffer, 0, callNotEmpty);
+    // _writeflags.25?true(buffer, 0, fake);
+    // _writeflags.26?true(buffer, 0, gigagroup);
+    // _writeflags.27?true(buffer, 0, noforwards);
+    // _writeflags.28?true(buffer, 0, joinToSend);
+    // _writeflags.29?true(buffer, 0, joinRequest);
+    // _writeflags.30?true(buffer, 0, forum);
+    // _write#(buffer, 0, flags2);
+    // _writeflags2.1?true(buffer, 0, storiesHidden);
+    // _writeflags2.2?true(buffer, 0, storiesHiddenMin);
+    // _writeflags2.3?true(buffer, 0, storiesUnavailable);
+    // _writelong(buffer, 0, id);
+    // _writeflags.13?long(buffer, 0, accessHash);
+    // _writestring(buffer, 0, title);
+    // _writeflags.6?string(buffer, 0, username);
+    // _writeChatPhoto(buffer, 0, photo);
+    // _writeint(buffer, 0, date);
+    // _writeflags.9?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // _writeflags.14?ChatAdminRights(buffer, 0, adminRights);
+    // _writeflags.15?ChatBannedRights(buffer, 0, bannedRights);
+    // _writeflags.18?ChatBannedRights(buffer, 0, defaultBannedRights);
+    // _writeflags.17?int(buffer, 0, participantsCount);
+    // _writeflags2.0?Vector<Username>(buffer, 0, usernames);
+    // _writeflags2.4?int(buffer, 0, storiesMaxId);
+    // _writeflags2.7?PeerColor(buffer, 0, color);
+    // _writeflags2.8?PeerColor(buffer, 0, profileColor);
+    // _writeflags2.9?EmojiStatus(buffer, 0, emojiStatus);
+    // _writeflags2.10?int(buffer, 0, level);
     return 0;
   }
 }
@@ -2709,7 +2854,7 @@ class ChannelForbidden extends ChatBase {
     required this.id,
     required this.accessHash,
     required this.title,
-    required this.untilDate,
+    this.untilDate,
   }) : super._();
 
   /// Deserialize.
@@ -2738,11 +2883,16 @@ class ChannelForbidden extends ChatBase {
   /// Until Date.
   final int? untilDate;
 
-  /// If [untilDate] exists.
-  bool get hasUntilDateField => _bit(flags, 16);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x17d493d5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, broadcast);
+    // _writeflags.8?true(buffer, 0, megagroup);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, title);
+    // _writeflags.16?int(buffer, 0, untilDate);
     return 0;
   }
 }
@@ -2763,19 +2913,19 @@ class ChatFull extends ChatFullBase {
     required this.id,
     required this.about,
     required this.participants,
-    required this.chatPhoto,
+    this.chatPhoto,
     required this.notifySettings,
-    required this.exportedInvite,
-    required this.botInfo,
-    required this.pinnedMsgId,
-    required this.folderId,
-    required this.call,
-    required this.ttlPeriod,
-    required this.groupcallDefaultJoinAs,
-    required this.themeEmoticon,
-    required this.requestsPending,
-    required this.recentRequesters,
-    required this.availableReactions,
+    this.exportedInvite,
+    this.botInfo,
+    this.pinnedMsgId,
+    this.folderId,
+    this.call,
+    this.ttlPeriod,
+    this.groupcallDefaultJoinAs,
+    this.themeEmoticon,
+    this.requestsPending,
+    this.recentRequesters,
+    this.availableReactions,
   }) : super._();
 
   /// Deserialize.
@@ -2807,80 +2957,65 @@ class ChatFull extends ChatFullBase {
   /// Chat Photo.
   final PhotoBase? chatPhoto;
 
-  /// If [chatPhoto] exists.
-  bool get hasChatPhotoField => _bit(flags, 2);
-
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
 
   /// Exported Invite.
   final ExportedChatInviteBase? exportedInvite;
 
-  /// If [exportedInvite] exists.
-  bool get hasExportedInviteField => _bit(flags, 13);
-
   /// Bot Info.
   final List<BotInfoBase>? botInfo;
-
-  /// If [botInfo] exists.
-  bool get hasBotInfoField => _bit(flags, 3);
 
   /// Pinned Msg Id.
   final int? pinnedMsgId;
 
-  /// If [pinnedMsgId] exists.
-  bool get hasPinnedMsgIdField => _bit(flags, 6);
-
   /// Folder Id.
   final int? folderId;
-
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 11);
 
   /// Call.
   final InputGroupCallBase? call;
 
-  /// If [call] exists.
-  bool get hasCallField => _bit(flags, 12);
-
   /// Ttl Period.
   final int? ttlPeriod;
-
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 14);
 
   /// Groupcall Default Join As.
   final PeerBase? groupcallDefaultJoinAs;
 
-  /// If [groupcallDefaultJoinAs] exists.
-  bool get hasGroupcallDefaultJoinAsField => _bit(flags, 15);
-
   /// Theme Emoticon.
   final String? themeEmoticon;
-
-  /// If [themeEmoticon] exists.
-  bool get hasThemeEmoticonField => _bit(flags, 16);
 
   /// Requests Pending.
   final int? requestsPending;
 
-  /// If [requestsPending] exists.
-  bool get hasRequestsPendingField => _bit(flags, 17);
-
   /// Recent Requesters.
   final List<int>? recentRequesters;
-
-  /// If [recentRequesters] exists.
-  bool get hasRecentRequestersField => _bit(flags, 17);
 
   /// Available Reactions.
   final ChatReactionsBase? availableReactions;
 
-  /// If [availableReactions] exists.
-  bool get hasAvailableReactionsField => _bit(flags, 18);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc9d31138);
+    // _write#(buffer, 0, flags);
+    // _writeflags.7?true(buffer, 0, canSetUsername);
+    // _writeflags.8?true(buffer, 0, hasScheduled);
+    // _writeflags.19?true(buffer, 0, translationsDisabled);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, about);
+    // _writeChatParticipants(buffer, 0, participants);
+    // _writeflags.2?Photo(buffer, 0, chatPhoto);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
+    // _writeflags.13?ExportedChatInvite(buffer, 0, exportedInvite);
+    // _writeflags.3?Vector<BotInfo>(buffer, 0, botInfo);
+    // _writeflags.6?int(buffer, 0, pinnedMsgId);
+    // _writeflags.11?int(buffer, 0, folderId);
+    // _writeflags.12?InputGroupCall(buffer, 0, call);
+    // _writeflags.14?int(buffer, 0, ttlPeriod);
+    // _writeflags.15?Peer(buffer, 0, groupcallDefaultJoinAs);
+    // _writeflags.16?string(buffer, 0, themeEmoticon);
+    // _writeflags.17?int(buffer, 0, requestsPending);
+    // _writeflags.17?Vector<long>(buffer, 0, recentRequesters);
+    // _writeflags.18?ChatReactions(buffer, 0, availableReactions);
     return 0;
   }
 }
@@ -2895,39 +3030,39 @@ class ChannelFull extends ChatFullBase {
     required this.flags2,
     required this.id,
     required this.about,
-    required this.participantsCount,
-    required this.adminsCount,
-    required this.kickedCount,
-    required this.bannedCount,
-    required this.onlineCount,
+    this.participantsCount,
+    this.adminsCount,
+    this.kickedCount,
+    this.bannedCount,
+    this.onlineCount,
     required this.readInboxMaxId,
     required this.readOutboxMaxId,
     required this.unreadCount,
     required this.chatPhoto,
     required this.notifySettings,
-    required this.exportedInvite,
+    this.exportedInvite,
     required this.botInfo,
-    required this.migratedFromChatId,
-    required this.migratedFromMaxId,
-    required this.pinnedMsgId,
-    required this.stickerset,
-    required this.availableMinId,
-    required this.folderId,
-    required this.linkedChatId,
-    required this.location,
-    required this.slowmodeSeconds,
-    required this.slowmodeNextSendDate,
-    required this.statsDc,
+    this.migratedFromChatId,
+    this.migratedFromMaxId,
+    this.pinnedMsgId,
+    this.stickerset,
+    this.availableMinId,
+    this.folderId,
+    this.linkedChatId,
+    this.location,
+    this.slowmodeSeconds,
+    this.slowmodeNextSendDate,
+    this.statsDc,
     required this.pts,
-    required this.call,
-    required this.ttlPeriod,
-    required this.pendingSuggestions,
-    required this.groupcallDefaultJoinAs,
-    required this.themeEmoticon,
-    required this.requestsPending,
-    required this.recentRequesters,
-    required this.defaultSendAs,
-    required this.availableReactions,
+    this.call,
+    this.ttlPeriod,
+    this.pendingSuggestions,
+    this.groupcallDefaultJoinAs,
+    this.themeEmoticon,
+    this.requestsPending,
+    this.recentRequesters,
+    this.defaultSendAs,
+    this.availableReactions,
     required this.stories,
     required this.wallpaper,
   }) : super._();
@@ -2994,32 +3129,17 @@ class ChannelFull extends ChatFullBase {
   /// Participants Count.
   final int? participantsCount;
 
-  /// If [participantsCount] exists.
-  bool get hasParticipantsCountField => _bit(flags, 0);
-
   /// Admins Count.
   final int? adminsCount;
-
-  /// If [adminsCount] exists.
-  bool get hasAdminsCountField => _bit(flags, 1);
 
   /// Kicked Count.
   final int? kickedCount;
 
-  /// If [kickedCount] exists.
-  bool get hasKickedCountField => _bit(flags, 2);
-
   /// Banned Count.
   final int? bannedCount;
 
-  /// If [bannedCount] exists.
-  bool get hasBannedCountField => _bit(flags, 2);
-
   /// Online Count.
   final int? onlineCount;
-
-  /// If [onlineCount] exists.
-  bool get hasOnlineCountField => _bit(flags, 13);
 
   /// Read Inbox Max Id.
   final int readInboxMaxId;
@@ -3039,77 +3159,41 @@ class ChannelFull extends ChatFullBase {
   /// Exported Invite.
   final ExportedChatInviteBase? exportedInvite;
 
-  /// If [exportedInvite] exists.
-  bool get hasExportedInviteField => _bit(flags, 23);
-
   /// Bot Info.
   final List<BotInfoBase> botInfo;
 
   /// Migrated From Chat Id.
   final int? migratedFromChatId;
 
-  /// If [migratedFromChatId] exists.
-  bool get hasMigratedFromChatIdField => _bit(flags, 4);
-
   /// Migrated From Max Id.
   final int? migratedFromMaxId;
-
-  /// If [migratedFromMaxId] exists.
-  bool get hasMigratedFromMaxIdField => _bit(flags, 4);
 
   /// Pinned Msg Id.
   final int? pinnedMsgId;
 
-  /// If [pinnedMsgId] exists.
-  bool get hasPinnedMsgIdField => _bit(flags, 5);
-
   /// Stickerset.
   final StickerSetBase? stickerset;
-
-  /// If [stickerset] exists.
-  bool get hasStickersetField => _bit(flags, 8);
 
   /// Available Min Id.
   final int? availableMinId;
 
-  /// If [availableMinId] exists.
-  bool get hasAvailableMinIdField => _bit(flags, 9);
-
   /// Folder Id.
   final int? folderId;
-
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 11);
 
   /// Linked Chat Id.
   final int? linkedChatId;
 
-  /// If [linkedChatId] exists.
-  bool get hasLinkedChatIdField => _bit(flags, 14);
-
   /// Location.
   final ChannelLocationBase? location;
-
-  /// If [location] exists.
-  bool get hasLocationField => _bit(flags, 15);
 
   /// Slowmode Seconds.
   final int? slowmodeSeconds;
 
-  /// If [slowmodeSeconds] exists.
-  bool get hasSlowmodeSecondsField => _bit(flags, 17);
-
   /// Slowmode Next Send Date.
   final int? slowmodeNextSendDate;
 
-  /// If [slowmodeNextSendDate] exists.
-  bool get hasSlowmodeNextSendDateField => _bit(flags, 18);
-
   /// Stats Dc.
   final int? statsDc;
-
-  /// If [statsDc] exists.
-  bool get hasStatsDcField => _bit(flags, 12);
 
   /// Pts.
   final int pts;
@@ -3117,71 +3201,92 @@ class ChannelFull extends ChatFullBase {
   /// Call.
   final InputGroupCallBase? call;
 
-  /// If [call] exists.
-  bool get hasCallField => _bit(flags, 21);
-
   /// Ttl Period.
   final int? ttlPeriod;
-
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 24);
 
   /// Pending Suggestions.
   final List<String>? pendingSuggestions;
 
-  /// If [pendingSuggestions] exists.
-  bool get hasPendingSuggestionsField => _bit(flags, 25);
-
   /// Groupcall Default Join As.
   final PeerBase? groupcallDefaultJoinAs;
-
-  /// If [groupcallDefaultJoinAs] exists.
-  bool get hasGroupcallDefaultJoinAsField => _bit(flags, 26);
 
   /// Theme Emoticon.
   final String? themeEmoticon;
 
-  /// If [themeEmoticon] exists.
-  bool get hasThemeEmoticonField => _bit(flags, 27);
-
   /// Requests Pending.
   final int? requestsPending;
-
-  /// If [requestsPending] exists.
-  bool get hasRequestsPendingField => _bit(flags, 28);
 
   /// Recent Requesters.
   final List<int>? recentRequesters;
 
-  /// If [recentRequesters] exists.
-  bool get hasRecentRequestersField => _bit(flags, 28);
-
   /// Default Send As.
   final PeerBase? defaultSendAs;
-
-  /// If [defaultSendAs] exists.
-  bool get hasDefaultSendAsField => _bit(flags, 29);
 
   /// Available Reactions.
   final ChatReactionsBase? availableReactions;
 
-  /// If [availableReactions] exists.
-  bool get hasAvailableReactionsField => _bit(flags, 30);
-
   /// stories: flags2.4?PeerStories
   final PeerStoriesBase? stories;
-
-  /// If [stories] exists.
-  bool get hasStoriesField => _bit(flags2, 4);
 
   /// wallpaper: flags2.7?WallPaper
   final WallPaperBase? wallpaper;
 
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags2, 7);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0f2bcb6f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, canViewParticipants);
+    // _writeflags.6?true(buffer, 0, canSetUsername);
+    // _writeflags.7?true(buffer, 0, canSetStickers);
+    // _writeflags.10?true(buffer, 0, hiddenPrehistory);
+    // _writeflags.16?true(buffer, 0, canSetLocation);
+    // _writeflags.19?true(buffer, 0, hasScheduled);
+    // _writeflags.20?true(buffer, 0, canViewStats);
+    // _writeflags.22?true(buffer, 0, blocked);
+    // _write#(buffer, 0, flags2);
+    // _writeflags2.0?true(buffer, 0, canDeleteChannel);
+    // _writeflags2.1?true(buffer, 0, antispam);
+    // _writeflags2.2?true(buffer, 0, participantsHidden);
+    // _writeflags2.3?true(buffer, 0, translationsDisabled);
+    // _writeflags2.5?true(buffer, 0, storiesPinnedAvailable);
+    // _writeflags2.6?true(buffer, 0, viewForumAsMessages);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, about);
+    // _writeflags.0?int(buffer, 0, participantsCount);
+    // _writeflags.1?int(buffer, 0, adminsCount);
+    // _writeflags.2?int(buffer, 0, kickedCount);
+    // _writeflags.2?int(buffer, 0, bannedCount);
+    // _writeflags.13?int(buffer, 0, onlineCount);
+    // _writeint(buffer, 0, readInboxMaxId);
+    // _writeint(buffer, 0, readOutboxMaxId);
+    // _writeint(buffer, 0, unreadCount);
+    // _writePhoto(buffer, 0, chatPhoto);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
+    // _writeflags.23?ExportedChatInvite(buffer, 0, exportedInvite);
+    // _writeVector<BotInfo>(buffer, 0, botInfo);
+    // _writeflags.4?long(buffer, 0, migratedFromChatId);
+    // _writeflags.4?int(buffer, 0, migratedFromMaxId);
+    // _writeflags.5?int(buffer, 0, pinnedMsgId);
+    // _writeflags.8?StickerSet(buffer, 0, stickerset);
+    // _writeflags.9?int(buffer, 0, availableMinId);
+    // _writeflags.11?int(buffer, 0, folderId);
+    // _writeflags.14?long(buffer, 0, linkedChatId);
+    // _writeflags.15?ChannelLocation(buffer, 0, location);
+    // _writeflags.17?int(buffer, 0, slowmodeSeconds);
+    // _writeflags.18?int(buffer, 0, slowmodeNextSendDate);
+    // _writeflags.12?int(buffer, 0, statsDc);
+    // _writeint(buffer, 0, pts);
+    // _writeflags.21?InputGroupCall(buffer, 0, call);
+    // _writeflags.24?int(buffer, 0, ttlPeriod);
+    // _writeflags.25?Vector<string>(buffer, 0, pendingSuggestions);
+    // _writeflags.26?Peer(buffer, 0, groupcallDefaultJoinAs);
+    // _writeflags.27?string(buffer, 0, themeEmoticon);
+    // _writeflags.28?int(buffer, 0, requestsPending);
+    // _writeflags.28?Vector<long>(buffer, 0, recentRequesters);
+    // _writeflags.29?Peer(buffer, 0, defaultSendAs);
+    // _writeflags.30?ChatReactions(buffer, 0, availableReactions);
+    // _writeflags2.4?PeerStories(buffer, 0, stories);
+    // _writeflags2.7?WallPaper(buffer, 0, wallpaper);
     return 0;
   }
 }
@@ -3215,10 +3320,14 @@ class ChatParticipant extends ChatParticipantBase {
   final int inviterId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc02d4007);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, inviterId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -3242,6 +3351,8 @@ class ChatParticipantCreator extends ChatParticipantBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe46bcee4);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -3269,10 +3380,14 @@ class ChatParticipantAdmin extends ChatParticipantBase {
   final int inviterId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0933f5b);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, inviterId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -3291,7 +3406,7 @@ class ChatParticipantsForbidden extends ChatParticipantsBase {
   const ChatParticipantsForbidden({
     required this.flags,
     required this.chatId,
-    required this.selfParticipant,
+    this.selfParticipant,
   }) : super._();
 
   /// Deserialize.
@@ -3308,11 +3423,12 @@ class ChatParticipantsForbidden extends ChatParticipantsBase {
   /// Self Participant.
   final ChatParticipantBase? selfParticipant;
 
-  /// If [selfParticipant] exists.
-  bool get hasSelfParticipantField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8763d3e1);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, chatId);
+    // _writeflags.0?ChatParticipant(buffer, 0, selfParticipant);
     return 0;
   }
 }
@@ -3344,6 +3460,10 @@ class ChatParticipants extends ChatParticipantsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3cbc93f8);
+    // _writelong(buffer, 0, chatId);
+    // _writeVector<ChatParticipant>(buffer, 0, participants);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -3368,6 +3488,7 @@ class ChatPhotoEmpty extends ChatPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x37c1011c);
     return 0;
   }
 }
@@ -3380,7 +3501,7 @@ class ChatPhoto extends ChatPhotoBase {
   const ChatPhoto({
     required this.flags,
     required this.photoId,
-    required this.strippedThumb,
+    this.strippedThumb,
     required this.dcId,
   }) : super._();
 
@@ -3401,14 +3522,17 @@ class ChatPhoto extends ChatPhotoBase {
   /// Stripped Thumb.
   final Uint8List? strippedThumb;
 
-  /// If [strippedThumb] exists.
-  bool get hasStrippedThumbField => _bit(flags, 1);
-
   /// Dc Id.
   final int dcId;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1c6e1c11);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hasVideo);
+    // _writelong(buffer, 0, photoId);
+    // _writeflags.1?bytes(buffer, 0, strippedThumb);
+    // _writeint(buffer, 0, dcId);
     return 0;
   }
 }
@@ -3427,7 +3551,7 @@ class MessageEmpty extends MessageBase {
   const MessageEmpty({
     required this.flags,
     required this.id,
-    required this.peerId,
+    this.peerId,
   }) : super._();
 
   /// Deserialize.
@@ -3444,11 +3568,12 @@ class MessageEmpty extends MessageBase {
   /// Peer Id.
   final PeerBase? peerId;
 
-  /// If [peerId] exists.
-  bool get hasPeerIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x90a6ca84);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?Peer(buffer, 0, peerId);
     return 0;
   }
 }
@@ -3461,26 +3586,26 @@ class Message extends MessageBase {
   const Message({
     required this.flags,
     required this.id,
-    required this.fromId,
+    this.fromId,
     required this.peerId,
-    required this.savedPeerId,
-    required this.fwdFrom,
-    required this.viaBotId,
-    required this.replyTo,
+    this.savedPeerId,
+    this.fwdFrom,
+    this.viaBotId,
+    this.replyTo,
     required this.date,
     required this.message,
-    required this.media,
-    required this.replyMarkup,
-    required this.entities,
-    required this.views,
-    required this.forwards,
-    required this.replies,
-    required this.editDate,
-    required this.postAuthor,
-    required this.groupedId,
-    required this.reactions,
-    required this.restrictionReason,
-    required this.ttlPeriod,
+    this.media,
+    this.replyMarkup,
+    this.entities,
+    this.views,
+    this.forwards,
+    this.replies,
+    this.editDate,
+    this.postAuthor,
+    this.groupedId,
+    this.reactions,
+    this.restrictionReason,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -3530,38 +3655,23 @@ class Message extends MessageBase {
   /// From Id.
   final PeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 8);
-
   /// Peer Id.
   final PeerBase peerId;
 
   /// Saved Peer Id.
   final PeerBase? savedPeerId;
 
-  /// If [savedPeerId] exists.
-  bool get hasSavedPeerIdField => _bit(flags, 28);
-
   /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
-
-  /// If [fwdFrom] exists.
-  bool get hasFwdFromField => _bit(flags, 2);
 
   /// Via Bot Id.
   final int? viaBotId;
 
-  /// If [viaBotId] exists.
-  bool get hasViaBotIdField => _bit(flags, 11);
-
   /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 3);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Message.
   final String message;
@@ -3569,77 +3679,75 @@ class Message extends MessageBase {
   /// Media.
   final MessageMediaBase? media;
 
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 9);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
-
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 6);
 
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 7);
-
   /// Views.
   final int? views;
-
-  /// If [views] exists.
-  bool get hasViewsField => _bit(flags, 10);
 
   /// Forwards.
   final int? forwards;
 
-  /// If [forwards] exists.
-  bool get hasForwardsField => _bit(flags, 10);
-
   /// Replies.
   final MessageRepliesBase? replies;
-
-  /// If [replies] exists.
-  bool get hasRepliesField => _bit(flags, 23);
 
   /// Edit Date.
   final int? editDate;
 
-  /// If [editDate] exists.
-  bool get hasEditDateField => _bit(flags, 15);
-
   /// Post Author.
   final String? postAuthor;
-
-  /// If [postAuthor] exists.
-  bool get hasPostAuthorField => _bit(flags, 16);
 
   /// Grouped Id.
   final int? groupedId;
 
-  /// If [groupedId] exists.
-  bool get hasGroupedIdField => _bit(flags, 17);
-
   /// Reactions.
   final MessageReactionsBase? reactions;
-
-  /// If [reactions] exists.
-  bool get hasReactionsField => _bit(flags, 20);
 
   /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
 
-  /// If [restrictionReason] exists.
-  bool get hasRestrictionReasonField => _bit(flags, 22);
-
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x76bec211);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, out);
+    // _writeflags.4?true(buffer, 0, mentioned);
+    // _writeflags.5?true(buffer, 0, mediaUnread);
+    // _writeflags.13?true(buffer, 0, silent);
+    // _writeflags.14?true(buffer, 0, post);
+    // _writeflags.18?true(buffer, 0, fromScheduled);
+    // _writeflags.19?true(buffer, 0, legacy);
+    // _writeflags.21?true(buffer, 0, editHide);
+    // _writeflags.24?true(buffer, 0, pinned);
+    // _writeflags.26?true(buffer, 0, noforwards);
+    // _writeflags.27?true(buffer, 0, invertMedia);
+    // _writeint(buffer, 0, id);
+    // _writeflags.8?Peer(buffer, 0, fromId);
+    // _writePeer(buffer, 0, peerId);
+    // _writeflags.28?Peer(buffer, 0, savedPeerId);
+    // _writeflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // _writeflags.11?long(buffer, 0, viaBotId);
+    // _writeflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // _writeint(buffer, 0, date);
+    // _writestring(buffer, 0, message);
+    // _writeflags.9?MessageMedia(buffer, 0, media);
+    // _writeflags.6?ReplyMarkup(buffer, 0, replyMarkup);
+    // _writeflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.10?int(buffer, 0, views);
+    // _writeflags.10?int(buffer, 0, forwards);
+    // _writeflags.23?MessageReplies(buffer, 0, replies);
+    // _writeflags.15?int(buffer, 0, editDate);
+    // _writeflags.16?string(buffer, 0, postAuthor);
+    // _writeflags.17?long(buffer, 0, groupedId);
+    // _writeflags.20?MessageReactions(buffer, 0, reactions);
+    // _writeflags.22?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // _writeflags.25?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -3652,12 +3760,12 @@ class MessageService extends MessageBase {
   const MessageService({
     required this.flags,
     required this.id,
-    required this.fromId,
+    this.fromId,
     required this.peerId,
-    required this.replyTo,
+    this.replyTo,
     required this.date,
     required this.action,
-    required this.ttlPeriod,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -3692,20 +3800,14 @@ class MessageService extends MessageBase {
   /// From Id.
   final PeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 8);
-
   /// Peer Id.
   final PeerBase peerId;
 
   /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 3);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Action.
   final MessageActionBase action;
@@ -3713,11 +3815,23 @@ class MessageService extends MessageBase {
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2b085862);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, out);
+    // _writeflags.4?true(buffer, 0, mentioned);
+    // _writeflags.5?true(buffer, 0, mediaUnread);
+    // _writeflags.13?true(buffer, 0, silent);
+    // _writeflags.14?true(buffer, 0, post);
+    // _writeflags.19?true(buffer, 0, legacy);
+    // _writeint(buffer, 0, id);
+    // _writeflags.8?Peer(buffer, 0, fromId);
+    // _writePeer(buffer, 0, peerId);
+    // _writeflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // _writeint(buffer, 0, date);
+    // _writeMessageAction(buffer, 0, action);
+    // _writeflags.25?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -3742,6 +3856,7 @@ class MessageMediaEmpty extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3ded6320);
     return 0;
   }
 }
@@ -3753,8 +3868,8 @@ class MessageMediaPhoto extends MessageMediaBase {
   /// Message Media Photo constructor.
   const MessageMediaPhoto({
     required this.flags,
-    required this.photo,
-    required this.ttlSeconds,
+    this.photo,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -3771,17 +3886,16 @@ class MessageMediaPhoto extends MessageMediaBase {
   /// Photo.
   final PhotoBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x695150d7);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, spoiler);
+    // _writeflags.0?Photo(buffer, 0, photo);
+    // _writeflags.2?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -3805,6 +3919,8 @@ class MessageMediaGeo extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56e0d474);
+    // _writeGeoPoint(buffer, 0, geo);
     return 0;
   }
 }
@@ -3844,6 +3960,12 @@ class MessageMediaContact extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x70322949);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writestring(buffer, 0, vcard);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -3862,6 +3984,7 @@ class MessageMediaUnsupported extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9f84f49e);
     return 0;
   }
 }
@@ -3873,9 +3996,9 @@ class MessageMediaDocument extends MessageMediaBase {
   /// Message Media Document constructor.
   const MessageMediaDocument({
     required this.flags,
-    required this.document,
-    required this.altDocument,
-    required this.ttlSeconds,
+    this.document,
+    this.altDocument,
+    this.ttlSeconds,
   }) : super._();
 
   /// Deserialize.
@@ -3904,23 +4027,24 @@ class MessageMediaDocument extends MessageMediaBase {
   /// Document.
   final DocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 0);
-
   /// Alt Document.
   final DocumentBase? altDocument;
-
-  /// If [altDocument] exists.
-  bool get hasAltDocumentField => _bit(flags, 5);
 
   /// Ttl Seconds.
   final int? ttlSeconds;
 
-  /// If [ttlSeconds] exists.
-  bool get hasTtlSecondsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4cf4d72d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, nopremium);
+    // _writeflags.4?true(buffer, 0, spoiler);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writeflags.7?true(buffer, 0, round);
+    // _writeflags.8?true(buffer, 0, voice);
+    // _writeflags.0?Document(buffer, 0, document);
+    // _writeflags.5?Document(buffer, 0, altDocument);
+    // _writeflags.2?int(buffer, 0, ttlSeconds);
     return 0;
   }
 }
@@ -3960,6 +4084,13 @@ class MessageMediaWebPage extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xddf10c3b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, forceLargeMedia);
+    // _writeflags.1?true(buffer, 0, forceSmallMedia);
+    // _writeflags.3?true(buffer, 0, manual);
+    // _writeflags.4?true(buffer, 0, safe);
+    // _writeWebPage(buffer, 0, webpage);
     return 0;
   }
 }
@@ -4003,6 +4134,13 @@ class MessageMediaVenue extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2ec0533f);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, address);
+    // _writestring(buffer, 0, provider);
+    // _writestring(buffer, 0, venueId);
+    // _writestring(buffer, 0, venueType);
     return 0;
   }
 }
@@ -4026,6 +4164,8 @@ class MessageMediaGame extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfdb19008);
+    // _writeGame(buffer, 0, game);
     return 0;
   }
 }
@@ -4039,12 +4179,12 @@ class MessageMediaInvoice extends MessageMediaBase {
     required this.flags,
     required this.title,
     required this.description,
-    required this.photo,
-    required this.receiptMsgId,
+    this.photo,
+    this.receiptMsgId,
     required this.currency,
     required this.totalAmount,
     required this.startParam,
-    required this.extendedMedia,
+    this.extendedMedia,
   }) : super._();
 
   /// Deserialize.
@@ -4070,14 +4210,8 @@ class MessageMediaInvoice extends MessageMediaBase {
   /// Photo.
   final WebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Receipt Msg Id.
   final int? receiptMsgId;
-
-  /// If [receiptMsgId] exists.
-  bool get hasReceiptMsgIdField => _bit(flags, 2);
 
   /// Currency.
   final String currency;
@@ -4091,11 +4225,20 @@ class MessageMediaInvoice extends MessageMediaBase {
   /// Extended Media.
   final MessageExtendedMediaBase? extendedMedia;
 
-  /// If [extendedMedia] exists.
-  bool get hasExtendedMediaField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf6a548d3);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, shippingAddressRequested);
+    // _writeflags.3?true(buffer, 0, test);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.0?WebDocument(buffer, 0, photo);
+    // _writeflags.2?int(buffer, 0, receiptMsgId);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
+    // _writestring(buffer, 0, startParam);
+    // _writeflags.4?MessageExtendedMedia(buffer, 0, extendedMedia);
     return 0;
   }
 }
@@ -4108,9 +4251,9 @@ class MessageMediaGeoLive extends MessageMediaBase {
   const MessageMediaGeoLive({
     required this.flags,
     required this.geo,
-    required this.heading,
+    this.heading,
     required this.period,
-    required this.proximityNotificationRadius,
+    this.proximityNotificationRadius,
   }) : super._();
 
   /// Deserialize.
@@ -4127,20 +4270,20 @@ class MessageMediaGeoLive extends MessageMediaBase {
   /// Heading.
   final int? heading;
 
-  /// If [heading] exists.
-  bool get hasHeadingField => _bit(flags, 0);
-
   /// Period.
   final int period;
 
   /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
-  /// If [proximityNotificationRadius] exists.
-  bool get hasProximityNotificationRadiusField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb940c666);
+    // _write#(buffer, 0, flags);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writeflags.0?int(buffer, 0, heading);
+    // _writeint(buffer, 0, period);
+    // _writeflags.1?int(buffer, 0, proximityNotificationRadius);
     return 0;
   }
 }
@@ -4168,6 +4311,9 @@ class MessageMediaPoll extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4bd6e798);
+    // _writePoll(buffer, 0, poll);
+    // _writePollResults(buffer, 0, results);
     return 0;
   }
 }
@@ -4195,6 +4341,9 @@ class MessageMediaDice extends MessageMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3f7ee58b);
+    // _writeint(buffer, 0, value);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -4208,7 +4357,7 @@ class MessageMediaStory extends MessageMediaBase {
     required this.flags,
     required this.peer,
     required this.id,
-    required this.story,
+    this.story,
   }) : super._();
 
   /// Deserialize.
@@ -4231,11 +4380,14 @@ class MessageMediaStory extends MessageMediaBase {
   /// Story.
   final StoryItemBase? story;
 
-  /// If [story] exists.
-  bool get hasStoryField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x68cb6283);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, viaMention);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?StoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -4248,8 +4400,8 @@ class MessageMediaGiveaway extends MessageMediaBase {
   const MessageMediaGiveaway({
     required this.flags,
     required this.channels,
-    required this.countriesIso2,
-    required this.prizeDescription,
+    this.countriesIso2,
+    this.prizeDescription,
     required this.quantity,
     required this.months,
     required this.untilDate,
@@ -4275,14 +4427,8 @@ class MessageMediaGiveaway extends MessageMediaBase {
   /// Countries Iso2.
   final List<String>? countriesIso2;
 
-  /// If [countriesIso2] exists.
-  bool get hasCountriesIso2Field => _bit(flags, 1);
-
   /// Prize Description.
   final String? prizeDescription;
-
-  /// If [prizeDescription] exists.
-  bool get hasPrizeDescriptionField => _bit(flags, 3);
 
   /// Quantity.
   final int quantity;
@@ -4291,10 +4437,20 @@ class MessageMediaGiveaway extends MessageMediaBase {
   final int months;
 
   /// Until Date.
-  final int untilDate;
+  final DateTime untilDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdaad85b0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, onlyNewSubscribers);
+    // _writeflags.2?true(buffer, 0, winnersAreVisible);
+    // _writeVector<long>(buffer, 0, channels);
+    // _writeflags.1?Vector<string>(buffer, 0, countriesIso2);
+    // _writeflags.3?string(buffer, 0, prizeDescription);
+    // _writeint(buffer, 0, quantity);
+    // _writeint(buffer, 0, months);
+    // _writeint(buffer, 0, untilDate);
     return 0;
   }
 }
@@ -4307,13 +4463,13 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
   const MessageMediaGiveawayResults({
     required this.flags,
     required this.channelId,
-    required this.additionalPeersCount,
+    this.additionalPeersCount,
     required this.launchMsgId,
     required this.winnersCount,
     required this.unclaimedCount,
     required this.winners,
     required this.months,
-    required this.prizeDescription,
+    this.prizeDescription,
     required this.untilDate,
   }) : super._();
 
@@ -4337,9 +4493,6 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
   /// Additional Peers Count.
   final int? additionalPeersCount;
 
-  /// If [additionalPeersCount] exists.
-  bool get hasAdditionalPeersCountField => _bit(flags, 3);
-
   /// Launch Msg Id.
   final int launchMsgId;
 
@@ -4358,14 +4511,24 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
   /// Prize Description.
   final String? prizeDescription;
 
-  /// If [prizeDescription] exists.
-  bool get hasPrizeDescriptionField => _bit(flags, 1);
-
   /// Until Date.
-  final int untilDate;
+  final DateTime untilDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc6991068);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, onlyNewSubscribers);
+    // _writeflags.2?true(buffer, 0, refunded);
+    // _writelong(buffer, 0, channelId);
+    // _writeflags.3?int(buffer, 0, additionalPeersCount);
+    // _writeint(buffer, 0, launchMsgId);
+    // _writeint(buffer, 0, winnersCount);
+    // _writeint(buffer, 0, unclaimedCount);
+    // _writeVector<long>(buffer, 0, winners);
+    // _writeint(buffer, 0, months);
+    // _writeflags.1?string(buffer, 0, prizeDescription);
+    // _writeint(buffer, 0, untilDate);
     return 0;
   }
 }
@@ -4390,6 +4553,7 @@ class MessageActionEmpty extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6aef7b0);
     return 0;
   }
 }
@@ -4417,6 +4581,9 @@ class MessageActionChatCreate extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd47cbad);
+    // _writestring(buffer, 0, title);
+    // _writeVector<long>(buffer, 0, users);
     return 0;
   }
 }
@@ -4440,6 +4607,8 @@ class MessageActionChatEditTitle extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb5a1ce5a);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -4463,6 +4632,8 @@ class MessageActionChatEditPhoto extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7fcb13a8);
+    // _writePhoto(buffer, 0, photo);
     return 0;
   }
 }
@@ -4481,6 +4652,7 @@ class MessageActionChatDeletePhoto extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x95e3fbef);
     return 0;
   }
 }
@@ -4504,6 +4676,8 @@ class MessageActionChatAddUser extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15cefd00);
+    // _writeVector<long>(buffer, 0, users);
     return 0;
   }
 }
@@ -4527,6 +4701,8 @@ class MessageActionChatDeleteUser extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa43f30cc);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -4550,6 +4726,8 @@ class MessageActionChatJoinedByLink extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x031224c3);
+    // _writelong(buffer, 0, inviterId);
     return 0;
   }
 }
@@ -4573,6 +4751,8 @@ class MessageActionChannelCreate extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x95d2ac92);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -4596,6 +4776,8 @@ class MessageActionChatMigrateTo extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe1037f92);
+    // _writelong(buffer, 0, channelId);
     return 0;
   }
 }
@@ -4623,6 +4805,9 @@ class MessageActionChannelMigrateFrom extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea3948e9);
+    // _writestring(buffer, 0, title);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -4641,6 +4826,7 @@ class MessageActionPinMessage extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x94bd38ed);
     return 0;
   }
 }
@@ -4659,6 +4845,7 @@ class MessageActionHistoryClear extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9fbab604);
     return 0;
   }
 }
@@ -4686,6 +4873,9 @@ class MessageActionGameScore extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x92a72876);
+    // _writelong(buffer, 0, gameId);
+    // _writeint(buffer, 0, score);
     return 0;
   }
 }
@@ -4700,8 +4890,8 @@ class MessageActionPaymentSentMe extends MessageActionBase {
     required this.currency,
     required this.totalAmount,
     required this.payload,
-    required this.info,
-    required this.shippingOptionId,
+    this.info,
+    this.shippingOptionId,
     required this.charge,
   }) : super._();
 
@@ -4731,20 +4921,24 @@ class MessageActionPaymentSentMe extends MessageActionBase {
   /// Info.
   final PaymentRequestedInfoBase? info;
 
-  /// If [info] exists.
-  bool get hasInfoField => _bit(flags, 0);
-
   /// Shipping Option Id.
   final String? shippingOptionId;
-
-  /// If [shippingOptionId] exists.
-  bool get hasShippingOptionIdField => _bit(flags, 1);
 
   /// Charge.
   final PaymentChargeBase charge;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8f31b327);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, recurringInit);
+    // _writeflags.3?true(buffer, 0, recurringUsed);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
+    // _writebytes(buffer, 0, payload);
+    // _writeflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // _writeflags.1?string(buffer, 0, shippingOptionId);
+    // _writePaymentCharge(buffer, 0, charge);
     return 0;
   }
 }
@@ -4758,7 +4952,7 @@ class MessageActionPaymentSent extends MessageActionBase {
     required this.flags,
     required this.currency,
     required this.totalAmount,
-    required this.invoiceSlug,
+    this.invoiceSlug,
   }) : super._();
 
   /// Deserialize.
@@ -4784,11 +4978,15 @@ class MessageActionPaymentSent extends MessageActionBase {
   /// Invoice Slug.
   final String? invoiceSlug;
 
-  /// If [invoiceSlug] exists.
-  bool get hasInvoiceSlugField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x96163f56);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, recurringInit);
+    // _writeflags.3?true(buffer, 0, recurringUsed);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
+    // _writeflags.0?string(buffer, 0, invoiceSlug);
     return 0;
   }
 }
@@ -4801,8 +4999,8 @@ class MessageActionPhoneCall extends MessageActionBase {
   const MessageActionPhoneCall({
     required this.flags,
     required this.callId,
-    required this.reason,
-    required this.duration,
+    this.reason,
+    this.duration,
   }) : super._();
 
   /// Deserialize.
@@ -4822,17 +5020,17 @@ class MessageActionPhoneCall extends MessageActionBase {
   /// Reason.
   final PhoneCallDiscardReasonBase? reason;
 
-  /// If [reason] exists.
-  bool get hasReasonField => _bit(flags, 0);
-
   /// Duration.
   final int? duration;
 
-  /// If [duration] exists.
-  bool get hasDurationField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x80e11a7f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, video);
+    // _writelong(buffer, 0, callId);
+    // _writeflags.0?PhoneCallDiscardReason(buffer, 0, reason);
+    // _writeflags.1?int(buffer, 0, duration);
     return 0;
   }
 }
@@ -4851,6 +5049,7 @@ class MessageActionScreenshotTaken extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4792929b);
     return 0;
   }
 }
@@ -4874,6 +5073,8 @@ class MessageActionCustomAction extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfae69f56);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -4885,8 +5086,8 @@ class MessageActionBotAllowed extends MessageActionBase {
   /// Message Action Bot Allowed constructor.
   const MessageActionBotAllowed({
     required this.flags,
-    required this.domain,
-    required this.app,
+    this.domain,
+    this.app,
   }) : super._();
 
   /// Deserialize.
@@ -4906,17 +5107,17 @@ class MessageActionBotAllowed extends MessageActionBase {
   /// Domain.
   final String? domain;
 
-  /// If [domain] exists.
-  bool get hasDomainField => _bit(flags, 0);
-
   /// App.
   final BotAppBase? app;
 
-  /// If [app] exists.
-  bool get hasAppField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc516d679);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, attachMenu);
+    // _writeflags.3?true(buffer, 0, fromRequest);
+    // _writeflags.0?string(buffer, 0, domain);
+    // _writeflags.2?BotApp(buffer, 0, app);
     return 0;
   }
 }
@@ -4944,6 +5145,9 @@ class MessageActionSecureValuesSentMe extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b287353);
+    // _writeVector<SecureValue>(buffer, 0, values);
+    // _writeSecureCredentialsEncrypted(buffer, 0, credentials);
     return 0;
   }
 }
@@ -4967,6 +5171,8 @@ class MessageActionSecureValuesSent extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd95c6154);
+    // _writeVector<SecureValueType>(buffer, 0, types);
     return 0;
   }
 }
@@ -4985,6 +5191,7 @@ class MessageActionContactSignUp extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf3f25f76);
     return 0;
   }
 }
@@ -5016,6 +5223,10 @@ class MessageActionGeoProximityReached extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98e0d697);
+    // _writePeer(buffer, 0, fromId);
+    // _writePeer(buffer, 0, toId);
+    // _writeint(buffer, 0, distance);
     return 0;
   }
 }
@@ -5028,7 +5239,7 @@ class MessageActionGroupCall extends MessageActionBase {
   const MessageActionGroupCall({
     required this.flags,
     required this.call,
-    required this.duration,
+    this.duration,
   }) : super._();
 
   /// Deserialize.
@@ -5045,11 +5256,12 @@ class MessageActionGroupCall extends MessageActionBase {
   /// Duration.
   final int? duration;
 
-  /// If [duration] exists.
-  bool get hasDurationField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a0d7f42);
+    // _write#(buffer, 0, flags);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeflags.0?int(buffer, 0, duration);
     return 0;
   }
 }
@@ -5077,6 +5289,9 @@ class MessageActionInviteToGroupCall extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x502f92f7);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeVector<long>(buffer, 0, users);
     return 0;
   }
 }
@@ -5089,7 +5304,7 @@ class MessageActionSetMessagesTTL extends MessageActionBase {
   const MessageActionSetMessagesTTL({
     required this.flags,
     required this.period,
-    required this.autoSettingFrom,
+    this.autoSettingFrom,
   }) : super._();
 
   /// Deserialize.
@@ -5106,11 +5321,12 @@ class MessageActionSetMessagesTTL extends MessageActionBase {
   /// Auto Setting From.
   final int? autoSettingFrom;
 
-  /// If [autoSettingFrom] exists.
-  bool get hasAutoSettingFromField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c134d7b);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, period);
+    // _writeflags.0?long(buffer, 0, autoSettingFrom);
     return 0;
   }
 }
@@ -5134,10 +5350,13 @@ class MessageActionGroupCallScheduled extends MessageActionBase {
   final InputGroupCallBase call;
 
   /// Schedule Date.
-  final int scheduleDate;
+  final DateTime scheduleDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb3a07661);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeint(buffer, 0, scheduleDate);
     return 0;
   }
 }
@@ -5161,6 +5380,8 @@ class MessageActionSetChatTheme extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaa786345);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -5179,6 +5400,7 @@ class MessageActionChatJoinedByRequest extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xebbca3cb);
     return 0;
   }
 }
@@ -5206,6 +5428,9 @@ class MessageActionWebViewDataSentMe extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x47dd8079);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, data);
     return 0;
   }
 }
@@ -5229,6 +5454,8 @@ class MessageActionWebViewDataSent extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4c38cb5);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -5243,8 +5470,8 @@ class MessageActionGiftPremium extends MessageActionBase {
     required this.currency,
     required this.amount,
     required this.months,
-    required this.cryptoCurrency,
-    required this.cryptoAmount,
+    this.cryptoCurrency,
+    this.cryptoAmount,
   }) : super._();
 
   /// Deserialize.
@@ -5267,17 +5494,18 @@ class MessageActionGiftPremium extends MessageActionBase {
   /// Crypto Currency.
   final String? cryptoCurrency;
 
-  /// If [cryptoCurrency] exists.
-  bool get hasCryptoCurrencyField => _bit(flags, 0);
-
   /// Crypto Amount.
   final int? cryptoAmount;
 
-  /// If [cryptoAmount] exists.
-  bool get hasCryptoAmountField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc83d6aec);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
+    // _writeint(buffer, 0, months);
+    // _writeflags.0?string(buffer, 0, cryptoCurrency);
+    // _writeflags.0?long(buffer, 0, cryptoAmount);
     return 0;
   }
 }
@@ -5291,7 +5519,7 @@ class MessageActionTopicCreate extends MessageActionBase {
     required this.flags,
     required this.title,
     required this.iconColor,
-    required this.iconEmojiId,
+    this.iconEmojiId,
   }) : super._();
 
   /// Deserialize.
@@ -5311,11 +5539,13 @@ class MessageActionTopicCreate extends MessageActionBase {
   /// Icon Emoji Id.
   final int? iconEmojiId;
 
-  /// If [iconEmojiId] exists.
-  bool get hasIconEmojiIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0d999256);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, title);
+    // _writeint(buffer, 0, iconColor);
+    // _writeflags.0?long(buffer, 0, iconEmojiId);
     return 0;
   }
 }
@@ -5327,10 +5557,10 @@ class MessageActionTopicEdit extends MessageActionBase {
   /// Message Action Topic Edit constructor.
   const MessageActionTopicEdit({
     required this.flags,
-    required this.title,
-    required this.iconEmojiId,
-    required this.closed,
-    required this.hidden,
+    this.title,
+    this.iconEmojiId,
+    this.closed,
+    this.hidden,
   }) : super._();
 
   /// Deserialize.
@@ -5344,29 +5574,23 @@ class MessageActionTopicEdit extends MessageActionBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 0);
-
   /// Icon Emoji Id.
   final int? iconEmojiId;
-
-  /// If [iconEmojiId] exists.
-  bool get hasIconEmojiIdField => _bit(flags, 1);
 
   /// Closed.
   final bool? closed;
 
-  /// If [closed] exists.
-  bool get hasClosedField => _bit(flags, 2);
-
   /// Hidden.
   final bool? hidden;
 
-  /// If [hidden] exists.
-  bool get hasHiddenField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc0944820);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, title);
+    // _writeflags.1?long(buffer, 0, iconEmojiId);
+    // _writeflags.2?Bool(buffer, 0, closed);
+    // _writeflags.3?Bool(buffer, 0, hidden);
     return 0;
   }
 }
@@ -5390,6 +5614,8 @@ class MessageActionSuggestProfilePhoto extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57de635e);
+    // _writePhoto(buffer, 0, photo);
     return 0;
   }
 }
@@ -5417,6 +5643,9 @@ class MessageActionRequestedPeer extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x31518e9b);
+    // _writeint(buffer, 0, buttonId);
+    // _writeVector<Peer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -5450,6 +5679,11 @@ class MessageActionSetChatWallPaper extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5060a3f4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, same);
+    // _writeflags.1?true(buffer, 0, forBoth);
+    // _writeWallPaper(buffer, 0, wallpaper);
     return 0;
   }
 }
@@ -5461,13 +5695,13 @@ class MessageActionGiftCode extends MessageActionBase {
   /// Message Action Gift Code constructor.
   const MessageActionGiftCode({
     required this.flags,
-    required this.boostPeer,
+    this.boostPeer,
     required this.months,
     required this.slug,
-    required this.currency,
-    required this.amount,
-    required this.cryptoCurrency,
-    required this.cryptoAmount,
+    this.currency,
+    this.amount,
+    this.cryptoCurrency,
+    this.cryptoAmount,
   }) : super._();
 
   /// Deserialize.
@@ -5487,9 +5721,6 @@ class MessageActionGiftCode extends MessageActionBase {
   /// Boost Peer.
   final PeerBase? boostPeer;
 
-  /// If [boostPeer] exists.
-  bool get hasBoostPeerField => _bit(flags, 1);
-
   /// Months.
   final int months;
 
@@ -5499,29 +5730,28 @@ class MessageActionGiftCode extends MessageActionBase {
   /// Currency.
   final String? currency;
 
-  /// If [currency] exists.
-  bool get hasCurrencyField => _bit(flags, 2);
-
   /// Amount.
   final int? amount;
-
-  /// If [amount] exists.
-  bool get hasAmountField => _bit(flags, 2);
 
   /// Crypto Currency.
   final String? cryptoCurrency;
 
-  /// If [cryptoCurrency] exists.
-  bool get hasCryptoCurrencyField => _bit(flags, 3);
-
   /// Crypto Amount.
   final int? cryptoAmount;
 
-  /// If [cryptoAmount] exists.
-  bool get hasCryptoAmountField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x678c2e09);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, viaGiveaway);
+    // _writeflags.2?true(buffer, 0, unclaimed);
+    // _writeflags.1?Peer(buffer, 0, boostPeer);
+    // _writeint(buffer, 0, months);
+    // _writestring(buffer, 0, slug);
+    // _writeflags.2?string(buffer, 0, currency);
+    // _writeflags.2?long(buffer, 0, amount);
+    // _writeflags.3?string(buffer, 0, cryptoCurrency);
+    // _writeflags.3?long(buffer, 0, cryptoAmount);
     return 0;
   }
 }
@@ -5540,6 +5770,7 @@ class MessageActionGiveawayLaunch extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x332ba9ed);
     return 0;
   }
 }
@@ -5567,6 +5798,9 @@ class MessageActionGiveawayResults extends MessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2a9fadc5);
+    // _writeint(buffer, 0, winnersCount);
+    // _writeint(buffer, 0, unclaimedCount);
     return 0;
   }
 }
@@ -5592,10 +5826,10 @@ class Dialog extends DialogBase {
     required this.unreadMentionsCount,
     required this.unreadReactionsCount,
     required this.notifySettings,
-    required this.pts,
-    required this.draft,
-    required this.folderId,
-    required this.ttlPeriod,
+    this.pts,
+    this.draft,
+    this.folderId,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -5642,29 +5876,34 @@ class Dialog extends DialogBase {
   /// Pts.
   final int? pts;
 
-  /// If [pts] exists.
-  bool get hasPtsField => _bit(flags, 0);
-
   /// Draft.
   final DraftMessageBase? draft;
-
-  /// If [draft] exists.
-  bool get hasDraftField => _bit(flags, 1);
 
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 4);
-
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd58a08c6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, pinned);
+    // _writeflags.3?true(buffer, 0, unreadMark);
+    // _writeflags.6?true(buffer, 0, viewForumAsMessages);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, topMessage);
+    // _writeint(buffer, 0, readInboxMaxId);
+    // _writeint(buffer, 0, readOutboxMaxId);
+    // _writeint(buffer, 0, unreadCount);
+    // _writeint(buffer, 0, unreadMentionsCount);
+    // _writeint(buffer, 0, unreadReactionsCount);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
+    // _writeflags.0?int(buffer, 0, pts);
+    // _writeflags.1?DraftMessage(buffer, 0, draft);
+    // _writeflags.4?int(buffer, 0, folderId);
+    // _writeflags.5?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -5719,6 +5958,16 @@ class DialogFolder extends DialogBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x71bd134c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, pinned);
+    // _writeFolder(buffer, 0, folder);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, topMessage);
+    // _writeint(buffer, 0, unreadMutedPeersCount);
+    // _writeint(buffer, 0, unreadUnmutedPeersCount);
+    // _writeint(buffer, 0, unreadMutedMessagesCount);
+    // _writeint(buffer, 0, unreadUnmutedMessagesCount);
     return 0;
   }
 }
@@ -5748,6 +5997,8 @@ class PhotoEmpty extends PhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2331b22d);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -5764,7 +6015,7 @@ class Photo extends PhotoBase {
     required this.fileReference,
     required this.date,
     required this.sizes,
-    required this.videoSizes,
+    this.videoSizes,
     required this.dcId,
   }) : super._();
 
@@ -5789,7 +6040,7 @@ class Photo extends PhotoBase {
   final Uint8List fileReference;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Sizes.
   final List<PhotoSizeBase> sizes;
@@ -5797,14 +6048,21 @@ class Photo extends PhotoBase {
   /// Video Sizes.
   final List<VideoSizeBase>? videoSizes;
 
-  /// If [videoSizes] exists.
-  bool get hasVideoSizesField => _bit(flags, 1);
-
   /// Dc Id.
   final int dcId;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfb197a65);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hasStickers);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
+    // _writeint(buffer, 0, date);
+    // _writeVector<PhotoSize>(buffer, 0, sizes);
+    // _writeflags.1?Vector<VideoSize>(buffer, 0, videoSizes);
+    // _writeint(buffer, 0, dcId);
     return 0;
   }
 }
@@ -5834,6 +6092,8 @@ class PhotoSizeEmpty extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0e17e23c);
+    // _writestring(buffer, 0, type);
     return 0;
   }
 }
@@ -5869,6 +6129,11 @@ class PhotoSize extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x75c78e60);
+    // _writestring(buffer, 0, type);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writeint(buffer, 0, size);
     return 0;
   }
 }
@@ -5904,6 +6169,11 @@ class PhotoCachedSize extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x021e1ad6);
+    // _writestring(buffer, 0, type);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -5931,6 +6201,9 @@ class PhotoStrippedSize extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe0b0bc2e);
+    // _writestring(buffer, 0, type);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -5966,6 +6239,11 @@ class PhotoSizeProgressive extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa3efb95);
+    // _writestring(buffer, 0, type);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writeVector<int>(buffer, 0, sizes);
     return 0;
   }
 }
@@ -5993,6 +6271,9 @@ class PhotoPathSize extends PhotoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd8214d41);
+    // _writestring(buffer, 0, type);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -6017,6 +6298,7 @@ class GeoPointEmpty extends GeoPointBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1117dd5f);
     return 0;
   }
 }
@@ -6031,7 +6313,7 @@ class GeoPoint extends GeoPointBase {
     required this.long,
     required this.lat,
     required this.accessHash,
-    required this.accuracyRadius,
+    this.accuracyRadius,
   }) : super._();
 
   /// Deserialize.
@@ -6054,11 +6336,14 @@ class GeoPoint extends GeoPointBase {
   /// Accuracy Radius.
   final int? accuracyRadius;
 
-  /// If [accuracyRadius] exists.
-  bool get hasAccuracyRadiusField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2a2f663);
+    // _write#(buffer, 0, flags);
+    // _writedouble(buffer, 0, long);
+    // _writedouble(buffer, 0, lat);
+    // _writelong(buffer, 0, accessHash);
+    // _writeflags.0?int(buffer, 0, accuracyRadius);
     return 0;
   }
 }
@@ -6078,8 +6363,8 @@ class AuthSentCode extends AuthSentCodeBase {
     required this.flags,
     required this.type,
     required this.phoneCodeHash,
-    required this.nextType,
-    required this.timeout,
+    this.nextType,
+    this.timeout,
   }) : super._();
 
   /// Deserialize.
@@ -6099,17 +6384,17 @@ class AuthSentCode extends AuthSentCodeBase {
   /// Next Type.
   final AuthCodeTypeBase? nextType;
 
-  /// If [nextType] exists.
-  bool get hasNextTypeField => _bit(flags, 1);
-
   /// Timeout.
   final int? timeout;
 
-  /// If [timeout] exists.
-  bool get hasTimeoutField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5e002502);
+    // _write#(buffer, 0, flags);
+    // _writeauth.SentCodeType(buffer, 0, type);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writeflags.1?auth.CodeType(buffer, 0, nextType);
+    // _writeflags.2?int(buffer, 0, timeout);
     return 0;
   }
 }
@@ -6133,6 +6418,8 @@ class AuthSentCodeSuccess extends AuthSentCodeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2390fe44);
+    // _writeauth.Authorization(buffer, 0, authorization);
     return 0;
   }
 }
@@ -6150,9 +6437,9 @@ class AuthAuthorization extends AuthAuthorizationBase {
   /// Auth Authorization constructor.
   const AuthAuthorization({
     required this.flags,
-    required this.otherwiseReloginDays,
-    required this.tmpSessions,
-    required this.futureAuthToken,
+    this.otherwiseReloginDays,
+    this.tmpSessions,
+    this.futureAuthToken,
     required this.user,
   }) : super._();
 
@@ -6170,26 +6457,24 @@ class AuthAuthorization extends AuthAuthorizationBase {
   /// Otherwise Relogin Days.
   final int? otherwiseReloginDays;
 
-  /// If [otherwiseReloginDays] exists.
-  bool get hasOtherwiseReloginDaysField => _bit(flags, 1);
-
   /// Tmp Sessions.
   final int? tmpSessions;
 
-  /// If [tmpSessions] exists.
-  bool get hasTmpSessionsField => _bit(flags, 0);
-
   /// Future Auth Token.
   final Uint8List? futureAuthToken;
-
-  /// If [futureAuthToken] exists.
-  bool get hasFutureAuthTokenField => _bit(flags, 2);
 
   /// User.
   final UserBase user;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2ea2c0d4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, setupPasswordRequired);
+    // _writeflags.1?int(buffer, 0, otherwiseReloginDays);
+    // _writeflags.0?int(buffer, 0, tmpSessions);
+    // _writeflags.2?bytes(buffer, 0, futureAuthToken);
+    // _writeUser(buffer, 0, user);
     return 0;
   }
 }
@@ -6201,7 +6486,7 @@ class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
   /// Auth Authorization Sign Up Required constructor.
   const AuthAuthorizationSignUpRequired({
     required this.flags,
-    required this.termsOfService,
+    this.termsOfService,
   }) : super._();
 
   /// Deserialize.
@@ -6215,11 +6500,11 @@ class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
   /// Terms Of Service.
   final HelpTermsOfServiceBase? termsOfService;
 
-  /// If [termsOfService] exists.
-  bool get hasTermsOfServiceField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x44747e9a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?help.TermsOfService(buffer, 0, termsOfService);
     return 0;
   }
 }
@@ -6253,6 +6538,9 @@ class AuthExportedAuthorization extends AuthExportedAuthorizationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb434e2b8);
+    // _writelong(buffer, 0, id);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -6282,6 +6570,8 @@ class InputNotifyPeer extends InputNotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb8bc5b0c);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -6300,6 +6590,7 @@ class InputNotifyUsers extends InputNotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x193b4417);
     return 0;
   }
 }
@@ -6318,6 +6609,7 @@ class InputNotifyChats extends InputNotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4a95e84e);
     return 0;
   }
 }
@@ -6336,6 +6628,7 @@ class InputNotifyBroadcasts extends InputNotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb1db7c7e);
     return 0;
   }
 }
@@ -6363,6 +6656,9 @@ class InputNotifyForumTopic extends InputNotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5c467992);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -6380,13 +6676,13 @@ class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
   /// Input Peer Notify Settings constructor.
   const InputPeerNotifySettings({
     required this.flags,
-    required this.showPreviews,
-    required this.silent,
-    required this.muteUntil,
-    required this.sound,
-    required this.storiesMuted,
-    required this.storiesHideSender,
-    required this.storiesSound,
+    this.showPreviews,
+    this.silent,
+    this.muteUntil,
+    this.sound,
+    this.storiesMuted,
+    this.storiesHideSender,
+    this.storiesSound,
   }) : super._();
 
   /// Deserialize.
@@ -6400,47 +6696,35 @@ class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
   /// Show Previews.
   final bool? showPreviews;
 
-  /// If [showPreviews] exists.
-  bool get hasShowPreviewsField => _bit(flags, 0);
-
   /// Silent.
   final bool? silent;
-
-  /// If [silent] exists.
-  bool get hasSilentField => _bit(flags, 1);
 
   /// Mute Until.
   final int? muteUntil;
 
-  /// If [muteUntil] exists.
-  bool get hasMuteUntilField => _bit(flags, 2);
-
   /// Sound.
   final NotificationSoundBase? sound;
-
-  /// If [sound] exists.
-  bool get hasSoundField => _bit(flags, 3);
 
   /// Stories Muted.
   final bool? storiesMuted;
 
-  /// If [storiesMuted] exists.
-  bool get hasStoriesMutedField => _bit(flags, 6);
-
   /// Stories Hide Sender.
   final bool? storiesHideSender;
-
-  /// If [storiesHideSender] exists.
-  bool get hasStoriesHideSenderField => _bit(flags, 7);
 
   /// Stories Sound.
   final NotificationSoundBase? storiesSound;
 
-  /// If [storiesSound] exists.
-  bool get hasStoriesSoundField => _bit(flags, 8);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcacb6ae2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Bool(buffer, 0, showPreviews);
+    // _writeflags.1?Bool(buffer, 0, silent);
+    // _writeflags.2?int(buffer, 0, muteUntil);
+    // _writeflags.3?NotificationSound(buffer, 0, sound);
+    // _writeflags.6?Bool(buffer, 0, storiesMuted);
+    // _writeflags.7?Bool(buffer, 0, storiesHideSender);
+    // _writeflags.8?NotificationSound(buffer, 0, storiesSound);
     return 0;
   }
 }
@@ -6458,17 +6742,17 @@ class PeerNotifySettings extends PeerNotifySettingsBase {
   /// Peer Notify Settings constructor.
   const PeerNotifySettings({
     required this.flags,
-    required this.showPreviews,
-    required this.silent,
-    required this.muteUntil,
-    required this.iosSound,
-    required this.androidSound,
-    required this.otherSound,
-    required this.storiesMuted,
-    required this.storiesHideSender,
-    required this.storiesIosSound,
-    required this.storiesAndroidSound,
-    required this.storiesOtherSound,
+    this.showPreviews,
+    this.silent,
+    this.muteUntil,
+    this.iosSound,
+    this.androidSound,
+    this.otherSound,
+    this.storiesMuted,
+    this.storiesHideSender,
+    this.storiesIosSound,
+    this.storiesAndroidSound,
+    this.storiesOtherSound,
   }) : super._();
 
   /// Deserialize.
@@ -6482,71 +6766,51 @@ class PeerNotifySettings extends PeerNotifySettingsBase {
   /// Show Previews.
   final bool? showPreviews;
 
-  /// If [showPreviews] exists.
-  bool get hasShowPreviewsField => _bit(flags, 0);
-
   /// Silent.
   final bool? silent;
-
-  /// If [silent] exists.
-  bool get hasSilentField => _bit(flags, 1);
 
   /// Mute Until.
   final int? muteUntil;
 
-  /// If [muteUntil] exists.
-  bool get hasMuteUntilField => _bit(flags, 2);
-
   /// Ios Sound.
   final NotificationSoundBase? iosSound;
-
-  /// If [iosSound] exists.
-  bool get hasIosSoundField => _bit(flags, 3);
 
   /// Android Sound.
   final NotificationSoundBase? androidSound;
 
-  /// If [androidSound] exists.
-  bool get hasAndroidSoundField => _bit(flags, 4);
-
   /// Other Sound.
   final NotificationSoundBase? otherSound;
-
-  /// If [otherSound] exists.
-  bool get hasOtherSoundField => _bit(flags, 5);
 
   /// Stories Muted.
   final bool? storiesMuted;
 
-  /// If [storiesMuted] exists.
-  bool get hasStoriesMutedField => _bit(flags, 6);
-
   /// Stories Hide Sender.
   final bool? storiesHideSender;
-
-  /// If [storiesHideSender] exists.
-  bool get hasStoriesHideSenderField => _bit(flags, 7);
 
   /// Stories Ios Sound.
   final NotificationSoundBase? storiesIosSound;
 
-  /// If [storiesIosSound] exists.
-  bool get hasStoriesIosSoundField => _bit(flags, 8);
-
   /// Stories Android Sound.
   final NotificationSoundBase? storiesAndroidSound;
-
-  /// If [storiesAndroidSound] exists.
-  bool get hasStoriesAndroidSoundField => _bit(flags, 9);
 
   /// Stories Other Sound.
   final NotificationSoundBase? storiesOtherSound;
 
-  /// If [storiesOtherSound] exists.
-  bool get hasStoriesOtherSoundField => _bit(flags, 10);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x99622c0c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Bool(buffer, 0, showPreviews);
+    // _writeflags.1?Bool(buffer, 0, silent);
+    // _writeflags.2?int(buffer, 0, muteUntil);
+    // _writeflags.3?NotificationSound(buffer, 0, iosSound);
+    // _writeflags.4?NotificationSound(buffer, 0, androidSound);
+    // _writeflags.5?NotificationSound(buffer, 0, otherSound);
+    // _writeflags.6?Bool(buffer, 0, storiesMuted);
+    // _writeflags.7?Bool(buffer, 0, storiesHideSender);
+    // _writeflags.8?NotificationSound(buffer, 0, storiesIosSound);
+    // _writeflags.9?NotificationSound(buffer, 0, storiesAndroidSound);
+    // _writeflags.10?NotificationSound(buffer, 0, storiesOtherSound);
     return 0;
   }
 }
@@ -6564,9 +6828,9 @@ class PeerSettings extends PeerSettingsBase {
   /// Peer Settings constructor.
   const PeerSettings({
     required this.flags,
-    required this.geoDistance,
-    required this.requestChatTitle,
-    required this.requestChatDate,
+    this.geoDistance,
+    this.requestChatTitle,
+    this.requestChatDate,
   }) : super._();
 
   /// Deserialize.
@@ -6607,23 +6871,28 @@ class PeerSettings extends PeerSettingsBase {
   /// Geo Distance.
   final int? geoDistance;
 
-  /// If [geoDistance] exists.
-  bool get hasGeoDistanceField => _bit(flags, 6);
-
   /// Request Chat Title.
   final String? requestChatTitle;
-
-  /// If [requestChatTitle] exists.
-  bool get hasRequestChatTitleField => _bit(flags, 9);
 
   /// Request Chat Date.
   final int? requestChatDate;
 
-  /// If [requestChatDate] exists.
-  bool get hasRequestChatDateField => _bit(flags, 9);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa518110d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, reportSpam);
+    // _writeflags.1?true(buffer, 0, addContact);
+    // _writeflags.2?true(buffer, 0, blockContact);
+    // _writeflags.3?true(buffer, 0, shareContact);
+    // _writeflags.4?true(buffer, 0, needContactsException);
+    // _writeflags.5?true(buffer, 0, reportGeo);
+    // _writeflags.7?true(buffer, 0, autoarchived);
+    // _writeflags.8?true(buffer, 0, inviteMembers);
+    // _writeflags.10?true(buffer, 0, requestChatBroadcast);
+    // _writeflags.6?int(buffer, 0, geoDistance);
+    // _writeflags.9?string(buffer, 0, requestChatTitle);
+    // _writeflags.9?int(buffer, 0, requestChatDate);
     return 0;
   }
 }
@@ -6645,7 +6914,7 @@ class WallPaper extends WallPaperBase {
     required this.accessHash,
     required this.slug,
     required this.document,
-    required this.settings,
+    this.settings,
   }) : super._();
 
   /// Deserialize.
@@ -6683,11 +6952,19 @@ class WallPaper extends WallPaperBase {
   /// Settings.
   final WallPaperSettingsBase? settings;
 
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa437c3ed);
+    // _writelong(buffer, 0, id);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.1?true(buffer, 0, ddefault);
+    // _writeflags.3?true(buffer, 0, pattern);
+    // _writeflags.4?true(buffer, 0, dark);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, slug);
+    // _writeDocument(buffer, 0, document);
+    // _writeflags.2?WallPaperSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -6700,7 +6977,7 @@ class WallPaperNoFile extends WallPaperBase {
   const WallPaperNoFile({
     required this.id,
     required this.flags,
-    required this.settings,
+    this.settings,
   }) : super._();
 
   /// Deserialize.
@@ -6723,11 +7000,14 @@ class WallPaperNoFile extends WallPaperBase {
   /// Settings.
   final WallPaperSettingsBase? settings;
 
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe0804116);
+    // _writelong(buffer, 0, id);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, ddefault);
+    // _writeflags.4?true(buffer, 0, dark);
+    // _writeflags.2?WallPaperSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -6752,6 +7032,7 @@ class InputReportReasonSpam extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x58dbcab8);
     return 0;
   }
 }
@@ -6770,6 +7051,7 @@ class InputReportReasonViolence extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e22c78d);
     return 0;
   }
 }
@@ -6788,6 +7070,7 @@ class InputReportReasonPornography extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2e59d922);
     return 0;
   }
 }
@@ -6806,6 +7089,7 @@ class InputReportReasonChildAbuse extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xadf44ee3);
     return 0;
   }
 }
@@ -6824,6 +7108,7 @@ class InputReportReasonOther extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc1e4a2b1);
     return 0;
   }
 }
@@ -6842,6 +7127,7 @@ class InputReportReasonCopyright extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9b89f93a);
     return 0;
   }
 }
@@ -6860,6 +7146,7 @@ class InputReportReasonGeoIrrelevant extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdbd4feed);
     return 0;
   }
 }
@@ -6878,6 +7165,7 @@ class InputReportReasonFake extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf5ddd6e7);
     return 0;
   }
 }
@@ -6896,6 +7184,7 @@ class InputReportReasonIllegalDrugs extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a8eb2be);
     return 0;
   }
 }
@@ -6914,6 +7203,7 @@ class InputReportReasonPersonalDetails extends ReportReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9ec7863d);
     return 0;
   }
 }
@@ -6932,24 +7222,24 @@ class UserFull extends UserFullBase {
   const UserFull({
     required this.flags,
     required this.id,
-    required this.about,
+    this.about,
     required this.settings,
-    required this.personalPhoto,
-    required this.profilePhoto,
-    required this.fallbackPhoto,
+    this.personalPhoto,
+    this.profilePhoto,
+    this.fallbackPhoto,
     required this.notifySettings,
-    required this.botInfo,
-    required this.pinnedMsgId,
+    this.botInfo,
+    this.pinnedMsgId,
     required this.commonChatsCount,
-    required this.folderId,
-    required this.ttlPeriod,
-    required this.themeEmoticon,
-    required this.privateForwardName,
-    required this.botGroupAdminRights,
-    required this.botBroadcastAdminRights,
-    required this.premiumGifts,
-    required this.wallpaper,
-    required this.stories,
+    this.folderId,
+    this.ttlPeriod,
+    this.themeEmoticon,
+    this.privateForwardName,
+    this.botGroupAdminRights,
+    this.botBroadcastAdminRights,
+    this.premiumGifts,
+    this.wallpaper,
+    this.stories,
   }) : super._();
 
   /// Deserialize.
@@ -6999,29 +7289,17 @@ class UserFull extends UserFullBase {
   /// About.
   final String? about;
 
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 1);
-
   /// Settings.
   final PeerSettingsBase settings;
 
   /// Personal Photo.
   final PhotoBase? personalPhoto;
 
-  /// If [personalPhoto] exists.
-  bool get hasPersonalPhotoField => _bit(flags, 21);
-
   /// Profile Photo.
   final PhotoBase? profilePhoto;
 
-  /// If [profilePhoto] exists.
-  bool get hasProfilePhotoField => _bit(flags, 2);
-
   /// Fallback Photo.
   final PhotoBase? fallbackPhoto;
-
-  /// If [fallbackPhoto] exists.
-  bool get hasFallbackPhotoField => _bit(flags, 22);
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
@@ -7029,14 +7307,8 @@ class UserFull extends UserFullBase {
   /// Bot Info.
   final BotInfoBase? botInfo;
 
-  /// If [botInfo] exists.
-  bool get hasBotInfoField => _bit(flags, 3);
-
   /// Pinned Msg Id.
   final int? pinnedMsgId;
-
-  /// If [pinnedMsgId] exists.
-  bool get hasPinnedMsgIdField => _bit(flags, 6);
 
   /// Common Chats Count.
   final int commonChatsCount;
@@ -7044,59 +7316,64 @@ class UserFull extends UserFullBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 11);
-
   /// Ttl Period.
   final int? ttlPeriod;
-
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 14);
 
   /// Theme Emoticon.
   final String? themeEmoticon;
 
-  /// If [themeEmoticon] exists.
-  bool get hasThemeEmoticonField => _bit(flags, 15);
-
   /// Private Forward Name.
   final String? privateForwardName;
-
-  /// If [privateForwardName] exists.
-  bool get hasPrivateForwardNameField => _bit(flags, 16);
 
   /// Bot Group Admin Rights.
   final ChatAdminRightsBase? botGroupAdminRights;
 
-  /// If [botGroupAdminRights] exists.
-  bool get hasBotGroupAdminRightsField => _bit(flags, 17);
-
   /// Bot Broadcast Admin Rights.
   final ChatAdminRightsBase? botBroadcastAdminRights;
-
-  /// If [botBroadcastAdminRights] exists.
-  bool get hasBotBroadcastAdminRightsField => _bit(flags, 18);
 
   /// Premium Gifts.
   final List<PremiumGiftOptionBase>? premiumGifts;
 
-  /// If [premiumGifts] exists.
-  bool get hasPremiumGiftsField => _bit(flags, 19);
-
   /// Wallpaper.
   final WallPaperBase? wallpaper;
-
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags, 24);
 
   /// Stories.
   final PeerStoriesBase? stories;
 
-  /// If [stories] exists.
-  bool get hasStoriesField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb9b12c6c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, blocked);
+    // _writeflags.4?true(buffer, 0, phoneCallsAvailable);
+    // _writeflags.5?true(buffer, 0, phoneCallsPrivate);
+    // _writeflags.7?true(buffer, 0, canPinMessage);
+    // _writeflags.12?true(buffer, 0, hasScheduled);
+    // _writeflags.13?true(buffer, 0, videoCallsAvailable);
+    // _writeflags.20?true(buffer, 0, voiceMessagesForbidden);
+    // _writeflags.23?true(buffer, 0, translationsDisabled);
+    // _writeflags.26?true(buffer, 0, storiesPinnedAvailable);
+    // _writeflags.27?true(buffer, 0, blockedMyStoriesFrom);
+    // _writeflags.28?true(buffer, 0, wallpaperOverridden);
+    // _writelong(buffer, 0, id);
+    // _writeflags.1?string(buffer, 0, about);
+    // _writePeerSettings(buffer, 0, settings);
+    // _writeflags.21?Photo(buffer, 0, personalPhoto);
+    // _writeflags.2?Photo(buffer, 0, profilePhoto);
+    // _writeflags.22?Photo(buffer, 0, fallbackPhoto);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
+    // _writeflags.3?BotInfo(buffer, 0, botInfo);
+    // _writeflags.6?int(buffer, 0, pinnedMsgId);
+    // _writeint(buffer, 0, commonChatsCount);
+    // _writeflags.11?int(buffer, 0, folderId);
+    // _writeflags.14?int(buffer, 0, ttlPeriod);
+    // _writeflags.15?string(buffer, 0, themeEmoticon);
+    // _writeflags.16?string(buffer, 0, privateForwardName);
+    // _writeflags.17?ChatAdminRights(buffer, 0, botGroupAdminRights);
+    // _writeflags.18?ChatAdminRights(buffer, 0, botBroadcastAdminRights);
+    // _writeflags.19?Vector<PremiumGiftOption>(buffer, 0, premiumGifts);
+    // _writeflags.24?WallPaper(buffer, 0, wallpaper);
+    // _writeflags.25?PeerStories(buffer, 0, stories);
     return 0;
   }
 }
@@ -7130,6 +7407,9 @@ class Contact extends ContactBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x145ade0b);
+    // _writelong(buffer, 0, userId);
+    // _writeBool(buffer, 0, mutual);
     return 0;
   }
 }
@@ -7163,6 +7443,9 @@ class ImportedContact extends ImportedContactBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc13e3c50);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, clientId);
     return 0;
   }
 }
@@ -7196,6 +7479,9 @@ class ContactStatus extends ContactStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x16d9703b);
+    // _writelong(buffer, 0, userId);
+    // _writeUserStatus(buffer, 0, status);
     return 0;
   }
 }
@@ -7220,6 +7506,7 @@ class ContactsContactsNotModified extends ContactsContactsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb74ba9d2);
     return 0;
   }
 }
@@ -7251,6 +7538,10 @@ class ContactsContacts extends ContactsContactsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeae87e42);
+    // _writeVector<Contact>(buffer, 0, contacts);
+    // _writeint(buffer, 0, savedCount);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7292,6 +7583,11 @@ class ContactsImportedContacts extends ContactsImportedContactsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77d01c3b);
+    // _writeVector<ImportedContact>(buffer, 0, imported);
+    // _writeVector<PopularContact>(buffer, 0, popularInvites);
+    // _writeVector<long>(buffer, 0, retryContacts);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7329,6 +7625,10 @@ class ContactsBlocked extends ContactsBlockedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0ade1591);
+    // _writeVector<PeerBlocked>(buffer, 0, blocked);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7364,6 +7664,11 @@ class ContactsBlockedSlice extends ContactsBlockedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe1664194);
+    // _writeint(buffer, 0, count);
+    // _writeVector<PeerBlocked>(buffer, 0, blocked);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7405,6 +7710,11 @@ class MessagesDialogs extends MessagesDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15ba6c40);
+    // _writeVector<Dialog>(buffer, 0, dialogs);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7444,6 +7754,12 @@ class MessagesDialogsSlice extends MessagesDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x71e094f3);
+    // _writeint(buffer, 0, count);
+    // _writeVector<Dialog>(buffer, 0, dialogs);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7467,6 +7783,8 @@ class MessagesDialogsNotModified extends MessagesDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf0e3e596);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -7504,6 +7822,10 @@ class MessagesMessages extends MessagesMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c718e87);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7516,8 +7838,8 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
   const MessagesMessagesSlice({
     required this.flags,
     required this.count,
-    required this.nextRate,
-    required this.offsetIdOffset,
+    this.nextRate,
+    this.offsetIdOffset,
     required this.messages,
     required this.chats,
     required this.users,
@@ -7540,14 +7862,8 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
   /// Next Rate.
   final int? nextRate;
 
-  /// If [nextRate] exists.
-  bool get hasNextRateField => _bit(flags, 0);
-
   /// Offset Id Offset.
   final int? offsetIdOffset;
-
-  /// If [offsetIdOffset] exists.
-  bool get hasOffsetIdOffsetField => _bit(flags, 2);
 
   /// Messages.
   final List<MessageBase> messages;
@@ -7560,6 +7876,15 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3a54685e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, inexact);
+    // _writeint(buffer, 0, count);
+    // _writeflags.0?int(buffer, 0, nextRate);
+    // _writeflags.2?int(buffer, 0, offsetIdOffset);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7573,7 +7898,7 @@ class MessagesChannelMessages extends MessagesMessagesBase {
     required this.flags,
     required this.pts,
     required this.count,
-    required this.offsetIdOffset,
+    this.offsetIdOffset,
     required this.messages,
     required this.topics,
     required this.chats,
@@ -7600,9 +7925,6 @@ class MessagesChannelMessages extends MessagesMessagesBase {
   /// Offset Id Offset.
   final int? offsetIdOffset;
 
-  /// If [offsetIdOffset] exists.
-  bool get hasOffsetIdOffsetField => _bit(flags, 2);
-
   /// Messages.
   final List<MessageBase> messages;
 
@@ -7617,6 +7939,16 @@ class MessagesChannelMessages extends MessagesMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc776ba4e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, inexact);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, count);
+    // _writeflags.2?int(buffer, 0, offsetIdOffset);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<ForumTopic>(buffer, 0, topics);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7640,6 +7972,8 @@ class MessagesMessagesNotModified extends MessagesMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74535f21);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -7669,6 +8003,8 @@ class MessagesChats extends MessagesChatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64ff9fd5);
+    // _writeVector<Chat>(buffer, 0, chats);
     return 0;
   }
 }
@@ -7696,6 +8032,9 @@ class MessagesChatsSlice extends MessagesChatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9cd81144);
+    // _writeint(buffer, 0, count);
+    // _writeVector<Chat>(buffer, 0, chats);
     return 0;
   }
 }
@@ -7733,6 +8072,10 @@ class MessagesChatFull extends MessagesChatFullBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe5d7d19c);
+    // _writeChatFull(buffer, 0, fullChat);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -7770,6 +8113,10 @@ class MessagesAffectedHistory extends MessagesAffectedHistoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb45c69d1);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeint(buffer, 0, offset);
     return 0;
   }
 }
@@ -7794,6 +8141,7 @@ class InputMessagesFilterEmpty extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57e2f66c);
     return 0;
   }
 }
@@ -7812,6 +8160,7 @@ class InputMessagesFilterPhotos extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9609a51c);
     return 0;
   }
 }
@@ -7830,6 +8179,7 @@ class InputMessagesFilterVideo extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9fc00e65);
     return 0;
   }
 }
@@ -7848,6 +8198,7 @@ class InputMessagesFilterPhotoVideo extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56e9f0e4);
     return 0;
   }
 }
@@ -7866,6 +8217,7 @@ class InputMessagesFilterDocument extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9eddf188);
     return 0;
   }
 }
@@ -7884,6 +8236,7 @@ class InputMessagesFilterUrl extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7ef0dd87);
     return 0;
   }
 }
@@ -7902,6 +8255,7 @@ class InputMessagesFilterGif extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xffc86587);
     return 0;
   }
 }
@@ -7920,6 +8274,7 @@ class InputMessagesFilterVoice extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50f5c392);
     return 0;
   }
 }
@@ -7938,6 +8293,7 @@ class InputMessagesFilterMusic extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3751b49e);
     return 0;
   }
 }
@@ -7956,6 +8312,7 @@ class InputMessagesFilterChatPhotos extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3a20ecb8);
     return 0;
   }
 }
@@ -7982,6 +8339,9 @@ class InputMessagesFilterPhoneCalls extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x80c99768);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, missed);
     return 0;
   }
 }
@@ -8000,6 +8360,7 @@ class InputMessagesFilterRoundVoice extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a7c17a4);
     return 0;
   }
 }
@@ -8018,6 +8379,7 @@ class InputMessagesFilterRoundVideo extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb549da53);
     return 0;
   }
 }
@@ -8036,6 +8398,7 @@ class InputMessagesFilterMyMentions extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc1f8e69a);
     return 0;
   }
 }
@@ -8054,6 +8417,7 @@ class InputMessagesFilterGeo extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe7026d0d);
     return 0;
   }
 }
@@ -8072,6 +8436,7 @@ class InputMessagesFilterContacts extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe062db83);
     return 0;
   }
 }
@@ -8090,6 +8455,7 @@ class InputMessagesFilterPinned extends MessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1bb00451);
     return 0;
   }
 }
@@ -8127,6 +8493,10 @@ class UpdateNewMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1f2b0afd);
+    // _writeMessage(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8154,6 +8524,9 @@ class UpdateMessageID extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4e90bfd6);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, randomId);
     return 0;
   }
 }
@@ -8185,6 +8558,10 @@ class UpdateDeleteMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa20db0e5);
+    // _writeVector<int>(buffer, 0, messages);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8212,6 +8589,9 @@ class UpdateUserTyping extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc01e857f);
+    // _writelong(buffer, 0, userId);
+    // _writeSendMessageAction(buffer, 0, action);
     return 0;
   }
 }
@@ -8243,6 +8623,10 @@ class UpdateChatUserTyping extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x83487af0);
+    // _writelong(buffer, 0, chatId);
+    // _writePeer(buffer, 0, fromId);
+    // _writeSendMessageAction(buffer, 0, action);
     return 0;
   }
 }
@@ -8266,6 +8650,8 @@ class UpdateChatParticipants extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x07761198);
+    // _writeChatParticipants(buffer, 0, participants);
     return 0;
   }
 }
@@ -8293,6 +8679,9 @@ class UpdateUserStatus extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe5bdf8de);
+    // _writelong(buffer, 0, userId);
+    // _writeUserStatus(buffer, 0, status);
     return 0;
   }
 }
@@ -8328,6 +8717,11 @@ class UpdateUserName extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa7848924);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writeVector<Username>(buffer, 0, usernames);
     return 0;
   }
 }
@@ -8340,9 +8734,9 @@ class UpdateNewAuthorization extends UpdateBase {
   const UpdateNewAuthorization({
     required this.flags,
     required this.hash,
-    required this.date,
-    required this.device,
-    required this.location,
+    this.date,
+    this.device,
+    this.location,
   }) : super._();
 
   /// Deserialize.
@@ -8362,23 +8756,21 @@ class UpdateNewAuthorization extends UpdateBase {
   /// Date.
   final int? date;
 
-  /// If [date] exists.
-  bool get hasDateField => _bit(flags, 0);
-
   /// Device.
   final String? device;
-
-  /// If [device] exists.
-  bool get hasDeviceField => _bit(flags, 0);
 
   /// Location.
   final String? location;
 
-  /// If [location] exists.
-  bool get hasLocationField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8951abef);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, unconfirmed);
+    // _writelong(buffer, 0, hash);
+    // _writeflags.0?int(buffer, 0, date);
+    // _writeflags.0?string(buffer, 0, device);
+    // _writeflags.0?string(buffer, 0, location);
     return 0;
   }
 }
@@ -8406,6 +8798,9 @@ class UpdateNewEncryptedMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x12bcbd9a);
+    // _writeEncryptedMessage(buffer, 0, message);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -8429,6 +8824,8 @@ class UpdateEncryptedChatTyping extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1710f156);
+    // _writeint(buffer, 0, chatId);
     return 0;
   }
 }
@@ -8452,10 +8849,13 @@ class UpdateEncryption extends UpdateBase {
   final EncryptedChatBase chat;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4a2e88d);
+    // _writeEncryptedChat(buffer, 0, chat);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -8480,13 +8880,17 @@ class UpdateEncryptedMessagesRead extends UpdateBase {
   final int chatId;
 
   /// Max Date.
-  final int maxDate;
+  final DateTime maxDate;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x38fe25b7);
+    // _writeint(buffer, 0, chatId);
+    // _writeint(buffer, 0, maxDate);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -8519,13 +8923,19 @@ class UpdateChatParticipantAdd extends UpdateBase {
   final int inviterId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Version.
   final int version;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dda5451);
+    // _writelong(buffer, 0, chatId);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, inviterId);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -8557,6 +8967,10 @@ class UpdateChatParticipantDelete extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe32f3d77);
+    // _writelong(buffer, 0, chatId);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -8580,6 +8994,8 @@ class UpdateDcOptions extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8e5e9873);
+    // _writeVector<DcOption>(buffer, 0, dcOptions);
     return 0;
   }
 }
@@ -8607,6 +9023,9 @@ class UpdateNotifySettings extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbec268ef);
+    // _writeNotifyPeer(buffer, 0, peer);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
     return 0;
   }
 }
@@ -8618,7 +9037,7 @@ class UpdateServiceNotification extends UpdateBase {
   /// Update Service Notification constructor.
   const UpdateServiceNotification({
     required this.flags,
-    required this.inboxDate,
+    this.inboxDate,
     required this.type,
     required this.message,
     required this.media,
@@ -8642,9 +9061,6 @@ class UpdateServiceNotification extends UpdateBase {
   /// Inbox Date.
   final int? inboxDate;
 
-  /// If [inboxDate] exists.
-  bool get hasInboxDateField => _bit(flags, 1);
-
   /// Type.
   final String type;
 
@@ -8659,6 +9075,15 @@ class UpdateServiceNotification extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xebe46819);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, popup);
+    // _writeflags.2?true(buffer, 0, invertMedia);
+    // _writeflags.1?int(buffer, 0, inboxDate);
+    // _writestring(buffer, 0, type);
+    // _writestring(buffer, 0, message);
+    // _writeMessageMedia(buffer, 0, media);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -8686,6 +9111,9 @@ class UpdatePrivacy extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xee3b272a);
+    // _writePrivacyKey(buffer, 0, key);
+    // _writeVector<PrivacyRule>(buffer, 0, rules);
     return 0;
   }
 }
@@ -8713,6 +9141,9 @@ class UpdateUserPhone extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x05492a13);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, phone);
     return 0;
   }
 }
@@ -8724,7 +9155,7 @@ class UpdateReadHistoryInbox extends UpdateBase {
   /// Update Read History Inbox constructor.
   const UpdateReadHistoryInbox({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.peer,
     required this.maxId,
     required this.stillUnreadCount,
@@ -8743,9 +9174,6 @@ class UpdateReadHistoryInbox extends UpdateBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 0);
-
   /// Peer.
   final PeerBase peer;
 
@@ -8763,6 +9191,14 @@ class UpdateReadHistoryInbox extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9c974fdf);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, folderId);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, stillUnreadCount);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8798,6 +9234,11 @@ class UpdateReadHistoryOutbox extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2f2f21bf);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8829,6 +9270,10 @@ class UpdateWebPage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f891213);
+    // _writeWebPage(buffer, 0, webpage);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8843,7 +9288,7 @@ class UpdateReadMessagesContents extends UpdateBase {
     required this.messages,
     required this.pts,
     required this.ptsCount,
-    required this.date,
+    this.date,
   }) : super._();
 
   /// Deserialize.
@@ -8866,11 +9311,14 @@ class UpdateReadMessagesContents extends UpdateBase {
   /// Date.
   final int? date;
 
-  /// If [date] exists.
-  bool get hasDateField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf8227181);
+    // _write#(buffer, 0, flags);
+    // _writeVector<int>(buffer, 0, messages);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeflags.0?int(buffer, 0, date);
     return 0;
   }
 }
@@ -8883,7 +9331,7 @@ class UpdateChannelTooLong extends UpdateBase {
   const UpdateChannelTooLong({
     required this.flags,
     required this.channelId,
-    required this.pts,
+    this.pts,
   }) : super._();
 
   /// Deserialize.
@@ -8900,11 +9348,12 @@ class UpdateChannelTooLong extends UpdateBase {
   /// Pts.
   final int? pts;
 
-  /// If [pts] exists.
-  bool get hasPtsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x108d941f);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, channelId);
+    // _writeflags.0?int(buffer, 0, pts);
     return 0;
   }
 }
@@ -8928,6 +9377,8 @@ class UpdateChannel extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x635b4c09);
+    // _writelong(buffer, 0, channelId);
     return 0;
   }
 }
@@ -8959,6 +9410,10 @@ class UpdateNewChannelMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x62ba04d9);
+    // _writeMessage(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -8970,7 +9425,7 @@ class UpdateReadChannelInbox extends UpdateBase {
   /// Update Read Channel Inbox constructor.
   const UpdateReadChannelInbox({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.channelId,
     required this.maxId,
     required this.stillUnreadCount,
@@ -8988,9 +9443,6 @@ class UpdateReadChannelInbox extends UpdateBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 0);
-
   /// Channel Id.
   final int channelId;
 
@@ -9005,6 +9457,13 @@ class UpdateReadChannelInbox extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x922e6e10);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, folderId);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, stillUnreadCount);
+    // _writeint(buffer, 0, pts);
     return 0;
   }
 }
@@ -9040,6 +9499,11 @@ class UpdateDeleteChannelMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc32d5b12);
+    // _writelong(buffer, 0, channelId);
+    // _writeVector<int>(buffer, 0, messages);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -9071,6 +9535,10 @@ class UpdateChannelMessageViews extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf226ac08);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, views);
     return 0;
   }
 }
@@ -9106,6 +9574,11 @@ class UpdateChatParticipantAdmin extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd7ca61a2);
+    // _writelong(buffer, 0, chatId);
+    // _writelong(buffer, 0, userId);
+    // _writeBool(buffer, 0, isAdmin);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -9129,6 +9602,8 @@ class UpdateNewStickerSet extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x688a30aa);
+    // _writemessages.StickerSet(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -9162,6 +9637,11 @@ class UpdateStickerSetsOrder extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0bb2d201);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, emojis);
+    // _writeVector<long>(buffer, 0, order);
     return 0;
   }
 }
@@ -9191,6 +9671,10 @@ class UpdateStickerSets extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x31c24808);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, emojis);
     return 0;
   }
 }
@@ -9209,6 +9693,7 @@ class UpdateSavedGifs extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9375341e);
     return 0;
   }
 }
@@ -9223,8 +9708,8 @@ class UpdateBotInlineQuery extends UpdateBase {
     required this.queryId,
     required this.userId,
     required this.query,
-    required this.geo,
-    required this.peerType,
+    this.geo,
+    this.peerType,
     required this.offset,
   }) : super._();
 
@@ -9248,20 +9733,22 @@ class UpdateBotInlineQuery extends UpdateBase {
   /// Geo.
   final GeoPointBase? geo;
 
-  /// If [geo] exists.
-  bool get hasGeoField => _bit(flags, 0);
-
   /// Peer Type.
   final InlineQueryPeerTypeBase? peerType;
-
-  /// If [peerType] exists.
-  bool get hasPeerTypeField => _bit(flags, 1);
 
   /// Offset.
   final String offset;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x496f379c);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, queryId);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, query);
+    // _writeflags.0?GeoPoint(buffer, 0, geo);
+    // _writeflags.1?InlineQueryPeerType(buffer, 0, peerType);
+    // _writestring(buffer, 0, offset);
     return 0;
   }
 }
@@ -9275,9 +9762,9 @@ class UpdateBotInlineSend extends UpdateBase {
     required this.flags,
     required this.userId,
     required this.query,
-    required this.geo,
+    this.geo,
     required this.id,
-    required this.msgId,
+    this.msgId,
   }) : super._();
 
   /// Deserialize.
@@ -9297,20 +9784,21 @@ class UpdateBotInlineSend extends UpdateBase {
   /// Geo.
   final GeoPointBase? geo;
 
-  /// If [geo] exists.
-  bool get hasGeoField => _bit(flags, 0);
-
   /// Id.
   final String id;
 
   /// Msg Id.
   final InputBotInlineMessageIDBase? msgId;
 
-  /// If [msgId] exists.
-  bool get hasMsgIdField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x12f12a07);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, query);
+    // _writeflags.0?GeoPoint(buffer, 0, geo);
+    // _writestring(buffer, 0, id);
+    // _writeflags.1?InputBotInlineMessageID(buffer, 0, msgId);
     return 0;
   }
 }
@@ -9342,6 +9830,10 @@ class UpdateEditChannelMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b3f4df7);
+    // _writeMessage(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -9358,8 +9850,8 @@ class UpdateBotCallbackQuery extends UpdateBase {
     required this.peer,
     required this.msgId,
     required this.chatInstance,
-    required this.data,
-    required this.gameShortName,
+    this.data,
+    this.gameShortName,
   }) : super._();
 
   /// Deserialize.
@@ -9388,17 +9880,20 @@ class UpdateBotCallbackQuery extends UpdateBase {
   /// Data.
   final Uint8List? data;
 
-  /// If [data] exists.
-  bool get hasDataField => _bit(flags, 0);
-
   /// Game Short Name.
   final String? gameShortName;
 
-  /// If [gameShortName] exists.
-  bool get hasGameShortNameField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb9cfc48d);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, queryId);
+    // _writelong(buffer, 0, userId);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, chatInstance);
+    // _writeflags.0?bytes(buffer, 0, data);
+    // _writeflags.1?string(buffer, 0, gameShortName);
     return 0;
   }
 }
@@ -9430,6 +9925,10 @@ class UpdateEditMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe40370a3);
+    // _writeMessage(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -9445,8 +9944,8 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
     required this.userId,
     required this.msgId,
     required this.chatInstance,
-    required this.data,
-    required this.gameShortName,
+    this.data,
+    this.gameShortName,
   }) : super._();
 
   /// Deserialize.
@@ -9472,17 +9971,19 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
   /// Data.
   final Uint8List? data;
 
-  /// If [data] exists.
-  bool get hasDataField => _bit(flags, 0);
-
   /// Game Short Name.
   final String? gameShortName;
 
-  /// If [gameShortName] exists.
-  bool get hasGameShortNameField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x691e9052);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, queryId);
+    // _writelong(buffer, 0, userId);
+    // _writeInputBotInlineMessageID(buffer, 0, msgId);
+    // _writelong(buffer, 0, chatInstance);
+    // _writeflags.0?bytes(buffer, 0, data);
+    // _writeflags.1?string(buffer, 0, gameShortName);
     return 0;
   }
 }
@@ -9510,6 +10011,9 @@ class UpdateReadChannelOutbox extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb75f99a9);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -9522,7 +10026,7 @@ class UpdateDraftMessage extends UpdateBase {
   const UpdateDraftMessage({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
     required this.draft,
   }) : super._();
 
@@ -9540,14 +10044,16 @@ class UpdateDraftMessage extends UpdateBase {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Draft.
   final DraftMessageBase draft;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b49ec6d);
+    // _write#(buffer, 0, flags);
+    // _writePeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeDraftMessage(buffer, 0, draft);
     return 0;
   }
 }
@@ -9566,6 +10072,7 @@ class UpdateReadFeaturedStickers extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x571d2742);
     return 0;
   }
 }
@@ -9584,6 +10091,7 @@ class UpdateRecentStickers extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a422c20);
     return 0;
   }
 }
@@ -9602,6 +10110,7 @@ class UpdateConfig extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa229dd06);
     return 0;
   }
 }
@@ -9620,6 +10129,7 @@ class UpdatePtsChanged extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3354678f);
     return 0;
   }
 }
@@ -9655,6 +10165,11 @@ class UpdateChannelWebPage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2f2ba99f);
+    // _writelong(buffer, 0, channelId);
+    // _writeWebPage(buffer, 0, webpage);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -9666,7 +10181,7 @@ class UpdateDialogPinned extends UpdateBase {
   /// Update Dialog Pinned constructor.
   const UpdateDialogPinned({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.peer,
   }) : super._();
 
@@ -9684,14 +10199,16 @@ class UpdateDialogPinned extends UpdateBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 1);
-
   /// Peer.
   final DialogPeerBase peer;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6e6fe51c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writeflags.1?int(buffer, 0, folderId);
+    // _writeDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -9703,8 +10220,8 @@ class UpdatePinnedDialogs extends UpdateBase {
   /// Update Pinned Dialogs constructor.
   const UpdatePinnedDialogs({
     required this.flags,
-    required this.folderId,
-    required this.order,
+    this.folderId,
+    this.order,
   }) : super._();
 
   /// Deserialize.
@@ -9718,17 +10235,15 @@ class UpdatePinnedDialogs extends UpdateBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 1);
-
   /// Order.
   final List<DialogPeerBase>? order;
 
-  /// If [order] exists.
-  bool get hasOrderField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa0f3ca2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?int(buffer, 0, folderId);
+    // _writeflags.0?Vector<DialogPeer>(buffer, 0, order);
     return 0;
   }
 }
@@ -9752,6 +10267,8 @@ class UpdateBotWebhookJSON extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8317c0c3);
+    // _writeDataJSON(buffer, 0, data);
     return 0;
   }
 }
@@ -9783,6 +10300,10 @@ class UpdateBotWebhookJSONQuery extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9b9240a6);
+    // _writelong(buffer, 0, queryId);
+    // _writeDataJSON(buffer, 0, data);
+    // _writeint(buffer, 0, timeout);
     return 0;
   }
 }
@@ -9818,6 +10339,11 @@ class UpdateBotShippingQuery extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb5aefd7d);
+    // _writelong(buffer, 0, queryId);
+    // _writelong(buffer, 0, userId);
+    // _writebytes(buffer, 0, payload);
+    // _writePostAddress(buffer, 0, shippingAddress);
     return 0;
   }
 }
@@ -9832,8 +10358,8 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
     required this.queryId,
     required this.userId,
     required this.payload,
-    required this.info,
-    required this.shippingOptionId,
+    this.info,
+    this.shippingOptionId,
     required this.currency,
     required this.totalAmount,
   }) : super._();
@@ -9858,14 +10384,8 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
   /// Info.
   final PaymentRequestedInfoBase? info;
 
-  /// If [info] exists.
-  bool get hasInfoField => _bit(flags, 0);
-
   /// Shipping Option Id.
   final String? shippingOptionId;
-
-  /// If [shippingOptionId] exists.
-  bool get hasShippingOptionIdField => _bit(flags, 1);
 
   /// Currency.
   final String currency;
@@ -9875,6 +10395,15 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8caa9a96);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, queryId);
+    // _writelong(buffer, 0, userId);
+    // _writebytes(buffer, 0, payload);
+    // _writeflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // _writeflags.1?string(buffer, 0, shippingOptionId);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
     return 0;
   }
 }
@@ -9898,6 +10427,8 @@ class UpdatePhoneCall extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xab0f6b1e);
+    // _writePhoneCall(buffer, 0, phoneCall);
     return 0;
   }
 }
@@ -9921,6 +10452,8 @@ class UpdateLangPackTooLong extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x46560264);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -9944,6 +10477,8 @@ class UpdateLangPack extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56022f4d);
+    // _writeLangPackDifference(buffer, 0, difference);
     return 0;
   }
 }
@@ -9962,6 +10497,7 @@ class UpdateFavedStickers extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe511996d);
     return 0;
   }
 }
@@ -9974,7 +10510,7 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
   const UpdateChannelReadMessagesContents({
     required this.flags,
     required this.channelId,
-    required this.topMsgId,
+    this.topMsgId,
     required this.messages,
   }) : super._();
 
@@ -9992,14 +10528,16 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Messages.
   final List<int> messages;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea29055d);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, channelId);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeVector<int>(buffer, 0, messages);
     return 0;
   }
 }
@@ -10018,6 +10556,7 @@ class UpdateContactsReset extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7084a7be);
     return 0;
   }
 }
@@ -10045,6 +10584,9 @@ class UpdateChannelAvailableMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb23fc698);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, availableMinId);
     return 0;
   }
 }
@@ -10075,6 +10617,10 @@ class UpdateDialogUnreadMark extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe16459c3);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, unread);
+    // _writeDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -10087,7 +10633,7 @@ class UpdateMessagePoll extends UpdateBase {
   const UpdateMessagePoll({
     required this.flags,
     required this.pollId,
-    required this.poll,
+    this.poll,
     required this.results,
   }) : super._();
 
@@ -10105,14 +10651,16 @@ class UpdateMessagePoll extends UpdateBase {
   /// Poll.
   final PollBase? poll;
 
-  /// If [poll] exists.
-  bool get hasPollField => _bit(flags, 0);
-
   /// Results.
   final PollResultsBase results;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaca1657b);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, pollId);
+    // _writeflags.0?Poll(buffer, 0, poll);
+    // _writePollResults(buffer, 0, results);
     return 0;
   }
 }
@@ -10144,6 +10692,10 @@ class UpdateChatDefaultBannedRights extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x54c01850);
+    // _writePeer(buffer, 0, peer);
+    // _writeChatBannedRights(buffer, 0, defaultBannedRights);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -10175,6 +10727,10 @@ class UpdateFolderPeers extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x19360dc0);
+    // _writeVector<FolderPeer>(buffer, 0, folderPeers);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -10202,6 +10758,9 @@ class UpdatePeerSettings extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a7e7366);
+    // _writePeer(buffer, 0, peer);
+    // _writePeerSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -10225,6 +10784,8 @@ class UpdatePeerLocated extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4afcfb0);
+    // _writeVector<PeerLocated>(buffer, 0, peers);
     return 0;
   }
 }
@@ -10248,6 +10809,8 @@ class UpdateNewScheduledMessage extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x39a51dfb);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -10275,6 +10838,9 @@ class UpdateDeleteScheduledMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x90866cee);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, messages);
     return 0;
   }
 }
@@ -10298,6 +10864,8 @@ class UpdateTheme extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8216fba3);
+    // _writeTheme(buffer, 0, theme);
     return 0;
   }
 }
@@ -10325,6 +10893,9 @@ class UpdateGeoLiveViewed extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x871fb939);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -10343,6 +10914,7 @@ class UpdateLoginToken extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x564fe691);
     return 0;
   }
 }
@@ -10378,6 +10950,11 @@ class UpdateMessagePollVote extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x24f40e77);
+    // _writelong(buffer, 0, pollId);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<bytes>(buffer, 0, options);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -10390,7 +10967,7 @@ class UpdateDialogFilter extends UpdateBase {
   const UpdateDialogFilter({
     required this.flags,
     required this.id,
-    required this.filter,
+    this.filter,
   }) : super._();
 
   /// Deserialize.
@@ -10407,11 +10984,12 @@ class UpdateDialogFilter extends UpdateBase {
   /// Filter.
   final DialogFilterBase? filter;
 
-  /// If [filter] exists.
-  bool get hasFilterField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x26ffde7d);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?DialogFilter(buffer, 0, filter);
     return 0;
   }
 }
@@ -10435,6 +11013,8 @@ class UpdateDialogFilterOrder extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa5d72105);
+    // _writeVector<int>(buffer, 0, order);
     return 0;
   }
 }
@@ -10453,6 +11033,7 @@ class UpdateDialogFilters extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3504914f);
     return 0;
   }
 }
@@ -10480,6 +11061,9 @@ class UpdatePhoneCallSignalingData extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2661bf09);
+    // _writelong(buffer, 0, phoneCallId);
+    // _writebytes(buffer, 0, data);
     return 0;
   }
 }
@@ -10511,6 +11095,10 @@ class UpdateChannelMessageForwards extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd29a27f4);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, forwards);
     return 0;
   }
 }
@@ -10525,8 +11113,8 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
     required this.channelId,
     required this.topMsgId,
     required this.readMaxId,
-    required this.broadcastId,
-    required this.broadcastPost,
+    this.broadcastId,
+    this.broadcastPost,
   }) : super._();
 
   /// Deserialize.
@@ -10549,17 +11137,18 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
   /// Broadcast Id.
   final int? broadcastId;
 
-  /// If [broadcastId] exists.
-  bool get hasBroadcastIdField => _bit(flags, 0);
-
   /// Broadcast Post.
   final int? broadcastPost;
 
-  /// If [broadcastPost] exists.
-  bool get hasBroadcastPostField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd6b19546);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, topMsgId);
+    // _writeint(buffer, 0, readMaxId);
+    // _writeflags.0?long(buffer, 0, broadcastId);
+    // _writeflags.0?int(buffer, 0, broadcastPost);
     return 0;
   }
 }
@@ -10591,6 +11180,10 @@ class UpdateReadChannelDiscussionOutbox extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x695c9e7c);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, topMsgId);
+    // _writeint(buffer, 0, readMaxId);
     return 0;
   }
 }
@@ -10624,6 +11217,11 @@ class UpdatePeerBlocked extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xebe07752);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, blocked);
+    // _writeflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // _writePeer(buffer, 0, peerId);
     return 0;
   }
 }
@@ -10636,7 +11234,7 @@ class UpdateChannelUserTyping extends UpdateBase {
   const UpdateChannelUserTyping({
     required this.flags,
     required this.channelId,
-    required this.topMsgId,
+    this.topMsgId,
     required this.fromId,
     required this.action,
   }) : super._();
@@ -10655,9 +11253,6 @@ class UpdateChannelUserTyping extends UpdateBase {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// From Id.
   final PeerBase fromId;
 
@@ -10666,6 +11261,12 @@ class UpdateChannelUserTyping extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c88c923);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, channelId);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writePeer(buffer, 0, fromId);
+    // _writeSendMessageAction(buffer, 0, action);
     return 0;
   }
 }
@@ -10708,6 +11309,13 @@ class UpdatePinnedMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed85eab5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, messages);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -10750,6 +11358,13 @@ class UpdatePinnedChannelMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5bb98608);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writelong(buffer, 0, channelId);
+    // _writeVector<int>(buffer, 0, messages);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -10773,6 +11388,8 @@ class UpdateChat extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf89a6a4e);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -10804,6 +11421,10 @@ class UpdateGroupCallParticipants extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf2ebdb4e);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeVector<GroupCallParticipant>(buffer, 0, participants);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -10831,6 +11452,9 @@ class UpdateGroupCall extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x14b24500);
+    // _writelong(buffer, 0, chatId);
+    // _writeGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -10843,7 +11467,7 @@ class UpdatePeerHistoryTTL extends UpdateBase {
   const UpdatePeerHistoryTTL({
     required this.flags,
     required this.peer,
-    required this.ttlPeriod,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -10860,11 +11484,12 @@ class UpdatePeerHistoryTTL extends UpdateBase {
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb9bb9a5);
+    // _write#(buffer, 0, flags);
+    // _writePeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -10880,9 +11505,9 @@ class UpdateChatParticipant extends UpdateBase {
     required this.date,
     required this.actorId,
     required this.userId,
-    required this.prevParticipant,
-    required this.newParticipant,
-    required this.invite,
+    this.prevParticipant,
+    this.newParticipant,
+    this.invite,
     required this.qts,
   }) : super._();
 
@@ -10898,7 +11523,7 @@ class UpdateChatParticipant extends UpdateBase {
   final int chatId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Actor Id.
   final int actorId;
@@ -10909,26 +11534,27 @@ class UpdateChatParticipant extends UpdateBase {
   /// Prev Participant.
   final ChatParticipantBase? prevParticipant;
 
-  /// If [prevParticipant] exists.
-  bool get hasPrevParticipantField => _bit(flags, 0);
-
   /// New Participant.
   final ChatParticipantBase? newParticipant;
 
-  /// If [newParticipant] exists.
-  bool get hasNewParticipantField => _bit(flags, 1);
-
   /// Invite.
   final ExportedChatInviteBase? invite;
-
-  /// If [invite] exists.
-  bool get hasInviteField => _bit(flags, 2);
 
   /// Qts.
   final int qts;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd087663a);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, chatId);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, actorId);
+    // _writelong(buffer, 0, userId);
+    // _writeflags.0?ChatParticipant(buffer, 0, prevParticipant);
+    // _writeflags.1?ChatParticipant(buffer, 0, newParticipant);
+    // _writeflags.2?ExportedChatInvite(buffer, 0, invite);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -10944,9 +11570,9 @@ class UpdateChannelParticipant extends UpdateBase {
     required this.date,
     required this.actorId,
     required this.userId,
-    required this.prevParticipant,
-    required this.newParticipant,
-    required this.invite,
+    this.prevParticipant,
+    this.newParticipant,
+    this.invite,
     required this.qts,
   }) : super._();
 
@@ -10965,7 +11591,7 @@ class UpdateChannelParticipant extends UpdateBase {
   final int channelId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Actor Id.
   final int actorId;
@@ -10976,26 +11602,28 @@ class UpdateChannelParticipant extends UpdateBase {
   /// Prev Participant.
   final ChannelParticipantBase? prevParticipant;
 
-  /// If [prevParticipant] exists.
-  bool get hasPrevParticipantField => _bit(flags, 0);
-
   /// New Participant.
   final ChannelParticipantBase? newParticipant;
 
-  /// If [newParticipant] exists.
-  bool get hasNewParticipantField => _bit(flags, 1);
-
   /// Invite.
   final ExportedChatInviteBase? invite;
-
-  /// If [invite] exists.
-  bool get hasInviteField => _bit(flags, 2);
 
   /// Qts.
   final int qts;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x985d3abb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, viaChatlist);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, actorId);
+    // _writelong(buffer, 0, userId);
+    // _writeflags.0?ChannelParticipant(buffer, 0, prevParticipant);
+    // _writeflags.1?ChannelParticipant(buffer, 0, newParticipant);
+    // _writeflags.2?ExportedChatInvite(buffer, 0, invite);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11021,7 +11649,7 @@ class UpdateBotStopped extends UpdateBase {
   final int userId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Stopped.
   final bool stopped;
@@ -11031,6 +11659,11 @@ class UpdateBotStopped extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc4870a49);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, date);
+    // _writeBool(buffer, 0, stopped);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11061,6 +11694,10 @@ class UpdateGroupCallConnection extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0b783982);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, presentation);
+    // _writeDataJSON(buffer, 0, params);
     return 0;
   }
 }
@@ -11092,6 +11729,10 @@ class UpdateBotCommands extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4d712f2e);
+    // _writePeer(buffer, 0, peer);
+    // _writelong(buffer, 0, botId);
+    // _writeVector<BotCommand>(buffer, 0, commands);
     return 0;
   }
 }
@@ -11123,6 +11764,10 @@ class UpdatePendingJoinRequests extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7063c3db);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, requestsPending);
+    // _writeVector<long>(buffer, 0, recentRequesters);
     return 0;
   }
 }
@@ -11150,7 +11795,7 @@ class UpdateBotChatInviteRequester extends UpdateBase {
   final PeerBase peer;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// User Id.
   final int userId;
@@ -11166,6 +11811,13 @@ class UpdateBotChatInviteRequester extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x11dfa986);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, about);
+    // _writeExportedChatInvite(buffer, 0, invite);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11179,7 +11831,7 @@ class UpdateMessageReactions extends UpdateBase {
     required this.flags,
     required this.peer,
     required this.msgId,
-    required this.topMsgId,
+    this.topMsgId,
     required this.reactions,
   }) : super._();
 
@@ -11200,14 +11852,17 @@ class UpdateMessageReactions extends UpdateBase {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Reactions.
   final MessageReactionsBase reactions;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5e1b3cb8);
+    // _write#(buffer, 0, flags);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeMessageReactions(buffer, 0, reactions);
     return 0;
   }
 }
@@ -11226,6 +11881,7 @@ class UpdateAttachMenuBots extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x17b7a20b);
     return 0;
   }
 }
@@ -11249,6 +11905,8 @@ class UpdateWebViewResultSent extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1592b79d);
+    // _writelong(buffer, 0, queryId);
     return 0;
   }
 }
@@ -11276,6 +11934,9 @@ class UpdateBotMenuButton extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x14b85813);
+    // _writelong(buffer, 0, botId);
+    // _writeBotMenuButton(buffer, 0, button);
     return 0;
   }
 }
@@ -11294,6 +11955,7 @@ class UpdateSavedRingtones extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74d8be99);
     return 0;
   }
 }
@@ -11336,6 +11998,13 @@ class UpdateTranscribedAudio extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0084cd5a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pending);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, transcriptionId);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -11354,6 +12023,7 @@ class UpdateReadFeaturedEmojiStickers extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfb4c496c);
     return 0;
   }
 }
@@ -11381,6 +12051,9 @@ class UpdateUserEmojiStatus extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x28373599);
+    // _writelong(buffer, 0, userId);
+    // _writeEmojiStatus(buffer, 0, emojiStatus);
     return 0;
   }
 }
@@ -11399,6 +12072,7 @@ class UpdateRecentEmojiStatuses extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x30f443db);
     return 0;
   }
 }
@@ -11417,6 +12091,7 @@ class UpdateRecentReactions extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6f7863f4);
     return 0;
   }
 }
@@ -11450,6 +12125,11 @@ class UpdateMoveStickerSetToTop extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86fccf85);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, emojis);
+    // _writelong(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -11481,6 +12161,10 @@ class UpdateMessageExtendedMedia extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5a73a98c);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeMessageExtendedMedia(buffer, 0, extendedMedia);
     return 0;
   }
 }
@@ -11515,6 +12199,11 @@ class UpdateChannelPinnedTopic extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x192efbe3);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, topicId);
     return 0;
   }
 }
@@ -11527,7 +12216,7 @@ class UpdateChannelPinnedTopics extends UpdateBase {
   const UpdateChannelPinnedTopics({
     required this.flags,
     required this.channelId,
-    required this.order,
+    this.order,
   }) : super._();
 
   /// Deserialize.
@@ -11544,11 +12233,12 @@ class UpdateChannelPinnedTopics extends UpdateBase {
   /// Order.
   final List<int>? order;
 
-  /// If [order] exists.
-  bool get hasOrderField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfe198602);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, channelId);
+    // _writeflags.0?Vector<int>(buffer, 0, order);
     return 0;
   }
 }
@@ -11572,6 +12262,8 @@ class UpdateUser extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x20529438);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -11590,6 +12282,7 @@ class UpdateAutoSaveSettings extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xec05b097);
     return 0;
   }
 }
@@ -11613,6 +12306,8 @@ class UpdateGroupInvitePrivacyForbidden extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xccf08ad6);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -11640,6 +12335,9 @@ class UpdateStory extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x75b3b798);
+    // _writePeer(buffer, 0, peer);
+    // _writeStoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -11667,6 +12365,9 @@ class UpdateReadStories extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf74e932b);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -11694,6 +12395,9 @@ class UpdateStoryID extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1bf335b9);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, randomId);
     return 0;
   }
 }
@@ -11717,6 +12421,8 @@ class UpdateStoriesStealthMode extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2c084dc1);
+    // _writeStoriesStealthMode(buffer, 0, stealthMode);
     return 0;
   }
 }
@@ -11748,6 +12454,10 @@ class UpdateSentStoryReaction extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7d627683);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, storyId);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -11779,6 +12489,10 @@ class UpdateBotChatBoost extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x904dd49c);
+    // _writePeer(buffer, 0, peer);
+    // _writeBoost(buffer, 0, boost);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11806,6 +12520,9 @@ class UpdateChannelViewForumAsMessages extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x07b68920);
+    // _writelong(buffer, 0, channelId);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -11818,7 +12535,7 @@ class UpdatePeerWallpaper extends UpdateBase {
   const UpdatePeerWallpaper({
     required this.flags,
     required this.peer,
-    required this.wallpaper,
+    this.wallpaper,
   }) : super._();
 
   /// Deserialize.
@@ -11838,11 +12555,13 @@ class UpdatePeerWallpaper extends UpdateBase {
   /// Wallpaper.
   final WallPaperBase? wallpaper;
 
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xae3f101d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, wallpaperOverridden);
+    // _writePeer(buffer, 0, peer);
+    // _writeflags.0?WallPaper(buffer, 0, wallpaper);
     return 0;
   }
 }
@@ -11874,7 +12593,7 @@ class UpdateBotMessageReaction extends UpdateBase {
   final int msgId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Actor.
   final PeerBase actor;
@@ -11890,6 +12609,14 @@ class UpdateBotMessageReaction extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xac21d3ce);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, date);
+    // _writePeer(buffer, 0, actor);
+    // _writeVector<Reaction>(buffer, 0, oldReactions);
+    // _writeVector<Reaction>(buffer, 0, newReactions);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11919,7 +12646,7 @@ class UpdateBotMessageReactions extends UpdateBase {
   final int msgId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Reactions.
   final List<ReactionCountBase> reactions;
@@ -11929,6 +12656,12 @@ class UpdateBotMessageReactions extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x09cb7759);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, date);
+    // _writeVector<ReactionCount>(buffer, 0, reactions);
+    // _writeint(buffer, 0, qts);
     return 0;
   }
 }
@@ -11959,6 +12692,10 @@ class UpdateSavedDialogPinned extends UpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaeaf9e74);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writeDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -11970,7 +12707,7 @@ class UpdatePinnedSavedDialogs extends UpdateBase {
   /// Update Pinned Saved Dialogs constructor.
   const UpdatePinnedSavedDialogs({
     required this.flags,
-    required this.order,
+    this.order,
   }) : super._();
 
   /// Deserialize.
@@ -11984,11 +12721,11 @@ class UpdatePinnedSavedDialogs extends UpdateBase {
   /// Order.
   final List<DialogPeerBase>? order;
 
-  /// If [order] exists.
-  bool get hasOrderField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x686c85a6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Vector<DialogPeer>(buffer, 0, order);
     return 0;
   }
 }
@@ -12024,7 +12761,7 @@ class UpdatesState extends UpdatesStateBase {
   final int qts;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Seq.
   final int seq;
@@ -12034,6 +12771,12 @@ class UpdatesState extends UpdatesStateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa56c2a3e);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, qts);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, seq);
+    // _writeint(buffer, 0, unreadCount);
     return 0;
   }
 }
@@ -12060,13 +12803,16 @@ class UpdatesDifferenceEmpty extends UpdatesDifferenceBase {
   }
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Seq.
   final int seq;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5d75a138);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, seq);
     return 0;
   }
 }
@@ -12110,6 +12856,13 @@ class UpdatesDifference extends UpdatesDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x00f49ca0);
+    // _writeVector<Message>(buffer, 0, newMessages);
+    // _writeVector<EncryptedMessage>(buffer, 0, newEncryptedMessages);
+    // _writeVector<Update>(buffer, 0, otherUpdates);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeupdates.State(buffer, 0, state);
     return 0;
   }
 }
@@ -12153,6 +12906,13 @@ class UpdatesDifferenceSlice extends UpdatesDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa8fb1981);
+    // _writeVector<Message>(buffer, 0, newMessages);
+    // _writeVector<EncryptedMessage>(buffer, 0, newEncryptedMessages);
+    // _writeVector<Update>(buffer, 0, otherUpdates);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeupdates.State(buffer, 0, intermediateState);
     return 0;
   }
 }
@@ -12176,6 +12936,8 @@ class UpdatesDifferenceTooLong extends UpdatesDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4afe8f6d);
+    // _writeint(buffer, 0, pts);
     return 0;
   }
 }
@@ -12200,6 +12962,7 @@ class UpdatesTooLong extends UpdatesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe317af7e);
     return 0;
   }
 }
@@ -12217,11 +12980,11 @@ class UpdateShortMessage extends UpdatesBase {
     required this.pts,
     required this.ptsCount,
     required this.date,
-    required this.fwdFrom,
-    required this.viaBotId,
-    required this.replyTo,
-    required this.entities,
-    required this.ttlPeriod,
+    this.fwdFrom,
+    this.viaBotId,
+    this.replyTo,
+    this.entities,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -12260,40 +13023,42 @@ class UpdateShortMessage extends UpdatesBase {
   final int ptsCount;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
 
-  /// If [fwdFrom] exists.
-  bool get hasFwdFromField => _bit(flags, 2);
-
   /// Via Bot Id.
   final int? viaBotId;
-
-  /// If [viaBotId] exists.
-  bool get hasViaBotIdField => _bit(flags, 11);
 
   /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 3);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 7);
 
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x313bc7f8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, out);
+    // _writeflags.4?true(buffer, 0, mentioned);
+    // _writeflags.5?true(buffer, 0, mediaUnread);
+    // _writeflags.13?true(buffer, 0, silent);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, userId);
+    // _writestring(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeint(buffer, 0, date);
+    // _writeflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // _writeflags.11?long(buffer, 0, viaBotId);
+    // _writeflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // _writeflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.25?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -12312,11 +13077,11 @@ class UpdateShortChatMessage extends UpdatesBase {
     required this.pts,
     required this.ptsCount,
     required this.date,
-    required this.fwdFrom,
-    required this.viaBotId,
-    required this.replyTo,
-    required this.entities,
-    required this.ttlPeriod,
+    this.fwdFrom,
+    this.viaBotId,
+    this.replyTo,
+    this.entities,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -12358,40 +13123,43 @@ class UpdateShortChatMessage extends UpdatesBase {
   final int ptsCount;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
 
-  /// If [fwdFrom] exists.
-  bool get hasFwdFromField => _bit(flags, 2);
-
   /// Via Bot Id.
   final int? viaBotId;
-
-  /// If [viaBotId] exists.
-  bool get hasViaBotIdField => _bit(flags, 11);
 
   /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 3);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 7);
 
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4d6deea5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, out);
+    // _writeflags.4?true(buffer, 0, mentioned);
+    // _writeflags.5?true(buffer, 0, mediaUnread);
+    // _writeflags.13?true(buffer, 0, silent);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, fromId);
+    // _writelong(buffer, 0, chatId);
+    // _writestring(buffer, 0, message);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeint(buffer, 0, date);
+    // _writeflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // _writeflags.11?long(buffer, 0, viaBotId);
+    // _writeflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // _writeflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.25?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -12415,10 +13183,13 @@ class UpdateShort extends UpdatesBase {
   final UpdateBase update;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x78d4dec1);
+    // _writeUpdate(buffer, 0, update);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -12452,7 +13223,7 @@ class UpdatesCombined extends UpdatesBase {
   final List<ChatBase> chats;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Seq Start.
   final int seqStart;
@@ -12462,6 +13233,13 @@ class UpdatesCombined extends UpdatesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x725b04c3);
+    // _writeVector<Update>(buffer, 0, updates);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, seqStart);
+    // _writeint(buffer, 0, seq);
     return 0;
   }
 }
@@ -12494,13 +13272,19 @@ class Updates extends UpdatesBase {
   final List<ChatBase> chats;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Seq.
   final int seq;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74ae4240);
+    // _writeVector<Update>(buffer, 0, updates);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, seq);
     return 0;
   }
 }
@@ -12516,9 +13300,9 @@ class UpdateShortSentMessage extends UpdatesBase {
     required this.pts,
     required this.ptsCount,
     required this.date,
-    required this.media,
-    required this.entities,
-    required this.ttlPeriod,
+    this.media,
+    this.entities,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -12542,28 +13326,29 @@ class UpdateShortSentMessage extends UpdatesBase {
   final int ptsCount;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Media.
   final MessageMediaBase? media;
 
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 9);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 7);
 
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 25);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9015e101);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, out);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeint(buffer, 0, date);
+    // _writeflags.9?MessageMedia(buffer, 0, media);
+    // _writeflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.25?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -12597,6 +13382,9 @@ class PhotosPhotos extends PhotosPhotosBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8dca6aa5);
+    // _writeVector<Photo>(buffer, 0, photos);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -12628,6 +13416,10 @@ class PhotosPhotosSlice extends PhotosPhotosBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15051f54);
+    // _writeint(buffer, 0, count);
+    // _writeVector<Photo>(buffer, 0, photos);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -12661,6 +13453,9 @@ class PhotosPhoto extends PhotosPhotoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x20212ca8);
+    // _writePhoto(buffer, 0, photo);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -12698,6 +13493,10 @@ class UploadFile extends UploadFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x096a18d5);
+    // _writestorage.FileType(buffer, 0, type);
+    // _writeint(buffer, 0, mtime);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -12737,6 +13536,12 @@ class UploadFileCdnRedirect extends UploadFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf18cda44);
+    // _writeint(buffer, 0, dcId);
+    // _writebytes(buffer, 0, fileToken);
+    // _writebytes(buffer, 0, encryptionKey);
+    // _writebytes(buffer, 0, encryptionIv);
+    // _writeVector<FileHash>(buffer, 0, fileHashes);
     return 0;
   }
 }
@@ -12757,7 +13562,7 @@ class DcOption extends DcOptionBase {
     required this.id,
     required this.ipAddress,
     required this.port,
-    required this.secret,
+    this.secret,
   }) : super._();
 
   /// Deserialize.
@@ -12798,11 +13603,20 @@ class DcOption extends DcOptionBase {
   /// Secret.
   final Uint8List? secret;
 
-  /// If [secret] exists.
-  bool get hasSecretField => _bit(flags, 10);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18b7a10d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, ipv6);
+    // _writeflags.1?true(buffer, 0, mediaOnly);
+    // _writeflags.2?true(buffer, 0, tcpoOnly);
+    // _writeflags.3?true(buffer, 0, cdn);
+    // _writeflags.4?true(buffer, 0, static);
+    // _writeflags.5?true(buffer, 0, thisPortOnly);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, ipAddress);
+    // _writeint(buffer, 0, port);
+    // _writeflags.10?bytes(buffer, 0, secret);
     return 0;
   }
 }
@@ -12843,25 +13657,25 @@ class Config extends ConfigBase {
     required this.ratingEDecay,
     required this.stickersRecentLimit,
     required this.channelsReadMediaPeriod,
-    required this.tmpSessions,
+    this.tmpSessions,
     required this.callReceiveTimeoutMs,
     required this.callRingTimeoutMs,
     required this.callConnectTimeoutMs,
     required this.callPacketTimeoutMs,
     required this.meUrlPrefix,
-    required this.autoupdateUrlPrefix,
-    required this.gifSearchUsername,
-    required this.venueSearchUsername,
-    required this.imgSearchUsername,
-    required this.staticMapsProvider,
+    this.autoupdateUrlPrefix,
+    this.gifSearchUsername,
+    this.venueSearchUsername,
+    this.imgSearchUsername,
+    this.staticMapsProvider,
     required this.captionLengthMax,
     required this.messageLengthMax,
     required this.webfileDcId,
-    required this.suggestedLangCode,
-    required this.langPackVersion,
-    required this.baseLangPackVersion,
-    required this.reactionsDefault,
-    required this.autologinToken,
+    this.suggestedLangCode,
+    this.langPackVersion,
+    this.baseLangPackVersion,
+    this.reactionsDefault,
+    this.autologinToken,
   }) : super._();
 
   /// Deserialize.
@@ -12888,7 +13702,7 @@ class Config extends ConfigBase {
   bool get forceTryIpv6 => _bit(flags, 14);
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Expires.
   final int expires;
@@ -12959,9 +13773,6 @@ class Config extends ConfigBase {
   /// Tmp Sessions.
   final int? tmpSessions;
 
-  /// If [tmpSessions] exists.
-  bool get hasTmpSessionsField => _bit(flags, 0);
-
   /// Call Receive Timeout Ms.
   final int callReceiveTimeoutMs;
 
@@ -12980,32 +13791,17 @@ class Config extends ConfigBase {
   /// Autoupdate Url Prefix.
   final String? autoupdateUrlPrefix;
 
-  /// If [autoupdateUrlPrefix] exists.
-  bool get hasAutoupdateUrlPrefixField => _bit(flags, 7);
-
   /// Gif Search Username.
   final String? gifSearchUsername;
-
-  /// If [gifSearchUsername] exists.
-  bool get hasGifSearchUsernameField => _bit(flags, 9);
 
   /// Venue Search Username.
   final String? venueSearchUsername;
 
-  /// If [venueSearchUsername] exists.
-  bool get hasVenueSearchUsernameField => _bit(flags, 10);
-
   /// Img Search Username.
   final String? imgSearchUsername;
 
-  /// If [imgSearchUsername] exists.
-  bool get hasImgSearchUsernameField => _bit(flags, 11);
-
   /// Static Maps Provider.
   final String? staticMapsProvider;
-
-  /// If [staticMapsProvider] exists.
-  bool get hasStaticMapsProviderField => _bit(flags, 12);
 
   /// Caption Length Max.
   final int captionLengthMax;
@@ -13019,35 +13815,69 @@ class Config extends ConfigBase {
   /// Suggested Lang Code.
   final String? suggestedLangCode;
 
-  /// If [suggestedLangCode] exists.
-  bool get hasSuggestedLangCodeField => _bit(flags, 2);
-
   /// Lang Pack Version.
   final int? langPackVersion;
-
-  /// If [langPackVersion] exists.
-  bool get hasLangPackVersionField => _bit(flags, 2);
 
   /// Base Lang Pack Version.
   final int? baseLangPackVersion;
 
-  /// If [baseLangPackVersion] exists.
-  bool get hasBaseLangPackVersionField => _bit(flags, 2);
-
   /// Reactions Default.
   final ReactionBase? reactionsDefault;
-
-  /// If [reactionsDefault] exists.
-  bool get hasReactionsDefaultField => _bit(flags, 15);
 
   /// Autologin Token.
   final String? autologinToken;
 
-  /// If [autologinToken] exists.
-  bool get hasAutologinTokenField => _bit(flags, 16);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcc1a241e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, defaultP2pContacts);
+    // _writeflags.4?true(buffer, 0, preloadFeaturedStickers);
+    // _writeflags.6?true(buffer, 0, revokePmInbox);
+    // _writeflags.8?true(buffer, 0, blockedMode);
+    // _writeflags.14?true(buffer, 0, forceTryIpv6);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, expires);
+    // _writeBool(buffer, 0, testMode);
+    // _writeint(buffer, 0, thisDc);
+    // _writeVector<DcOption>(buffer, 0, dcOptions);
+    // _writestring(buffer, 0, dcTxtDomainName);
+    // _writeint(buffer, 0, chatSizeMax);
+    // _writeint(buffer, 0, megagroupSizeMax);
+    // _writeint(buffer, 0, forwardedCountMax);
+    // _writeint(buffer, 0, onlineUpdatePeriodMs);
+    // _writeint(buffer, 0, offlineBlurTimeoutMs);
+    // _writeint(buffer, 0, offlineIdleTimeoutMs);
+    // _writeint(buffer, 0, onlineCloudTimeoutMs);
+    // _writeint(buffer, 0, notifyCloudDelayMs);
+    // _writeint(buffer, 0, notifyDefaultDelayMs);
+    // _writeint(buffer, 0, pushChatPeriodMs);
+    // _writeint(buffer, 0, pushChatLimit);
+    // _writeint(buffer, 0, editTimeLimit);
+    // _writeint(buffer, 0, revokeTimeLimit);
+    // _writeint(buffer, 0, revokePmTimeLimit);
+    // _writeint(buffer, 0, ratingEDecay);
+    // _writeint(buffer, 0, stickersRecentLimit);
+    // _writeint(buffer, 0, channelsReadMediaPeriod);
+    // _writeflags.0?int(buffer, 0, tmpSessions);
+    // _writeint(buffer, 0, callReceiveTimeoutMs);
+    // _writeint(buffer, 0, callRingTimeoutMs);
+    // _writeint(buffer, 0, callConnectTimeoutMs);
+    // _writeint(buffer, 0, callPacketTimeoutMs);
+    // _writestring(buffer, 0, meUrlPrefix);
+    // _writeflags.7?string(buffer, 0, autoupdateUrlPrefix);
+    // _writeflags.9?string(buffer, 0, gifSearchUsername);
+    // _writeflags.10?string(buffer, 0, venueSearchUsername);
+    // _writeflags.11?string(buffer, 0, imgSearchUsername);
+    // _writeflags.12?string(buffer, 0, staticMapsProvider);
+    // _writeint(buffer, 0, captionLengthMax);
+    // _writeint(buffer, 0, messageLengthMax);
+    // _writeint(buffer, 0, webfileDcId);
+    // _writeflags.2?string(buffer, 0, suggestedLangCode);
+    // _writeflags.2?int(buffer, 0, langPackVersion);
+    // _writeflags.2?int(buffer, 0, baseLangPackVersion);
+    // _writeflags.15?Reaction(buffer, 0, reactionsDefault);
+    // _writeflags.16?string(buffer, 0, autologinToken);
     return 0;
   }
 }
@@ -13085,6 +13915,10 @@ class NearestDc extends NearestDcBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8e1a1775);
+    // _writestring(buffer, 0, country);
+    // _writeint(buffer, 0, thisDc);
+    // _writeint(buffer, 0, nearestDc);
     return 0;
   }
 }
@@ -13106,9 +13940,9 @@ class HelpAppUpdate extends HelpAppUpdateBase {
     required this.version,
     required this.text,
     required this.entities,
-    required this.document,
-    required this.url,
-    required this.sticker,
+    this.document,
+    this.url,
+    this.sticker,
   }) : super._();
 
   /// Deserialize.
@@ -13137,23 +13971,24 @@ class HelpAppUpdate extends HelpAppUpdateBase {
   /// Document.
   final DocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 1);
-
   /// Url.
   final String? url;
-
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 2);
 
   /// Sticker.
   final DocumentBase? sticker;
 
-  /// If [sticker] exists.
-  bool get hasStickerField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xccbbce30);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, canNotSkip);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, version);
+    // _writestring(buffer, 0, text);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.1?Document(buffer, 0, document);
+    // _writeflags.2?string(buffer, 0, url);
+    // _writeflags.3?Document(buffer, 0, sticker);
     return 0;
   }
 }
@@ -13172,6 +14007,7 @@ class HelpNoAppUpdate extends HelpAppUpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc45a6536);
     return 0;
   }
 }
@@ -13201,6 +14037,8 @@ class HelpInviteText extends HelpInviteTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18cb9f78);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -13230,6 +14068,8 @@ class EncryptedChatEmpty extends EncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xab7ec0a0);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -13259,7 +14099,7 @@ class EncryptedChatWaiting extends EncryptedChatBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -13269,6 +14109,12 @@ class EncryptedChatWaiting extends EncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x66b25953);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
     return 0;
   }
 }
@@ -13280,7 +14126,7 @@ class EncryptedChatRequested extends EncryptedChatBase {
   /// Encrypted Chat Requested constructor.
   const EncryptedChatRequested({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.id,
     required this.accessHash,
     required this.date,
@@ -13300,9 +14146,6 @@ class EncryptedChatRequested extends EncryptedChatBase {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 0);
-
   /// Id.
   final int id;
 
@@ -13310,7 +14153,7 @@ class EncryptedChatRequested extends EncryptedChatBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -13323,6 +14166,15 @@ class EncryptedChatRequested extends EncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48f1d94c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, folderId);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writebytes(buffer, 0, gA);
     return 0;
   }
 }
@@ -13354,7 +14206,7 @@ class EncryptedChat extends EncryptedChatBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -13370,6 +14222,14 @@ class EncryptedChat extends EncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x61f0d4c7);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writebytes(buffer, 0, gAOrB);
+    // _writelong(buffer, 0, keyFingerprint);
     return 0;
   }
 }
@@ -13400,6 +14260,10 @@ class EncryptedChatDiscarded extends EncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e1c7c45);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, historyDeleted);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -13433,6 +14297,9 @@ class InputEncryptedChat extends InputEncryptedChatBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf141b5e1);
+    // _writeint(buffer, 0, chatId);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -13457,6 +14324,7 @@ class EncryptedFileEmpty extends EncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc21f497e);
     return 0;
   }
 }
@@ -13496,6 +14364,12 @@ class EncryptedFile extends EncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa8008cd8);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writelong(buffer, 0, size);
+    // _writeint(buffer, 0, dcId);
+    // _writeint(buffer, 0, keyFingerprint);
     return 0;
   }
 }
@@ -13520,6 +14394,7 @@ class InputEncryptedFileEmpty extends InputEncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1837c364);
     return 0;
   }
 }
@@ -13555,6 +14430,11 @@ class InputEncryptedFileUploaded extends InputEncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64bd0306);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, parts);
+    // _writestring(buffer, 0, md5Checksum);
+    // _writeint(buffer, 0, keyFingerprint);
     return 0;
   }
 }
@@ -13582,6 +14462,9 @@ class InputEncryptedFile extends InputEncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5a17b5e5);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -13613,6 +14496,10 @@ class InputEncryptedFileBigUploaded extends InputEncryptedFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2dc173c8);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, parts);
+    // _writeint(buffer, 0, keyFingerprint);
     return 0;
   }
 }
@@ -13648,7 +14535,7 @@ class EncryptedMessage extends EncryptedMessageBase {
   final int chatId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Bytes.
   final Uint8List bytes;
@@ -13658,6 +14545,12 @@ class EncryptedMessage extends EncryptedMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed18c118);
+    // _writelong(buffer, 0, randomId);
+    // _writeint(buffer, 0, chatId);
+    // _writeint(buffer, 0, date);
+    // _writebytes(buffer, 0, bytes);
+    // _writeEncryptedFile(buffer, 0, file);
     return 0;
   }
 }
@@ -13686,13 +14579,18 @@ class EncryptedMessageService extends EncryptedMessageBase {
   final int chatId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Bytes.
   final Uint8List bytes;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x23734b06);
+    // _writelong(buffer, 0, randomId);
+    // _writeint(buffer, 0, chatId);
+    // _writeint(buffer, 0, date);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -13722,6 +14620,8 @@ class MessagesDhConfigNotModified extends MessagesDhConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc0e24635);
+    // _writebytes(buffer, 0, random);
     return 0;
   }
 }
@@ -13757,6 +14657,11 @@ class MessagesDhConfig extends MessagesDhConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2c221edd);
+    // _writeint(buffer, 0, g);
+    // _writebytes(buffer, 0, p);
+    // _writeint(buffer, 0, version);
+    // _writebytes(buffer, 0, random);
     return 0;
   }
 }
@@ -13782,10 +14687,12 @@ class MessagesSentEncryptedMessage extends MessagesSentEncryptedMessageBase {
   }
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x560f8935);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -13806,13 +14713,16 @@ class MessagesSentEncryptedFile extends MessagesSentEncryptedMessageBase {
   }
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// File.
   final EncryptedFileBase file;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9493ff32);
+    // _writeint(buffer, 0, date);
+    // _writeEncryptedFile(buffer, 0, file);
     return 0;
   }
 }
@@ -13837,6 +14747,7 @@ class InputDocumentEmpty extends InputDocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x72f0eaae);
     return 0;
   }
 }
@@ -13868,6 +14779,10 @@ class InputDocument extends InputDocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1abfb575);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
     return 0;
   }
 }
@@ -13897,6 +14812,8 @@ class DocumentEmpty extends DocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x36f8c871);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -13914,8 +14831,8 @@ class Document extends DocumentBase {
     required this.date,
     required this.mimeType,
     required this.size,
-    required this.thumbs,
-    required this.videoThumbs,
+    this.thumbs,
+    this.videoThumbs,
     required this.dcId,
     required this.attributes,
   }) : super._();
@@ -13938,7 +14855,7 @@ class Document extends DocumentBase {
   final Uint8List fileReference;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Mime Type.
   final String mimeType;
@@ -13949,14 +14866,8 @@ class Document extends DocumentBase {
   /// Thumbs.
   final List<PhotoSizeBase>? thumbs;
 
-  /// If [thumbs] exists.
-  bool get hasThumbsField => _bit(flags, 0);
-
   /// Video Thumbs.
   final List<VideoSizeBase>? videoThumbs;
-
-  /// If [videoThumbs] exists.
-  bool get hasVideoThumbsField => _bit(flags, 1);
 
   /// Dc Id.
   final int dcId;
@@ -13966,6 +14877,18 @@ class Document extends DocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8fd4c4d8);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writebytes(buffer, 0, fileReference);
+    // _writeint(buffer, 0, date);
+    // _writestring(buffer, 0, mimeType);
+    // _writelong(buffer, 0, size);
+    // _writeflags.0?Vector<PhotoSize>(buffer, 0, thumbs);
+    // _writeflags.1?Vector<VideoSize>(buffer, 0, videoThumbs);
+    // _writeint(buffer, 0, dcId);
+    // _writeVector<DocumentAttribute>(buffer, 0, attributes);
     return 0;
   }
 }
@@ -13999,6 +14922,9 @@ class HelpSupport extends HelpSupportBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x17c6b5f6);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writeUser(buffer, 0, user);
     return 0;
   }
 }
@@ -14028,6 +14954,8 @@ class NotifyPeer extends NotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9fd40bd8);
+    // _writePeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -14046,6 +14974,7 @@ class NotifyUsers extends NotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4c83b4c);
     return 0;
   }
 }
@@ -14064,6 +14993,7 @@ class NotifyChats extends NotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc007cec3);
     return 0;
   }
 }
@@ -14082,6 +15012,7 @@ class NotifyBroadcasts extends NotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd612e8ef);
     return 0;
   }
 }
@@ -14109,6 +15040,9 @@ class NotifyForumTopic extends NotifyPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x226e6308);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -14133,6 +15067,7 @@ class SendMessageTypingAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x16bf744e);
     return 0;
   }
 }
@@ -14151,6 +15086,7 @@ class SendMessageCancelAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfd5ec8f5);
     return 0;
   }
 }
@@ -14169,6 +15105,7 @@ class SendMessageRecordVideoAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa187d66f);
     return 0;
   }
 }
@@ -14192,6 +15129,8 @@ class SendMessageUploadVideoAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe9763aec);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14210,6 +15149,7 @@ class SendMessageRecordAudioAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd52f73f7);
     return 0;
   }
 }
@@ -14233,6 +15173,8 @@ class SendMessageUploadAudioAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf351d7ab);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14256,6 +15198,8 @@ class SendMessageUploadPhotoAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd1d34a26);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14279,6 +15223,8 @@ class SendMessageUploadDocumentAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaa0cd9e4);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14297,6 +15243,7 @@ class SendMessageGeoLocationAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x176f8ba1);
     return 0;
   }
 }
@@ -14315,6 +15262,7 @@ class SendMessageChooseContactAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x628cbc6f);
     return 0;
   }
 }
@@ -14333,6 +15281,7 @@ class SendMessageGamePlayAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdd6a8f48);
     return 0;
   }
 }
@@ -14351,6 +15300,7 @@ class SendMessageRecordRoundAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x88f27fbc);
     return 0;
   }
 }
@@ -14374,6 +15324,8 @@ class SendMessageUploadRoundAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x243e1c66);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14392,6 +15344,7 @@ class SpeakingInGroupCallAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd92c2285);
     return 0;
   }
 }
@@ -14415,6 +15368,8 @@ class SendMessageHistoryImportAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdbda9246);
+    // _writeint(buffer, 0, progress);
     return 0;
   }
 }
@@ -14433,6 +15388,7 @@ class SendMessageChooseStickerAction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb05ac6b1);
     return 0;
   }
 }
@@ -14464,6 +15420,10 @@ class SendMessageEmojiInteraction extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x25972bcb);
+    // _writestring(buffer, 0, emoticon);
+    // _writeint(buffer, 0, msgId);
+    // _writeDataJSON(buffer, 0, interaction);
     return 0;
   }
 }
@@ -14487,6 +15447,8 @@ class SendMessageEmojiInteractionSeen extends SendMessageActionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb665902e);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -14528,6 +15490,11 @@ class ContactsFound extends ContactsFoundBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb3134d9d);
+    // _writeVector<Peer>(buffer, 0, myResults);
+    // _writeVector<Peer>(buffer, 0, results);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -14552,6 +15519,7 @@ class InputPrivacyKeyStatusTimestamp extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4f96cb18);
     return 0;
   }
 }
@@ -14570,6 +15538,7 @@ class InputPrivacyKeyChatInvite extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdfb0426);
     return 0;
   }
 }
@@ -14588,6 +15557,7 @@ class InputPrivacyKeyPhoneCall extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfabadc5f);
     return 0;
   }
 }
@@ -14606,6 +15576,7 @@ class InputPrivacyKeyPhoneP2P extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb9e70d2);
     return 0;
   }
 }
@@ -14624,6 +15595,7 @@ class InputPrivacyKeyForwards extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa4dd4c08);
     return 0;
   }
 }
@@ -14642,6 +15614,7 @@ class InputPrivacyKeyProfilePhoto extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5719bacc);
     return 0;
   }
 }
@@ -14660,6 +15633,7 @@ class InputPrivacyKeyPhoneNumber extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0352dafa);
     return 0;
   }
 }
@@ -14678,6 +15652,7 @@ class InputPrivacyKeyAddedByPhone extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd1219bdd);
     return 0;
   }
 }
@@ -14696,6 +15671,7 @@ class InputPrivacyKeyVoiceMessages extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaee69d68);
     return 0;
   }
 }
@@ -14714,6 +15690,7 @@ class InputPrivacyKeyAbout extends InputPrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3823cc40);
     return 0;
   }
 }
@@ -14738,6 +15715,7 @@ class PrivacyKeyStatusTimestamp extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbc2eab30);
     return 0;
   }
 }
@@ -14756,6 +15734,7 @@ class PrivacyKeyChatInvite extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x500e6dfa);
     return 0;
   }
 }
@@ -14774,6 +15753,7 @@ class PrivacyKeyPhoneCall extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3d662b7b);
     return 0;
   }
 }
@@ -14792,6 +15772,7 @@ class PrivacyKeyPhoneP2P extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x39491cc8);
     return 0;
   }
 }
@@ -14810,6 +15791,7 @@ class PrivacyKeyForwards extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x69ec56a3);
     return 0;
   }
 }
@@ -14828,6 +15810,7 @@ class PrivacyKeyProfilePhoto extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x96151fed);
     return 0;
   }
 }
@@ -14846,6 +15829,7 @@ class PrivacyKeyPhoneNumber extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd19ae46d);
     return 0;
   }
 }
@@ -14864,6 +15848,7 @@ class PrivacyKeyAddedByPhone extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x42ffd42b);
     return 0;
   }
 }
@@ -14882,6 +15867,7 @@ class PrivacyKeyVoiceMessages extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0697f414);
     return 0;
   }
 }
@@ -14900,6 +15886,7 @@ class PrivacyKeyAbout extends PrivacyKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa486b761);
     return 0;
   }
 }
@@ -14924,6 +15911,7 @@ class InputPrivacyValueAllowContacts extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0d09e07b);
     return 0;
   }
 }
@@ -14942,6 +15930,7 @@ class InputPrivacyValueAllowAll extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x184b35ce);
     return 0;
   }
 }
@@ -14965,6 +15954,8 @@ class InputPrivacyValueAllowUsers extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x131cc67f);
+    // _writeVector<InputUser>(buffer, 0, users);
     return 0;
   }
 }
@@ -14983,6 +15974,7 @@ class InputPrivacyValueDisallowContacts extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0ba52007);
     return 0;
   }
 }
@@ -15001,6 +15993,7 @@ class InputPrivacyValueDisallowAll extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd66b66c9);
     return 0;
   }
 }
@@ -15024,6 +16017,8 @@ class InputPrivacyValueDisallowUsers extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x90110467);
+    // _writeVector<InputUser>(buffer, 0, users);
     return 0;
   }
 }
@@ -15047,6 +16042,8 @@ class InputPrivacyValueAllowChatParticipants extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x840649cf);
+    // _writeVector<long>(buffer, 0, chats);
     return 0;
   }
 }
@@ -15071,6 +16068,8 @@ class InputPrivacyValueDisallowChatParticipants extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe94f0f86);
+    // _writeVector<long>(buffer, 0, chats);
     return 0;
   }
 }
@@ -15089,6 +16088,7 @@ class InputPrivacyValueAllowCloseFriends extends InputPrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2f453e49);
     return 0;
   }
 }
@@ -15113,6 +16113,7 @@ class PrivacyValueAllowContacts extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfffe1bac);
     return 0;
   }
 }
@@ -15131,6 +16132,7 @@ class PrivacyValueAllowAll extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x65427b82);
     return 0;
   }
 }
@@ -15154,6 +16156,8 @@ class PrivacyValueAllowUsers extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb8905fb2);
+    // _writeVector<long>(buffer, 0, users);
     return 0;
   }
 }
@@ -15172,6 +16176,7 @@ class PrivacyValueDisallowContacts extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf888fa1a);
     return 0;
   }
 }
@@ -15190,6 +16195,7 @@ class PrivacyValueDisallowAll extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8b73e763);
     return 0;
   }
 }
@@ -15213,6 +16219,8 @@ class PrivacyValueDisallowUsers extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe4621141);
+    // _writeVector<long>(buffer, 0, users);
     return 0;
   }
 }
@@ -15236,6 +16244,8 @@ class PrivacyValueAllowChatParticipants extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6b134e8e);
+    // _writeVector<long>(buffer, 0, chats);
     return 0;
   }
 }
@@ -15259,6 +16269,8 @@ class PrivacyValueDisallowChatParticipants extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x41c87565);
+    // _writeVector<long>(buffer, 0, chats);
     return 0;
   }
 }
@@ -15277,6 +16289,7 @@ class PrivacyValueAllowCloseFriends extends PrivacyRuleBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf7e8d89b);
     return 0;
   }
 }
@@ -15314,6 +16327,10 @@ class AccountPrivacyRules extends AccountPrivacyRulesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50a04e45);
+    // _writeVector<PrivacyRule>(buffer, 0, rules);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -15343,6 +16360,8 @@ class AccountDaysTTL extends AccountDaysTTLBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb8d0afdf);
+    // _writeint(buffer, 0, days);
     return 0;
   }
 }
@@ -15376,6 +16395,9 @@ class DocumentAttributeImageSize extends DocumentAttributeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c37c15c);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
     return 0;
   }
 }
@@ -15394,6 +16416,7 @@ class DocumentAttributeAnimated extends DocumentAttributeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x11b58939);
     return 0;
   }
 }
@@ -15407,7 +16430,7 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
     required this.flags,
     required this.alt,
     required this.stickerset,
-    required this.maskCoords,
+    this.maskCoords,
   }) : super._();
 
   /// Deserialize.
@@ -15430,11 +16453,14 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
   /// Mask Coords.
   final MaskCoordsBase? maskCoords;
 
-  /// If [maskCoords] exists.
-  bool get hasMaskCoordsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6319d612);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, mask);
+    // _writestring(buffer, 0, alt);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeflags.0?MaskCoords(buffer, 0, maskCoords);
     return 0;
   }
 }
@@ -15449,7 +16475,7 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
     required this.duration,
     required this.w,
     required this.h,
-    required this.preloadPrefixSize,
+    this.preloadPrefixSize,
   }) : super._();
 
   /// Deserialize.
@@ -15481,11 +16507,17 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
   /// Preload Prefix Size.
   final int? preloadPrefixSize;
 
-  /// If [preloadPrefixSize] exists.
-  bool get hasPreloadPrefixSizeField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd38ff1c2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, roundMessage);
+    // _writeflags.1?true(buffer, 0, supportsStreaming);
+    // _writeflags.3?true(buffer, 0, nosound);
+    // _writedouble(buffer, 0, duration);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writeflags.2?int(buffer, 0, preloadPrefixSize);
     return 0;
   }
 }
@@ -15498,9 +16530,9 @@ class DocumentAttributeAudio extends DocumentAttributeBase {
   const DocumentAttributeAudio({
     required this.flags,
     required this.duration,
-    required this.title,
-    required this.performer,
-    required this.waveform,
+    this.title,
+    this.performer,
+    this.waveform,
   }) : super._();
 
   /// Deserialize.
@@ -15520,23 +16552,21 @@ class DocumentAttributeAudio extends DocumentAttributeBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 0);
-
   /// Performer.
   final String? performer;
-
-  /// If [performer] exists.
-  bool get hasPerformerField => _bit(flags, 1);
 
   /// Waveform.
   final Uint8List? waveform;
 
-  /// If [waveform] exists.
-  bool get hasWaveformField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9852f9c6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.10?true(buffer, 0, voice);
+    // _writeint(buffer, 0, duration);
+    // _writeflags.0?string(buffer, 0, title);
+    // _writeflags.1?string(buffer, 0, performer);
+    // _writeflags.2?bytes(buffer, 0, waveform);
     return 0;
   }
 }
@@ -15560,6 +16590,8 @@ class DocumentAttributeFilename extends DocumentAttributeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15590068);
+    // _writestring(buffer, 0, fileName);
     return 0;
   }
 }
@@ -15578,6 +16610,7 @@ class DocumentAttributeHasStickers extends DocumentAttributeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9801d2f7);
     return 0;
   }
 }
@@ -15615,6 +16648,12 @@ class DocumentAttributeCustomEmoji extends DocumentAttributeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfd149899);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, free);
+    // _writeflags.1?true(buffer, 0, textColor);
+    // _writestring(buffer, 0, alt);
+    // _writeInputStickerSet(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -15639,6 +16678,7 @@ class MessagesStickersNotModified extends MessagesStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf1749a22);
     return 0;
   }
 }
@@ -15666,6 +16706,9 @@ class MessagesStickers extends MessagesStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x30a6ec7e);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<Document>(buffer, 0, stickers);
     return 0;
   }
 }
@@ -15699,6 +16742,9 @@ class StickerPack extends StickerPackBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x12b299d4);
+    // _writestring(buffer, 0, emoticon);
+    // _writeVector<long>(buffer, 0, documents);
     return 0;
   }
 }
@@ -15723,6 +16769,7 @@ class MessagesAllStickersNotModified extends MessagesAllStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe86602c3);
     return 0;
   }
 }
@@ -15750,6 +16797,9 @@ class MessagesAllStickers extends MessagesAllStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcdbbcebb);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<StickerSet>(buffer, 0, sets);
     return 0;
   }
 }
@@ -15783,6 +16833,9 @@ class MessagesAffectedMessages extends MessagesAffectedMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x84d19185);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
     return 0;
   }
 }
@@ -15801,7 +16854,7 @@ class WebPageEmpty extends WebPageBase {
   const WebPageEmpty({
     required this.flags,
     required this.id,
-    required this.url,
+    this.url,
   }) : super._();
 
   /// Deserialize.
@@ -15818,11 +16871,12 @@ class WebPageEmpty extends WebPageBase {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x211a1788);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, id);
+    // _writeflags.0?string(buffer, 0, url);
     return 0;
   }
 }
@@ -15835,7 +16889,7 @@ class WebPagePending extends WebPageBase {
   const WebPagePending({
     required this.flags,
     required this.id,
-    required this.url,
+    this.url,
     required this.date,
   }) : super._();
 
@@ -15853,14 +16907,16 @@ class WebPagePending extends WebPageBase {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 0);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb0d13e47);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, id);
+    // _writeflags.0?string(buffer, 0, url);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -15876,20 +16932,20 @@ class WebPage extends WebPageBase {
     required this.url,
     required this.displayUrl,
     required this.hash,
-    required this.type,
-    required this.siteName,
-    required this.title,
-    required this.description,
-    required this.photo,
-    required this.embedUrl,
-    required this.embedType,
-    required this.embedWidth,
-    required this.embedHeight,
-    required this.duration,
-    required this.author,
-    required this.document,
-    required this.cachedPage,
-    required this.attributes,
+    this.type,
+    this.siteName,
+    this.title,
+    this.description,
+    this.photo,
+    this.embedUrl,
+    this.embedType,
+    this.embedWidth,
+    this.embedHeight,
+    this.duration,
+    this.author,
+    this.document,
+    this.cachedPage,
+    this.attributes,
   }) : super._();
 
   /// Deserialize.
@@ -15918,89 +16974,68 @@ class WebPage extends WebPageBase {
   /// Type.
   final String? type;
 
-  /// If [type] exists.
-  bool get hasTypeField => _bit(flags, 0);
-
   /// Site Name.
   final String? siteName;
-
-  /// If [siteName] exists.
-  bool get hasSiteNameField => _bit(flags, 1);
 
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 2);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 3);
 
   /// Photo.
   final PhotoBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 4);
-
   /// Embed Url.
   final String? embedUrl;
-
-  /// If [embedUrl] exists.
-  bool get hasEmbedUrlField => _bit(flags, 5);
 
   /// Embed Type.
   final String? embedType;
 
-  /// If [embedType] exists.
-  bool get hasEmbedTypeField => _bit(flags, 5);
-
   /// Embed Width.
   final int? embedWidth;
-
-  /// If [embedWidth] exists.
-  bool get hasEmbedWidthField => _bit(flags, 6);
 
   /// Embed Height.
   final int? embedHeight;
 
-  /// If [embedHeight] exists.
-  bool get hasEmbedHeightField => _bit(flags, 6);
-
   /// Duration.
   final int? duration;
-
-  /// If [duration] exists.
-  bool get hasDurationField => _bit(flags, 7);
 
   /// Author.
   final String? author;
 
-  /// If [author] exists.
-  bool get hasAuthorField => _bit(flags, 8);
-
   /// Document.
   final DocumentBase? document;
-
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 9);
 
   /// Cached Page.
   final PageBase? cachedPage;
 
-  /// If [cachedPage] exists.
-  bool get hasCachedPageField => _bit(flags, 10);
-
   /// Attributes.
   final List<WebPageAttributeBase>? attributes;
 
-  /// If [attributes] exists.
-  bool get hasAttributesField => _bit(flags, 12);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe89c45b2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.13?true(buffer, 0, hasLargeMedia);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, url);
+    // _writestring(buffer, 0, displayUrl);
+    // _writeint(buffer, 0, hash);
+    // _writeflags.0?string(buffer, 0, type);
+    // _writeflags.1?string(buffer, 0, siteName);
+    // _writeflags.2?string(buffer, 0, title);
+    // _writeflags.3?string(buffer, 0, description);
+    // _writeflags.4?Photo(buffer, 0, photo);
+    // _writeflags.5?string(buffer, 0, embedUrl);
+    // _writeflags.5?string(buffer, 0, embedType);
+    // _writeflags.6?int(buffer, 0, embedWidth);
+    // _writeflags.6?int(buffer, 0, embedHeight);
+    // _writeflags.7?int(buffer, 0, duration);
+    // _writeflags.8?string(buffer, 0, author);
+    // _writeflags.9?Document(buffer, 0, document);
+    // _writeflags.10?Page(buffer, 0, cachedPage);
+    // _writeflags.12?Vector<WebPageAttribute>(buffer, 0, attributes);
     return 0;
   }
 }
@@ -16012,7 +17047,7 @@ class WebPageNotModified extends WebPageBase {
   /// Web Page Not Modified constructor.
   const WebPageNotModified({
     required this.flags,
-    required this.cachedPageViews,
+    this.cachedPageViews,
   }) : super._();
 
   /// Deserialize.
@@ -16026,11 +17061,11 @@ class WebPageNotModified extends WebPageBase {
   /// Cached Page Views.
   final int? cachedPageViews;
 
-  /// If [cachedPageViews] exists.
-  bool get hasCachedPageViewsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7311ca11);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, cachedPageViews);
     return 0;
   }
 }
@@ -16126,6 +17161,26 @@ class Authorization extends AuthorizationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xad01d61d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, current);
+    // _writeflags.1?true(buffer, 0, officialApp);
+    // _writeflags.2?true(buffer, 0, passwordPending);
+    // _writeflags.3?true(buffer, 0, encryptedRequestsDisabled);
+    // _writeflags.4?true(buffer, 0, callRequestsDisabled);
+    // _writeflags.5?true(buffer, 0, unconfirmed);
+    // _writelong(buffer, 0, hash);
+    // _writestring(buffer, 0, deviceModel);
+    // _writestring(buffer, 0, platform);
+    // _writestring(buffer, 0, systemVersion);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, appName);
+    // _writestring(buffer, 0, appVersion);
+    // _writeint(buffer, 0, dateCreated);
+    // _writeint(buffer, 0, dateActive);
+    // _writestring(buffer, 0, ip);
+    // _writestring(buffer, 0, country);
+    // _writestring(buffer, 0, region);
     return 0;
   }
 }
@@ -16159,6 +17214,9 @@ class AccountAuthorizations extends AccountAuthorizationsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4bff8ea0);
+    // _writeint(buffer, 0, authorizationTtlDays);
+    // _writeVector<Authorization>(buffer, 0, authorizations);
     return 0;
   }
 }
@@ -16176,16 +17234,16 @@ class AccountPassword extends AccountPasswordBase {
   /// Account Password constructor.
   const AccountPassword({
     required this.flags,
-    required this.currentAlgo,
-    required this.srpB,
-    required this.srpId,
-    required this.hint,
-    required this.emailUnconfirmedPattern,
+    this.currentAlgo,
+    this.srpB,
+    this.srpId,
+    this.hint,
+    this.emailUnconfirmedPattern,
     required this.newAlgo,
     required this.newSecureAlgo,
     required this.secureRandom,
-    required this.pendingResetDate,
-    required this.loginEmailPattern,
+    this.pendingResetDate,
+    this.loginEmailPattern,
   }) : super._();
 
   /// Deserialize.
@@ -16208,32 +17266,17 @@ class AccountPassword extends AccountPasswordBase {
   /// Current Algo.
   final PasswordKdfAlgoBase? currentAlgo;
 
-  /// If [currentAlgo] exists.
-  bool get hasCurrentAlgoField => _bit(flags, 2);
-
   /// Srp B.
   final Uint8List? srpB;
-
-  /// If [srpB] exists.
-  bool get hasSrpBField => _bit(flags, 2);
 
   /// Srp Id.
   final int? srpId;
 
-  /// If [srpId] exists.
-  bool get hasSrpIdField => _bit(flags, 2);
-
   /// Hint.
   final String? hint;
 
-  /// If [hint] exists.
-  bool get hasHintField => _bit(flags, 3);
-
   /// Email Unconfirmed Pattern.
   final String? emailUnconfirmedPattern;
-
-  /// If [emailUnconfirmedPattern] exists.
-  bool get hasEmailUnconfirmedPatternField => _bit(flags, 4);
 
   /// New Algo.
   final PasswordKdfAlgoBase newAlgo;
@@ -16247,17 +17290,26 @@ class AccountPassword extends AccountPasswordBase {
   /// Pending Reset Date.
   final int? pendingResetDate;
 
-  /// If [pendingResetDate] exists.
-  bool get hasPendingResetDateField => _bit(flags, 5);
-
   /// Login Email Pattern.
   final String? loginEmailPattern;
 
-  /// If [loginEmailPattern] exists.
-  bool get hasLoginEmailPatternField => _bit(flags, 6);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x957b50fb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hasRecovery);
+    // _writeflags.1?true(buffer, 0, hasSecureValues);
+    // _writeflags.2?true(buffer, 0, hasPassword);
+    // _writeflags.2?PasswordKdfAlgo(buffer, 0, currentAlgo);
+    // _writeflags.2?bytes(buffer, 0, srpB);
+    // _writeflags.2?long(buffer, 0, srpId);
+    // _writeflags.3?string(buffer, 0, hint);
+    // _writeflags.4?string(buffer, 0, emailUnconfirmedPattern);
+    // _writePasswordKdfAlgo(buffer, 0, newAlgo);
+    // _writeSecurePasswordKdfAlgo(buffer, 0, newSecureAlgo);
+    // _writebytes(buffer, 0, secureRandom);
+    // _writeflags.5?int(buffer, 0, pendingResetDate);
+    // _writeflags.6?string(buffer, 0, loginEmailPattern);
     return 0;
   }
 }
@@ -16275,8 +17327,8 @@ class AccountPasswordSettings extends AccountPasswordSettingsBase {
   /// Account Password Settings constructor.
   const AccountPasswordSettings({
     required this.flags,
-    required this.email,
-    required this.secureSettings,
+    this.email,
+    this.secureSettings,
   }) : super._();
 
   /// Deserialize.
@@ -16290,17 +17342,15 @@ class AccountPasswordSettings extends AccountPasswordSettingsBase {
   /// Email.
   final String? email;
 
-  /// If [email] exists.
-  bool get hasEmailField => _bit(flags, 0);
-
   /// Secure Settings.
   final SecureSecretSettingsBase? secureSettings;
 
-  /// If [secureSettings] exists.
-  bool get hasSecureSettingsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a5c33e5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, email);
+    // _writeflags.1?SecureSecretSettings(buffer, 0, secureSettings);
     return 0;
   }
 }
@@ -16318,11 +17368,11 @@ class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
   /// Account Password Input Settings constructor.
   const AccountPasswordInputSettings({
     required this.flags,
-    required this.newAlgo,
-    required this.newPasswordHash,
-    required this.hint,
-    required this.email,
-    required this.newSecureSettings,
+    this.newAlgo,
+    this.newPasswordHash,
+    this.hint,
+    this.email,
+    this.newSecureSettings,
   }) : super._();
 
   /// Deserialize.
@@ -16336,35 +17386,27 @@ class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
   /// New Algo.
   final PasswordKdfAlgoBase? newAlgo;
 
-  /// If [newAlgo] exists.
-  bool get hasNewAlgoField => _bit(flags, 0);
-
   /// New Password Hash.
   final Uint8List? newPasswordHash;
-
-  /// If [newPasswordHash] exists.
-  bool get hasNewPasswordHashField => _bit(flags, 0);
 
   /// Hint.
   final String? hint;
 
-  /// If [hint] exists.
-  bool get hasHintField => _bit(flags, 0);
-
   /// Email.
   final String? email;
-
-  /// If [email] exists.
-  bool get hasEmailField => _bit(flags, 1);
 
   /// New Secure Settings.
   final SecureSecretSettingsBase? newSecureSettings;
 
-  /// If [newSecureSettings] exists.
-  bool get hasNewSecureSettingsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc23727c9);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?PasswordKdfAlgo(buffer, 0, newAlgo);
+    // _writeflags.0?bytes(buffer, 0, newPasswordHash);
+    // _writeflags.0?string(buffer, 0, hint);
+    // _writeflags.1?string(buffer, 0, email);
+    // _writeflags.2?SecureSecretSettings(buffer, 0, newSecureSettings);
     return 0;
   }
 }
@@ -16394,6 +17436,8 @@ class AuthPasswordRecovery extends AuthPasswordRecoveryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x137948a5);
+    // _writestring(buffer, 0, emailPattern);
     return 0;
   }
 }
@@ -16427,6 +17471,9 @@ class ReceivedNotifyMessage extends ReceivedNotifyMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa384b779);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, flags);
     return 0;
   }
 }
@@ -16447,12 +17494,12 @@ class ChatInviteExported extends ExportedChatInviteBase {
     required this.link,
     required this.adminId,
     required this.date,
-    required this.startDate,
-    required this.expireDate,
-    required this.usageLimit,
-    required this.usage,
-    required this.requested,
-    required this.title,
+    this.startDate,
+    this.expireDate,
+    this.usageLimit,
+    this.usage,
+    this.requested,
+    this.title,
   }) : super._();
 
   /// Deserialize.
@@ -16479,46 +17526,42 @@ class ChatInviteExported extends ExportedChatInviteBase {
   final int adminId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Start Date.
   final int? startDate;
 
-  /// If [startDate] exists.
-  bool get hasStartDateField => _bit(flags, 4);
-
   /// Expire Date.
   final int? expireDate;
-
-  /// If [expireDate] exists.
-  bool get hasExpireDateField => _bit(flags, 1);
 
   /// Usage Limit.
   final int? usageLimit;
 
-  /// If [usageLimit] exists.
-  bool get hasUsageLimitField => _bit(flags, 2);
-
   /// Usage.
   final int? usage;
-
-  /// If [usage] exists.
-  bool get hasUsageField => _bit(flags, 3);
 
   /// Requested.
   final int? requested;
 
-  /// If [requested] exists.
-  bool get hasRequestedField => _bit(flags, 7);
-
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 8);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0ab4a819);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, revoked);
+    // _writeflags.5?true(buffer, 0, permanent);
+    // _writeflags.6?true(buffer, 0, requestNeeded);
+    // _writestring(buffer, 0, link);
+    // _writelong(buffer, 0, adminId);
+    // _writeint(buffer, 0, date);
+    // _writeflags.4?int(buffer, 0, startDate);
+    // _writeflags.1?int(buffer, 0, expireDate);
+    // _writeflags.2?int(buffer, 0, usageLimit);
+    // _writeflags.3?int(buffer, 0, usage);
+    // _writeflags.7?int(buffer, 0, requested);
+    // _writeflags.8?string(buffer, 0, title);
     return 0;
   }
 }
@@ -16537,6 +17580,7 @@ class ChatInvitePublicJoinRequests extends ExportedChatInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed107ab7);
     return 0;
   }
 }
@@ -16566,6 +17610,8 @@ class ChatInviteAlready extends ChatInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5a686d7c);
+    // _writeChat(buffer, 0, chat);
     return 0;
   }
 }
@@ -16578,10 +17624,10 @@ class ChatInvite extends ChatInviteBase {
   const ChatInvite({
     required this.flags,
     required this.title,
-    required this.about,
+    this.about,
     required this.photo,
     required this.participantsCount,
-    required this.participants,
+    this.participants,
     required this.color,
   }) : super._();
 
@@ -16623,9 +17669,6 @@ class ChatInvite extends ChatInviteBase {
   /// About.
   final String? about;
 
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 5);
-
   /// Photo.
   final PhotoBase photo;
 
@@ -16635,14 +17678,27 @@ class ChatInvite extends ChatInviteBase {
   /// Participants.
   final List<UserBase>? participants;
 
-  /// If [participants] exists.
-  bool get hasParticipantsField => _bit(flags, 4);
-
   /// Color.
   final int color;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcde0ec40);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, channel);
+    // _writeflags.1?true(buffer, 0, broadcast);
+    // _writeflags.2?true(buffer, 0, public);
+    // _writeflags.3?true(buffer, 0, megagroup);
+    // _writeflags.6?true(buffer, 0, requestNeeded);
+    // _writeflags.7?true(buffer, 0, verified);
+    // _writeflags.8?true(buffer, 0, scam);
+    // _writeflags.9?true(buffer, 0, fake);
+    // _writestring(buffer, 0, title);
+    // _writeflags.5?string(buffer, 0, about);
+    // _writePhoto(buffer, 0, photo);
+    // _writeint(buffer, 0, participantsCount);
+    // _writeflags.4?Vector<User>(buffer, 0, participants);
+    // _writeint(buffer, 0, color);
     return 0;
   }
 }
@@ -16670,6 +17726,9 @@ class ChatInvitePeek extends ChatInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x61695cb0);
+    // _writeChat(buffer, 0, chat);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -16694,6 +17753,7 @@ class InputStickerSetEmpty extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xffb62b95);
     return 0;
   }
 }
@@ -16721,6 +17781,9 @@ class InputStickerSetID extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9de7a269);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -16744,6 +17807,8 @@ class InputStickerSetShortName extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x861cc8a0);
+    // _writestring(buffer, 0, shortName);
     return 0;
   }
 }
@@ -16762,6 +17827,7 @@ class InputStickerSetAnimatedEmoji extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x028703c8);
     return 0;
   }
 }
@@ -16785,6 +17851,8 @@ class InputStickerSetDice extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe67f520e);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -16803,6 +17871,7 @@ class InputStickerSetAnimatedEmojiAnimations extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0cde3739);
     return 0;
   }
 }
@@ -16821,6 +17890,7 @@ class InputStickerSetPremiumGifts extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc88b3b02);
     return 0;
   }
 }
@@ -16839,6 +17909,7 @@ class InputStickerSetEmojiGenericAnimations extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x04c4d4ce);
     return 0;
   }
 }
@@ -16857,6 +17928,7 @@ class InputStickerSetEmojiDefaultStatuses extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x29d0f5ee);
     return 0;
   }
 }
@@ -16875,6 +17947,7 @@ class InputStickerSetEmojiDefaultTopicIcons extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x44c1f8e9);
     return 0;
   }
 }
@@ -16894,6 +17967,7 @@ class InputStickerSetEmojiChannelDefaultStatuses extends InputStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x49748553);
     return 0;
   }
 }
@@ -16911,15 +17985,15 @@ class StickerSet extends StickerSetBase {
   /// Sticker Set constructor.
   const StickerSet({
     required this.flags,
-    required this.installedDate,
+    this.installedDate,
     required this.id,
     required this.accessHash,
     required this.title,
     required this.shortName,
-    required this.thumbs,
-    required this.thumbDcId,
-    required this.thumbVersion,
-    required this.thumbDocumentId,
+    this.thumbs,
+    this.thumbDcId,
+    this.thumbVersion,
+    this.thumbDocumentId,
     required this.count,
     required this.hash,
   }) : super._();
@@ -16959,9 +18033,6 @@ class StickerSet extends StickerSetBase {
   /// Installed Date.
   final int? installedDate;
 
-  /// If [installedDate] exists.
-  bool get hasInstalledDateField => _bit(flags, 0);
-
   /// Id.
   final int id;
 
@@ -16977,26 +18048,14 @@ class StickerSet extends StickerSetBase {
   /// Thumbs.
   final List<PhotoSizeBase>? thumbs;
 
-  /// If [thumbs] exists.
-  bool get hasThumbsField => _bit(flags, 4);
-
   /// Thumb Dc Id.
   final int? thumbDcId;
-
-  /// If [thumbDcId] exists.
-  bool get hasThumbDcIdField => _bit(flags, 4);
 
   /// Thumb Version.
   final int? thumbVersion;
 
-  /// If [thumbVersion] exists.
-  bool get hasThumbVersionField => _bit(flags, 4);
-
   /// Thumb Document Id.
   final int? thumbDocumentId;
-
-  /// If [thumbDocumentId] exists.
-  bool get hasThumbDocumentIdField => _bit(flags, 8);
 
   /// Count.
   final int count;
@@ -17006,6 +18065,27 @@ class StickerSet extends StickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2dd14edc);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, archived);
+    // _writeflags.2?true(buffer, 0, official);
+    // _writeflags.3?true(buffer, 0, masks);
+    // _writeflags.5?true(buffer, 0, animated);
+    // _writeflags.6?true(buffer, 0, videos);
+    // _writeflags.7?true(buffer, 0, emojis);
+    // _writeflags.9?true(buffer, 0, textColor);
+    // _writeflags.10?true(buffer, 0, channelEmojiStatus);
+    // _writeflags.0?int(buffer, 0, installedDate);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, shortName);
+    // _writeflags.4?Vector<PhotoSize>(buffer, 0, thumbs);
+    // _writeflags.4?int(buffer, 0, thumbDcId);
+    // _writeflags.4?int(buffer, 0, thumbVersion);
+    // _writeflags.8?long(buffer, 0, thumbDocumentId);
+    // _writeint(buffer, 0, count);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -17047,6 +18127,11 @@ class MessagesStickerSet extends MessagesStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6e153f16);
+    // _writeStickerSet(buffer, 0, set);
+    // _writeVector<StickerPack>(buffer, 0, packs);
+    // _writeVector<StickerKeyword>(buffer, 0, keywords);
+    // _writeVector<Document>(buffer, 0, documents);
     return 0;
   }
 }
@@ -17065,6 +18150,7 @@ class MessagesStickerSetNotModified extends MessagesStickerSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd3f924eb);
     return 0;
   }
 }
@@ -17098,6 +18184,9 @@ class BotCommand extends BotCommandBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc27ac8c7);
+    // _writestring(buffer, 0, command);
+    // _writestring(buffer, 0, description);
     return 0;
   }
 }
@@ -17115,12 +18204,12 @@ class BotInfo extends BotInfoBase {
   /// Bot Info constructor.
   const BotInfo({
     required this.flags,
-    required this.userId,
-    required this.description,
-    required this.descriptionPhoto,
-    required this.descriptionDocument,
-    required this.commands,
-    required this.menuButton,
+    this.userId,
+    this.description,
+    this.descriptionPhoto,
+    this.descriptionDocument,
+    this.commands,
+    this.menuButton,
   }) : super._();
 
   /// Deserialize.
@@ -17134,41 +18223,31 @@ class BotInfo extends BotInfoBase {
   /// User Id.
   final int? userId;
 
-  /// If [userId] exists.
-  bool get hasUserIdField => _bit(flags, 0);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 1);
 
   /// Description Photo.
   final PhotoBase? descriptionPhoto;
 
-  /// If [descriptionPhoto] exists.
-  bool get hasDescriptionPhotoField => _bit(flags, 4);
-
   /// Description Document.
   final DocumentBase? descriptionDocument;
-
-  /// If [descriptionDocument] exists.
-  bool get hasDescriptionDocumentField => _bit(flags, 5);
 
   /// Commands.
   final List<BotCommandBase>? commands;
 
-  /// If [commands] exists.
-  bool get hasCommandsField => _bit(flags, 2);
-
   /// Menu Button.
   final BotMenuButtonBase? menuButton;
 
-  /// If [menuButton] exists.
-  bool get hasMenuButtonField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8f300b57);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?long(buffer, 0, userId);
+    // _writeflags.1?string(buffer, 0, description);
+    // _writeflags.4?Photo(buffer, 0, descriptionPhoto);
+    // _writeflags.5?Document(buffer, 0, descriptionDocument);
+    // _writeflags.2?Vector<BotCommand>(buffer, 0, commands);
+    // _writeflags.3?BotMenuButton(buffer, 0, menuButton);
     return 0;
   }
 }
@@ -17198,6 +18277,8 @@ class KeyboardButton extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2fa4880);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17225,6 +18306,9 @@ class KeyboardButtonUrl extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x258aff05);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -17259,6 +18343,11 @@ class KeyboardButtonCallback extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35bbdb6b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, requiresPassword);
+    // _writestring(buffer, 0, text);
+    // _writebytes(buffer, 0, data);
     return 0;
   }
 }
@@ -17282,6 +18371,8 @@ class KeyboardButtonRequestPhone extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb16a6c29);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17305,6 +18396,8 @@ class KeyboardButtonRequestGeoLocation extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfc796b3f);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17318,7 +18411,7 @@ class KeyboardButtonSwitchInline extends KeyboardButtonBase {
     required this.flags,
     required this.text,
     required this.query,
-    required this.peerTypes,
+    this.peerTypes,
   }) : super._();
 
   /// Deserialize.
@@ -17341,11 +18434,14 @@ class KeyboardButtonSwitchInline extends KeyboardButtonBase {
   /// Peer Types.
   final List<InlineQueryPeerTypeBase>? peerTypes;
 
-  /// If [peerTypes] exists.
-  bool get hasPeerTypesField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x93b9fbb5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, samePeer);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, query);
+    // _writeflags.1?Vector<InlineQueryPeerType>(buffer, 0, peerTypes);
     return 0;
   }
 }
@@ -17369,6 +18465,8 @@ class KeyboardButtonGame extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50f41ccf);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17392,6 +18490,8 @@ class KeyboardButtonBuy extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xafd93fbb);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17404,7 +18504,7 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
   const KeyboardButtonUrlAuth({
     required this.flags,
     required this.text,
-    required this.fwdText,
+    this.fwdText,
     required this.url,
     required this.buttonId,
   }) : super._();
@@ -17423,9 +18523,6 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
   /// Fwd Text.
   final String? fwdText;
 
-  /// If [fwdText] exists.
-  bool get hasFwdTextField => _bit(flags, 0);
-
   /// Url.
   final String url;
 
@@ -17434,6 +18531,12 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10b78d29);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, text);
+    // _writeflags.0?string(buffer, 0, fwdText);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, buttonId);
     return 0;
   }
 }
@@ -17446,7 +18549,7 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
   const InputKeyboardButtonUrlAuth({
     required this.flags,
     required this.text,
-    required this.fwdText,
+    this.fwdText,
     required this.url,
     required this.bot,
   }) : super._();
@@ -17468,9 +18571,6 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
   /// Fwd Text.
   final String? fwdText;
 
-  /// If [fwdText] exists.
-  bool get hasFwdTextField => _bit(flags, 1);
-
   /// Url.
   final String url;
 
@@ -17479,6 +18579,13 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd02e7fd4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, requestWriteAccess);
+    // _writestring(buffer, 0, text);
+    // _writeflags.1?string(buffer, 0, fwdText);
+    // _writestring(buffer, 0, url);
+    // _writeInputUser(buffer, 0, bot);
     return 0;
   }
 }
@@ -17490,7 +18597,7 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
   /// Keyboard Button Request Poll constructor.
   const KeyboardButtonRequestPoll({
     required this.flags,
-    required this.quiz,
+    this.quiz,
     required this.text,
   }) : super._();
 
@@ -17505,14 +18612,15 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
   /// Quiz.
   final bool? quiz;
 
-  /// If [quiz] exists.
-  bool get hasQuizField => _bit(flags, 0);
-
   /// Text.
   final String text;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbbc7515d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Bool(buffer, 0, quiz);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -17540,6 +18648,9 @@ class InputKeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe988037b);
+    // _writestring(buffer, 0, text);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -17567,6 +18678,9 @@ class KeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x308660c1);
+    // _writestring(buffer, 0, text);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -17594,6 +18708,9 @@ class KeyboardButtonWebView extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x13767230);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -17621,6 +18738,9 @@ class KeyboardButtonSimpleWebView extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0c0505c);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -17656,6 +18776,11 @@ class KeyboardButtonRequestPeer extends KeyboardButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x53d7bfd8);
+    // _writestring(buffer, 0, text);
+    // _writeint(buffer, 0, buttonId);
+    // _writeRequestPeerType(buffer, 0, peerType);
+    // _writeint(buffer, 0, maxQuantity);
     return 0;
   }
 }
@@ -17685,6 +18810,8 @@ class KeyboardButtonRow extends KeyboardButtonRowBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77608b83);
+    // _writeVector<KeyboardButton>(buffer, 0, buttons);
     return 0;
   }
 }
@@ -17717,6 +18844,9 @@ class ReplyKeyboardHide extends ReplyMarkupBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa03e5b85);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, selective);
     return 0;
   }
 }
@@ -17728,7 +18858,7 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
   /// Reply Keyboard Force Reply constructor.
   const ReplyKeyboardForceReply({
     required this.flags,
-    required this.placeholder,
+    this.placeholder,
   }) : super._();
 
   /// Deserialize.
@@ -17748,11 +18878,13 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
   /// Placeholder.
   final String? placeholder;
 
-  /// If [placeholder] exists.
-  bool get hasPlaceholderField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86b40b08);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, singleUse);
+    // _writeflags.2?true(buffer, 0, selective);
+    // _writeflags.3?string(buffer, 0, placeholder);
     return 0;
   }
 }
@@ -17765,7 +18897,7 @@ class ReplyKeyboardMarkup extends ReplyMarkupBase {
   const ReplyKeyboardMarkup({
     required this.flags,
     required this.rows,
-    required this.placeholder,
+    this.placeholder,
   }) : super._();
 
   /// Deserialize.
@@ -17794,11 +18926,16 @@ class ReplyKeyboardMarkup extends ReplyMarkupBase {
   /// Placeholder.
   final String? placeholder;
 
-  /// If [placeholder] exists.
-  bool get hasPlaceholderField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x85dd99d1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, resize);
+    // _writeflags.1?true(buffer, 0, singleUse);
+    // _writeflags.2?true(buffer, 0, selective);
+    // _writeflags.4?true(buffer, 0, persistent);
+    // _writeVector<KeyboardButtonRow>(buffer, 0, rows);
+    // _writeflags.3?string(buffer, 0, placeholder);
     return 0;
   }
 }
@@ -17822,6 +18959,8 @@ class ReplyInlineMarkup extends ReplyMarkupBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48a30254);
+    // _writeVector<KeyboardButtonRow>(buffer, 0, rows);
     return 0;
   }
 }
@@ -17855,6 +18994,9 @@ class MessageEntityUnknown extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb92ba95);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -17882,6 +19024,9 @@ class MessageEntityMention extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa04579d);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -17909,6 +19054,9 @@ class MessageEntityHashtag extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6f635b0d);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -17936,6 +19084,9 @@ class MessageEntityBotCommand extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6cef8ac7);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -17963,6 +19114,9 @@ class MessageEntityUrl extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6ed02538);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -17990,6 +19144,9 @@ class MessageEntityEmail extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64e475c2);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18017,6 +19174,9 @@ class MessageEntityBold extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd610bc9);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18044,6 +19204,9 @@ class MessageEntityItalic extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x826f8b60);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18071,6 +19234,9 @@ class MessageEntityCode extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x28a20571);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18102,6 +19268,10 @@ class MessageEntityPre extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73924be0);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
+    // _writestring(buffer, 0, language);
     return 0;
   }
 }
@@ -18133,6 +19303,10 @@ class MessageEntityTextUrl extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x76a6d327);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -18164,6 +19338,10 @@ class MessageEntityMentionName extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdc7b1140);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -18195,6 +19373,10 @@ class InputMessageEntityMentionName extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x208e68c9);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -18222,6 +19404,9 @@ class MessageEntityPhone extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9b69e34b);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18249,6 +19434,9 @@ class MessageEntityCashtag extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4c4e743f);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18276,6 +19464,9 @@ class MessageEntityUnderline extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9c4e7e8b);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18303,6 +19494,9 @@ class MessageEntityStrike extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbf0693d4);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18330,6 +19524,9 @@ class MessageEntityBankCard extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x761e6af4);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18357,6 +19554,9 @@ class MessageEntitySpoiler extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x32ca960f);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18388,6 +19588,10 @@ class MessageEntityCustomEmoji extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc8cf05f8);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
+    // _writelong(buffer, 0, documentId);
     return 0;
   }
 }
@@ -18415,6 +19619,9 @@ class MessageEntityBlockquote extends MessageEntityBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x020df5d0);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -18439,6 +19646,7 @@ class InputChannelEmpty extends InputChannelBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xee8c1e86);
     return 0;
   }
 }
@@ -18466,6 +19674,9 @@ class InputChannel extends InputChannelBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf35aec28);
+    // _writelong(buffer, 0, channelId);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -18497,6 +19708,10 @@ class InputChannelFromMessage extends InputChannelBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5b934f9d);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, channelId);
     return 0;
   }
 }
@@ -18534,6 +19749,10 @@ class ContactsResolvedPeer extends ContactsResolvedPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f077ad9);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -18567,6 +19786,9 @@ class MessageRange extends MessageRangeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0ae30253);
+    // _writeint(buffer, 0, minId);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -18585,7 +19807,7 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
   const UpdatesChannelDifferenceEmpty({
     required this.flags,
     required this.pts,
-    required this.timeout,
+    this.timeout,
   }) : super._();
 
   /// Deserialize.
@@ -18605,11 +19827,13 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
   /// Timeout.
   final int? timeout;
 
-  /// If [timeout] exists.
-  bool get hasTimeoutField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3e11affb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, ffinal);
+    // _writeint(buffer, 0, pts);
+    // _writeflags.1?int(buffer, 0, timeout);
     return 0;
   }
 }
@@ -18621,7 +19845,7 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
   /// Updates Channel Difference Too Long constructor.
   const UpdatesChannelDifferenceTooLong({
     required this.flags,
-    required this.timeout,
+    this.timeout,
     required this.dialog,
     required this.messages,
     required this.chats,
@@ -18642,9 +19866,6 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
   /// Timeout.
   final int? timeout;
 
-  /// If [timeout] exists.
-  bool get hasTimeoutField => _bit(flags, 1);
-
   /// Dialog.
   final DialogBase dialog;
 
@@ -18659,6 +19880,14 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa4bcc6fe);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, ffinal);
+    // _writeflags.1?int(buffer, 0, timeout);
+    // _writeDialog(buffer, 0, dialog);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -18671,7 +19900,7 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
   const UpdatesChannelDifference({
     required this.flags,
     required this.pts,
-    required this.timeout,
+    this.timeout,
     required this.newMessages,
     required this.otherUpdates,
     required this.chats,
@@ -18695,9 +19924,6 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
   /// Timeout.
   final int? timeout;
 
-  /// If [timeout] exists.
-  bool get hasTimeoutField => _bit(flags, 1);
-
   /// New Messages.
   final List<MessageBase> newMessages;
 
@@ -18712,6 +19938,15 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2064674e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, ffinal);
+    // _writeint(buffer, 0, pts);
+    // _writeflags.1?int(buffer, 0, timeout);
+    // _writeVector<Message>(buffer, 0, newMessages);
+    // _writeVector<Update>(buffer, 0, otherUpdates);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -18736,6 +19971,7 @@ class ChannelMessagesFilterEmpty extends ChannelMessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x94d42ee7);
     return 0;
   }
 }
@@ -18766,6 +20002,10 @@ class ChannelMessagesFilter extends ChannelMessagesFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcd77d957);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, excludeNewMessages);
+    // _writeVector<MessageRange>(buffer, 0, ranges);
     return 0;
   }
 }
@@ -18795,10 +20035,13 @@ class ChannelParticipant extends ChannelParticipantBase {
   final int userId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc00c07c0);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -18833,10 +20076,16 @@ class ChannelParticipantSelf extends ChannelParticipantBase {
   final int inviterId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35a8bfa7);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, viaRequest);
+    // _writelong(buffer, 0, userId);
+    // _writelong(buffer, 0, inviterId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -18850,7 +20099,7 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
     required this.flags,
     required this.userId,
     required this.adminRights,
-    required this.rank,
+    this.rank,
   }) : super._();
 
   /// Deserialize.
@@ -18870,11 +20119,13 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
   /// Rank.
   final String? rank;
 
-  /// If [rank] exists.
-  bool get hasRankField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2fe601d3);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, userId);
+    // _writeChatAdminRights(buffer, 0, adminRights);
+    // _writeflags.0?string(buffer, 0, rank);
     return 0;
   }
 }
@@ -18887,11 +20138,11 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
   const ChannelParticipantAdmin({
     required this.flags,
     required this.userId,
-    required this.inviterId,
+    this.inviterId,
     required this.promotedBy,
     required this.date,
     required this.adminRights,
-    required this.rank,
+    this.rank,
   }) : super._();
 
   /// Deserialize.
@@ -18914,14 +20165,11 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
   /// Inviter Id.
   final int? inviterId;
 
-  /// If [inviterId] exists.
-  bool get hasInviterIdField => _bit(flags, 1);
-
   /// Promoted By.
   final int promotedBy;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Rights.
   final ChatAdminRightsBase adminRights;
@@ -18929,11 +20177,18 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
   /// Rank.
   final String? rank;
 
-  /// If [rank] exists.
-  bool get hasRankField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34c3bb53);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, canEdit);
+    // _writeflags.1?true(buffer, 0, self);
+    // _writelong(buffer, 0, userId);
+    // _writeflags.1?long(buffer, 0, inviterId);
+    // _writelong(buffer, 0, promotedBy);
+    // _writeint(buffer, 0, date);
+    // _writeChatAdminRights(buffer, 0, adminRights);
+    // _writeflags.2?string(buffer, 0, rank);
     return 0;
   }
 }
@@ -18969,13 +20224,20 @@ class ChannelParticipantBanned extends ChannelParticipantBase {
   final int kickedBy;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Banned Rights.
   final ChatBannedRightsBase bannedRights;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6df8014e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, left);
+    // _writePeer(buffer, 0, peer);
+    // _writelong(buffer, 0, kickedBy);
+    // _writeint(buffer, 0, date);
+    // _writeChatBannedRights(buffer, 0, bannedRights);
     return 0;
   }
 }
@@ -18999,6 +20261,8 @@ class ChannelParticipantLeft extends ChannelParticipantBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b03f006);
+    // _writePeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -19023,6 +20287,7 @@ class ChannelParticipantsRecent extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde3f3c79);
     return 0;
   }
 }
@@ -19041,6 +20306,7 @@ class ChannelParticipantsAdmins extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4608969);
     return 0;
   }
 }
@@ -19064,6 +20330,8 @@ class ChannelParticipantsKicked extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa3b54985);
+    // _writestring(buffer, 0, q);
     return 0;
   }
 }
@@ -19082,6 +20350,7 @@ class ChannelParticipantsBots extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb0d1865b);
     return 0;
   }
 }
@@ -19105,6 +20374,8 @@ class ChannelParticipantsBanned extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1427a5e1);
+    // _writestring(buffer, 0, q);
     return 0;
   }
 }
@@ -19128,6 +20399,8 @@ class ChannelParticipantsSearch extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0656ac4b);
+    // _writestring(buffer, 0, q);
     return 0;
   }
 }
@@ -19151,6 +20424,8 @@ class ChannelParticipantsContacts extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb6ae88d);
+    // _writestring(buffer, 0, q);
     return 0;
   }
 }
@@ -19162,8 +20437,8 @@ class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
   /// Channel Participants Mentions constructor.
   const ChannelParticipantsMentions({
     required this.flags,
-    required this.q,
-    required this.topMsgId,
+    this.q,
+    this.topMsgId,
   }) : super._();
 
   /// Deserialize.
@@ -19177,17 +20452,15 @@ class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
   /// Q.
   final String? q;
 
-  /// If [q] exists.
-  bool get hasQField => _bit(flags, 0);
-
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe04b5ceb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, q);
+    // _writeflags.1?int(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -19229,6 +20502,11 @@ class ChannelsChannelParticipants extends ChannelsChannelParticipantsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9ab0feaf);
+    // _writeint(buffer, 0, count);
+    // _writeVector<ChannelParticipant>(buffer, 0, participants);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -19248,6 +20526,7 @@ class ChannelsChannelParticipantsNotModified
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf0173fe9);
     return 0;
   }
 }
@@ -19285,6 +20564,10 @@ class ChannelsChannelParticipant extends ChannelsChannelParticipantBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdfb80317);
+    // _writeChannelParticipant(buffer, 0, participant);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -19305,7 +20588,7 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
     required this.id,
     required this.text,
     required this.entities,
-    required this.minAgeConfirm,
+    this.minAgeConfirm,
   }) : super._();
 
   /// Deserialize.
@@ -19331,11 +20614,15 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
   /// Min Age Confirm.
   final int? minAgeConfirm;
 
-  /// If [minAgeConfirm] exists.
-  bool get hasMinAgeConfirmField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x780a0310);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, popup);
+    // _writeDataJSON(buffer, 0, id);
+    // _writestring(buffer, 0, text);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.1?int(buffer, 0, minAgeConfirm);
     return 0;
   }
 }
@@ -19360,6 +20647,7 @@ class MessagesSavedGifsNotModified extends MessagesSavedGifsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe8025ca2);
     return 0;
   }
 }
@@ -19387,6 +20675,9 @@ class MessagesSavedGifs extends MessagesSavedGifsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x84a02a0d);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<Document>(buffer, 0, gifs);
     return 0;
   }
 }
@@ -19405,8 +20696,8 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
   const InputBotInlineMessageMediaAuto({
     required this.flags,
     required this.message,
-    required this.entities,
-    required this.replyMarkup,
+    this.entities,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19426,17 +20717,17 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3380c786);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19449,8 +20740,8 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
   const InputBotInlineMessageText({
     required this.flags,
     required this.message,
-    required this.entities,
-    required this.replyMarkup,
+    this.entities,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19473,17 +20764,18 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dcd7a87);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, noWebpage);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19496,10 +20788,10 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
   const InputBotInlineMessageMediaGeo({
     required this.flags,
     required this.geoPoint,
-    required this.heading,
-    required this.period,
-    required this.proximityNotificationRadius,
-    required this.replyMarkup,
+    this.heading,
+    this.period,
+    this.proximityNotificationRadius,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19516,29 +20808,24 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
   /// Heading.
   final int? heading;
 
-  /// If [heading] exists.
-  bool get hasHeadingField => _bit(flags, 0);
-
   /// Period.
   final int? period;
-
-  /// If [period] exists.
-  bool get hasPeriodField => _bit(flags, 1);
 
   /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
-  /// If [proximityNotificationRadius] exists.
-  bool get hasProximityNotificationRadiusField => _bit(flags, 3);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x96929a85);
+    // _write#(buffer, 0, flags);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writeflags.0?int(buffer, 0, heading);
+    // _writeflags.1?int(buffer, 0, period);
+    // _writeflags.3?int(buffer, 0, proximityNotificationRadius);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19556,7 +20843,7 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
     required this.provider,
     required this.venueId,
     required this.venueType,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19588,11 +20875,17 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x417bbf11);
+    // _write#(buffer, 0, flags);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, address);
+    // _writestring(buffer, 0, provider);
+    // _writestring(buffer, 0, venueId);
+    // _writestring(buffer, 0, venueType);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19608,7 +20901,7 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
     required this.firstName,
     required this.lastName,
     required this.vcard,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19634,11 +20927,15 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6edbffd);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writestring(buffer, 0, vcard);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19650,7 +20947,7 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Game constructor.
   const InputBotInlineMessageGame({
     required this.flags,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19664,11 +20961,11 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4b425864);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19682,12 +20979,12 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
     required this.flags,
     required this.title,
     required this.description,
-    required this.photo,
+    this.photo,
     required this.invoice,
     required this.payload,
     required this.provider,
     required this.providerData,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19707,9 +21004,6 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
   /// Photo.
   final InputWebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Invoice.
   final InvoiceBase invoice;
 
@@ -19725,11 +21019,18 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd7e78225);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.0?InputWebDocument(buffer, 0, photo);
+    // _writeInvoice(buffer, 0, invoice);
+    // _writebytes(buffer, 0, payload);
+    // _writestring(buffer, 0, provider);
+    // _writeDataJSON(buffer, 0, providerData);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19742,9 +21043,9 @@ class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
   const InputBotInlineMessageMediaWebPage({
     required this.flags,
     required this.message,
-    required this.entities,
+    this.entities,
     required this.url,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -19773,20 +21074,24 @@ class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Url.
   final String url;
 
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbddcc510);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writeflags.4?true(buffer, 0, forceLargeMedia);
+    // _writeflags.5?true(buffer, 0, forceSmallMedia);
+    // _writeflags.6?true(buffer, 0, optional);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writestring(buffer, 0, url);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -19806,11 +21111,11 @@ class InputBotInlineResult extends InputBotInlineResultBase {
     required this.flags,
     required this.id,
     required this.type,
-    required this.title,
-    required this.description,
-    required this.url,
-    required this.thumb,
-    required this.content,
+    this.title,
+    this.description,
+    this.url,
+    this.thumb,
+    this.content,
     required this.sendMessage,
   }) : super._();
 
@@ -19831,38 +21136,33 @@ class InputBotInlineResult extends InputBotInlineResultBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 2);
 
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 3);
-
   /// Thumb.
   final InputWebDocumentBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 4);
-
   /// Content.
   final InputWebDocumentBase? content;
-
-  /// If [content] exists.
-  bool get hasContentField => _bit(flags, 5);
 
   /// Send Message.
   final InputBotInlineMessageBase sendMessage;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x88bf9319);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, type);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?string(buffer, 0, description);
+    // _writeflags.3?string(buffer, 0, url);
+    // _writeflags.4?InputWebDocument(buffer, 0, thumb);
+    // _writeflags.5?InputWebDocument(buffer, 0, content);
+    // _writeInputBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -19898,6 +21198,11 @@ class InputBotInlineResultPhoto extends InputBotInlineResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa8d864a7);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, type);
+    // _writeInputPhoto(buffer, 0, photo);
+    // _writeInputBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -19911,8 +21216,8 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
     required this.flags,
     required this.id,
     required this.type,
-    required this.title,
-    required this.description,
+    this.title,
+    this.description,
     required this.document,
     required this.sendMessage,
   }) : super._();
@@ -19934,14 +21239,8 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 2);
 
   /// Document.
   final InputDocumentBase document;
@@ -19951,6 +21250,14 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfff8fdc4);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, type);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?string(buffer, 0, description);
+    // _writeInputDocument(buffer, 0, document);
+    // _writeInputBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -19982,6 +21289,10 @@ class InputBotInlineResultGame extends InputBotInlineResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4fa417f2);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, shortName);
+    // _writeInputBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -20000,8 +21311,8 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
   const BotInlineMessageMediaAuto({
     required this.flags,
     required this.message,
-    required this.entities,
-    required this.replyMarkup,
+    this.entities,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20021,17 +21332,17 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x764cf810);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20044,8 +21355,8 @@ class BotInlineMessageText extends BotInlineMessageBase {
   const BotInlineMessageText({
     required this.flags,
     required this.message,
-    required this.entities,
-    required this.replyMarkup,
+    this.entities,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20068,17 +21379,18 @@ class BotInlineMessageText extends BotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c7f65e2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, noWebpage);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20091,10 +21403,10 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
   const BotInlineMessageMediaGeo({
     required this.flags,
     required this.geo,
-    required this.heading,
-    required this.period,
-    required this.proximityNotificationRadius,
-    required this.replyMarkup,
+    this.heading,
+    this.period,
+    this.proximityNotificationRadius,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20111,29 +21423,24 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
   /// Heading.
   final int? heading;
 
-  /// If [heading] exists.
-  bool get hasHeadingField => _bit(flags, 0);
-
   /// Period.
   final int? period;
-
-  /// If [period] exists.
-  bool get hasPeriodField => _bit(flags, 1);
 
   /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
-  /// If [proximityNotificationRadius] exists.
-  bool get hasProximityNotificationRadiusField => _bit(flags, 3);
-
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x051846fd);
+    // _write#(buffer, 0, flags);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writeflags.0?int(buffer, 0, heading);
+    // _writeflags.1?int(buffer, 0, period);
+    // _writeflags.3?int(buffer, 0, proximityNotificationRadius);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20151,7 +21458,7 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
     required this.provider,
     required this.venueId,
     required this.venueType,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20183,11 +21490,17 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8a86659c);
+    // _write#(buffer, 0, flags);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, address);
+    // _writestring(buffer, 0, provider);
+    // _writestring(buffer, 0, venueId);
+    // _writestring(buffer, 0, venueType);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20203,7 +21516,7 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
     required this.firstName,
     required this.lastName,
     required this.vcard,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20229,11 +21542,15 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18d1cdc2);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writestring(buffer, 0, vcard);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20247,10 +21564,10 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
     required this.flags,
     required this.title,
     required this.description,
-    required this.photo,
+    this.photo,
     required this.currency,
     required this.totalAmount,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20276,9 +21593,6 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
   /// Photo.
   final WebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Currency.
   final String currency;
 
@@ -20288,11 +21602,18 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x354a9b09);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, shippingAddressRequested);
+    // _writeflags.3?true(buffer, 0, test);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.0?WebDocument(buffer, 0, photo);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20305,9 +21626,9 @@ class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
   const BotInlineMessageMediaWebPage({
     required this.flags,
     required this.message,
-    required this.entities,
+    this.entities,
     required this.url,
-    required this.replyMarkup,
+    this.replyMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -20339,20 +21660,25 @@ class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Url.
   final String url;
 
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x809ad9a6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, invertMedia);
+    // _writeflags.4?true(buffer, 0, forceLargeMedia);
+    // _writeflags.5?true(buffer, 0, forceSmallMedia);
+    // _writeflags.7?true(buffer, 0, manual);
+    // _writeflags.8?true(buffer, 0, safe);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writestring(buffer, 0, url);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
     return 0;
   }
 }
@@ -20372,11 +21698,11 @@ class BotInlineResult extends BotInlineResultBase {
     required this.flags,
     required this.id,
     required this.type,
-    required this.title,
-    required this.description,
-    required this.url,
-    required this.thumb,
-    required this.content,
+    this.title,
+    this.description,
+    this.url,
+    this.thumb,
+    this.content,
     required this.sendMessage,
   }) : super._();
 
@@ -20397,38 +21723,33 @@ class BotInlineResult extends BotInlineResultBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 2);
 
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 3);
-
   /// Thumb.
   final WebDocumentBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 4);
-
   /// Content.
   final WebDocumentBase? content;
-
-  /// If [content] exists.
-  bool get hasContentField => _bit(flags, 5);
 
   /// Send Message.
   final BotInlineMessageBase sendMessage;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x11965f3a);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, type);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?string(buffer, 0, description);
+    // _writeflags.3?string(buffer, 0, url);
+    // _writeflags.4?WebDocument(buffer, 0, thumb);
+    // _writeflags.5?WebDocument(buffer, 0, content);
+    // _writeBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -20442,10 +21763,10 @@ class BotInlineMediaResult extends BotInlineResultBase {
     required this.flags,
     required this.id,
     required this.type,
-    required this.photo,
-    required this.document,
-    required this.title,
-    required this.description,
+    this.photo,
+    this.document,
+    this.title,
+    this.description,
     required this.sendMessage,
   }) : super._();
 
@@ -20466,32 +21787,29 @@ class BotInlineMediaResult extends BotInlineResultBase {
   /// Photo.
   final PhotoBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Document.
   final DocumentBase? document;
-
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 1);
 
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 2);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 3);
 
   /// Send Message.
   final BotInlineMessageBase sendMessage;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x17db940b);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, type);
+    // _writeflags.0?Photo(buffer, 0, photo);
+    // _writeflags.1?Document(buffer, 0, document);
+    // _writeflags.2?string(buffer, 0, title);
+    // _writeflags.3?string(buffer, 0, description);
+    // _writeBotInlineMessage(buffer, 0, sendMessage);
     return 0;
   }
 }
@@ -20510,9 +21828,9 @@ class MessagesBotResults extends MessagesBotResultsBase {
   const MessagesBotResults({
     required this.flags,
     required this.queryId,
-    required this.nextOffset,
-    required this.switchPm,
-    required this.switchWebview,
+    this.nextOffset,
+    this.switchPm,
+    this.switchWebview,
     required this.results,
     required this.cacheTime,
     required this.users,
@@ -20535,20 +21853,11 @@ class MessagesBotResults extends MessagesBotResultsBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 1);
-
   /// Switch Pm.
   final InlineBotSwitchPMBase? switchPm;
 
-  /// If [switchPm] exists.
-  bool get hasSwitchPmField => _bit(flags, 2);
-
   /// Switch Webview.
   final InlineBotWebViewBase? switchWebview;
-
-  /// If [switchWebview] exists.
-  bool get hasSwitchWebviewField => _bit(flags, 3);
 
   /// Results.
   final List<BotInlineResultBase> results;
@@ -20561,6 +21870,16 @@ class MessagesBotResults extends MessagesBotResultsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe021f2f6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, gallery);
+    // _writelong(buffer, 0, queryId);
+    // _writeflags.1?string(buffer, 0, nextOffset);
+    // _writeflags.2?InlineBotSwitchPM(buffer, 0, switchPm);
+    // _writeflags.3?InlineBotWebView(buffer, 0, switchWebview);
+    // _writeVector<BotInlineResult>(buffer, 0, results);
+    // _writeint(buffer, 0, cacheTime);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -20594,6 +21913,9 @@ class ExportedMessageLink extends ExportedMessageLinkBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5dab1af4);
+    // _writestring(buffer, 0, link);
+    // _writestring(buffer, 0, html);
     return 0;
   }
 }
@@ -20611,17 +21933,17 @@ class MessageFwdHeader extends MessageFwdHeaderBase {
   /// Message Fwd Header constructor.
   const MessageFwdHeader({
     required this.flags,
-    required this.fromId,
-    required this.fromName,
+    this.fromId,
+    this.fromName,
     required this.date,
-    required this.channelPost,
-    required this.postAuthor,
-    required this.savedFromPeer,
-    required this.savedFromMsgId,
-    required this.savedFromId,
-    required this.savedFromName,
-    required this.savedDate,
-    required this.psaType,
+    this.channelPost,
+    this.postAuthor,
+    this.savedFromPeer,
+    this.savedFromMsgId,
+    this.savedFromId,
+    this.savedFromName,
+    this.savedDate,
+    this.psaType,
   }) : super._();
 
   /// Deserialize.
@@ -20641,68 +21963,53 @@ class MessageFwdHeader extends MessageFwdHeaderBase {
   /// From Id.
   final PeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 0);
-
   /// From Name.
   final String? fromName;
 
-  /// If [fromName] exists.
-  bool get hasFromNameField => _bit(flags, 5);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Channel Post.
   final int? channelPost;
 
-  /// If [channelPost] exists.
-  bool get hasChannelPostField => _bit(flags, 2);
-
   /// Post Author.
   final String? postAuthor;
-
-  /// If [postAuthor] exists.
-  bool get hasPostAuthorField => _bit(flags, 3);
 
   /// Saved From Peer.
   final PeerBase? savedFromPeer;
 
-  /// If [savedFromPeer] exists.
-  bool get hasSavedFromPeerField => _bit(flags, 4);
-
   /// Saved From Msg Id.
   final int? savedFromMsgId;
-
-  /// If [savedFromMsgId] exists.
-  bool get hasSavedFromMsgIdField => _bit(flags, 4);
 
   /// Saved From Id.
   final PeerBase? savedFromId;
 
-  /// If [savedFromId] exists.
-  bool get hasSavedFromIdField => _bit(flags, 8);
-
   /// Saved From Name.
   final String? savedFromName;
-
-  /// If [savedFromName] exists.
-  bool get hasSavedFromNameField => _bit(flags, 9);
 
   /// Saved Date.
   final int? savedDate;
 
-  /// If [savedDate] exists.
-  bool get hasSavedDateField => _bit(flags, 10);
-
   /// Psa Type.
   final String? psaType;
 
-  /// If [psaType] exists.
-  bool get hasPsaTypeField => _bit(flags, 6);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4e4df4bb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.7?true(buffer, 0, imported);
+    // _writeflags.11?true(buffer, 0, savedOut);
+    // _writeflags.0?Peer(buffer, 0, fromId);
+    // _writeflags.5?string(buffer, 0, fromName);
+    // _writeint(buffer, 0, date);
+    // _writeflags.2?int(buffer, 0, channelPost);
+    // _writeflags.3?string(buffer, 0, postAuthor);
+    // _writeflags.4?Peer(buffer, 0, savedFromPeer);
+    // _writeflags.4?int(buffer, 0, savedFromMsgId);
+    // _writeflags.8?Peer(buffer, 0, savedFromId);
+    // _writeflags.9?string(buffer, 0, savedFromName);
+    // _writeflags.10?int(buffer, 0, savedDate);
+    // _writeflags.6?string(buffer, 0, psaType);
     return 0;
   }
 }
@@ -20727,6 +22034,7 @@ class AuthCodeTypeSms extends AuthCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x72a3158c);
     return 0;
   }
 }
@@ -20745,6 +22053,7 @@ class AuthCodeTypeCall extends AuthCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x741cd3e3);
     return 0;
   }
 }
@@ -20763,6 +22072,7 @@ class AuthCodeTypeFlashCall extends AuthCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x226ccefb);
     return 0;
   }
 }
@@ -20781,6 +22091,7 @@ class AuthCodeTypeMissedCall extends AuthCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd61ad6ee);
     return 0;
   }
 }
@@ -20799,6 +22110,7 @@ class AuthCodeTypeFragmentSms extends AuthCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x06ed998c);
     return 0;
   }
 }
@@ -20828,6 +22140,8 @@ class AuthSentCodeTypeApp extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dbb5986);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -20851,6 +22165,8 @@ class AuthSentCodeTypeSms extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc000bba2);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -20874,6 +22190,8 @@ class AuthSentCodeTypeCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5353e5a7);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -20897,6 +22215,8 @@ class AuthSentCodeTypeFlashCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xab03c6d9);
+    // _writestring(buffer, 0, pattern);
     return 0;
   }
 }
@@ -20924,6 +22244,9 @@ class AuthSentCodeTypeMissedCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x82006484);
+    // _writestring(buffer, 0, prefix);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -20937,8 +22260,8 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
     required this.flags,
     required this.emailPattern,
     required this.length,
-    required this.resetAvailablePeriod,
-    required this.resetPendingDate,
+    this.resetAvailablePeriod,
+    this.resetPendingDate,
   }) : super._();
 
   /// Deserialize.
@@ -20964,17 +22287,19 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
   /// Reset Available Period.
   final int? resetAvailablePeriod;
 
-  /// If [resetAvailablePeriod] exists.
-  bool get hasResetAvailablePeriodField => _bit(flags, 3);
-
   /// Reset Pending Date.
   final int? resetPendingDate;
 
-  /// If [resetPendingDate] exists.
-  bool get hasResetPendingDateField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf450f59b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, appleSigninAllowed);
+    // _writeflags.1?true(buffer, 0, googleSigninAllowed);
+    // _writestring(buffer, 0, emailPattern);
+    // _writeint(buffer, 0, length);
+    // _writeflags.3?int(buffer, 0, resetAvailablePeriod);
+    // _writeflags.4?int(buffer, 0, resetPendingDate);
     return 0;
   }
 }
@@ -21004,6 +22329,10 @@ class AuthSentCodeTypeSetUpEmailRequired extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa5491dea);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, appleSigninAllowed);
+    // _writeflags.1?true(buffer, 0, googleSigninAllowed);
     return 0;
   }
 }
@@ -21031,6 +22360,9 @@ class AuthSentCodeTypeFragmentSms extends AuthSentCodeTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd9565c39);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -21042,9 +22374,9 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
   /// Auth Sent Code Type Firebase Sms constructor.
   const AuthSentCodeTypeFirebaseSms({
     required this.flags,
-    required this.nonce,
-    required this.receipt,
-    required this.pushTimeout,
+    this.nonce,
+    this.receipt,
+    this.pushTimeout,
     required this.length,
   }) : super._();
 
@@ -21059,26 +22391,23 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
   /// Nonce.
   final Uint8List? nonce;
 
-  /// If [nonce] exists.
-  bool get hasNonceField => _bit(flags, 0);
-
   /// Receipt.
   final String? receipt;
 
-  /// If [receipt] exists.
-  bool get hasReceiptField => _bit(flags, 1);
-
   /// Push Timeout.
   final int? pushTimeout;
-
-  /// If [pushTimeout] exists.
-  bool get hasPushTimeoutField => _bit(flags, 1);
 
   /// Length.
   final int length;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe57b1432);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?bytes(buffer, 0, nonce);
+    // _writeflags.1?string(buffer, 0, receipt);
+    // _writeflags.1?int(buffer, 0, pushTimeout);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -21096,8 +22425,8 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
   /// Messages Bot Callback Answer constructor.
   const MessagesBotCallbackAnswer({
     required this.flags,
-    required this.message,
-    required this.url,
+    this.message,
+    this.url,
     required this.cacheTime,
   }) : super._();
 
@@ -21121,20 +22450,22 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
   /// Message.
   final String? message;
 
-  /// If [message] exists.
-  bool get hasMessageField => _bit(flags, 0);
-
   /// Url.
   final String? url;
-
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 2);
 
   /// Cache Time.
   final int cacheTime;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x36585ea4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, alert);
+    // _writeflags.3?true(buffer, 0, hasUrl);
+    // _writeflags.4?true(buffer, 0, nativeUi);
+    // _writeflags.0?string(buffer, 0, message);
+    // _writeflags.2?string(buffer, 0, url);
+    // _writeint(buffer, 0, cacheTime);
     return 0;
   }
 }
@@ -21167,6 +22498,9 @@ class MessagesMessageEditData extends MessagesMessageEditDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x26b5dde6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, caption);
     return 0;
   }
 }
@@ -21204,6 +22538,10 @@ class InputBotInlineMessageID extends InputBotInlineMessageIDBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x890c3d89);
+    // _writeint(buffer, 0, dcId);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -21239,6 +22577,11 @@ class InputBotInlineMessageID64 extends InputBotInlineMessageIDBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6d915d7);
+    // _writeint(buffer, 0, dcId);
+    // _writelong(buffer, 0, ownerId);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -21272,6 +22615,9 @@ class InlineBotSwitchPM extends InlineBotSwitchPMBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c20629f);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, startParam);
     return 0;
   }
 }
@@ -21317,6 +22663,12 @@ class MessagesPeerDialogs extends MessagesPeerDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3371c354);
+    // _writeVector<Dialog>(buffer, 0, dialogs);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeupdates.State(buffer, 0, state);
     return 0;
   }
 }
@@ -21350,6 +22702,9 @@ class TopPeer extends TopPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xedcdc05b);
+    // _writePeer(buffer, 0, peer);
+    // _writedouble(buffer, 0, rating);
     return 0;
   }
 }
@@ -21374,6 +22729,7 @@ class TopPeerCategoryBotsPM extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xab661b5b);
     return 0;
   }
 }
@@ -21392,6 +22748,7 @@ class TopPeerCategoryBotsInline extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x148677e2);
     return 0;
   }
 }
@@ -21410,6 +22767,7 @@ class TopPeerCategoryCorrespondents extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0637b7ed);
     return 0;
   }
 }
@@ -21428,6 +22786,7 @@ class TopPeerCategoryGroups extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd17a14a);
     return 0;
   }
 }
@@ -21446,6 +22805,7 @@ class TopPeerCategoryChannels extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x161d9628);
     return 0;
   }
 }
@@ -21464,6 +22824,7 @@ class TopPeerCategoryPhoneCalls extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e76a78c);
     return 0;
   }
 }
@@ -21482,6 +22843,7 @@ class TopPeerCategoryForwardUsers extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa8406ca9);
     return 0;
   }
 }
@@ -21500,6 +22862,7 @@ class TopPeerCategoryForwardChats extends TopPeerCategoryBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbeec0f0);
     return 0;
   }
 }
@@ -21537,6 +22900,10 @@ class TopPeerCategoryPeers extends TopPeerCategoryPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfb834291);
+    // _writeTopPeerCategory(buffer, 0, category);
+    // _writeint(buffer, 0, count);
+    // _writeVector<TopPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -21561,6 +22928,7 @@ class ContactsTopPeersNotModified extends ContactsTopPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde266ef5);
     return 0;
   }
 }
@@ -21592,6 +22960,10 @@ class ContactsTopPeers extends ContactsTopPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x70b772a8);
+    // _writeVector<TopPeerCategoryPeers>(buffer, 0, categories);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -21610,6 +22982,7 @@ class ContactsTopPeersDisabled extends ContactsTopPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb52c939d);
     return 0;
   }
 }
@@ -21627,7 +23000,7 @@ class DraftMessageEmpty extends DraftMessageBase {
   /// Draft Message Empty constructor.
   const DraftMessageEmpty({
     required this.flags,
-    required this.date,
+    this.date,
   }) : super._();
 
   /// Deserialize.
@@ -21641,11 +23014,11 @@ class DraftMessageEmpty extends DraftMessageBase {
   /// Date.
   final int? date;
 
-  /// If [date] exists.
-  bool get hasDateField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b0c841a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, date);
     return 0;
   }
 }
@@ -21657,10 +23030,10 @@ class DraftMessage extends DraftMessageBase {
   /// Draft Message constructor.
   const DraftMessage({
     required this.flags,
-    required this.replyTo,
+    this.replyTo,
     required this.message,
-    required this.entities,
-    required this.media,
+    this.entities,
+    this.media,
     required this.date,
   }) : super._();
 
@@ -21681,29 +23054,29 @@ class DraftMessage extends DraftMessageBase {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 4);
-
   /// Message.
   final String message;
 
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
-
   /// Media.
   final InputMediaBase? media;
 
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 5);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3fccf7ef);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, noWebpage);
+    // _writeflags.6?true(buffer, 0, invertMedia);
+    // _writeflags.4?InputReplyTo(buffer, 0, replyTo);
+    // _writestring(buffer, 0, message);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.5?InputMedia(buffer, 0, media);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -21733,6 +23106,8 @@ class MessagesFeaturedStickersNotModified extends MessagesFeaturedStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc6dc0c66);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -21775,6 +23150,13 @@ class MessagesFeaturedStickers extends MessagesFeaturedStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbe382906);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, premium);
+    // _writelong(buffer, 0, hash);
+    // _writeint(buffer, 0, count);
+    // _writeVector<StickerSetCovered>(buffer, 0, sets);
+    // _writeVector<long>(buffer, 0, unread);
     return 0;
   }
 }
@@ -21799,6 +23181,7 @@ class MessagesRecentStickersNotModified extends MessagesRecentStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0b17f890);
     return 0;
   }
 }
@@ -21834,6 +23217,11 @@ class MessagesRecentStickers extends MessagesRecentStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x88d37c56);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<StickerPack>(buffer, 0, packs);
+    // _writeVector<Document>(buffer, 0, stickers);
+    // _writeVector<int>(buffer, 0, dates);
     return 0;
   }
 }
@@ -21867,6 +23255,9 @@ class MessagesArchivedStickers extends MessagesArchivedStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4fcba9c8);
+    // _writeint(buffer, 0, count);
+    // _writeVector<StickerSetCovered>(buffer, 0, sets);
     return 0;
   }
 }
@@ -21892,6 +23283,7 @@ class MessagesStickerSetInstallResultSuccess
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x38641628);
     return 0;
   }
 }
@@ -21916,6 +23308,8 @@ class MessagesStickerSetInstallResultArchive
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35e410a8);
+    // _writeVector<StickerSetCovered>(buffer, 0, sets);
     return 0;
   }
 }
@@ -21949,6 +23343,9 @@ class StickerSetCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6410a5d2);
+    // _writeStickerSet(buffer, 0, set);
+    // _writeDocument(buffer, 0, cover);
     return 0;
   }
 }
@@ -21976,6 +23373,9 @@ class StickerSetMultiCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3407e51b);
+    // _writeStickerSet(buffer, 0, set);
+    // _writeVector<Document>(buffer, 0, covers);
     return 0;
   }
 }
@@ -22011,6 +23411,11 @@ class StickerSetFullCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x40d13c0e);
+    // _writeStickerSet(buffer, 0, set);
+    // _writeVector<StickerPack>(buffer, 0, packs);
+    // _writeVector<StickerKeyword>(buffer, 0, keywords);
+    // _writeVector<Document>(buffer, 0, documents);
     return 0;
   }
 }
@@ -22034,6 +23439,8 @@ class StickerSetNoCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77b15d1c);
+    // _writeStickerSet(buffer, 0, set);
     return 0;
   }
 }
@@ -22075,6 +23482,11 @@ class MaskCoords extends MaskCoordsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaed6dbb2);
+    // _writeint(buffer, 0, n);
+    // _writedouble(buffer, 0, x);
+    // _writedouble(buffer, 0, y);
+    // _writedouble(buffer, 0, zoom);
     return 0;
   }
 }
@@ -22104,6 +23516,8 @@ class InputStickeredMediaPhoto extends InputStickeredMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4a992157);
+    // _writeInputPhoto(buffer, 0, id);
     return 0;
   }
 }
@@ -22127,6 +23541,8 @@ class InputStickeredMediaDocument extends InputStickeredMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0438865b);
+    // _writeInputDocument(buffer, 0, id);
     return 0;
   }
 }
@@ -22150,7 +23566,7 @@ class Game extends GameBase {
     required this.title,
     required this.description,
     required this.photo,
-    required this.document,
+    this.document,
   }) : super._();
 
   /// Deserialize.
@@ -22182,11 +23598,17 @@ class Game extends GameBase {
   /// Document.
   final DocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdf9653b);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, shortName);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writePhoto(buffer, 0, photo);
+    // _writeflags.0?Document(buffer, 0, document);
     return 0;
   }
 }
@@ -22220,6 +23642,9 @@ class InputGameID extends InputGameBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x032c3e77);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -22247,6 +23672,9 @@ class InputGameShortName extends InputGameBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc331e80a);
+    // _writeInputUser(buffer, 0, botId);
+    // _writestring(buffer, 0, shortName);
     return 0;
   }
 }
@@ -22284,6 +23712,10 @@ class HighScore extends HighScoreBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73a379eb);
+    // _writeint(buffer, 0, pos);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, score);
     return 0;
   }
 }
@@ -22317,6 +23749,9 @@ class MessagesHighScores extends MessagesHighScoresBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a3bfd99);
+    // _writeVector<HighScore>(buffer, 0, scores);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -22341,6 +23776,7 @@ class TextEmpty extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdc3d824f);
     return 0;
   }
 }
@@ -22364,6 +23800,8 @@ class TextPlain extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x744694e0);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -22387,6 +23825,8 @@ class TextBold extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6724abc4);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22410,6 +23850,8 @@ class TextItalic extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd912a59c);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22433,6 +23875,8 @@ class TextUnderline extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc12622c4);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22456,6 +23900,8 @@ class TextStrike extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9bf8bb95);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22479,6 +23925,8 @@ class TextFixed extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c3f19b9);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22510,6 +23958,10 @@ class TextUrl extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c2884c1);
+    // _writeRichText(buffer, 0, text);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, webpageId);
     return 0;
   }
 }
@@ -22537,6 +23989,9 @@ class TextEmail extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde5a0dd6);
+    // _writeRichText(buffer, 0, text);
+    // _writestring(buffer, 0, email);
     return 0;
   }
 }
@@ -22560,6 +24015,8 @@ class TextConcat extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7e6260d7);
+    // _writeVector<RichText>(buffer, 0, texts);
     return 0;
   }
 }
@@ -22583,6 +24040,8 @@ class TextSubscript extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed6a8504);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22606,6 +24065,8 @@ class TextSuperscript extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc7fb5e01);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22629,6 +24090,8 @@ class TextMarked extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x034b8621);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22656,6 +24119,9 @@ class TextPhone extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ccb966a);
+    // _writeRichText(buffer, 0, text);
+    // _writestring(buffer, 0, phone);
     return 0;
   }
 }
@@ -22687,6 +24153,10 @@ class TextImage extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x081ccf4f);
+    // _writelong(buffer, 0, documentId);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
     return 0;
   }
 }
@@ -22714,6 +24184,9 @@ class TextAnchor extends RichTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35553762);
+    // _writeRichText(buffer, 0, text);
+    // _writestring(buffer, 0, name);
     return 0;
   }
 }
@@ -22738,6 +24211,7 @@ class PageBlockUnsupported extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x13567e8a);
     return 0;
   }
 }
@@ -22761,6 +24235,8 @@ class PageBlockTitle extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x70abc3fd);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22784,6 +24260,8 @@ class PageBlockSubtitle extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ffa9a1f);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22807,10 +24285,13 @@ class PageBlockAuthorDate extends PageBlockBase {
   final RichTextBase author;
 
   /// Published Date.
-  final int publishedDate;
+  final DateTime publishedDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbaafe5e0);
+    // _writeRichText(buffer, 0, author);
+    // _writeint(buffer, 0, publishedDate);
     return 0;
   }
 }
@@ -22834,6 +24315,8 @@ class PageBlockHeader extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbfd064ec);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22857,6 +24340,8 @@ class PageBlockSubheader extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf12bb6e1);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22880,6 +24365,8 @@ class PageBlockParagraph extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x467a0766);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22907,6 +24394,9 @@ class PageBlockPreformatted extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc070d93e);
+    // _writeRichText(buffer, 0, text);
+    // _writestring(buffer, 0, language);
     return 0;
   }
 }
@@ -22930,6 +24420,8 @@ class PageBlockFooter extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48870999);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -22948,6 +24440,7 @@ class PageBlockDivider extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb20b188);
     return 0;
   }
 }
@@ -22971,6 +24464,8 @@ class PageBlockAnchor extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xce0d37b0);
+    // _writestring(buffer, 0, name);
     return 0;
   }
 }
@@ -22994,6 +24489,8 @@ class PageBlockList extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe4e88011);
+    // _writeVector<PageListItem>(buffer, 0, items);
     return 0;
   }
 }
@@ -23021,6 +24518,9 @@ class PageBlockBlockquote extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x263d7c26);
+    // _writeRichText(buffer, 0, text);
+    // _writeRichText(buffer, 0, caption);
     return 0;
   }
 }
@@ -23048,6 +24548,9 @@ class PageBlockPullquote extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4f4456d3);
+    // _writeRichText(buffer, 0, text);
+    // _writeRichText(buffer, 0, caption);
     return 0;
   }
 }
@@ -23061,8 +24564,8 @@ class PageBlockPhoto extends PageBlockBase {
     required this.flags,
     required this.photoId,
     required this.caption,
-    required this.url,
-    required this.webpageId,
+    this.url,
+    this.webpageId,
   }) : super._();
 
   /// Deserialize.
@@ -23082,17 +24585,17 @@ class PageBlockPhoto extends PageBlockBase {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 0);
-
   /// Webpage Id.
   final int? webpageId;
 
-  /// If [webpageId] exists.
-  bool get hasWebpageIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1759c560);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, photoId);
+    // _writePageCaption(buffer, 0, caption);
+    // _writeflags.0?string(buffer, 0, url);
+    // _writeflags.0?long(buffer, 0, webpageId);
     return 0;
   }
 }
@@ -23130,6 +24633,12 @@ class PageBlockVideo extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7c8fe7b6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, autoplay);
+    // _writeflags.1?true(buffer, 0, loop);
+    // _writelong(buffer, 0, videoId);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23153,6 +24662,8 @@ class PageBlockCover extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x39f23300);
+    // _writePageBlock(buffer, 0, cover);
     return 0;
   }
 }
@@ -23164,11 +24675,11 @@ class PageBlockEmbed extends PageBlockBase {
   /// Page Block Embed constructor.
   const PageBlockEmbed({
     required this.flags,
-    required this.url,
-    required this.html,
-    required this.posterPhotoId,
-    required this.w,
-    required this.h,
+    this.url,
+    this.html,
+    this.posterPhotoId,
+    this.w,
+    this.h,
     required this.caption,
   }) : super._();
 
@@ -23189,38 +24700,33 @@ class PageBlockEmbed extends PageBlockBase {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 1);
-
   /// Html.
   final String? html;
-
-  /// If [html] exists.
-  bool get hasHtmlField => _bit(flags, 2);
 
   /// Poster Photo Id.
   final int? posterPhotoId;
 
-  /// If [posterPhotoId] exists.
-  bool get hasPosterPhotoIdField => _bit(flags, 4);
-
   /// W.
   final int? w;
 
-  /// If [w] exists.
-  bool get hasWField => _bit(flags, 5);
-
   /// H.
   final int? h;
-
-  /// If [h] exists.
-  bool get hasHField => _bit(flags, 5);
 
   /// Caption.
   final PageCaptionBase caption;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa8718dc5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, fullWidth);
+    // _writeflags.3?true(buffer, 0, allowScrolling);
+    // _writeflags.1?string(buffer, 0, url);
+    // _writeflags.2?string(buffer, 0, html);
+    // _writeflags.4?long(buffer, 0, posterPhotoId);
+    // _writeflags.5?int(buffer, 0, w);
+    // _writeflags.5?int(buffer, 0, h);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23258,7 +24764,7 @@ class PageBlockEmbedPost extends PageBlockBase {
   final String author;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Blocks.
   final List<PageBlockBase> blocks;
@@ -23268,6 +24774,14 @@ class PageBlockEmbedPost extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf259a80b);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, webpageId);
+    // _writelong(buffer, 0, authorPhotoId);
+    // _writestring(buffer, 0, author);
+    // _writeint(buffer, 0, date);
+    // _writeVector<PageBlock>(buffer, 0, blocks);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23295,6 +24809,9 @@ class PageBlockCollage extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x65a0fa4d);
+    // _writeVector<PageBlock>(buffer, 0, items);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23322,6 +24839,9 @@ class PageBlockSlideshow extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x031f9590);
+    // _writeVector<PageBlock>(buffer, 0, items);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23345,6 +24865,8 @@ class PageBlockChannel extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef1751b5);
+    // _writeChat(buffer, 0, channel);
     return 0;
   }
 }
@@ -23372,6 +24894,9 @@ class PageBlockAudio extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x804361ea);
+    // _writelong(buffer, 0, audioId);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23395,6 +24920,8 @@ class PageBlockKicker extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e148390);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -23432,6 +24959,12 @@ class PageBlockTable extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbf4dea82);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, bordered);
+    // _writeflags.1?true(buffer, 0, striped);
+    // _writeRichText(buffer, 0, title);
+    // _writeVector<PageTableRow>(buffer, 0, rows);
     return 0;
   }
 }
@@ -23455,6 +24988,8 @@ class PageBlockOrderedList extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a8ae1e1);
+    // _writeVector<PageListOrderedItem>(buffer, 0, items);
     return 0;
   }
 }
@@ -23489,6 +25024,11 @@ class PageBlockDetails extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x76768bed);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, open);
+    // _writeVector<PageBlock>(buffer, 0, blocks);
+    // _writeRichText(buffer, 0, title);
     return 0;
   }
 }
@@ -23516,6 +25056,9 @@ class PageBlockRelatedArticles extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x16115a96);
+    // _writeRichText(buffer, 0, title);
+    // _writeVector<PageRelatedArticle>(buffer, 0, articles);
     return 0;
   }
 }
@@ -23555,6 +25098,12 @@ class PageBlockMap extends PageBlockBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa44f3ef6);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writeint(buffer, 0, zoom);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writePageCaption(buffer, 0, caption);
     return 0;
   }
 }
@@ -23579,6 +25128,7 @@ class PhoneCallDiscardReasonMissed extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x85e42301);
     return 0;
   }
 }
@@ -23597,6 +25147,7 @@ class PhoneCallDiscardReasonDisconnect extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe095c1a0);
     return 0;
   }
 }
@@ -23615,6 +25166,7 @@ class PhoneCallDiscardReasonHangup extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57adc690);
     return 0;
   }
 }
@@ -23633,6 +25185,7 @@ class PhoneCallDiscardReasonBusy extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfaf7e8c9);
     return 0;
   }
 }
@@ -23662,6 +25215,8 @@ class DataJSON extends DataJSONBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7d748d04);
+    // _writestring(buffer, 0, data);
     return 0;
   }
 }
@@ -23695,6 +25250,9 @@ class LabeledPrice extends LabeledPriceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcb296bf8);
+    // _writestring(buffer, 0, label);
+    // _writelong(buffer, 0, amount);
     return 0;
   }
 }
@@ -23714,9 +25272,9 @@ class Invoice extends InvoiceBase {
     required this.flags,
     required this.currency,
     required this.prices,
-    required this.maxTipAmount,
-    required this.suggestedTipAmounts,
-    required this.termsUrl,
+    this.maxTipAmount,
+    this.suggestedTipAmounts,
+    this.termsUrl,
   }) : super._();
 
   /// Deserialize.
@@ -23763,23 +25321,30 @@ class Invoice extends InvoiceBase {
   /// Max Tip Amount.
   final int? maxTipAmount;
 
-  /// If [maxTipAmount] exists.
-  bool get hasMaxTipAmountField => _bit(flags, 8);
-
   /// Suggested Tip Amounts.
   final List<int>? suggestedTipAmounts;
-
-  /// If [suggestedTipAmounts] exists.
-  bool get hasSuggestedTipAmountsField => _bit(flags, 8);
 
   /// Terms Url.
   final String? termsUrl;
 
-  /// If [termsUrl] exists.
-  bool get hasTermsUrlField => _bit(flags, 10);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5db95a15);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, test);
+    // _writeflags.1?true(buffer, 0, nameRequested);
+    // _writeflags.2?true(buffer, 0, phoneRequested);
+    // _writeflags.3?true(buffer, 0, emailRequested);
+    // _writeflags.4?true(buffer, 0, shippingAddressRequested);
+    // _writeflags.5?true(buffer, 0, flexible);
+    // _writeflags.6?true(buffer, 0, phoneToProvider);
+    // _writeflags.7?true(buffer, 0, emailToProvider);
+    // _writeflags.9?true(buffer, 0, recurring);
+    // _writestring(buffer, 0, currency);
+    // _writeVector<LabeledPrice>(buffer, 0, prices);
+    // _writeflags.8?long(buffer, 0, maxTipAmount);
+    // _writeflags.8?Vector<long>(buffer, 0, suggestedTipAmounts);
+    // _writeflags.10?string(buffer, 0, termsUrl);
     return 0;
   }
 }
@@ -23813,6 +25378,9 @@ class PaymentCharge extends PaymentChargeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea02c27e);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, providerChargeId);
     return 0;
   }
 }
@@ -23862,6 +25430,13 @@ class PostAddress extends PostAddressBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e8caaeb);
+    // _writestring(buffer, 0, streetLine1);
+    // _writestring(buffer, 0, streetLine2);
+    // _writestring(buffer, 0, city);
+    // _writestring(buffer, 0, state);
+    // _writestring(buffer, 0, countryIso2);
+    // _writestring(buffer, 0, postCode);
     return 0;
   }
 }
@@ -23879,10 +25454,10 @@ class PaymentRequestedInfo extends PaymentRequestedInfoBase {
   /// Payment Requested Info constructor.
   const PaymentRequestedInfo({
     required this.flags,
-    required this.name,
-    required this.phone,
-    required this.email,
-    required this.shippingAddress,
+    this.name,
+    this.phone,
+    this.email,
+    this.shippingAddress,
   }) : super._();
 
   /// Deserialize.
@@ -23896,29 +25471,23 @@ class PaymentRequestedInfo extends PaymentRequestedInfoBase {
   /// Name.
   final String? name;
 
-  /// If [name] exists.
-  bool get hasNameField => _bit(flags, 0);
-
   /// Phone.
   final String? phone;
-
-  /// If [phone] exists.
-  bool get hasPhoneField => _bit(flags, 1);
 
   /// Email.
   final String? email;
 
-  /// If [email] exists.
-  bool get hasEmailField => _bit(flags, 2);
-
   /// Shipping Address.
   final PostAddressBase? shippingAddress;
 
-  /// If [shippingAddress] exists.
-  bool get hasShippingAddressField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x909c3f94);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, name);
+    // _writeflags.1?string(buffer, 0, phone);
+    // _writeflags.2?string(buffer, 0, email);
+    // _writeflags.3?PostAddress(buffer, 0, shippingAddress);
     return 0;
   }
 }
@@ -23952,6 +25521,9 @@ class PaymentSavedCredentialsCard extends PaymentSavedCredentialsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcdc27a1f);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -23997,6 +25569,12 @@ class WebDocument extends WebDocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1c570ed1);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, size);
+    // _writestring(buffer, 0, mimeType);
+    // _writeVector<DocumentAttribute>(buffer, 0, attributes);
     return 0;
   }
 }
@@ -24032,6 +25610,11 @@ class WebDocumentNoProxy extends WebDocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf9c8bcc6);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, size);
+    // _writestring(buffer, 0, mimeType);
+    // _writeVector<DocumentAttribute>(buffer, 0, attributes);
     return 0;
   }
 }
@@ -24073,6 +25656,11 @@ class InputWebDocument extends InputWebDocumentBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9bed434d);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, size);
+    // _writestring(buffer, 0, mimeType);
+    // _writeVector<DocumentAttribute>(buffer, 0, attributes);
     return 0;
   }
 }
@@ -24106,6 +25694,9 @@ class InputWebFileLocation extends InputWebFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc239d686);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -24149,6 +25740,13 @@ class InputWebFileGeoPointLocation extends InputWebFileLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9f2221c9);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writeint(buffer, 0, zoom);
+    // _writeint(buffer, 0, scale);
     return 0;
   }
 }
@@ -24160,9 +25758,9 @@ class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
   /// Input Web File Audio Album Thumb Location constructor.
   const InputWebFileAudioAlbumThumbLocation({
     required this.flags,
-    required this.document,
-    required this.title,
-    required this.performer,
+    this.document,
+    this.title,
+    this.performer,
   }) : super._();
 
   /// Deserialize.
@@ -24179,23 +25777,20 @@ class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
   /// Document.
   final InputDocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 0);
-
   /// Title.
   final String? title;
-
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
 
   /// Performer.
   final String? performer;
 
-  /// If [performer] exists.
-  bool get hasPerformerField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf46fe924);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, small);
+    // _writeflags.0?InputDocument(buffer, 0, document);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.1?string(buffer, 0, performer);
     return 0;
   }
 }
@@ -24241,6 +25836,12 @@ class UploadWebFile extends UploadWebFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x21e753bc);
+    // _writeint(buffer, 0, size);
+    // _writestring(buffer, 0, mimeType);
+    // _writestorage.FileType(buffer, 0, fileType);
+    // _writeint(buffer, 0, mtime);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -24262,15 +25863,15 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
     required this.botId,
     required this.title,
     required this.description,
-    required this.photo,
+    this.photo,
     required this.invoice,
     required this.providerId,
     required this.url,
-    required this.nativeProvider,
-    required this.nativeParams,
-    required this.additionalMethods,
-    required this.savedInfo,
-    required this.savedCredentials,
+    this.nativeProvider,
+    this.nativeParams,
+    this.additionalMethods,
+    this.savedInfo,
+    this.savedCredentials,
     required this.users,
   }) : super._();
 
@@ -24303,9 +25904,6 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
   /// Photo.
   final WebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 5);
-
   /// Invoice.
   final InvoiceBase invoice;
 
@@ -24318,38 +25916,41 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
   /// Native Provider.
   final String? nativeProvider;
 
-  /// If [nativeProvider] exists.
-  bool get hasNativeProviderField => _bit(flags, 4);
-
   /// Native Params.
   final DataJSONBase? nativeParams;
-
-  /// If [nativeParams] exists.
-  bool get hasNativeParamsField => _bit(flags, 4);
 
   /// Additional Methods.
   final List<PaymentFormMethodBase>? additionalMethods;
 
-  /// If [additionalMethods] exists.
-  bool get hasAdditionalMethodsField => _bit(flags, 6);
-
   /// Saved Info.
   final PaymentRequestedInfoBase? savedInfo;
 
-  /// If [savedInfo] exists.
-  bool get hasSavedInfoField => _bit(flags, 0);
-
   /// Saved Credentials.
   final List<PaymentSavedCredentialsBase>? savedCredentials;
-
-  /// If [savedCredentials] exists.
-  bool get hasSavedCredentialsField => _bit(flags, 1);
 
   /// Users.
   final List<UserBase> users;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0058751);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, canSaveCredentials);
+    // _writeflags.3?true(buffer, 0, passwordMissing);
+    // _writelong(buffer, 0, formId);
+    // _writelong(buffer, 0, botId);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.5?WebDocument(buffer, 0, photo);
+    // _writeInvoice(buffer, 0, invoice);
+    // _writelong(buffer, 0, providerId);
+    // _writestring(buffer, 0, url);
+    // _writeflags.4?string(buffer, 0, nativeProvider);
+    // _writeflags.4?DataJSON(buffer, 0, nativeParams);
+    // _writeflags.6?Vector<PaymentFormMethod>(buffer, 0, additionalMethods);
+    // _writeflags.0?PaymentRequestedInfo(buffer, 0, savedInfo);
+    // _writeflags.1?Vector<PaymentSavedCredentials>(buffer, 0, savedCredentials);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -24368,8 +25969,8 @@ class PaymentsValidatedRequestedInfo
   /// Payments Validated Requested Info constructor.
   const PaymentsValidatedRequestedInfo({
     required this.flags,
-    required this.id,
-    required this.shippingOptions,
+    this.id,
+    this.shippingOptions,
   }) : super._();
 
   /// Deserialize.
@@ -24383,17 +25984,15 @@ class PaymentsValidatedRequestedInfo
   /// Id.
   final String? id;
 
-  /// If [id] exists.
-  bool get hasIdField => _bit(flags, 0);
-
   /// Shipping Options.
   final List<ShippingOptionBase>? shippingOptions;
 
-  /// If [shippingOptions] exists.
-  bool get hasShippingOptionsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd1451883);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, id);
+    // _writeflags.1?Vector<ShippingOption>(buffer, 0, shippingOptions);
     return 0;
   }
 }
@@ -24423,6 +26022,8 @@ class PaymentsPaymentResult extends PaymentsPaymentResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4e5f810d);
+    // _writeUpdates(buffer, 0, updates);
     return 0;
   }
 }
@@ -24446,6 +26047,8 @@ class PaymentsPaymentVerificationNeeded extends PaymentsPaymentResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd8411139);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -24468,11 +26071,11 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
     required this.providerId,
     required this.title,
     required this.description,
-    required this.photo,
+    this.photo,
     required this.invoice,
-    required this.info,
-    required this.shipping,
-    required this.tipAmount,
+    this.info,
+    this.shipping,
+    this.tipAmount,
     required this.currency,
     required this.totalAmount,
     required this.credentialsTitle,
@@ -24488,7 +26091,7 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
   final int flags;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Bot Id.
   final int botId;
@@ -24505,29 +26108,17 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
   /// Photo.
   final WebDocumentBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 2);
-
   /// Invoice.
   final InvoiceBase invoice;
 
   /// Info.
   final PaymentRequestedInfoBase? info;
 
-  /// If [info] exists.
-  bool get hasInfoField => _bit(flags, 0);
-
   /// Shipping.
   final ShippingOptionBase? shipping;
 
-  /// If [shipping] exists.
-  bool get hasShippingField => _bit(flags, 1);
-
   /// Tip Amount.
   final int? tipAmount;
-
-  /// If [tipAmount] exists.
-  bool get hasTipAmountField => _bit(flags, 3);
 
   /// Currency.
   final String currency;
@@ -24543,6 +26134,22 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x70c4fe03);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, botId);
+    // _writelong(buffer, 0, providerId);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writeflags.2?WebDocument(buffer, 0, photo);
+    // _writeInvoice(buffer, 0, invoice);
+    // _writeflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // _writeflags.1?ShippingOption(buffer, 0, shipping);
+    // _writeflags.3?long(buffer, 0, tipAmount);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, totalAmount);
+    // _writestring(buffer, 0, credentialsTitle);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -24560,7 +26167,7 @@ class PaymentsSavedInfo extends PaymentsSavedInfoBase {
   /// Payments Saved Info constructor.
   const PaymentsSavedInfo({
     required this.flags,
-    required this.savedInfo,
+    this.savedInfo,
   }) : super._();
 
   /// Deserialize.
@@ -24577,11 +26184,12 @@ class PaymentsSavedInfo extends PaymentsSavedInfoBase {
   /// Saved Info.
   final PaymentRequestedInfoBase? savedInfo;
 
-  /// If [savedInfo] exists.
-  bool get hasSavedInfoField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfb8fe43c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, hasSavedCredentials);
+    // _writeflags.0?PaymentRequestedInfo(buffer, 0, savedInfo);
     return 0;
   }
 }
@@ -24615,6 +26223,9 @@ class InputPaymentCredentialsSaved extends InputPaymentCredentialsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc10eb2cf);
+    // _writestring(buffer, 0, id);
+    // _writebytes(buffer, 0, tmpPassword);
     return 0;
   }
 }
@@ -24645,6 +26256,10 @@ class InputPaymentCredentials extends InputPaymentCredentialsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3417d728);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, save);
+    // _writeDataJSON(buffer, 0, data);
     return 0;
   }
 }
@@ -24668,6 +26283,8 @@ class InputPaymentCredentialsApplePay extends InputPaymentCredentialsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0aa1c39f);
+    // _writeDataJSON(buffer, 0, paymentData);
     return 0;
   }
 }
@@ -24691,6 +26308,8 @@ class InputPaymentCredentialsGooglePay extends InputPaymentCredentialsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ac32801);
+    // _writeDataJSON(buffer, 0, paymentToken);
     return 0;
   }
 }
@@ -24724,6 +26343,9 @@ class AccountTmpPassword extends AccountTmpPasswordBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb64fd34);
+    // _writebytes(buffer, 0, tmpPassword);
+    // _writeint(buffer, 0, validUntil);
     return 0;
   }
 }
@@ -24761,6 +26383,10 @@ class ShippingOption extends ShippingOptionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6213cdf);
+    // _writestring(buffer, 0, id);
+    // _writestring(buffer, 0, title);
+    // _writeVector<LabeledPrice>(buffer, 0, prices);
     return 0;
   }
 }
@@ -24780,8 +26406,8 @@ class InputStickerSetItem extends InputStickerSetItemBase {
     required this.flags,
     required this.document,
     required this.emoji,
-    required this.maskCoords,
-    required this.keywords,
+    this.maskCoords,
+    this.keywords,
   }) : super._();
 
   /// Deserialize.
@@ -24801,17 +26427,17 @@ class InputStickerSetItem extends InputStickerSetItemBase {
   /// Mask Coords.
   final MaskCoordsBase? maskCoords;
 
-  /// If [maskCoords] exists.
-  bool get hasMaskCoordsField => _bit(flags, 0);
-
   /// Keywords.
   final String? keywords;
 
-  /// If [keywords] exists.
-  bool get hasKeywordsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x32da9e9c);
+    // _write#(buffer, 0, flags);
+    // _writeInputDocument(buffer, 0, document);
+    // _writestring(buffer, 0, emoji);
+    // _writeflags.0?MaskCoords(buffer, 0, maskCoords);
+    // _writeflags.1?string(buffer, 0, keywords);
     return 0;
   }
 }
@@ -24845,6 +26471,9 @@ class InputPhoneCall extends InputPhoneCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e36fded);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -24874,6 +26503,8 @@ class PhoneCallEmpty extends PhoneCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5366c915);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -24891,7 +26522,7 @@ class PhoneCallWaiting extends PhoneCallBase {
     required this.adminId,
     required this.participantId,
     required this.protocol,
-    required this.receiveDate,
+    this.receiveDate,
   }) : super._();
 
   /// Deserialize.
@@ -24912,7 +26543,7 @@ class PhoneCallWaiting extends PhoneCallBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -24926,11 +26557,18 @@ class PhoneCallWaiting extends PhoneCallBase {
   /// Receive Date.
   final int? receiveDate;
 
-  /// If [receiveDate] exists.
-  bool get hasReceiveDateField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc5226f17);
+    // _write#(buffer, 0, flags);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
+    // _writeflags.0?int(buffer, 0, receiveDate);
     return 0;
   }
 }
@@ -24969,7 +26607,7 @@ class PhoneCallRequested extends PhoneCallBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -24985,6 +26623,16 @@ class PhoneCallRequested extends PhoneCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x14b0ed0c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writebytes(buffer, 0, gAHash);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
     return 0;
   }
 }
@@ -25023,7 +26671,7 @@ class PhoneCallAccepted extends PhoneCallBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -25039,6 +26687,16 @@ class PhoneCallAccepted extends PhoneCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3660c311);
+    // _write#(buffer, 0, flags);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writebytes(buffer, 0, gB);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
     return 0;
   }
 }
@@ -25083,7 +26741,7 @@ class PhoneCall extends PhoneCallBase {
   final int accessHash;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Admin Id.
   final int adminId;
@@ -25104,10 +26762,24 @@ class PhoneCall extends PhoneCallBase {
   final List<PhoneConnectionBase> connections;
 
   /// Start Date.
-  final int startDate;
+  final DateTime startDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x967f7c67);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, p2pAllowed);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, adminId);
+    // _writelong(buffer, 0, participantId);
+    // _writebytes(buffer, 0, gAOrB);
+    // _writelong(buffer, 0, keyFingerprint);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
+    // _writeVector<PhoneConnection>(buffer, 0, connections);
+    // _writeint(buffer, 0, startDate);
     return 0;
   }
 }
@@ -25120,8 +26792,8 @@ class PhoneCallDiscarded extends PhoneCallBase {
   const PhoneCallDiscarded({
     required this.flags,
     required this.id,
-    required this.reason,
-    required this.duration,
+    this.reason,
+    this.duration,
   }) : super._();
 
   /// Deserialize.
@@ -25147,17 +26819,19 @@ class PhoneCallDiscarded extends PhoneCallBase {
   /// Reason.
   final PhoneCallDiscardReasonBase? reason;
 
-  /// If [reason] exists.
-  bool get hasReasonField => _bit(flags, 0);
-
   /// Duration.
   final int? duration;
 
-  /// If [duration] exists.
-  bool get hasDurationField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50ca4de1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, needRating);
+    // _writeflags.3?true(buffer, 0, needDebug);
+    // _writeflags.6?true(buffer, 0, video);
+    // _writelong(buffer, 0, id);
+    // _writeflags.0?PhoneCallDiscardReason(buffer, 0, reason);
+    // _writeflags.1?int(buffer, 0, duration);
     return 0;
   }
 }
@@ -25210,6 +26884,14 @@ class PhoneConnection extends PhoneConnectionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9cc123c7);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, tcp);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, ip);
+    // _writestring(buffer, 0, ipv6);
+    // _writeint(buffer, 0, port);
+    // _writebytes(buffer, 0, peerTag);
     return 0;
   }
 }
@@ -25263,6 +26945,16 @@ class PhoneConnectionWebrtc extends PhoneConnectionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x635fe375);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, turn);
+    // _writeflags.1?true(buffer, 0, stun);
+    // _writelong(buffer, 0, id);
+    // _writestring(buffer, 0, ip);
+    // _writestring(buffer, 0, ipv6);
+    // _writeint(buffer, 0, port);
+    // _writestring(buffer, 0, username);
+    // _writestring(buffer, 0, password);
     return 0;
   }
 }
@@ -25310,6 +27002,13 @@ class PhoneCallProtocol extends PhoneCallProtocolBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfc878fc8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, udpP2p);
+    // _writeflags.1?true(buffer, 0, udpReflector);
+    // _writeint(buffer, 0, minLayer);
+    // _writeint(buffer, 0, maxLayer);
+    // _writeVector<string>(buffer, 0, libraryVersions);
     return 0;
   }
 }
@@ -25343,6 +27042,9 @@ class PhonePhoneCall extends PhonePhoneCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xec82e140);
+    // _writePhoneCall(buffer, 0, phoneCall);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -25372,6 +27074,8 @@ class UploadCdnFileReuploadNeeded extends UploadCdnFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeea8e46e);
+    // _writebytes(buffer, 0, requestToken);
     return 0;
   }
 }
@@ -25395,6 +27099,8 @@ class UploadCdnFile extends UploadCdnFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa99fca4f);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -25428,6 +27134,9 @@ class CdnPublicKey extends CdnPublicKeyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc982eaba);
+    // _writeint(buffer, 0, dcId);
+    // _writestring(buffer, 0, publicKey);
     return 0;
   }
 }
@@ -25457,6 +27166,8 @@ class CdnConfig extends CdnConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5725e40a);
+    // _writeVector<CdnPublicKey>(buffer, 0, publicKeys);
     return 0;
   }
 }
@@ -25490,6 +27201,9 @@ class LangPackString extends LangPackStringBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcad181f6);
+    // _writestring(buffer, 0, key);
+    // _writestring(buffer, 0, value);
     return 0;
   }
 }
@@ -25502,11 +27216,11 @@ class LangPackStringPluralized extends LangPackStringBase {
   const LangPackStringPluralized({
     required this.flags,
     required this.key,
-    required this.zeroValue,
-    required this.oneValue,
-    required this.twoValue,
-    required this.fewValue,
-    required this.manyValue,
+    this.zeroValue,
+    this.oneValue,
+    this.twoValue,
+    this.fewValue,
+    this.manyValue,
     required this.otherValue,
   }) : super._();
 
@@ -25524,38 +27238,32 @@ class LangPackStringPluralized extends LangPackStringBase {
   /// Zero Value.
   final String? zeroValue;
 
-  /// If [zeroValue] exists.
-  bool get hasZeroValueField => _bit(flags, 0);
-
   /// One Value.
   final String? oneValue;
-
-  /// If [oneValue] exists.
-  bool get hasOneValueField => _bit(flags, 1);
 
   /// Two Value.
   final String? twoValue;
 
-  /// If [twoValue] exists.
-  bool get hasTwoValueField => _bit(flags, 2);
-
   /// Few Value.
   final String? fewValue;
 
-  /// If [fewValue] exists.
-  bool get hasFewValueField => _bit(flags, 3);
-
   /// Many Value.
   final String? manyValue;
-
-  /// If [manyValue] exists.
-  bool get hasManyValueField => _bit(flags, 4);
 
   /// Other Value.
   final String otherValue;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c47ac9f);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, key);
+    // _writeflags.0?string(buffer, 0, zeroValue);
+    // _writeflags.1?string(buffer, 0, oneValue);
+    // _writeflags.2?string(buffer, 0, twoValue);
+    // _writeflags.3?string(buffer, 0, fewValue);
+    // _writeflags.4?string(buffer, 0, manyValue);
+    // _writestring(buffer, 0, otherValue);
     return 0;
   }
 }
@@ -25579,6 +27287,8 @@ class LangPackStringDeleted extends LangPackStringBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2979eeb2);
+    // _writestring(buffer, 0, key);
     return 0;
   }
 }
@@ -25620,6 +27330,11 @@ class LangPackDifference extends LangPackDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf385c1f6);
+    // _writestring(buffer, 0, langCode);
+    // _writeint(buffer, 0, fromVersion);
+    // _writeint(buffer, 0, version);
+    // _writeVector<LangPackString>(buffer, 0, strings);
     return 0;
   }
 }
@@ -25640,7 +27355,7 @@ class LangPackLanguage extends LangPackLanguageBase {
     required this.name,
     required this.nativeName,
     required this.langCode,
-    required this.baseLangCode,
+    this.baseLangCode,
     required this.pluralCode,
     required this.stringsCount,
     required this.translatedCount,
@@ -25676,9 +27391,6 @@ class LangPackLanguage extends LangPackLanguageBase {
   /// Base Lang Code.
   final String? baseLangCode;
 
-  /// If [baseLangCode] exists.
-  bool get hasBaseLangCodeField => _bit(flags, 1);
-
   /// Plural Code.
   final String pluralCode;
 
@@ -25693,6 +27405,19 @@ class LangPackLanguage extends LangPackLanguageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeeca5ce3);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, official);
+    // _writeflags.2?true(buffer, 0, rtl);
+    // _writeflags.3?true(buffer, 0, beta);
+    // _writestring(buffer, 0, name);
+    // _writestring(buffer, 0, nativeName);
+    // _writestring(buffer, 0, langCode);
+    // _writeflags.1?string(buffer, 0, baseLangCode);
+    // _writestring(buffer, 0, pluralCode);
+    // _writeint(buffer, 0, stringsCount);
+    // _writeint(buffer, 0, translatedCount);
+    // _writestring(buffer, 0, translationsUrl);
     return 0;
   }
 }
@@ -25727,6 +27452,9 @@ class ChannelAdminLogEventActionChangeTitle
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe6dfb825);
+    // _writestring(buffer, 0, prevValue);
+    // _writestring(buffer, 0, newValue);
     return 0;
   }
 }
@@ -25755,6 +27483,9 @@ class ChannelAdminLogEventActionChangeAbout
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x55188a2e);
+    // _writestring(buffer, 0, prevValue);
+    // _writestring(buffer, 0, newValue);
     return 0;
   }
 }
@@ -25784,6 +27515,9 @@ class ChannelAdminLogEventActionChangeUsername
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a4afc38);
+    // _writestring(buffer, 0, prevValue);
+    // _writestring(buffer, 0, newValue);
     return 0;
   }
 }
@@ -25812,6 +27546,9 @@ class ChannelAdminLogEventActionChangePhoto
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x434bd2af);
+    // _writePhoto(buffer, 0, prevPhoto);
+    // _writePhoto(buffer, 0, newPhoto);
     return 0;
   }
 }
@@ -25837,6 +27574,8 @@ class ChannelAdminLogEventActionToggleInvites
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b7907ae);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -25862,6 +27601,8 @@ class ChannelAdminLogEventActionToggleSignatures
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x26ae0971);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -25886,6 +27627,8 @@ class ChannelAdminLogEventActionUpdatePinned
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe9e82c18);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -25914,6 +27657,9 @@ class ChannelAdminLogEventActionEditMessage
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x709b2405);
+    // _writeMessage(buffer, 0, prevMessage);
+    // _writeMessage(buffer, 0, newMessage);
     return 0;
   }
 }
@@ -25939,6 +27685,8 @@ class ChannelAdminLogEventActionDeleteMessage
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x42e047bb);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -25959,6 +27707,7 @@ class ChannelAdminLogEventActionParticipantJoin
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x183040d3);
     return 0;
   }
 }
@@ -25979,6 +27728,7 @@ class ChannelAdminLogEventActionParticipantLeave
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf89777f2);
     return 0;
   }
 }
@@ -26004,6 +27754,8 @@ class ChannelAdminLogEventActionParticipantInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe31c34d8);
+    // _writeChannelParticipant(buffer, 0, participant);
     return 0;
   }
 }
@@ -26033,6 +27785,9 @@ class ChannelAdminLogEventActionParticipantToggleBan
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe6d83d7e);
+    // _writeChannelParticipant(buffer, 0, prevParticipant);
+    // _writeChannelParticipant(buffer, 0, newParticipant);
     return 0;
   }
 }
@@ -26062,6 +27817,9 @@ class ChannelAdminLogEventActionParticipantToggleAdmin
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd5676710);
+    // _writeChannelParticipant(buffer, 0, prevParticipant);
+    // _writeChannelParticipant(buffer, 0, newParticipant);
     return 0;
   }
 }
@@ -26091,6 +27849,9 @@ class ChannelAdminLogEventActionChangeStickerSet
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb1c3caa7);
+    // _writeInputStickerSet(buffer, 0, prevStickerset);
+    // _writeInputStickerSet(buffer, 0, newStickerset);
     return 0;
   }
 }
@@ -26116,6 +27877,8 @@ class ChannelAdminLogEventActionTogglePreHistoryHidden
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5f5c95f1);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26145,6 +27908,9 @@ class ChannelAdminLogEventActionDefaultBannedRights
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2df5fc0a);
+    // _writeChatBannedRights(buffer, 0, prevBannedRights);
+    // _writeChatBannedRights(buffer, 0, newBannedRights);
     return 0;
   }
 }
@@ -26169,6 +27935,8 @@ class ChannelAdminLogEventActionStopPoll
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8f079643);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -26198,6 +27966,9 @@ class ChannelAdminLogEventActionChangeLinkedChat
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x050c7ac8);
+    // _writelong(buffer, 0, prevValue);
+    // _writelong(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26227,6 +27998,9 @@ class ChannelAdminLogEventActionChangeLocation
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0e6b76ae);
+    // _writeChannelLocation(buffer, 0, prevValue);
+    // _writeChannelLocation(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26256,6 +28030,9 @@ class ChannelAdminLogEventActionToggleSlowMode
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x53909779);
+    // _writeint(buffer, 0, prevValue);
+    // _writeint(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26281,6 +28058,8 @@ class ChannelAdminLogEventActionStartGroupCall
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x23209745);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -26306,6 +28085,8 @@ class ChannelAdminLogEventActionDiscardGroupCall
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb9f9140);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -26331,6 +28112,8 @@ class ChannelAdminLogEventActionParticipantMute
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf92424d2);
+    // _writeGroupCallParticipant(buffer, 0, participant);
     return 0;
   }
 }
@@ -26356,6 +28139,8 @@ class ChannelAdminLogEventActionParticipantUnmute
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe64429c0);
+    // _writeGroupCallParticipant(buffer, 0, participant);
     return 0;
   }
 }
@@ -26381,6 +28166,8 @@ class ChannelAdminLogEventActionToggleGroupCallSetting
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56d6a247);
+    // _writeBool(buffer, 0, joinMuted);
     return 0;
   }
 }
@@ -26413,6 +28200,10 @@ class ChannelAdminLogEventActionParticipantJoinByInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfe9fc158);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, viaChatlist);
+    // _writeExportedChatInvite(buffer, 0, invite);
     return 0;
   }
 }
@@ -26438,6 +28229,8 @@ class ChannelAdminLogEventActionExportedInviteDelete
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5a50fca4);
+    // _writeExportedChatInvite(buffer, 0, invite);
     return 0;
   }
 }
@@ -26463,6 +28256,8 @@ class ChannelAdminLogEventActionExportedInviteRevoke
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x410a134e);
+    // _writeExportedChatInvite(buffer, 0, invite);
     return 0;
   }
 }
@@ -26492,6 +28287,9 @@ class ChannelAdminLogEventActionExportedInviteEdit
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe90ebb59);
+    // _writeExportedChatInvite(buffer, 0, prevInvite);
+    // _writeExportedChatInvite(buffer, 0, newInvite);
     return 0;
   }
 }
@@ -26517,6 +28315,8 @@ class ChannelAdminLogEventActionParticipantVolume
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3e7f6847);
+    // _writeGroupCallParticipant(buffer, 0, participant);
     return 0;
   }
 }
@@ -26546,6 +28346,9 @@ class ChannelAdminLogEventActionChangeHistoryTTL
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6e941a38);
+    // _writeint(buffer, 0, prevValue);
+    // _writeint(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26575,6 +28378,9 @@ class ChannelAdminLogEventActionParticipantJoinByRequest
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xafb6144a);
+    // _writeExportedChatInvite(buffer, 0, invite);
+    // _writelong(buffer, 0, approvedBy);
     return 0;
   }
 }
@@ -26600,6 +28406,8 @@ class ChannelAdminLogEventActionToggleNoForwards
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcb2ac766);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26624,6 +28432,8 @@ class ChannelAdminLogEventActionSendMessage
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x278f2868);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -26653,6 +28463,9 @@ class ChannelAdminLogEventActionChangeAvailableReactions
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbe4e0ef8);
+    // _writeChatReactions(buffer, 0, prevValue);
+    // _writeChatReactions(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26682,6 +28495,9 @@ class ChannelAdminLogEventActionChangeUsernames
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf04fb3a9);
+    // _writeVector<string>(buffer, 0, prevValue);
+    // _writeVector<string>(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26706,6 +28522,8 @@ class ChannelAdminLogEventActionToggleForum
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x02cc6383);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26730,6 +28548,8 @@ class ChannelAdminLogEventActionCreateTopic
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x58707d28);
+    // _writeForumTopic(buffer, 0, topic);
     return 0;
   }
 }
@@ -26758,6 +28578,9 @@ class ChannelAdminLogEventActionEditTopic
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf06fe208);
+    // _writeForumTopic(buffer, 0, prevTopic);
+    // _writeForumTopic(buffer, 0, newTopic);
     return 0;
   }
 }
@@ -26782,6 +28605,8 @@ class ChannelAdminLogEventActionDeleteTopic
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xae168909);
+    // _writeForumTopic(buffer, 0, topic);
     return 0;
   }
 }
@@ -26794,8 +28619,8 @@ class ChannelAdminLogEventActionPinTopic
   /// Channel Admin Log Event Action Pin Topic constructor.
   const ChannelAdminLogEventActionPinTopic({
     required this.flags,
-    required this.prevTopic,
-    required this.newTopic,
+    this.prevTopic,
+    this.newTopic,
   }) : super._();
 
   /// Deserialize.
@@ -26809,17 +28634,15 @@ class ChannelAdminLogEventActionPinTopic
   /// Prev Topic.
   final ForumTopicBase? prevTopic;
 
-  /// If [prevTopic] exists.
-  bool get hasPrevTopicField => _bit(flags, 0);
-
   /// New Topic.
   final ForumTopicBase? newTopic;
 
-  /// If [newTopic] exists.
-  bool get hasNewTopicField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5d8d353b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?ForumTopic(buffer, 0, prevTopic);
+    // _writeflags.1?ForumTopic(buffer, 0, newTopic);
     return 0;
   }
 }
@@ -26845,6 +28668,8 @@ class ChannelAdminLogEventActionToggleAntiSpam
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64f36dfc);
+    // _writeBool(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26874,6 +28699,9 @@ class ChannelAdminLogEventActionChangePeerColor
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5796e780);
+    // _writePeerColor(buffer, 0, prevValue);
+    // _writePeerColor(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26903,6 +28731,9 @@ class ChannelAdminLogEventActionChangeProfilePeerColor
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5e477b25);
+    // _writePeerColor(buffer, 0, prevValue);
+    // _writePeerColor(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26932,6 +28763,9 @@ class ChannelAdminLogEventActionChangeWallpaper
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x31bb5d52);
+    // _writeWallPaper(buffer, 0, prevValue);
+    // _writeWallPaper(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26961,6 +28795,9 @@ class ChannelAdminLogEventActionChangeEmojiStatus
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3ea9feb1);
+    // _writeEmojiStatus(buffer, 0, prevValue);
+    // _writeEmojiStatus(buffer, 0, newValue);
     return 0;
   }
 }
@@ -26992,7 +28829,7 @@ class ChannelAdminLogEvent extends ChannelAdminLogEventBase {
   final int id;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// User Id.
   final int userId;
@@ -27002,6 +28839,11 @@ class ChannelAdminLogEvent extends ChannelAdminLogEventBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1fad68cd);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, date);
+    // _writelong(buffer, 0, userId);
+    // _writeChannelAdminLogEventAction(buffer, 0, action);
     return 0;
   }
 }
@@ -27039,6 +28881,10 @@ class ChannelsAdminLogResults extends ChannelsAdminLogResultsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed8af74d);
+    // _writeVector<ChannelAdminLogEvent>(buffer, 0, events);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -27122,6 +28968,26 @@ class ChannelAdminLogEventsFilter extends ChannelAdminLogEventsFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea107ae4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, join);
+    // _writeflags.1?true(buffer, 0, leave);
+    // _writeflags.2?true(buffer, 0, invite);
+    // _writeflags.3?true(buffer, 0, ban);
+    // _writeflags.4?true(buffer, 0, unban);
+    // _writeflags.5?true(buffer, 0, kick);
+    // _writeflags.6?true(buffer, 0, unkick);
+    // _writeflags.7?true(buffer, 0, promote);
+    // _writeflags.8?true(buffer, 0, demote);
+    // _writeflags.9?true(buffer, 0, info);
+    // _writeflags.10?true(buffer, 0, settings);
+    // _writeflags.11?true(buffer, 0, pinned);
+    // _writeflags.12?true(buffer, 0, edit);
+    // _writeflags.13?true(buffer, 0, delete);
+    // _writeflags.14?true(buffer, 0, groupCall);
+    // _writeflags.15?true(buffer, 0, invites);
+    // _writeflags.16?true(buffer, 0, send);
+    // _writeflags.17?true(buffer, 0, forums);
     return 0;
   }
 }
@@ -27155,6 +29021,9 @@ class PopularContact extends PopularContactBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5ce14175);
+    // _writelong(buffer, 0, clientId);
+    // _writeint(buffer, 0, importers);
     return 0;
   }
 }
@@ -27179,6 +29048,7 @@ class MessagesFavedStickersNotModified extends MessagesFavedStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9e8fa6d3);
     return 0;
   }
 }
@@ -27210,6 +29080,10 @@ class MessagesFavedStickers extends MessagesFavedStickersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2cb51097);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<StickerPack>(buffer, 0, packs);
+    // _writeVector<Document>(buffer, 0, stickers);
     return 0;
   }
 }
@@ -27239,6 +29113,8 @@ class RecentMeUrlUnknown extends RecentMeUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x46e1d13d);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -27266,6 +29142,9 @@ class RecentMeUrlUser extends RecentMeUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb92c09e2);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, userId);
     return 0;
   }
 }
@@ -27293,6 +29172,9 @@ class RecentMeUrlChat extends RecentMeUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2da71d2);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -27320,6 +29202,9 @@ class RecentMeUrlChatInvite extends RecentMeUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeb49081d);
+    // _writestring(buffer, 0, url);
+    // _writeChatInvite(buffer, 0, chatInvite);
     return 0;
   }
 }
@@ -27347,6 +29232,9 @@ class RecentMeUrlStickerSet extends RecentMeUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbc0a57dc);
+    // _writestring(buffer, 0, url);
+    // _writeStickerSetCovered(buffer, 0, set);
     return 0;
   }
 }
@@ -27384,6 +29272,10 @@ class HelpRecentMeUrls extends HelpRecentMeUrlsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0e0310d7);
+    // _writeVector<RecentMeUrl>(buffer, 0, urls);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -27404,7 +29296,7 @@ class InputSingleMedia extends InputSingleMediaBase {
     required this.media,
     required this.randomId,
     required this.message,
-    required this.entities,
+    this.entities,
   }) : super._();
 
   /// Deserialize.
@@ -27427,11 +29319,14 @@ class InputSingleMedia extends InputSingleMediaBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1cc6e91f);
+    // _write#(buffer, 0, flags);
+    // _writeInputMedia(buffer, 0, media);
+    // _writelong(buffer, 0, randomId);
+    // _writestring(buffer, 0, message);
+    // _writeflags.0?Vector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -27493,6 +29388,16 @@ class WebAuthorization extends WebAuthorizationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6f8f452);
+    // _writelong(buffer, 0, hash);
+    // _writelong(buffer, 0, botId);
+    // _writestring(buffer, 0, domain);
+    // _writestring(buffer, 0, browser);
+    // _writestring(buffer, 0, platform);
+    // _writeint(buffer, 0, dateCreated);
+    // _writeint(buffer, 0, dateActive);
+    // _writestring(buffer, 0, ip);
+    // _writestring(buffer, 0, region);
     return 0;
   }
 }
@@ -27526,6 +29431,9 @@ class AccountWebAuthorizations extends AccountWebAuthorizationsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed56c9fc);
+    // _writeVector<WebAuthorization>(buffer, 0, authorizations);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -27555,6 +29463,8 @@ class InputMessageID extends InputMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa676a322);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -27578,6 +29488,8 @@ class InputMessageReplyTo extends InputMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbad88395);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -27596,6 +29508,7 @@ class InputMessagePinned extends InputMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86872538);
     return 0;
   }
 }
@@ -27623,6 +29536,9 @@ class InputMessageCallbackQuery extends InputMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xacfa1a7e);
+    // _writeint(buffer, 0, id);
+    // _writelong(buffer, 0, queryId);
     return 0;
   }
 }
@@ -27652,6 +29568,8 @@ class InputDialogPeer extends InputDialogPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfcaafeb7);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -27675,6 +29593,8 @@ class InputDialogPeerFolder extends InputDialogPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64600527);
+    // _writeint(buffer, 0, folderId);
     return 0;
   }
 }
@@ -27704,6 +29624,8 @@ class DialogPeer extends DialogPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe56dbf05);
+    // _writePeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -27727,6 +29649,8 @@ class DialogPeerFolder extends DialogPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x514519e2);
+    // _writeint(buffer, 0, folderId);
     return 0;
   }
 }
@@ -27751,6 +29675,7 @@ class MessagesFoundStickerSetsNotModified extends MessagesFoundStickerSetsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0d54b65d);
     return 0;
   }
 }
@@ -27778,6 +29703,9 @@ class MessagesFoundStickerSets extends MessagesFoundStickerSetsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8af09dd2);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<StickerSetCovered>(buffer, 0, sets);
     return 0;
   }
 }
@@ -27815,6 +29743,10 @@ class FileHash extends FileHashBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf39b035c);
+    // _writelong(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
+    // _writebytes(buffer, 0, hash);
     return 0;
   }
 }
@@ -27848,6 +29780,9 @@ class InputClientProxy extends InputClientProxyBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x75588b3f);
+    // _writestring(buffer, 0, address);
+    // _writeint(buffer, 0, port);
     return 0;
   }
 }
@@ -27877,6 +29812,8 @@ class HelpTermsOfServiceUpdateEmpty extends HelpTermsOfServiceUpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe3309f7f);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -27904,6 +29841,9 @@ class HelpTermsOfServiceUpdate extends HelpTermsOfServiceUpdateBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x28ecf961);
+    // _writeint(buffer, 0, expires);
+    // _writehelp.TermsOfService(buffer, 0, termsOfService);
     return 0;
   }
 }
@@ -27949,6 +29889,12 @@ class InputSecureFileUploaded extends InputSecureFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3334b0f0);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, parts);
+    // _writestring(buffer, 0, md5Checksum);
+    // _writebytes(buffer, 0, fileHash);
+    // _writebytes(buffer, 0, secret);
     return 0;
   }
 }
@@ -27976,6 +29922,9 @@ class InputSecureFile extends InputSecureFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5367e5be);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -28000,6 +29949,7 @@ class SecureFileEmpty extends SecureFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64199744);
     return 0;
   }
 }
@@ -28037,7 +29987,7 @@ class SecureFile extends SecureFileBase {
   final int dcId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// File Hash.
   final Uint8List fileHash;
@@ -28047,6 +29997,14 @@ class SecureFile extends SecureFileBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7d09c27e);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writelong(buffer, 0, size);
+    // _writeint(buffer, 0, dcId);
+    // _writeint(buffer, 0, date);
+    // _writebytes(buffer, 0, fileHash);
+    // _writebytes(buffer, 0, secret);
     return 0;
   }
 }
@@ -28084,6 +30042,10 @@ class SecureData extends SecureDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8aeabec3);
+    // _writebytes(buffer, 0, data);
+    // _writebytes(buffer, 0, dataHash);
+    // _writebytes(buffer, 0, secret);
     return 0;
   }
 }
@@ -28113,6 +30075,8 @@ class SecurePlainPhone extends SecurePlainDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7d6099dd);
+    // _writestring(buffer, 0, phone);
     return 0;
   }
 }
@@ -28136,6 +30100,8 @@ class SecurePlainEmail extends SecurePlainDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x21ec5a5f);
+    // _writestring(buffer, 0, email);
     return 0;
   }
 }
@@ -28160,6 +30126,7 @@ class SecureValueTypePersonalDetails extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9d2a81e3);
     return 0;
   }
 }
@@ -28178,6 +30145,7 @@ class SecureValueTypePassport extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dac6a00);
     return 0;
   }
 }
@@ -28196,6 +30164,7 @@ class SecureValueTypeDriverLicense extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x06e425c4);
     return 0;
   }
 }
@@ -28214,6 +30183,7 @@ class SecureValueTypeIdentityCard extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0d0744b);
     return 0;
   }
 }
@@ -28232,6 +30202,7 @@ class SecureValueTypeInternalPassport extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x99a48f23);
     return 0;
   }
 }
@@ -28250,6 +30221,7 @@ class SecureValueTypeAddress extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcbe31e26);
     return 0;
   }
 }
@@ -28268,6 +30240,7 @@ class SecureValueTypeUtilityBill extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfc36954e);
     return 0;
   }
 }
@@ -28286,6 +30259,7 @@ class SecureValueTypeBankStatement extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x89137c0d);
     return 0;
   }
 }
@@ -28304,6 +30278,7 @@ class SecureValueTypeRentalAgreement extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8b883488);
     return 0;
   }
 }
@@ -28322,6 +30297,7 @@ class SecureValueTypePassportRegistration extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x99e3806a);
     return 0;
   }
 }
@@ -28340,6 +30316,7 @@ class SecureValueTypeTemporaryRegistration extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea02ec33);
     return 0;
   }
 }
@@ -28358,6 +30335,7 @@ class SecureValueTypePhone extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb320aadb);
     return 0;
   }
 }
@@ -28376,6 +30354,7 @@ class SecureValueTypeEmail extends SecureValueTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8e3ca7ee);
     return 0;
   }
 }
@@ -28394,13 +30373,13 @@ class SecureValue extends SecureValueBase {
   const SecureValue({
     required this.flags,
     required this.type,
-    required this.data,
-    required this.frontSide,
-    required this.reverseSide,
-    required this.selfie,
-    required this.translation,
-    required this.files,
-    required this.plainData,
+    this.data,
+    this.frontSide,
+    this.reverseSide,
+    this.selfie,
+    this.translation,
+    this.files,
+    this.plainData,
     required this.hash,
   }) : super._();
 
@@ -28418,50 +30397,40 @@ class SecureValue extends SecureValueBase {
   /// Data.
   final SecureDataBase? data;
 
-  /// If [data] exists.
-  bool get hasDataField => _bit(flags, 0);
-
   /// Front Side.
   final SecureFileBase? frontSide;
-
-  /// If [frontSide] exists.
-  bool get hasFrontSideField => _bit(flags, 1);
 
   /// Reverse Side.
   final SecureFileBase? reverseSide;
 
-  /// If [reverseSide] exists.
-  bool get hasReverseSideField => _bit(flags, 2);
-
   /// Selfie.
   final SecureFileBase? selfie;
-
-  /// If [selfie] exists.
-  bool get hasSelfieField => _bit(flags, 3);
 
   /// Translation.
   final List<SecureFileBase>? translation;
 
-  /// If [translation] exists.
-  bool get hasTranslationField => _bit(flags, 6);
-
   /// Files.
   final List<SecureFileBase>? files;
 
-  /// If [files] exists.
-  bool get hasFilesField => _bit(flags, 4);
-
   /// Plain Data.
   final SecurePlainDataBase? plainData;
-
-  /// If [plainData] exists.
-  bool get hasPlainDataField => _bit(flags, 5);
 
   /// Hash.
   final Uint8List hash;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x187fa0ca);
+    // _write#(buffer, 0, flags);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writeflags.0?SecureData(buffer, 0, data);
+    // _writeflags.1?SecureFile(buffer, 0, frontSide);
+    // _writeflags.2?SecureFile(buffer, 0, reverseSide);
+    // _writeflags.3?SecureFile(buffer, 0, selfie);
+    // _writeflags.6?Vector<SecureFile>(buffer, 0, translation);
+    // _writeflags.4?Vector<SecureFile>(buffer, 0, files);
+    // _writeflags.5?SecurePlainData(buffer, 0, plainData);
+    // _writebytes(buffer, 0, hash);
     return 0;
   }
 }
@@ -28480,13 +30449,13 @@ class InputSecureValue extends InputSecureValueBase {
   const InputSecureValue({
     required this.flags,
     required this.type,
-    required this.data,
-    required this.frontSide,
-    required this.reverseSide,
-    required this.selfie,
-    required this.translation,
-    required this.files,
-    required this.plainData,
+    this.data,
+    this.frontSide,
+    this.reverseSide,
+    this.selfie,
+    this.translation,
+    this.files,
+    this.plainData,
   }) : super._();
 
   /// Deserialize.
@@ -28503,47 +30472,36 @@ class InputSecureValue extends InputSecureValueBase {
   /// Data.
   final SecureDataBase? data;
 
-  /// If [data] exists.
-  bool get hasDataField => _bit(flags, 0);
-
   /// Front Side.
   final InputSecureFileBase? frontSide;
-
-  /// If [frontSide] exists.
-  bool get hasFrontSideField => _bit(flags, 1);
 
   /// Reverse Side.
   final InputSecureFileBase? reverseSide;
 
-  /// If [reverseSide] exists.
-  bool get hasReverseSideField => _bit(flags, 2);
-
   /// Selfie.
   final InputSecureFileBase? selfie;
-
-  /// If [selfie] exists.
-  bool get hasSelfieField => _bit(flags, 3);
 
   /// Translation.
   final List<InputSecureFileBase>? translation;
 
-  /// If [translation] exists.
-  bool get hasTranslationField => _bit(flags, 6);
-
   /// Files.
   final List<InputSecureFileBase>? files;
-
-  /// If [files] exists.
-  bool get hasFilesField => _bit(flags, 4);
 
   /// Plain Data.
   final SecurePlainDataBase? plainData;
 
-  /// If [plainData] exists.
-  bool get hasPlainDataField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb21d0a7);
+    // _write#(buffer, 0, flags);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writeflags.0?SecureData(buffer, 0, data);
+    // _writeflags.1?InputSecureFile(buffer, 0, frontSide);
+    // _writeflags.2?InputSecureFile(buffer, 0, reverseSide);
+    // _writeflags.3?InputSecureFile(buffer, 0, selfie);
+    // _writeflags.6?Vector<InputSecureFile>(buffer, 0, translation);
+    // _writeflags.4?Vector<InputSecureFile>(buffer, 0, files);
+    // _writeflags.5?SecurePlainData(buffer, 0, plainData);
     return 0;
   }
 }
@@ -28577,6 +30535,9 @@ class SecureValueHash extends SecureValueHashBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed1ecdb0);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, hash);
     return 0;
   }
 }
@@ -28618,6 +30579,11 @@ class SecureValueErrorData extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe8a40bd9);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, dataHash);
+    // _writestring(buffer, 0, field);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28649,6 +30615,10 @@ class SecureValueErrorFrontSide extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x00be3dfa);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28680,6 +30650,10 @@ class SecureValueErrorReverseSide extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x868a2aa5);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28711,6 +30685,10 @@ class SecureValueErrorSelfie extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe537ced6);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28742,6 +30720,10 @@ class SecureValueErrorFile extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a700873);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28773,6 +30755,10 @@ class SecureValueErrorFiles extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x666220e9);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writeVector<bytes>(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28804,6 +30790,10 @@ class SecureValueError extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x869d758f);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, hash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28835,6 +30825,10 @@ class SecureValueErrorTranslationFile extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa1144770);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writebytes(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28866,6 +30860,10 @@ class SecureValueErrorTranslationFiles extends SecureValueErrorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34636dd8);
+    // _writeSecureValueType(buffer, 0, type);
+    // _writeVector<bytes>(buffer, 0, fileHash);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -28903,6 +30901,10 @@ class SecureCredentialsEncrypted extends SecureCredentialsEncryptedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x33f0ea47);
+    // _writebytes(buffer, 0, data);
+    // _writebytes(buffer, 0, hash);
+    // _writebytes(buffer, 0, secret);
     return 0;
   }
 }
@@ -28924,7 +30926,7 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
     required this.values,
     required this.errors,
     required this.users,
-    required this.privacyPolicyUrl,
+    this.privacyPolicyUrl,
   }) : super._();
 
   /// Deserialize.
@@ -28950,11 +30952,15 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
   /// Privacy Policy Url.
   final String? privacyPolicyUrl;
 
-  /// If [privacyPolicyUrl] exists.
-  bool get hasPrivacyPolicyUrlField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xad2e1cd8);
+    // _write#(buffer, 0, flags);
+    // _writeVector<SecureRequiredType>(buffer, 0, requiredTypes);
+    // _writeVector<SecureValue>(buffer, 0, values);
+    // _writeVector<SecureValueError>(buffer, 0, errors);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.0?string(buffer, 0, privacyPolicyUrl);
     return 0;
   }
 }
@@ -28988,6 +30994,9 @@ class AccountSentEmailCode extends AccountSentEmailCodeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x811f854f);
+    // _writestring(buffer, 0, emailPattern);
+    // _writeint(buffer, 0, length);
     return 0;
   }
 }
@@ -29012,6 +31021,7 @@ class HelpDeepLinkInfoEmpty extends HelpDeepLinkInfoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x66afa166);
     return 0;
   }
 }
@@ -29024,7 +31034,7 @@ class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
   const HelpDeepLinkInfo({
     required this.flags,
     required this.message,
-    required this.entities,
+    this.entities,
   }) : super._();
 
   /// Deserialize.
@@ -29044,11 +31054,13 @@ class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a4ee832);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, updateApp);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -29086,10 +31098,15 @@ class SavedPhoneContact extends SavedContactBase {
   final String lastName;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1142bd56);
+    // _writestring(buffer, 0, phone);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -29119,6 +31136,8 @@ class AccountTakeout extends AccountTakeoutBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4dba4501);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -29143,6 +31162,7 @@ class PasswordKdfAlgoUnknown extends PasswordKdfAlgoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd45ab096);
     return 0;
   }
 }
@@ -29180,6 +31200,11 @@ class PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3a912d4a);
+    // _writebytes(buffer, 0, salt1);
+    // _writebytes(buffer, 0, salt2);
+    // _writeint(buffer, 0, g);
+    // _writebytes(buffer, 0, p);
     return 0;
   }
 }
@@ -29204,6 +31229,7 @@ class SecurePasswordKdfAlgoUnknown extends SecurePasswordKdfAlgoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x004a8537);
     return 0;
   }
 }
@@ -29229,6 +31255,8 @@ class SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbbf2dda0);
+    // _writebytes(buffer, 0, salt);
     return 0;
   }
 }
@@ -29252,6 +31280,8 @@ class SecurePasswordKdfAlgoSHA512 extends SecurePasswordKdfAlgoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86471d92);
+    // _writebytes(buffer, 0, salt);
     return 0;
   }
 }
@@ -29289,6 +31319,10 @@ class SecureSecretSettings extends SecureSecretSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1527bcac);
+    // _writeSecurePasswordKdfAlgo(buffer, 0, secureAlgo);
+    // _writebytes(buffer, 0, secureSecret);
+    // _writelong(buffer, 0, secureSecretId);
     return 0;
   }
 }
@@ -29313,6 +31347,7 @@ class InputCheckPasswordEmpty extends InputCheckPasswordSRPBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9880f658);
     return 0;
   }
 }
@@ -29344,6 +31379,10 @@ class InputCheckPasswordSRP extends InputCheckPasswordSRPBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd27ff082);
+    // _writelong(buffer, 0, srpId);
+    // _writebytes(buffer, 0, a);
+    // _writebytes(buffer, 0, m1);
     return 0;
   }
 }
@@ -29386,6 +31425,12 @@ class SecureRequiredType extends SecureRequiredTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x829d99da);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, nativeNames);
+    // _writeflags.1?true(buffer, 0, selfieRequired);
+    // _writeflags.2?true(buffer, 0, translationRequired);
+    // _writeSecureValueType(buffer, 0, type);
     return 0;
   }
 }
@@ -29409,6 +31454,8 @@ class SecureRequiredTypeOneOf extends SecureRequiredTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x027477b4);
+    // _writeVector<SecureRequiredType>(buffer, 0, types);
     return 0;
   }
 }
@@ -29433,6 +31480,7 @@ class HelpPassportConfigNotModified extends HelpPassportConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbfb9f457);
     return 0;
   }
 }
@@ -29460,6 +31508,9 @@ class HelpPassportConfig extends HelpPassportConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa098d6af);
+    // _writeint(buffer, 0, hash);
+    // _writeDataJSON(buffer, 0, countriesLangs);
     return 0;
   }
 }
@@ -29501,6 +31552,11 @@ class InputAppEvent extends InputAppEventBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1d1b1245);
+    // _writedouble(buffer, 0, time);
+    // _writestring(buffer, 0, type);
+    // _writelong(buffer, 0, peer);
+    // _writeJSONValue(buffer, 0, data);
     return 0;
   }
 }
@@ -29534,6 +31590,9 @@ class JsonObjectValue extends JSONObjectValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc0de1bd9);
+    // _writestring(buffer, 0, key);
+    // _writeJSONValue(buffer, 0, value);
     return 0;
   }
 }
@@ -29558,6 +31617,7 @@ class JsonNull extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3f6d7b68);
     return 0;
   }
 }
@@ -29581,6 +31641,8 @@ class JsonBool extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc7345e6a);
+    // _writeBool(buffer, 0, value);
     return 0;
   }
 }
@@ -29604,6 +31666,8 @@ class JsonNumber extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2be0dfa4);
+    // _writedouble(buffer, 0, value);
     return 0;
   }
 }
@@ -29627,6 +31691,8 @@ class JsonString extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb71e767a);
+    // _writestring(buffer, 0, value);
     return 0;
   }
 }
@@ -29650,6 +31716,8 @@ class JsonArray extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf7444763);
+    // _writeVector<JSONValue>(buffer, 0, value);
     return 0;
   }
 }
@@ -29673,6 +31741,8 @@ class JsonObject extends JSONValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x99c1d49d);
+    // _writeVector<JSONObjectValue>(buffer, 0, value);
     return 0;
   }
 }
@@ -29690,9 +31760,9 @@ class PageTableCell extends PageTableCellBase {
   /// Page Table Cell constructor.
   const PageTableCell({
     required this.flags,
-    required this.text,
-    required this.colspan,
-    required this.rowspan,
+    this.text,
+    this.colspan,
+    this.rowspan,
   }) : super._();
 
   /// Deserialize.
@@ -29721,23 +31791,24 @@ class PageTableCell extends PageTableCellBase {
   /// Text.
   final RichTextBase? text;
 
-  /// If [text] exists.
-  bool get hasTextField => _bit(flags, 7);
-
   /// Colspan.
   final int? colspan;
-
-  /// If [colspan] exists.
-  bool get hasColspanField => _bit(flags, 1);
 
   /// Rowspan.
   final int? rowspan;
 
-  /// If [rowspan] exists.
-  bool get hasRowspanField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34566b6a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, header);
+    // _writeflags.3?true(buffer, 0, alignCenter);
+    // _writeflags.4?true(buffer, 0, alignRight);
+    // _writeflags.5?true(buffer, 0, valignMiddle);
+    // _writeflags.6?true(buffer, 0, valignBottom);
+    // _writeflags.7?RichText(buffer, 0, text);
+    // _writeflags.1?int(buffer, 0, colspan);
+    // _writeflags.2?int(buffer, 0, rowspan);
     return 0;
   }
 }
@@ -29767,6 +31838,8 @@ class PageTableRow extends PageTableRowBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe0c0c5e5);
+    // _writeVector<PageTableCell>(buffer, 0, cells);
     return 0;
   }
 }
@@ -29800,6 +31873,9 @@ class PageCaption extends PageCaptionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6f747657);
+    // _writeRichText(buffer, 0, text);
+    // _writeRichText(buffer, 0, credit);
     return 0;
   }
 }
@@ -29829,6 +31905,8 @@ class PageListItemText extends PageListItemBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb92fb6cd);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -29852,6 +31930,8 @@ class PageListItemBlocks extends PageListItemBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x25e073fc);
+    // _writeVector<PageBlock>(buffer, 0, blocks);
     return 0;
   }
 }
@@ -29885,6 +31965,9 @@ class PageListOrderedItemText extends PageListOrderedItemBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5e068047);
+    // _writestring(buffer, 0, num);
+    // _writeRichText(buffer, 0, text);
     return 0;
   }
 }
@@ -29912,6 +31995,9 @@ class PageListOrderedItemBlocks extends PageListOrderedItemBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98dd8936);
+    // _writestring(buffer, 0, num);
+    // _writeVector<PageBlock>(buffer, 0, blocks);
     return 0;
   }
 }
@@ -29931,11 +32017,11 @@ class PageRelatedArticle extends PageRelatedArticleBase {
     required this.flags,
     required this.url,
     required this.webpageId,
-    required this.title,
-    required this.description,
-    required this.photoId,
-    required this.author,
-    required this.publishedDate,
+    this.title,
+    this.description,
+    this.photoId,
+    this.author,
+    this.publishedDate,
   }) : super._();
 
   /// Deserialize.
@@ -29955,35 +32041,29 @@ class PageRelatedArticle extends PageRelatedArticleBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 0);
-
   /// Description.
   final String? description;
-
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 1);
 
   /// Photo Id.
   final int? photoId;
 
-  /// If [photoId] exists.
-  bool get hasPhotoIdField => _bit(flags, 2);
-
   /// Author.
   final String? author;
-
-  /// If [author] exists.
-  bool get hasAuthorField => _bit(flags, 3);
 
   /// Published Date.
   final int? publishedDate;
 
-  /// If [publishedDate] exists.
-  bool get hasPublishedDateField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb390dc08);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, url);
+    // _writelong(buffer, 0, webpageId);
+    // _writeflags.0?string(buffer, 0, title);
+    // _writeflags.1?string(buffer, 0, description);
+    // _writeflags.2?long(buffer, 0, photoId);
+    // _writeflags.3?string(buffer, 0, author);
+    // _writeflags.4?int(buffer, 0, publishedDate);
     return 0;
   }
 }
@@ -30005,7 +32085,7 @@ class Page extends PageBase {
     required this.blocks,
     required this.photos,
     required this.documents,
-    required this.views,
+    this.views,
   }) : super._();
 
   /// Deserialize.
@@ -30040,11 +32120,18 @@ class Page extends PageBase {
   /// Views.
   final int? views;
 
-  /// If [views] exists.
-  bool get hasViewsField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98657f0d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, part);
+    // _writeflags.1?true(buffer, 0, rtl);
+    // _writeflags.2?true(buffer, 0, v2);
+    // _writestring(buffer, 0, url);
+    // _writeVector<PageBlock>(buffer, 0, blocks);
+    // _writeVector<Photo>(buffer, 0, photos);
+    // _writeVector<Document>(buffer, 0, documents);
+    // _writeflags.3?int(buffer, 0, views);
     return 0;
   }
 }
@@ -30074,6 +32161,8 @@ class HelpSupportName extends HelpSupportNameBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c05f1c9);
+    // _writestring(buffer, 0, name);
     return 0;
   }
 }
@@ -30098,6 +32187,7 @@ class HelpUserInfoEmpty extends HelpUserInfoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf3ae2eed);
     return 0;
   }
 }
@@ -30129,10 +32219,15 @@ class HelpUserInfo extends HelpUserInfoBase {
   final String author;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x01eb3758);
+    // _writestring(buffer, 0, message);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
+    // _writestring(buffer, 0, author);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -30166,6 +32261,9 @@ class PollAnswer extends PollAnswerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6ca9c2e9);
+    // _writestring(buffer, 0, text);
+    // _writebytes(buffer, 0, option);
     return 0;
   }
 }
@@ -30186,8 +32284,8 @@ class Poll extends PollBase {
     required this.flags,
     required this.question,
     required this.answers,
-    required this.closePeriod,
-    required this.closeDate,
+    this.closePeriod,
+    this.closeDate,
   }) : super._();
 
   /// Deserialize.
@@ -30222,17 +32320,22 @@ class Poll extends PollBase {
   /// Close Period.
   final int? closePeriod;
 
-  /// If [closePeriod] exists.
-  bool get hasClosePeriodField => _bit(flags, 4);
-
   /// Close Date.
   final int? closeDate;
 
-  /// If [closeDate] exists.
-  bool get hasCloseDateField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86e18161);
+    // _writelong(buffer, 0, id);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, closed);
+    // _writeflags.1?true(buffer, 0, publicVoters);
+    // _writeflags.2?true(buffer, 0, multipleChoice);
+    // _writeflags.3?true(buffer, 0, quiz);
+    // _writestring(buffer, 0, question);
+    // _writeVector<PollAnswer>(buffer, 0, answers);
+    // _writeflags.4?int(buffer, 0, closePeriod);
+    // _writeflags.5?int(buffer, 0, closeDate);
     return 0;
   }
 }
@@ -30276,6 +32379,12 @@ class PollAnswerVoters extends PollAnswerVotersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3b6ddad2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, chosen);
+    // _writeflags.1?true(buffer, 0, correct);
+    // _writebytes(buffer, 0, option);
+    // _writeint(buffer, 0, voters);
     return 0;
   }
 }
@@ -30293,11 +32402,11 @@ class PollResults extends PollResultsBase {
   /// Poll Results constructor.
   const PollResults({
     required this.flags,
-    required this.results,
-    required this.totalVoters,
-    required this.recentVoters,
-    required this.solution,
-    required this.solutionEntities,
+    this.results,
+    this.totalVoters,
+    this.recentVoters,
+    this.solution,
+    this.solutionEntities,
   }) : super._();
 
   /// Deserialize.
@@ -30314,35 +32423,28 @@ class PollResults extends PollResultsBase {
   /// Results.
   final List<PollAnswerVotersBase>? results;
 
-  /// If [results] exists.
-  bool get hasResultsField => _bit(flags, 1);
-
   /// Total Voters.
   final int? totalVoters;
-
-  /// If [totalVoters] exists.
-  bool get hasTotalVotersField => _bit(flags, 2);
 
   /// Recent Voters.
   final List<PeerBase>? recentVoters;
 
-  /// If [recentVoters] exists.
-  bool get hasRecentVotersField => _bit(flags, 3);
-
   /// Solution.
   final String? solution;
-
-  /// If [solution] exists.
-  bool get hasSolutionField => _bit(flags, 4);
 
   /// Solution Entities.
   final List<MessageEntityBase>? solutionEntities;
 
-  /// If [solutionEntities] exists.
-  bool get hasSolutionEntitiesField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7adf2420);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, min);
+    // _writeflags.1?Vector<PollAnswerVoters>(buffer, 0, results);
+    // _writeflags.2?int(buffer, 0, totalVoters);
+    // _writeflags.3?Vector<Peer>(buffer, 0, recentVoters);
+    // _writeflags.4?string(buffer, 0, solution);
+    // _writeflags.4?Vector<MessageEntity>(buffer, 0, solutionEntities);
     return 0;
   }
 }
@@ -30372,6 +32474,8 @@ class ChatOnlines extends ChatOnlinesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf041e250);
+    // _writeint(buffer, 0, onlines);
     return 0;
   }
 }
@@ -30401,6 +32505,8 @@ class StatsURL extends StatsURLBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x47a971e0);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -30475,6 +32581,23 @@ class ChatAdminRights extends ChatAdminRightsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5fb224d5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, changeInfo);
+    // _writeflags.1?true(buffer, 0, postMessages);
+    // _writeflags.2?true(buffer, 0, editMessages);
+    // _writeflags.3?true(buffer, 0, deleteMessages);
+    // _writeflags.4?true(buffer, 0, banUsers);
+    // _writeflags.5?true(buffer, 0, inviteUsers);
+    // _writeflags.7?true(buffer, 0, pinMessages);
+    // _writeflags.9?true(buffer, 0, addAdmins);
+    // _writeflags.10?true(buffer, 0, anonymous);
+    // _writeflags.11?true(buffer, 0, manageCall);
+    // _writeflags.12?true(buffer, 0, other);
+    // _writeflags.13?true(buffer, 0, manageTopics);
+    // _writeflags.14?true(buffer, 0, postStories);
+    // _writeflags.15?true(buffer, 0, editStories);
+    // _writeflags.16?true(buffer, 0, deleteStories);
     return 0;
   }
 }
@@ -30564,10 +32687,33 @@ class ChatBannedRights extends ChatBannedRightsBase {
   bool get sendPlain => _bit(flags, 25);
 
   /// Until Date.
-  final int untilDate;
+  final DateTime untilDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9f120418);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, viewMessages);
+    // _writeflags.1?true(buffer, 0, sendMessages);
+    // _writeflags.2?true(buffer, 0, sendMedia);
+    // _writeflags.3?true(buffer, 0, sendStickers);
+    // _writeflags.4?true(buffer, 0, sendGifs);
+    // _writeflags.5?true(buffer, 0, sendGames);
+    // _writeflags.6?true(buffer, 0, sendInline);
+    // _writeflags.7?true(buffer, 0, embedLinks);
+    // _writeflags.8?true(buffer, 0, sendPolls);
+    // _writeflags.10?true(buffer, 0, changeInfo);
+    // _writeflags.15?true(buffer, 0, inviteUsers);
+    // _writeflags.17?true(buffer, 0, pinMessages);
+    // _writeflags.18?true(buffer, 0, manageTopics);
+    // _writeflags.19?true(buffer, 0, sendPhotos);
+    // _writeflags.20?true(buffer, 0, sendVideos);
+    // _writeflags.21?true(buffer, 0, sendRoundvideos);
+    // _writeflags.22?true(buffer, 0, sendAudios);
+    // _writeflags.23?true(buffer, 0, sendVoices);
+    // _writeflags.24?true(buffer, 0, sendDocs);
+    // _writeflags.25?true(buffer, 0, sendPlain);
+    // _writeint(buffer, 0, untilDate);
     return 0;
   }
 }
@@ -30601,6 +32747,9 @@ class InputWallPaper extends InputWallPaperBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe630b979);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -30624,6 +32773,8 @@ class InputWallPaperSlug extends InputWallPaperBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x72091c80);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -30647,6 +32798,8 @@ class InputWallPaperNoFile extends InputWallPaperBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x967a462e);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -30671,6 +32824,7 @@ class AccountWallPapersNotModified extends AccountWallPapersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1c199183);
     return 0;
   }
 }
@@ -30698,6 +32852,9 @@ class AccountWallPapers extends AccountWallPapersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcdc3858c);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<WallPaper>(buffer, 0, wallpapers);
     return 0;
   }
 }
@@ -30715,9 +32872,9 @@ class CodeSettings extends CodeSettingsBase {
   /// Code Settings constructor.
   const CodeSettings({
     required this.flags,
-    required this.logoutTokens,
-    required this.token,
-    required this.appSandbox,
+    this.logoutTokens,
+    this.token,
+    this.appSandbox,
   }) : super._();
 
   /// Deserialize.
@@ -30746,23 +32903,24 @@ class CodeSettings extends CodeSettingsBase {
   /// Logout Tokens.
   final List<Uint8List>? logoutTokens;
 
-  /// If [logoutTokens] exists.
-  bool get hasLogoutTokensField => _bit(flags, 6);
-
   /// Token.
   final String? token;
-
-  /// If [token] exists.
-  bool get hasTokenField => _bit(flags, 8);
 
   /// App Sandbox.
   final bool? appSandbox;
 
-  /// If [appSandbox] exists.
-  bool get hasAppSandboxField => _bit(flags, 8);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xad253d78);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, allowFlashcall);
+    // _writeflags.1?true(buffer, 0, currentNumber);
+    // _writeflags.4?true(buffer, 0, allowAppHash);
+    // _writeflags.5?true(buffer, 0, allowMissedCall);
+    // _writeflags.7?true(buffer, 0, allowFirebase);
+    // _writeflags.6?Vector<bytes>(buffer, 0, logoutTokens);
+    // _writeflags.8?string(buffer, 0, token);
+    // _writeflags.8?Bool(buffer, 0, appSandbox);
     return 0;
   }
 }
@@ -30780,13 +32938,13 @@ class WallPaperSettings extends WallPaperSettingsBase {
   /// Wall Paper Settings constructor.
   const WallPaperSettings({
     required this.flags,
-    required this.backgroundColor,
-    required this.secondBackgroundColor,
-    required this.thirdBackgroundColor,
-    required this.fourthBackgroundColor,
-    required this.intensity,
-    required this.rotation,
-    required this.emoticon,
+    this.backgroundColor,
+    this.secondBackgroundColor,
+    this.thirdBackgroundColor,
+    this.fourthBackgroundColor,
+    this.intensity,
+    this.rotation,
+    this.emoticon,
   }) : super._();
 
   /// Deserialize.
@@ -30806,47 +32964,37 @@ class WallPaperSettings extends WallPaperSettingsBase {
   /// Background Color.
   final int? backgroundColor;
 
-  /// If [backgroundColor] exists.
-  bool get hasBackgroundColorField => _bit(flags, 0);
-
   /// Second Background Color.
   final int? secondBackgroundColor;
-
-  /// If [secondBackgroundColor] exists.
-  bool get hasSecondBackgroundColorField => _bit(flags, 4);
 
   /// Third Background Color.
   final int? thirdBackgroundColor;
 
-  /// If [thirdBackgroundColor] exists.
-  bool get hasThirdBackgroundColorField => _bit(flags, 5);
-
   /// Fourth Background Color.
   final int? fourthBackgroundColor;
-
-  /// If [fourthBackgroundColor] exists.
-  bool get hasFourthBackgroundColorField => _bit(flags, 6);
 
   /// Intensity.
   final int? intensity;
 
-  /// If [intensity] exists.
-  bool get hasIntensityField => _bit(flags, 3);
-
   /// Rotation.
   final int? rotation;
-
-  /// If [rotation] exists.
-  bool get hasRotationField => _bit(flags, 4);
 
   /// Emoticon.
   final String? emoticon;
 
-  /// If [emoticon] exists.
-  bool get hasEmoticonField => _bit(flags, 7);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x372efcd0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, blur);
+    // _writeflags.2?true(buffer, 0, motion);
+    // _writeflags.0?int(buffer, 0, backgroundColor);
+    // _writeflags.4?int(buffer, 0, secondBackgroundColor);
+    // _writeflags.5?int(buffer, 0, thirdBackgroundColor);
+    // _writeflags.6?int(buffer, 0, fourthBackgroundColor);
+    // _writeflags.3?int(buffer, 0, intensity);
+    // _writeflags.4?int(buffer, 0, rotation);
+    // _writeflags.7?string(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -30915,6 +33063,19 @@ class AutoDownloadSettings extends AutoDownloadSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbaa57628);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, disabled);
+    // _writeflags.1?true(buffer, 0, videoPreloadLarge);
+    // _writeflags.2?true(buffer, 0, audioPreloadNext);
+    // _writeflags.3?true(buffer, 0, phonecallsLessData);
+    // _writeflags.4?true(buffer, 0, storiesPreload);
+    // _writeint(buffer, 0, photoSizeMax);
+    // _writelong(buffer, 0, videoSizeMax);
+    // _writelong(buffer, 0, fileSizeMax);
+    // _writeint(buffer, 0, videoUploadMaxbitrate);
+    // _writeint(buffer, 0, smallQueueActiveOperationsMax);
+    // _writeint(buffer, 0, largeQueueActiveOperationsMax);
     return 0;
   }
 }
@@ -30952,6 +33113,10 @@ class AccountAutoDownloadSettings extends AccountAutoDownloadSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x63cacf26);
+    // _writeAutoDownloadSettings(buffer, 0, low);
+    // _writeAutoDownloadSettings(buffer, 0, medium);
+    // _writeAutoDownloadSettings(buffer, 0, high);
     return 0;
   }
 }
@@ -30985,6 +33150,9 @@ class EmojiKeyword extends EmojiKeywordBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd5b3b9f9);
+    // _writestring(buffer, 0, keyword);
+    // _writeVector<string>(buffer, 0, emoticons);
     return 0;
   }
 }
@@ -31012,6 +33180,9 @@ class EmojiKeywordDeleted extends EmojiKeywordBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x236df622);
+    // _writestring(buffer, 0, keyword);
+    // _writeVector<string>(buffer, 0, emoticons);
     return 0;
   }
 }
@@ -31053,6 +33224,11 @@ class EmojiKeywordsDifference extends EmojiKeywordsDifferenceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5cc761bd);
+    // _writestring(buffer, 0, langCode);
+    // _writeint(buffer, 0, fromVersion);
+    // _writeint(buffer, 0, version);
+    // _writeVector<EmojiKeyword>(buffer, 0, keywords);
     return 0;
   }
 }
@@ -31082,6 +33258,8 @@ class EmojiURL extends EmojiURLBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa575739d);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -31111,6 +33289,8 @@ class EmojiLanguage extends EmojiLanguageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb3fb5361);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -31130,7 +33310,7 @@ class Folder extends FolderBase {
     required this.flags,
     required this.id,
     required this.title,
-    required this.photo,
+    this.photo,
   }) : super._();
 
   /// Deserialize.
@@ -31159,11 +33339,16 @@ class Folder extends FolderBase {
   /// Photo.
   final ChatPhotoBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xff544e65);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, autofillNewBroadcasts);
+    // _writeflags.1?true(buffer, 0, autofillPublicGroups);
+    // _writeflags.2?true(buffer, 0, autofillNewCorrespondents);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, title);
+    // _writeflags.3?ChatPhoto(buffer, 0, photo);
     return 0;
   }
 }
@@ -31197,6 +33382,9 @@ class InputFolderPeer extends InputFolderPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbd2c296);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, folderId);
     return 0;
   }
 }
@@ -31230,6 +33418,9 @@ class FolderPeer extends FolderPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe9baa668);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, folderId);
     return 0;
   }
 }
@@ -31270,6 +33461,11 @@ class MessagesSearchCounter extends MessagesSearchCounterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe844ebff);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, inexact);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -31310,6 +33506,11 @@ class UrlAuthResultRequest extends UrlAuthResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x92d33a0e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, requestWriteAccess);
+    // _writeUser(buffer, 0, bot);
+    // _writestring(buffer, 0, domain);
     return 0;
   }
 }
@@ -31333,6 +33534,8 @@ class UrlAuthResultAccepted extends UrlAuthResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8f8c0e4e);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -31351,6 +33554,7 @@ class UrlAuthResultDefault extends UrlAuthResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa9d6db1f);
     return 0;
   }
 }
@@ -31375,6 +33579,7 @@ class ChannelLocationEmpty extends ChannelLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbfb5ad8b);
     return 0;
   }
 }
@@ -31402,6 +33607,9 @@ class ChannelLocation extends ChannelLocationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x209b82db);
+    // _writeGeoPoint(buffer, 0, geoPoint);
+    // _writestring(buffer, 0, address);
     return 0;
   }
 }
@@ -31439,6 +33647,10 @@ class PeerLocated extends PeerLocatedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xca461b5d);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, expires);
+    // _writeint(buffer, 0, distance);
     return 0;
   }
 }
@@ -31462,6 +33674,8 @@ class PeerSelfLocated extends PeerLocatedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf8ec284b);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -31499,6 +33713,10 @@ class RestrictionReason extends RestrictionReasonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd072acb4);
+    // _writestring(buffer, 0, platform);
+    // _writestring(buffer, 0, reason);
+    // _writestring(buffer, 0, text);
     return 0;
   }
 }
@@ -31532,6 +33750,9 @@ class InputTheme extends InputThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c5693e9);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -31555,6 +33776,8 @@ class InputThemeSlug extends InputThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf5890df1);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -31576,10 +33799,10 @@ class Theme extends ThemeBase {
     required this.accessHash,
     required this.slug,
     required this.title,
-    required this.document,
-    required this.settings,
-    required this.emoticon,
-    required this.installsCount,
+    this.document,
+    this.settings,
+    this.emoticon,
+    this.installsCount,
   }) : super._();
 
   /// Deserialize.
@@ -31614,29 +33837,30 @@ class Theme extends ThemeBase {
   /// Document.
   final DocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 2);
-
   /// Settings.
   final List<ThemeSettingsBase>? settings;
-
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 3);
 
   /// Emoticon.
   final String? emoticon;
 
-  /// If [emoticon] exists.
-  bool get hasEmoticonField => _bit(flags, 6);
-
   /// Installs Count.
   final int? installsCount;
 
-  /// If [installsCount] exists.
-  bool get hasInstallsCountField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa00e67d6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.1?true(buffer, 0, ddefault);
+    // _writeflags.5?true(buffer, 0, forChat);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, slug);
+    // _writestring(buffer, 0, title);
+    // _writeflags.2?Document(buffer, 0, document);
+    // _writeflags.3?Vector<ThemeSettings>(buffer, 0, settings);
+    // _writeflags.6?string(buffer, 0, emoticon);
+    // _writeflags.4?int(buffer, 0, installsCount);
     return 0;
   }
 }
@@ -31661,6 +33885,7 @@ class AccountThemesNotModified extends AccountThemesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf41eb622);
     return 0;
   }
 }
@@ -31688,6 +33913,9 @@ class AccountThemes extends AccountThemesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a3d8c6d);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<Theme>(buffer, 0, themes);
     return 0;
   }
 }
@@ -31721,6 +33949,9 @@ class AuthLoginToken extends AuthLoginTokenBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x629f1980);
+    // _writeint(buffer, 0, expires);
+    // _writebytes(buffer, 0, token);
     return 0;
   }
 }
@@ -31748,6 +33979,9 @@ class AuthLoginTokenMigrateTo extends AuthLoginTokenBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x068e9916);
+    // _writeint(buffer, 0, dcId);
+    // _writebytes(buffer, 0, token);
     return 0;
   }
 }
@@ -31771,6 +34005,8 @@ class AuthLoginTokenSuccess extends AuthLoginTokenBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x390d5c5e);
+    // _writeauth.Authorization(buffer, 0, authorization);
     return 0;
   }
 }
@@ -31806,6 +34042,10 @@ class AccountContentSettings extends AccountContentSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57e28221);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, sensitiveEnabled);
+    // _writeflags.1?true(buffer, 0, sensitiveCanChange);
     return 0;
   }
 }
@@ -31843,6 +34083,10 @@ class MessagesInactiveChats extends MessagesInactiveChatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa927fec5);
+    // _writeVector<int>(buffer, 0, dates);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -31867,6 +34111,7 @@ class BaseThemeClassic extends BaseThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc3a12462);
     return 0;
   }
 }
@@ -31885,6 +34130,7 @@ class BaseThemeDay extends BaseThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbd81688);
     return 0;
   }
 }
@@ -31903,6 +34149,7 @@ class BaseThemeNight extends BaseThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb7b31ea8);
     return 0;
   }
 }
@@ -31921,6 +34168,7 @@ class BaseThemeTinted extends BaseThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6d5f77ee);
     return 0;
   }
 }
@@ -31939,6 +34187,7 @@ class BaseThemeArctic extends BaseThemeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5b11125a);
     return 0;
   }
 }
@@ -31958,10 +34207,10 @@ class InputThemeSettings extends InputThemeSettingsBase {
     required this.flags,
     required this.baseTheme,
     required this.accentColor,
-    required this.outboxAccentColor,
-    required this.messageColors,
-    required this.wallpaper,
-    required this.wallpaperSettings,
+    this.outboxAccentColor,
+    this.messageColors,
+    this.wallpaper,
+    this.wallpaperSettings,
   }) : super._();
 
   /// Deserialize.
@@ -31984,29 +34233,26 @@ class InputThemeSettings extends InputThemeSettingsBase {
   /// Outbox Accent Color.
   final int? outboxAccentColor;
 
-  /// If [outboxAccentColor] exists.
-  bool get hasOutboxAccentColorField => _bit(flags, 3);
-
   /// Message Colors.
   final List<int>? messageColors;
-
-  /// If [messageColors] exists.
-  bool get hasMessageColorsField => _bit(flags, 0);
 
   /// Wallpaper.
   final InputWallPaperBase? wallpaper;
 
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags, 1);
-
   /// Wallpaper Settings.
   final WallPaperSettingsBase? wallpaperSettings;
 
-  /// If [wallpaperSettings] exists.
-  bool get hasWallpaperSettingsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8fde504f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, messageColorsAnimated);
+    // _writeBaseTheme(buffer, 0, baseTheme);
+    // _writeint(buffer, 0, accentColor);
+    // _writeflags.3?int(buffer, 0, outboxAccentColor);
+    // _writeflags.0?Vector<int>(buffer, 0, messageColors);
+    // _writeflags.1?InputWallPaper(buffer, 0, wallpaper);
+    // _writeflags.1?WallPaperSettings(buffer, 0, wallpaperSettings);
     return 0;
   }
 }
@@ -32026,9 +34272,9 @@ class ThemeSettings extends ThemeSettingsBase {
     required this.flags,
     required this.baseTheme,
     required this.accentColor,
-    required this.outboxAccentColor,
-    required this.messageColors,
-    required this.wallpaper,
+    this.outboxAccentColor,
+    this.messageColors,
+    this.wallpaper,
   }) : super._();
 
   /// Deserialize.
@@ -32051,23 +34297,22 @@ class ThemeSettings extends ThemeSettingsBase {
   /// Outbox Accent Color.
   final int? outboxAccentColor;
 
-  /// If [outboxAccentColor] exists.
-  bool get hasOutboxAccentColorField => _bit(flags, 3);
-
   /// Message Colors.
   final List<int>? messageColors;
-
-  /// If [messageColors] exists.
-  bool get hasMessageColorsField => _bit(flags, 0);
 
   /// Wallpaper.
   final WallPaperBase? wallpaper;
 
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa58b6d4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, messageColorsAnimated);
+    // _writeBaseTheme(buffer, 0, baseTheme);
+    // _writeint(buffer, 0, accentColor);
+    // _writeflags.3?int(buffer, 0, outboxAccentColor);
+    // _writeflags.0?Vector<int>(buffer, 0, messageColors);
+    // _writeflags.1?WallPaper(buffer, 0, wallpaper);
     return 0;
   }
 }
@@ -32085,8 +34330,8 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
   /// Web Page Attribute Theme constructor.
   const WebPageAttributeTheme({
     required this.flags,
-    required this.documents,
-    required this.settings,
+    this.documents,
+    this.settings,
   }) : super._();
 
   /// Deserialize.
@@ -32100,17 +34345,15 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
   /// Documents.
   final List<DocumentBase>? documents;
 
-  /// If [documents] exists.
-  bool get hasDocumentsField => _bit(flags, 0);
-
   /// Settings.
   final ThemeSettingsBase? settings;
 
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x54b56617);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Vector<Document>(buffer, 0, documents);
+    // _writeflags.1?ThemeSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -32124,7 +34367,7 @@ class WebPageAttributeStory extends WebPageAttributeBase {
     required this.flags,
     required this.peer,
     required this.id,
-    required this.story,
+    this.story,
   }) : super._();
 
   /// Deserialize.
@@ -32144,11 +34387,13 @@ class WebPageAttributeStory extends WebPageAttributeBase {
   /// Story.
   final StoryItemBase? story;
 
-  /// If [story] exists.
-  bool get hasStoryField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2e94c3e7);
+    // _write#(buffer, 0, flags);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?StoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -32170,7 +34415,7 @@ class MessagesVotesList extends MessagesVotesListBase {
     required this.votes,
     required this.chats,
     required this.users,
-    required this.nextOffset,
+    this.nextOffset,
   }) : super._();
 
   /// Deserialize.
@@ -32196,11 +34441,15 @@ class MessagesVotesList extends MessagesVotesListBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4899484e);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeVector<MessagePeerVote>(buffer, 0, votes);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.0?string(buffer, 0, nextOffset);
     return 0;
   }
 }
@@ -32234,6 +34483,9 @@ class BankCardOpenUrl extends BankCardOpenUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf568028a);
+    // _writestring(buffer, 0, url);
+    // _writestring(buffer, 0, name);
     return 0;
   }
 }
@@ -32267,6 +34519,9 @@ class PaymentsBankCardData extends PaymentsBankCardDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3e24e573);
+    // _writestring(buffer, 0, title);
+    // _writeVector<BankCardOpenUrl>(buffer, 0, openUrls);
     return 0;
   }
 }
@@ -32286,7 +34541,7 @@ class DialogFilter extends DialogFilterBase {
     required this.flags,
     required this.id,
     required this.title,
-    required this.emoticon,
+    this.emoticon,
     required this.pinnedPeers,
     required this.includePeers,
     required this.excludePeers,
@@ -32333,9 +34588,6 @@ class DialogFilter extends DialogFilterBase {
   /// Emoticon.
   final String? emoticon;
 
-  /// If [emoticon] exists.
-  bool get hasEmoticonField => _bit(flags, 25);
-
   /// Pinned Peers.
   final List<InputPeerBase> pinnedPeers;
 
@@ -32347,6 +34599,22 @@ class DialogFilter extends DialogFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7438f7e8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, contacts);
+    // _writeflags.1?true(buffer, 0, nonContacts);
+    // _writeflags.2?true(buffer, 0, groups);
+    // _writeflags.3?true(buffer, 0, broadcasts);
+    // _writeflags.4?true(buffer, 0, bots);
+    // _writeflags.11?true(buffer, 0, excludeMuted);
+    // _writeflags.12?true(buffer, 0, excludeRead);
+    // _writeflags.13?true(buffer, 0, excludeArchived);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, title);
+    // _writeflags.25?string(buffer, 0, emoticon);
+    // _writeVector<InputPeer>(buffer, 0, pinnedPeers);
+    // _writeVector<InputPeer>(buffer, 0, includePeers);
+    // _writeVector<InputPeer>(buffer, 0, excludePeers);
     return 0;
   }
 }
@@ -32365,6 +34633,7 @@ class DialogFilterDefault extends DialogFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x363293ae);
     return 0;
   }
 }
@@ -32378,7 +34647,7 @@ class DialogFilterChatlist extends DialogFilterBase {
     required this.flags,
     required this.id,
     required this.title,
-    required this.emoticon,
+    this.emoticon,
     required this.pinnedPeers,
     required this.includePeers,
   }) : super._();
@@ -32403,9 +34672,6 @@ class DialogFilterChatlist extends DialogFilterBase {
   /// Emoticon.
   final String? emoticon;
 
-  /// If [emoticon] exists.
-  bool get hasEmoticonField => _bit(flags, 25);
-
   /// Pinned Peers.
   final List<InputPeerBase> pinnedPeers;
 
@@ -32414,6 +34680,14 @@ class DialogFilterChatlist extends DialogFilterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd64a04a8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.26?true(buffer, 0, hasMyInvites);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, title);
+    // _writeflags.25?string(buffer, 0, emoticon);
+    // _writeVector<InputPeer>(buffer, 0, pinnedPeers);
+    // _writeVector<InputPeer>(buffer, 0, includePeers);
     return 0;
   }
 }
@@ -32447,6 +34721,9 @@ class DialogFilterSuggested extends DialogFilterSuggestedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77744d4a);
+    // _writeDialogFilter(buffer, 0, filter);
+    // _writestring(buffer, 0, description);
     return 0;
   }
 }
@@ -32473,13 +34750,16 @@ class StatsDateRangeDays extends StatsDateRangeDaysBase {
   }
 
   /// Min Date.
-  final int minDate;
+  final DateTime minDate;
 
   /// Max Date.
-  final int maxDate;
+  final DateTime maxDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb637edaf);
+    // _writeint(buffer, 0, minDate);
+    // _writeint(buffer, 0, maxDate);
     return 0;
   }
 }
@@ -32513,6 +34793,9 @@ class StatsAbsValueAndPrev extends StatsAbsValueAndPrevBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcb43acde);
+    // _writedouble(buffer, 0, current);
+    // _writedouble(buffer, 0, previous);
     return 0;
   }
 }
@@ -32546,6 +34829,9 @@ class StatsPercentValue extends StatsPercentValueBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcbce2fe0);
+    // _writedouble(buffer, 0, part);
+    // _writedouble(buffer, 0, total);
     return 0;
   }
 }
@@ -32575,6 +34861,8 @@ class StatsGraphAsync extends StatsGraphBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4a27eb2d);
+    // _writestring(buffer, 0, token);
     return 0;
   }
 }
@@ -32598,6 +34886,8 @@ class StatsGraphError extends StatsGraphBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbedc9822);
+    // _writestring(buffer, 0, error);
     return 0;
   }
 }
@@ -32610,7 +34900,7 @@ class StatsGraph extends StatsGraphBase {
   const StatsGraph({
     required this.flags,
     required this.json,
-    required this.zoomToken,
+    this.zoomToken,
   }) : super._();
 
   /// Deserialize.
@@ -32627,11 +34917,12 @@ class StatsGraph extends StatsGraphBase {
   /// Zoom Token.
   final String? zoomToken;
 
-  /// If [zoomToken] exists.
-  bool get hasZoomTokenField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ea464b6);
+    // _write#(buffer, 0, flags);
+    // _writeDataJSON(buffer, 0, json);
+    // _writeflags.0?string(buffer, 0, zoomToken);
     return 0;
   }
 }
@@ -32745,6 +35036,29 @@ class StatsBroadcastStats extends StatsBroadcastStatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x396ca5fc);
+    // _writeStatsDateRangeDays(buffer, 0, period);
+    // _writeStatsAbsValueAndPrev(buffer, 0, followers);
+    // _writeStatsAbsValueAndPrev(buffer, 0, viewsPerPost);
+    // _writeStatsAbsValueAndPrev(buffer, 0, sharesPerPost);
+    // _writeStatsAbsValueAndPrev(buffer, 0, reactionsPerPost);
+    // _writeStatsAbsValueAndPrev(buffer, 0, viewsPerStory);
+    // _writeStatsAbsValueAndPrev(buffer, 0, sharesPerStory);
+    // _writeStatsAbsValueAndPrev(buffer, 0, reactionsPerStory);
+    // _writeStatsPercentValue(buffer, 0, enabledNotifications);
+    // _writeStatsGraph(buffer, 0, growthGraph);
+    // _writeStatsGraph(buffer, 0, followersGraph);
+    // _writeStatsGraph(buffer, 0, muteGraph);
+    // _writeStatsGraph(buffer, 0, topHoursGraph);
+    // _writeStatsGraph(buffer, 0, interactionsGraph);
+    // _writeStatsGraph(buffer, 0, ivInteractionsGraph);
+    // _writeStatsGraph(buffer, 0, viewsBySourceGraph);
+    // _writeStatsGraph(buffer, 0, newFollowersBySourceGraph);
+    // _writeStatsGraph(buffer, 0, languagesGraph);
+    // _writeStatsGraph(buffer, 0, reactionsByEmotionGraph);
+    // _writeStatsGraph(buffer, 0, storyInteractionsGraph);
+    // _writeStatsGraph(buffer, 0, storyReactionsByEmotionGraph);
+    // _writeVector<PostInteractionCounters>(buffer, 0, recentPostsInteractions);
     return 0;
   }
 }
@@ -32774,6 +35088,8 @@ class HelpPromoDataEmpty extends HelpPromoDataBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98f6ac75);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -32789,8 +35105,8 @@ class HelpPromoData extends HelpPromoDataBase {
     required this.peer,
     required this.chats,
     required this.users,
-    required this.psaType,
-    required this.psaMessage,
+    this.psaType,
+    this.psaMessage,
   }) : super._();
 
   /// Deserialize.
@@ -32819,17 +35135,20 @@ class HelpPromoData extends HelpPromoDataBase {
   /// Psa Type.
   final String? psaType;
 
-  /// If [psaType] exists.
-  bool get hasPsaTypeField => _bit(flags, 1);
-
   /// Psa Message.
   final String? psaMessage;
 
-  /// If [psaMessage] exists.
-  bool get hasPsaMessageField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c39793f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, proxy);
+    // _writeint(buffer, 0, expires);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.1?string(buffer, 0, psaType);
+    // _writeflags.2?string(buffer, 0, psaMessage);
     return 0;
   }
 }
@@ -32851,7 +35170,7 @@ class VideoSize extends VideoSizeBase {
     required this.w,
     required this.h,
     required this.size,
-    required this.videoStartTs,
+    this.videoStartTs,
   }) : super._();
 
   /// Deserialize.
@@ -32877,11 +35196,15 @@ class VideoSize extends VideoSizeBase {
   /// Video Start Ts.
   final double? videoStartTs;
 
-  /// If [videoStartTs] exists.
-  bool get hasVideoStartTsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde33b094);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, type);
+    // _writeint(buffer, 0, w);
+    // _writeint(buffer, 0, h);
+    // _writeint(buffer, 0, size);
+    // _writeflags.0?double(buffer, 0, videoStartTs);
     return 0;
   }
 }
@@ -32909,6 +35232,9 @@ class VideoSizeEmojiMarkup extends VideoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf85c413c);
+    // _writelong(buffer, 0, emojiId);
+    // _writeVector<int>(buffer, 0, backgroundColors);
     return 0;
   }
 }
@@ -32940,6 +35266,10 @@ class VideoSizeStickerMarkup extends VideoSizeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0da082fe);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writelong(buffer, 0, stickerId);
+    // _writeVector<int>(buffer, 0, backgroundColors);
     return 0;
   }
 }
@@ -32977,6 +35307,10 @@ class StatsGroupTopPoster extends StatsGroupTopPosterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9d04af9b);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, messages);
+    // _writeint(buffer, 0, avgChars);
     return 0;
   }
 }
@@ -33018,6 +35352,11 @@ class StatsGroupTopAdmin extends StatsGroupTopAdminBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd7584c87);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, deleted);
+    // _writeint(buffer, 0, kicked);
+    // _writeint(buffer, 0, banned);
     return 0;
   }
 }
@@ -33051,6 +35390,9 @@ class StatsGroupTopInviter extends StatsGroupTopInviterBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x535f779d);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, invitations);
     return 0;
   }
 }
@@ -33144,6 +35486,24 @@ class StatsMegagroupStats extends StatsMegagroupStatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef7ff916);
+    // _writeStatsDateRangeDays(buffer, 0, period);
+    // _writeStatsAbsValueAndPrev(buffer, 0, members);
+    // _writeStatsAbsValueAndPrev(buffer, 0, messages);
+    // _writeStatsAbsValueAndPrev(buffer, 0, viewers);
+    // _writeStatsAbsValueAndPrev(buffer, 0, posters);
+    // _writeStatsGraph(buffer, 0, growthGraph);
+    // _writeStatsGraph(buffer, 0, membersGraph);
+    // _writeStatsGraph(buffer, 0, newMembersBySourceGraph);
+    // _writeStatsGraph(buffer, 0, languagesGraph);
+    // _writeStatsGraph(buffer, 0, messagesGraph);
+    // _writeStatsGraph(buffer, 0, actionsGraph);
+    // _writeStatsGraph(buffer, 0, topHoursGraph);
+    // _writeStatsGraph(buffer, 0, weekdaysGraph);
+    // _writeVector<StatsGroupTopPoster>(buffer, 0, topPosters);
+    // _writeVector<StatsGroupTopAdmin>(buffer, 0, topAdmins);
+    // _writeVector<StatsGroupTopInviter>(buffer, 0, topInviters);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -33182,6 +35542,11 @@ class GlobalPrivacySettings extends GlobalPrivacySettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x734c4ccb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, archiveAndMuteNewNoncontactPeers);
+    // _writeflags.1?true(buffer, 0, keepArchivedUnmuted);
+    // _writeflags.2?true(buffer, 0, keepArchivedFolders);
     return 0;
   }
 }
@@ -33200,8 +35565,8 @@ class HelpCountryCode extends HelpCountryCodeBase {
   const HelpCountryCode({
     required this.flags,
     required this.countryCode,
-    required this.prefixes,
-    required this.patterns,
+    this.prefixes,
+    this.patterns,
   }) : super._();
 
   /// Deserialize.
@@ -33218,17 +35583,16 @@ class HelpCountryCode extends HelpCountryCodeBase {
   /// Prefixes.
   final List<String>? prefixes;
 
-  /// If [prefixes] exists.
-  bool get hasPrefixesField => _bit(flags, 0);
-
   /// Patterns.
   final List<String>? patterns;
 
-  /// If [patterns] exists.
-  bool get hasPatternsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4203c5ef);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, countryCode);
+    // _writeflags.0?Vector<string>(buffer, 0, prefixes);
+    // _writeflags.1?Vector<string>(buffer, 0, patterns);
     return 0;
   }
 }
@@ -33248,7 +35612,7 @@ class HelpCountry extends HelpCountryBase {
     required this.flags,
     required this.iso2,
     required this.defaultName,
-    required this.name,
+    this.name,
     required this.countryCodes,
   }) : super._();
 
@@ -33272,14 +35636,18 @@ class HelpCountry extends HelpCountryBase {
   /// Name.
   final String? name;
 
-  /// If [name] exists.
-  bool get hasNameField => _bit(flags, 1);
-
   /// Country Codes.
   final List<HelpCountryCodeBase> countryCodes;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc3878e23);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hidden);
+    // _writestring(buffer, 0, iso2);
+    // _writestring(buffer, 0, defaultName);
+    // _writeflags.1?string(buffer, 0, name);
+    // _writeVector<help.CountryCode>(buffer, 0, countryCodes);
     return 0;
   }
 }
@@ -33304,6 +35672,7 @@ class HelpCountriesListNotModified extends HelpCountriesListBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x93cc1f32);
     return 0;
   }
 }
@@ -33331,6 +35700,9 @@ class HelpCountriesList extends HelpCountriesListBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x87d0759e);
+    // _writeVector<help.Country>(buffer, 0, countries);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -33348,9 +35720,9 @@ class MessageViews extends MessageViewsBase {
   /// Message Views constructor.
   const MessageViews({
     required this.flags,
-    required this.views,
-    required this.forwards,
-    required this.replies,
+    this.views,
+    this.forwards,
+    this.replies,
   }) : super._();
 
   /// Deserialize.
@@ -33364,23 +35736,19 @@ class MessageViews extends MessageViewsBase {
   /// Views.
   final int? views;
 
-  /// If [views] exists.
-  bool get hasViewsField => _bit(flags, 0);
-
   /// Forwards.
   final int? forwards;
-
-  /// If [forwards] exists.
-  bool get hasForwardsField => _bit(flags, 1);
 
   /// Replies.
   final MessageRepliesBase? replies;
 
-  /// If [replies] exists.
-  bool get hasRepliesField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x455b853d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, views);
+    // _writeflags.1?int(buffer, 0, forwards);
+    // _writeflags.2?MessageReplies(buffer, 0, replies);
     return 0;
   }
 }
@@ -33418,6 +35786,10 @@ class MessagesMessageViews extends MessagesMessageViewsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6c4f543);
+    // _writeVector<MessageViews>(buffer, 0, views);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -33436,9 +35808,9 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
   const MessagesDiscussionMessage({
     required this.flags,
     required this.messages,
-    required this.maxId,
-    required this.readInboxMaxId,
-    required this.readOutboxMaxId,
+    this.maxId,
+    this.readInboxMaxId,
+    this.readOutboxMaxId,
     required this.unreadCount,
     required this.chats,
     required this.users,
@@ -33458,20 +35830,11 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
   /// Max Id.
   final int? maxId;
 
-  /// If [maxId] exists.
-  bool get hasMaxIdField => _bit(flags, 0);
-
   /// Read Inbox Max Id.
   final int? readInboxMaxId;
 
-  /// If [readInboxMaxId] exists.
-  bool get hasReadInboxMaxIdField => _bit(flags, 1);
-
   /// Read Outbox Max Id.
   final int? readOutboxMaxId;
-
-  /// If [readOutboxMaxId] exists.
-  bool get hasReadOutboxMaxIdField => _bit(flags, 2);
 
   /// Unread Count.
   final int unreadCount;
@@ -33484,6 +35847,15 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6341782);
+    // _write#(buffer, 0, flags);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeflags.0?int(buffer, 0, maxId);
+    // _writeflags.1?int(buffer, 0, readInboxMaxId);
+    // _writeflags.2?int(buffer, 0, readOutboxMaxId);
+    // _writeint(buffer, 0, unreadCount);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -33501,14 +35873,14 @@ class MessageReplyHeader extends MessageReplyHeaderBase {
   /// Message Reply Header constructor.
   const MessageReplyHeader({
     required this.flags,
-    required this.replyToMsgId,
-    required this.replyToPeerId,
-    required this.replyFrom,
-    required this.replyMedia,
-    required this.replyToTopId,
-    required this.quoteText,
-    required this.quoteEntities,
-    required this.quoteOffset,
+    this.replyToMsgId,
+    this.replyToPeerId,
+    this.replyFrom,
+    this.replyMedia,
+    this.replyToTopId,
+    this.quoteText,
+    this.quoteEntities,
+    this.quoteOffset,
   }) : super._();
 
   /// Deserialize.
@@ -33531,53 +35903,42 @@ class MessageReplyHeader extends MessageReplyHeaderBase {
   /// Reply To Msg Id.
   final int? replyToMsgId;
 
-  /// If [replyToMsgId] exists.
-  bool get hasReplyToMsgIdField => _bit(flags, 4);
-
   /// Reply To Peer Id.
   final PeerBase? replyToPeerId;
-
-  /// If [replyToPeerId] exists.
-  bool get hasReplyToPeerIdField => _bit(flags, 0);
 
   /// Reply From.
   final MessageFwdHeaderBase? replyFrom;
 
-  /// If [replyFrom] exists.
-  bool get hasReplyFromField => _bit(flags, 5);
-
   /// Reply Media.
   final MessageMediaBase? replyMedia;
-
-  /// If [replyMedia] exists.
-  bool get hasReplyMediaField => _bit(flags, 8);
 
   /// Reply To Top Id.
   final int? replyToTopId;
 
-  /// If [replyToTopId] exists.
-  bool get hasReplyToTopIdField => _bit(flags, 1);
-
   /// Quote Text.
   final String? quoteText;
-
-  /// If [quoteText] exists.
-  bool get hasQuoteTextField => _bit(flags, 6);
 
   /// Quote Entities.
   final List<MessageEntityBase>? quoteEntities;
 
-  /// If [quoteEntities] exists.
-  bool get hasQuoteEntitiesField => _bit(flags, 7);
-
   /// Quote Offset.
   final int? quoteOffset;
 
-  /// If [quoteOffset] exists.
-  bool get hasQuoteOffsetField => _bit(flags, 10);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xafbc09db);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, replyToScheduled);
+    // _writeflags.3?true(buffer, 0, forumTopic);
+    // _writeflags.9?true(buffer, 0, quote);
+    // _writeflags.4?int(buffer, 0, replyToMsgId);
+    // _writeflags.0?Peer(buffer, 0, replyToPeerId);
+    // _writeflags.5?MessageFwdHeader(buffer, 0, replyFrom);
+    // _writeflags.8?MessageMedia(buffer, 0, replyMedia);
+    // _writeflags.1?int(buffer, 0, replyToTopId);
+    // _writeflags.6?string(buffer, 0, quoteText);
+    // _writeflags.7?Vector<MessageEntity>(buffer, 0, quoteEntities);
+    // _writeflags.10?int(buffer, 0, quoteOffset);
     return 0;
   }
 }
@@ -33605,6 +35966,9 @@ class MessageReplyStoryHeader extends MessageReplyHeaderBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9c98bfc1);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, storyId);
     return 0;
   }
 }
@@ -33624,10 +35988,10 @@ class MessageReplies extends MessageRepliesBase {
     required this.flags,
     required this.replies,
     required this.repliesPts,
-    required this.recentRepliers,
-    required this.channelId,
-    required this.maxId,
-    required this.readMaxId,
+    this.recentRepliers,
+    this.channelId,
+    this.maxId,
+    this.readMaxId,
   }) : super._();
 
   /// Deserialize.
@@ -33650,29 +36014,26 @@ class MessageReplies extends MessageRepliesBase {
   /// Recent Repliers.
   final List<PeerBase>? recentRepliers;
 
-  /// If [recentRepliers] exists.
-  bool get hasRecentRepliersField => _bit(flags, 1);
-
   /// Channel Id.
   final int? channelId;
-
-  /// If [channelId] exists.
-  bool get hasChannelIdField => _bit(flags, 0);
 
   /// Max Id.
   final int? maxId;
 
-  /// If [maxId] exists.
-  bool get hasMaxIdField => _bit(flags, 2);
-
   /// Read Max Id.
   final int? readMaxId;
 
-  /// If [readMaxId] exists.
-  bool get hasReadMaxIdField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x83d60fc2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, comments);
+    // _writeint(buffer, 0, replies);
+    // _writeint(buffer, 0, repliesPts);
+    // _writeflags.1?Vector<Peer>(buffer, 0, recentRepliers);
+    // _writeflags.0?long(buffer, 0, channelId);
+    // _writeflags.2?int(buffer, 0, maxId);
+    // _writeflags.3?int(buffer, 0, readMaxId);
     return 0;
   }
 }
@@ -33702,10 +36063,13 @@ class PeerBlocked extends PeerBlockedBase {
   final PeerBase peerId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe8fd8014);
+    // _writePeer(buffer, 0, peerId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -33739,6 +36103,9 @@ class StatsMessageStats extends StatsMessageStatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7fe91c14);
+    // _writeStatsGraph(buffer, 0, viewsGraph);
+    // _writeStatsGraph(buffer, 0, reactionsByEmotionGraph);
     return 0;
   }
 }
@@ -33776,6 +36143,10 @@ class GroupCallDiscarded extends GroupCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7780bcb4);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, duration);
     return 0;
   }
 }
@@ -33790,11 +36161,11 @@ class GroupCall extends GroupCallBase {
     required this.id,
     required this.accessHash,
     required this.participantsCount,
-    required this.title,
-    required this.streamDcId,
-    required this.recordStartDate,
-    required this.scheduleDate,
-    required this.unmutedVideoCount,
+    this.title,
+    this.streamDcId,
+    this.recordStartDate,
+    this.scheduleDate,
+    this.unmutedVideoCount,
     required this.unmutedVideoLimit,
     required this.version,
   }) : super._();
@@ -33843,32 +36214,17 @@ class GroupCall extends GroupCallBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 3);
-
   /// Stream Dc Id.
   final int? streamDcId;
-
-  /// If [streamDcId] exists.
-  bool get hasStreamDcIdField => _bit(flags, 4);
 
   /// Record Start Date.
   final int? recordStartDate;
 
-  /// If [recordStartDate] exists.
-  bool get hasRecordStartDateField => _bit(flags, 5);
-
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 7);
-
   /// Unmuted Video Count.
   final int? unmutedVideoCount;
-
-  /// If [unmutedVideoCount] exists.
-  bool get hasUnmutedVideoCountField => _bit(flags, 10);
 
   /// Unmuted Video Limit.
   final int unmutedVideoLimit;
@@ -33878,6 +36234,26 @@ class GroupCall extends GroupCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd597650c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, joinMuted);
+    // _writeflags.2?true(buffer, 0, canChangeJoinMuted);
+    // _writeflags.6?true(buffer, 0, joinDateAsc);
+    // _writeflags.8?true(buffer, 0, scheduleStartSubscribed);
+    // _writeflags.9?true(buffer, 0, canStartVideo);
+    // _writeflags.11?true(buffer, 0, recordVideoActive);
+    // _writeflags.12?true(buffer, 0, rtmpStream);
+    // _writeflags.13?true(buffer, 0, listenersHidden);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writeint(buffer, 0, participantsCount);
+    // _writeflags.3?string(buffer, 0, title);
+    // _writeflags.4?int(buffer, 0, streamDcId);
+    // _writeflags.5?int(buffer, 0, recordStartDate);
+    // _writeflags.7?int(buffer, 0, scheduleDate);
+    // _writeflags.10?int(buffer, 0, unmutedVideoCount);
+    // _writeint(buffer, 0, unmutedVideoLimit);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -33911,6 +36287,9 @@ class InputGroupCall extends InputGroupCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd8aa840f);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -33930,13 +36309,13 @@ class GroupCallParticipant extends GroupCallParticipantBase {
     required this.flags,
     required this.peer,
     required this.date,
-    required this.activeDate,
+    this.activeDate,
     required this.source,
-    required this.volume,
-    required this.about,
-    required this.raiseHandRating,
-    required this.video,
-    required this.presentation,
+    this.volume,
+    this.about,
+    this.raiseHandRating,
+    this.video,
+    this.presentation,
   }) : super._();
 
   /// Deserialize.
@@ -33981,13 +36360,10 @@ class GroupCallParticipant extends GroupCallParticipantBase {
   final PeerBase peer;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Active Date.
   final int? activeDate;
-
-  /// If [activeDate] exists.
-  bool get hasActiveDateField => _bit(flags, 3);
 
   /// Source.
   final int source;
@@ -33995,35 +36371,41 @@ class GroupCallParticipant extends GroupCallParticipantBase {
   /// Volume.
   final int? volume;
 
-  /// If [volume] exists.
-  bool get hasVolumeField => _bit(flags, 7);
-
   /// About.
   final String? about;
-
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 11);
 
   /// Raise Hand Rating.
   final int? raiseHandRating;
 
-  /// If [raiseHandRating] exists.
-  bool get hasRaiseHandRatingField => _bit(flags, 13);
-
   /// Video.
   final GroupCallParticipantVideoBase? video;
-
-  /// If [video] exists.
-  bool get hasVideoField => _bit(flags, 6);
 
   /// Presentation.
   final GroupCallParticipantVideoBase? presentation;
 
-  /// If [presentation] exists.
-  bool get hasPresentationField => _bit(flags, 14);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeba636fe);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, muted);
+    // _writeflags.1?true(buffer, 0, left);
+    // _writeflags.2?true(buffer, 0, canSelfUnmute);
+    // _writeflags.4?true(buffer, 0, justJoined);
+    // _writeflags.5?true(buffer, 0, versioned);
+    // _writeflags.8?true(buffer, 0, min);
+    // _writeflags.9?true(buffer, 0, mutedByYou);
+    // _writeflags.10?true(buffer, 0, volumeByAdmin);
+    // _writeflags.12?true(buffer, 0, self);
+    // _writeflags.15?true(buffer, 0, videoJoined);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, date);
+    // _writeflags.3?int(buffer, 0, activeDate);
+    // _writeint(buffer, 0, source);
+    // _writeflags.7?int(buffer, 0, volume);
+    // _writeflags.11?string(buffer, 0, about);
+    // _writeflags.13?long(buffer, 0, raiseHandRating);
+    // _writeflags.6?GroupCallParticipantVideo(buffer, 0, video);
+    // _writeflags.14?GroupCallParticipantVideo(buffer, 0, presentation);
     return 0;
   }
 }
@@ -34069,6 +36451,12 @@ class PhoneGroupCall extends PhoneGroupCallBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9e727aad);
+    // _writeGroupCall(buffer, 0, call);
+    // _writeVector<GroupCallParticipant>(buffer, 0, participants);
+    // _writestring(buffer, 0, participantsNextOffset);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34118,6 +36506,13 @@ class PhoneGroupParticipants extends PhoneGroupParticipantsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf47751b6);
+    // _writeint(buffer, 0, count);
+    // _writeVector<GroupCallParticipant>(buffer, 0, participants);
+    // _writestring(buffer, 0, nextOffset);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeint(buffer, 0, version);
     return 0;
   }
 }
@@ -34142,6 +36537,7 @@ class InlineQueryPeerTypeSameBotPM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3081ed9d);
     return 0;
   }
 }
@@ -34160,6 +36556,7 @@ class InlineQueryPeerTypePM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x833c0fac);
     return 0;
   }
 }
@@ -34178,6 +36575,7 @@ class InlineQueryPeerTypeChat extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd766c50a);
     return 0;
   }
 }
@@ -34196,6 +36594,7 @@ class InlineQueryPeerTypeMegagroup extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5ec4be43);
     return 0;
   }
 }
@@ -34214,6 +36613,7 @@ class InlineQueryPeerTypeBroadcast extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6334ee9a);
     return 0;
   }
 }
@@ -34232,6 +36632,7 @@ class InlineQueryPeerTypeBotPM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0e3b2d0c);
     return 0;
   }
 }
@@ -34261,6 +36662,8 @@ class MessagesHistoryImport extends MessagesHistoryImportBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1662af0b);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -34278,7 +36681,7 @@ class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
   /// Messages History Import Parsed constructor.
   const MessagesHistoryImportParsed({
     required this.flags,
-    required this.title,
+    this.title,
   }) : super._();
 
   /// Deserialize.
@@ -34298,11 +36701,13 @@ class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5e0fb7b9);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pm);
+    // _writeflags.1?true(buffer, 0, group);
+    // _writeflags.2?string(buffer, 0, title);
     return 0;
   }
 }
@@ -34344,6 +36749,11 @@ class MessagesAffectedFoundMessages extends MessagesAffectedFoundMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef8d3e6c);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, ptsCount);
+    // _writeint(buffer, 0, offset);
+    // _writeVector<int>(buffer, 0, messages);
     return 0;
   }
 }
@@ -34363,8 +36773,8 @@ class ChatInviteImporter extends ChatInviteImporterBase {
     required this.flags,
     required this.userId,
     required this.date,
-    required this.about,
-    required this.approvedBy,
+    this.about,
+    this.approvedBy,
   }) : super._();
 
   /// Deserialize.
@@ -34385,22 +36795,24 @@ class ChatInviteImporter extends ChatInviteImporterBase {
   final int userId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// About.
   final String? about;
 
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 2);
-
   /// Approved By.
   final int? approvedBy;
 
-  /// If [approvedBy] exists.
-  bool get hasApprovedByField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c5adfd9);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, requested);
+    // _writeflags.3?true(buffer, 0, viaChatlist);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, date);
+    // _writeflags.2?string(buffer, 0, about);
+    // _writeflags.1?long(buffer, 0, approvedBy);
     return 0;
   }
 }
@@ -34438,6 +36850,10 @@ class MessagesExportedChatInvites extends MessagesExportedChatInvitesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdc62dcc);
+    // _writeint(buffer, 0, count);
+    // _writeVector<ExportedChatInvite>(buffer, 0, invites);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34471,6 +36887,9 @@ class MessagesExportedChatInvite extends MessagesExportedChatInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1871be50);
+    // _writeExportedChatInvite(buffer, 0, invite);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34503,6 +36922,10 @@ class MessagesExportedChatInviteReplaced
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x222600ef);
+    // _writeExportedChatInvite(buffer, 0, invite);
+    // _writeExportedChatInvite(buffer, 0, newInvite);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34540,6 +36963,10 @@ class MessagesChatInviteImporters extends MessagesChatInviteImportersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x81b6b00a);
+    // _writeint(buffer, 0, count);
+    // _writeVector<ChatInviteImporter>(buffer, 0, importers);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34577,6 +37004,10 @@ class ChatAdminWithInvites extends ChatAdminWithInvitesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf2ecef23);
+    // _writelong(buffer, 0, adminId);
+    // _writeint(buffer, 0, invitesCount);
+    // _writeint(buffer, 0, revokedInvitesCount);
     return 0;
   }
 }
@@ -34610,6 +37041,9 @@ class MessagesChatAdminsWithInvites extends MessagesChatAdminsWithInvitesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb69b72d7);
+    // _writeVector<ChatAdminWithInvites>(buffer, 0, admins);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34640,6 +37074,8 @@ class MessagesCheckedHistoryImportPeer
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa24de717);
+    // _writestring(buffer, 0, confirmText);
     return 0;
   }
 }
@@ -34677,6 +37113,10 @@ class PhoneJoinAsPeers extends PhoneJoinAsPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xafe5623f);
+    // _writeVector<Peer>(buffer, 0, peers);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -34706,6 +37146,8 @@ class PhoneExportedGroupCallInvite extends PhoneExportedGroupCallInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x204bd158);
+    // _writestring(buffer, 0, link);
     return 0;
   }
 }
@@ -34740,6 +37182,9 @@ class GroupCallParticipantVideoSourceGroup
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdcb118b7);
+    // _writestring(buffer, 0, semantics);
+    // _writeVector<int>(buffer, 0, sources);
     return 0;
   }
 }
@@ -34759,7 +37204,7 @@ class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
     required this.flags,
     required this.endpoint,
     required this.sourceGroups,
-    required this.audioSource,
+    this.audioSource,
   }) : super._();
 
   /// Deserialize.
@@ -34782,11 +37227,14 @@ class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
   /// Audio Source.
   final int? audioSource;
 
-  /// If [audioSource] exists.
-  bool get hasAudioSourceField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x67753ac8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, paused);
+    // _writestring(buffer, 0, endpoint);
+    // _writeVector<GroupCallParticipantVideoSourceGroup>(buffer, 0, sourceGroups);
+    // _writeflags.1?int(buffer, 0, audioSource);
     return 0;
   }
 }
@@ -34816,6 +37264,8 @@ class StickersSuggestedShortName extends StickersSuggestedShortNameBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x85fea03f);
+    // _writestring(buffer, 0, shortName);
     return 0;
   }
 }
@@ -34840,6 +37290,7 @@ class BotCommandScopeDefault extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2f6cb2ab);
     return 0;
   }
 }
@@ -34858,6 +37309,7 @@ class BotCommandScopeUsers extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c4f04d8);
     return 0;
   }
 }
@@ -34876,6 +37328,7 @@ class BotCommandScopeChats extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6fe1a881);
     return 0;
   }
 }
@@ -34894,6 +37347,7 @@ class BotCommandScopeChatAdmins extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb9aa606a);
     return 0;
   }
 }
@@ -34917,6 +37371,8 @@ class BotCommandScopePeer extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb9d897d);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -34940,6 +37396,8 @@ class BotCommandScopePeerAdmins extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3fd863d1);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -34967,6 +37425,9 @@ class BotCommandScopePeerUser extends BotCommandScopeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a1321f3);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -34992,10 +37453,12 @@ class AccountResetPasswordFailedWait extends AccountResetPasswordResultBase {
   }
 
   /// Retry Date.
-  final int retryDate;
+  final DateTime retryDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe3779861);
+    // _writeint(buffer, 0, retryDate);
     return 0;
   }
 }
@@ -35015,10 +37478,12 @@ class AccountResetPasswordRequestedWait extends AccountResetPasswordResultBase {
   }
 
   /// Until Date.
-  final int untilDate;
+  final DateTime untilDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe9effc7d);
+    // _writeint(buffer, 0, untilDate);
     return 0;
   }
 }
@@ -35037,6 +37502,7 @@ class AccountResetPasswordOk extends AccountResetPasswordResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe926d63e);
     return 0;
   }
 }
@@ -35055,18 +37521,18 @@ class SponsoredMessage extends SponsoredMessageBase {
   const SponsoredMessage({
     required this.flags,
     required this.randomId,
-    required this.fromId,
-    required this.chatInvite,
-    required this.chatInviteHash,
-    required this.channelPost,
-    required this.startParam,
-    required this.webpage,
-    required this.app,
+    this.fromId,
+    this.chatInvite,
+    this.chatInviteHash,
+    this.channelPost,
+    this.startParam,
+    this.webpage,
+    this.app,
     required this.message,
-    required this.entities,
-    required this.buttonText,
-    required this.sponsorInfo,
-    required this.additionalInfo,
+    this.entities,
+    this.buttonText,
+    this.sponsorInfo,
+    this.additionalInfo,
   }) : super._();
 
   /// Deserialize.
@@ -35089,44 +37555,23 @@ class SponsoredMessage extends SponsoredMessageBase {
   /// From Id.
   final PeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 3);
-
   /// Chat Invite.
   final ChatInviteBase? chatInvite;
-
-  /// If [chatInvite] exists.
-  bool get hasChatInviteField => _bit(flags, 4);
 
   /// Chat Invite Hash.
   final String? chatInviteHash;
 
-  /// If [chatInviteHash] exists.
-  bool get hasChatInviteHashField => _bit(flags, 4);
-
   /// Channel Post.
   final int? channelPost;
-
-  /// If [channelPost] exists.
-  bool get hasChannelPostField => _bit(flags, 2);
 
   /// Start Param.
   final String? startParam;
 
-  /// If [startParam] exists.
-  bool get hasStartParamField => _bit(flags, 0);
-
   /// Webpage.
   final SponsoredWebPageBase? webpage;
 
-  /// If [webpage] exists.
-  bool get hasWebpageField => _bit(flags, 9);
-
   /// App.
   final BotAppBase? app;
-
-  /// If [app] exists.
-  bool get hasAppField => _bit(flags, 10);
 
   /// Message.
   final String message;
@@ -35134,29 +37579,34 @@ class SponsoredMessage extends SponsoredMessageBase {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
-
   /// Button Text.
   final String? buttonText;
-
-  /// If [buttonText] exists.
-  bool get hasButtonTextField => _bit(flags, 11);
 
   /// Sponsor Info.
   final String? sponsorInfo;
 
-  /// If [sponsorInfo] exists.
-  bool get hasSponsorInfoField => _bit(flags, 7);
-
   /// Additional Info.
   final String? additionalInfo;
 
-  /// If [additionalInfo] exists.
-  bool get hasAdditionalInfoField => _bit(flags, 8);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xed5383f7);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, recommended);
+    // _writeflags.6?true(buffer, 0, showPeerPhoto);
+    // _writebytes(buffer, 0, randomId);
+    // _writeflags.3?Peer(buffer, 0, fromId);
+    // _writeflags.4?ChatInvite(buffer, 0, chatInvite);
+    // _writeflags.4?string(buffer, 0, chatInviteHash);
+    // _writeflags.2?int(buffer, 0, channelPost);
+    // _writeflags.0?string(buffer, 0, startParam);
+    // _writeflags.9?SponsoredWebPage(buffer, 0, webpage);
+    // _writeflags.10?BotApp(buffer, 0, app);
+    // _writestring(buffer, 0, message);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.11?string(buffer, 0, buttonText);
+    // _writeflags.7?string(buffer, 0, sponsorInfo);
+    // _writeflags.8?string(buffer, 0, additionalInfo);
     return 0;
   }
 }
@@ -35174,7 +37624,7 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
   /// Messages Sponsored Messages constructor.
   const MessagesSponsoredMessages({
     required this.flags,
-    required this.postsBetween,
+    this.postsBetween,
     required this.messages,
     required this.chats,
     required this.users,
@@ -35191,9 +37641,6 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
   /// Posts Between.
   final int? postsBetween;
 
-  /// If [postsBetween] exists.
-  bool get hasPostsBetweenField => _bit(flags, 0);
-
   /// Messages.
   final List<SponsoredMessageBase> messages;
 
@@ -35205,6 +37652,12 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc9ee1d87);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, postsBetween);
+    // _writeVector<SponsoredMessage>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -35223,6 +37676,7 @@ class MessagesSponsoredMessagesEmpty extends MessagesSponsoredMessagesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1839490f);
     return 0;
   }
 }
@@ -35251,7 +37705,7 @@ class SearchResultsCalendarPeriod extends SearchResultsCalendarPeriodBase {
   }
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Min Msg Id.
   final int minMsgId;
@@ -35264,6 +37718,11 @@ class SearchResultsCalendarPeriod extends SearchResultsCalendarPeriodBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc9b0539f);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, minMsgId);
+    // _writeint(buffer, 0, maxMsgId);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -35284,7 +37743,7 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
     required this.count,
     required this.minDate,
     required this.minMsgId,
-    required this.offsetIdOffset,
+    this.offsetIdOffset,
     required this.periods,
     required this.messages,
     required this.chats,
@@ -35306,16 +37765,13 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
   final int count;
 
   /// Min Date.
-  final int minDate;
+  final DateTime minDate;
 
   /// Min Msg Id.
   final int minMsgId;
 
   /// Offset Id Offset.
   final int? offsetIdOffset;
-
-  /// If [offsetIdOffset] exists.
-  bool get hasOffsetIdOffsetField => _bit(flags, 1);
 
   /// Periods.
   final List<SearchResultsCalendarPeriodBase> periods;
@@ -35331,6 +37787,17 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x147ee23c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, inexact);
+    // _writeint(buffer, 0, count);
+    // _writeint(buffer, 0, minDate);
+    // _writeint(buffer, 0, minMsgId);
+    // _writeflags.1?int(buffer, 0, offsetIdOffset);
+    // _writeVector<SearchResultsCalendarPeriod>(buffer, 0, periods);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -35361,13 +37828,17 @@ class SearchResultPosition extends SearchResultsPositionBase {
   final int msgId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Offset.
   final int offset;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f648b67);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, offset);
     return 0;
   }
 }
@@ -35402,6 +37873,9 @@ class MessagesSearchResultsPositions
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x53b22baf);
+    // _writeint(buffer, 0, count);
+    // _writeVector<SearchResultsPosition>(buffer, 0, positions);
     return 0;
   }
 }
@@ -35439,6 +37913,10 @@ class ChannelsSendAsPeers extends ChannelsSendAsPeersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf496b0c6);
+    // _writeVector<SendAsPeer>(buffer, 0, peers);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -35476,6 +37954,10 @@ class UsersUserFull extends UsersUserFullBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3b6d152e);
+    // _writeUserFull(buffer, 0, fullUser);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -35513,6 +37995,10 @@ class MessagesPeerSettings extends MessagesPeerSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6880b94d);
+    // _writePeerSettings(buffer, 0, settings);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -35530,7 +38016,7 @@ class AuthLoggedOut extends AuthLoggedOutBase {
   /// Auth Logged Out constructor.
   const AuthLoggedOut({
     required this.flags,
-    required this.futureAuthToken,
+    this.futureAuthToken,
   }) : super._();
 
   /// Deserialize.
@@ -35544,11 +38030,11 @@ class AuthLoggedOut extends AuthLoggedOutBase {
   /// Future Auth Token.
   final Uint8List? futureAuthToken;
 
-  /// If [futureAuthToken] exists.
-  bool get hasFutureAuthTokenField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc3a2835f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?bytes(buffer, 0, futureAuthToken);
     return 0;
   }
 }
@@ -35566,7 +38052,7 @@ class ReactionCount extends ReactionCountBase {
   /// Reaction Count constructor.
   const ReactionCount({
     required this.flags,
-    required this.chosenOrder,
+    this.chosenOrder,
     required this.reaction,
     required this.count,
   }) : super._();
@@ -35582,9 +38068,6 @@ class ReactionCount extends ReactionCountBase {
   /// Chosen Order.
   final int? chosenOrder;
 
-  /// If [chosenOrder] exists.
-  bool get hasChosenOrderField => _bit(flags, 0);
-
   /// Reaction.
   final ReactionBase reaction;
 
@@ -35593,6 +38076,11 @@ class ReactionCount extends ReactionCountBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa3d1cb80);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, chosenOrder);
+    // _writeReaction(buffer, 0, reaction);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -35611,7 +38099,7 @@ class MessageReactions extends MessageReactionsBase {
   const MessageReactions({
     required this.flags,
     required this.results,
-    required this.recentReactions,
+    this.recentReactions,
   }) : super._();
 
   /// Deserialize.
@@ -35634,11 +38122,14 @@ class MessageReactions extends MessageReactionsBase {
   /// Recent Reactions.
   final List<MessagePeerReactionBase>? recentReactions;
 
-  /// If [recentReactions] exists.
-  bool get hasRecentReactionsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4f2b9479);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, min);
+    // _writeflags.2?true(buffer, 0, canSeeList);
+    // _writeVector<ReactionCount>(buffer, 0, results);
+    // _writeflags.1?Vector<MessagePeerReaction>(buffer, 0, recentReactions);
     return 0;
   }
 }
@@ -35660,7 +38151,7 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
     required this.reactions,
     required this.chats,
     required this.users,
-    required this.nextOffset,
+    this.nextOffset,
   }) : super._();
 
   /// Deserialize.
@@ -35686,11 +38177,15 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x31bd492d);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeVector<MessagePeerReaction>(buffer, 0, reactions);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.0?string(buffer, 0, nextOffset);
     return 0;
   }
 }
@@ -35715,8 +38210,8 @@ class AvailableReaction extends AvailableReactionBase {
     required this.selectAnimation,
     required this.activateAnimation,
     required this.effectAnimation,
-    required this.aroundAnimation,
-    required this.centerIcon,
+    this.aroundAnimation,
+    this.centerIcon,
   }) : super._();
 
   /// Deserialize.
@@ -35757,17 +38252,24 @@ class AvailableReaction extends AvailableReactionBase {
   /// Around Animation.
   final DocumentBase? aroundAnimation;
 
-  /// If [aroundAnimation] exists.
-  bool get hasAroundAnimationField => _bit(flags, 1);
-
   /// Center Icon.
   final DocumentBase? centerIcon;
 
-  /// If [centerIcon] exists.
-  bool get hasCenterIconField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc077ec01);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, inactive);
+    // _writeflags.2?true(buffer, 0, premium);
+    // _writestring(buffer, 0, reaction);
+    // _writestring(buffer, 0, title);
+    // _writeDocument(buffer, 0, staticIcon);
+    // _writeDocument(buffer, 0, appearAnimation);
+    // _writeDocument(buffer, 0, selectAnimation);
+    // _writeDocument(buffer, 0, activateAnimation);
+    // _writeDocument(buffer, 0, effectAnimation);
+    // _writeflags.1?Document(buffer, 0, aroundAnimation);
+    // _writeflags.1?Document(buffer, 0, centerIcon);
     return 0;
   }
 }
@@ -35793,6 +38295,7 @@ class MessagesAvailableReactionsNotModified
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9f071957);
     return 0;
   }
 }
@@ -35820,6 +38323,9 @@ class MessagesAvailableReactions extends MessagesAvailableReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x768e3aad);
+    // _writeint(buffer, 0, hash);
+    // _writeVector<AvailableReaction>(buffer, 0, reactions);
     return 0;
   }
 }
@@ -35863,13 +38369,21 @@ class MessagePeerReaction extends MessagePeerReactionBase {
   final PeerBase peerId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Reaction.
   final ReactionBase reaction;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c79b63c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, big);
+    // _writeflags.1?true(buffer, 0, unread);
+    // _writeflags.2?true(buffer, 0, my);
+    // _writePeer(buffer, 0, peerId);
+    // _writeint(buffer, 0, date);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -35907,6 +38421,10 @@ class GroupCallStreamChannel extends GroupCallStreamChannelBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x80eb48af);
+    // _writeint(buffer, 0, channel);
+    // _writeint(buffer, 0, scale);
+    // _writelong(buffer, 0, lastTimestampMs);
     return 0;
   }
 }
@@ -35936,6 +38454,8 @@ class PhoneGroupCallStreamChannels extends PhoneGroupCallStreamChannelsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd0e482b2);
+    // _writeVector<GroupCallStreamChannel>(buffer, 0, channels);
     return 0;
   }
 }
@@ -35969,6 +38489,9 @@ class PhoneGroupCallStreamRtmpUrl extends PhoneGroupCallStreamRtmpUrlBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2dbf3432);
+    // _writestring(buffer, 0, url);
+    // _writestring(buffer, 0, key);
     return 0;
   }
 }
@@ -36002,6 +38525,9 @@ class AttachMenuBotIconColor extends AttachMenuBotIconColorBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4576f3f0);
+    // _writestring(buffer, 0, name);
+    // _writeint(buffer, 0, color);
     return 0;
   }
 }
@@ -36021,7 +38547,7 @@ class AttachMenuBotIcon extends AttachMenuBotIconBase {
     required this.flags,
     required this.name,
     required this.icon,
-    required this.colors,
+    this.colors,
   }) : super._();
 
   /// Deserialize.
@@ -36041,11 +38567,13 @@ class AttachMenuBotIcon extends AttachMenuBotIconBase {
   /// Colors.
   final List<AttachMenuBotIconColorBase>? colors;
 
-  /// If [colors] exists.
-  bool get hasColorsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2a7386b);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, name);
+    // _writeDocument(buffer, 0, icon);
+    // _writeflags.0?Vector<AttachMenuBotIconColor>(buffer, 0, colors);
     return 0;
   }
 }
@@ -36065,7 +38593,7 @@ class AttachMenuBot extends AttachMenuBotBase {
     required this.flags,
     required this.botId,
     required this.shortName,
-    required this.peerTypes,
+    this.peerTypes,
     required this.icons,
   }) : super._();
 
@@ -36104,14 +38632,23 @@ class AttachMenuBot extends AttachMenuBotBase {
   /// Peer Types.
   final List<AttachMenuPeerTypeBase>? peerTypes;
 
-  /// If [peerTypes] exists.
-  bool get hasPeerTypesField => _bit(flags, 3);
-
   /// Icons.
   final List<AttachMenuBotIconBase> icons;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd90d8dfe);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, inactive);
+    // _writeflags.1?true(buffer, 0, hasSettings);
+    // _writeflags.2?true(buffer, 0, requestWriteAccess);
+    // _writeflags.3?true(buffer, 0, showInAttachMenu);
+    // _writeflags.4?true(buffer, 0, showInSideMenu);
+    // _writeflags.5?true(buffer, 0, sideMenuDisclaimerNeeded);
+    // _writelong(buffer, 0, botId);
+    // _writestring(buffer, 0, shortName);
+    // _writeflags.3?Vector<AttachMenuPeerType>(buffer, 0, peerTypes);
+    // _writeVector<AttachMenuBotIcon>(buffer, 0, icons);
     return 0;
   }
 }
@@ -36136,6 +38673,7 @@ class AttachMenuBotsNotModified extends AttachMenuBotsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf1d88a5c);
     return 0;
   }
 }
@@ -36167,6 +38705,10 @@ class AttachMenuBots extends AttachMenuBotsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c4301c0);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<AttachMenuBot>(buffer, 0, bots);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -36200,6 +38742,9 @@ class AttachMenuBotsBot extends AttachMenuBotsBotBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x93bf667f);
+    // _writeAttachMenuBot(buffer, 0, bot);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -36233,6 +38778,9 @@ class WebViewResultUrl extends WebViewResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0c14557c);
+    // _writelong(buffer, 0, queryId);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -36262,6 +38810,8 @@ class SimpleWebViewResultUrl extends SimpleWebViewResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x882f76bb);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -36279,7 +38829,7 @@ class WebViewMessageSent extends WebViewMessageSentBase {
   /// Web View Message Sent constructor.
   const WebViewMessageSent({
     required this.flags,
-    required this.msgId,
+    this.msgId,
   }) : super._();
 
   /// Deserialize.
@@ -36293,11 +38843,11 @@ class WebViewMessageSent extends WebViewMessageSentBase {
   /// Msg Id.
   final InputBotInlineMessageIDBase? msgId;
 
-  /// If [msgId] exists.
-  bool get hasMsgIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0c94511c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?InputBotInlineMessageID(buffer, 0, msgId);
     return 0;
   }
 }
@@ -36322,6 +38872,7 @@ class BotMenuButtonDefault extends BotMenuButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7533a588);
     return 0;
   }
 }
@@ -36340,6 +38891,7 @@ class BotMenuButtonCommands extends BotMenuButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4258c205);
     return 0;
   }
 }
@@ -36367,6 +38919,9 @@ class BotMenuButton extends BotMenuButtonBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc7b57ce6);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -36391,6 +38946,7 @@ class AccountSavedRingtonesNotModified extends AccountSavedRingtonesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbf6e8b1);
     return 0;
   }
 }
@@ -36418,6 +38974,9 @@ class AccountSavedRingtones extends AccountSavedRingtonesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc1e92cc5);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<Document>(buffer, 0, ringtones);
     return 0;
   }
 }
@@ -36442,6 +39001,7 @@ class NotificationSoundDefault extends NotificationSoundBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x97e8bebe);
     return 0;
   }
 }
@@ -36460,6 +39020,7 @@ class NotificationSoundNone extends NotificationSoundBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6f0c34df);
     return 0;
   }
 }
@@ -36487,6 +39048,9 @@ class NotificationSoundLocal extends NotificationSoundBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x830b9ae4);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, data);
     return 0;
   }
 }
@@ -36510,6 +39074,8 @@ class NotificationSoundRingtone extends NotificationSoundBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xff6c8049);
+    // _writelong(buffer, 0, id);
     return 0;
   }
 }
@@ -36534,6 +39100,7 @@ class AccountSavedRingtone extends AccountSavedRingtoneBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb7263f6d);
     return 0;
   }
 }
@@ -36557,6 +39124,8 @@ class AccountSavedRingtoneConverted extends AccountSavedRingtoneBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1f307eb7);
+    // _writeDocument(buffer, 0, document);
     return 0;
   }
 }
@@ -36581,6 +39150,7 @@ class AttachMenuPeerTypeSameBotPM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7d6be90e);
     return 0;
   }
 }
@@ -36599,6 +39169,7 @@ class AttachMenuPeerTypeBotPM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc32bfa1a);
     return 0;
   }
 }
@@ -36617,6 +39188,7 @@ class AttachMenuPeerTypePM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf146d31f);
     return 0;
   }
 }
@@ -36635,6 +39207,7 @@ class AttachMenuPeerTypeChat extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0509113f);
     return 0;
   }
 }
@@ -36653,6 +39226,7 @@ class AttachMenuPeerTypeBroadcast extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7bfbdefc);
     return 0;
   }
 }
@@ -36686,6 +39260,9 @@ class InputInvoiceMessage extends InputInvoiceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc5b56859);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -36709,6 +39286,8 @@ class InputInvoiceSlug extends InputInvoiceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc326caef);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -36736,6 +39315,9 @@ class InputInvoicePremiumGiftCode extends InputInvoiceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98986c0d);
+    // _writeInputStorePaymentPurpose(buffer, 0, purpose);
+    // _writePremiumGiftCodeOption(buffer, 0, option);
     return 0;
   }
 }
@@ -36765,6 +39347,8 @@ class PaymentsExportedInvoice extends PaymentsExportedInvoiceBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaed0cbd9);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -36784,8 +39368,8 @@ class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
     required this.flags,
     required this.transcriptionId,
     required this.text,
-    required this.trialRemainsNum,
-    required this.trialRemainsUntilDate,
+    this.trialRemainsNum,
+    this.trialRemainsUntilDate,
   }) : super._();
 
   /// Deserialize.
@@ -36808,17 +39392,18 @@ class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
   /// Trial Remains Num.
   final int? trialRemainsNum;
 
-  /// If [trialRemainsNum] exists.
-  bool get hasTrialRemainsNumField => _bit(flags, 1);
-
   /// Trial Remains Until Date.
   final int? trialRemainsUntilDate;
 
-  /// If [trialRemainsUntilDate] exists.
-  bool get hasTrialRemainsUntilDateField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcfb9d957);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pending);
+    // _writelong(buffer, 0, transcriptionId);
+    // _writestring(buffer, 0, text);
+    // _writeflags.1?int(buffer, 0, trialRemainsNum);
+    // _writeflags.1?int(buffer, 0, trialRemainsUntilDate);
     return 0;
   }
 }
@@ -36868,6 +39453,13 @@ class HelpPremiumPromo extends HelpPremiumPromoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5334759c);
+    // _writestring(buffer, 0, statusText);
+    // _writeVector<MessageEntity>(buffer, 0, statusEntities);
+    // _writeVector<string>(buffer, 0, videoSections);
+    // _writeVector<Document>(buffer, 0, videos);
+    // _writeVector<PremiumSubscriptionOption>(buffer, 0, periodOptions);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -36904,6 +39496,10 @@ class InputStorePaymentPremiumSubscription
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6751e66);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, restore);
+    // _writeflags.1?true(buffer, 0, upgrade);
     return 0;
   }
 }
@@ -36935,6 +39531,10 @@ class InputStorePaymentGiftPremium extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x616f7fe8);
+    // _writeInputUser(buffer, 0, userId);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
     return 0;
   }
 }
@@ -36947,7 +39547,7 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
   const InputStorePaymentPremiumGiftCode({
     required this.flags,
     required this.users,
-    required this.boostPeer,
+    this.boostPeer,
     required this.currency,
     required this.amount,
   }) : super._();
@@ -36966,9 +39566,6 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
   /// Boost Peer.
   final InputPeerBase? boostPeer;
 
-  /// If [boostPeer] exists.
-  bool get hasBoostPeerField => _bit(flags, 0);
-
   /// Currency.
   final String currency;
 
@@ -36977,6 +39574,12 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa3805f3f);
+    // _write#(buffer, 0, flags);
+    // _writeVector<InputUser>(buffer, 0, users);
+    // _writeflags.0?InputPeer(buffer, 0, boostPeer);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
     return 0;
   }
 }
@@ -36989,9 +39592,9 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
   const InputStorePaymentPremiumGiveaway({
     required this.flags,
     required this.boostPeer,
-    required this.additionalPeers,
-    required this.countriesIso2,
-    required this.prizeDescription,
+    this.additionalPeers,
+    this.countriesIso2,
+    this.prizeDescription,
     required this.randomId,
     required this.untilDate,
     required this.currency,
@@ -37018,26 +39621,17 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
   /// Additional Peers.
   final List<InputPeerBase>? additionalPeers;
 
-  /// If [additionalPeers] exists.
-  bool get hasAdditionalPeersField => _bit(flags, 1);
-
   /// Countries Iso2.
   final List<String>? countriesIso2;
 
-  /// If [countriesIso2] exists.
-  bool get hasCountriesIso2Field => _bit(flags, 2);
-
   /// Prize Description.
   final String? prizeDescription;
-
-  /// If [prizeDescription] exists.
-  bool get hasPrizeDescriptionField => _bit(flags, 4);
 
   /// Random Id.
   final int randomId;
 
   /// Until Date.
-  final int untilDate;
+  final DateTime untilDate;
 
   /// Currency.
   final String currency;
@@ -37047,6 +39641,18 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x160544ca);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, onlyNewSubscribers);
+    // _writeflags.3?true(buffer, 0, winnersAreVisible);
+    // _writeInputPeer(buffer, 0, boostPeer);
+    // _writeflags.1?Vector<InputPeer>(buffer, 0, additionalPeers);
+    // _writeflags.2?Vector<string>(buffer, 0, countriesIso2);
+    // _writeflags.4?string(buffer, 0, prizeDescription);
+    // _writelong(buffer, 0, randomId);
+    // _writeint(buffer, 0, untilDate);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
     return 0;
   }
 }
@@ -37068,7 +39674,7 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
     required this.currency,
     required this.amount,
     required this.botUrl,
-    required this.storeProduct,
+    this.storeProduct,
   }) : super._();
 
   /// Deserialize.
@@ -37094,11 +39700,15 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
   /// Store Product.
   final String? storeProduct;
 
-  /// If [storeProduct] exists.
-  bool get hasStoreProductField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74c34319);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, months);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
+    // _writestring(buffer, 0, botUrl);
+    // _writeflags.0?string(buffer, 0, storeProduct);
     return 0;
   }
 }
@@ -37132,6 +39742,9 @@ class PaymentFormMethod extends PaymentFormMethodBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x88f8f21b);
+    // _writestring(buffer, 0, url);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -37156,6 +39769,7 @@ class EmojiStatusEmpty extends EmojiStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2de11aae);
     return 0;
   }
 }
@@ -37179,6 +39793,8 @@ class EmojiStatus extends EmojiStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x929b619d);
+    // _writelong(buffer, 0, documentId);
     return 0;
   }
 }
@@ -37206,6 +39822,9 @@ class EmojiStatusUntil extends EmojiStatusBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa30a8c7);
+    // _writelong(buffer, 0, documentId);
+    // _writeint(buffer, 0, until);
     return 0;
   }
 }
@@ -37230,6 +39849,7 @@ class AccountEmojiStatusesNotModified extends AccountEmojiStatusesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd08ce645);
     return 0;
   }
 }
@@ -37257,6 +39877,9 @@ class AccountEmojiStatuses extends AccountEmojiStatusesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x90c467d1);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<EmojiStatus>(buffer, 0, statuses);
     return 0;
   }
 }
@@ -37281,6 +39904,7 @@ class ReactionEmpty extends ReactionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x79f5d419);
     return 0;
   }
 }
@@ -37304,6 +39928,8 @@ class ReactionEmoji extends ReactionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b2286b8);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -37327,6 +39953,8 @@ class ReactionCustomEmoji extends ReactionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8935fc73);
+    // _writelong(buffer, 0, documentId);
     return 0;
   }
 }
@@ -37351,6 +39979,7 @@ class ChatReactionsNone extends ChatReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeafc32bc);
     return 0;
   }
 }
@@ -37377,6 +40006,9 @@ class ChatReactionsAll extends ChatReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x52928bca);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, allowCustom);
     return 0;
   }
 }
@@ -37400,6 +40032,8 @@ class ChatReactionsSome extends ChatReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x661d4037);
+    // _writeVector<Reaction>(buffer, 0, reactions);
     return 0;
   }
 }
@@ -37424,6 +40058,7 @@ class MessagesReactionsNotModified extends MessagesReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb06fdbdf);
     return 0;
   }
 }
@@ -37451,6 +40086,9 @@ class MessagesReactions extends MessagesReactionsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeafdf716);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<Reaction>(buffer, 0, reactions);
     return 0;
   }
 }
@@ -37484,6 +40122,9 @@ class EmailVerifyPurposeLoginSetup extends EmailVerifyPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4345be73);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
     return 0;
   }
 }
@@ -37502,6 +40143,7 @@ class EmailVerifyPurposeLoginChange extends EmailVerifyPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x527d22eb);
     return 0;
   }
 }
@@ -37520,6 +40162,7 @@ class EmailVerifyPurposePassport extends EmailVerifyPurposeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbbf51685);
     return 0;
   }
 }
@@ -37549,6 +40192,8 @@ class EmailVerificationCode extends EmailVerificationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x922e55a9);
+    // _writestring(buffer, 0, code);
     return 0;
   }
 }
@@ -37572,6 +40217,8 @@ class EmailVerificationGoogle extends EmailVerificationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb909ec2);
+    // _writestring(buffer, 0, token);
     return 0;
   }
 }
@@ -37595,6 +40242,8 @@ class EmailVerificationApple extends EmailVerificationBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x96d074fd);
+    // _writestring(buffer, 0, token);
     return 0;
   }
 }
@@ -37624,6 +40273,8 @@ class AccountEmailVerified extends AccountEmailVerifiedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2b96cd1b);
+    // _writestring(buffer, 0, email);
     return 0;
   }
 }
@@ -37651,6 +40302,9 @@ class AccountEmailVerifiedLogin extends AccountEmailVerifiedBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe1bb0d61);
+    // _writestring(buffer, 0, email);
+    // _writeauth.SentCode(buffer, 0, sentCode);
     return 0;
   }
 }
@@ -37668,12 +40322,12 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
   /// Premium Subscription Option constructor.
   const PremiumSubscriptionOption({
     required this.flags,
-    required this.transaction,
+    this.transaction,
     required this.months,
     required this.currency,
     required this.amount,
     required this.botUrl,
-    required this.storeProduct,
+    this.storeProduct,
   }) : super._();
 
   /// Deserialize.
@@ -37693,9 +40347,6 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
   /// Transaction.
   final String? transaction;
 
-  /// If [transaction] exists.
-  bool get hasTransactionField => _bit(flags, 3);
-
   /// Months.
   final int months;
 
@@ -37711,11 +40362,18 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
   /// Store Product.
   final String? storeProduct;
 
-  /// If [storeProduct] exists.
-  bool get hasStoreProductField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5f2d1df2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, current);
+    // _writeflags.2?true(buffer, 0, canPurchaseUpgrade);
+    // _writeflags.3?string(buffer, 0, transaction);
+    // _writeint(buffer, 0, months);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
+    // _writestring(buffer, 0, botUrl);
+    // _writeflags.0?string(buffer, 0, storeProduct);
     return 0;
   }
 }
@@ -37752,6 +40410,10 @@ class SendAsPeer extends SendAsPeerBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb81c7034);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, premiumRequired);
+    // _writePeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -37769,10 +40431,10 @@ class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
   /// Message Extended Media Preview constructor.
   const MessageExtendedMediaPreview({
     required this.flags,
-    required this.w,
-    required this.h,
-    required this.thumb,
-    required this.videoDuration,
+    this.w,
+    this.h,
+    this.thumb,
+    this.videoDuration,
   }) : super._();
 
   /// Deserialize.
@@ -37786,29 +40448,23 @@ class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
   /// W.
   final int? w;
 
-  /// If [w] exists.
-  bool get hasWField => _bit(flags, 0);
-
   /// H.
   final int? h;
-
-  /// If [h] exists.
-  bool get hasHField => _bit(flags, 0);
 
   /// Thumb.
   final PhotoSizeBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 1);
-
   /// Video Duration.
   final int? videoDuration;
 
-  /// If [videoDuration] exists.
-  bool get hasVideoDurationField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xad628cc8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, w);
+    // _writeflags.0?int(buffer, 0, h);
+    // _writeflags.1?PhotoSize(buffer, 0, thumb);
+    // _writeflags.2?int(buffer, 0, videoDuration);
     return 0;
   }
 }
@@ -37832,6 +40488,8 @@ class MessageExtendedMedia extends MessageExtendedMediaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xee479c64);
+    // _writeMessageMedia(buffer, 0, media);
     return 0;
   }
 }
@@ -37865,6 +40523,9 @@ class StickerKeyword extends StickerKeywordBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfcfeb29c);
+    // _writelong(buffer, 0, documentId);
+    // _writeVector<string>(buffer, 0, keyword);
     return 0;
   }
 }
@@ -37904,6 +40565,11 @@ class Username extends UsernameBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4073647);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, editable);
+    // _writeflags.1?true(buffer, 0, active);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -37933,6 +40599,8 @@ class ForumTopicDeleted extends ForumTopicBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x023f109b);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -37948,7 +40616,7 @@ class ForumTopic extends ForumTopicBase {
     required this.date,
     required this.title,
     required this.iconColor,
-    required this.iconEmojiId,
+    this.iconEmojiId,
     required this.topMessage,
     required this.readInboxMaxId,
     required this.readOutboxMaxId,
@@ -37957,7 +40625,7 @@ class ForumTopic extends ForumTopicBase {
     required this.unreadReactionsCount,
     required this.fromId,
     required this.notifySettings,
-    required this.draft,
+    this.draft,
   }) : super._();
 
   /// Deserialize.
@@ -37987,7 +40655,7 @@ class ForumTopic extends ForumTopicBase {
   final int id;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Title.
   final String title;
@@ -37997,9 +40665,6 @@ class ForumTopic extends ForumTopicBase {
 
   /// Icon Emoji Id.
   final int? iconEmojiId;
-
-  /// If [iconEmojiId] exists.
-  bool get hasIconEmojiIdField => _bit(flags, 0);
 
   /// Top Message.
   final int topMessage;
@@ -38028,11 +40693,29 @@ class ForumTopic extends ForumTopicBase {
   /// Draft.
   final DraftMessageBase? draft;
 
-  /// If [draft] exists.
-  bool get hasDraftField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x71701da9);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, my);
+    // _writeflags.2?true(buffer, 0, closed);
+    // _writeflags.3?true(buffer, 0, pinned);
+    // _writeflags.5?true(buffer, 0, short);
+    // _writeflags.6?true(buffer, 0, hidden);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, date);
+    // _writestring(buffer, 0, title);
+    // _writeint(buffer, 0, iconColor);
+    // _writeflags.0?long(buffer, 0, iconEmojiId);
+    // _writeint(buffer, 0, topMessage);
+    // _writeint(buffer, 0, readInboxMaxId);
+    // _writeint(buffer, 0, readOutboxMaxId);
+    // _writeint(buffer, 0, unreadCount);
+    // _writeint(buffer, 0, unreadMentionsCount);
+    // _writeint(buffer, 0, unreadReactionsCount);
+    // _writePeer(buffer, 0, fromId);
+    // _writePeerNotifySettings(buffer, 0, notifySettings);
+    // _writeflags.4?DraftMessage(buffer, 0, draft);
     return 0;
   }
 }
@@ -38089,6 +40772,15 @@ class MessagesForumTopics extends MessagesForumTopicsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x367617d3);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, orderByCreateDate);
+    // _writeint(buffer, 0, count);
+    // _writeVector<ForumTopic>(buffer, 0, topics);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeint(buffer, 0, pts);
     return 0;
   }
 }
@@ -38118,6 +40810,8 @@ class DefaultHistoryTTL extends DefaultHistoryTTLBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x43b46b20);
+    // _writeint(buffer, 0, period);
     return 0;
   }
 }
@@ -38151,6 +40845,9 @@ class ExportedContactToken extends ExportedContactTokenBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x41bf109b);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, expires);
     return 0;
   }
 }
@@ -38168,8 +40865,8 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
   /// Request Peer Type User constructor.
   const RequestPeerTypeUser({
     required this.flags,
-    required this.bot,
-    required this.premium,
+    this.bot,
+    this.premium,
   }) : super._();
 
   /// Deserialize.
@@ -38183,17 +40880,15 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
   /// Bot.
   final bool? bot;
 
-  /// If [bot] exists.
-  bool get hasBotField => _bit(flags, 0);
-
   /// Premium.
   final bool? premium;
 
-  /// If [premium] exists.
-  bool get hasPremiumField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5f3b8a00);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Bool(buffer, 0, bot);
+    // _writeflags.1?Bool(buffer, 0, premium);
     return 0;
   }
 }
@@ -38205,10 +40900,10 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
   /// Request Peer Type Chat constructor.
   const RequestPeerTypeChat({
     required this.flags,
-    required this.hasUsername,
-    required this.forum,
-    required this.userAdminRights,
-    required this.botAdminRights,
+    this.hasUsername,
+    this.forum,
+    this.userAdminRights,
+    this.botAdminRights,
   }) : super._();
 
   /// Deserialize.
@@ -38228,29 +40923,25 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
   /// Has Username.
   final bool? hasUsername;
 
-  /// If [hasUsername] exists.
-  bool get hasHasUsernameField => _bit(flags, 3);
-
   /// Forum.
   final bool? forum;
-
-  /// If [forum] exists.
-  bool get hasForumField => _bit(flags, 4);
 
   /// User Admin Rights.
   final ChatAdminRightsBase? userAdminRights;
 
-  /// If [userAdminRights] exists.
-  bool get hasUserAdminRightsField => _bit(flags, 1);
-
   /// Bot Admin Rights.
   final ChatAdminRightsBase? botAdminRights;
 
-  /// If [botAdminRights] exists.
-  bool get hasBotAdminRightsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc9f06e1b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.5?true(buffer, 0, botParticipant);
+    // _writeflags.3?Bool(buffer, 0, hasUsername);
+    // _writeflags.4?Bool(buffer, 0, forum);
+    // _writeflags.1?ChatAdminRights(buffer, 0, userAdminRights);
+    // _writeflags.2?ChatAdminRights(buffer, 0, botAdminRights);
     return 0;
   }
 }
@@ -38262,9 +40953,9 @@ class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
   /// Request Peer Type Broadcast constructor.
   const RequestPeerTypeBroadcast({
     required this.flags,
-    required this.hasUsername,
-    required this.userAdminRights,
-    required this.botAdminRights,
+    this.hasUsername,
+    this.userAdminRights,
+    this.botAdminRights,
   }) : super._();
 
   /// Deserialize.
@@ -38281,23 +40972,20 @@ class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
   /// Has Username.
   final bool? hasUsername;
 
-  /// If [hasUsername] exists.
-  bool get hasHasUsernameField => _bit(flags, 3);
-
   /// User Admin Rights.
   final ChatAdminRightsBase? userAdminRights;
-
-  /// If [userAdminRights] exists.
-  bool get hasUserAdminRightsField => _bit(flags, 1);
 
   /// Bot Admin Rights.
   final ChatAdminRightsBase? botAdminRights;
 
-  /// If [botAdminRights] exists.
-  bool get hasBotAdminRightsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x339bef6c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, creator);
+    // _writeflags.3?Bool(buffer, 0, hasUsername);
+    // _writeflags.1?ChatAdminRights(buffer, 0, userAdminRights);
+    // _writeflags.2?ChatAdminRights(buffer, 0, botAdminRights);
     return 0;
   }
 }
@@ -38322,6 +41010,7 @@ class EmojiListNotModified extends EmojiListBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x481eadfa);
     return 0;
   }
 }
@@ -38349,6 +41038,9 @@ class EmojiList extends EmojiListBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a1e11d1);
+    // _writelong(buffer, 0, hash);
+    // _writeVector<long>(buffer, 0, documentId);
     return 0;
   }
 }
@@ -38386,6 +41078,10 @@ class EmojiGroup extends EmojiGroupBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a9abda9);
+    // _writestring(buffer, 0, title);
+    // _writelong(buffer, 0, iconEmojiId);
+    // _writeVector<string>(buffer, 0, emoticons);
     return 0;
   }
 }
@@ -38410,6 +41106,7 @@ class MessagesEmojiGroupsNotModified extends MessagesEmojiGroupsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6fb4ad87);
     return 0;
   }
 }
@@ -38437,6 +41134,9 @@ class MessagesEmojiGroups extends MessagesEmojiGroupsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x881fb94b);
+    // _writeint(buffer, 0, hash);
+    // _writeVector<EmojiGroup>(buffer, 0, groups);
     return 0;
   }
 }
@@ -38470,6 +41170,9 @@ class TextWithEntities extends TextWithEntitiesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x751f3146);
+    // _writestring(buffer, 0, text);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -38499,6 +41202,8 @@ class MessagesTranslateResult extends MessagesTranslatedTextBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x33db32f8);
+    // _writeVector<TextWithEntities>(buffer, 0, result);
     return 0;
   }
 }
@@ -38516,7 +41221,7 @@ class AutoSaveSettings extends AutoSaveSettingsBase {
   /// Auto Save Settings constructor.
   const AutoSaveSettings({
     required this.flags,
-    required this.videoMaxSize,
+    this.videoMaxSize,
   }) : super._();
 
   /// Deserialize.
@@ -38536,11 +41241,13 @@ class AutoSaveSettings extends AutoSaveSettingsBase {
   /// Video Max Size.
   final int? videoMaxSize;
 
-  /// If [videoMaxSize] exists.
-  bool get hasVideoMaxSizeField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc84834ce);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, photos);
+    // _writeflags.1?true(buffer, 0, videos);
+    // _writeflags.2?long(buffer, 0, videoMaxSize);
     return 0;
   }
 }
@@ -38574,6 +41281,9 @@ class AutoSaveException extends AutoSaveExceptionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x81602d47);
+    // _writePeer(buffer, 0, peer);
+    // _writeAutoSaveSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -38623,6 +41333,13 @@ class AccountAutoSaveSettings extends AccountAutoSaveSettingsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4c3e069d);
+    // _writeAutoSaveSettings(buffer, 0, usersSettings);
+    // _writeAutoSaveSettings(buffer, 0, chatsSettings);
+    // _writeAutoSaveSettings(buffer, 0, broadcastsSettings);
+    // _writeVector<AutoSaveException>(buffer, 0, exceptions);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -38647,6 +41364,7 @@ class HelpAppConfigNotModified extends HelpAppConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7cde641d);
     return 0;
   }
 }
@@ -38674,6 +41392,9 @@ class HelpAppConfig extends HelpAppConfigBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdd18782e);
+    // _writeint(buffer, 0, hash);
+    // _writeJSONValue(buffer, 0, config);
     return 0;
   }
 }
@@ -38707,6 +41428,9 @@ class InputBotAppID extends InputBotAppBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa920bd7a);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
     return 0;
   }
 }
@@ -38734,6 +41458,9 @@ class InputBotAppShortName extends InputBotAppBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x908c0407);
+    // _writeInputUser(buffer, 0, botId);
+    // _writestring(buffer, 0, shortName);
     return 0;
   }
 }
@@ -38758,6 +41485,7 @@ class BotAppNotModified extends BotAppBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5da674b7);
     return 0;
   }
 }
@@ -38775,7 +41503,7 @@ class BotApp extends BotAppBase {
     required this.title,
     required this.description,
     required this.photo,
-    required this.document,
+    this.document,
     required this.hash,
   }) : super._();
 
@@ -38808,14 +41536,21 @@ class BotApp extends BotAppBase {
   /// Document.
   final DocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 0);
-
   /// Hash.
   final int hash;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x95fcd1d6);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, id);
+    // _writelong(buffer, 0, accessHash);
+    // _writestring(buffer, 0, shortName);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, description);
+    // _writePhoto(buffer, 0, photo);
+    // _writeflags.0?Document(buffer, 0, document);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -38858,6 +41593,12 @@ class MessagesBotApp extends MessagesBotAppBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeb50adf5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, inactive);
+    // _writeflags.1?true(buffer, 0, requestWriteAccess);
+    // _writeflags.2?true(buffer, 0, hasSettings);
+    // _writeBotApp(buffer, 0, app);
     return 0;
   }
 }
@@ -38887,6 +41628,8 @@ class AppWebViewResultUrl extends AppWebViewResultBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3c1b4f0d);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -38920,6 +41663,9 @@ class InlineBotWebView extends InlineBotWebViewBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb57295d5);
+    // _writestring(buffer, 0, text);
+    // _writestring(buffer, 0, url);
     return 0;
   }
 }
@@ -38949,10 +41695,13 @@ class ReadParticipantDate extends ReadParticipantDateBase {
   final int userId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4a4ff172);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -38982,6 +41731,8 @@ class InputChatlistDialogFilter extends InputChatlistBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf3e0da33);
+    // _writeint(buffer, 0, filterId);
     return 0;
   }
 }
@@ -39023,6 +41774,11 @@ class ExportedChatlistInvite extends ExportedChatlistInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0c5181ac);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, url);
+    // _writeVector<Peer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -39057,6 +41813,9 @@ class ChatlistsExportedChatlistInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10e6e3a6);
+    // _writeDialogFilter(buffer, 0, filter);
+    // _writeExportedChatlistInvite(buffer, 0, invite);
     return 0;
   }
 }
@@ -39094,6 +41853,10 @@ class ChatlistsExportedInvites extends ChatlistsExportedInvitesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10ab6dc7);
+    // _writeVector<ExportedChatlistInvite>(buffer, 0, invites);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -39139,6 +41902,12 @@ class ChatlistsChatlistInviteAlready extends ChatlistsChatlistInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa87f659);
+    // _writeint(buffer, 0, filterId);
+    // _writeVector<Peer>(buffer, 0, missingPeers);
+    // _writeVector<Peer>(buffer, 0, alreadyPeers);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -39151,7 +41920,7 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
   const ChatlistsChatlistInvite({
     required this.flags,
     required this.title,
-    required this.emoticon,
+    this.emoticon,
     required this.peers,
     required this.chats,
     required this.users,
@@ -39171,9 +41940,6 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
   /// Emoticon.
   final String? emoticon;
 
-  /// If [emoticon] exists.
-  bool get hasEmoticonField => _bit(flags, 0);
-
   /// Peers.
   final List<PeerBase> peers;
 
@@ -39185,6 +41951,13 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1dcd839d);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, title);
+    // _writeflags.0?string(buffer, 0, emoticon);
+    // _writeVector<Peer>(buffer, 0, peers);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -39222,6 +41995,10 @@ class ChatlistsChatlistUpdates extends ChatlistsChatlistUpdatesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x93bd878d);
+    // _writeVector<Peer>(buffer, 0, missingPeers);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -39259,6 +42036,10 @@ class BotsBotInfo extends BotsBotInfoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe8a775b0);
+    // _writestring(buffer, 0, name);
+    // _writestring(buffer, 0, about);
+    // _writestring(buffer, 0, description);
     return 0;
   }
 }
@@ -39292,10 +42073,14 @@ class MessagePeerVote extends MessagePeerVoteBase {
   final Uint8List option;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6cc2d5c);
+    // _writePeer(buffer, 0, peer);
+    // _writebytes(buffer, 0, option);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -39319,10 +42104,13 @@ class MessagePeerVoteInputOption extends MessagePeerVoteBase {
   final PeerBase peer;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74cda504);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -39350,10 +42138,14 @@ class MessagePeerVoteMultiple extends MessagePeerVoteBase {
   final List<Uint8List> options;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4628f6e6);
+    // _writePeer(buffer, 0, peer);
+    // _writeVector<bytes>(buffer, 0, options);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -39373,7 +42165,7 @@ class SponsoredWebPage extends SponsoredWebPageBase {
     required this.flags,
     required this.url,
     required this.siteName,
-    required this.photo,
+    this.photo,
   }) : super._();
 
   /// Deserialize.
@@ -39393,11 +42185,13 @@ class SponsoredWebPage extends SponsoredWebPageBase {
   /// Photo.
   final PhotoBase? photo;
 
-  /// If [photo] exists.
-  bool get hasPhotoField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3db8ec63);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, url);
+    // _writestring(buffer, 0, siteName);
+    // _writeflags.0?Photo(buffer, 0, photo);
     return 0;
   }
 }
@@ -39416,10 +42210,10 @@ class StoryViews extends StoryViewsBase {
   const StoryViews({
     required this.flags,
     required this.viewsCount,
-    required this.forwardsCount,
-    required this.reactions,
-    required this.reactionsCount,
-    required this.recentViewers,
+    this.forwardsCount,
+    this.reactions,
+    this.reactionsCount,
+    this.recentViewers,
   }) : super._();
 
   /// Deserialize.
@@ -39439,29 +42233,25 @@ class StoryViews extends StoryViewsBase {
   /// Forwards Count.
   final int? forwardsCount;
 
-  /// If [forwardsCount] exists.
-  bool get hasForwardsCountField => _bit(flags, 2);
-
   /// Reactions.
   final List<ReactionCountBase>? reactions;
-
-  /// If [reactions] exists.
-  bool get hasReactionsField => _bit(flags, 3);
 
   /// Reactions Count.
   final int? reactionsCount;
 
-  /// If [reactionsCount] exists.
-  bool get hasReactionsCountField => _bit(flags, 4);
-
   /// Recent Viewers.
   final List<int>? recentViewers;
 
-  /// If [recentViewers] exists.
-  bool get hasRecentViewersField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8d595cd6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, hasViewers);
+    // _writeint(buffer, 0, viewsCount);
+    // _writeflags.2?int(buffer, 0, forwardsCount);
+    // _writeflags.3?Vector<ReactionCount>(buffer, 0, reactions);
+    // _writeflags.4?int(buffer, 0, reactionsCount);
+    // _writeflags.0?Vector<long>(buffer, 0, recentViewers);
     return 0;
   }
 }
@@ -39491,6 +42281,8 @@ class StoryItemDeleted extends StoryItemBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x51e6ee4f);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -39522,13 +42314,19 @@ class StoryItemSkipped extends StoryItemBase {
   final int id;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Expire Date.
-  final int expireDate;
+  final DateTime expireDate;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xffadc913);
+    // _write#(buffer, 0, flags);
+    // _writeflags.8?true(buffer, 0, closeFriends);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, expireDate);
     return 0;
   }
 }
@@ -39542,15 +42340,15 @@ class StoryItem extends StoryItemBase {
     required this.flags,
     required this.id,
     required this.date,
-    required this.fwdFrom,
+    this.fwdFrom,
     required this.expireDate,
-    required this.caption,
-    required this.entities,
+    this.caption,
+    this.entities,
     required this.media,
-    required this.mediaAreas,
-    required this.privacy,
-    required this.views,
-    required this.sentReaction,
+    this.mediaAreas,
+    this.privacy,
+    this.views,
+    this.sentReaction,
   }) : super._();
 
   /// Deserialize.
@@ -39592,28 +42390,19 @@ class StoryItem extends StoryItemBase {
   final int id;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Fwd From.
   final StoryFwdHeaderBase? fwdFrom;
 
-  /// If [fwdFrom] exists.
-  bool get hasFwdFromField => _bit(flags, 17);
-
   /// Expire Date.
-  final int expireDate;
+  final DateTime expireDate;
 
   /// Caption.
   final String? caption;
 
-  /// If [caption] exists.
-  bool get hasCaptionField => _bit(flags, 0);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
 
   /// Media.
   final MessageMediaBase media;
@@ -39621,29 +42410,39 @@ class StoryItem extends StoryItemBase {
   /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
 
-  /// If [mediaAreas] exists.
-  bool get hasMediaAreasField => _bit(flags, 14);
-
   /// Privacy.
   final List<PrivacyRuleBase>? privacy;
-
-  /// If [privacy] exists.
-  bool get hasPrivacyField => _bit(flags, 2);
 
   /// Views.
   final StoryViewsBase? views;
 
-  /// If [views] exists.
-  bool get hasViewsField => _bit(flags, 3);
-
   /// Sent Reaction.
   final ReactionBase? sentReaction;
 
-  /// If [sentReaction] exists.
-  bool get hasSentReactionField => _bit(flags, 15);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaf6365a1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, pinned);
+    // _writeflags.7?true(buffer, 0, public);
+    // _writeflags.8?true(buffer, 0, closeFriends);
+    // _writeflags.9?true(buffer, 0, min);
+    // _writeflags.10?true(buffer, 0, noforwards);
+    // _writeflags.11?true(buffer, 0, edited);
+    // _writeflags.12?true(buffer, 0, contacts);
+    // _writeflags.13?true(buffer, 0, selectedContacts);
+    // _writeflags.16?true(buffer, 0, out);
+    // _writeint(buffer, 0, id);
+    // _writeint(buffer, 0, date);
+    // _writeflags.17?StoryFwdHeader(buffer, 0, fwdFrom);
+    // _writeint(buffer, 0, expireDate);
+    // _writeflags.0?string(buffer, 0, caption);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeMessageMedia(buffer, 0, media);
+    // _writeflags.14?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // _writeflags.2?Vector<PrivacyRule>(buffer, 0, privacy);
+    // _writeflags.3?StoryViews(buffer, 0, views);
+    // _writeflags.15?Reaction(buffer, 0, sentReaction);
     return 0;
   }
 }
@@ -39681,6 +42480,10 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1158fe3e);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, state);
+    // _writeStoriesStealthMode(buffer, 0, stealthMode);
     return 0;
   }
 }
@@ -39731,6 +42534,15 @@ class StoriesAllStories extends StoriesAllStoriesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6efc5e81);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hasMore);
+    // _writeint(buffer, 0, count);
+    // _writestring(buffer, 0, state);
+    // _writeVector<PeerStories>(buffer, 0, peerStories);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeStoriesStealthMode(buffer, 0, stealthMode);
     return 0;
   }
 }
@@ -39772,6 +42584,11 @@ class StoriesStories extends StoriesStoriesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5dd8c3c8);
+    // _writeint(buffer, 0, count);
+    // _writeVector<StoryItem>(buffer, 0, stories);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -39791,7 +42608,7 @@ class StoryView extends StoryViewBase {
     required this.flags,
     required this.userId,
     required this.date,
-    required this.reaction,
+    this.reaction,
   }) : super._();
 
   /// Deserialize.
@@ -39812,16 +42629,20 @@ class StoryView extends StoryViewBase {
   final int userId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Reaction.
   final ReactionBase? reaction;
 
-  /// If [reaction] exists.
-  bool get hasReactionField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb0bdeac5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, blocked);
+    // _writeflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // _writelong(buffer, 0, userId);
+    // _writeint(buffer, 0, date);
+    // _writeflags.2?Reaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -39855,6 +42676,11 @@ class StoryViewPublicForward extends StoryViewBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9083670b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, blocked);
+    // _writeflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -39892,6 +42718,12 @@ class StoryViewPublicRepost extends StoryViewBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd74cf49);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, blocked);
+    // _writeflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // _writePeer(buffer, 0, peerId);
+    // _writeStoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -39916,7 +42748,7 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
     required this.views,
     required this.chats,
     required this.users,
-    required this.nextOffset,
+    this.nextOffset,
   }) : super._();
 
   /// Deserialize.
@@ -39951,11 +42783,18 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x59d78fc5);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeint(buffer, 0, viewsCount);
+    // _writeint(buffer, 0, forwardsCount);
+    // _writeint(buffer, 0, reactionsCount);
+    // _writeVector<StoryView>(buffer, 0, views);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.0?string(buffer, 0, nextOffset);
     return 0;
   }
 }
@@ -39989,6 +42828,9 @@ class StoriesStoryViews extends StoriesStoryViewsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde9eed1d);
+    // _writeVector<StoryViews>(buffer, 0, views);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -40007,11 +42849,11 @@ class InputReplyToMessage extends InputReplyToBase {
   const InputReplyToMessage({
     required this.flags,
     required this.replyToMsgId,
-    required this.topMsgId,
-    required this.replyToPeerId,
-    required this.quoteText,
-    required this.quoteEntities,
-    required this.quoteOffset,
+    this.topMsgId,
+    this.replyToPeerId,
+    this.quoteText,
+    this.quoteEntities,
+    this.quoteOffset,
   }) : super._();
 
   /// Deserialize.
@@ -40028,35 +42870,28 @@ class InputReplyToMessage extends InputReplyToBase {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Reply To Peer Id.
   final InputPeerBase? replyToPeerId;
-
-  /// If [replyToPeerId] exists.
-  bool get hasReplyToPeerIdField => _bit(flags, 1);
 
   /// Quote Text.
   final String? quoteText;
 
-  /// If [quoteText] exists.
-  bool get hasQuoteTextField => _bit(flags, 2);
-
   /// Quote Entities.
   final List<MessageEntityBase>? quoteEntities;
-
-  /// If [quoteEntities] exists.
-  bool get hasQuoteEntitiesField => _bit(flags, 3);
 
   /// Quote Offset.
   final int? quoteOffset;
 
-  /// If [quoteOffset] exists.
-  bool get hasQuoteOffsetField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x22c0f6d5);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, replyToMsgId);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeflags.1?InputPeer(buffer, 0, replyToPeerId);
+    // _writeflags.2?string(buffer, 0, quoteText);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, quoteEntities);
+    // _writeflags.4?int(buffer, 0, quoteOffset);
     return 0;
   }
 }
@@ -40084,6 +42919,9 @@ class InputReplyToStory extends InputReplyToBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15b0f283);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, storyId);
     return 0;
   }
 }
@@ -40113,6 +42951,8 @@ class ExportedStoryLink extends ExportedStoryLinkBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3fc9053b);
+    // _writestring(buffer, 0, link);
     return 0;
   }
 }
@@ -40130,8 +42970,8 @@ class StoriesStealthMode extends StoriesStealthModeBase {
   /// Stories Stealth Mode constructor.
   const StoriesStealthMode({
     required this.flags,
-    required this.activeUntilDate,
-    required this.cooldownUntilDate,
+    this.activeUntilDate,
+    this.cooldownUntilDate,
   }) : super._();
 
   /// Deserialize.
@@ -40145,17 +42985,15 @@ class StoriesStealthMode extends StoriesStealthModeBase {
   /// Active Until Date.
   final int? activeUntilDate;
 
-  /// If [activeUntilDate] exists.
-  bool get hasActiveUntilDateField => _bit(flags, 0);
-
   /// Cooldown Until Date.
   final int? cooldownUntilDate;
 
-  /// If [cooldownUntilDate] exists.
-  bool get hasCooldownUntilDateField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x712e27fd);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, activeUntilDate);
+    // _writeflags.1?int(buffer, 0, cooldownUntilDate);
     return 0;
   }
 }
@@ -40201,6 +43039,12 @@ class MediaAreaCoordinates extends MediaAreaCoordinatesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x03d1ea4e);
+    // _writedouble(buffer, 0, x);
+    // _writedouble(buffer, 0, y);
+    // _writedouble(buffer, 0, w);
+    // _writedouble(buffer, 0, h);
+    // _writedouble(buffer, 0, rotation);
     return 0;
   }
 }
@@ -40254,6 +43098,14 @@ class MediaAreaVenue extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbe82db9c);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writeGeoPoint(buffer, 0, geo);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, address);
+    // _writestring(buffer, 0, provider);
+    // _writestring(buffer, 0, venueId);
+    // _writestring(buffer, 0, venueType);
     return 0;
   }
 }
@@ -40285,6 +43137,10 @@ class InputMediaAreaVenue extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb282217f);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writelong(buffer, 0, queryId);
+    // _writestring(buffer, 0, resultId);
     return 0;
   }
 }
@@ -40312,6 +43168,9 @@ class MediaAreaGeoPoint extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdf8b3b22);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writeGeoPoint(buffer, 0, geo);
     return 0;
   }
 }
@@ -40349,6 +43208,12 @@ class MediaAreaSuggestedReaction extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x14455871);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeflags.1?true(buffer, 0, flipped);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -40380,6 +43245,10 @@ class MediaAreaChannelPost extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x770416af);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writelong(buffer, 0, channelId);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -40411,6 +43280,10 @@ class InputMediaAreaChannelPost extends MediaAreaBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2271f2bf);
+    // _writeMediaAreaCoordinates(buffer, 0, coordinates);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -40429,7 +43302,7 @@ class PeerStories extends PeerStoriesBase {
   const PeerStories({
     required this.flags,
     required this.peer,
-    required this.maxReadId,
+    this.maxReadId,
     required this.stories,
   }) : super._();
 
@@ -40447,14 +43320,16 @@ class PeerStories extends PeerStoriesBase {
   /// Max Read Id.
   final int? maxReadId;
 
-  /// If [maxReadId] exists.
-  bool get hasMaxReadIdField => _bit(flags, 0);
-
   /// Stories.
   final List<StoryItemBase> stories;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a35e999);
+    // _write#(buffer, 0, flags);
+    // _writePeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, maxReadId);
+    // _writeVector<StoryItem>(buffer, 0, stories);
     return 0;
   }
 }
@@ -40492,6 +43367,10 @@ class StoriesPeerStories extends StoriesPeerStoriesBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcae68768);
+    // _writePeerStories(buffer, 0, stories);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -40529,6 +43408,10 @@ class MessagesWebPage extends MessagesWebPageBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfd5e12bd);
+    // _writeWebPage(buffer, 0, webpage);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -40548,8 +43431,8 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
     required this.flags,
     required this.users,
     required this.months,
-    required this.storeProduct,
-    required this.storeQuantity,
+    this.storeProduct,
+    this.storeQuantity,
     required this.currency,
     required this.amount,
   }) : super._();
@@ -40571,14 +43454,8 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
   /// Store Product.
   final String? storeProduct;
 
-  /// If [storeProduct] exists.
-  bool get hasStoreProductField => _bit(flags, 0);
-
   /// Store Quantity.
   final int? storeQuantity;
-
-  /// If [storeQuantity] exists.
-  bool get hasStoreQuantityField => _bit(flags, 1);
 
   /// Currency.
   final String currency;
@@ -40588,6 +43465,14 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x257e962b);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, users);
+    // _writeint(buffer, 0, months);
+    // _writeflags.0?string(buffer, 0, storeProduct);
+    // _writeflags.1?int(buffer, 0, storeQuantity);
+    // _writestring(buffer, 0, currency);
+    // _writelong(buffer, 0, amount);
     return 0;
   }
 }
@@ -40605,12 +43490,12 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
   /// Payments Checked Gift Code constructor.
   const PaymentsCheckedGiftCode({
     required this.flags,
-    required this.fromId,
-    required this.giveawayMsgId,
-    required this.toId,
+    this.fromId,
+    this.giveawayMsgId,
+    this.toId,
     required this.date,
     required this.months,
-    required this.usedDate,
+    this.usedDate,
     required this.chats,
     required this.users,
   }) : super._();
@@ -40629,32 +43514,20 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
   /// From Id.
   final PeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 4);
-
   /// Giveaway Msg Id.
   final int? giveawayMsgId;
-
-  /// If [giveawayMsgId] exists.
-  bool get hasGiveawayMsgIdField => _bit(flags, 3);
 
   /// To Id.
   final int? toId;
 
-  /// If [toId] exists.
-  bool get hasToIdField => _bit(flags, 0);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Months.
   final int months;
 
   /// Used Date.
   final int? usedDate;
-
-  /// If [usedDate] exists.
-  bool get hasUsedDateField => _bit(flags, 1);
 
   /// Chats.
   final List<ChatBase> chats;
@@ -40664,6 +43537,17 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x284a1096);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, viaGiveaway);
+    // _writeflags.4?Peer(buffer, 0, fromId);
+    // _writeflags.3?int(buffer, 0, giveawayMsgId);
+    // _writeflags.0?long(buffer, 0, toId);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, months);
+    // _writeflags.1?int(buffer, 0, usedDate);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -40682,9 +43566,9 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
   const PaymentsGiveawayInfo({
     required this.flags,
     required this.startDate,
-    required this.joinedTooEarlyDate,
-    required this.adminDisallowedChatId,
-    required this.disallowedCountry,
+    this.joinedTooEarlyDate,
+    this.adminDisallowedChatId,
+    this.disallowedCountry,
   }) : super._();
 
   /// Deserialize.
@@ -40702,28 +43586,27 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
   bool get preparingResults => _bit(flags, 3);
 
   /// Start Date.
-  final int startDate;
+  final DateTime startDate;
 
   /// Joined Too Early Date.
   final int? joinedTooEarlyDate;
 
-  /// If [joinedTooEarlyDate] exists.
-  bool get hasJoinedTooEarlyDateField => _bit(flags, 1);
-
   /// Admin Disallowed Chat Id.
   final int? adminDisallowedChatId;
-
-  /// If [adminDisallowedChatId] exists.
-  bool get hasAdminDisallowedChatIdField => _bit(flags, 2);
 
   /// Disallowed Country.
   final String? disallowedCountry;
 
-  /// If [disallowedCountry] exists.
-  bool get hasDisallowedCountryField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4367daa0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, participating);
+    // _writeflags.3?true(buffer, 0, preparingResults);
+    // _writeint(buffer, 0, startDate);
+    // _writeflags.1?int(buffer, 0, joinedTooEarlyDate);
+    // _writeflags.2?long(buffer, 0, adminDisallowedChatId);
+    // _writeflags.4?string(buffer, 0, disallowedCountry);
     return 0;
   }
 }
@@ -40736,7 +43619,7 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
   const PaymentsGiveawayInfoResults({
     required this.flags,
     required this.startDate,
-    required this.giftCodeSlug,
+    this.giftCodeSlug,
     required this.finishDate,
     required this.winnersCount,
     required this.activatedCount,
@@ -40757,16 +43640,13 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
   bool get refunded => _bit(flags, 1);
 
   /// Start Date.
-  final int startDate;
+  final DateTime startDate;
 
   /// Gift Code Slug.
   final String? giftCodeSlug;
 
-  /// If [giftCodeSlug] exists.
-  bool get hasGiftCodeSlugField => _bit(flags, 0);
-
   /// Finish Date.
-  final int finishDate;
+  final DateTime finishDate;
 
   /// Winners Count.
   final int winnersCount;
@@ -40776,6 +43656,15 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x00cd5570);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, winner);
+    // _writeflags.1?true(buffer, 0, refunded);
+    // _writeint(buffer, 0, startDate);
+    // _writeflags.0?string(buffer, 0, giftCodeSlug);
+    // _writeint(buffer, 0, finishDate);
+    // _writeint(buffer, 0, winnersCount);
+    // _writeint(buffer, 0, activatedCount);
     return 0;
   }
 }
@@ -40813,10 +43702,15 @@ class PrepaidGiveaway extends PrepaidGiveawayBase {
   final int quantity;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2539d54);
+    // _writelong(buffer, 0, id);
+    // _writeint(buffer, 0, months);
+    // _writeint(buffer, 0, quantity);
+    // _writeint(buffer, 0, date);
     return 0;
   }
 }
@@ -40835,12 +43729,12 @@ class Boost extends BoostBase {
   const Boost({
     required this.flags,
     required this.id,
-    required this.userId,
-    required this.giveawayMsgId,
+    this.userId,
+    this.giveawayMsgId,
     required this.date,
     required this.expires,
-    required this.usedGiftSlug,
-    required this.multiplier,
+    this.usedGiftSlug,
+    this.multiplier,
   }) : super._();
 
   /// Deserialize.
@@ -40866,17 +43760,11 @@ class Boost extends BoostBase {
   /// User Id.
   final int? userId;
 
-  /// If [userId] exists.
-  bool get hasUserIdField => _bit(flags, 0);
-
   /// Giveaway Msg Id.
   final int? giveawayMsgId;
 
-  /// If [giveawayMsgId] exists.
-  bool get hasGiveawayMsgIdField => _bit(flags, 2);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Expires.
   final int expires;
@@ -40884,17 +43772,23 @@ class Boost extends BoostBase {
   /// Used Gift Slug.
   final String? usedGiftSlug;
 
-  /// If [usedGiftSlug] exists.
-  bool get hasUsedGiftSlugField => _bit(flags, 4);
-
   /// Multiplier.
   final int? multiplier;
 
-  /// If [multiplier] exists.
-  bool get hasMultiplierField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2a1c8c71);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, gift);
+    // _writeflags.2?true(buffer, 0, giveaway);
+    // _writeflags.3?true(buffer, 0, unclaimed);
+    // _writestring(buffer, 0, id);
+    // _writeflags.0?long(buffer, 0, userId);
+    // _writeflags.2?int(buffer, 0, giveawayMsgId);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, expires);
+    // _writeflags.4?string(buffer, 0, usedGiftSlug);
+    // _writeflags.5?int(buffer, 0, multiplier);
     return 0;
   }
 }
@@ -40914,7 +43808,7 @@ class PremiumBoostsList extends PremiumBoostsListBase {
     required this.flags,
     required this.count,
     required this.boosts,
-    required this.nextOffset,
+    this.nextOffset,
     required this.users,
   }) : super._();
 
@@ -40935,14 +43829,17 @@ class PremiumBoostsList extends PremiumBoostsListBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Users.
   final List<UserBase> users;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x86f8613c);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeVector<Boost>(buffer, 0, boosts);
+    // _writeflags.0?string(buffer, 0, nextOffset);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -40961,10 +43858,10 @@ class MyBoost extends MyBoostBase {
   const MyBoost({
     required this.flags,
     required this.slot,
-    required this.peer,
+    this.peer,
     required this.date,
     required this.expires,
-    required this.cooldownUntilDate,
+    this.cooldownUntilDate,
   }) : super._();
 
   /// Deserialize.
@@ -40981,11 +43878,8 @@ class MyBoost extends MyBoostBase {
   /// Peer.
   final PeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 0);
-
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Expires.
   final int expires;
@@ -40993,11 +43887,15 @@ class MyBoost extends MyBoostBase {
   /// Cooldown Until Date.
   final int? cooldownUntilDate;
 
-  /// If [cooldownUntilDate] exists.
-  bool get hasCooldownUntilDateField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc448415c);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, slot);
+    // _writeflags.0?Peer(buffer, 0, peer);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, expires);
+    // _writeflags.1?int(buffer, 0, cooldownUntilDate);
     return 0;
   }
 }
@@ -41035,6 +43933,10 @@ class PremiumMyBoosts extends PremiumMyBoostsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9ae228e2);
+    // _writeVector<MyBoost>(buffer, 0, myBoosts);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -41055,12 +43957,12 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
     required this.level,
     required this.currentLevelBoosts,
     required this.boosts,
-    required this.giftBoosts,
-    required this.nextLevelBoosts,
-    required this.premiumAudience,
+    this.giftBoosts,
+    this.nextLevelBoosts,
+    this.premiumAudience,
     required this.boostUrl,
-    required this.prepaidGiveaways,
-    required this.myBoostSlots,
+    this.prepaidGiveaways,
+    this.myBoostSlots,
   }) : super._();
 
   /// Deserialize.
@@ -41086,20 +43988,11 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
   /// Gift Boosts.
   final int? giftBoosts;
 
-  /// If [giftBoosts] exists.
-  bool get hasGiftBoostsField => _bit(flags, 4);
-
   /// Next Level Boosts.
   final int? nextLevelBoosts;
 
-  /// If [nextLevelBoosts] exists.
-  bool get hasNextLevelBoostsField => _bit(flags, 0);
-
   /// Premium Audience.
   final StatsPercentValueBase? premiumAudience;
-
-  /// If [premiumAudience] exists.
-  bool get hasPremiumAudienceField => _bit(flags, 1);
 
   /// Boost Url.
   final String boostUrl;
@@ -41107,17 +44000,23 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
   /// Prepaid Giveaways.
   final List<PrepaidGiveawayBase>? prepaidGiveaways;
 
-  /// If [prepaidGiveaways] exists.
-  bool get hasPrepaidGiveawaysField => _bit(flags, 3);
-
   /// My Boost Slots.
   final List<int>? myBoostSlots;
 
-  /// If [myBoostSlots] exists.
-  bool get hasMyBoostSlotsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4959427a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, myBoost);
+    // _writeint(buffer, 0, level);
+    // _writeint(buffer, 0, currentLevelBoosts);
+    // _writeint(buffer, 0, boosts);
+    // _writeflags.4?int(buffer, 0, giftBoosts);
+    // _writeflags.0?int(buffer, 0, nextLevelBoosts);
+    // _writeflags.1?StatsPercentValue(buffer, 0, premiumAudience);
+    // _writestring(buffer, 0, boostUrl);
+    // _writeflags.3?Vector<PrepaidGiveaway>(buffer, 0, prepaidGiveaways);
+    // _writeflags.2?Vector<int>(buffer, 0, myBoostSlots);
     return 0;
   }
 }
@@ -41135,9 +44034,9 @@ class StoryFwdHeader extends StoryFwdHeaderBase {
   /// Story Fwd Header constructor.
   const StoryFwdHeader({
     required this.flags,
-    required this.from,
-    required this.fromName,
-    required this.storyId,
+    this.from,
+    this.fromName,
+    this.storyId,
   }) : super._();
 
   /// Deserialize.
@@ -41154,23 +44053,20 @@ class StoryFwdHeader extends StoryFwdHeaderBase {
   /// From.
   final PeerBase? from;
 
-  /// If [from] exists.
-  bool get hasFromField => _bit(flags, 0);
-
   /// From Name.
   final String? fromName;
-
-  /// If [fromName] exists.
-  bool get hasFromNameField => _bit(flags, 1);
 
   /// Story Id.
   final int? storyId;
 
-  /// If [storyId] exists.
-  bool get hasStoryIdField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb826e150);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, modified);
+    // _writeflags.0?Peer(buffer, 0, from);
+    // _writeflags.1?string(buffer, 0, fromName);
+    // _writeflags.2?int(buffer, 0, storyId);
     return 0;
   }
 }
@@ -41212,6 +44108,11 @@ class PostInteractionCountersMessage extends PostInteractionCountersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe7058e7f);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, views);
+    // _writeint(buffer, 0, forwards);
+    // _writeint(buffer, 0, reactions);
     return 0;
   }
 }
@@ -41247,6 +44148,11 @@ class PostInteractionCountersStory extends PostInteractionCountersBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8a480e27);
+    // _writeint(buffer, 0, storyId);
+    // _writeint(buffer, 0, views);
+    // _writeint(buffer, 0, forwards);
+    // _writeint(buffer, 0, reactions);
     return 0;
   }
 }
@@ -41280,6 +44186,9 @@ class StatsStoryStats extends StatsStoryStatsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50cd067c);
+    // _writeStatsGraph(buffer, 0, viewsGraph);
+    // _writeStatsGraph(buffer, 0, reactionsByEmotionGraph);
     return 0;
   }
 }
@@ -41309,6 +44218,8 @@ class PublicForwardMessage extends PublicForwardBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x01f2bf4a);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -41336,6 +44247,9 @@ class PublicForwardStory extends PublicForwardBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xedf3add0);
+    // _writePeer(buffer, 0, peer);
+    // _writeStoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -41355,7 +44269,7 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
     required this.flags,
     required this.count,
     required this.forwards,
-    required this.nextOffset,
+    this.nextOffset,
     required this.chats,
     required this.users,
   }) : super._();
@@ -41377,9 +44291,6 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Chats.
   final List<ChatBase> chats;
 
@@ -41388,6 +44299,13 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x93037e20);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeVector<PublicForward>(buffer, 0, forwards);
+    // _writeflags.0?string(buffer, 0, nextOffset);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -41405,8 +44323,8 @@ class PeerColor extends PeerColorBase {
   /// Peer Color constructor.
   const PeerColor({
     required this.flags,
-    required this.color,
-    required this.backgroundEmojiId,
+    this.color,
+    this.backgroundEmojiId,
   }) : super._();
 
   /// Deserialize.
@@ -41420,17 +44338,15 @@ class PeerColor extends PeerColorBase {
   /// Color.
   final int? color;
 
-  /// If [color] exists.
-  bool get hasColorField => _bit(flags, 0);
-
   /// Background Emoji Id.
   final int? backgroundEmojiId;
 
-  /// If [backgroundEmojiId] exists.
-  bool get hasBackgroundEmojiIdField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb54b5acf);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, color);
+    // _writeflags.1?long(buffer, 0, backgroundEmojiId);
     return 0;
   }
 }
@@ -41460,6 +44376,8 @@ class HelpPeerColorSet extends HelpPeerColorSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x26219a58);
+    // _writeVector<int>(buffer, 0, colors);
     return 0;
   }
 }
@@ -41491,6 +44409,10 @@ class HelpPeerColorProfileSet extends HelpPeerColorSetBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x767d61eb);
+    // _writeVector<int>(buffer, 0, paletteColors);
+    // _writeVector<int>(buffer, 0, bgColors);
+    // _writeVector<int>(buffer, 0, storyColors);
     return 0;
   }
 }
@@ -41509,9 +44431,9 @@ class HelpPeerColorOption extends HelpPeerColorOptionBase {
   const HelpPeerColorOption({
     required this.flags,
     required this.colorId,
-    required this.colors,
-    required this.darkColors,
-    required this.channelMinLevel,
+    this.colors,
+    this.darkColors,
+    this.channelMinLevel,
   }) : super._();
 
   /// Deserialize.
@@ -41531,23 +44453,21 @@ class HelpPeerColorOption extends HelpPeerColorOptionBase {
   /// Colors.
   final HelpPeerColorSetBase? colors;
 
-  /// If [colors] exists.
-  bool get hasColorsField => _bit(flags, 1);
-
   /// Dark Colors.
   final HelpPeerColorSetBase? darkColors;
-
-  /// If [darkColors] exists.
-  bool get hasDarkColorsField => _bit(flags, 2);
 
   /// Channel Min Level.
   final int? channelMinLevel;
 
-  /// If [channelMinLevel] exists.
-  bool get hasChannelMinLevelField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef8430ab);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, hidden);
+    // _writeint(buffer, 0, colorId);
+    // _writeflags.1?help.PeerColorSet(buffer, 0, colors);
+    // _writeflags.2?help.PeerColorSet(buffer, 0, darkColors);
+    // _writeflags.3?int(buffer, 0, channelMinLevel);
     return 0;
   }
 }
@@ -41572,6 +44492,7 @@ class HelpPeerColorsNotModified extends HelpPeerColorsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2ba1f5ce);
     return 0;
   }
 }
@@ -41599,6 +44520,9 @@ class HelpPeerColors extends HelpPeerColorsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x00f8ed08);
+    // _writeint(buffer, 0, hash);
+    // _writeVector<help.PeerColorOption>(buffer, 0, colors);
     return 0;
   }
 }
@@ -41629,13 +44553,17 @@ class StoryReaction extends StoryReactionBase {
   final PeerBase peerId;
 
   /// Date.
-  final int date;
+  final DateTime date;
 
   /// Reaction.
   final ReactionBase reaction;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6090d6d5);
+    // _writePeer(buffer, 0, peerId);
+    // _writeint(buffer, 0, date);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -41659,6 +44587,8 @@ class StoryReactionPublicForward extends StoryReactionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbbab2643);
+    // _writeMessage(buffer, 0, message);
     return 0;
   }
 }
@@ -41686,6 +44616,9 @@ class StoryReactionPublicRepost extends StoryReactionBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcfcd0f13);
+    // _writePeer(buffer, 0, peerId);
+    // _writeStoryItem(buffer, 0, story);
     return 0;
   }
 }
@@ -41707,7 +44640,7 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
     required this.reactions,
     required this.chats,
     required this.users,
-    required this.nextOffset,
+    this.nextOffset,
   }) : super._();
 
   /// Deserialize.
@@ -41733,11 +44666,15 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaa5f789c);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, count);
+    // _writeVector<StoryReaction>(buffer, 0, reactions);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
+    // _writeflags.0?string(buffer, 0, nextOffset);
     return 0;
   }
 }
@@ -41778,6 +44715,11 @@ class SavedDialog extends SavedDialogBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd87cb6c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, pinned);
+    // _writePeer(buffer, 0, peer);
+    // _writeint(buffer, 0, topMessage);
     return 0;
   }
 }
@@ -41819,6 +44761,11 @@ class MessagesSavedDialogs extends MessagesSavedDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf83ae221);
+    // _writeVector<SavedDialog>(buffer, 0, dialogs);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -41858,6 +44805,12 @@ class MessagesSavedDialogsSlice extends MessagesSavedDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x44ba9dd9);
+    // _writeint(buffer, 0, count);
+    // _writeVector<SavedDialog>(buffer, 0, dialogs);
+    // _writeVector<Message>(buffer, 0, messages);
+    // _writeVector<Chat>(buffer, 0, chats);
+    // _writeVector<User>(buffer, 0, users);
     return 0;
   }
 }
@@ -41881,6 +44834,8 @@ class MessagesSavedDialogsNotModified extends MessagesSavedDialogsBase {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc01f6fe8);
+    // _writeint(buffer, 0, count);
     return 0;
   }
 }
@@ -41908,6 +44863,9 @@ class InvokeAfterMsg<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcb9f372d);
+    // _writelong(buffer, 0, msgId);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -41935,6 +44893,9 @@ class InvokeAfterMsgs<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dc4b4f0);
+    // _writeVector<long>(buffer, 0, msgIds);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -41970,6 +44931,11 @@ class AuthSendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa677244f);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, apiHash);
+    // _writeCodeSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -42005,6 +44971,11 @@ class AuthSignUp extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x80eee427);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
     return 0;
   }
 }
@@ -42018,8 +44989,8 @@ class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
     required this.flags,
     required this.phoneNumber,
     required this.phoneCodeHash,
-    required this.phoneCode,
-    required this.emailVerification,
+    this.phoneCode,
+    this.emailVerification,
   }) : super._();
 
   /// Deserialize.
@@ -42039,17 +45010,17 @@ class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
   /// Phone Code.
   final String? phoneCode;
 
-  /// If [phoneCode] exists.
-  bool get hasPhoneCodeField => _bit(flags, 0);
-
   /// Email Verification.
   final EmailVerificationBase? emailVerification;
 
-  /// If [emailVerification] exists.
-  bool get hasEmailVerificationField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8d52a951);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writeflags.0?string(buffer, 0, phoneCode);
+    // _writeflags.1?EmailVerification(buffer, 0, emailVerification);
     return 0;
   }
 }
@@ -42068,6 +45039,7 @@ class AuthLogOut extends TlMethod<AuthLoggedOutBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3e72ba19);
     return 0;
   }
 }
@@ -42086,6 +45058,7 @@ class AuthResetAuthorizations extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9fab0d1a);
     return 0;
   }
 }
@@ -42109,6 +45082,8 @@ class AuthExportAuthorization extends TlMethod<AuthExportedAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe5bfffcd);
+    // _writeint(buffer, 0, dcId);
     return 0;
   }
 }
@@ -42136,6 +45111,9 @@ class AuthImportAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa57a7dad);
+    // _writelong(buffer, 0, id);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -42171,6 +45149,11 @@ class AuthBindTempAuthKey extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcdd42a05);
+    // _writelong(buffer, 0, permAuthKeyId);
+    // _writelong(buffer, 0, nonce);
+    // _writeint(buffer, 0, expiresAt);
+    // _writebytes(buffer, 0, encryptedMessage);
     return 0;
   }
 }
@@ -42217,6 +45200,14 @@ class AccountRegisterDevice extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xec86017a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, noMuted);
+    // _writeint(buffer, 0, tokenType);
+    // _writestring(buffer, 0, token);
+    // _writeBool(buffer, 0, appSandbox);
+    // _writebytes(buffer, 0, secret);
+    // _writeVector<long>(buffer, 0, otherUids);
     return 0;
   }
 }
@@ -42248,6 +45239,10 @@ class AccountUnregisterDevice extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a0d3206);
+    // _writeint(buffer, 0, tokenType);
+    // _writestring(buffer, 0, token);
+    // _writeVector<long>(buffer, 0, otherUids);
     return 0;
   }
 }
@@ -42275,6 +45270,9 @@ class AccountUpdateNotifySettings extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x84be5b93);
+    // _writeInputNotifyPeer(buffer, 0, peer);
+    // _writeInputPeerNotifySettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -42298,6 +45296,8 @@ class AccountGetNotifySettings extends TlMethod<PeerNotifySettingsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x12b3ad31);
+    // _writeInputNotifyPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -42316,6 +45316,7 @@ class AccountResetNotifySettings extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdb7e1747);
     return 0;
   }
 }
@@ -42327,9 +45328,9 @@ class AccountUpdateProfile extends TlMethod<UserBase> {
   /// Account Update Profile constructor.
   const AccountUpdateProfile({
     required this.flags,
-    required this.firstName,
-    required this.lastName,
-    required this.about,
+    this.firstName,
+    this.lastName,
+    this.about,
   }) : super._();
 
   /// Deserialize.
@@ -42343,23 +45344,19 @@ class AccountUpdateProfile extends TlMethod<UserBase> {
   /// First Name.
   final String? firstName;
 
-  /// If [firstName] exists.
-  bool get hasFirstNameField => _bit(flags, 0);
-
   /// Last Name.
   final String? lastName;
-
-  /// If [lastName] exists.
-  bool get hasLastNameField => _bit(flags, 1);
 
   /// About.
   final String? about;
 
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x78515775);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?string(buffer, 0, firstName);
+    // _writeflags.1?string(buffer, 0, lastName);
+    // _writeflags.2?string(buffer, 0, about);
     return 0;
   }
 }
@@ -42383,6 +45380,8 @@ class AccountUpdateStatus extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6628562c);
+    // _writeBool(buffer, 0, offline);
     return 0;
   }
 }
@@ -42406,6 +45405,8 @@ class AccountGetWallPapers extends TlMethod<AccountWallPapersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x07967d36);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42437,6 +45438,10 @@ class AccountReportPeer extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc5ba3d86);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeReportReason(buffer, 0, reason);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -42460,6 +45465,8 @@ class UsersGetUsers extends TlMethod<List<UserBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0d91a548);
+    // _writeVector<InputUser>(buffer, 0, id);
     return 0;
   }
 }
@@ -42483,6 +45490,8 @@ class UsersGetFullUser extends TlMethod<UsersUserFullBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb60f5918);
+    // _writeInputUser(buffer, 0, id);
     return 0;
   }
 }
@@ -42506,6 +45515,8 @@ class ContactsGetContactIDs extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7adc669d);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42524,6 +45535,7 @@ class ContactsGetStatuses extends TlMethod<List<ContactStatusBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc4a353ee);
     return 0;
   }
 }
@@ -42547,6 +45559,8 @@ class ContactsGetContacts extends TlMethod<ContactsContactsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5dd69e12);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42570,6 +45584,8 @@ class ContactsImportContacts extends TlMethod<ContactsImportedContactsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2c800be5);
+    // _writeVector<InputContact>(buffer, 0, contacts);
     return 0;
   }
 }
@@ -42593,6 +45609,8 @@ class ContactsDeleteContacts extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x096a0e00);
+    // _writeVector<InputUser>(buffer, 0, id);
     return 0;
   }
 }
@@ -42616,6 +45634,8 @@ class ContactsDeleteByPhones extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1013fd9e);
+    // _writeVector<string>(buffer, 0, phones);
     return 0;
   }
 }
@@ -42646,6 +45666,10 @@ class ContactsBlock extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2e2e8734);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, myStoriesFrom);
+    // _writeInputPeer(buffer, 0, id);
     return 0;
   }
 }
@@ -42676,6 +45700,10 @@ class ContactsUnblock extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb550d328);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, myStoriesFrom);
+    // _writeInputPeer(buffer, 0, id);
     return 0;
   }
 }
@@ -42710,6 +45738,11 @@ class ContactsGetBlocked extends TlMethod<ContactsBlockedBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a868f80);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, myStoriesFrom);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -42733,6 +45766,8 @@ class MessagesGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x63c66506);
+    // _writeVector<InputMessage>(buffer, 0, id);
     return 0;
   }
 }
@@ -42744,7 +45779,7 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
   /// Messages Get Dialogs constructor.
   const MessagesGetDialogs({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.offsetDate,
     required this.offsetId,
     required this.offsetPeer,
@@ -42766,9 +45801,6 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
   /// Folder Id.
   final int? folderId;
 
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 1);
-
   /// Offset Date.
   final int offsetDate;
 
@@ -42786,6 +45818,15 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0f4cb4f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, excludePinned);
+    // _writeflags.1?int(buffer, 0, folderId);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, offsetId);
+    // _writeInputPeer(buffer, 0, offsetPeer);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42837,6 +45878,15 @@ class MessagesGetHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4423e6c5);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42850,9 +45900,9 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
     required this.flags,
     required this.peer,
     required this.q,
-    required this.fromId,
-    required this.savedPeerId,
-    required this.topMsgId,
+    this.fromId,
+    this.savedPeerId,
+    this.topMsgId,
     required this.filter,
     required this.minDate,
     required this.maxDate,
@@ -42881,20 +45931,11 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
   /// From Id.
   final InputPeerBase? fromId;
 
-  /// If [fromId] exists.
-  bool get hasFromIdField => _bit(flags, 0);
-
   /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
-  /// If [savedPeerId] exists.
-  bool get hasSavedPeerIdField => _bit(flags, 2);
-
   /// Top Msg Id.
   final int? topMsgId;
-
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 1);
 
   /// Filter.
   final MessagesFilterBase filter;
@@ -42925,6 +45966,22 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa7b4e929);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, q);
+    // _writeflags.0?InputPeer(buffer, 0, fromId);
+    // _writeflags.2?InputPeer(buffer, 0, savedPeerId);
+    // _writeflags.1?int(buffer, 0, topMsgId);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, minDate);
+    // _writeint(buffer, 0, maxDate);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -42952,6 +46009,9 @@ class MessagesReadHistory extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0e306d3a);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -42965,8 +46025,8 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
     required this.flags,
     required this.peer,
     required this.maxId,
-    required this.minDate,
-    required this.maxDate,
+    this.minDate,
+    this.maxDate,
   }) : super._();
 
   /// Deserialize.
@@ -42992,17 +46052,19 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
   /// Min Date.
   final int? minDate;
 
-  /// If [minDate] exists.
-  bool get hasMinDateField => _bit(flags, 2);
-
   /// Max Date.
   final int? maxDate;
 
-  /// If [maxDate] exists.
-  bool get hasMaxDateField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb08f922a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, justClear);
+    // _writeflags.1?true(buffer, 0, revoke);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
+    // _writeflags.2?int(buffer, 0, minDate);
+    // _writeflags.3?int(buffer, 0, maxDate);
     return 0;
   }
 }
@@ -43033,6 +46095,10 @@ class MessagesDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe58e95d2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, revoke);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -43057,6 +46123,8 @@ class MessagesReceivedMessages
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x05a954c0);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -43069,7 +46137,7 @@ class MessagesSetTyping extends TlMethod<bool> {
   const MessagesSetTyping({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
     required this.action,
   }) : super._();
 
@@ -43087,14 +46155,16 @@ class MessagesSetTyping extends TlMethod<bool> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Action.
   final SendMessageActionBase action;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x58943ee2);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeSendMessageAction(buffer, 0, action);
     return 0;
   }
 }
@@ -43107,13 +46177,13 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
   const MessagesSendMessage({
     required this.flags,
     required this.peer,
-    required this.replyTo,
+    this.replyTo,
     required this.message,
     required this.randomId,
-    required this.replyMarkup,
-    required this.entities,
-    required this.scheduleDate,
-    required this.sendAs,
+    this.replyMarkup,
+    this.entities,
+    this.scheduleDate,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -43151,9 +46221,6 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Message.
   final String message;
 
@@ -43163,29 +46230,34 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
 
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 10);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x280d096f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, noWebpage);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeflags.6?true(buffer, 0, background);
+    // _writeflags.7?true(buffer, 0, clearDraft);
+    // _writeflags.14?true(buffer, 0, noforwards);
+    // _writeflags.15?true(buffer, 0, updateStickersetsOrder);
+    // _writeflags.16?true(buffer, 0, invertMedia);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writestring(buffer, 0, message);
+    // _writelong(buffer, 0, randomId);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.10?int(buffer, 0, scheduleDate);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -43198,14 +46270,14 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
   const MessagesSendMedia({
     required this.flags,
     required this.peer,
-    required this.replyTo,
+    this.replyTo,
     required this.media,
     required this.message,
     required this.randomId,
-    required this.replyMarkup,
-    required this.entities,
-    required this.scheduleDate,
-    required this.sendAs,
+    this.replyMarkup,
+    this.entities,
+    this.scheduleDate,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -43240,9 +46312,6 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Media.
   final InputMediaBase media;
 
@@ -43255,29 +46324,34 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
 
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 10);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x72ccc23d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeflags.6?true(buffer, 0, background);
+    // _writeflags.7?true(buffer, 0, clearDraft);
+    // _writeflags.14?true(buffer, 0, noforwards);
+    // _writeflags.15?true(buffer, 0, updateStickersetsOrder);
+    // _writeflags.16?true(buffer, 0, invertMedia);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writeInputMedia(buffer, 0, media);
+    // _writestring(buffer, 0, message);
+    // _writelong(buffer, 0, randomId);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.10?int(buffer, 0, scheduleDate);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -43293,9 +46367,9 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
     required this.id,
     required this.randomId,
     required this.toPeer,
-    required this.topMsgId,
-    required this.scheduleDate,
-    required this.sendAs,
+    this.topMsgId,
+    this.scheduleDate,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -43339,23 +46413,29 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 9);
-
   /// Schedule Date.
   final int? scheduleDate;
-
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 10);
 
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc661bbc4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeflags.6?true(buffer, 0, background);
+    // _writeflags.8?true(buffer, 0, withMyScore);
+    // _writeflags.11?true(buffer, 0, dropAuthor);
+    // _writeflags.12?true(buffer, 0, dropMediaCaptions);
+    // _writeflags.14?true(buffer, 0, noforwards);
+    // _writeInputPeer(buffer, 0, fromPeer);
+    // _writeVector<int>(buffer, 0, id);
+    // _writeVector<long>(buffer, 0, randomId);
+    // _writeInputPeer(buffer, 0, toPeer);
+    // _writeflags.9?int(buffer, 0, topMsgId);
+    // _writeflags.10?int(buffer, 0, scheduleDate);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -43379,6 +46459,8 @@ class MessagesReportSpam extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcf1592db);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -43402,6 +46484,8 @@ class MessagesGetPeerSettings extends TlMethod<MessagesPeerSettingsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xefd9a6a2);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -43437,6 +46521,11 @@ class MessagesReport extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8953ab4e);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
+    // _writeReportReason(buffer, 0, reason);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -43460,6 +46549,8 @@ class MessagesGetChats extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x49e9528f);
+    // _writeVector<long>(buffer, 0, id);
     return 0;
   }
 }
@@ -43483,6 +46574,8 @@ class MessagesGetFullChat extends TlMethod<MessagesChatFullBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaeb00b34);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -43510,6 +46603,9 @@ class MessagesEditChatTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73783ffd);
+    // _writelong(buffer, 0, chatId);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -43537,6 +46633,9 @@ class MessagesEditChatPhoto extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35ddd674);
+    // _writelong(buffer, 0, chatId);
+    // _writeInputChatPhoto(buffer, 0, photo);
     return 0;
   }
 }
@@ -43568,6 +46667,10 @@ class MessagesAddChatUser extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf24753e3);
+    // _writelong(buffer, 0, chatId);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, fwdLimit);
     return 0;
   }
 }
@@ -43602,6 +46705,11 @@ class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2185cab);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, revokeHistory);
+    // _writelong(buffer, 0, chatId);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -43615,7 +46723,7 @@ class MessagesCreateChat extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.users,
     required this.title,
-    required this.ttlPeriod,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -43635,11 +46743,13 @@ class MessagesCreateChat extends TlMethod<UpdatesBase> {
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0034a818);
+    // _write#(buffer, 0, flags);
+    // _writeVector<InputUser>(buffer, 0, users);
+    // _writestring(buffer, 0, title);
+    // _writeflags.0?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -43658,6 +46768,7 @@ class UpdatesGetState extends TlMethod<UpdatesStateBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xedd4882a);
     return 0;
   }
 }
@@ -43670,11 +46781,11 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
   const UpdatesGetDifference({
     required this.flags,
     required this.pts,
-    required this.ptsLimit,
-    required this.ptsTotalLimit,
+    this.ptsLimit,
+    this.ptsTotalLimit,
     required this.date,
     required this.qts,
-    required this.qtsLimit,
+    this.qtsLimit,
   }) : super._();
 
   /// Deserialize.
@@ -43691,14 +46802,8 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
   /// Pts Limit.
   final int? ptsLimit;
 
-  /// If [ptsLimit] exists.
-  bool get hasPtsLimitField => _bit(flags, 1);
-
   /// Pts Total Limit.
   final int? ptsTotalLimit;
-
-  /// If [ptsTotalLimit] exists.
-  bool get hasPtsTotalLimitField => _bit(flags, 0);
 
   /// Date.
   final int date;
@@ -43709,11 +46814,16 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
   /// Qts Limit.
   final int? qtsLimit;
 
-  /// If [qtsLimit] exists.
-  bool get hasQtsLimitField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x19c2f763);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, pts);
+    // _writeflags.1?int(buffer, 0, ptsLimit);
+    // _writeflags.0?int(buffer, 0, ptsTotalLimit);
+    // _writeint(buffer, 0, date);
+    // _writeint(buffer, 0, qts);
+    // _writeflags.2?int(buffer, 0, qtsLimit);
     return 0;
   }
 }
@@ -43725,7 +46835,7 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Photos Update Profile Photo constructor.
   const PhotosUpdateProfilePhoto({
     required this.flags,
-    required this.bot,
+    this.bot,
     required this.id,
   }) : super._();
 
@@ -43743,14 +46853,16 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Bot.
   final InputUserBase? bot;
 
-  /// If [bot] exists.
-  bool get hasBotField => _bit(flags, 1);
-
   /// Id.
   final InputPhotoBase id;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x09e82039);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, fallback);
+    // _writeflags.1?InputUser(buffer, 0, bot);
+    // _writeInputPhoto(buffer, 0, id);
     return 0;
   }
 }
@@ -43762,11 +46874,11 @@ class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Photos Upload Profile Photo constructor.
   const PhotosUploadProfilePhoto({
     required this.flags,
-    required this.bot,
-    required this.file,
-    required this.video,
-    required this.videoStartTs,
-    required this.videoEmojiMarkup,
+    this.bot,
+    this.file,
+    this.video,
+    this.videoStartTs,
+    this.videoEmojiMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -43783,35 +46895,28 @@ class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Bot.
   final InputUserBase? bot;
 
-  /// If [bot] exists.
-  bool get hasBotField => _bit(flags, 5);
-
   /// File.
   final InputFileBase? file;
-
-  /// If [file] exists.
-  bool get hasFileField => _bit(flags, 0);
 
   /// Video.
   final InputFileBase? video;
 
-  /// If [video] exists.
-  bool get hasVideoField => _bit(flags, 1);
-
   /// Video Start Ts.
   final double? videoStartTs;
-
-  /// If [videoStartTs] exists.
-  bool get hasVideoStartTsField => _bit(flags, 2);
 
   /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
-  /// If [videoEmojiMarkup] exists.
-  bool get hasVideoEmojiMarkupField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0388a3b5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, fallback);
+    // _writeflags.5?InputUser(buffer, 0, bot);
+    // _writeflags.0?InputFile(buffer, 0, file);
+    // _writeflags.1?InputFile(buffer, 0, video);
+    // _writeflags.2?double(buffer, 0, videoStartTs);
+    // _writeflags.4?VideoSize(buffer, 0, videoEmojiMarkup);
     return 0;
   }
 }
@@ -43835,6 +46940,8 @@ class PhotosDeletePhotos extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x87cf7f2f);
+    // _writeVector<InputPhoto>(buffer, 0, id);
     return 0;
   }
 }
@@ -43866,6 +46973,10 @@ class UploadSaveFilePart extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb304a621);
+    // _writelong(buffer, 0, fileId);
+    // _writeint(buffer, 0, filePart);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -43907,6 +47018,13 @@ class UploadGetFile extends TlMethod<UploadFileBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbe5335be);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, precise);
+    // _writeflags.1?true(buffer, 0, cdnSupported);
+    // _writeInputFileLocation(buffer, 0, location);
+    // _writelong(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -43925,6 +47043,7 @@ class HelpGetConfig extends TlMethod<ConfigBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc4f9186b);
     return 0;
   }
 }
@@ -43943,6 +47062,7 @@ class HelpGetNearestDc extends TlMethod<NearestDcBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1fb33026);
     return 0;
   }
 }
@@ -43966,6 +47086,8 @@ class HelpGetAppUpdate extends TlMethod<HelpAppUpdateBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x522d5a7d);
+    // _writestring(buffer, 0, source);
     return 0;
   }
 }
@@ -43984,6 +47106,7 @@ class HelpGetInviteText extends TlMethod<HelpInviteTextBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4d392343);
     return 0;
   }
 }
@@ -44019,6 +47142,11 @@ class PhotosGetUserPhotos extends TlMethod<PhotosPhotosBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x91cd32a8);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, offset);
+    // _writelong(buffer, 0, maxId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -44046,6 +47174,9 @@ class MessagesGetDhConfig extends TlMethod<MessagesDhConfigBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x26cf8950);
+    // _writeint(buffer, 0, version);
+    // _writeint(buffer, 0, randomLength);
     return 0;
   }
 }
@@ -44077,6 +47208,10 @@ class MessagesRequestEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf64daf43);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, randomId);
+    // _writebytes(buffer, 0, gA);
     return 0;
   }
 }
@@ -44108,6 +47243,10 @@ class MessagesAcceptEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dbc0415);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writebytes(buffer, 0, gB);
+    // _writelong(buffer, 0, keyFingerprint);
     return 0;
   }
 }
@@ -44138,6 +47277,10 @@ class MessagesDiscardEncryption extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf393aea0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, deleteHistory);
+    // _writeint(buffer, 0, chatId);
     return 0;
   }
 }
@@ -44165,6 +47308,9 @@ class MessagesSetEncryptedTyping extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x791451ed);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writeBool(buffer, 0, typing);
     return 0;
   }
 }
@@ -44192,6 +47338,9 @@ class MessagesReadEncryptedHistory extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f4b690a);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writeint(buffer, 0, maxDate);
     return 0;
   }
 }
@@ -44230,6 +47379,12 @@ class MessagesSendEncrypted extends TlMethod<MessagesSentEncryptedMessageBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x44fa7a15);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, silent);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writelong(buffer, 0, randomId);
+    // _writebytes(buffer, 0, data);
     return 0;
   }
 }
@@ -44273,6 +47428,13 @@ class MessagesSendEncryptedFile
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5559481d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, silent);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writelong(buffer, 0, randomId);
+    // _writebytes(buffer, 0, data);
+    // _writeInputEncryptedFile(buffer, 0, file);
     return 0;
   }
 }
@@ -44305,6 +47467,10 @@ class MessagesSendEncryptedService
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x32d439a4);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writelong(buffer, 0, randomId);
+    // _writebytes(buffer, 0, data);
     return 0;
   }
 }
@@ -44328,6 +47494,8 @@ class MessagesReceivedQueue extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x55a5bb66);
+    // _writeint(buffer, 0, maxQts);
     return 0;
   }
 }
@@ -44351,6 +47519,8 @@ class MessagesReportEncryptedSpam extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4b0c8c0f);
+    // _writeInputEncryptedChat(buffer, 0, peer);
     return 0;
   }
 }
@@ -44386,6 +47556,11 @@ class UploadSaveBigFilePart extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xde7b673d);
+    // _writelong(buffer, 0, fileId);
+    // _writeint(buffer, 0, filePart);
+    // _writeint(buffer, 0, fileTotalParts);
+    // _writebytes(buffer, 0, bytes);
     return 0;
   }
 }
@@ -44404,8 +47579,8 @@ class InitConnection<X> extends TlMethod<X> {
     required this.systemLangCode,
     required this.langPack,
     required this.langCode,
-    required this.proxy,
-    required this.params,
+    this.proxy,
+    this.params,
     required this.query,
   }) : super._();
 
@@ -44441,20 +47616,26 @@ class InitConnection<X> extends TlMethod<X> {
   /// Proxy.
   final InputClientProxyBase? proxy;
 
-  /// If [proxy] exists.
-  bool get hasProxyField => _bit(flags, 0);
-
   /// Params.
   final JSONValueBase? params;
-
-  /// If [params] exists.
-  bool get hasParamsField => _bit(flags, 1);
 
   /// Query.
   final TlMethod<X> query;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc1cd5ea9);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, deviceModel);
+    // _writestring(buffer, 0, systemVersion);
+    // _writestring(buffer, 0, appVersion);
+    // _writestring(buffer, 0, systemLangCode);
+    // _writestring(buffer, 0, langPack);
+    // _writestring(buffer, 0, langCode);
+    // _writeflags.0?InputClientProxy(buffer, 0, proxy);
+    // _writeflags.1?JSONValue(buffer, 0, params);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -44473,6 +47654,7 @@ class HelpGetSupport extends TlMethod<HelpSupportBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9cdf08cd);
     return 0;
   }
 }
@@ -44497,6 +47679,8 @@ class MessagesReadMessageContents
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x36a73f77);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -44520,6 +47704,8 @@ class AccountCheckUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2714d86c);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -44543,6 +47729,8 @@ class AccountUpdateUsername extends TlMethod<UserBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3e0bdd7c);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -44570,6 +47758,9 @@ class ContactsSearch extends TlMethod<ContactsFoundBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x11f812d8);
+    // _writestring(buffer, 0, q);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -44593,6 +47784,8 @@ class AccountGetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdadbc950);
+    // _writeInputPrivacyKey(buffer, 0, key);
     return 0;
   }
 }
@@ -44620,6 +47813,9 @@ class AccountSetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc9f81ce8);
+    // _writeInputPrivacyKey(buffer, 0, key);
+    // _writeVector<InputPrivacyRule>(buffer, 0, rules);
     return 0;
   }
 }
@@ -44632,7 +47828,7 @@ class AccountDeleteAccount extends TlMethod<bool> {
   const AccountDeleteAccount({
     required this.flags,
     required this.reason,
-    required this.password,
+    this.password,
   }) : super._();
 
   /// Deserialize.
@@ -44649,11 +47845,12 @@ class AccountDeleteAccount extends TlMethod<bool> {
   /// Password.
   final InputCheckPasswordSRPBase? password;
 
-  /// If [password] exists.
-  bool get hasPasswordField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2c0cf74);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, reason);
+    // _writeflags.0?InputCheckPasswordSRP(buffer, 0, password);
     return 0;
   }
 }
@@ -44672,6 +47869,7 @@ class AccountGetAccountTTL extends TlMethod<AccountDaysTTLBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x08fc711d);
     return 0;
   }
 }
@@ -44695,6 +47893,8 @@ class AccountSetAccountTTL extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2442485e);
+    // _writeAccountDaysTTL(buffer, 0, ttl);
     return 0;
   }
 }
@@ -44722,6 +47922,9 @@ class InvokeWithLayer<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xda9b0d0d);
+    // _writeint(buffer, 0, layer);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -44745,6 +47948,8 @@ class ContactsResolveUsername extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf93ccba3);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -44772,6 +47977,9 @@ class AccountSendChangePhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x82574ae5);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writeCodeSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -44803,6 +48011,10 @@ class AccountChangePhone extends TlMethod<UserBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x70c32edb);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writestring(buffer, 0, phoneCode);
     return 0;
   }
 }
@@ -44830,6 +48042,9 @@ class MessagesGetStickers extends TlMethod<MessagesStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd5a5d3a1);
+    // _writestring(buffer, 0, emoticon);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -44853,6 +48068,8 @@ class MessagesGetAllStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb8a0a1a8);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -44876,6 +48093,8 @@ class AccountUpdateDeviceLocked extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x38df3532);
+    // _writeint(buffer, 0, period);
     return 0;
   }
 }
@@ -44911,6 +48130,11 @@ class AuthImportBotAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x67a3ff2c);
+    // _writeint(buffer, 0, flags);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, apiHash);
+    // _writestring(buffer, 0, botAuthToken);
     return 0;
   }
 }
@@ -44923,7 +48147,7 @@ class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
   const MessagesGetWebPagePreview({
     required this.flags,
     required this.message,
-    required this.entities,
+    this.entities,
   }) : super._();
 
   /// Deserialize.
@@ -44940,11 +48164,12 @@ class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8b68b0cc);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, message);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -44963,6 +48188,7 @@ class AccountGetAuthorizations extends TlMethod<AccountAuthorizationsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe320c158);
     return 0;
   }
 }
@@ -44986,6 +48212,8 @@ class AccountResetAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdf77f3bc);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -45004,6 +48232,7 @@ class AccountGetPassword extends TlMethod<AccountPasswordBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x548a30f5);
     return 0;
   }
 }
@@ -45027,6 +48256,8 @@ class AccountGetPasswordSettings extends TlMethod<AccountPasswordSettingsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9cd4eaf9);
+    // _writeInputCheckPasswordSRP(buffer, 0, password);
     return 0;
   }
 }
@@ -45054,6 +48285,9 @@ class AccountUpdatePasswordSettings extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa59b102f);
+    // _writeInputCheckPasswordSRP(buffer, 0, password);
+    // _writeaccount.PasswordInputSettings(buffer, 0, newSettings);
     return 0;
   }
 }
@@ -45077,6 +48311,8 @@ class AuthCheckPassword extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd18b4d16);
+    // _writeInputCheckPasswordSRP(buffer, 0, password);
     return 0;
   }
 }
@@ -45095,6 +48331,7 @@ class AuthRequestPasswordRecovery extends TlMethod<AuthPasswordRecoveryBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd897bc66);
     return 0;
   }
 }
@@ -45107,7 +48344,7 @@ class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
   const AuthRecoverPassword({
     required this.flags,
     required this.code,
-    required this.newSettings,
+    this.newSettings,
   }) : super._();
 
   /// Deserialize.
@@ -45124,11 +48361,12 @@ class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
   /// New Settings.
   final AccountPasswordInputSettingsBase? newSettings;
 
-  /// If [newSettings] exists.
-  bool get hasNewSettingsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x37096c70);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, code);
+    // _writeflags.0?account.PasswordInputSettings(buffer, 0, newSettings);
     return 0;
   }
 }
@@ -45152,6 +48390,8 @@ class InvokeWithoutUpdates<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbf9459b7);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -45164,9 +48404,9 @@ class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
   const MessagesExportChatInvite({
     required this.flags,
     required this.peer,
-    required this.expireDate,
-    required this.usageLimit,
-    required this.title,
+    this.expireDate,
+    this.usageLimit,
+    this.title,
   }) : super._();
 
   /// Deserialize.
@@ -45189,23 +48429,22 @@ class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
   /// Expire Date.
   final int? expireDate;
 
-  /// If [expireDate] exists.
-  bool get hasExpireDateField => _bit(flags, 0);
-
   /// Usage Limit.
   final int? usageLimit;
-
-  /// If [usageLimit] exists.
-  bool get hasUsageLimitField => _bit(flags, 1);
 
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa02ce5d5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, legacyRevokePermanent);
+    // _writeflags.3?true(buffer, 0, requestNeeded);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, expireDate);
+    // _writeflags.1?int(buffer, 0, usageLimit);
+    // _writeflags.4?string(buffer, 0, title);
     return 0;
   }
 }
@@ -45229,6 +48468,8 @@ class MessagesCheckChatInvite extends TlMethod<ChatInviteBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3eadb1bb);
+    // _writestring(buffer, 0, hash);
     return 0;
   }
 }
@@ -45252,6 +48493,8 @@ class MessagesImportChatInvite extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c50051c);
+    // _writestring(buffer, 0, hash);
     return 0;
   }
 }
@@ -45279,6 +48522,9 @@ class MessagesGetStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc8a0ec74);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -45307,6 +48553,9 @@ class MessagesInstallStickerSet
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc78fe460);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeBool(buffer, 0, archived);
     return 0;
   }
 }
@@ -45330,6 +48579,8 @@ class MessagesUninstallStickerSet extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf96e55de);
+    // _writeInputStickerSet(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -45365,6 +48616,11 @@ class MessagesStartBot extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe6df7378);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, randomId);
+    // _writestring(buffer, 0, startParam);
     return 0;
   }
 }
@@ -45396,6 +48652,10 @@ class MessagesGetMessagesViews extends TlMethod<MessagesMessageViewsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5784d3e1);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
+    // _writeBool(buffer, 0, increment);
     return 0;
   }
 }
@@ -45423,6 +48683,9 @@ class ChannelsReadHistory extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcc104937);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -45450,6 +48713,9 @@ class ChannelsDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x84c1fd4e);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -45481,6 +48747,10 @@ class ChannelsReportSpam extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf44a8315);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputPeer(buffer, 0, participant);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -45508,6 +48778,9 @@ class ChannelsGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xad8c9a23);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<InputMessage>(buffer, 0, id);
     return 0;
   }
 }
@@ -45548,6 +48821,12 @@ class ChannelsGetParticipants
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77ced9d0);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeChannelParticipantsFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -45575,6 +48854,9 @@ class ChannelsGetParticipant extends TlMethod<ChannelsChannelParticipantBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa0ab6cc6);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputPeer(buffer, 0, participant);
     return 0;
   }
 }
@@ -45598,6 +48880,8 @@ class ChannelsGetChannels extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a7f6bbb);
+    // _writeVector<InputChannel>(buffer, 0, id);
     return 0;
   }
 }
@@ -45621,6 +48905,8 @@ class ChannelsGetFullChannel extends TlMethod<MessagesChatFullBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x08736a09);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -45634,9 +48920,9 @@ class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.title,
     required this.about,
-    required this.geoPoint,
-    required this.address,
-    required this.ttlPeriod,
+    this.geoPoint,
+    this.address,
+    this.ttlPeriod,
   }) : super._();
 
   /// Deserialize.
@@ -45668,23 +48954,25 @@ class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
   /// Geo Point.
   final InputGeoPointBase? geoPoint;
 
-  /// If [geoPoint] exists.
-  bool get hasGeoPointField => _bit(flags, 2);
-
   /// Address.
   final String? address;
-
-  /// If [address] exists.
-  bool get hasAddressField => _bit(flags, 2);
 
   /// Ttl Period.
   final int? ttlPeriod;
 
-  /// If [ttlPeriod] exists.
-  bool get hasTtlPeriodField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x91006707);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, broadcast);
+    // _writeflags.1?true(buffer, 0, megagroup);
+    // _writeflags.3?true(buffer, 0, forImport);
+    // _writeflags.5?true(buffer, 0, forum);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, about);
+    // _writeflags.2?InputGeoPoint(buffer, 0, geoPoint);
+    // _writeflags.2?string(buffer, 0, address);
+    // _writeflags.4?int(buffer, 0, ttlPeriod);
     return 0;
   }
 }
@@ -45720,6 +49008,11 @@ class ChannelsEditAdmin extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd33c8902);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeChatAdminRights(buffer, 0, adminRights);
+    // _writestring(buffer, 0, rank);
     return 0;
   }
 }
@@ -45747,6 +49040,9 @@ class ChannelsEditTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x566decd0);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -45774,6 +49070,9 @@ class ChannelsEditPhoto extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf12e57c9);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputChatPhoto(buffer, 0, photo);
     return 0;
   }
 }
@@ -45801,6 +49100,9 @@ class ChannelsCheckUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10e6bd2c);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -45828,6 +49130,9 @@ class ChannelsUpdateUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3514b3de);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, username);
     return 0;
   }
 }
@@ -45851,6 +49156,8 @@ class ChannelsJoinChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x24b524c5);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -45874,6 +49181,8 @@ class ChannelsLeaveChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf836aa95);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -45901,6 +49210,9 @@ class ChannelsInviteToChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x199f3a6c);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<InputUser>(buffer, 0, users);
     return 0;
   }
 }
@@ -45924,6 +49236,8 @@ class ChannelsDeleteChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc0111fe3);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -45967,6 +49281,13 @@ class UpdatesGetChannelDifference
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x03173d78);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, force);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeChannelMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, pts);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -45998,6 +49319,10 @@ class MessagesEditChatAdmin extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa85bd1c2);
+    // _writelong(buffer, 0, chatId);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeBool(buffer, 0, isAdmin);
     return 0;
   }
 }
@@ -46021,6 +49346,8 @@ class MessagesMigrateChat extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2875319);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -46032,7 +49359,7 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
   /// Messages Search Global constructor.
   const MessagesSearchGlobal({
     required this.flags,
-    required this.folderId,
+    this.folderId,
     required this.q,
     required this.filter,
     required this.minDate,
@@ -46053,9 +49380,6 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
 
   /// Folder Id.
   final int? folderId;
-
-  /// If [folderId] exists.
-  bool get hasFolderIdField => _bit(flags, 0);
 
   /// Q.
   final String q;
@@ -46083,6 +49407,17 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4bc6589a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?int(buffer, 0, folderId);
+    // _writestring(buffer, 0, q);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, minDate);
+    // _writeint(buffer, 0, maxDate);
+    // _writeint(buffer, 0, offsetRate);
+    // _writeInputPeer(buffer, 0, offsetPeer);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -46116,6 +49451,11 @@ class MessagesReorderStickerSets extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x78337739);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, emojis);
+    // _writeVector<long>(buffer, 0, order);
     return 0;
   }
 }
@@ -46147,6 +49487,10 @@ class MessagesGetDocumentByHash extends TlMethod<DocumentBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb1f2061f);
+    // _writebytes(buffer, 0, sha256);
+    // _writelong(buffer, 0, size);
+    // _writestring(buffer, 0, mimeType);
     return 0;
   }
 }
@@ -46170,6 +49514,8 @@ class MessagesGetSavedGifs extends TlMethod<MessagesSavedGifsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5cf09635);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -46197,6 +49543,9 @@ class MessagesSaveGif extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x327a30cb);
+    // _writeInputDocument(buffer, 0, id);
+    // _writeBool(buffer, 0, unsave);
     return 0;
   }
 }
@@ -46210,7 +49559,7 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
     required this.flags,
     required this.bot,
     required this.peer,
-    required this.geoPoint,
+    this.geoPoint,
     required this.query,
     required this.offset,
   }) : super._();
@@ -46232,9 +49581,6 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
   /// Geo Point.
   final InputGeoPointBase? geoPoint;
 
-  /// If [geoPoint] exists.
-  bool get hasGeoPointField => _bit(flags, 0);
-
   /// Query.
   final String query;
 
@@ -46243,6 +49589,13 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x514e999d);
+    // _write#(buffer, 0, flags);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputGeoPoint(buffer, 0, geoPoint);
+    // _writestring(buffer, 0, query);
+    // _writestring(buffer, 0, offset);
     return 0;
   }
 }
@@ -46257,9 +49610,9 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
     required this.queryId,
     required this.results,
     required this.cacheTime,
-    required this.nextOffset,
-    required this.switchPm,
-    required this.switchWebview,
+    this.nextOffset,
+    this.switchPm,
+    this.switchWebview,
   }) : super._();
 
   /// Deserialize.
@@ -46288,23 +49641,24 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
   /// Next Offset.
   final String? nextOffset;
 
-  /// If [nextOffset] exists.
-  bool get hasNextOffsetField => _bit(flags, 2);
-
   /// Switch Pm.
   final InlineBotSwitchPMBase? switchPm;
-
-  /// If [switchPm] exists.
-  bool get hasSwitchPmField => _bit(flags, 3);
 
   /// Switch Webview.
   final InlineBotWebViewBase? switchWebview;
 
-  /// If [switchWebview] exists.
-  bool get hasSwitchWebviewField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb12a419);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, gallery);
+    // _writeflags.1?true(buffer, 0, private);
+    // _writelong(buffer, 0, queryId);
+    // _writeVector<InputBotInlineResult>(buffer, 0, results);
+    // _writeint(buffer, 0, cacheTime);
+    // _writeflags.2?string(buffer, 0, nextOffset);
+    // _writeflags.3?InlineBotSwitchPM(buffer, 0, switchPm);
+    // _writeflags.4?InlineBotWebView(buffer, 0, switchWebview);
     return 0;
   }
 }
@@ -46317,12 +49671,12 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
   const MessagesSendInlineBotResult({
     required this.flags,
     required this.peer,
-    required this.replyTo,
+    this.replyTo,
     required this.randomId,
     required this.queryId,
     required this.id,
-    required this.scheduleDate,
-    required this.sendAs,
+    this.scheduleDate,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -46351,9 +49705,6 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Random Id.
   final int randomId;
 
@@ -46366,17 +49717,24 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 10);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf7bc68ba);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeflags.6?true(buffer, 0, background);
+    // _writeflags.7?true(buffer, 0, clearDraft);
+    // _writeflags.11?true(buffer, 0, hideVia);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writelong(buffer, 0, randomId);
+    // _writelong(buffer, 0, queryId);
+    // _writestring(buffer, 0, id);
+    // _writeflags.10?int(buffer, 0, scheduleDate);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -46414,6 +49772,12 @@ class ChannelsExportMessageLink extends TlMethod<ExportedMessageLinkBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe63fadeb);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, grouped);
+    // _writeflags.1?true(buffer, 0, thread);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -46441,6 +49805,9 @@ class ChannelsToggleSignatures extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1f69b606);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -46468,6 +49835,9 @@ class AuthResendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3ef1a9bf);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
     return 0;
   }
 }
@@ -46495,6 +49865,9 @@ class AuthCancelCode extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1f040578);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
     return 0;
   }
 }
@@ -46522,6 +49895,9 @@ class MessagesGetMessageEditData extends TlMethod<MessagesMessageEditDataBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfda68d36);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -46535,11 +49911,11 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.peer,
     required this.id,
-    required this.message,
-    required this.media,
-    required this.replyMarkup,
-    required this.entities,
-    required this.scheduleDate,
+    this.message,
+    this.media,
+    this.replyMarkup,
+    this.entities,
+    this.scheduleDate,
   }) : super._();
 
   /// Deserialize.
@@ -46565,35 +49941,31 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
   /// Message.
   final String? message;
 
-  /// If [message] exists.
-  bool get hasMessageField => _bit(flags, 11);
-
   /// Media.
   final InputMediaBase? media;
-
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 14);
 
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
 
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 15);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48f71778);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, noWebpage);
+    // _writeflags.16?true(buffer, 0, invertMedia);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.11?string(buffer, 0, message);
+    // _writeflags.14?InputMedia(buffer, 0, media);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.15?int(buffer, 0, scheduleDate);
     return 0;
   }
 }
@@ -46606,10 +49978,10 @@ class MessagesEditInlineBotMessage extends TlMethod<bool> {
   const MessagesEditInlineBotMessage({
     required this.flags,
     required this.id,
-    required this.message,
-    required this.media,
-    required this.replyMarkup,
-    required this.entities,
+    this.message,
+    this.media,
+    this.replyMarkup,
+    this.entities,
   }) : super._();
 
   /// Deserialize.
@@ -46632,29 +50004,26 @@ class MessagesEditInlineBotMessage extends TlMethod<bool> {
   /// Message.
   final String? message;
 
-  /// If [message] exists.
-  bool get hasMessageField => _bit(flags, 11);
-
   /// Media.
   final InputMediaBase? media;
-
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 14);
 
   /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
-  /// If [replyMarkup] exists.
-  bool get hasReplyMarkupField => _bit(flags, 2);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x83557dba);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, noWebpage);
+    // _writeflags.16?true(buffer, 0, invertMedia);
+    // _writeInputBotInlineMessageID(buffer, 0, id);
+    // _writeflags.11?string(buffer, 0, message);
+    // _writeflags.14?InputMedia(buffer, 0, media);
+    // _writeflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -46669,8 +50038,8 @@ class MessagesGetBotCallbackAnswer
     required this.flags,
     required this.peer,
     required this.msgId,
-    required this.data,
-    required this.password,
+    this.data,
+    this.password,
   }) : super._();
 
   /// Deserialize.
@@ -46693,17 +50062,18 @@ class MessagesGetBotCallbackAnswer
   /// Data.
   final Uint8List? data;
 
-  /// If [data] exists.
-  bool get hasDataField => _bit(flags, 0);
-
   /// Password.
   final InputCheckPasswordSRPBase? password;
 
-  /// If [password] exists.
-  bool get hasPasswordField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9342ca07);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, game);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeflags.0?bytes(buffer, 0, data);
+    // _writeflags.2?InputCheckPasswordSRP(buffer, 0, password);
     return 0;
   }
 }
@@ -46716,8 +50086,8 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
   const MessagesSetBotCallbackAnswer({
     required this.flags,
     required this.queryId,
-    required this.message,
-    required this.url,
+    this.message,
+    this.url,
     required this.cacheTime,
   }) : super._();
 
@@ -46738,20 +50108,21 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
   /// Message.
   final String? message;
 
-  /// If [message] exists.
-  bool get hasMessageField => _bit(flags, 0);
-
   /// Url.
   final String? url;
-
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 2);
 
   /// Cache Time.
   final int cacheTime;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd58f130a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, alert);
+    // _writelong(buffer, 0, queryId);
+    // _writeflags.0?string(buffer, 0, message);
+    // _writeflags.2?string(buffer, 0, url);
+    // _writeint(buffer, 0, cacheTime);
     return 0;
   }
 }
@@ -46811,6 +50182,19 @@ class ContactsGetTopPeers extends TlMethod<ContactsTopPeersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x973478b6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, correspondents);
+    // _writeflags.1?true(buffer, 0, botsPm);
+    // _writeflags.2?true(buffer, 0, botsInline);
+    // _writeflags.3?true(buffer, 0, phoneCalls);
+    // _writeflags.4?true(buffer, 0, forwardUsers);
+    // _writeflags.5?true(buffer, 0, forwardChats);
+    // _writeflags.10?true(buffer, 0, groups);
+    // _writeflags.15?true(buffer, 0, channels);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -46838,6 +50222,9 @@ class ContactsResetTopPeerRating extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ae373ac);
+    // _writeTopPeerCategory(buffer, 0, category);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -46861,6 +50248,8 @@ class MessagesGetPeerDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe470bcfd);
+    // _writeVector<InputDialogPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -46872,11 +50261,11 @@ class MessagesSaveDraft extends TlMethod<bool> {
   /// Messages Save Draft constructor.
   const MessagesSaveDraft({
     required this.flags,
-    required this.replyTo,
+    this.replyTo,
     required this.peer,
     required this.message,
-    required this.entities,
-    required this.media,
+    this.entities,
+    this.media,
   }) : super._();
 
   /// Deserialize.
@@ -46896,9 +50285,6 @@ class MessagesSaveDraft extends TlMethod<bool> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 4);
-
   /// Peer.
   final InputPeerBase peer;
 
@@ -46908,17 +50294,20 @@ class MessagesSaveDraft extends TlMethod<bool> {
   /// Entities.
   final List<MessageEntityBase>? entities;
 
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 3);
-
   /// Media.
   final InputMediaBase? media;
 
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7ff3b806);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, noWebpage);
+    // _writeflags.6?true(buffer, 0, invertMedia);
+    // _writeflags.4?InputReplyTo(buffer, 0, replyTo);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, message);
+    // _writeflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.5?InputMedia(buffer, 0, media);
     return 0;
   }
 }
@@ -46937,6 +50326,7 @@ class MessagesGetAllDrafts extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a3f8d65);
     return 0;
   }
 }
@@ -46961,6 +50351,8 @@ class MessagesGetFeaturedStickers
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x64780b14);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -46984,6 +50376,8 @@ class MessagesReadFeaturedStickers extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5b118126);
+    // _writeVector<long>(buffer, 0, id);
     return 0;
   }
 }
@@ -47014,6 +50408,10 @@ class MessagesGetRecentStickers extends TlMethod<MessagesRecentStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9da9403b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, attached);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -47048,6 +50446,11 @@ class MessagesSaveRecentSticker extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x392718f8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, attached);
+    // _writeInputDocument(buffer, 0, id);
+    // _writeBool(buffer, 0, unsave);
     return 0;
   }
 }
@@ -47074,6 +50477,9 @@ class MessagesClearRecentStickers extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8999602d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, attached);
     return 0;
   }
 }
@@ -47112,6 +50518,12 @@ class MessagesGetArchivedStickers
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57f17692);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, emojis);
+    // _writelong(buffer, 0, offsetId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -47139,6 +50551,9 @@ class AccountSendConfirmPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1b3faa88);
+    // _writestring(buffer, 0, hash);
+    // _writeCodeSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -47166,6 +50581,9 @@ class AccountConfirmPhone extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5f2178c3);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writestring(buffer, 0, phoneCode);
     return 0;
   }
 }
@@ -47195,6 +50613,10 @@ class ChannelsGetAdminedPublicChannels extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf8b036af);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, byLocation);
+    // _writeflags.1?true(buffer, 0, checkLimit);
     return 0;
   }
 }
@@ -47218,6 +50640,8 @@ class MessagesGetMaskStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x640f82b8);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -47242,6 +50666,8 @@ class MessagesGetAttachedStickers
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcc5b67cc);
+    // _writeInputStickeredMedia(buffer, 0, media);
     return 0;
   }
 }
@@ -47265,6 +50691,8 @@ class AuthDropTempAuthKeys extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8e48a188);
+    // _writeVector<long>(buffer, 0, exceptAuthKeys);
     return 0;
   }
 }
@@ -47310,6 +50738,14 @@ class MessagesSetGameScore extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ef8ecc0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, editMessage);
+    // _writeflags.1?true(buffer, 0, force);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, score);
     return 0;
   }
 }
@@ -47351,6 +50787,13 @@ class MessagesSetInlineGameScore extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x15ad9f64);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, editMessage);
+    // _writeflags.1?true(buffer, 0, force);
+    // _writeInputBotInlineMessageID(buffer, 0, id);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, score);
     return 0;
   }
 }
@@ -47382,6 +50825,10 @@ class MessagesGetGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe822649d);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -47409,6 +50856,9 @@ class MessagesGetInlineGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0f635e1b);
+    // _writeInputBotInlineMessageID(buffer, 0, id);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -47440,6 +50890,10 @@ class MessagesGetCommonChats extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe40ca104);
+    // _writeInputUser(buffer, 0, userId);
+    // _writelong(buffer, 0, maxId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -47467,6 +50921,9 @@ class HelpSetBotUpdatesStatus extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xec22cfcd);
+    // _writeint(buffer, 0, pendingUpdatesCount);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -47494,6 +50951,9 @@ class MessagesGetWebPage extends TlMethod<MessagesWebPageBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8d9692a3);
+    // _writestring(buffer, 0, url);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -47524,6 +50984,10 @@ class MessagesToggleDialogPin extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa731e257);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writeInputDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -47558,6 +51022,11 @@ class MessagesReorderPinnedDialogs extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3b1adf37);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, force);
+    // _writeint(buffer, 0, folderId);
+    // _writeVector<InputDialogPeer>(buffer, 0, order);
     return 0;
   }
 }
@@ -47581,6 +51050,8 @@ class MessagesGetPinnedDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd6b94df2);
+    // _writeint(buffer, 0, folderId);
     return 0;
   }
 }
@@ -47608,6 +51079,9 @@ class BotsSendCustomRequest extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaa2769ed);
+    // _writestring(buffer, 0, customMethod);
+    // _writeDataJSON(buffer, 0, params);
     return 0;
   }
 }
@@ -47635,6 +51109,9 @@ class BotsAnswerWebhookJSONQuery extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe6213f4d);
+    // _writelong(buffer, 0, queryId);
+    // _writeDataJSON(buffer, 0, data);
     return 0;
   }
 }
@@ -47666,6 +51143,10 @@ class UploadGetWebFile extends TlMethod<UploadWebFileBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x24e6818d);
+    // _writeInputWebFileLocation(buffer, 0, location);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -47678,7 +51159,7 @@ class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
   const PaymentsGetPaymentForm({
     required this.flags,
     required this.invoice,
-    required this.themeParams,
+    this.themeParams,
   }) : super._();
 
   /// Deserialize.
@@ -47695,11 +51176,12 @@ class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
   /// Theme Params.
   final DataJSONBase? themeParams;
 
-  /// If [themeParams] exists.
-  bool get hasThemeParamsField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x37148dbb);
+    // _write#(buffer, 0, flags);
+    // _writeInputInvoice(buffer, 0, invoice);
+    // _writeflags.0?DataJSON(buffer, 0, themeParams);
     return 0;
   }
 }
@@ -47727,6 +51209,9 @@ class PaymentsGetPaymentReceipt extends TlMethod<PaymentsPaymentReceiptBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2478d1cc);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -47762,6 +51247,11 @@ class PaymentsValidateRequestedInfo
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6c8f12b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, save);
+    // _writeInputInvoice(buffer, 0, invoice);
+    // _writePaymentRequestedInfo(buffer, 0, info);
     return 0;
   }
 }
@@ -47775,10 +51265,10 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
     required this.flags,
     required this.formId,
     required this.invoice,
-    required this.requestedInfoId,
-    required this.shippingOptionId,
+    this.requestedInfoId,
+    this.shippingOptionId,
     required this.credentials,
-    required this.tipAmount,
+    this.tipAmount,
   }) : super._();
 
   /// Deserialize.
@@ -47798,14 +51288,8 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
   /// Requested Info Id.
   final String? requestedInfoId;
 
-  /// If [requestedInfoId] exists.
-  bool get hasRequestedInfoIdField => _bit(flags, 0);
-
   /// Shipping Option Id.
   final String? shippingOptionId;
-
-  /// If [shippingOptionId] exists.
-  bool get hasShippingOptionIdField => _bit(flags, 1);
 
   /// Credentials.
   final InputPaymentCredentialsBase credentials;
@@ -47813,11 +51297,16 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
   /// Tip Amount.
   final int? tipAmount;
 
-  /// If [tipAmount] exists.
-  bool get hasTipAmountField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2d03522f);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, formId);
+    // _writeInputInvoice(buffer, 0, invoice);
+    // _writeflags.0?string(buffer, 0, requestedInfoId);
+    // _writeflags.1?string(buffer, 0, shippingOptionId);
+    // _writeInputPaymentCredentials(buffer, 0, credentials);
+    // _writeflags.2?long(buffer, 0, tipAmount);
     return 0;
   }
 }
@@ -47845,6 +51334,9 @@ class AccountGetTmpPassword extends TlMethod<AccountTmpPasswordBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x449e0b51);
+    // _writeInputCheckPasswordSRP(buffer, 0, password);
+    // _writeint(buffer, 0, period);
     return 0;
   }
 }
@@ -47863,6 +51355,7 @@ class PaymentsGetSavedInfo extends TlMethod<PaymentsSavedInfoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x227d824b);
     return 0;
   }
 }
@@ -47892,6 +51385,10 @@ class PaymentsClearSavedInfo extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd83d70c1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, credentials);
+    // _writeflags.1?true(buffer, 0, info);
     return 0;
   }
 }
@@ -47904,8 +51401,8 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
   const MessagesSetBotShippingResults({
     required this.flags,
     required this.queryId,
-    required this.error,
-    required this.shippingOptions,
+    this.error,
+    this.shippingOptions,
   }) : super._();
 
   /// Deserialize.
@@ -47922,17 +51419,16 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
   /// Error.
   final String? error;
 
-  /// If [error] exists.
-  bool get hasErrorField => _bit(flags, 0);
-
   /// Shipping Options.
   final List<ShippingOptionBase>? shippingOptions;
 
-  /// If [shippingOptions] exists.
-  bool get hasShippingOptionsField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe5f672fa);
+    // _write#(buffer, 0, flags);
+    // _writelong(buffer, 0, queryId);
+    // _writeflags.0?string(buffer, 0, error);
+    // _writeflags.1?Vector<ShippingOption>(buffer, 0, shippingOptions);
     return 0;
   }
 }
@@ -47945,7 +51441,7 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
   const MessagesSetBotPrecheckoutResults({
     required this.flags,
     required this.queryId,
-    required this.error,
+    this.error,
   }) : super._();
 
   /// Deserialize.
@@ -47965,11 +51461,13 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
   /// Error.
   final String? error;
 
-  /// If [error] exists.
-  bool get hasErrorField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x09c2dd95);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, success);
+    // _writelong(buffer, 0, queryId);
+    // _writeflags.0?string(buffer, 0, error);
     return 0;
   }
 }
@@ -47984,9 +51482,9 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
     required this.userId,
     required this.title,
     required this.shortName,
-    required this.thumb,
+    this.thumb,
     required this.stickers,
-    required this.software,
+    this.software,
   }) : super._();
 
   /// Deserialize.
@@ -48024,20 +51522,27 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
   /// Thumb.
   final InputDocumentBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 2);
-
   /// Stickers.
   final List<InputStickerSetItemBase> stickers;
 
   /// Software.
   final String? software;
 
-  /// If [software] exists.
-  bool get hasSoftwareField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9021ab67);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, masks);
+    // _writeflags.1?true(buffer, 0, animated);
+    // _writeflags.4?true(buffer, 0, videos);
+    // _writeflags.5?true(buffer, 0, emojis);
+    // _writeflags.6?true(buffer, 0, textColor);
+    // _writeInputUser(buffer, 0, userId);
+    // _writestring(buffer, 0, title);
+    // _writestring(buffer, 0, shortName);
+    // _writeflags.2?InputDocument(buffer, 0, thumb);
+    // _writeVector<InputStickerSetItem>(buffer, 0, stickers);
+    // _writeflags.3?string(buffer, 0, software);
     return 0;
   }
 }
@@ -48061,6 +51566,8 @@ class StickersRemoveStickerFromSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf7760f51);
+    // _writeInputDocument(buffer, 0, sticker);
     return 0;
   }
 }
@@ -48088,6 +51595,9 @@ class StickersChangeStickerPosition extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xffb6d4ca);
+    // _writeInputDocument(buffer, 0, sticker);
+    // _writeint(buffer, 0, position);
     return 0;
   }
 }
@@ -48115,6 +51625,9 @@ class StickersAddStickerToSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8653febe);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeInputStickerSetItem(buffer, 0, sticker);
     return 0;
   }
 }
@@ -48142,6 +51655,9 @@ class MessagesUploadMedia extends TlMethod<MessageMediaBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x519bc2b1);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputMedia(buffer, 0, media);
     return 0;
   }
 }
@@ -48160,6 +51676,7 @@ class PhoneGetCallConfig extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x55451fa9);
     return 0;
   }
 }
@@ -48202,6 +51719,13 @@ class PhoneRequestCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x42ff96ed);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, video);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeint(buffer, 0, randomId);
+    // _writebytes(buffer, 0, gAHash);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
     return 0;
   }
 }
@@ -48233,6 +51757,10 @@ class PhoneAcceptCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3bd2b4a0);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writebytes(buffer, 0, gB);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
     return 0;
   }
 }
@@ -48268,6 +51796,11 @@ class PhoneConfirmCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2efe1722);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writebytes(buffer, 0, gA);
+    // _writelong(buffer, 0, keyFingerprint);
+    // _writePhoneCallProtocol(buffer, 0, protocol);
     return 0;
   }
 }
@@ -48291,6 +51824,8 @@ class PhoneReceivedCall extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x17d54f61);
+    // _writeInputPhoneCall(buffer, 0, peer);
     return 0;
   }
 }
@@ -48333,6 +51868,13 @@ class PhoneDiscardCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2cbc1c0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, video);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writeint(buffer, 0, duration);
+    // _writePhoneCallDiscardReason(buffer, 0, reason);
+    // _writelong(buffer, 0, connectionId);
     return 0;
   }
 }
@@ -48371,6 +51913,12 @@ class PhoneSetCallRating extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x59ead627);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, userInitiative);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writeint(buffer, 0, rating);
+    // _writestring(buffer, 0, comment);
     return 0;
   }
 }
@@ -48398,6 +51946,9 @@ class PhoneSaveCallDebug extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x277add7e);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writeDataJSON(buffer, 0, debug);
     return 0;
   }
 }
@@ -48429,6 +51980,10 @@ class UploadGetCdnFile extends TlMethod<UploadCdnFileBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x395f69da);
+    // _writebytes(buffer, 0, fileToken);
+    // _writelong(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -48456,6 +52011,9 @@ class UploadReuploadCdnFile extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9b2754a8);
+    // _writebytes(buffer, 0, fileToken);
+    // _writebytes(buffer, 0, requestToken);
     return 0;
   }
 }
@@ -48474,6 +52032,7 @@ class HelpGetCdnConfig extends TlMethod<CdnConfigBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x52029342);
     return 0;
   }
 }
@@ -48501,6 +52060,9 @@ class LangpackGetLangPack extends TlMethod<LangPackDifferenceBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf2f2330a);
+    // _writestring(buffer, 0, langPack);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -48532,6 +52094,10 @@ class LangpackGetStrings extends TlMethod<List<LangPackStringBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xefea3803);
+    // _writestring(buffer, 0, langPack);
+    // _writestring(buffer, 0, langCode);
+    // _writeVector<string>(buffer, 0, keys);
     return 0;
   }
 }
@@ -48563,6 +52129,10 @@ class LangpackGetDifference extends TlMethod<LangPackDifferenceBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcd984aa5);
+    // _writestring(buffer, 0, langPack);
+    // _writestring(buffer, 0, langCode);
+    // _writeint(buffer, 0, fromVersion);
     return 0;
   }
 }
@@ -48586,6 +52156,8 @@ class LangpackGetLanguages extends TlMethod<List<LangPackLanguageBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x42c6978f);
+    // _writestring(buffer, 0, langPack);
     return 0;
   }
 }
@@ -48617,6 +52189,10 @@ class ChannelsEditBanned extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x96e6cd81);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputPeer(buffer, 0, participant);
+    // _writeChatBannedRights(buffer, 0, bannedRights);
     return 0;
   }
 }
@@ -48630,8 +52206,8 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
     required this.flags,
     required this.channel,
     required this.q,
-    required this.eventsFilter,
-    required this.admins,
+    this.eventsFilter,
+    this.admins,
     required this.maxId,
     required this.minId,
     required this.limit,
@@ -48654,14 +52230,8 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
   /// Events Filter.
   final ChannelAdminLogEventsFilterBase? eventsFilter;
 
-  /// If [eventsFilter] exists.
-  bool get hasEventsFilterField => _bit(flags, 0);
-
   /// Admins.
   final List<InputUserBase>? admins;
-
-  /// If [admins] exists.
-  bool get hasAdminsField => _bit(flags, 1);
 
   /// Max Id.
   final int maxId;
@@ -48674,6 +52244,15 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x33ddf480);
+    // _write#(buffer, 0, flags);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, q);
+    // _writeflags.0?ChannelAdminLogEventsFilter(buffer, 0, eventsFilter);
+    // _writeflags.1?Vector<InputUser>(buffer, 0, admins);
+    // _writelong(buffer, 0, maxId);
+    // _writelong(buffer, 0, minId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -48701,6 +52280,9 @@ class UploadGetCdnFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x91dc3f31);
+    // _writebytes(buffer, 0, fileToken);
+    // _writelong(buffer, 0, offset);
     return 0;
   }
 }
@@ -48732,6 +52314,10 @@ class MessagesSendScreenshotNotification extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa1405817);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputReplyTo(buffer, 0, replyTo);
+    // _writelong(buffer, 0, randomId);
     return 0;
   }
 }
@@ -48759,6 +52345,9 @@ class ChannelsSetStickers extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xea8ca4f9);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputStickerSet(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -48782,6 +52371,8 @@ class MessagesGetFavedStickers extends TlMethod<MessagesFavedStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x04f1aaa9);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -48809,6 +52400,9 @@ class MessagesFaveSticker extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb9ffc55b);
+    // _writeInputDocument(buffer, 0, id);
+    // _writeBool(buffer, 0, unfave);
     return 0;
   }
 }
@@ -48836,6 +52430,9 @@ class ChannelsReadMessageContents extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeab5dc38);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -48854,6 +52451,7 @@ class ContactsResetSaved extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x879537f1);
     return 0;
   }
 }
@@ -48866,7 +52464,7 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
   const MessagesGetUnreadMentions({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
     required this.offsetId,
     required this.addOffset,
     required this.limit,
@@ -48888,9 +52486,6 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Offset Id.
   final int offsetId;
 
@@ -48908,6 +52503,15 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf107e790);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
     return 0;
   }
 }
@@ -48942,6 +52546,11 @@ class ChannelsDeleteHistory extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9baa9647);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, forEveryone);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -48965,6 +52574,8 @@ class HelpGetRecentMeUrls extends TlMethod<HelpRecentMeUrlsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dc0f114);
+    // _writestring(buffer, 0, referer);
     return 0;
   }
 }
@@ -48992,6 +52603,9 @@ class ChannelsTogglePreHistoryHidden extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeabbb94c);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -49004,7 +52618,7 @@ class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
   const MessagesReadMentions({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
   }) : super._();
 
   /// Deserialize.
@@ -49021,11 +52635,12 @@ class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x36e5bf4d);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -49057,6 +52672,10 @@ class MessagesGetRecentLocations extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x702a40e0);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -49069,10 +52688,10 @@ class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
   const MessagesSendMultiMedia({
     required this.flags,
     required this.peer,
-    required this.replyTo,
+    this.replyTo,
     required this.multiMedia,
-    required this.scheduleDate,
-    required this.sendAs,
+    this.scheduleDate,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -49107,26 +52726,30 @@ class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Multi Media.
   final List<InputSingleMediaBase> multiMedia;
 
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 10);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x456e8987);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeflags.6?true(buffer, 0, background);
+    // _writeflags.7?true(buffer, 0, clearDraft);
+    // _writeflags.14?true(buffer, 0, noforwards);
+    // _writeflags.15?true(buffer, 0, updateStickersetsOrder);
+    // _writeflags.16?true(buffer, 0, invertMedia);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writeVector<InputSingleMedia>(buffer, 0, multiMedia);
+    // _writeflags.10?int(buffer, 0, scheduleDate);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -49154,6 +52777,9 @@ class MessagesUploadEncryptedFile extends TlMethod<EncryptedFileBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5057c497);
+    // _writeInputEncryptedChat(buffer, 0, peer);
+    // _writeInputEncryptedFile(buffer, 0, file);
     return 0;
   }
 }
@@ -49173,6 +52799,7 @@ class AccountGetWebAuthorizations
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x182e6d6f);
     return 0;
   }
 }
@@ -49196,6 +52823,8 @@ class AccountResetWebAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2d01b9ef);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -49214,6 +52843,7 @@ class AccountResetWebAuthorizations extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x682d2594);
     return 0;
   }
 }
@@ -49248,6 +52878,11 @@ class MessagesSearchStickerSets extends TlMethod<MessagesFoundStickerSetsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35705b8a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, excludeFeatured);
+    // _writestring(buffer, 0, q);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -49275,6 +52910,9 @@ class UploadGetFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9156982a);
+    // _writeInputFileLocation(buffer, 0, location);
+    // _writelong(buffer, 0, offset);
     return 0;
   }
 }
@@ -49294,6 +52932,7 @@ class HelpGetTermsOfServiceUpdate
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2ca51fd1);
     return 0;
   }
 }
@@ -49317,6 +52956,8 @@ class HelpAcceptTermsOfService extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xee72f79a);
+    // _writeDataJSON(buffer, 0, id);
     return 0;
   }
 }
@@ -49335,6 +52976,7 @@ class AccountGetAllSecureValues extends TlMethod<List<SecureValueBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb288bc7d);
     return 0;
   }
 }
@@ -49358,6 +53000,8 @@ class AccountGetSecureValue extends TlMethod<List<SecureValueBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73665bc2);
+    // _writeVector<SecureValueType>(buffer, 0, types);
     return 0;
   }
 }
@@ -49385,6 +53029,9 @@ class AccountSaveSecureValue extends TlMethod<SecureValueBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x899fe31d);
+    // _writeInputSecureValue(buffer, 0, value);
+    // _writelong(buffer, 0, secureSecretId);
     return 0;
   }
 }
@@ -49408,6 +53055,8 @@ class AccountDeleteSecureValue extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb880bc4b);
+    // _writeVector<SecureValueType>(buffer, 0, types);
     return 0;
   }
 }
@@ -49435,6 +53084,9 @@ class UsersSetSecureValueErrors extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x90c894b5);
+    // _writeInputUser(buffer, 0, id);
+    // _writeVector<SecureValueError>(buffer, 0, errors);
     return 0;
   }
 }
@@ -49467,6 +53119,10 @@ class AccountGetAuthorizationForm
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa929597a);
+    // _writelong(buffer, 0, botId);
+    // _writestring(buffer, 0, scope);
+    // _writestring(buffer, 0, publicKey);
     return 0;
   }
 }
@@ -49506,6 +53162,12 @@ class AccountAcceptAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf3ed4c73);
+    // _writelong(buffer, 0, botId);
+    // _writestring(buffer, 0, scope);
+    // _writestring(buffer, 0, publicKey);
+    // _writeVector<SecureValueHash>(buffer, 0, valueHashes);
+    // _writeSecureCredentialsEncrypted(buffer, 0, credentials);
     return 0;
   }
 }
@@ -49533,6 +53195,9 @@ class AccountSendVerifyPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa5a356f9);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writeCodeSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -49564,6 +53229,10 @@ class AccountVerifyPhone extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4dd3a7f6);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writestring(buffer, 0, phoneCode);
     return 0;
   }
 }
@@ -49591,6 +53260,9 @@ class AccountSendVerifyEmailCode extends TlMethod<AccountSentEmailCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x98e037bb);
+    // _writeEmailVerifyPurpose(buffer, 0, purpose);
+    // _writestring(buffer, 0, email);
     return 0;
   }
 }
@@ -49618,6 +53290,9 @@ class AccountVerifyEmail extends TlMethod<AccountEmailVerifiedBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x032da4cf);
+    // _writeEmailVerifyPurpose(buffer, 0, purpose);
+    // _writeEmailVerification(buffer, 0, verification);
     return 0;
   }
 }
@@ -49641,6 +53316,8 @@ class HelpGetDeepLinkInfo extends TlMethod<HelpDeepLinkInfoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3fedc75f);
+    // _writestring(buffer, 0, path);
     return 0;
   }
 }
@@ -49659,6 +53336,7 @@ class ContactsGetSaved extends TlMethod<List<SavedContactBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x82f1e39f);
     return 0;
   }
 }
@@ -49682,6 +53360,8 @@ class ChannelsGetLeftChannels extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8341ecc0);
+    // _writeint(buffer, 0, offset);
     return 0;
   }
 }
@@ -49693,7 +53373,7 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
   /// Account Init Takeout Session constructor.
   const AccountInitTakeoutSession({
     required this.flags,
-    required this.fileMaxSize,
+    this.fileMaxSize,
   }) : super._();
 
   /// Deserialize.
@@ -49725,11 +53405,17 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
   /// File Max Size.
   final int? fileMaxSize;
 
-  /// If [fileMaxSize] exists.
-  bool get hasFileMaxSizeField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ef3eab0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, contacts);
+    // _writeflags.1?true(buffer, 0, messageUsers);
+    // _writeflags.2?true(buffer, 0, messageChats);
+    // _writeflags.3?true(buffer, 0, messageMegagroups);
+    // _writeflags.4?true(buffer, 0, messageChannels);
+    // _writeflags.5?true(buffer, 0, files);
+    // _writeflags.5?long(buffer, 0, fileMaxSize);
     return 0;
   }
 }
@@ -49756,6 +53442,9 @@ class AccountFinishTakeoutSession extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1d2652ee);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, success);
     return 0;
   }
 }
@@ -49774,6 +53463,7 @@ class MessagesGetSplitRanges extends TlMethod<List<MessageRangeBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1cff7e08);
     return 0;
   }
 }
@@ -49801,6 +53491,9 @@ class InvokeWithMessagesRange<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x365275f2);
+    // _writeMessageRange(buffer, 0, range);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -49828,6 +53521,9 @@ class InvokeWithTakeout<X> extends TlMethod<X> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xaca9fd2e);
+    // _writelong(buffer, 0, takeoutId);
+    // _write!X(buffer, 0, query);
     return 0;
   }
 }
@@ -49858,6 +53554,10 @@ class MessagesMarkDialogUnread extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc286d98f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, unread);
+    // _writeInputDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -49876,6 +53576,7 @@ class MessagesGetDialogUnreadMarks extends TlMethod<List<DialogPeerBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x22e24e22);
     return 0;
   }
 }
@@ -49899,6 +53600,8 @@ class ContactsToggleTopPeers extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8514bdda);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -49917,6 +53620,7 @@ class MessagesClearAllDrafts extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7e58ee9c);
     return 0;
   }
 }
@@ -49940,6 +53644,8 @@ class HelpGetAppConfig extends TlMethod<HelpAppConfigBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x61e3f854);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -49963,6 +53669,8 @@ class HelpSaveAppLog extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6f02f748);
+    // _writeVector<InputAppEvent>(buffer, 0, events);
     return 0;
   }
 }
@@ -49986,6 +53694,8 @@ class HelpGetPassportConfig extends TlMethod<HelpPassportConfigBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc661ad08);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -50013,6 +53723,9 @@ class LangpackGetLanguage extends TlMethod<LangPackLanguageBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a596502);
+    // _writestring(buffer, 0, langPack);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -50053,6 +53766,13 @@ class MessagesUpdatePinnedMessage extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd2aaf7ec);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, silent);
+    // _writeflags.1?true(buffer, 0, unpin);
+    // _writeflags.2?true(buffer, 0, pmOneside);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -50076,6 +53796,8 @@ class AccountConfirmPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8fdf1920);
+    // _writestring(buffer, 0, code);
     return 0;
   }
 }
@@ -50094,6 +53816,7 @@ class AccountResendPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a7f2a15);
     return 0;
   }
 }
@@ -50112,6 +53835,7 @@ class AccountCancelPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc1cbd5b6);
     return 0;
   }
 }
@@ -50130,6 +53854,7 @@ class HelpGetSupportName extends TlMethod<HelpSupportNameBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd360e72c);
     return 0;
   }
 }
@@ -50153,6 +53878,8 @@ class HelpGetUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x038a08d3);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -50184,6 +53911,10 @@ class HelpEditUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x66b91b70);
+    // _writeInputUser(buffer, 0, userId);
+    // _writestring(buffer, 0, message);
+    // _writeVector<MessageEntity>(buffer, 0, entities);
     return 0;
   }
 }
@@ -50202,6 +53933,7 @@ class AccountGetContactSignUpNotification extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9f07c728);
     return 0;
   }
 }
@@ -50225,6 +53957,8 @@ class AccountSetContactSignUpNotification extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcff43f61);
+    // _writeBool(buffer, 0, silent);
     return 0;
   }
 }
@@ -50236,7 +53970,7 @@ class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
   /// Account Get Notify Exceptions constructor.
   const AccountGetNotifyExceptions({
     required this.flags,
-    required this.peer,
+    this.peer,
   }) : super._();
 
   /// Deserialize.
@@ -50256,11 +53990,13 @@ class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
   /// Peer.
   final InputNotifyPeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x53577479);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, compareSound);
+    // _writeflags.2?true(buffer, 0, compareStories);
+    // _writeflags.0?InputNotifyPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -50292,6 +54028,10 @@ class MessagesSendVote extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10ea6184);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeVector<bytes>(buffer, 0, options);
     return 0;
   }
 }
@@ -50319,6 +54059,9 @@ class MessagesGetPollResults extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73bb643b);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -50342,6 +54085,8 @@ class MessagesGetOnlines extends TlMethod<ChatOnlinesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6e2be050);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -50369,6 +54114,9 @@ class MessagesEditChatAbout extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdef60797);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, about);
     return 0;
   }
 }
@@ -50396,6 +54144,9 @@ class MessagesEditChatDefaultBannedRights extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa5866b41);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeChatBannedRights(buffer, 0, bannedRights);
     return 0;
   }
 }
@@ -50419,6 +54170,8 @@ class AccountGetWallPaper extends TlMethod<WallPaperBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfc8ddbea);
+    // _writeInputWallPaper(buffer, 0, wallpaper);
     return 0;
   }
 }
@@ -50457,6 +54210,12 @@ class AccountUploadWallPaper extends TlMethod<WallPaperBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe39a8f03);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, forChat);
+    // _writeInputFile(buffer, 0, file);
+    // _writestring(buffer, 0, mimeType);
+    // _writeWallPaperSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -50488,6 +54247,10 @@ class AccountSaveWallPaper extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c5a5b37);
+    // _writeInputWallPaper(buffer, 0, wallpaper);
+    // _writeBool(buffer, 0, unsave);
+    // _writeWallPaperSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -50515,6 +54278,9 @@ class AccountInstallWallPaper extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfeed5769);
+    // _writeInputWallPaper(buffer, 0, wallpaper);
+    // _writeWallPaperSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -50533,6 +54299,7 @@ class AccountResetWallPapers extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb3b9804);
     return 0;
   }
 }
@@ -50552,6 +54319,7 @@ class AccountGetAutoDownloadSettings
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56da0b3f);
     return 0;
   }
 }
@@ -50585,6 +54353,11 @@ class AccountSaveAutoDownloadSettings extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x76f36233);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, low);
+    // _writeflags.1?true(buffer, 0, high);
+    // _writeAutoDownloadSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -50608,6 +54381,8 @@ class MessagesGetEmojiKeywords extends TlMethod<EmojiKeywordsDifferenceBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35a0e062);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -50636,6 +54411,9 @@ class MessagesGetEmojiKeywordsDifference
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1508b6af);
+    // _writestring(buffer, 0, langCode);
+    // _writeint(buffer, 0, fromVersion);
     return 0;
   }
 }
@@ -50660,6 +54438,8 @@ class MessagesGetEmojiKeywordsLanguages
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4e9963b2);
+    // _writeVector<string>(buffer, 0, langCodes);
     return 0;
   }
 }
@@ -50683,6 +54463,8 @@ class MessagesGetEmojiURL extends TlMethod<EmojiURLBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd5b10c26);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -50706,6 +54488,8 @@ class FoldersEditPeerFolders extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6847d0ab);
+    // _writeVector<InputFolderPeer>(buffer, 0, folderPeers);
     return 0;
   }
 }
@@ -50719,8 +54503,8 @@ class MessagesGetSearchCounters
   const MessagesGetSearchCounters({
     required this.flags,
     required this.peer,
-    required this.savedPeerId,
-    required this.topMsgId,
+    this.savedPeerId,
+    this.topMsgId,
     required this.filters,
   }) : super._();
 
@@ -50738,20 +54522,20 @@ class MessagesGetSearchCounters
   /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
-  /// If [savedPeerId] exists.
-  bool get hasSavedPeerIdField => _bit(flags, 2);
-
   /// Top Msg Id.
   final int? topMsgId;
-
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
 
   /// Filters.
   final List<MessagesFilterBase> filters;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1bbcf300);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.2?InputPeer(buffer, 0, savedPeerId);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeVector<MessagesFilter>(buffer, 0, filters);
     return 0;
   }
 }
@@ -50770,6 +54554,7 @@ class ChannelsGetGroupsForDiscussion extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf5dad378);
     return 0;
   }
 }
@@ -50797,6 +54582,9 @@ class ChannelsSetDiscussionGroup extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x40582bb2);
+    // _writeInputChannel(buffer, 0, broadcast);
+    // _writeInputChannel(buffer, 0, group);
     return 0;
   }
 }
@@ -50808,10 +54596,10 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Messages Request Url Auth constructor.
   const MessagesRequestUrlAuth({
     required this.flags,
-    required this.peer,
-    required this.msgId,
-    required this.buttonId,
-    required this.url,
+    this.peer,
+    this.msgId,
+    this.buttonId,
+    this.url,
   }) : super._();
 
   /// Deserialize.
@@ -50825,29 +54613,23 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Peer.
   final InputPeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 1);
-
   /// Msg Id.
   final int? msgId;
-
-  /// If [msgId] exists.
-  bool get hasMsgIdField => _bit(flags, 1);
 
   /// Button Id.
   final int? buttonId;
 
-  /// If [buttonId] exists.
-  bool get hasButtonIdField => _bit(flags, 1);
-
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x198fb446);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?InputPeer(buffer, 0, peer);
+    // _writeflags.1?int(buffer, 0, msgId);
+    // _writeflags.1?int(buffer, 0, buttonId);
+    // _writeflags.2?string(buffer, 0, url);
     return 0;
   }
 }
@@ -50859,10 +54641,10 @@ class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Messages Accept Url Auth constructor.
   const MessagesAcceptUrlAuth({
     required this.flags,
-    required this.peer,
-    required this.msgId,
-    required this.buttonId,
-    required this.url,
+    this.peer,
+    this.msgId,
+    this.buttonId,
+    this.url,
   }) : super._();
 
   /// Deserialize.
@@ -50879,29 +54661,24 @@ class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Peer.
   final InputPeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 1);
-
   /// Msg Id.
   final int? msgId;
-
-  /// If [msgId] exists.
-  bool get hasMsgIdField => _bit(flags, 1);
 
   /// Button Id.
   final int? buttonId;
 
-  /// If [buttonId] exists.
-  bool get hasButtonIdField => _bit(flags, 1);
-
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb12c7125);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, writeAllowed);
+    // _writeflags.1?InputPeer(buffer, 0, peer);
+    // _writeflags.1?int(buffer, 0, msgId);
+    // _writeflags.1?int(buffer, 0, buttonId);
+    // _writeflags.2?string(buffer, 0, url);
     return 0;
   }
 }
@@ -50925,6 +54702,8 @@ class MessagesHidePeerSettingsBar extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4facb138);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -50967,6 +54746,13 @@ class ContactsAddContact extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe8f463d0);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, addPhonePrivacyException);
+    // _writeInputUser(buffer, 0, id);
+    // _writestring(buffer, 0, firstName);
+    // _writestring(buffer, 0, lastName);
+    // _writestring(buffer, 0, phone);
     return 0;
   }
 }
@@ -50990,6 +54776,8 @@ class ContactsAcceptContact extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf831a20f);
+    // _writeInputUser(buffer, 0, id);
     return 0;
   }
 }
@@ -51021,6 +54809,10 @@ class ChannelsEditCreator extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8f38cd1f);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeInputCheckPasswordSRP(buffer, 0, password);
     return 0;
   }
 }
@@ -51033,7 +54825,7 @@ class ContactsGetLocated extends TlMethod<UpdatesBase> {
   const ContactsGetLocated({
     required this.flags,
     required this.geoPoint,
-    required this.selfExpires,
+    this.selfExpires,
   }) : super._();
 
   /// Deserialize.
@@ -51053,11 +54845,13 @@ class ContactsGetLocated extends TlMethod<UpdatesBase> {
   /// Self Expires.
   final int? selfExpires;
 
-  /// If [selfExpires] exists.
-  bool get hasSelfExpiresField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd348bc44);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, background);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writeflags.0?int(buffer, 0, selfExpires);
     return 0;
   }
 }
@@ -51089,6 +54883,10 @@ class ChannelsEditLocation extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x58e63f6d);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputGeoPoint(buffer, 0, geoPoint);
+    // _writestring(buffer, 0, address);
     return 0;
   }
 }
@@ -51116,6 +54914,9 @@ class ChannelsToggleSlowMode extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xedd49ef0);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, seconds);
     return 0;
   }
 }
@@ -51143,6 +54944,9 @@ class MessagesGetScheduledHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf516760b);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -51170,6 +54974,9 @@ class MessagesGetScheduledMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdbb0464);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -51197,6 +55004,9 @@ class MessagesSendScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd38850a);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -51224,6 +55034,9 @@ class MessagesDeleteScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x59ae2b16);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -51236,7 +55049,7 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
   const AccountUploadTheme({
     required this.flags,
     required this.file,
-    required this.thumb,
+    this.thumb,
     required this.fileName,
     required this.mimeType,
   }) : super._();
@@ -51255,9 +55068,6 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
   /// Thumb.
   final InputFileBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 0);
-
   /// File Name.
   final String fileName;
 
@@ -51266,6 +55076,12 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1c3db333);
+    // _write#(buffer, 0, flags);
+    // _writeInputFile(buffer, 0, file);
+    // _writeflags.0?InputFile(buffer, 0, thumb);
+    // _writestring(buffer, 0, fileName);
+    // _writestring(buffer, 0, mimeType);
     return 0;
   }
 }
@@ -51279,8 +55095,8 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
     required this.flags,
     required this.slug,
     required this.title,
-    required this.document,
-    required this.settings,
+    this.document,
+    this.settings,
   }) : super._();
 
   /// Deserialize.
@@ -51300,17 +55116,17 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
   /// Document.
   final InputDocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 2);
-
   /// Settings.
   final List<InputThemeSettingsBase>? settings;
 
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x652e4400);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, slug);
+    // _writestring(buffer, 0, title);
+    // _writeflags.2?InputDocument(buffer, 0, document);
+    // _writeflags.3?Vector<InputThemeSettings>(buffer, 0, settings);
     return 0;
   }
 }
@@ -51324,10 +55140,10 @@ class AccountUpdateTheme extends TlMethod<ThemeBase> {
     required this.flags,
     required this.format,
     required this.theme,
-    required this.slug,
-    required this.title,
-    required this.document,
-    required this.settings,
+    this.slug,
+    this.title,
+    this.document,
+    this.settings,
   }) : super._();
 
   /// Deserialize.
@@ -51347,29 +55163,25 @@ class AccountUpdateTheme extends TlMethod<ThemeBase> {
   /// Slug.
   final String? slug;
 
-  /// If [slug] exists.
-  bool get hasSlugField => _bit(flags, 0);
-
   /// Title.
   final String? title;
-
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
 
   /// Document.
   final InputDocumentBase? document;
 
-  /// If [document] exists.
-  bool get hasDocumentField => _bit(flags, 2);
-
   /// Settings.
   final List<InputThemeSettingsBase>? settings;
 
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2bf40ccc);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, format);
+    // _writeInputTheme(buffer, 0, theme);
+    // _writeflags.0?string(buffer, 0, slug);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?InputDocument(buffer, 0, document);
+    // _writeflags.3?Vector<InputThemeSettings>(buffer, 0, settings);
     return 0;
   }
 }
@@ -51397,6 +55209,9 @@ class AccountSaveTheme extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf257106c);
+    // _writeInputTheme(buffer, 0, theme);
+    // _writeBool(buffer, 0, unsave);
     return 0;
   }
 }
@@ -51408,9 +55223,9 @@ class AccountInstallTheme extends TlMethod<bool> {
   /// Account Install Theme constructor.
   const AccountInstallTheme({
     required this.flags,
-    required this.theme,
-    required this.format,
-    required this.baseTheme,
+    this.theme,
+    this.format,
+    this.baseTheme,
   }) : super._();
 
   /// Deserialize.
@@ -51427,23 +55242,20 @@ class AccountInstallTheme extends TlMethod<bool> {
   /// Theme.
   final InputThemeBase? theme;
 
-  /// If [theme] exists.
-  bool get hasThemeField => _bit(flags, 1);
-
   /// Format.
   final String? format;
-
-  /// If [format] exists.
-  bool get hasFormatField => _bit(flags, 2);
 
   /// Base Theme.
   final BaseThemeBase? baseTheme;
 
-  /// If [baseTheme] exists.
-  bool get hasBaseThemeField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc727bb3b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeflags.1?InputTheme(buffer, 0, theme);
+    // _writeflags.2?string(buffer, 0, format);
+    // _writeflags.3?BaseTheme(buffer, 0, baseTheme);
     return 0;
   }
 }
@@ -51471,6 +55283,9 @@ class AccountGetTheme extends TlMethod<ThemeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3a5869ec);
+    // _writestring(buffer, 0, format);
+    // _writeInputTheme(buffer, 0, theme);
     return 0;
   }
 }
@@ -51498,6 +55313,9 @@ class AccountGetThemes extends TlMethod<AccountThemesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7206e458);
+    // _writestring(buffer, 0, format);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -51529,6 +55347,10 @@ class AuthExportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb7e085fe);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, apiHash);
+    // _writeVector<long>(buffer, 0, exceptIds);
     return 0;
   }
 }
@@ -51552,6 +55374,8 @@ class AuthImportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x95ac5ce4);
+    // _writebytes(buffer, 0, token);
     return 0;
   }
 }
@@ -51575,6 +55399,8 @@ class AuthAcceptLoginToken extends TlMethod<AuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe894ad4d);
+    // _writebytes(buffer, 0, token);
     return 0;
   }
 }
@@ -51601,6 +55427,9 @@ class AccountSetContentSettings extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb574b16b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, sensitiveEnabled);
     return 0;
   }
 }
@@ -51619,6 +55448,7 @@ class AccountGetContentSettings extends TlMethod<AccountContentSettingsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8b9b4dae);
     return 0;
   }
 }
@@ -51637,6 +55467,7 @@ class ChannelsGetInactiveChannels extends TlMethod<MessagesInactiveChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x11e831ee);
     return 0;
   }
 }
@@ -51660,6 +55491,8 @@ class AccountGetMultiWallPapers extends TlMethod<List<WallPaperBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x65ad71dc);
+    // _writeVector<InputWallPaper>(buffer, 0, wallpapers);
     return 0;
   }
 }
@@ -51673,8 +55506,8 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
     required this.flags,
     required this.peer,
     required this.id,
-    required this.option,
-    required this.offset,
+    this.option,
+    this.offset,
     required this.limit,
   }) : super._();
 
@@ -51695,20 +55528,21 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
   /// Option.
   final Uint8List? option;
 
-  /// If [option] exists.
-  bool get hasOptionField => _bit(flags, 0);
-
   /// Offset.
   final String? offset;
-
-  /// If [offset] exists.
-  bool get hasOffsetField => _bit(flags, 1);
 
   /// Limit.
   final int limit;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb86e380e);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?bytes(buffer, 0, option);
+    // _writeflags.1?string(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -51745,6 +55579,12 @@ class MessagesToggleStickerSets extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb5052fea);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, uninstall);
+    // _writeflags.1?true(buffer, 0, archive);
+    // _writeflags.2?true(buffer, 0, unarchive);
+    // _writeVector<InputStickerSet>(buffer, 0, stickersets);
     return 0;
   }
 }
@@ -51768,6 +55608,8 @@ class PaymentsGetBankCardData extends TlMethod<PaymentsBankCardDataBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2e79d779);
+    // _writestring(buffer, 0, number);
     return 0;
   }
 }
@@ -51786,6 +55628,7 @@ class MessagesGetDialogFilters extends TlMethod<List<DialogFilterBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf19ed96d);
     return 0;
   }
 }
@@ -51805,6 +55648,7 @@ class MessagesGetSuggestedDialogFilters
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa29cd42c);
     return 0;
   }
 }
@@ -51817,7 +55661,7 @@ class MessagesUpdateDialogFilter extends TlMethod<bool> {
   const MessagesUpdateDialogFilter({
     required this.flags,
     required this.id,
-    required this.filter,
+    this.filter,
   }) : super._();
 
   /// Deserialize.
@@ -51834,11 +55678,12 @@ class MessagesUpdateDialogFilter extends TlMethod<bool> {
   /// Filter.
   final DialogFilterBase? filter;
 
-  /// If [filter] exists.
-  bool get hasFilterField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ad4a04a);
+    // _write#(buffer, 0, flags);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?DialogFilter(buffer, 0, filter);
     return 0;
   }
 }
@@ -51862,6 +55707,8 @@ class MessagesUpdateDialogFiltersOrder extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc563c1e4);
+    // _writeVector<int>(buffer, 0, order);
     return 0;
   }
 }
@@ -51892,6 +55739,10 @@ class StatsGetBroadcastStats extends TlMethod<StatsBroadcastStatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xab42441a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -51904,7 +55755,7 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
   const StatsLoadAsyncGraph({
     required this.flags,
     required this.token,
-    required this.x,
+    this.x,
   }) : super._();
 
   /// Deserialize.
@@ -51921,11 +55772,12 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
   /// X.
   final int? x;
 
-  /// If [x] exists.
-  bool get hasXField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x621d5fa0);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, token);
+    // _writeflags.0?long(buffer, 0, x);
     return 0;
   }
 }
@@ -51938,8 +55790,8 @@ class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
   const StickersSetStickerSetThumb({
     required this.flags,
     required this.stickerset,
-    required this.thumb,
-    required this.thumbDocumentId,
+    this.thumb,
+    this.thumbDocumentId,
   }) : super._();
 
   /// Deserialize.
@@ -51956,17 +55808,16 @@ class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
   /// Thumb.
   final InputDocumentBase? thumb;
 
-  /// If [thumb] exists.
-  bool get hasThumbField => _bit(flags, 0);
-
   /// Thumb Document Id.
   final int? thumbDocumentId;
 
-  /// If [thumbDocumentId] exists.
-  bool get hasThumbDocumentIdField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa76a5392);
+    // _write#(buffer, 0, flags);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writeflags.0?InputDocument(buffer, 0, thumb);
+    // _writeflags.1?long(buffer, 0, thumbDocumentId);
     return 0;
   }
 }
@@ -51998,6 +55849,10 @@ class BotsSetBotCommands extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0517165a);
+    // _writeBotCommandScope(buffer, 0, scope);
+    // _writestring(buffer, 0, langCode);
+    // _writeVector<BotCommand>(buffer, 0, commands);
     return 0;
   }
 }
@@ -52030,6 +55885,10 @@ class MessagesGetOldFeaturedStickers
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7ed094a1);
+    // _writeint(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -52048,6 +55907,7 @@ class HelpGetPromoData extends TlMethod<HelpPromoDataBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc0977421);
     return 0;
   }
 }
@@ -52071,6 +55931,8 @@ class HelpHidePromoData extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1e251c95);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -52098,6 +55960,9 @@ class PhoneSendSignalingData extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xff7a9383);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writebytes(buffer, 0, data);
     return 0;
   }
 }
@@ -52128,6 +55993,10 @@ class StatsGetMegagroupStats extends TlMethod<StatsMegagroupStatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdcdf8607);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -52147,6 +56016,7 @@ class AccountGetGlobalPrivacySettings
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeb2b4cf6);
     return 0;
   }
 }
@@ -52171,6 +56041,8 @@ class AccountSetGlobalPrivacySettings
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1edaaac2);
+    // _writeGlobalPrivacySettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -52198,6 +56070,9 @@ class HelpDismissSuggestion extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf50dbaa1);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, suggestion);
     return 0;
   }
 }
@@ -52225,6 +56100,9 @@ class HelpGetCountriesList extends TlMethod<HelpCountriesListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x735787a8);
+    // _writestring(buffer, 0, langCode);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -52280,6 +56158,16 @@ class MessagesGetReplies extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x22ddd30c);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -52308,6 +56196,9 @@ class MessagesGetDiscussionMessage
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x446972fd);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -52339,6 +56230,10 @@ class MessagesReadDiscussion extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf731a9f4);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, readMaxId);
     return 0;
   }
 }
@@ -52375,6 +56270,12 @@ class ContactsBlockFromReplies extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x29a8962c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, deleteMessage);
+    // _writeflags.1?true(buffer, 0, deleteHistory);
+    // _writeflags.2?true(buffer, 0, reportSpam);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -52410,6 +56311,11 @@ class StatsGetMessagePublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5f150144);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, msgId);
+    // _writestring(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -52444,6 +56350,11 @@ class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb6e0a3f5);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -52456,7 +56367,7 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
   const MessagesUnpinAllMessages({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
   }) : super._();
 
   /// Deserialize.
@@ -52473,11 +56384,12 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xee22b9a8);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -52491,8 +56403,8 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.peer,
     required this.randomId,
-    required this.title,
-    required this.scheduleDate,
+    this.title,
+    this.scheduleDate,
   }) : super._();
 
   /// Deserialize.
@@ -52515,17 +56427,18 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 0);
-
   /// Schedule Date.
   final int? scheduleDate;
 
-  /// If [scheduleDate] exists.
-  bool get hasScheduleDateField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x48cdc6d8);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, rtmpStream);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, randomId);
+    // _writeflags.0?string(buffer, 0, title);
+    // _writeflags.1?int(buffer, 0, scheduleDate);
     return 0;
   }
 }
@@ -52539,7 +56452,7 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.call,
     required this.joinAs,
-    required this.inviteHash,
+    this.inviteHash,
     required this.params,
   }) : super._();
 
@@ -52566,14 +56479,19 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
   /// Invite Hash.
   final String? inviteHash;
 
-  /// If [inviteHash] exists.
-  bool get hasInviteHashField => _bit(flags, 1);
-
   /// Params.
   final DataJSONBase params;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb132ff7b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, muted);
+    // _writeflags.2?true(buffer, 0, videoStopped);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeInputPeer(buffer, 0, joinAs);
+    // _writeflags.1?string(buffer, 0, inviteHash);
+    // _writeDataJSON(buffer, 0, params);
     return 0;
   }
 }
@@ -52601,6 +56519,9 @@ class PhoneLeaveGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x500377f9);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeint(buffer, 0, source);
     return 0;
   }
 }
@@ -52628,6 +56549,9 @@ class PhoneInviteToGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7b393160);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeVector<InputUser>(buffer, 0, users);
     return 0;
   }
 }
@@ -52651,6 +56575,8 @@ class PhoneDiscardGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7a777135);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -52663,7 +56589,7 @@ class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
   const PhoneToggleGroupCallSettings({
     required this.flags,
     required this.call,
-    required this.joinMuted,
+    this.joinMuted,
   }) : super._();
 
   /// Deserialize.
@@ -52683,11 +56609,13 @@ class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
   /// Join Muted.
   final bool? joinMuted;
 
-  /// If [joinMuted] exists.
-  bool get hasJoinMutedField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74bbb43d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, resetInviteHash);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeflags.0?Bool(buffer, 0, joinMuted);
     return 0;
   }
 }
@@ -52715,6 +56643,9 @@ class PhoneGetGroupCall extends TlMethod<PhoneGroupCallBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x041845db);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -52754,6 +56685,12 @@ class PhoneGetGroupParticipants extends TlMethod<PhoneGroupParticipantsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc558d8ab);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeVector<InputPeer>(buffer, 0, ids);
+    // _writeVector<int>(buffer, 0, sources);
+    // _writestring(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -52781,6 +56718,9 @@ class PhoneCheckGroupCall extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb59cf977);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeVector<int>(buffer, 0, sources);
     return 0;
   }
 }
@@ -52804,6 +56744,8 @@ class MessagesDeleteChat extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5bd0ee50);
+    // _writelong(buffer, 0, chatId);
     return 0;
   }
 }
@@ -52831,6 +56773,9 @@ class MessagesDeletePhoneCallHistory
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf9cbe409);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, revoke);
     return 0;
   }
 }
@@ -52855,6 +56800,8 @@ class MessagesCheckHistoryImport
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x43fe19f3);
+    // _writestring(buffer, 0, importHead);
     return 0;
   }
 }
@@ -52886,6 +56833,10 @@ class MessagesInitHistoryImport extends TlMethod<MessagesHistoryImportBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34090c3b);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputFile(buffer, 0, file);
+    // _writeint(buffer, 0, mediaCount);
     return 0;
   }
 }
@@ -52921,6 +56872,11 @@ class MessagesUploadImportedMedia extends TlMethod<MessageMediaBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2a862092);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, importId);
+    // _writestring(buffer, 0, fileName);
+    // _writeInputMedia(buffer, 0, media);
     return 0;
   }
 }
@@ -52948,6 +56904,9 @@ class MessagesStartHistoryImport extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb43df344);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, importId);
     return 0;
   }
 }
@@ -52962,8 +56921,8 @@ class MessagesGetExportedChatInvites
     required this.flags,
     required this.peer,
     required this.adminId,
-    required this.offsetDate,
-    required this.offsetLink,
+    this.offsetDate,
+    this.offsetLink,
     required this.limit,
   }) : super._();
 
@@ -52987,20 +56946,22 @@ class MessagesGetExportedChatInvites
   /// Offset Date.
   final int? offsetDate;
 
-  /// If [offsetDate] exists.
-  bool get hasOffsetDateField => _bit(flags, 2);
-
   /// Offset Link.
   final String? offsetLink;
-
-  /// If [offsetLink] exists.
-  bool get hasOffsetLinkField => _bit(flags, 2);
 
   /// Limit.
   final int limit;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa2b5a3f6);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, revoked);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, adminId);
+    // _writeflags.2?int(buffer, 0, offsetDate);
+    // _writeflags.2?string(buffer, 0, offsetLink);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -53029,6 +56990,9 @@ class MessagesGetExportedChatInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x73746f5c);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, link);
     return 0;
   }
 }
@@ -53043,10 +57007,10 @@ class MessagesEditExportedChatInvite
     required this.flags,
     required this.peer,
     required this.link,
-    required this.expireDate,
-    required this.usageLimit,
-    required this.requestNeeded,
-    required this.title,
+    this.expireDate,
+    this.usageLimit,
+    this.requestNeeded,
+    this.title,
   }) : super._();
 
   /// Deserialize.
@@ -53069,29 +57033,26 @@ class MessagesEditExportedChatInvite
   /// Expire Date.
   final int? expireDate;
 
-  /// If [expireDate] exists.
-  bool get hasExpireDateField => _bit(flags, 0);
-
   /// Usage Limit.
   final int? usageLimit;
-
-  /// If [usageLimit] exists.
-  bool get hasUsageLimitField => _bit(flags, 1);
 
   /// Request Needed.
   final bool? requestNeeded;
 
-  /// If [requestNeeded] exists.
-  bool get hasRequestNeededField => _bit(flags, 3);
-
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 4);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbdca2f75);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, revoked);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, link);
+    // _writeflags.0?int(buffer, 0, expireDate);
+    // _writeflags.1?int(buffer, 0, usageLimit);
+    // _writeflags.3?Bool(buffer, 0, requestNeeded);
+    // _writeflags.4?string(buffer, 0, title);
     return 0;
   }
 }
@@ -53120,6 +57081,9 @@ class MessagesDeleteRevokedExportedChatInvites extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x56987bd5);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, adminId);
     return 0;
   }
 }
@@ -53147,6 +57111,9 @@ class MessagesDeleteExportedChatInvite extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd464a42b);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, link);
     return 0;
   }
 }
@@ -53171,6 +57138,8 @@ class MessagesGetAdminsWithInvites
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3920e6ef);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -53184,8 +57153,8 @@ class MessagesGetChatInviteImporters
   const MessagesGetChatInviteImporters({
     required this.flags,
     required this.peer,
-    required this.link,
-    required this.q,
+    this.link,
+    this.q,
     required this.offsetDate,
     required this.offsetUser,
     required this.limit,
@@ -53208,14 +57177,8 @@ class MessagesGetChatInviteImporters
   /// Link.
   final String? link;
 
-  /// If [link] exists.
-  bool get hasLinkField => _bit(flags, 1);
-
   /// Q.
   final String? q;
-
-  /// If [q] exists.
-  bool get hasQField => _bit(flags, 2);
 
   /// Offset Date.
   final int offsetDate;
@@ -53228,6 +57191,15 @@ class MessagesGetChatInviteImporters
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdf04dd4e);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, requested);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.1?string(buffer, 0, link);
+    // _writeflags.2?string(buffer, 0, q);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeInputUser(buffer, 0, offsetUser);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -53255,6 +57227,9 @@ class MessagesSetHistoryTTL extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb80e5fe4);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, period);
     return 0;
   }
 }
@@ -53290,6 +57265,11 @@ class AccountReportProfilePhoto extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfa8cc6f5);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputPhoto(buffer, 0, photoId);
+    // _writeReportReason(buffer, 0, reason);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -53313,6 +57293,8 @@ class ChannelsConvertToGigagroup extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0b290c69);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -53337,6 +57319,8 @@ class MessagesCheckHistoryImportPeer
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5dc60f03);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -53349,8 +57333,8 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
   const PhoneToggleGroupCallRecord({
     required this.flags,
     required this.call,
-    required this.title,
-    required this.videoPortrait,
+    this.title,
+    this.videoPortrait,
   }) : super._();
 
   /// Deserialize.
@@ -53373,17 +57357,18 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
-
   /// Video Portrait.
   final bool? videoPortrait;
 
-  /// If [videoPortrait] exists.
-  bool get hasVideoPortraitField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf128c708);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, start);
+    // _writeflags.2?true(buffer, 0, video);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?Bool(buffer, 0, videoPortrait);
     return 0;
   }
 }
@@ -53397,12 +57382,12 @@ class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.call,
     required this.participant,
-    required this.muted,
-    required this.volume,
-    required this.raiseHand,
-    required this.videoStopped,
-    required this.videoPaused,
-    required this.presentationPaused,
+    this.muted,
+    this.volume,
+    this.raiseHand,
+    this.videoStopped,
+    this.videoPaused,
+    this.presentationPaused,
   }) : super._();
 
   /// Deserialize.
@@ -53422,41 +57407,33 @@ class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
   /// Muted.
   final bool? muted;
 
-  /// If [muted] exists.
-  bool get hasMutedField => _bit(flags, 0);
-
   /// Volume.
   final int? volume;
-
-  /// If [volume] exists.
-  bool get hasVolumeField => _bit(flags, 1);
 
   /// Raise Hand.
   final bool? raiseHand;
 
-  /// If [raiseHand] exists.
-  bool get hasRaiseHandField => _bit(flags, 2);
-
   /// Video Stopped.
   final bool? videoStopped;
-
-  /// If [videoStopped] exists.
-  bool get hasVideoStoppedField => _bit(flags, 3);
 
   /// Video Paused.
   final bool? videoPaused;
 
-  /// If [videoPaused] exists.
-  bool get hasVideoPausedField => _bit(flags, 4);
-
   /// Presentation Paused.
   final bool? presentationPaused;
 
-  /// If [presentationPaused] exists.
-  bool get hasPresentationPausedField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa5273abf);
+    // _write#(buffer, 0, flags);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeInputPeer(buffer, 0, participant);
+    // _writeflags.0?Bool(buffer, 0, muted);
+    // _writeflags.1?int(buffer, 0, volume);
+    // _writeflags.2?Bool(buffer, 0, raiseHand);
+    // _writeflags.3?Bool(buffer, 0, videoStopped);
+    // _writeflags.4?Bool(buffer, 0, videoPaused);
+    // _writeflags.5?Bool(buffer, 0, presentationPaused);
     return 0;
   }
 }
@@ -53484,6 +57461,9 @@ class PhoneEditGroupCallTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ca6ac0a);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -53507,6 +57487,8 @@ class PhoneGetGroupCallJoinAs extends TlMethod<PhoneJoinAsPeersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef7c213a);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -53538,6 +57520,10 @@ class PhoneExportGroupCallInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe6aa647f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, canSelfUnmute);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -53565,6 +57551,9 @@ class PhoneToggleGroupCallStartSubscription extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x219c34e6);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeBool(buffer, 0, subscribed);
     return 0;
   }
 }
@@ -53588,6 +57577,8 @@ class PhoneStartScheduledGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5680e342);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -53615,6 +57606,9 @@ class PhoneSaveDefaultGroupCallJoinAs extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x575e1f8c);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputPeer(buffer, 0, joinAs);
     return 0;
   }
 }
@@ -53642,6 +57636,9 @@ class PhoneJoinGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xcbea6bc4);
+    // _writeInputGroupCall(buffer, 0, call);
+    // _writeDataJSON(buffer, 0, params);
     return 0;
   }
 }
@@ -53665,6 +57662,8 @@ class PhoneLeaveGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1c50d144);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -53688,6 +57687,8 @@ class StickersCheckShortName extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x284b3639);
+    // _writestring(buffer, 0, shortName);
     return 0;
   }
 }
@@ -53712,6 +57713,8 @@ class StickersSuggestShortName
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4dafc503);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -53739,6 +57742,9 @@ class BotsResetBotCommands extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3d8de0f9);
+    // _writeBotCommandScope(buffer, 0, scope);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -53766,6 +57772,9 @@ class BotsGetBotCommands extends TlMethod<List<BotCommandBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe34c0dd6);
+    // _writeBotCommandScope(buffer, 0, scope);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -53784,6 +57793,7 @@ class AccountResetPassword extends TlMethod<AccountResetPasswordResultBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9308ce1b);
     return 0;
   }
 }
@@ -53802,6 +57812,7 @@ class AccountDeclinePasswordReset extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4c9409f6);
     return 0;
   }
 }
@@ -53825,6 +57836,8 @@ class AuthCheckRecoveryPassword extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0d36bf79);
+    // _writestring(buffer, 0, code);
     return 0;
   }
 }
@@ -53848,6 +57861,8 @@ class AccountGetChatThemes extends TlMethod<AccountThemesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd638de89);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -53875,6 +57890,9 @@ class MessagesSetChatTheme extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe63be13f);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, emoticon);
     return 0;
   }
 }
@@ -53902,6 +57920,9 @@ class ChannelsViewSponsoredMessage extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbeaedb94);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writebytes(buffer, 0, randomId);
     return 0;
   }
 }
@@ -53926,6 +57947,8 @@ class ChannelsGetSponsoredMessages
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xec210fbf);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -53954,6 +57977,9 @@ class MessagesGetMessageReadParticipants
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x31c1c44f);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -53967,7 +57993,7 @@ class MessagesGetSearchResultsCalendar
   const MessagesGetSearchResultsCalendar({
     required this.flags,
     required this.peer,
-    required this.savedPeerId,
+    this.savedPeerId,
     required this.filter,
     required this.offsetId,
     required this.offsetDate,
@@ -53987,9 +58013,6 @@ class MessagesGetSearchResultsCalendar
   /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
-  /// If [savedPeerId] exists.
-  bool get hasSavedPeerIdField => _bit(flags, 2);
-
   /// Filter.
   final MessagesFilterBase filter;
 
@@ -54001,6 +58024,13 @@ class MessagesGetSearchResultsCalendar
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6aa3f6bd);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.2?InputPeer(buffer, 0, savedPeerId);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, offsetDate);
     return 0;
   }
 }
@@ -54014,7 +58044,7 @@ class MessagesGetSearchResultsPositions
   const MessagesGetSearchResultsPositions({
     required this.flags,
     required this.peer,
-    required this.savedPeerId,
+    this.savedPeerId,
     required this.filter,
     required this.offsetId,
     required this.limit,
@@ -54034,9 +58064,6 @@ class MessagesGetSearchResultsPositions
   /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
-  /// If [savedPeerId] exists.
-  bool get hasSavedPeerIdField => _bit(flags, 2);
-
   /// Filter.
   final MessagesFilterBase filter;
 
@@ -54048,6 +58075,13 @@ class MessagesGetSearchResultsPositions
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9c7f2f10);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.2?InputPeer(buffer, 0, savedPeerId);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -54082,6 +58116,11 @@ class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7fe7e815);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, approved);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -54094,7 +58133,7 @@ class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
   const MessagesHideAllChatJoinRequests({
     required this.flags,
     required this.peer,
-    required this.link,
+    this.link,
   }) : super._();
 
   /// Deserialize.
@@ -54114,11 +58153,13 @@ class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
   /// Link.
   final String? link;
 
-  /// If [link] exists.
-  bool get hasLinkField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe085f4ea);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, approved);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.1?string(buffer, 0, link);
     return 0;
   }
 }
@@ -54146,6 +58187,9 @@ class MessagesToggleNoForwards extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb11eafa2);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -54173,6 +58217,9 @@ class MessagesSaveDefaultSendAs extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xccfddf96);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -54196,6 +58243,8 @@ class ChannelsGetSendAs extends TlMethod<ChannelsSendAsPeersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0dc770ee);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -54219,6 +58268,8 @@ class AccountSetAuthorizationTTL extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbf899aa0);
+    // _writeint(buffer, 0, authorizationTtlDays);
     return 0;
   }
 }
@@ -54231,8 +58282,8 @@ class AccountChangeAuthorizationSettings extends TlMethod<bool> {
   const AccountChangeAuthorizationSettings({
     required this.flags,
     required this.hash,
-    required this.encryptedRequestsDisabled,
-    required this.callRequestsDisabled,
+    this.encryptedRequestsDisabled,
+    this.callRequestsDisabled,
   }) : super._();
 
   /// Deserialize.
@@ -54252,17 +58303,17 @@ class AccountChangeAuthorizationSettings extends TlMethod<bool> {
   /// Encrypted Requests Disabled.
   final bool? encryptedRequestsDisabled;
 
-  /// If [encryptedRequestsDisabled] exists.
-  bool get hasEncryptedRequestsDisabledField => _bit(flags, 0);
-
   /// Call Requests Disabled.
   final bool? callRequestsDisabled;
 
-  /// If [callRequestsDisabled] exists.
-  bool get hasCallRequestsDisabledField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x40f48462);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, confirmed);
+    // _writelong(buffer, 0, hash);
+    // _writeflags.0?Bool(buffer, 0, encryptedRequestsDisabled);
+    // _writeflags.1?Bool(buffer, 0, callRequestsDisabled);
     return 0;
   }
 }
@@ -54291,6 +58342,9 @@ class ChannelsDeleteParticipantHistory
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x367544db);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeInputPeer(buffer, 0, participant);
     return 0;
   }
 }
@@ -54304,7 +58358,7 @@ class MessagesSendReaction extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.peer,
     required this.msgId,
-    required this.reaction,
+    this.reaction,
   }) : super._();
 
   /// Deserialize.
@@ -54330,11 +58384,15 @@ class MessagesSendReaction extends TlMethod<UpdatesBase> {
   /// Reaction.
   final List<ReactionBase>? reaction;
 
-  /// If [reaction] exists.
-  bool get hasReactionField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd30d78d4);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, big);
+    // _writeflags.2?true(buffer, 0, addToRecent);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeflags.0?Vector<Reaction>(buffer, 0, reaction);
     return 0;
   }
 }
@@ -54362,6 +58420,9 @@ class MessagesGetMessagesReactions extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8bba90e6);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -54376,8 +58437,8 @@ class MessagesGetMessageReactionsList
     required this.flags,
     required this.peer,
     required this.id,
-    required this.reaction,
-    required this.offset,
+    this.reaction,
+    this.offset,
     required this.limit,
   }) : super._();
 
@@ -54398,20 +58459,21 @@ class MessagesGetMessageReactionsList
   /// Reaction.
   final ReactionBase? reaction;
 
-  /// If [reaction] exists.
-  bool get hasReactionField => _bit(flags, 0);
-
   /// Offset.
   final String? offset;
-
-  /// If [offset] exists.
-  bool get hasOffsetField => _bit(flags, 1);
 
   /// Limit.
   final int limit;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x461b3f48);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?Reaction(buffer, 0, reaction);
+    // _writeflags.1?string(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -54439,6 +58501,9 @@ class MessagesSetChatAvailableReactions extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfeb16771);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeChatReactions(buffer, 0, availableReactions);
     return 0;
   }
 }
@@ -54463,6 +58528,8 @@ class MessagesGetAvailableReactions
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18dea0ac);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -54486,6 +58553,8 @@ class MessagesSetDefaultReaction extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4f47a016);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -54497,9 +58566,9 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
   /// Messages Translate Text constructor.
   const MessagesTranslateText({
     required this.flags,
-    required this.peer,
-    required this.id,
-    required this.text,
+    this.peer,
+    this.id,
+    this.text,
     required this.toLang,
   }) : super._();
 
@@ -54514,26 +58583,23 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
   /// Peer.
   final InputPeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 0);
-
   /// Id.
   final List<int>? id;
 
-  /// If [id] exists.
-  bool get hasIdField => _bit(flags, 0);
-
   /// Text.
   final List<TextWithEntitiesBase>? text;
-
-  /// If [text] exists.
-  bool get hasTextField => _bit(flags, 1);
 
   /// To Lang.
   final String toLang;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x63183030);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?InputPeer(buffer, 0, peer);
+    // _writeflags.0?Vector<int>(buffer, 0, id);
+    // _writeflags.1?Vector<TextWithEntities>(buffer, 0, text);
+    // _writestring(buffer, 0, toLang);
     return 0;
   }
 }
@@ -54546,7 +58612,7 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
   const MessagesGetUnreadReactions({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
     required this.offsetId,
     required this.addOffset,
     required this.limit,
@@ -54568,9 +58634,6 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Offset Id.
   final int offsetId;
 
@@ -54588,6 +58651,15 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3223495b);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
     return 0;
   }
 }
@@ -54600,7 +58672,7 @@ class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
   const MessagesReadReactions({
     required this.flags,
     required this.peer,
-    required this.topMsgId,
+    this.topMsgId,
   }) : super._();
 
   /// Deserialize.
@@ -54617,11 +58689,12 @@ class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
   /// Top Msg Id.
   final int? topMsgId;
 
-  /// If [topMsgId] exists.
-  bool get hasTopMsgIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x54aa7f8e);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?int(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -54645,6 +58718,8 @@ class ContactsResolvePhone extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8af94344);
+    // _writestring(buffer, 0, phone);
     return 0;
   }
 }
@@ -54669,6 +58744,8 @@ class PhoneGetGroupCallStreamChannels
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1ab21940);
+    // _writeInputGroupCall(buffer, 0, call);
     return 0;
   }
 }
@@ -54697,6 +58774,9 @@ class PhoneGetGroupCallStreamRtmpUrl
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdeb3abbf);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeBool(buffer, 0, revoke);
     return 0;
   }
 }
@@ -54728,6 +58808,10 @@ class MessagesSearchSentMedia extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x107e31a0);
+    // _writestring(buffer, 0, q);
+    // _writeMessagesFilter(buffer, 0, filter);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -54751,6 +58835,8 @@ class MessagesGetAttachMenuBots extends TlMethod<AttachMenuBotsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x16fcc2cb);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -54774,6 +58860,8 @@ class MessagesGetAttachMenuBot extends TlMethod<AttachMenuBotsBotBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x77216192);
+    // _writeInputUser(buffer, 0, bot);
     return 0;
   }
 }
@@ -54808,6 +58896,11 @@ class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x69f59d69);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, writeAllowed);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -54821,12 +58914,12 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
     required this.flags,
     required this.peer,
     required this.bot,
-    required this.url,
-    required this.startParam,
-    required this.themeParams,
+    this.url,
+    this.startParam,
+    this.themeParams,
     required this.platform,
-    required this.replyTo,
-    required this.sendAs,
+    this.replyTo,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -54852,20 +58945,11 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 1);
-
   /// Start Param.
   final String? startParam;
 
-  /// If [startParam] exists.
-  bool get hasStartParamField => _bit(flags, 3);
-
   /// Theme Params.
   final DataJSONBase? themeParams;
-
-  /// If [themeParams] exists.
-  bool get hasThemeParamsField => _bit(flags, 2);
 
   /// Platform.
   final String platform;
@@ -54873,17 +58957,23 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x269dc2c1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.4?true(buffer, 0, fromBotMenu);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeflags.1?string(buffer, 0, url);
+    // _writeflags.3?string(buffer, 0, startParam);
+    // _writeflags.2?DataJSON(buffer, 0, themeParams);
+    // _writestring(buffer, 0, platform);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -54898,8 +58988,8 @@ class MessagesProlongWebView extends TlMethod<bool> {
     required this.peer,
     required this.bot,
     required this.queryId,
-    required this.replyTo,
-    required this.sendAs,
+    this.replyTo,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -54925,17 +59015,19 @@ class MessagesProlongWebView extends TlMethod<bool> {
   /// Reply To.
   final InputReplyToBase? replyTo;
 
-  /// If [replyTo] exists.
-  bool get hasReplyToField => _bit(flags, 0);
-
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 13);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb0d81a83);
+    // _write#(buffer, 0, flags);
+    // _writeflags.5?true(buffer, 0, silent);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, bot);
+    // _writelong(buffer, 0, queryId);
+    // _writeflags.0?InputReplyTo(buffer, 0, replyTo);
+    // _writeflags.13?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -54948,9 +59040,9 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
   const MessagesRequestSimpleWebView({
     required this.flags,
     required this.bot,
-    required this.url,
-    required this.startParam,
-    required this.themeParams,
+    this.url,
+    this.startParam,
+    this.themeParams,
     required this.platform,
   }) : super._();
 
@@ -54974,26 +59066,26 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
   /// Url.
   final String? url;
 
-  /// If [url] exists.
-  bool get hasUrlField => _bit(flags, 3);
-
   /// Start Param.
   final String? startParam;
 
-  /// If [startParam] exists.
-  bool get hasStartParamField => _bit(flags, 4);
-
   /// Theme Params.
   final DataJSONBase? themeParams;
-
-  /// If [themeParams] exists.
-  bool get hasThemeParamsField => _bit(flags, 0);
 
   /// Platform.
   final String platform;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1a46500a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, fromSwitchWebview);
+    // _writeflags.2?true(buffer, 0, fromSideMenu);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeflags.3?string(buffer, 0, url);
+    // _writeflags.4?string(buffer, 0, startParam);
+    // _writeflags.0?DataJSON(buffer, 0, themeParams);
+    // _writestring(buffer, 0, platform);
     return 0;
   }
 }
@@ -55022,6 +59114,9 @@ class MessagesSendWebViewResultMessage
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a4314f5);
+    // _writestring(buffer, 0, botQueryId);
+    // _writeInputBotInlineResult(buffer, 0, result);
     return 0;
   }
 }
@@ -55057,6 +59152,11 @@ class MessagesSendWebViewData extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdc0242c8);
+    // _writeInputUser(buffer, 0, bot);
+    // _writelong(buffer, 0, randomId);
+    // _writestring(buffer, 0, buttonText);
+    // _writestring(buffer, 0, data);
     return 0;
   }
 }
@@ -55084,6 +59184,9 @@ class BotsSetBotMenuButton extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4504d54f);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeBotMenuButton(buffer, 0, button);
     return 0;
   }
 }
@@ -55107,6 +59210,8 @@ class BotsGetBotMenuButton extends TlMethod<BotMenuButtonBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9c60eb28);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -55130,6 +59235,8 @@ class AccountGetSavedRingtones extends TlMethod<AccountSavedRingtonesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe1902288);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55157,6 +59264,9 @@ class AccountSaveRingtone extends TlMethod<AccountSavedRingtoneBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3dea5b03);
+    // _writeInputDocument(buffer, 0, id);
+    // _writeBool(buffer, 0, unsave);
     return 0;
   }
 }
@@ -55188,6 +59298,10 @@ class AccountUploadRingtone extends TlMethod<DocumentBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x831a83a2);
+    // _writeInputFile(buffer, 0, file);
+    // _writestring(buffer, 0, fileName);
+    // _writestring(buffer, 0, mimeType);
     return 0;
   }
 }
@@ -55211,6 +59325,8 @@ class BotsSetBotBroadcastDefaultAdminRights extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x788464e1);
+    // _writeChatAdminRights(buffer, 0, adminRights);
     return 0;
   }
 }
@@ -55234,6 +59350,8 @@ class BotsSetBotGroupDefaultAdminRights extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x925ec9ea);
+    // _writeChatAdminRights(buffer, 0, adminRights);
     return 0;
   }
 }
@@ -55261,6 +59379,9 @@ class PhoneSaveCallLog extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x41248786);
+    // _writeInputPhoneCall(buffer, 0, peer);
+    // _writeInputFile(buffer, 0, file);
     return 0;
   }
 }
@@ -55288,6 +59409,9 @@ class ChannelsToggleJoinToSend extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe4cb9580);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -55315,6 +59439,9 @@ class ChannelsToggleJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x4c2985b6);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -55338,6 +59465,8 @@ class PaymentsExportInvoice extends TlMethod<PaymentsExportedInvoiceBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0f91b065);
+    // _writeInputMedia(buffer, 0, invoiceMedia);
     return 0;
   }
 }
@@ -55365,6 +59494,9 @@ class MessagesTranscribeAudio extends TlMethod<MessagesTranscribedAudioBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x269e9a49);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -55400,6 +59532,11 @@ class MessagesRateTranscribedAudio extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7f1d072f);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writelong(buffer, 0, transcriptionId);
+    // _writeBool(buffer, 0, good);
     return 0;
   }
 }
@@ -55427,6 +59564,9 @@ class PaymentsAssignAppStoreTransaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x80ed747d);
+    // _writebytes(buffer, 0, receipt);
+    // _writeInputStorePaymentPurpose(buffer, 0, purpose);
     return 0;
   }
 }
@@ -55454,6 +59594,9 @@ class PaymentsAssignPlayMarketTransaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdffd50d3);
+    // _writeDataJSON(buffer, 0, receipt);
+    // _writeInputStorePaymentPurpose(buffer, 0, purpose);
     return 0;
   }
 }
@@ -55477,6 +59620,8 @@ class PaymentsCanPurchasePremium extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9fc19eb6);
+    // _writeInputStorePaymentPurpose(buffer, 0, purpose);
     return 0;
   }
 }
@@ -55495,6 +59640,7 @@ class HelpGetPremiumPromo extends TlMethod<HelpPremiumPromoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb81b93d4);
     return 0;
   }
 }
@@ -55518,6 +59664,8 @@ class MessagesGetCustomEmojiDocuments extends TlMethod<List<DocumentBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd9ab0f54);
+    // _writeVector<long>(buffer, 0, documentId);
     return 0;
   }
 }
@@ -55541,6 +59689,8 @@ class MessagesGetEmojiStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbfca18f);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55565,6 +59715,8 @@ class MessagesGetFeaturedEmojiStickers
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0ecf6736);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55588,6 +59740,8 @@ class AccountUpdateEmojiStatus extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfbd3de6b);
+    // _writeEmojiStatus(buffer, 0, emojiStatus);
     return 0;
   }
 }
@@ -55612,6 +59766,8 @@ class AccountGetDefaultEmojiStatuses
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd6753386);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55635,6 +59791,8 @@ class AccountGetRecentEmojiStatuses extends TlMethod<AccountEmojiStatusesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0f578105);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55653,6 +59811,7 @@ class AccountClearRecentEmojiStatuses extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18201aae);
     return 0;
   }
 }
@@ -55684,6 +59843,10 @@ class MessagesReportReaction extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3f64c076);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeInputPeer(buffer, 0, reactionPeer);
     return 0;
   }
 }
@@ -55711,6 +59874,9 @@ class MessagesGetTopReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbb8125ba);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55738,6 +59904,9 @@ class MessagesGetRecentReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x39461db2);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -55756,6 +59925,7 @@ class MessagesClearRecentReactions extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9dfeefb4);
     return 0;
   }
 }
@@ -55783,6 +59953,9 @@ class MessagesGetExtendedMedia extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x84f80814);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -55814,6 +59987,10 @@ class AuthImportWebTokenAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2db873a9);
+    // _writeint(buffer, 0, apiId);
+    // _writestring(buffer, 0, apiHash);
+    // _writestring(buffer, 0, webAuthToken);
     return 0;
   }
 }
@@ -55837,6 +60014,8 @@ class AccountReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xef500eab);
+    // _writeVector<string>(buffer, 0, order);
     return 0;
   }
 }
@@ -55864,6 +60043,9 @@ class AccountToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x58d6b376);
+    // _writestring(buffer, 0, username);
+    // _writeBool(buffer, 0, active);
     return 0;
   }
 }
@@ -55891,6 +60073,9 @@ class ChannelsReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb45ced1d);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<string>(buffer, 0, order);
     return 0;
   }
 }
@@ -55922,6 +60107,10 @@ class ChannelsToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x50f24105);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, username);
+    // _writeBool(buffer, 0, active);
     return 0;
   }
 }
@@ -55945,6 +60134,8 @@ class ChannelsDeactivateAllUsernames extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0a245dd3);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -55972,6 +60163,9 @@ class ChannelsToggleForum extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa4298b29);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -55985,10 +60179,10 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.channel,
     required this.title,
-    required this.iconColor,
-    required this.iconEmojiId,
+    this.iconColor,
+    this.iconEmojiId,
     required this.randomId,
-    required this.sendAs,
+    this.sendAs,
   }) : super._();
 
   /// Deserialize.
@@ -56008,14 +60202,8 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
   /// Icon Color.
   final int? iconColor;
 
-  /// If [iconColor] exists.
-  bool get hasIconColorField => _bit(flags, 0);
-
   /// Icon Emoji Id.
   final int? iconEmojiId;
-
-  /// If [iconEmojiId] exists.
-  bool get hasIconEmojiIdField => _bit(flags, 3);
 
   /// Random Id.
   final int randomId;
@@ -56023,11 +60211,16 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
   /// Send As.
   final InputPeerBase? sendAs;
 
-  /// If [sendAs] exists.
-  bool get hasSendAsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf40c0224);
+    // _write#(buffer, 0, flags);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writestring(buffer, 0, title);
+    // _writeflags.0?int(buffer, 0, iconColor);
+    // _writeflags.3?long(buffer, 0, iconEmojiId);
+    // _writelong(buffer, 0, randomId);
+    // _writeflags.2?InputPeer(buffer, 0, sendAs);
     return 0;
   }
 }
@@ -56040,7 +60233,7 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
   const ChannelsGetForumTopics({
     required this.flags,
     required this.channel,
-    required this.q,
+    this.q,
     required this.offsetDate,
     required this.offsetId,
     required this.offsetTopic,
@@ -56061,9 +60254,6 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
   /// Q.
   final String? q;
 
-  /// If [q] exists.
-  bool get hasQField => _bit(flags, 0);
-
   /// Offset Date.
   final int offsetDate;
 
@@ -56078,6 +60268,14 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0de560d1);
+    // _write#(buffer, 0, flags);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeflags.0?string(buffer, 0, q);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, offsetTopic);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -56105,6 +60303,9 @@ class ChannelsGetForumTopicsByID extends TlMethod<MessagesForumTopicsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb0831eb9);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<int>(buffer, 0, topics);
     return 0;
   }
 }
@@ -56118,10 +60319,10 @@ class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.channel,
     required this.topicId,
-    required this.title,
-    required this.iconEmojiId,
-    required this.closed,
-    required this.hidden,
+    this.title,
+    this.iconEmojiId,
+    this.closed,
+    this.hidden,
   }) : super._();
 
   /// Deserialize.
@@ -56141,29 +60342,25 @@ class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 0);
-
   /// Icon Emoji Id.
   final int? iconEmojiId;
-
-  /// If [iconEmojiId] exists.
-  bool get hasIconEmojiIdField => _bit(flags, 1);
 
   /// Closed.
   final bool? closed;
 
-  /// If [closed] exists.
-  bool get hasClosedField => _bit(flags, 2);
-
   /// Hidden.
   final bool? hidden;
 
-  /// If [hidden] exists.
-  bool get hasHiddenField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf4dfa185);
+    // _write#(buffer, 0, flags);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, topicId);
+    // _writeflags.0?string(buffer, 0, title);
+    // _writeflags.1?long(buffer, 0, iconEmojiId);
+    // _writeflags.2?Bool(buffer, 0, closed);
+    // _writeflags.3?Bool(buffer, 0, hidden);
     return 0;
   }
 }
@@ -56195,6 +60392,10 @@ class ChannelsUpdatePinnedForumTopic extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6c2d9026);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, topicId);
+    // _writeBool(buffer, 0, pinned);
     return 0;
   }
 }
@@ -56222,6 +60423,9 @@ class ChannelsDeleteTopicHistory extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34435f2d);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, topMsgId);
     return 0;
   }
 }
@@ -56256,6 +60460,11 @@ class ChannelsReorderPinnedForumTopics extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2950a18f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, force);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeVector<int>(buffer, 0, order);
     return 0;
   }
 }
@@ -56283,6 +60492,9 @@ class ChannelsToggleAntiSpam extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x68f3e4eb);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -56310,6 +60522,9 @@ class ChannelsReportAntiSpamFalsePositive extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa850a693);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -56333,6 +60548,8 @@ class MessagesSetDefaultHistoryTTL extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9eb51445);
+    // _writeint(buffer, 0, period);
     return 0;
   }
 }
@@ -56351,6 +60568,7 @@ class MessagesGetDefaultHistoryTTL extends TlMethod<DefaultHistoryTTLBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x658b7188);
     return 0;
   }
 }
@@ -56369,6 +60587,7 @@ class ContactsExportContactToken extends TlMethod<ExportedContactTokenBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf8654027);
     return 0;
   }
 }
@@ -56392,6 +60611,8 @@ class ContactsImportContactToken extends TlMethod<UserBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x13005788);
+    // _writestring(buffer, 0, token);
     return 0;
   }
 }
@@ -56404,10 +60625,10 @@ class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
   const PhotosUploadContactProfilePhoto({
     required this.flags,
     required this.userId,
-    required this.file,
-    required this.video,
-    required this.videoStartTs,
-    required this.videoEmojiMarkup,
+    this.file,
+    this.video,
+    this.videoStartTs,
+    this.videoEmojiMarkup,
   }) : super._();
 
   /// Deserialize.
@@ -56430,29 +60651,26 @@ class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// File.
   final InputFileBase? file;
 
-  /// If [file] exists.
-  bool get hasFileField => _bit(flags, 0);
-
   /// Video.
   final InputFileBase? video;
-
-  /// If [video] exists.
-  bool get hasVideoField => _bit(flags, 1);
 
   /// Video Start Ts.
   final double? videoStartTs;
 
-  /// If [videoStartTs] exists.
-  bool get hasVideoStartTsField => _bit(flags, 2);
-
   /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
-  /// If [videoEmojiMarkup] exists.
-  bool get hasVideoEmojiMarkupField => _bit(flags, 5);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe14c4a71);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, suggest);
+    // _writeflags.4?true(buffer, 0, save);
+    // _writeInputUser(buffer, 0, userId);
+    // _writeflags.0?InputFile(buffer, 0, file);
+    // _writeflags.1?InputFile(buffer, 0, video);
+    // _writeflags.2?double(buffer, 0, videoStartTs);
+    // _writeflags.5?VideoSize(buffer, 0, videoEmojiMarkup);
     return 0;
   }
 }
@@ -56480,6 +60698,9 @@ class ChannelsToggleParticipantsHidden extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6a6e7854);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -56515,6 +60736,11 @@ class MessagesSendBotRequestedPeer extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x91b2d060);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
+    // _writeint(buffer, 0, buttonId);
+    // _writeVector<InputPeer>(buffer, 0, requestedPeers);
     return 0;
   }
 }
@@ -56538,6 +60764,8 @@ class AccountGetDefaultProfilePhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe2750328);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -56561,6 +60789,8 @@ class AccountGetDefaultGroupPhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x915860ae);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -56574,8 +60804,8 @@ class AuthRequestFirebaseSms extends TlMethod<bool> {
     required this.flags,
     required this.phoneNumber,
     required this.phoneCodeHash,
-    required this.safetyNetToken,
-    required this.iosPushSecret,
+    this.safetyNetToken,
+    this.iosPushSecret,
   }) : super._();
 
   /// Deserialize.
@@ -56595,17 +60825,17 @@ class AuthRequestFirebaseSms extends TlMethod<bool> {
   /// Safety Net Token.
   final String? safetyNetToken;
 
-  /// If [safetyNetToken] exists.
-  bool get hasSafetyNetTokenField => _bit(flags, 0);
-
   /// Ios Push Secret.
   final String? iosPushSecret;
 
-  /// If [iosPushSecret] exists.
-  bool get hasIosPushSecretField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x89464b50);
+    // _write#(buffer, 0, flags);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
+    // _writeflags.0?string(buffer, 0, safetyNetToken);
+    // _writeflags.1?string(buffer, 0, iosPushSecret);
     return 0;
   }
 }
@@ -56629,6 +60859,8 @@ class MessagesGetEmojiGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7488ce5b);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -56652,6 +60884,8 @@ class MessagesGetEmojiStatusGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2ecd56cd);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -56676,6 +60910,8 @@ class MessagesGetEmojiProfilePhotoGroups
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x21a548f3);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -56703,6 +60939,9 @@ class MessagesSearchCustomEmoji extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2c11c0d7);
+    // _writestring(buffer, 0, emoticon);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -56733,6 +60972,10 @@ class MessagesTogglePeerTranslations extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe47cb579);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, disabled);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -56751,6 +60994,7 @@ class AccountGetAutoSaveSettings extends TlMethod<AccountAutoSaveSettingsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xadcbbcda);
     return 0;
   }
 }
@@ -56762,7 +61006,7 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
   /// Account Save Auto Save Settings constructor.
   const AccountSaveAutoSaveSettings({
     required this.flags,
-    required this.peer,
+    this.peer,
     required this.settings,
   }) : super._();
 
@@ -56786,14 +61030,18 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
   /// Peer.
   final InputPeerBase? peer;
 
-  /// If [peer] exists.
-  bool get hasPeerField => _bit(flags, 3);
-
   /// Settings.
   final AutoSaveSettingsBase settings;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd69b8361);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, users);
+    // _writeflags.1?true(buffer, 0, chats);
+    // _writeflags.2?true(buffer, 0, broadcasts);
+    // _writeflags.3?InputPeer(buffer, 0, peer);
+    // _writeAutoSaveSettings(buffer, 0, settings);
     return 0;
   }
 }
@@ -56812,6 +61060,7 @@ class AccountDeleteAutoSaveExceptions extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x53bc0020);
     return 0;
   }
 }
@@ -56824,9 +61073,9 @@ class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
   const StickersChangeSticker({
     required this.flags,
     required this.sticker,
-    required this.emoji,
-    required this.maskCoords,
-    required this.keywords,
+    this.emoji,
+    this.maskCoords,
+    this.keywords,
   }) : super._();
 
   /// Deserialize.
@@ -56843,23 +61092,20 @@ class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
   /// Emoji.
   final String? emoji;
 
-  /// If [emoji] exists.
-  bool get hasEmojiField => _bit(flags, 0);
-
   /// Mask Coords.
   final MaskCoordsBase? maskCoords;
-
-  /// If [maskCoords] exists.
-  bool get hasMaskCoordsField => _bit(flags, 1);
 
   /// Keywords.
   final String? keywords;
 
-  /// If [keywords] exists.
-  bool get hasKeywordsField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf5537ebc);
+    // _write#(buffer, 0, flags);
+    // _writeInputDocument(buffer, 0, sticker);
+    // _writeflags.0?string(buffer, 0, emoji);
+    // _writeflags.1?MaskCoords(buffer, 0, maskCoords);
+    // _writeflags.2?string(buffer, 0, keywords);
     return 0;
   }
 }
@@ -56887,6 +61133,9 @@ class StickersRenameStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x124b1c00);
+    // _writeInputStickerSet(buffer, 0, stickerset);
+    // _writestring(buffer, 0, title);
     return 0;
   }
 }
@@ -56910,6 +61159,8 @@ class StickersDeleteStickerSet extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x87704394);
+    // _writeInputStickerSet(buffer, 0, stickerset);
     return 0;
   }
 }
@@ -56937,6 +61188,9 @@ class MessagesGetBotApp extends TlMethod<MessagesBotAppBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x34fdc5c3);
+    // _writeInputBotApp(buffer, 0, app);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -56950,8 +61204,8 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
     required this.flags,
     required this.peer,
     required this.app,
-    required this.startParam,
-    required this.themeParams,
+    this.startParam,
+    this.themeParams,
     required this.platform,
   }) : super._();
 
@@ -56975,20 +61229,22 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
   /// Start Param.
   final String? startParam;
 
-  /// If [startParam] exists.
-  bool get hasStartParamField => _bit(flags, 1);
-
   /// Theme Params.
   final DataJSONBase? themeParams;
-
-  /// If [themeParams] exists.
-  bool get hasThemeParamsField => _bit(flags, 2);
 
   /// Platform.
   final String platform;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8c5a3b3c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, writeAllowed);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputBotApp(buffer, 0, app);
+    // _writeflags.1?string(buffer, 0, startParam);
+    // _writeflags.2?DataJSON(buffer, 0, themeParams);
+    // _writestring(buffer, 0, platform);
     return 0;
   }
 }
@@ -57000,11 +61256,11 @@ class BotsSetBotInfo extends TlMethod<bool> {
   /// Bots Set Bot Info constructor.
   const BotsSetBotInfo({
     required this.flags,
-    required this.bot,
+    this.bot,
     required this.langCode,
-    required this.name,
-    required this.about,
-    required this.description,
+    this.name,
+    this.about,
+    this.description,
   }) : super._();
 
   /// Deserialize.
@@ -57018,32 +61274,27 @@ class BotsSetBotInfo extends TlMethod<bool> {
   /// Bot.
   final InputUserBase? bot;
 
-  /// If [bot] exists.
-  bool get hasBotField => _bit(flags, 2);
-
   /// Lang Code.
   final String langCode;
 
   /// Name.
   final String? name;
 
-  /// If [name] exists.
-  bool get hasNameField => _bit(flags, 3);
-
   /// About.
   final String? about;
-
-  /// If [about] exists.
-  bool get hasAboutField => _bit(flags, 0);
 
   /// Description.
   final String? description;
 
-  /// If [description] exists.
-  bool get hasDescriptionField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x10cf3123);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?InputUser(buffer, 0, bot);
+    // _writestring(buffer, 0, langCode);
+    // _writeflags.3?string(buffer, 0, name);
+    // _writeflags.0?string(buffer, 0, about);
+    // _writeflags.1?string(buffer, 0, description);
     return 0;
   }
 }
@@ -57055,7 +61306,7 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
   /// Bots Get Bot Info constructor.
   const BotsGetBotInfo({
     required this.flags,
-    required this.bot,
+    this.bot,
     required this.langCode,
   }) : super._();
 
@@ -57070,14 +61321,15 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
   /// Bot.
   final InputUserBase? bot;
 
-  /// If [bot] exists.
-  bool get hasBotField => _bit(flags, 0);
-
   /// Lang Code.
   final String langCode;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xdcd914fd);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?InputUser(buffer, 0, bot);
+    // _writestring(buffer, 0, langCode);
     return 0;
   }
 }
@@ -57105,6 +61357,9 @@ class AuthResetLoginEmail extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7e960193);
+    // _writestring(buffer, 0, phoneNumber);
+    // _writestring(buffer, 0, phoneCodeHash);
     return 0;
   }
 }
@@ -57137,6 +61392,10 @@ class ChatlistsExportChatlistInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8472478e);
+    // _writeInputChatlist(buffer, 0, chatlist);
+    // _writestring(buffer, 0, title);
+    // _writeVector<InputPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -57164,6 +61423,9 @@ class ChatlistsDeleteExportedInvite extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x719c5c5e);
+    // _writeInputChatlist(buffer, 0, chatlist);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -57177,8 +61439,8 @@ class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
     required this.flags,
     required this.chatlist,
     required this.slug,
-    required this.title,
-    required this.peers,
+    this.title,
+    this.peers,
   }) : super._();
 
   /// Deserialize.
@@ -57198,17 +61460,17 @@ class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
   /// Title.
   final String? title;
 
-  /// If [title] exists.
-  bool get hasTitleField => _bit(flags, 1);
-
   /// Peers.
   final List<InputPeerBase>? peers;
 
-  /// If [peers] exists.
-  bool get hasPeersField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x653db63d);
+    // _write#(buffer, 0, flags);
+    // _writeInputChatlist(buffer, 0, chatlist);
+    // _writestring(buffer, 0, slug);
+    // _writeflags.1?string(buffer, 0, title);
+    // _writeflags.2?Vector<InputPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -57233,6 +61495,8 @@ class ChatlistsGetExportedInvites
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xce03da83);
+    // _writeInputChatlist(buffer, 0, chatlist);
     return 0;
   }
 }
@@ -57257,6 +61521,8 @@ class ChatlistsCheckChatlistInvite
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x41c10fff);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -57284,6 +61550,9 @@ class ChatlistsJoinChatlistInvite extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6b1e39a);
+    // _writestring(buffer, 0, slug);
+    // _writeVector<InputPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -57308,6 +61577,8 @@ class ChatlistsGetChatlistUpdates
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x89419521);
+    // _writeInputChatlist(buffer, 0, chatlist);
     return 0;
   }
 }
@@ -57335,6 +61606,9 @@ class ChatlistsJoinChatlistUpdates extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe089f8f5);
+    // _writeInputChatlist(buffer, 0, chatlist);
+    // _writeVector<InputPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -57358,6 +61632,8 @@ class ChatlistsHideChatlistUpdates extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x66e486fb);
+    // _writeInputChatlist(buffer, 0, chatlist);
     return 0;
   }
 }
@@ -57381,6 +61657,8 @@ class ChatlistsGetLeaveChatlistSuggestions extends TlMethod<List<PeerBase>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xfdbcd714);
+    // _writeInputChatlist(buffer, 0, chatlist);
     return 0;
   }
 }
@@ -57408,6 +61686,9 @@ class ChatlistsLeaveChatlist extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x74fae13a);
+    // _writeInputChatlist(buffer, 0, chatlist);
+    // _writeVector<InputPeer>(buffer, 0, peers);
     return 0;
   }
 }
@@ -57435,6 +61716,9 @@ class BotsReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9709b1c2);
+    // _writeInputUser(buffer, 0, bot);
+    // _writeVector<string>(buffer, 0, order);
     return 0;
   }
 }
@@ -57466,6 +61750,10 @@ class BotsToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x053ca973);
+    // _writeInputUser(buffer, 0, bot);
+    // _writestring(buffer, 0, username);
+    // _writeBool(buffer, 0, active);
     return 0;
   }
 }
@@ -57478,9 +61766,9 @@ class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
   const MessagesSetChatWallPaper({
     required this.flags,
     required this.peer,
-    required this.wallpaper,
-    required this.settings,
-    required this.id,
+    this.wallpaper,
+    this.settings,
+    this.id,
   }) : super._();
 
   /// Deserialize.
@@ -57503,23 +61791,22 @@ class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
   /// Wallpaper.
   final InputWallPaperBase? wallpaper;
 
-  /// If [wallpaper] exists.
-  bool get hasWallpaperField => _bit(flags, 0);
-
   /// Settings.
   final WallPaperSettingsBase? settings;
-
-  /// If [settings] exists.
-  bool get hasSettingsField => _bit(flags, 2);
 
   /// Id.
   final int? id;
 
-  /// If [id] exists.
-  bool get hasIdField => _bit(flags, 1);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8ffacae1);
+    // _write#(buffer, 0, flags);
+    // _writeflags.3?true(buffer, 0, forBoth);
+    // _writeflags.4?true(buffer, 0, revert);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.0?InputWallPaper(buffer, 0, wallpaper);
+    // _writeflags.2?WallPaperSettings(buffer, 0, settings);
+    // _writeflags.1?int(buffer, 0, id);
     return 0;
   }
 }
@@ -57543,6 +61830,8 @@ class AccountInvalidateSignInCodes extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xca8ae8ba);
+    // _writeVector<string>(buffer, 0, codes);
     return 0;
   }
 }
@@ -57570,6 +61859,9 @@ class ChannelsClickSponsoredMessage extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x18afbc93);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writebytes(buffer, 0, randomId);
     return 0;
   }
 }
@@ -57593,6 +61885,8 @@ class ContactsEditCloseFriends extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xba6705f0);
+    // _writeVector<long>(buffer, 0, id);
     return 0;
   }
 }
@@ -57616,6 +61910,8 @@ class StoriesCanSendStory extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xc7dfdfdd);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -57629,14 +61925,14 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.peer,
     required this.media,
-    required this.mediaAreas,
-    required this.caption,
-    required this.entities,
+    this.mediaAreas,
+    this.caption,
+    this.entities,
     required this.privacyRules,
     required this.randomId,
-    required this.period,
-    required this.fwdFromId,
-    required this.fwdFromStory,
+    this.period,
+    this.fwdFromId,
+    this.fwdFromStory,
   }) : super._();
 
   /// Deserialize.
@@ -57665,20 +61961,11 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
   /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
 
-  /// If [mediaAreas] exists.
-  bool get hasMediaAreasField => _bit(flags, 5);
-
   /// Caption.
   final String? caption;
 
-  /// If [caption] exists.
-  bool get hasCaptionField => _bit(flags, 0);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
 
   /// Privacy Rules.
   final List<InputPrivacyRuleBase> privacyRules;
@@ -57689,23 +61976,29 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
   /// Period.
   final int? period;
 
-  /// If [period] exists.
-  bool get hasPeriodField => _bit(flags, 3);
-
   /// Fwd From Id.
   final InputPeerBase? fwdFromId;
-
-  /// If [fwdFromId] exists.
-  bool get hasFwdFromIdField => _bit(flags, 6);
 
   /// Fwd From Story.
   final int? fwdFromStory;
 
-  /// If [fwdFromStory] exists.
-  bool get hasFwdFromStoryField => _bit(flags, 6);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xe4e6694b);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, pinned);
+    // _writeflags.4?true(buffer, 0, noforwards);
+    // _writeflags.7?true(buffer, 0, fwdModified);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputMedia(buffer, 0, media);
+    // _writeflags.5?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // _writeflags.0?string(buffer, 0, caption);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeVector<InputPrivacyRule>(buffer, 0, privacyRules);
+    // _writelong(buffer, 0, randomId);
+    // _writeflags.3?int(buffer, 0, period);
+    // _writeflags.6?InputPeer(buffer, 0, fwdFromId);
+    // _writeflags.6?int(buffer, 0, fwdFromStory);
     return 0;
   }
 }
@@ -57719,11 +62012,11 @@ class StoriesEditStory extends TlMethod<UpdatesBase> {
     required this.flags,
     required this.peer,
     required this.id,
-    required this.media,
-    required this.mediaAreas,
-    required this.caption,
-    required this.entities,
-    required this.privacyRules,
+    this.media,
+    this.mediaAreas,
+    this.caption,
+    this.entities,
+    this.privacyRules,
   }) : super._();
 
   /// Deserialize.
@@ -57743,35 +62036,29 @@ class StoriesEditStory extends TlMethod<UpdatesBase> {
   /// Media.
   final InputMediaBase? media;
 
-  /// If [media] exists.
-  bool get hasMediaField => _bit(flags, 0);
-
   /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
-
-  /// If [mediaAreas] exists.
-  bool get hasMediaAreasField => _bit(flags, 3);
 
   /// Caption.
   final String? caption;
 
-  /// If [caption] exists.
-  bool get hasCaptionField => _bit(flags, 1);
-
   /// Entities.
   final List<MessageEntityBase>? entities;
-
-  /// If [entities] exists.
-  bool get hasEntitiesField => _bit(flags, 1);
 
   /// Privacy Rules.
   final List<InputPrivacyRuleBase>? privacyRules;
 
-  /// If [privacyRules] exists.
-  bool get hasPrivacyRulesField => _bit(flags, 2);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb583ba46);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?InputMedia(buffer, 0, media);
+    // _writeflags.3?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // _writeflags.1?string(buffer, 0, caption);
+    // _writeflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // _writeflags.2?Vector<InputPrivacyRule>(buffer, 0, privacyRules);
     return 0;
   }
 }
@@ -57799,6 +62086,9 @@ class StoriesDeleteStories extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xae59db5f);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -57830,6 +62120,10 @@ class StoriesTogglePinned extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9a75a1ef);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
+    // _writeBool(buffer, 0, pinned);
     return 0;
   }
 }
@@ -57841,7 +62135,7 @@ class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
   /// Stories Get All Stories constructor.
   const StoriesGetAllStories({
     required this.flags,
-    required this.state,
+    this.state,
   }) : super._();
 
   /// Deserialize.
@@ -57861,11 +62155,13 @@ class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
   /// State.
   final String? state;
 
-  /// If [state] exists.
-  bool get hasStateField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xeeb0d625);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, next);
+    // _writeflags.2?true(buffer, 0, hidden);
+    // _writeflags.0?string(buffer, 0, state);
     return 0;
   }
 }
@@ -57897,6 +62193,10 @@ class StoriesGetPinnedStories extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5821a5dc);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -57928,6 +62228,10 @@ class StoriesGetStoriesArchive extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb4352016);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -57955,6 +62259,9 @@ class StoriesGetStoriesByID extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5774ca74);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -57978,6 +62285,8 @@ class StoriesToggleAllStoriesHidden extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7c2557c4);
+    // _writeBool(buffer, 0, hidden);
     return 0;
   }
 }
@@ -58005,6 +62314,9 @@ class StoriesReadStories extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa556dac8);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
     return 0;
   }
 }
@@ -58032,6 +62344,9 @@ class StoriesIncrementStoryViews extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb2028afb);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -58044,7 +62359,7 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
   const StoriesGetStoryViewsList({
     required this.flags,
     required this.peer,
-    required this.q,
+    this.q,
     required this.id,
     required this.offset,
     required this.limit,
@@ -58073,9 +62388,6 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
   /// Q.
   final String? q;
 
-  /// If [q] exists.
-  bool get hasQField => _bit(flags, 1);
-
   /// Id.
   final int id;
 
@@ -58087,6 +62399,16 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7ed23c57);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, justContacts);
+    // _writeflags.2?true(buffer, 0, reactionsFirst);
+    // _writeflags.3?true(buffer, 0, forwardsFirst);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeflags.1?string(buffer, 0, q);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -58114,6 +62436,9 @@ class StoriesGetStoriesViews extends TlMethod<StoriesStoryViewsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x28e16cc8);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
     return 0;
   }
 }
@@ -58141,6 +62466,9 @@ class StoriesExportStoryLink extends TlMethod<ExportedStoryLinkBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7b8def20);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -58176,6 +62504,11 @@ class StoriesReport extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1923fa8c);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeVector<int>(buffer, 0, id);
+    // _writeReportReason(buffer, 0, reason);
+    // _writestring(buffer, 0, message);
     return 0;
   }
 }
@@ -58205,6 +62538,10 @@ class StoriesActivateStealthMode extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x57bbd166);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, past);
+    // _writeflags.1?true(buffer, 0, future);
     return 0;
   }
 }
@@ -58239,6 +62576,11 @@ class ContactsSetBlocked extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x94c65c76);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, myStoriesFrom);
+    // _writeVector<InputPeer>(buffer, 0, id);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -58277,6 +62619,12 @@ class StoriesSendReaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7fd736b2);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, addToRecent);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, storyId);
+    // _writeReaction(buffer, 0, reaction);
     return 0;
   }
 }
@@ -58300,6 +62648,8 @@ class BotsCanSendMessage extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x1359f4e6);
+    // _writeInputUser(buffer, 0, bot);
     return 0;
   }
 }
@@ -58323,6 +62673,8 @@ class BotsAllowSendMessage extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf132e3ef);
+    // _writeInputUser(buffer, 0, bot);
     return 0;
   }
 }
@@ -58354,6 +62706,10 @@ class BotsInvokeWebViewCustomMethod extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x087fc5e7);
+    // _writeInputUser(buffer, 0, bot);
+    // _writestring(buffer, 0, customMethod);
+    // _writeDataJSON(buffer, 0, params);
     return 0;
   }
 }
@@ -58377,6 +62733,8 @@ class StoriesGetPeerStories extends TlMethod<StoriesPeerStoriesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2c4ada50);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -58395,6 +62753,7 @@ class StoriesGetAllReadPeerStories extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9b5ae7f9);
     return 0;
   }
 }
@@ -58418,6 +62777,8 @@ class StoriesGetPeerMaxIDs extends TlMethod<List<int>> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x535983c3);
+    // _writeVector<InputPeer>(buffer, 0, id);
     return 0;
   }
 }
@@ -58436,6 +62797,7 @@ class StoriesGetChatsToSend extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa56a8b60);
     return 0;
   }
 }
@@ -58463,6 +62825,9 @@ class StoriesTogglePeerStoriesHidden extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xbd0415c4);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeBool(buffer, 0, hidden);
     return 0;
   }
 }
@@ -58475,7 +62840,7 @@ class PaymentsGetPremiumGiftCodeOptions
   /// Payments Get Premium Gift Code Options constructor.
   const PaymentsGetPremiumGiftCodeOptions({
     required this.flags,
-    required this.boostPeer,
+    this.boostPeer,
   }) : super._();
 
   /// Deserialize.
@@ -58489,11 +62854,11 @@ class PaymentsGetPremiumGiftCodeOptions
   /// Boost Peer.
   final InputPeerBase? boostPeer;
 
-  /// If [boostPeer] exists.
-  bool get hasBoostPeerField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x2757ba54);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?InputPeer(buffer, 0, boostPeer);
     return 0;
   }
 }
@@ -58517,6 +62882,8 @@ class PaymentsCheckGiftCode extends TlMethod<PaymentsCheckedGiftCodeBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8e51b4c1);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -58540,6 +62907,8 @@ class PaymentsApplyGiftCode extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf6e26854);
+    // _writestring(buffer, 0, slug);
     return 0;
   }
 }
@@ -58567,6 +62936,9 @@ class PaymentsGetGiveawayInfo extends TlMethod<PaymentsGiveawayInfoBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf4239425);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, msgId);
     return 0;
   }
 }
@@ -58598,6 +62970,10 @@ class PaymentsLaunchPrepaidGiveaway extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5ff58f20);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writelong(buffer, 0, giveawayId);
+    // _writeInputStorePaymentPurpose(buffer, 0, purpose);
     return 0;
   }
 }
@@ -58609,8 +62985,8 @@ class AccountUpdateColor extends TlMethod<bool> {
   /// Account Update Color constructor.
   const AccountUpdateColor({
     required this.flags,
-    required this.color,
-    required this.backgroundEmojiId,
+    this.color,
+    this.backgroundEmojiId,
   }) : super._();
 
   /// Deserialize.
@@ -58627,17 +63003,16 @@ class AccountUpdateColor extends TlMethod<bool> {
   /// Color.
   final int? color;
 
-  /// If [color] exists.
-  bool get hasColorField => _bit(flags, 2);
-
   /// Background Emoji Id.
   final int? backgroundEmojiId;
 
-  /// If [backgroundEmojiId] exists.
-  bool get hasBackgroundEmojiIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7cefa15d);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, forProfile);
+    // _writeflags.2?int(buffer, 0, color);
+    // _writeflags.0?long(buffer, 0, backgroundEmojiId);
     return 0;
   }
 }
@@ -58650,8 +63025,8 @@ class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
   const ChannelsUpdateColor({
     required this.flags,
     required this.channel,
-    required this.color,
-    required this.backgroundEmojiId,
+    this.color,
+    this.backgroundEmojiId,
   }) : super._();
 
   /// Deserialize.
@@ -58671,17 +63046,17 @@ class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
   /// Color.
   final int? color;
 
-  /// If [color] exists.
-  bool get hasColorField => _bit(flags, 2);
-
   /// Background Emoji Id.
   final int? backgroundEmojiId;
 
-  /// If [backgroundEmojiId] exists.
-  bool get hasBackgroundEmojiIdField => _bit(flags, 0);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd8aa3671);
+    // _write#(buffer, 0, flags);
+    // _writeflags.1?true(buffer, 0, forProfile);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeflags.2?int(buffer, 0, color);
+    // _writeflags.0?long(buffer, 0, backgroundEmojiId);
     return 0;
   }
 }
@@ -58705,6 +63080,8 @@ class AccountGetDefaultBackgroundEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa60ab9ce);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -58743,6 +63120,12 @@ class PremiumGetBoostsList extends TlMethod<PremiumBoostsListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x60f67660);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, gifts);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writestring(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -58761,6 +63144,7 @@ class PremiumGetMyBoosts extends TlMethod<PremiumMyBoostsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x0be77b4a);
     return 0;
   }
 }
@@ -58772,7 +63156,7 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
   /// Premium Apply Boost constructor.
   const PremiumApplyBoost({
     required this.flags,
-    required this.slots,
+    this.slots,
     required this.peer,
   }) : super._();
 
@@ -58787,14 +63171,15 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
   /// Slots.
   final List<int>? slots;
 
-  /// If [slots] exists.
-  bool get hasSlotsField => _bit(flags, 0);
-
   /// Peer.
   final InputPeerBase peer;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6b7da746);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?Vector<int>(buffer, 0, slots);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -58818,6 +63203,8 @@ class PremiumGetBoostsStatus extends TlMethod<PremiumBoostsStatusBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x042f1f61);
+    // _writeInputPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -58845,6 +63232,9 @@ class PremiumGetUserBoosts extends TlMethod<PremiumBoostsListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x39854d1f);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeInputUser(buffer, 0, userId);
     return 0;
   }
 }
@@ -58872,6 +63262,9 @@ class ChannelsToggleViewForumAsMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x9738bb15);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeBool(buffer, 0, enabled);
     return 0;
   }
 }
@@ -58907,6 +63300,11 @@ class MessagesSearchEmojiStickerSets
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x92b4494c);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, excludeFeatured);
+    // _writestring(buffer, 0, q);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -58930,6 +63328,8 @@ class ChannelsGetChannelRecommendations extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x83b70d97);
+    // _writeInputChannel(buffer, 0, channel);
     return 0;
   }
 }
@@ -58964,6 +63364,11 @@ class StatsGetStoryStats extends TlMethod<StatsStoryStatsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x374fef40);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, dark);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
     return 0;
   }
 }
@@ -58999,6 +63404,11 @@ class StatsGetStoryPublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xa6437ef6);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writestring(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -59022,6 +63432,8 @@ class HelpGetPeerColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xda80f42f);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -59045,6 +63457,8 @@ class HelpGetPeerProfileColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xabcfa9fd);
+    // _writeint(buffer, 0, hash);
     return 0;
   }
 }
@@ -59059,8 +63473,8 @@ class StoriesGetStoryReactionsList
     required this.flags,
     required this.peer,
     required this.id,
-    required this.reaction,
-    required this.offset,
+    this.reaction,
+    this.offset,
     required this.limit,
   }) : super._();
 
@@ -59084,20 +63498,22 @@ class StoriesGetStoryReactionsList
   /// Reaction.
   final ReactionBase? reaction;
 
-  /// If [reaction] exists.
-  bool get hasReactionField => _bit(flags, 0);
-
   /// Offset.
   final String? offset;
-
-  /// If [offset] exists.
-  bool get hasOffsetField => _bit(flags, 1);
 
   /// Limit.
   final int limit;
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xb9b2881f);
+    // _write#(buffer, 0, flags);
+    // _writeflags.2?true(buffer, 0, forwardsFirst);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, id);
+    // _writeflags.0?Reaction(buffer, 0, reaction);
+    // _writeflags.1?string(buffer, 0, offset);
+    // _writeint(buffer, 0, limit);
     return 0;
   }
 }
@@ -59125,6 +63541,9 @@ class ChannelsUpdateEmojiStatus extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xf0d3e6a8);
+    // _writeInputChannel(buffer, 0, channel);
+    // _writeEmojiStatus(buffer, 0, emojiStatus);
     return 0;
   }
 }
@@ -59149,6 +63568,8 @@ class AccountGetChannelDefaultEmojiStatuses
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x7727a7d5);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -59173,6 +63594,8 @@ class AccountGetChannelRestrictedStatusEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x35a9e0d5);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -59219,6 +63642,14 @@ class MessagesGetSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x5381d21a);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, excludePinned);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, offsetId);
+    // _writeInputPeer(buffer, 0, offsetPeer);
+    // _writeint(buffer, 0, limit);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -59270,6 +63701,15 @@ class MessagesGetSavedHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x3d9a414d);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, offsetId);
+    // _writeint(buffer, 0, offsetDate);
+    // _writeint(buffer, 0, addOffset);
+    // _writeint(buffer, 0, limit);
+    // _writeint(buffer, 0, maxId);
+    // _writeint(buffer, 0, minId);
+    // _writelong(buffer, 0, hash);
     return 0;
   }
 }
@@ -59283,8 +63723,8 @@ class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
     required this.flags,
     required this.peer,
     required this.maxId,
-    required this.minDate,
-    required this.maxDate,
+    this.minDate,
+    this.maxDate,
   }) : super._();
 
   /// Deserialize.
@@ -59304,17 +63744,17 @@ class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
   /// Min Date.
   final int? minDate;
 
-  /// If [minDate] exists.
-  bool get hasMinDateField => _bit(flags, 2);
-
   /// Max Date.
   final int? maxDate;
 
-  /// If [maxDate] exists.
-  bool get hasMaxDateField => _bit(flags, 3);
-
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x6e98102b);
+    // _write#(buffer, 0, flags);
+    // _writeInputPeer(buffer, 0, peer);
+    // _writeint(buffer, 0, maxId);
+    // _writeflags.2?int(buffer, 0, minDate);
+    // _writeflags.3?int(buffer, 0, maxDate);
     return 0;
   }
 }
@@ -59333,6 +63773,7 @@ class MessagesGetPinnedSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xd63d94e0);
     return 0;
   }
 }
@@ -59363,6 +63804,10 @@ class MessagesToggleSavedDialogPin extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0xac81bbde);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, pinned);
+    // _writeInputDialogPeer(buffer, 0, peer);
     return 0;
   }
 }
@@ -59393,6 +63838,10 @@ class MessagesReorderPinnedSavedDialogs extends TlMethod<bool> {
 
   /// Serialize.
   int serialize(Uint8List buffer) {
+    _writeInt(buffer, 0, 0x8b716587);
+    // _write#(buffer, 0, flags);
+    // _writeflags.0?true(buffer, 0, force);
+    // _writeVector<InputDialogPeer>(buffer, 0, order);
     return 0;
   }
 }
