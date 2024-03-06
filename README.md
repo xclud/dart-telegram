@@ -1,0 +1,1 @@
+Telegram Client API (MTProto) to connect to Telegram and control a user programmatically.
