@@ -48,15 +48,15 @@ class DCSession {
     this.authKeyID,
     this.authKey,
     this.userId,
-    this.OldSalt,
-    this.Salt,
-    this.Salts,
-    this.Seqno,
-    this.ServerTicksOffset,
-    this.LastSentMsgId,
-    this.DataCenter,
-    this.WithoutUpdates,
-    this.Layer,
+    this.oldSalt,
+    this.salt,
+    this.salts,
+    this.seqno,
+    this.serverTicksOffset,
+    this.lastSentMsgId,
+    this.dataCenter,
+    this.withoutUpdates,
+    this.layer,
   );
 
   /// Long.
@@ -73,30 +73,30 @@ class DCSession {
 
   /// Long.
   /// still accepted for a further 1800 seconds
-  final int OldSalt;
+  final int oldSalt;
 
   /// Long.
-  final int Salt;
+  final int salt;
 
   /// Long.
   /// TODO (xclud): SortedMap.
-  final Map<DateTime, int> Salts;
+  final Map<DateTime, int> salts;
 
   /// Seq No.
-  final int Seqno;
+  final int seqno;
 
   /// Long.
-  final int ServerTicksOffset;
+  final int serverTicksOffset;
 
   /// Long.
-  final int LastSentMsgId;
+  final int lastSentMsgId;
 
   /// DC.
-  final DcOptionBase? DataCenter;
+  final DcOptionBase? dataCenter;
 
   /// Without Updates.
-  final bool WithoutUpdates;
+  final bool withoutUpdates;
 
   /// Layer
-  final int Layer;
+  final int layer;
 }
