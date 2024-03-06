@@ -21,6 +21,11 @@ class Error extends ErrorBase {
 
   /// Deserialize.
   factory Error.deserialize(Uint8List buffer) {
+    // final code = _readint(buffer, 0, code);
+    // final text = _readstring(buffer, 0, text);
+    // final result = Error({code: code, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54,6 +59,9 @@ class InputPeerEmpty extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerEmpty.deserialize(Uint8List buffer) {
+    // final result = InputPeerEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -73,6 +81,9 @@ class InputPeerSelf extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerSelf.deserialize(Uint8List buffer) {
+    // final result = InputPeerSelf();
+    // return result;
+
     throw Exception();
   }
 
@@ -94,6 +105,10 @@ class InputPeerChat extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = InputPeerChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -120,6 +135,11 @@ class InputPeerUser extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerUser.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputPeerUser({userId: userId, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -150,6 +170,11 @@ class InputPeerChannel extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerChannel.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputPeerChannel({channelId: channelId, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -181,6 +206,12 @@ class InputPeerUserFromMessage extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerUserFromMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = InputPeerUserFromMessage({peer: peer, msgId: msgId, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -216,6 +247,12 @@ class InputPeerChannelFromMessage extends InputPeerBase {
 
   /// Deserialize.
   factory InputPeerChannelFromMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final result = InputPeerChannelFromMessage({peer: peer, msgId: msgId, channelId: channelId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -253,6 +290,9 @@ class InputUserEmpty extends InputUserBase {
 
   /// Deserialize.
   factory InputUserEmpty.deserialize(Uint8List buffer) {
+    // final result = InputUserEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -272,6 +312,9 @@ class InputUserSelf extends InputUserBase {
 
   /// Deserialize.
   factory InputUserSelf.deserialize(Uint8List buffer) {
+    // final result = InputUserSelf();
+    // return result;
+
     throw Exception();
   }
 
@@ -294,6 +337,11 @@ class InputUser extends InputUserBase {
 
   /// Deserialize.
   factory InputUser.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputUser({userId: userId, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -325,6 +373,12 @@ class InputUserFromMessage extends InputUserBase {
 
   /// Deserialize.
   factory InputUserFromMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = InputUserFromMessage({peer: peer, msgId: msgId, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -367,6 +421,13 @@ class InputPhoneContact extends InputContactBase {
 
   /// Deserialize.
   factory InputPhoneContact.deserialize(Uint8List buffer) {
+    // final clientId = _readlong(buffer, 0, clientId);
+    // final phone = _readstring(buffer, 0, phone);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final result = InputPhoneContact({clientId: clientId, phone: phone, firstName: firstName, lastName: lastName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -413,6 +474,13 @@ class InputFile extends InputFileBase {
 
   /// Deserialize.
   factory InputFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final parts = _readint(buffer, 0, parts);
+    // final name = _readstring(buffer, 0, name);
+    // final md5Checksum = _readstring(buffer, 0, md5Checksum);
+    // final result = InputFile({id: id, parts: parts, name: name, md5Checksum: md5Checksum,});
+    // return result;
+
     throw Exception();
   }
 
@@ -452,6 +520,12 @@ class InputFileBig extends InputFileBase {
 
   /// Deserialize.
   factory InputFileBig.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final parts = _readint(buffer, 0, parts);
+    // final name = _readstring(buffer, 0, name);
+    // final result = InputFileBig({id: id, parts: parts, name: name,});
+    // return result;
+
     throw Exception();
   }
 
@@ -489,6 +563,9 @@ class InputMediaEmpty extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaEmpty.deserialize(Uint8List buffer) {
+    // final result = InputMediaEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -513,6 +590,14 @@ class InputMediaUploadedPhoto extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaUploadedPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.2?true(buffer, 0, spoiler);
+    // final file = _readInputFile(buffer, 0, file);
+    // final stickers = _readflags.0?Vector<InputDocument>(buffer, 0, stickers);
+    // final ttlSeconds = _readflags.1?int(buffer, 0, ttlSeconds);
+    // final result = InputMediaUploadedPhoto({flags: flags, spoiler: spoiler, file: file, stickers: stickers, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -556,6 +641,13 @@ class InputMediaPhoto extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.1?true(buffer, 0, spoiler);
+    // final id = _readInputPhoto(buffer, 0, id);
+    // final ttlSeconds = _readflags.0?int(buffer, 0, ttlSeconds);
+    // final result = InputMediaPhoto({flags: flags, spoiler: spoiler, id: id, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -593,6 +685,10 @@ class InputMediaGeoPoint extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaGeoPoint.deserialize(Uint8List buffer) {
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final result = InputMediaGeoPoint({geoPoint: geoPoint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -621,6 +717,13 @@ class InputMediaContact extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaContact.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final vcard = _readstring(buffer, 0, vcard);
+    // final result = InputMediaContact({phoneNumber: phoneNumber, firstName: firstName, lastName: lastName, vcard: vcard,});
+    // return result;
+
     throw Exception();
   }
 
@@ -664,6 +767,19 @@ class InputMediaUploadedDocument extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaUploadedDocument.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final nosoundVideo = _readflags.3?true(buffer, 0, nosoundVideo);
+    // final forceFile = _readflags.4?true(buffer, 0, forceFile);
+    // final spoiler = _readflags.5?true(buffer, 0, spoiler);
+    // final file = _readInputFile(buffer, 0, file);
+    // final thumb = _readflags.2?InputFile(buffer, 0, thumb);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final attributes = _readVector<DocumentAttribute>(buffer, 0, attributes);
+    // final stickers = _readflags.0?Vector<InputDocument>(buffer, 0, stickers);
+    // final ttlSeconds = _readflags.1?int(buffer, 0, ttlSeconds);
+    // final result = InputMediaUploadedDocument({flags: flags, nosoundVideo: nosoundVideo, forceFile: forceFile, spoiler: spoiler, file: file, thumb: thumb, mimeType: mimeType, attributes: attributes, stickers: stickers, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -728,6 +844,14 @@ class InputMediaDocument extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaDocument.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.2?true(buffer, 0, spoiler);
+    // final id = _readInputDocument(buffer, 0, id);
+    // final ttlSeconds = _readflags.0?int(buffer, 0, ttlSeconds);
+    // final query = _readflags.1?string(buffer, 0, query);
+    // final result = InputMediaDocument({flags: flags, spoiler: spoiler, id: id, ttlSeconds: ttlSeconds, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -774,6 +898,15 @@ class InputMediaVenue extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaVenue.deserialize(Uint8List buffer) {
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final title = _readstring(buffer, 0, title);
+    // final address = _readstring(buffer, 0, address);
+    // final provider = _readstring(buffer, 0, provider);
+    // final venueId = _readstring(buffer, 0, venueId);
+    // final venueType = _readstring(buffer, 0, venueType);
+    // final result = InputMediaVenue({geoPoint: geoPoint, title: title, address: address, provider: provider, venueId: venueId, venueType: venueType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -821,6 +954,13 @@ class InputMediaPhotoExternal extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaPhotoExternal.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.1?true(buffer, 0, spoiler);
+    // final url = _readstring(buffer, 0, url);
+    // final ttlSeconds = _readflags.0?int(buffer, 0, ttlSeconds);
+    // final result = InputMediaPhotoExternal({flags: flags, spoiler: spoiler, url: url, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -860,6 +1000,13 @@ class InputMediaDocumentExternal extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaDocumentExternal.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.1?true(buffer, 0, spoiler);
+    // final url = _readstring(buffer, 0, url);
+    // final ttlSeconds = _readflags.0?int(buffer, 0, ttlSeconds);
+    // final result = InputMediaDocumentExternal({flags: flags, spoiler: spoiler, url: url, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -897,6 +1044,10 @@ class InputMediaGame extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaGame.deserialize(Uint8List buffer) {
+    // final id = _readInputGame(buffer, 0, id);
+    // final result = InputMediaGame({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -931,6 +1082,19 @@ class InputMediaInvoice extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaInvoice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.0?InputWebDocument(buffer, 0, photo);
+    // final invoice = _readInvoice(buffer, 0, invoice);
+    // final payload = _readbytes(buffer, 0, payload);
+    // final provider = _readstring(buffer, 0, provider);
+    // final providerData = _readDataJSON(buffer, 0, providerData);
+    // final startParam = _readflags.1?string(buffer, 0, startParam);
+    // final extendedMedia = _readflags.2?InputMedia(buffer, 0, extendedMedia);
+    // final result = InputMediaInvoice({flags: flags, title: title, description: description, photo: photo, invoice: invoice, payload: payload, provider: provider, providerData: providerData, startParam: startParam, extendedMedia: extendedMedia,});
+    // return result;
+
     throw Exception();
   }
 
@@ -996,6 +1160,15 @@ class InputMediaGeoLive extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaGeoLive.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final stopped = _readflags.0?true(buffer, 0, stopped);
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final heading = _readflags.2?int(buffer, 0, heading);
+    // final period = _readflags.1?int(buffer, 0, period);
+    // final proximityNotificationRadius = _readflags.3?int(buffer, 0, proximityNotificationRadius);
+    // final result = InputMediaGeoLive({flags: flags, stopped: stopped, geoPoint: geoPoint, heading: heading, period: period, proximityNotificationRadius: proximityNotificationRadius,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1045,6 +1218,14 @@ class InputMediaPoll extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaPoll.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final poll = _readPoll(buffer, 0, poll);
+    // final correctAnswers = _readflags.0?Vector<bytes>(buffer, 0, correctAnswers);
+    // final solution = _readflags.1?string(buffer, 0, solution);
+    // final solutionEntities = _readflags.1?Vector<MessageEntity>(buffer, 0, solutionEntities);
+    // final result = InputMediaPoll({flags: flags, poll: poll, correctAnswers: correctAnswers, solution: solution, solutionEntities: solutionEntities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1086,6 +1267,10 @@ class InputMediaDice extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaDice.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = InputMediaDice({emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1112,6 +1297,11 @@ class InputMediaStory extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaStory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final result = InputMediaStory({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1142,6 +1332,14 @@ class InputMediaWebPage extends InputMediaBase {
 
   /// Deserialize.
   factory InputMediaWebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forceLargeMedia = _readflags.0?true(buffer, 0, forceLargeMedia);
+    // final forceSmallMedia = _readflags.1?true(buffer, 0, forceSmallMedia);
+    // final optional = _readflags.2?true(buffer, 0, optional);
+    // final url = _readstring(buffer, 0, url);
+    // final result = InputMediaWebPage({flags: flags, forceLargeMedia: forceLargeMedia, forceSmallMedia: forceSmallMedia, optional: optional, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1187,6 +1385,9 @@ class InputChatPhotoEmpty extends InputChatPhotoBase {
 
   /// Deserialize.
   factory InputChatPhotoEmpty.deserialize(Uint8List buffer) {
+    // final result = InputChatPhotoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -1212,6 +1413,14 @@ class InputChatUploadedPhoto extends InputChatPhotoBase {
 
   /// Deserialize.
   factory InputChatUploadedPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final file = _readflags.0?InputFile(buffer, 0, file);
+    // final video = _readflags.1?InputFile(buffer, 0, video);
+    // final videoStartTs = _readflags.2?double(buffer, 0, videoStartTs);
+    // final videoEmojiMarkup = _readflags.3?VideoSize(buffer, 0, videoEmojiMarkup);
+    // final result = InputChatUploadedPhoto({flags: flags, file: file, video: video, videoStartTs: videoStartTs, videoEmojiMarkup: videoEmojiMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1253,6 +1462,10 @@ class InputChatPhoto extends InputChatPhotoBase {
 
   /// Deserialize.
   factory InputChatPhoto.deserialize(Uint8List buffer) {
+    // final id = _readInputPhoto(buffer, 0, id);
+    // final result = InputChatPhoto({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1282,6 +1495,9 @@ class InputGeoPointEmpty extends InputGeoPointBase {
 
   /// Deserialize.
   factory InputGeoPointEmpty.deserialize(Uint8List buffer) {
+    // final result = InputGeoPointEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -1306,6 +1522,13 @@ class InputGeoPoint extends InputGeoPointBase {
 
   /// Deserialize.
   factory InputGeoPoint.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final lat = _readdouble(buffer, 0, lat);
+    // final long = _readdouble(buffer, 0, long);
+    // final accuracyRadius = _readflags.0?int(buffer, 0, accuracyRadius);
+    // final result = InputGeoPoint({flags: flags, lat: lat, long: long, accuracyRadius: accuracyRadius,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1347,6 +1570,9 @@ class InputPhotoEmpty extends InputPhotoBase {
 
   /// Deserialize.
   factory InputPhotoEmpty.deserialize(Uint8List buffer) {
+    // final result = InputPhotoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -1370,6 +1596,12 @@ class InputPhoto extends InputPhotoBase {
 
   /// Deserialize.
   factory InputPhoto.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final result = InputPhoto({id: id, accessHash: accessHash, fileReference: fileReference,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1412,6 +1644,13 @@ class InputFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputFileLocation.deserialize(Uint8List buffer) {
+    // final volumeId = _readlong(buffer, 0, volumeId);
+    // final localId = _readint(buffer, 0, localId);
+    // final secret = _readlong(buffer, 0, secret);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final result = InputFileLocation({volumeId: volumeId, localId: localId, secret: secret, fileReference: fileReference,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1450,6 +1689,11 @@ class InputEncryptedFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputEncryptedFileLocation.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputEncryptedFileLocation({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1482,6 +1726,13 @@ class InputDocumentFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputDocumentFileLocation.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final thumbSize = _readstring(buffer, 0, thumbSize);
+    // final result = InputDocumentFileLocation({id: id, accessHash: accessHash, fileReference: fileReference, thumbSize: thumbSize,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1520,6 +1771,11 @@ class InputSecureFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputSecureFileLocation.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputSecureFileLocation({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1547,6 +1803,9 @@ class InputTakeoutFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputTakeoutFileLocation.deserialize(Uint8List buffer) {
+    // final result = InputTakeoutFileLocation();
+    // return result;
+
     throw Exception();
   }
 
@@ -1571,6 +1830,13 @@ class InputPhotoFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputPhotoFileLocation.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final thumbSize = _readstring(buffer, 0, thumbSize);
+    // final result = InputPhotoFileLocation({id: id, accessHash: accessHash, fileReference: fileReference, thumbSize: thumbSize,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1613,6 +1879,15 @@ class InputPhotoLegacyFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputPhotoLegacyFileLocation.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final volumeId = _readlong(buffer, 0, volumeId);
+    // final localId = _readint(buffer, 0, localId);
+    // final secret = _readlong(buffer, 0, secret);
+    // final result = InputPhotoLegacyFileLocation({id: id, accessHash: accessHash, fileReference: fileReference, volumeId: volumeId, localId: localId, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1660,6 +1935,13 @@ class InputPeerPhotoFileLocation extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputPeerPhotoFileLocation.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final big = _readflags.0?true(buffer, 0, big);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final photoId = _readlong(buffer, 0, photoId);
+    // final result = InputPeerPhotoFileLocation({flags: flags, big: big, peer: peer, photoId: photoId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1698,6 +1980,11 @@ class InputStickerSetThumb extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputStickerSetThumb.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final thumbVersion = _readint(buffer, 0, thumbVersion);
+    // final result = InputStickerSetThumb({stickerset: stickerset, thumbVersion: thumbVersion,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1732,6 +2019,15 @@ class InputGroupCallStream extends InputFileLocationBase {
 
   /// Deserialize.
   factory InputGroupCallStream.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final timeMs = _readlong(buffer, 0, timeMs);
+    // final scale = _readint(buffer, 0, scale);
+    // final videoChannel = _readflags.0?int(buffer, 0, videoChannel);
+    // final videoQuality = _readflags.0?int(buffer, 0, videoQuality);
+    // final result = InputGroupCallStream({flags: flags, call: call, timeMs: timeMs, scale: scale, videoChannel: videoChannel, videoQuality: videoQuality,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1783,6 +2079,10 @@ class PeerUser extends PeerBase {
 
   /// Deserialize.
   factory PeerUser.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = PeerUser({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1808,6 +2108,10 @@ class PeerChat extends PeerBase {
 
   /// Deserialize.
   factory PeerChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = PeerChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1833,6 +2137,10 @@ class PeerChannel extends PeerBase {
 
   /// Deserialize.
   factory PeerChannel.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final result = PeerChannel({channelId: channelId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -1862,6 +2170,9 @@ class StorageFileUnknown extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileUnknown.deserialize(Uint8List buffer) {
+    // final result = StorageFileUnknown();
+    // return result;
+
     throw Exception();
   }
 
@@ -1881,6 +2192,9 @@ class StorageFilePartial extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFilePartial.deserialize(Uint8List buffer) {
+    // final result = StorageFilePartial();
+    // return result;
+
     throw Exception();
   }
 
@@ -1900,6 +2214,9 @@ class StorageFileJpeg extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileJpeg.deserialize(Uint8List buffer) {
+    // final result = StorageFileJpeg();
+    // return result;
+
     throw Exception();
   }
 
@@ -1919,6 +2236,9 @@ class StorageFileGif extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileGif.deserialize(Uint8List buffer) {
+    // final result = StorageFileGif();
+    // return result;
+
     throw Exception();
   }
 
@@ -1938,6 +2258,9 @@ class StorageFilePng extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFilePng.deserialize(Uint8List buffer) {
+    // final result = StorageFilePng();
+    // return result;
+
     throw Exception();
   }
 
@@ -1957,6 +2280,9 @@ class StorageFilePdf extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFilePdf.deserialize(Uint8List buffer) {
+    // final result = StorageFilePdf();
+    // return result;
+
     throw Exception();
   }
 
@@ -1976,6 +2302,9 @@ class StorageFileMp3 extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileMp3.deserialize(Uint8List buffer) {
+    // final result = StorageFileMp3();
+    // return result;
+
     throw Exception();
   }
 
@@ -1995,6 +2324,9 @@ class StorageFileMov extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileMov.deserialize(Uint8List buffer) {
+    // final result = StorageFileMov();
+    // return result;
+
     throw Exception();
   }
 
@@ -2014,6 +2346,9 @@ class StorageFileMp4 extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileMp4.deserialize(Uint8List buffer) {
+    // final result = StorageFileMp4();
+    // return result;
+
     throw Exception();
   }
 
@@ -2033,6 +2368,9 @@ class StorageFileWebp extends StorageFileTypeBase {
 
   /// Deserialize.
   factory StorageFileWebp.deserialize(Uint8List buffer) {
+    // final result = StorageFileWebp();
+    // return result;
+
     throw Exception();
   }
 
@@ -2060,6 +2398,10 @@ class UserEmpty extends UserBase {
 
   /// Deserialize.
   factory UserEmpty.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = UserEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2103,6 +2445,50 @@ class User extends UserBase {
 
   /// Deserialize.
   factory User.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final self = _readflags.10?true(buffer, 0, self);
+    // final contact = _readflags.11?true(buffer, 0, contact);
+    // final mutualContact = _readflags.12?true(buffer, 0, mutualContact);
+    // final deleted = _readflags.13?true(buffer, 0, deleted);
+    // final bot = _readflags.14?true(buffer, 0, bot);
+    // final botChatHistory = _readflags.15?true(buffer, 0, botChatHistory);
+    // final botNochats = _readflags.16?true(buffer, 0, botNochats);
+    // final verified = _readflags.17?true(buffer, 0, verified);
+    // final restricted = _readflags.18?true(buffer, 0, restricted);
+    // final min = _readflags.20?true(buffer, 0, min);
+    // final botInlineGeo = _readflags.21?true(buffer, 0, botInlineGeo);
+    // final support = _readflags.23?true(buffer, 0, support);
+    // final scam = _readflags.24?true(buffer, 0, scam);
+    // final applyMinPhoto = _readflags.25?true(buffer, 0, applyMinPhoto);
+    // final fake = _readflags.26?true(buffer, 0, fake);
+    // final botAttachMenu = _readflags.27?true(buffer, 0, botAttachMenu);
+    // final premium = _readflags.28?true(buffer, 0, premium);
+    // final attachMenuEnabled = _readflags.29?true(buffer, 0, attachMenuEnabled);
+    // final flags2 = _read#(buffer, 0, flags2);
+    // final botCanEdit = _readflags2.1?true(buffer, 0, botCanEdit);
+    // final closeFriend = _readflags2.2?true(buffer, 0, closeFriend);
+    // final storiesHidden = _readflags2.3?true(buffer, 0, storiesHidden);
+    // final storiesUnavailable = _readflags2.4?true(buffer, 0, storiesUnavailable);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readflags.0?long(buffer, 0, accessHash);
+    // final firstName = _readflags.1?string(buffer, 0, firstName);
+    // final lastName = _readflags.2?string(buffer, 0, lastName);
+    // final username = _readflags.3?string(buffer, 0, username);
+    // final phone = _readflags.4?string(buffer, 0, phone);
+    // final photo = _readflags.5?UserProfilePhoto(buffer, 0, photo);
+    // final status = _readflags.6?UserStatus(buffer, 0, status);
+    // final botInfoVersion = _readflags.14?int(buffer, 0, botInfoVersion);
+    // final restrictionReason = _readflags.18?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // final botInlinePlaceholder = _readflags.19?string(buffer, 0, botInlinePlaceholder);
+    // final langCode = _readflags.22?string(buffer, 0, langCode);
+    // final emojiStatus = _readflags.30?EmojiStatus(buffer, 0, emojiStatus);
+    // final usernames = _readflags2.0?Vector<Username>(buffer, 0, usernames);
+    // final storiesMaxId = _readflags2.5?int(buffer, 0, storiesMaxId);
+    // final color = _readflags2.8?PeerColor(buffer, 0, color);
+    // final profileColor = _readflags2.9?PeerColor(buffer, 0, profileColor);
+    // final result = User({flags: flags, self: self, contact: contact, mutualContact: mutualContact, deleted: deleted, bot: bot, botChatHistory: botChatHistory, botNochats: botNochats, verified: verified, restricted: restricted, min: min, botInlineGeo: botInlineGeo, support: support, scam: scam, applyMinPhoto: applyMinPhoto, fake: fake, botAttachMenu: botAttachMenu, premium: premium, attachMenuEnabled: attachMenuEnabled, flags2: flags2, botCanEdit: botCanEdit, closeFriend: closeFriend, storiesHidden: storiesHidden, storiesUnavailable: storiesUnavailable, id: id, accessHash: accessHash, firstName: firstName, lastName: lastName, username: username, phone: phone, photo: photo, status: status, botInfoVersion: botInfoVersion, restrictionReason: restrictionReason, botInlinePlaceholder: botInlinePlaceholder, langCode: langCode, emojiStatus: emojiStatus, usernames: usernames, storiesMaxId: storiesMaxId, color: color, profileColor: profileColor,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2292,6 +2678,9 @@ class UserProfilePhotoEmpty extends UserProfilePhotoBase {
 
   /// Deserialize.
   factory UserProfilePhotoEmpty.deserialize(Uint8List buffer) {
+    // final result = UserProfilePhotoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -2316,6 +2705,15 @@ class UserProfilePhoto extends UserProfilePhotoBase {
 
   /// Deserialize.
   factory UserProfilePhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasVideo = _readflags.0?true(buffer, 0, hasVideo);
+    // final personal = _readflags.2?true(buffer, 0, personal);
+    // final photoId = _readlong(buffer, 0, photoId);
+    // final strippedThumb = _readflags.1?bytes(buffer, 0, strippedThumb);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final result = UserProfilePhoto({flags: flags, hasVideo: hasVideo, personal: personal, photoId: photoId, strippedThumb: strippedThumb, dcId: dcId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2365,6 +2763,9 @@ class UserStatusEmpty extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusEmpty.deserialize(Uint8List buffer) {
+    // final result = UserStatusEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -2386,6 +2787,10 @@ class UserStatusOnline extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusOnline.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final result = UserStatusOnline({expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2411,6 +2816,10 @@ class UserStatusOffline extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusOffline.deserialize(Uint8List buffer) {
+    // final wasOnline = _readint(buffer, 0, wasOnline);
+    // final result = UserStatusOffline({wasOnline: wasOnline,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2434,6 +2843,9 @@ class UserStatusRecently extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusRecently.deserialize(Uint8List buffer) {
+    // final result = UserStatusRecently();
+    // return result;
+
     throw Exception();
   }
 
@@ -2453,6 +2865,9 @@ class UserStatusLastWeek extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusLastWeek.deserialize(Uint8List buffer) {
+    // final result = UserStatusLastWeek();
+    // return result;
+
     throw Exception();
   }
 
@@ -2472,6 +2887,9 @@ class UserStatusLastMonth extends UserStatusBase {
 
   /// Deserialize.
   factory UserStatusLastMonth.deserialize(Uint8List buffer) {
+    // final result = UserStatusLastMonth();
+    // return result;
+
     throw Exception();
   }
 
@@ -2499,6 +2917,10 @@ class ChatEmpty extends ChatBase {
 
   /// Deserialize.
   factory ChatEmpty.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = ChatEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2533,6 +2955,25 @@ class Chat extends ChatBase {
 
   /// Deserialize.
   factory Chat.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final left = _readflags.2?true(buffer, 0, left);
+    // final deactivated = _readflags.5?true(buffer, 0, deactivated);
+    // final callActive = _readflags.23?true(buffer, 0, callActive);
+    // final callNotEmpty = _readflags.24?true(buffer, 0, callNotEmpty);
+    // final noforwards = _readflags.25?true(buffer, 0, noforwards);
+    // final id = _readlong(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final photo = _readChatPhoto(buffer, 0, photo);
+    // final participantsCount = _readint(buffer, 0, participantsCount);
+    // final date = _readint(buffer, 0, date);
+    // final version = _readint(buffer, 0, version);
+    // final migratedTo = _readflags.6?InputChannel(buffer, 0, migratedTo);
+    // final adminRights = _readflags.14?ChatAdminRights(buffer, 0, adminRights);
+    // final defaultBannedRights = _readflags.18?ChatBannedRights(buffer, 0, defaultBannedRights);
+    // final result = Chat({flags: flags, creator: creator, left: left, deactivated: deactivated, callActive: callActive, callNotEmpty: callNotEmpty, noforwards: noforwards, id: id, title: title, photo: photo, participantsCount: participantsCount, date: date, version: version, migratedTo: migratedTo, adminRights: adminRights, defaultBannedRights: defaultBannedRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2619,6 +3060,11 @@ class ChatForbidden extends ChatBase {
 
   /// Deserialize.
   factory ChatForbidden.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final result = ChatForbidden({id: id, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2666,6 +3112,51 @@ class Channel extends ChatBase {
 
   /// Deserialize.
   factory Channel.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final left = _readflags.2?true(buffer, 0, left);
+    // final broadcast = _readflags.5?true(buffer, 0, broadcast);
+    // final verified = _readflags.7?true(buffer, 0, verified);
+    // final megagroup = _readflags.8?true(buffer, 0, megagroup);
+    // final restricted = _readflags.9?true(buffer, 0, restricted);
+    // final signatures = _readflags.11?true(buffer, 0, signatures);
+    // final min = _readflags.12?true(buffer, 0, min);
+    // final scam = _readflags.19?true(buffer, 0, scam);
+    // final hasLink = _readflags.20?true(buffer, 0, hasLink);
+    // final hasGeo = _readflags.21?true(buffer, 0, hasGeo);
+    // final slowmodeEnabled = _readflags.22?true(buffer, 0, slowmodeEnabled);
+    // final callActive = _readflags.23?true(buffer, 0, callActive);
+    // final callNotEmpty = _readflags.24?true(buffer, 0, callNotEmpty);
+    // final fake = _readflags.25?true(buffer, 0, fake);
+    // final gigagroup = _readflags.26?true(buffer, 0, gigagroup);
+    // final noforwards = _readflags.27?true(buffer, 0, noforwards);
+    // final joinToSend = _readflags.28?true(buffer, 0, joinToSend);
+    // final joinRequest = _readflags.29?true(buffer, 0, joinRequest);
+    // final forum = _readflags.30?true(buffer, 0, forum);
+    // final flags2 = _read#(buffer, 0, flags2);
+    // final storiesHidden = _readflags2.1?true(buffer, 0, storiesHidden);
+    // final storiesHiddenMin = _readflags2.2?true(buffer, 0, storiesHiddenMin);
+    // final storiesUnavailable = _readflags2.3?true(buffer, 0, storiesUnavailable);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readflags.13?long(buffer, 0, accessHash);
+    // final title = _readstring(buffer, 0, title);
+    // final username = _readflags.6?string(buffer, 0, username);
+    // final photo = _readChatPhoto(buffer, 0, photo);
+    // final date = _readint(buffer, 0, date);
+    // final restrictionReason = _readflags.9?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // final adminRights = _readflags.14?ChatAdminRights(buffer, 0, adminRights);
+    // final bannedRights = _readflags.15?ChatBannedRights(buffer, 0, bannedRights);
+    // final defaultBannedRights = _readflags.18?ChatBannedRights(buffer, 0, defaultBannedRights);
+    // final participantsCount = _readflags.17?int(buffer, 0, participantsCount);
+    // final usernames = _readflags2.0?Vector<Username>(buffer, 0, usernames);
+    // final storiesMaxId = _readflags2.4?int(buffer, 0, storiesMaxId);
+    // final color = _readflags2.7?PeerColor(buffer, 0, color);
+    // final profileColor = _readflags2.8?PeerColor(buffer, 0, profileColor);
+    // final emojiStatus = _readflags2.9?EmojiStatus(buffer, 0, emojiStatus);
+    // final level = _readflags2.10?int(buffer, 0, level);
+    // final result = Channel({flags: flags, creator: creator, left: left, broadcast: broadcast, verified: verified, megagroup: megagroup, restricted: restricted, signatures: signatures, min: min, scam: scam, hasLink: hasLink, hasGeo: hasGeo, slowmodeEnabled: slowmodeEnabled, callActive: callActive, callNotEmpty: callNotEmpty, fake: fake, gigagroup: gigagroup, noforwards: noforwards, joinToSend: joinToSend, joinRequest: joinRequest, forum: forum, flags2: flags2, storiesHidden: storiesHidden, storiesHiddenMin: storiesHiddenMin, storiesUnavailable: storiesUnavailable, id: id, accessHash: accessHash, title: title, username: username, photo: photo, date: date, restrictionReason: restrictionReason, adminRights: adminRights, bannedRights: bannedRights, defaultBannedRights: defaultBannedRights, participantsCount: participantsCount, usernames: usernames, storiesMaxId: storiesMaxId, color: color, profileColor: profileColor, emojiStatus: emojiStatus, level: level,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2859,6 +3350,16 @@ class ChannelForbidden extends ChatBase {
 
   /// Deserialize.
   factory ChannelForbidden.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final broadcast = _readflags.5?true(buffer, 0, broadcast);
+    // final megagroup = _readflags.8?true(buffer, 0, megagroup);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final title = _readstring(buffer, 0, title);
+    // final untilDate = _readflags.16?int(buffer, 0, untilDate);
+    // final result = ChannelForbidden({flags: flags, broadcast: broadcast, megagroup: megagroup, id: id, accessHash: accessHash, title: title, untilDate: untilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -2930,6 +3431,29 @@ class ChatFull extends ChatFullBase {
 
   /// Deserialize.
   factory ChatFull.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canSetUsername = _readflags.7?true(buffer, 0, canSetUsername);
+    // final hasScheduled = _readflags.8?true(buffer, 0, hasScheduled);
+    // final translationsDisabled = _readflags.19?true(buffer, 0, translationsDisabled);
+    // final id = _readlong(buffer, 0, id);
+    // final about = _readstring(buffer, 0, about);
+    // final participants = _readChatParticipants(buffer, 0, participants);
+    // final chatPhoto = _readflags.2?Photo(buffer, 0, chatPhoto);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final exportedInvite = _readflags.13?ExportedChatInvite(buffer, 0, exportedInvite);
+    // final botInfo = _readflags.3?Vector<BotInfo>(buffer, 0, botInfo);
+    // final pinnedMsgId = _readflags.6?int(buffer, 0, pinnedMsgId);
+    // final folderId = _readflags.11?int(buffer, 0, folderId);
+    // final call = _readflags.12?InputGroupCall(buffer, 0, call);
+    // final ttlPeriod = _readflags.14?int(buffer, 0, ttlPeriod);
+    // final groupcallDefaultJoinAs = _readflags.15?Peer(buffer, 0, groupcallDefaultJoinAs);
+    // final themeEmoticon = _readflags.16?string(buffer, 0, themeEmoticon);
+    // final requestsPending = _readflags.17?int(buffer, 0, requestsPending);
+    // final recentRequesters = _readflags.17?Vector<long>(buffer, 0, recentRequesters);
+    // final availableReactions = _readflags.18?ChatReactions(buffer, 0, availableReactions);
+    // final result = ChatFull({flags: flags, canSetUsername: canSetUsername, hasScheduled: hasScheduled, translationsDisabled: translationsDisabled, id: id, about: about, participants: participants, chatPhoto: chatPhoto, notifySettings: notifySettings, exportedInvite: exportedInvite, botInfo: botInfo, pinnedMsgId: pinnedMsgId, folderId: folderId, call: call, ttlPeriod: ttlPeriod, groupcallDefaultJoinAs: groupcallDefaultJoinAs, themeEmoticon: themeEmoticon, requestsPending: requestsPending, recentRequesters: recentRequesters, availableReactions: availableReactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3069,6 +3593,62 @@ class ChannelFull extends ChatFullBase {
 
   /// Deserialize.
   factory ChannelFull.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canViewParticipants = _readflags.3?true(buffer, 0, canViewParticipants);
+    // final canSetUsername = _readflags.6?true(buffer, 0, canSetUsername);
+    // final canSetStickers = _readflags.7?true(buffer, 0, canSetStickers);
+    // final hiddenPrehistory = _readflags.10?true(buffer, 0, hiddenPrehistory);
+    // final canSetLocation = _readflags.16?true(buffer, 0, canSetLocation);
+    // final hasScheduled = _readflags.19?true(buffer, 0, hasScheduled);
+    // final canViewStats = _readflags.20?true(buffer, 0, canViewStats);
+    // final blocked = _readflags.22?true(buffer, 0, blocked);
+    // final flags2 = _read#(buffer, 0, flags2);
+    // final canDeleteChannel = _readflags2.0?true(buffer, 0, canDeleteChannel);
+    // final antispam = _readflags2.1?true(buffer, 0, antispam);
+    // final participantsHidden = _readflags2.2?true(buffer, 0, participantsHidden);
+    // final translationsDisabled = _readflags2.3?true(buffer, 0, translationsDisabled);
+    // final storiesPinnedAvailable = _readflags2.5?true(buffer, 0, storiesPinnedAvailable);
+    // final viewForumAsMessages = _readflags2.6?true(buffer, 0, viewForumAsMessages);
+    // final id = _readlong(buffer, 0, id);
+    // final about = _readstring(buffer, 0, about);
+    // final participantsCount = _readflags.0?int(buffer, 0, participantsCount);
+    // final adminsCount = _readflags.1?int(buffer, 0, adminsCount);
+    // final kickedCount = _readflags.2?int(buffer, 0, kickedCount);
+    // final bannedCount = _readflags.2?int(buffer, 0, bannedCount);
+    // final onlineCount = _readflags.13?int(buffer, 0, onlineCount);
+    // final readInboxMaxId = _readint(buffer, 0, readInboxMaxId);
+    // final readOutboxMaxId = _readint(buffer, 0, readOutboxMaxId);
+    // final unreadCount = _readint(buffer, 0, unreadCount);
+    // final chatPhoto = _readPhoto(buffer, 0, chatPhoto);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final exportedInvite = _readflags.23?ExportedChatInvite(buffer, 0, exportedInvite);
+    // final botInfo = _readVector<BotInfo>(buffer, 0, botInfo);
+    // final migratedFromChatId = _readflags.4?long(buffer, 0, migratedFromChatId);
+    // final migratedFromMaxId = _readflags.4?int(buffer, 0, migratedFromMaxId);
+    // final pinnedMsgId = _readflags.5?int(buffer, 0, pinnedMsgId);
+    // final stickerset = _readflags.8?StickerSet(buffer, 0, stickerset);
+    // final availableMinId = _readflags.9?int(buffer, 0, availableMinId);
+    // final folderId = _readflags.11?int(buffer, 0, folderId);
+    // final linkedChatId = _readflags.14?long(buffer, 0, linkedChatId);
+    // final location = _readflags.15?ChannelLocation(buffer, 0, location);
+    // final slowmodeSeconds = _readflags.17?int(buffer, 0, slowmodeSeconds);
+    // final slowmodeNextSendDate = _readflags.18?int(buffer, 0, slowmodeNextSendDate);
+    // final statsDc = _readflags.12?int(buffer, 0, statsDc);
+    // final pts = _readint(buffer, 0, pts);
+    // final call = _readflags.21?InputGroupCall(buffer, 0, call);
+    // final ttlPeriod = _readflags.24?int(buffer, 0, ttlPeriod);
+    // final pendingSuggestions = _readflags.25?Vector<string>(buffer, 0, pendingSuggestions);
+    // final groupcallDefaultJoinAs = _readflags.26?Peer(buffer, 0, groupcallDefaultJoinAs);
+    // final themeEmoticon = _readflags.27?string(buffer, 0, themeEmoticon);
+    // final requestsPending = _readflags.28?int(buffer, 0, requestsPending);
+    // final recentRequesters = _readflags.28?Vector<long>(buffer, 0, recentRequesters);
+    // final defaultSendAs = _readflags.29?Peer(buffer, 0, defaultSendAs);
+    // final availableReactions = _readflags.30?ChatReactions(buffer, 0, availableReactions);
+    // final stories = _readflags2.4?PeerStories(buffer, 0, stories);
+    // final wallpaper = _readflags2.7?WallPaper(buffer, 0, wallpaper);
+    // final result = ChannelFull({flags: flags, canViewParticipants: canViewParticipants, canSetUsername: canSetUsername, canSetStickers: canSetStickers, hiddenPrehistory: hiddenPrehistory, canSetLocation: canSetLocation, hasScheduled: hasScheduled, canViewStats: canViewStats, blocked: blocked, flags2: flags2, canDeleteChannel: canDeleteChannel, antispam: antispam, participantsHidden: participantsHidden, translationsDisabled: translationsDisabled, storiesPinnedAvailable: storiesPinnedAvailable, viewForumAsMessages: viewForumAsMessages, id: id, about: about, participantsCount: participantsCount, adminsCount: adminsCount, kickedCount: kickedCount, bannedCount: bannedCount, onlineCount: onlineCount, readInboxMaxId: readInboxMaxId, readOutboxMaxId: readOutboxMaxId, unreadCount: unreadCount, chatPhoto: chatPhoto, notifySettings: notifySettings, exportedInvite: exportedInvite, botInfo: botInfo, migratedFromChatId: migratedFromChatId, migratedFromMaxId: migratedFromMaxId, pinnedMsgId: pinnedMsgId, stickerset: stickerset, availableMinId: availableMinId, folderId: folderId, linkedChatId: linkedChatId, location: location, slowmodeSeconds: slowmodeSeconds, slowmodeNextSendDate: slowmodeNextSendDate, statsDc: statsDc, pts: pts, call: call, ttlPeriod: ttlPeriod, pendingSuggestions: pendingSuggestions, groupcallDefaultJoinAs: groupcallDefaultJoinAs, themeEmoticon: themeEmoticon, requestsPending: requestsPending, recentRequesters: recentRequesters, defaultSendAs: defaultSendAs, availableReactions: availableReactions, stories: stories, wallpaper: wallpaper,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3310,6 +3890,12 @@ class ChatParticipant extends ChatParticipantBase {
 
   /// Deserialize.
   factory ChatParticipant.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final inviterId = _readlong(buffer, 0, inviterId);
+    // final date = _readint(buffer, 0, date);
+    // final result = ChatParticipant({userId: userId, inviterId: inviterId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3343,6 +3929,10 @@ class ChatParticipantCreator extends ChatParticipantBase {
 
   /// Deserialize.
   factory ChatParticipantCreator.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = ChatParticipantCreator({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3370,6 +3960,12 @@ class ChatParticipantAdmin extends ChatParticipantBase {
 
   /// Deserialize.
   factory ChatParticipantAdmin.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final inviterId = _readlong(buffer, 0, inviterId);
+    // final date = _readint(buffer, 0, date);
+    // final result = ChatParticipantAdmin({userId: userId, inviterId: inviterId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3411,6 +4007,12 @@ class ChatParticipantsForbidden extends ChatParticipantsBase {
 
   /// Deserialize.
   factory ChatParticipantsForbidden.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final selfParticipant = _readflags.0?ChatParticipant(buffer, 0, selfParticipant);
+    // final result = ChatParticipantsForbidden({flags: flags, chatId: chatId, selfParticipant: selfParticipant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3446,6 +4048,12 @@ class ChatParticipants extends ChatParticipantsBase {
 
   /// Deserialize.
   factory ChatParticipants.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final participants = _readVector<ChatParticipant>(buffer, 0, participants);
+    // final version = _readint(buffer, 0, version);
+    // final result = ChatParticipants({chatId: chatId, participants: participants, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3483,6 +4091,9 @@ class ChatPhotoEmpty extends ChatPhotoBase {
 
   /// Deserialize.
   factory ChatPhotoEmpty.deserialize(Uint8List buffer) {
+    // final result = ChatPhotoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -3507,6 +4118,14 @@ class ChatPhoto extends ChatPhotoBase {
 
   /// Deserialize.
   factory ChatPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasVideo = _readflags.0?true(buffer, 0, hasVideo);
+    // final photoId = _readlong(buffer, 0, photoId);
+    // final strippedThumb = _readflags.1?bytes(buffer, 0, strippedThumb);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final result = ChatPhoto({flags: flags, hasVideo: hasVideo, photoId: photoId, strippedThumb: strippedThumb, dcId: dcId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3556,6 +4175,12 @@ class MessageEmpty extends MessageBase {
 
   /// Deserialize.
   factory MessageEmpty.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readint(buffer, 0, id);
+    // final peerId = _readflags.0?Peer(buffer, 0, peerId);
+    // final result = MessageEmpty({flags: flags, id: id, peerId: peerId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3610,6 +4235,42 @@ class Message extends MessageBase {
 
   /// Deserialize.
   factory Message.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final out = _readflags.1?true(buffer, 0, out);
+    // final mentioned = _readflags.4?true(buffer, 0, mentioned);
+    // final mediaUnread = _readflags.5?true(buffer, 0, mediaUnread);
+    // final silent = _readflags.13?true(buffer, 0, silent);
+    // final post = _readflags.14?true(buffer, 0, post);
+    // final fromScheduled = _readflags.18?true(buffer, 0, fromScheduled);
+    // final legacy = _readflags.19?true(buffer, 0, legacy);
+    // final editHide = _readflags.21?true(buffer, 0, editHide);
+    // final pinned = _readflags.24?true(buffer, 0, pinned);
+    // final noforwards = _readflags.26?true(buffer, 0, noforwards);
+    // final invertMedia = _readflags.27?true(buffer, 0, invertMedia);
+    // final id = _readint(buffer, 0, id);
+    // final fromId = _readflags.8?Peer(buffer, 0, fromId);
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final savedPeerId = _readflags.28?Peer(buffer, 0, savedPeerId);
+    // final fwdFrom = _readflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // final viaBotId = _readflags.11?long(buffer, 0, viaBotId);
+    // final replyTo = _readflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // final date = _readint(buffer, 0, date);
+    // final message = _readstring(buffer, 0, message);
+    // final media = _readflags.9?MessageMedia(buffer, 0, media);
+    // final replyMarkup = _readflags.6?ReplyMarkup(buffer, 0, replyMarkup);
+    // final entities = _readflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // final views = _readflags.10?int(buffer, 0, views);
+    // final forwards = _readflags.10?int(buffer, 0, forwards);
+    // final replies = _readflags.23?MessageReplies(buffer, 0, replies);
+    // final editDate = _readflags.15?int(buffer, 0, editDate);
+    // final postAuthor = _readflags.16?string(buffer, 0, postAuthor);
+    // final groupedId = _readflags.17?long(buffer, 0, groupedId);
+    // final reactions = _readflags.20?MessageReactions(buffer, 0, reactions);
+    // final restrictionReason = _readflags.22?Vector<RestrictionReason>(buffer, 0, restrictionReason);
+    // final ttlPeriod = _readflags.25?int(buffer, 0, ttlPeriod);
+    // final result = Message({flags: flags, out: out, mentioned: mentioned, mediaUnread: mediaUnread, silent: silent, post: post, fromScheduled: fromScheduled, legacy: legacy, editHide: editHide, pinned: pinned, noforwards: noforwards, invertMedia: invertMedia, id: id, fromId: fromId, peerId: peerId, savedPeerId: savedPeerId, fwdFrom: fwdFrom, viaBotId: viaBotId, replyTo: replyTo, date: date, message: message, media: media, replyMarkup: replyMarkup, entities: entities, views: views, forwards: forwards, replies: replies, editDate: editDate, postAuthor: postAuthor, groupedId: groupedId, reactions: reactions, restrictionReason: restrictionReason, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3770,6 +4431,23 @@ class MessageService extends MessageBase {
 
   /// Deserialize.
   factory MessageService.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final out = _readflags.1?true(buffer, 0, out);
+    // final mentioned = _readflags.4?true(buffer, 0, mentioned);
+    // final mediaUnread = _readflags.5?true(buffer, 0, mediaUnread);
+    // final silent = _readflags.13?true(buffer, 0, silent);
+    // final post = _readflags.14?true(buffer, 0, post);
+    // final legacy = _readflags.19?true(buffer, 0, legacy);
+    // final id = _readint(buffer, 0, id);
+    // final fromId = _readflags.8?Peer(buffer, 0, fromId);
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final replyTo = _readflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // final date = _readint(buffer, 0, date);
+    // final action = _readMessageAction(buffer, 0, action);
+    // final ttlPeriod = _readflags.25?int(buffer, 0, ttlPeriod);
+    // final result = MessageService({flags: flags, out: out, mentioned: mentioned, mediaUnread: mediaUnread, silent: silent, post: post, legacy: legacy, id: id, fromId: fromId, peerId: peerId, replyTo: replyTo, date: date, action: action, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3851,6 +4529,9 @@ class MessageMediaEmpty extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaEmpty.deserialize(Uint8List buffer) {
+    // final result = MessageMediaEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -3874,6 +4555,13 @@ class MessageMediaPhoto extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final spoiler = _readflags.3?true(buffer, 0, spoiler);
+    // final photo = _readflags.0?Photo(buffer, 0, photo);
+    // final ttlSeconds = _readflags.2?int(buffer, 0, ttlSeconds);
+    // final result = MessageMediaPhoto({flags: flags, spoiler: spoiler, photo: photo, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3911,6 +4599,10 @@ class MessageMediaGeo extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaGeo.deserialize(Uint8List buffer) {
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final result = MessageMediaGeo({geo: geo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3940,6 +4632,14 @@ class MessageMediaContact extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaContact.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final vcard = _readstring(buffer, 0, vcard);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = MessageMediaContact({phoneNumber: phoneNumber, firstName: firstName, lastName: lastName, vcard: vcard, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -3979,6 +4679,9 @@ class MessageMediaUnsupported extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaUnsupported.deserialize(Uint8List buffer) {
+    // final result = MessageMediaUnsupported();
+    // return result;
+
     throw Exception();
   }
 
@@ -4003,6 +4706,18 @@ class MessageMediaDocument extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaDocument.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final nopremium = _readflags.3?true(buffer, 0, nopremium);
+    // final spoiler = _readflags.4?true(buffer, 0, spoiler);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final round = _readflags.7?true(buffer, 0, round);
+    // final voice = _readflags.8?true(buffer, 0, voice);
+    // final document = _readflags.0?Document(buffer, 0, document);
+    // final altDocument = _readflags.5?Document(buffer, 0, altDocument);
+    // final ttlSeconds = _readflags.2?int(buffer, 0, ttlSeconds);
+    // final result = MessageMediaDocument({flags: flags, nopremium: nopremium, spoiler: spoiler, video: video, round: round, voice: voice, document: document, altDocument: altDocument, ttlSeconds: ttlSeconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4061,6 +4776,15 @@ class MessageMediaWebPage extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaWebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forceLargeMedia = _readflags.0?true(buffer, 0, forceLargeMedia);
+    // final forceSmallMedia = _readflags.1?true(buffer, 0, forceSmallMedia);
+    // final manual = _readflags.3?true(buffer, 0, manual);
+    // final safe = _readflags.4?true(buffer, 0, safe);
+    // final webpage = _readWebPage(buffer, 0, webpage);
+    // final result = MessageMediaWebPage({flags: flags, forceLargeMedia: forceLargeMedia, forceSmallMedia: forceSmallMedia, manual: manual, safe: safe, webpage: webpage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4111,6 +4835,15 @@ class MessageMediaVenue extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaVenue.deserialize(Uint8List buffer) {
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final title = _readstring(buffer, 0, title);
+    // final address = _readstring(buffer, 0, address);
+    // final provider = _readstring(buffer, 0, provider);
+    // final venueId = _readstring(buffer, 0, venueId);
+    // final venueType = _readstring(buffer, 0, venueType);
+    // final result = MessageMediaVenue({geo: geo, title: title, address: address, provider: provider, venueId: venueId, venueType: venueType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4156,6 +4889,10 @@ class MessageMediaGame extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaGame.deserialize(Uint8List buffer) {
+    // final game = _readGame(buffer, 0, game);
+    // final result = MessageMediaGame({game: game,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4189,6 +4926,20 @@ class MessageMediaInvoice extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaInvoice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final shippingAddressRequested = _readflags.1?true(buffer, 0, shippingAddressRequested);
+    // final test = _readflags.3?true(buffer, 0, test);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.0?WebDocument(buffer, 0, photo);
+    // final receiptMsgId = _readflags.2?int(buffer, 0, receiptMsgId);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final startParam = _readstring(buffer, 0, startParam);
+    // final extendedMedia = _readflags.4?MessageExtendedMedia(buffer, 0, extendedMedia);
+    // final result = MessageMediaInvoice({flags: flags, shippingAddressRequested: shippingAddressRequested, test: test, title: title, description: description, photo: photo, receiptMsgId: receiptMsgId, currency: currency, totalAmount: totalAmount, startParam: startParam, extendedMedia: extendedMedia,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4258,6 +5009,14 @@ class MessageMediaGeoLive extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaGeoLive.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final heading = _readflags.0?int(buffer, 0, heading);
+    // final period = _readint(buffer, 0, period);
+    // final proximityNotificationRadius = _readflags.1?int(buffer, 0, proximityNotificationRadius);
+    // final result = MessageMediaGeoLive({flags: flags, geo: geo, heading: heading, period: period, proximityNotificationRadius: proximityNotificationRadius,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4300,6 +5059,11 @@ class MessageMediaPoll extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaPoll.deserialize(Uint8List buffer) {
+    // final poll = _readPoll(buffer, 0, poll);
+    // final results = _readPollResults(buffer, 0, results);
+    // final result = MessageMediaPoll({poll: poll, results: results,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4330,6 +5094,11 @@ class MessageMediaDice extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaDice.deserialize(Uint8List buffer) {
+    // final value = _readint(buffer, 0, value);
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = MessageMediaDice({value: value, emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4362,6 +5131,14 @@ class MessageMediaStory extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaStory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaMention = _readflags.1?true(buffer, 0, viaMention);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final story = _readflags.0?StoryItem(buffer, 0, story);
+    // final result = MessageMediaStory({flags: flags, viaMention: viaMention, peer: peer, id: id, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4409,6 +5186,18 @@ class MessageMediaGiveaway extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaGiveaway.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final onlyNewSubscribers = _readflags.0?true(buffer, 0, onlyNewSubscribers);
+    // final winnersAreVisible = _readflags.2?true(buffer, 0, winnersAreVisible);
+    // final channels = _readVector<long>(buffer, 0, channels);
+    // final countriesIso2 = _readflags.1?Vector<string>(buffer, 0, countriesIso2);
+    // final prizeDescription = _readflags.3?string(buffer, 0, prizeDescription);
+    // final quantity = _readint(buffer, 0, quantity);
+    // final months = _readint(buffer, 0, months);
+    // final untilDate = _readint(buffer, 0, untilDate);
+    // final result = MessageMediaGiveaway({flags: flags, onlyNewSubscribers: onlyNewSubscribers, winnersAreVisible: winnersAreVisible, channels: channels, countriesIso2: countriesIso2, prizeDescription: prizeDescription, quantity: quantity, months: months, untilDate: untilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4475,6 +5264,21 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
 
   /// Deserialize.
   factory MessageMediaGiveawayResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final onlyNewSubscribers = _readflags.0?true(buffer, 0, onlyNewSubscribers);
+    // final refunded = _readflags.2?true(buffer, 0, refunded);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final additionalPeersCount = _readflags.3?int(buffer, 0, additionalPeersCount);
+    // final launchMsgId = _readint(buffer, 0, launchMsgId);
+    // final winnersCount = _readint(buffer, 0, winnersCount);
+    // final unclaimedCount = _readint(buffer, 0, unclaimedCount);
+    // final winners = _readVector<long>(buffer, 0, winners);
+    // final months = _readint(buffer, 0, months);
+    // final prizeDescription = _readflags.1?string(buffer, 0, prizeDescription);
+    // final untilDate = _readint(buffer, 0, untilDate);
+    // final result = MessageMediaGiveawayResults({flags: flags, onlyNewSubscribers: onlyNewSubscribers, refunded: refunded, channelId: channelId, additionalPeersCount: additionalPeersCount, launchMsgId: launchMsgId, winnersCount: winnersCount, unclaimedCount: unclaimedCount, winners: winners, months: months, prizeDescription: prizeDescription, untilDate: untilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4548,6 +5352,9 @@ class MessageActionEmpty extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionEmpty.deserialize(Uint8List buffer) {
+    // final result = MessageActionEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -4570,6 +5377,11 @@ class MessageActionChatCreate extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatCreate.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final users = _readVector<long>(buffer, 0, users);
+    // final result = MessageActionChatCreate({title: title, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4599,6 +5411,10 @@ class MessageActionChatEditTitle extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatEditTitle.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final result = MessageActionChatEditTitle({title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4624,6 +5440,10 @@ class MessageActionChatEditPhoto extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatEditPhoto.deserialize(Uint8List buffer) {
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final result = MessageActionChatEditPhoto({photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4647,6 +5467,9 @@ class MessageActionChatDeletePhoto extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatDeletePhoto.deserialize(Uint8List buffer) {
+    // final result = MessageActionChatDeletePhoto();
+    // return result;
+
     throw Exception();
   }
 
@@ -4668,6 +5491,10 @@ class MessageActionChatAddUser extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatAddUser.deserialize(Uint8List buffer) {
+    // final users = _readVector<long>(buffer, 0, users);
+    // final result = MessageActionChatAddUser({users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4693,6 +5520,10 @@ class MessageActionChatDeleteUser extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatDeleteUser.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = MessageActionChatDeleteUser({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4718,6 +5549,10 @@ class MessageActionChatJoinedByLink extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatJoinedByLink.deserialize(Uint8List buffer) {
+    // final inviterId = _readlong(buffer, 0, inviterId);
+    // final result = MessageActionChatJoinedByLink({inviterId: inviterId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4743,6 +5578,10 @@ class MessageActionChannelCreate extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChannelCreate.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final result = MessageActionChannelCreate({title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4768,6 +5607,10 @@ class MessageActionChatMigrateTo extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatMigrateTo.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final result = MessageActionChatMigrateTo({channelId: channelId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4794,6 +5637,11 @@ class MessageActionChannelMigrateFrom extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChannelMigrateFrom.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = MessageActionChannelMigrateFrom({title: title, chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4821,6 +5669,9 @@ class MessageActionPinMessage extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionPinMessage.deserialize(Uint8List buffer) {
+    // final result = MessageActionPinMessage();
+    // return result;
+
     throw Exception();
   }
 
@@ -4840,6 +5691,9 @@ class MessageActionHistoryClear extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionHistoryClear.deserialize(Uint8List buffer) {
+    // final result = MessageActionHistoryClear();
+    // return result;
+
     throw Exception();
   }
 
@@ -4862,6 +5716,11 @@ class MessageActionGameScore extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGameScore.deserialize(Uint8List buffer) {
+    // final gameId = _readlong(buffer, 0, gameId);
+    // final score = _readint(buffer, 0, score);
+    // final result = MessageActionGameScore({gameId: gameId, score: score,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4897,6 +5756,18 @@ class MessageActionPaymentSentMe extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionPaymentSentMe.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final recurringInit = _readflags.2?true(buffer, 0, recurringInit);
+    // final recurringUsed = _readflags.3?true(buffer, 0, recurringUsed);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final payload = _readbytes(buffer, 0, payload);
+    // final info = _readflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // final shippingOptionId = _readflags.1?string(buffer, 0, shippingOptionId);
+    // final charge = _readPaymentCharge(buffer, 0, charge);
+    // final result = MessageActionPaymentSentMe({flags: flags, recurringInit: recurringInit, recurringUsed: recurringUsed, currency: currency, totalAmount: totalAmount, payload: payload, info: info, shippingOptionId: shippingOptionId, charge: charge,});
+    // return result;
+
     throw Exception();
   }
 
@@ -4957,6 +5828,15 @@ class MessageActionPaymentSent extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionPaymentSent.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final recurringInit = _readflags.2?true(buffer, 0, recurringInit);
+    // final recurringUsed = _readflags.3?true(buffer, 0, recurringUsed);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final invoiceSlug = _readflags.0?string(buffer, 0, invoiceSlug);
+    // final result = MessageActionPaymentSent({flags: flags, recurringInit: recurringInit, recurringUsed: recurringUsed, currency: currency, totalAmount: totalAmount, invoiceSlug: invoiceSlug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5005,6 +5885,14 @@ class MessageActionPhoneCall extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionPhoneCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.2?true(buffer, 0, video);
+    // final callId = _readlong(buffer, 0, callId);
+    // final reason = _readflags.0?PhoneCallDiscardReason(buffer, 0, reason);
+    // final duration = _readflags.1?int(buffer, 0, duration);
+    // final result = MessageActionPhoneCall({flags: flags, video: video, callId: callId, reason: reason, duration: duration,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5044,6 +5932,9 @@ class MessageActionScreenshotTaken extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionScreenshotTaken.deserialize(Uint8List buffer) {
+    // final result = MessageActionScreenshotTaken();
+    // return result;
+
     throw Exception();
   }
 
@@ -5065,6 +5956,10 @@ class MessageActionCustomAction extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionCustomAction.deserialize(Uint8List buffer) {
+    // final message = _readstring(buffer, 0, message);
+    // final result = MessageActionCustomAction({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5092,6 +5987,14 @@ class MessageActionBotAllowed extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionBotAllowed.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final attachMenu = _readflags.1?true(buffer, 0, attachMenu);
+    // final fromRequest = _readflags.3?true(buffer, 0, fromRequest);
+    // final domain = _readflags.0?string(buffer, 0, domain);
+    // final app = _readflags.2?BotApp(buffer, 0, app);
+    // final result = MessageActionBotAllowed({flags: flags, attachMenu: attachMenu, fromRequest: fromRequest, domain: domain, app: app,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5134,6 +6037,11 @@ class MessageActionSecureValuesSentMe extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSecureValuesSentMe.deserialize(Uint8List buffer) {
+    // final values = _readVector<SecureValue>(buffer, 0, values);
+    // final credentials = _readSecureCredentialsEncrypted(buffer, 0, credentials);
+    // final result = MessageActionSecureValuesSentMe({values: values, credentials: credentials,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5163,6 +6071,10 @@ class MessageActionSecureValuesSent extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSecureValuesSent.deserialize(Uint8List buffer) {
+    // final types = _readVector<SecureValueType>(buffer, 0, types);
+    // final result = MessageActionSecureValuesSent({types: types,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5186,6 +6098,9 @@ class MessageActionContactSignUp extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionContactSignUp.deserialize(Uint8List buffer) {
+    // final result = MessageActionContactSignUp();
+    // return result;
+
     throw Exception();
   }
 
@@ -5209,6 +6124,12 @@ class MessageActionGeoProximityReached extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGeoProximityReached.deserialize(Uint8List buffer) {
+    // final fromId = _readPeer(buffer, 0, fromId);
+    // final toId = _readPeer(buffer, 0, toId);
+    // final distance = _readint(buffer, 0, distance);
+    // final result = MessageActionGeoProximityReached({fromId: fromId, toId: toId, distance: distance,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5244,6 +6165,12 @@ class MessageActionGroupCall extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGroupCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final duration = _readflags.0?int(buffer, 0, duration);
+    // final result = MessageActionGroupCall({flags: flags, call: call, duration: duration,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5278,6 +6205,11 @@ class MessageActionInviteToGroupCall extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionInviteToGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final users = _readVector<long>(buffer, 0, users);
+    // final result = MessageActionInviteToGroupCall({call: call, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5309,6 +6241,12 @@ class MessageActionSetMessagesTTL extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSetMessagesTTL.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final period = _readint(buffer, 0, period);
+    // final autoSettingFrom = _readflags.0?long(buffer, 0, autoSettingFrom);
+    // final result = MessageActionSetMessagesTTL({flags: flags, period: period, autoSettingFrom: autoSettingFrom,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5343,6 +6281,11 @@ class MessageActionGroupCallScheduled extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGroupCallScheduled.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final scheduleDate = _readint(buffer, 0, scheduleDate);
+    // final result = MessageActionGroupCallScheduled({call: call, scheduleDate: scheduleDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5372,6 +6315,10 @@ class MessageActionSetChatTheme extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSetChatTheme.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = MessageActionSetChatTheme({emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5395,6 +6342,9 @@ class MessageActionChatJoinedByRequest extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionChatJoinedByRequest.deserialize(Uint8List buffer) {
+    // final result = MessageActionChatJoinedByRequest();
+    // return result;
+
     throw Exception();
   }
 
@@ -5417,6 +6367,11 @@ class MessageActionWebViewDataSentMe extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionWebViewDataSentMe.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final data = _readstring(buffer, 0, data);
+    // final result = MessageActionWebViewDataSentMe({text: text, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5446,6 +6401,10 @@ class MessageActionWebViewDataSent extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionWebViewDataSent.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = MessageActionWebViewDataSent({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5476,6 +6435,15 @@ class MessageActionGiftPremium extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGiftPremium.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final months = _readint(buffer, 0, months);
+    // final cryptoCurrency = _readflags.0?string(buffer, 0, cryptoCurrency);
+    // final cryptoAmount = _readflags.0?long(buffer, 0, cryptoAmount);
+    // final result = MessageActionGiftPremium({flags: flags, currency: currency, amount: amount, months: months, cryptoCurrency: cryptoCurrency, cryptoAmount: cryptoAmount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5524,6 +6492,13 @@ class MessageActionTopicCreate extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionTopicCreate.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readstring(buffer, 0, title);
+    // final iconColor = _readint(buffer, 0, iconColor);
+    // final iconEmojiId = _readflags.0?long(buffer, 0, iconEmojiId);
+    // final result = MessageActionTopicCreate({flags: flags, title: title, iconColor: iconColor, iconEmojiId: iconEmojiId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5565,6 +6540,14 @@ class MessageActionTopicEdit extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionTopicEdit.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readflags.0?string(buffer, 0, title);
+    // final iconEmojiId = _readflags.1?long(buffer, 0, iconEmojiId);
+    // final closed = _readflags.2?Bool(buffer, 0, closed);
+    // final hidden = _readflags.3?Bool(buffer, 0, hidden);
+    // final result = MessageActionTopicEdit({flags: flags, title: title, iconEmojiId: iconEmojiId, closed: closed, hidden: hidden,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5606,6 +6589,10 @@ class MessageActionSuggestProfilePhoto extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSuggestProfilePhoto.deserialize(Uint8List buffer) {
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final result = MessageActionSuggestProfilePhoto({photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5632,6 +6619,11 @@ class MessageActionRequestedPeer extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionRequestedPeer.deserialize(Uint8List buffer) {
+    // final buttonId = _readint(buffer, 0, buttonId);
+    // final peers = _readVector<Peer>(buffer, 0, peers);
+    // final result = MessageActionRequestedPeer({buttonId: buttonId, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5662,6 +6654,13 @@ class MessageActionSetChatWallPaper extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionSetChatWallPaper.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final same = _readflags.0?true(buffer, 0, same);
+    // final forBoth = _readflags.1?true(buffer, 0, forBoth);
+    // final wallpaper = _readWallPaper(buffer, 0, wallpaper);
+    // final result = MessageActionSetChatWallPaper({flags: flags, same: same, forBoth: forBoth, wallpaper: wallpaper,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5706,6 +6705,19 @@ class MessageActionGiftCode extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGiftCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaGiveaway = _readflags.0?true(buffer, 0, viaGiveaway);
+    // final unclaimed = _readflags.2?true(buffer, 0, unclaimed);
+    // final boostPeer = _readflags.1?Peer(buffer, 0, boostPeer);
+    // final months = _readint(buffer, 0, months);
+    // final slug = _readstring(buffer, 0, slug);
+    // final currency = _readflags.2?string(buffer, 0, currency);
+    // final amount = _readflags.2?long(buffer, 0, amount);
+    // final cryptoCurrency = _readflags.3?string(buffer, 0, cryptoCurrency);
+    // final cryptoAmount = _readflags.3?long(buffer, 0, cryptoAmount);
+    // final result = MessageActionGiftCode({flags: flags, viaGiveaway: viaGiveaway, unclaimed: unclaimed, boostPeer: boostPeer, months: months, slug: slug, currency: currency, amount: amount, cryptoCurrency: cryptoCurrency, cryptoAmount: cryptoAmount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5765,6 +6777,9 @@ class MessageActionGiveawayLaunch extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGiveawayLaunch.deserialize(Uint8List buffer) {
+    // final result = MessageActionGiveawayLaunch();
+    // return result;
+
     throw Exception();
   }
 
@@ -5787,6 +6802,11 @@ class MessageActionGiveawayResults extends MessageActionBase {
 
   /// Deserialize.
   factory MessageActionGiveawayResults.deserialize(Uint8List buffer) {
+    // final winnersCount = _readint(buffer, 0, winnersCount);
+    // final unclaimedCount = _readint(buffer, 0, unclaimedCount);
+    // final result = MessageActionGiveawayResults({winnersCount: winnersCount, unclaimedCount: unclaimedCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5834,6 +6854,25 @@ class Dialog extends DialogBase {
 
   /// Deserialize.
   factory Dialog.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.2?true(buffer, 0, pinned);
+    // final unreadMark = _readflags.3?true(buffer, 0, unreadMark);
+    // final viewForumAsMessages = _readflags.6?true(buffer, 0, viewForumAsMessages);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final topMessage = _readint(buffer, 0, topMessage);
+    // final readInboxMaxId = _readint(buffer, 0, readInboxMaxId);
+    // final readOutboxMaxId = _readint(buffer, 0, readOutboxMaxId);
+    // final unreadCount = _readint(buffer, 0, unreadCount);
+    // final unreadMentionsCount = _readint(buffer, 0, unreadMentionsCount);
+    // final unreadReactionsCount = _readint(buffer, 0, unreadReactionsCount);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final pts = _readflags.0?int(buffer, 0, pts);
+    // final draft = _readflags.1?DraftMessage(buffer, 0, draft);
+    // final folderId = _readflags.4?int(buffer, 0, folderId);
+    // final ttlPeriod = _readflags.5?int(buffer, 0, ttlPeriod);
+    // final result = Dialog({flags: flags, pinned: pinned, unreadMark: unreadMark, viewForumAsMessages: viewForumAsMessages, peer: peer, topMessage: topMessage, readInboxMaxId: readInboxMaxId, readOutboxMaxId: readOutboxMaxId, unreadCount: unreadCount, unreadMentionsCount: unreadMentionsCount, unreadReactionsCount: unreadReactionsCount, notifySettings: notifySettings, pts: pts, draft: draft, folderId: folderId, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5926,6 +6965,18 @@ class DialogFolder extends DialogBase {
 
   /// Deserialize.
   factory DialogFolder.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.2?true(buffer, 0, pinned);
+    // final folder = _readFolder(buffer, 0, folder);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final topMessage = _readint(buffer, 0, topMessage);
+    // final unreadMutedPeersCount = _readint(buffer, 0, unreadMutedPeersCount);
+    // final unreadUnmutedPeersCount = _readint(buffer, 0, unreadUnmutedPeersCount);
+    // final unreadMutedMessagesCount = _readint(buffer, 0, unreadMutedMessagesCount);
+    // final unreadUnmutedMessagesCount = _readint(buffer, 0, unreadUnmutedMessagesCount);
+    // final result = DialogFolder({flags: flags, pinned: pinned, folder: folder, peer: peer, topMessage: topMessage, unreadMutedPeersCount: unreadMutedPeersCount, unreadUnmutedPeersCount: unreadUnmutedPeersCount, unreadMutedMessagesCount: unreadMutedMessagesCount, unreadUnmutedMessagesCount: unreadUnmutedMessagesCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -5989,6 +7040,10 @@ class PhotoEmpty extends PhotoBase {
 
   /// Deserialize.
   factory PhotoEmpty.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = PhotoEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6021,6 +7076,18 @@ class Photo extends PhotoBase {
 
   /// Deserialize.
   factory Photo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasStickers = _readflags.0?true(buffer, 0, hasStickers);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final date = _readint(buffer, 0, date);
+    // final sizes = _readVector<PhotoSize>(buffer, 0, sizes);
+    // final videoSizes = _readflags.1?Vector<VideoSize>(buffer, 0, videoSizes);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final result = Photo({flags: flags, hasStickers: hasStickers, id: id, accessHash: accessHash, fileReference: fileReference, date: date, sizes: sizes, videoSizes: videoSizes, dcId: dcId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6084,6 +7151,10 @@ class PhotoSizeEmpty extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoSizeEmpty.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final result = PhotoSizeEmpty({type: type,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6112,6 +7183,13 @@ class PhotoSize extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoSize.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final size = _readint(buffer, 0, size);
+    // final result = PhotoSize({type: type, w: w, h: h, size: size,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6152,6 +7230,13 @@ class PhotoCachedSize extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoCachedSize.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = PhotoCachedSize({type: type, w: w, h: h, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6190,6 +7275,11 @@ class PhotoStrippedSize extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoStrippedSize.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = PhotoStrippedSize({type: type, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6222,6 +7312,13 @@ class PhotoSizeProgressive extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoSizeProgressive.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final sizes = _readVector<int>(buffer, 0, sizes);
+    // final result = PhotoSizeProgressive({type: type, w: w, h: h, sizes: sizes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6260,6 +7357,11 @@ class PhotoPathSize extends PhotoSizeBase {
 
   /// Deserialize.
   factory PhotoPathSize.deserialize(Uint8List buffer) {
+    // final type = _readstring(buffer, 0, type);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = PhotoPathSize({type: type, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6293,6 +7395,9 @@ class GeoPointEmpty extends GeoPointBase {
 
   /// Deserialize.
   factory GeoPointEmpty.deserialize(Uint8List buffer) {
+    // final result = GeoPointEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -6318,6 +7423,14 @@ class GeoPoint extends GeoPointBase {
 
   /// Deserialize.
   factory GeoPoint.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final long = _readdouble(buffer, 0, long);
+    // final lat = _readdouble(buffer, 0, lat);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final accuracyRadius = _readflags.0?int(buffer, 0, accuracyRadius);
+    // final result = GeoPoint({flags: flags, long: long, lat: lat, accessHash: accessHash, accuracyRadius: accuracyRadius,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6369,6 +7482,14 @@ class AuthSentCode extends AuthSentCodeBase {
 
   /// Deserialize.
   factory AuthSentCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final type = _readauth.SentCodeType(buffer, 0, type);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final nextType = _readflags.1?auth.CodeType(buffer, 0, nextType);
+    // final timeout = _readflags.2?int(buffer, 0, timeout);
+    // final result = AuthSentCode({flags: flags, type: type, phoneCodeHash: phoneCodeHash, nextType: nextType, timeout: timeout,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6410,6 +7531,10 @@ class AuthSentCodeSuccess extends AuthSentCodeBase {
 
   /// Deserialize.
   factory AuthSentCodeSuccess.deserialize(Uint8List buffer) {
+    // final authorization = _readauth.Authorization(buffer, 0, authorization);
+    // final result = AuthSentCodeSuccess({authorization: authorization,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6445,6 +7570,15 @@ class AuthAuthorization extends AuthAuthorizationBase {
 
   /// Deserialize.
   factory AuthAuthorization.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final setupPasswordRequired = _readflags.1?true(buffer, 0, setupPasswordRequired);
+    // final otherwiseReloginDays = _readflags.1?int(buffer, 0, otherwiseReloginDays);
+    // final tmpSessions = _readflags.0?int(buffer, 0, tmpSessions);
+    // final futureAuthToken = _readflags.2?bytes(buffer, 0, futureAuthToken);
+    // final user = _readUser(buffer, 0, user);
+    // final result = AuthAuthorization({flags: flags, setupPasswordRequired: setupPasswordRequired, otherwiseReloginDays: otherwiseReloginDays, tmpSessions: tmpSessions, futureAuthToken: futureAuthToken, user: user,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6491,6 +7625,11 @@ class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
 
   /// Deserialize.
   factory AuthAuthorizationSignUpRequired.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final termsOfService = _readflags.0?help.TermsOfService(buffer, 0, termsOfService);
+    // final result = AuthAuthorizationSignUpRequired({flags: flags, termsOfService: termsOfService,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6527,6 +7666,11 @@ class AuthExportedAuthorization extends AuthExportedAuthorizationBase {
 
   /// Deserialize.
   factory AuthExportedAuthorization.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = AuthExportedAuthorization({id: id, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6562,6 +7706,10 @@ class InputNotifyPeer extends InputNotifyPeerBase {
 
   /// Deserialize.
   factory InputNotifyPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = InputNotifyPeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6585,6 +7733,9 @@ class InputNotifyUsers extends InputNotifyPeerBase {
 
   /// Deserialize.
   factory InputNotifyUsers.deserialize(Uint8List buffer) {
+    // final result = InputNotifyUsers();
+    // return result;
+
     throw Exception();
   }
 
@@ -6604,6 +7755,9 @@ class InputNotifyChats extends InputNotifyPeerBase {
 
   /// Deserialize.
   factory InputNotifyChats.deserialize(Uint8List buffer) {
+    // final result = InputNotifyChats();
+    // return result;
+
     throw Exception();
   }
 
@@ -6623,6 +7777,9 @@ class InputNotifyBroadcasts extends InputNotifyPeerBase {
 
   /// Deserialize.
   factory InputNotifyBroadcasts.deserialize(Uint8List buffer) {
+    // final result = InputNotifyBroadcasts();
+    // return result;
+
     throw Exception();
   }
 
@@ -6645,6 +7802,11 @@ class InputNotifyForumTopic extends InputNotifyPeerBase {
 
   /// Deserialize.
   factory InputNotifyForumTopic.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readint(buffer, 0, topMsgId);
+    // final result = InputNotifyForumTopic({peer: peer, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6687,6 +7849,17 @@ class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
 
   /// Deserialize.
   factory InputPeerNotifySettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final showPreviews = _readflags.0?Bool(buffer, 0, showPreviews);
+    // final silent = _readflags.1?Bool(buffer, 0, silent);
+    // final muteUntil = _readflags.2?int(buffer, 0, muteUntil);
+    // final sound = _readflags.3?NotificationSound(buffer, 0, sound);
+    // final storiesMuted = _readflags.6?Bool(buffer, 0, storiesMuted);
+    // final storiesHideSender = _readflags.7?Bool(buffer, 0, storiesHideSender);
+    // final storiesSound = _readflags.8?NotificationSound(buffer, 0, storiesSound);
+    // final result = InputPeerNotifySettings({flags: flags, showPreviews: showPreviews, silent: silent, muteUntil: muteUntil, sound: sound, storiesMuted: storiesMuted, storiesHideSender: storiesHideSender, storiesSound: storiesSound,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6757,6 +7930,21 @@ class PeerNotifySettings extends PeerNotifySettingsBase {
 
   /// Deserialize.
   factory PeerNotifySettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final showPreviews = _readflags.0?Bool(buffer, 0, showPreviews);
+    // final silent = _readflags.1?Bool(buffer, 0, silent);
+    // final muteUntil = _readflags.2?int(buffer, 0, muteUntil);
+    // final iosSound = _readflags.3?NotificationSound(buffer, 0, iosSound);
+    // final androidSound = _readflags.4?NotificationSound(buffer, 0, androidSound);
+    // final otherSound = _readflags.5?NotificationSound(buffer, 0, otherSound);
+    // final storiesMuted = _readflags.6?Bool(buffer, 0, storiesMuted);
+    // final storiesHideSender = _readflags.7?Bool(buffer, 0, storiesHideSender);
+    // final storiesIosSound = _readflags.8?NotificationSound(buffer, 0, storiesIosSound);
+    // final storiesAndroidSound = _readflags.9?NotificationSound(buffer, 0, storiesAndroidSound);
+    // final storiesOtherSound = _readflags.10?NotificationSound(buffer, 0, storiesOtherSound);
+    // final result = PeerNotifySettings({flags: flags, showPreviews: showPreviews, silent: silent, muteUntil: muteUntil, iosSound: iosSound, androidSound: androidSound, otherSound: otherSound, storiesMuted: storiesMuted, storiesHideSender: storiesHideSender, storiesIosSound: storiesIosSound, storiesAndroidSound: storiesAndroidSound, storiesOtherSound: storiesOtherSound,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6835,6 +8023,22 @@ class PeerSettings extends PeerSettingsBase {
 
   /// Deserialize.
   factory PeerSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final reportSpam = _readflags.0?true(buffer, 0, reportSpam);
+    // final addContact = _readflags.1?true(buffer, 0, addContact);
+    // final blockContact = _readflags.2?true(buffer, 0, blockContact);
+    // final shareContact = _readflags.3?true(buffer, 0, shareContact);
+    // final needContactsException = _readflags.4?true(buffer, 0, needContactsException);
+    // final reportGeo = _readflags.5?true(buffer, 0, reportGeo);
+    // final autoarchived = _readflags.7?true(buffer, 0, autoarchived);
+    // final inviteMembers = _readflags.8?true(buffer, 0, inviteMembers);
+    // final requestChatBroadcast = _readflags.10?true(buffer, 0, requestChatBroadcast);
+    // final geoDistance = _readflags.6?int(buffer, 0, geoDistance);
+    // final requestChatTitle = _readflags.9?string(buffer, 0, requestChatTitle);
+    // final requestChatDate = _readflags.9?int(buffer, 0, requestChatDate);
+    // final result = PeerSettings({flags: flags, reportSpam: reportSpam, addContact: addContact, blockContact: blockContact, shareContact: shareContact, needContactsException: needContactsException, reportGeo: reportGeo, autoarchived: autoarchived, inviteMembers: inviteMembers, requestChatBroadcast: requestChatBroadcast, geoDistance: geoDistance, requestChatTitle: requestChatTitle, requestChatDate: requestChatDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6919,6 +8123,19 @@ class WallPaper extends WallPaperBase {
 
   /// Deserialize.
   factory WallPaper.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final ddefault = _readflags.1?true(buffer, 0, ddefault);
+    // final pattern = _readflags.3?true(buffer, 0, pattern);
+    // final dark = _readflags.4?true(buffer, 0, dark);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final slug = _readstring(buffer, 0, slug);
+    // final document = _readDocument(buffer, 0, document);
+    // final settings = _readflags.2?WallPaperSettings(buffer, 0, settings);
+    // final result = WallPaper({id: id, flags: flags, creator: creator, ddefault: ddefault, pattern: pattern, dark: dark, accessHash: accessHash, slug: slug, document: document, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -6982,6 +8199,14 @@ class WallPaperNoFile extends WallPaperBase {
 
   /// Deserialize.
   factory WallPaperNoFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final flags = _read#(buffer, 0, flags);
+    // final ddefault = _readflags.1?true(buffer, 0, ddefault);
+    // final dark = _readflags.4?true(buffer, 0, dark);
+    // final settings = _readflags.2?WallPaperSettings(buffer, 0, settings);
+    // final result = WallPaperNoFile({id: id, flags: flags, ddefault: ddefault, dark: dark, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7027,6 +8252,9 @@ class InputReportReasonSpam extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonSpam.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonSpam();
+    // return result;
+
     throw Exception();
   }
 
@@ -7046,6 +8274,9 @@ class InputReportReasonViolence extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonViolence.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonViolence();
+    // return result;
+
     throw Exception();
   }
 
@@ -7065,6 +8296,9 @@ class InputReportReasonPornography extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonPornography.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonPornography();
+    // return result;
+
     throw Exception();
   }
 
@@ -7084,6 +8318,9 @@ class InputReportReasonChildAbuse extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonChildAbuse.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonChildAbuse();
+    // return result;
+
     throw Exception();
   }
 
@@ -7103,6 +8340,9 @@ class InputReportReasonOther extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonOther.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonOther();
+    // return result;
+
     throw Exception();
   }
 
@@ -7122,6 +8362,9 @@ class InputReportReasonCopyright extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonCopyright.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonCopyright();
+    // return result;
+
     throw Exception();
   }
 
@@ -7141,6 +8384,9 @@ class InputReportReasonGeoIrrelevant extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonGeoIrrelevant.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonGeoIrrelevant();
+    // return result;
+
     throw Exception();
   }
 
@@ -7160,6 +8406,9 @@ class InputReportReasonFake extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonFake.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonFake();
+    // return result;
+
     throw Exception();
   }
 
@@ -7179,6 +8428,9 @@ class InputReportReasonIllegalDrugs extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonIllegalDrugs.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonIllegalDrugs();
+    // return result;
+
     throw Exception();
   }
 
@@ -7198,6 +8450,9 @@ class InputReportReasonPersonalDetails extends ReportReasonBase {
 
   /// Deserialize.
   factory InputReportReasonPersonalDetails.deserialize(Uint8List buffer) {
+    // final result = InputReportReasonPersonalDetails();
+    // return result;
+
     throw Exception();
   }
 
@@ -7244,6 +8499,40 @@ class UserFull extends UserFullBase {
 
   /// Deserialize.
   factory UserFull.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blocked = _readflags.0?true(buffer, 0, blocked);
+    // final phoneCallsAvailable = _readflags.4?true(buffer, 0, phoneCallsAvailable);
+    // final phoneCallsPrivate = _readflags.5?true(buffer, 0, phoneCallsPrivate);
+    // final canPinMessage = _readflags.7?true(buffer, 0, canPinMessage);
+    // final hasScheduled = _readflags.12?true(buffer, 0, hasScheduled);
+    // final videoCallsAvailable = _readflags.13?true(buffer, 0, videoCallsAvailable);
+    // final voiceMessagesForbidden = _readflags.20?true(buffer, 0, voiceMessagesForbidden);
+    // final translationsDisabled = _readflags.23?true(buffer, 0, translationsDisabled);
+    // final storiesPinnedAvailable = _readflags.26?true(buffer, 0, storiesPinnedAvailable);
+    // final blockedMyStoriesFrom = _readflags.27?true(buffer, 0, blockedMyStoriesFrom);
+    // final wallpaperOverridden = _readflags.28?true(buffer, 0, wallpaperOverridden);
+    // final id = _readlong(buffer, 0, id);
+    // final about = _readflags.1?string(buffer, 0, about);
+    // final settings = _readPeerSettings(buffer, 0, settings);
+    // final personalPhoto = _readflags.21?Photo(buffer, 0, personalPhoto);
+    // final profilePhoto = _readflags.2?Photo(buffer, 0, profilePhoto);
+    // final fallbackPhoto = _readflags.22?Photo(buffer, 0, fallbackPhoto);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final botInfo = _readflags.3?BotInfo(buffer, 0, botInfo);
+    // final pinnedMsgId = _readflags.6?int(buffer, 0, pinnedMsgId);
+    // final commonChatsCount = _readint(buffer, 0, commonChatsCount);
+    // final folderId = _readflags.11?int(buffer, 0, folderId);
+    // final ttlPeriod = _readflags.14?int(buffer, 0, ttlPeriod);
+    // final themeEmoticon = _readflags.15?string(buffer, 0, themeEmoticon);
+    // final privateForwardName = _readflags.16?string(buffer, 0, privateForwardName);
+    // final botGroupAdminRights = _readflags.17?ChatAdminRights(buffer, 0, botGroupAdminRights);
+    // final botBroadcastAdminRights = _readflags.18?ChatAdminRights(buffer, 0, botBroadcastAdminRights);
+    // final premiumGifts = _readflags.19?Vector<PremiumGiftOption>(buffer, 0, premiumGifts);
+    // final wallpaper = _readflags.24?WallPaper(buffer, 0, wallpaper);
+    // final stories = _readflags.25?PeerStories(buffer, 0, stories);
+    // final result = UserFull({flags: flags, blocked: blocked, phoneCallsAvailable: phoneCallsAvailable, phoneCallsPrivate: phoneCallsPrivate, canPinMessage: canPinMessage, hasScheduled: hasScheduled, videoCallsAvailable: videoCallsAvailable, voiceMessagesForbidden: voiceMessagesForbidden, translationsDisabled: translationsDisabled, storiesPinnedAvailable: storiesPinnedAvailable, blockedMyStoriesFrom: blockedMyStoriesFrom, wallpaperOverridden: wallpaperOverridden, id: id, about: about, settings: settings, personalPhoto: personalPhoto, profilePhoto: profilePhoto, fallbackPhoto: fallbackPhoto, notifySettings: notifySettings, botInfo: botInfo, pinnedMsgId: pinnedMsgId, commonChatsCount: commonChatsCount, folderId: folderId, ttlPeriod: ttlPeriod, themeEmoticon: themeEmoticon, privateForwardName: privateForwardName, botGroupAdminRights: botGroupAdminRights, botBroadcastAdminRights: botBroadcastAdminRights, premiumGifts: premiumGifts, wallpaper: wallpaper, stories: stories,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7396,6 +8685,11 @@ class Contact extends ContactBase {
 
   /// Deserialize.
   factory Contact.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final mutual = _readBool(buffer, 0, mutual);
+    // final result = Contact({userId: userId, mutual: mutual,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7432,6 +8726,11 @@ class ImportedContact extends ImportedContactBase {
 
   /// Deserialize.
   factory ImportedContact.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final clientId = _readlong(buffer, 0, clientId);
+    // final result = ImportedContact({userId: userId, clientId: clientId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7468,6 +8767,11 @@ class ContactStatus extends ContactStatusBase {
 
   /// Deserialize.
   factory ContactStatus.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final status = _readUserStatus(buffer, 0, status);
+    // final result = ContactStatus({userId: userId, status: status,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7501,6 +8805,9 @@ class ContactsContactsNotModified extends ContactsContactsBase {
 
   /// Deserialize.
   factory ContactsContactsNotModified.deserialize(Uint8List buffer) {
+    // final result = ContactsContactsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -7524,6 +8831,12 @@ class ContactsContacts extends ContactsContactsBase {
 
   /// Deserialize.
   factory ContactsContacts.deserialize(Uint8List buffer) {
+    // final contacts = _readVector<Contact>(buffer, 0, contacts);
+    // final savedCount = _readint(buffer, 0, savedCount);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsContacts({contacts: contacts, savedCount: savedCount, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7566,6 +8879,13 @@ class ContactsImportedContacts extends ContactsImportedContactsBase {
 
   /// Deserialize.
   factory ContactsImportedContacts.deserialize(Uint8List buffer) {
+    // final imported = _readVector<ImportedContact>(buffer, 0, imported);
+    // final popularInvites = _readVector<PopularContact>(buffer, 0, popularInvites);
+    // final retryContacts = _readVector<long>(buffer, 0, retryContacts);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsImportedContacts({imported: imported, popularInvites: popularInvites, retryContacts: retryContacts, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7611,6 +8931,12 @@ class ContactsBlocked extends ContactsBlockedBase {
 
   /// Deserialize.
   factory ContactsBlocked.deserialize(Uint8List buffer) {
+    // final blocked = _readVector<PeerBlocked>(buffer, 0, blocked);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsBlocked({blocked: blocked, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7647,6 +8973,13 @@ class ContactsBlockedSlice extends ContactsBlockedBase {
 
   /// Deserialize.
   factory ContactsBlockedSlice.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final blocked = _readVector<PeerBlocked>(buffer, 0, blocked);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsBlockedSlice({count: count, blocked: blocked, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7693,6 +9026,13 @@ class MessagesDialogs extends MessagesDialogsBase {
 
   /// Deserialize.
   factory MessagesDialogs.deserialize(Uint8List buffer) {
+    // final dialogs = _readVector<Dialog>(buffer, 0, dialogs);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesDialogs({dialogs: dialogs, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7734,6 +9074,14 @@ class MessagesDialogsSlice extends MessagesDialogsBase {
 
   /// Deserialize.
   factory MessagesDialogsSlice.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final dialogs = _readVector<Dialog>(buffer, 0, dialogs);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesDialogsSlice({count: count, dialogs: dialogs, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7775,6 +9123,10 @@ class MessagesDialogsNotModified extends MessagesDialogsBase {
 
   /// Deserialize.
   factory MessagesDialogsNotModified.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final result = MessagesDialogsNotModified({count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7808,6 +9160,12 @@ class MessagesMessages extends MessagesMessagesBase {
 
   /// Deserialize.
   factory MessagesMessages.deserialize(Uint8List buffer) {
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesMessages({messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7847,6 +9205,17 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
 
   /// Deserialize.
   factory MessagesMessagesSlice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inexact = _readflags.1?true(buffer, 0, inexact);
+    // final count = _readint(buffer, 0, count);
+    // final nextRate = _readflags.0?int(buffer, 0, nextRate);
+    // final offsetIdOffset = _readflags.2?int(buffer, 0, offsetIdOffset);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesMessagesSlice({flags: flags, inexact: inexact, count: count, nextRate: nextRate, offsetIdOffset: offsetIdOffset, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7907,6 +9276,18 @@ class MessagesChannelMessages extends MessagesMessagesBase {
 
   /// Deserialize.
   factory MessagesChannelMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inexact = _readflags.1?true(buffer, 0, inexact);
+    // final pts = _readint(buffer, 0, pts);
+    // final count = _readint(buffer, 0, count);
+    // final offsetIdOffset = _readflags.2?int(buffer, 0, offsetIdOffset);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final topics = _readVector<ForumTopic>(buffer, 0, topics);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesChannelMessages({flags: flags, inexact: inexact, pts: pts, count: count, offsetIdOffset: offsetIdOffset, messages: messages, topics: topics, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7964,6 +9345,10 @@ class MessagesMessagesNotModified extends MessagesMessagesBase {
 
   /// Deserialize.
   factory MessagesMessagesNotModified.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final result = MessagesMessagesNotModified({count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -7995,6 +9380,10 @@ class MessagesChats extends MessagesChatsBase {
 
   /// Deserialize.
   factory MessagesChats.deserialize(Uint8List buffer) {
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final result = MessagesChats({chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8021,6 +9410,11 @@ class MessagesChatsSlice extends MessagesChatsBase {
 
   /// Deserialize.
   factory MessagesChatsSlice.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final result = MessagesChatsSlice({count: count, chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8058,6 +9452,12 @@ class MessagesChatFull extends MessagesChatFullBase {
 
   /// Deserialize.
   factory MessagesChatFull.deserialize(Uint8List buffer) {
+    // final fullChat = _readChatFull(buffer, 0, fullChat);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesChatFull({fullChat: fullChat, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8099,6 +9499,12 @@ class MessagesAffectedHistory extends MessagesAffectedHistoryBase {
 
   /// Deserialize.
   factory MessagesAffectedHistory.deserialize(Uint8List buffer) {
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final offset = _readint(buffer, 0, offset);
+    // final result = MessagesAffectedHistory({pts: pts, ptsCount: ptsCount, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8136,6 +9542,9 @@ class InputMessagesFilterEmpty extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterEmpty.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -8155,6 +9564,9 @@ class InputMessagesFilterPhotos extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterPhotos.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterPhotos();
+    // return result;
+
     throw Exception();
   }
 
@@ -8174,6 +9586,9 @@ class InputMessagesFilterVideo extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterVideo.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterVideo();
+    // return result;
+
     throw Exception();
   }
 
@@ -8193,6 +9608,9 @@ class InputMessagesFilterPhotoVideo extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterPhotoVideo.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterPhotoVideo();
+    // return result;
+
     throw Exception();
   }
 
@@ -8212,6 +9630,9 @@ class InputMessagesFilterDocument extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterDocument.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterDocument();
+    // return result;
+
     throw Exception();
   }
 
@@ -8231,6 +9652,9 @@ class InputMessagesFilterUrl extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterUrl.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterUrl();
+    // return result;
+
     throw Exception();
   }
 
@@ -8250,6 +9674,9 @@ class InputMessagesFilterGif extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterGif.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterGif();
+    // return result;
+
     throw Exception();
   }
 
@@ -8269,6 +9696,9 @@ class InputMessagesFilterVoice extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterVoice.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterVoice();
+    // return result;
+
     throw Exception();
   }
 
@@ -8288,6 +9718,9 @@ class InputMessagesFilterMusic extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterMusic.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterMusic();
+    // return result;
+
     throw Exception();
   }
 
@@ -8307,6 +9740,9 @@ class InputMessagesFilterChatPhotos extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterChatPhotos.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterChatPhotos();
+    // return result;
+
     throw Exception();
   }
 
@@ -8328,6 +9764,11 @@ class InputMessagesFilterPhoneCalls extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterPhoneCalls.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final missed = _readflags.0?true(buffer, 0, missed);
+    // final result = InputMessagesFilterPhoneCalls({flags: flags, missed: missed,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8355,6 +9796,9 @@ class InputMessagesFilterRoundVoice extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterRoundVoice.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterRoundVoice();
+    // return result;
+
     throw Exception();
   }
 
@@ -8374,6 +9818,9 @@ class InputMessagesFilterRoundVideo extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterRoundVideo.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterRoundVideo();
+    // return result;
+
     throw Exception();
   }
 
@@ -8393,6 +9840,9 @@ class InputMessagesFilterMyMentions extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterMyMentions.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterMyMentions();
+    // return result;
+
     throw Exception();
   }
 
@@ -8412,6 +9862,9 @@ class InputMessagesFilterGeo extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterGeo.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterGeo();
+    // return result;
+
     throw Exception();
   }
 
@@ -8431,6 +9884,9 @@ class InputMessagesFilterContacts extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterContacts.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterContacts();
+    // return result;
+
     throw Exception();
   }
 
@@ -8450,6 +9906,9 @@ class InputMessagesFilterPinned extends MessagesFilterBase {
 
   /// Deserialize.
   factory InputMessagesFilterPinned.deserialize(Uint8List buffer) {
+    // final result = InputMessagesFilterPinned();
+    // return result;
+
     throw Exception();
   }
 
@@ -8479,6 +9938,12 @@ class UpdateNewMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateNewMessage({message: message, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8513,6 +9978,11 @@ class UpdateMessageID extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMessageID.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final result = UpdateMessageID({id: id, randomId: randomId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8544,6 +10014,12 @@ class UpdateDeleteMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDeleteMessages.deserialize(Uint8List buffer) {
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateDeleteMessages({messages: messages, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8578,6 +10054,11 @@ class UpdateUserTyping extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUserTyping.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final action = _readSendMessageAction(buffer, 0, action);
+    // final result = UpdateUserTyping({userId: userId, action: action,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8609,6 +10090,12 @@ class UpdateChatUserTyping extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatUserTyping.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final fromId = _readPeer(buffer, 0, fromId);
+    // final action = _readSendMessageAction(buffer, 0, action);
+    // final result = UpdateChatUserTyping({chatId: chatId, fromId: fromId, action: action,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8642,6 +10129,10 @@ class UpdateChatParticipants extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatParticipants.deserialize(Uint8List buffer) {
+    // final participants = _readChatParticipants(buffer, 0, participants);
+    // final result = UpdateChatParticipants({participants: participants,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8668,6 +10159,11 @@ class UpdateUserStatus extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUserStatus.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final status = _readUserStatus(buffer, 0, status);
+    // final result = UpdateUserStatus({userId: userId, status: status,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8700,6 +10196,13 @@ class UpdateUserName extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUserName.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final usernames = _readVector<Username>(buffer, 0, usernames);
+    // final result = UpdateUserName({userId: userId, firstName: firstName, lastName: lastName, usernames: usernames,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8741,6 +10244,15 @@ class UpdateNewAuthorization extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewAuthorization.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final unconfirmed = _readflags.0?true(buffer, 0, unconfirmed);
+    // final hash = _readlong(buffer, 0, hash);
+    // final date = _readflags.0?int(buffer, 0, date);
+    // final device = _readflags.0?string(buffer, 0, device);
+    // final location = _readflags.0?string(buffer, 0, location);
+    // final result = UpdateNewAuthorization({flags: flags, unconfirmed: unconfirmed, hash: hash, date: date, device: device, location: location,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8787,6 +10299,11 @@ class UpdateNewEncryptedMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewEncryptedMessage.deserialize(Uint8List buffer) {
+    // final message = _readEncryptedMessage(buffer, 0, message);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateNewEncryptedMessage({message: message, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8816,6 +10333,10 @@ class UpdateEncryptedChatTyping extends UpdateBase {
 
   /// Deserialize.
   factory UpdateEncryptedChatTyping.deserialize(Uint8List buffer) {
+    // final chatId = _readint(buffer, 0, chatId);
+    // final result = UpdateEncryptedChatTyping({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8842,6 +10363,11 @@ class UpdateEncryption extends UpdateBase {
 
   /// Deserialize.
   factory UpdateEncryption.deserialize(Uint8List buffer) {
+    // final chat = _readEncryptedChat(buffer, 0, chat);
+    // final date = _readint(buffer, 0, date);
+    // final result = UpdateEncryption({chat: chat, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8873,6 +10399,12 @@ class UpdateEncryptedMessagesRead extends UpdateBase {
 
   /// Deserialize.
   factory UpdateEncryptedMessagesRead.deserialize(Uint8List buffer) {
+    // final chatId = _readint(buffer, 0, chatId);
+    // final maxDate = _readint(buffer, 0, maxDate);
+    // final date = _readint(buffer, 0, date);
+    // final result = UpdateEncryptedMessagesRead({chatId: chatId, maxDate: maxDate, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8910,6 +10442,14 @@ class UpdateChatParticipantAdd extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatParticipantAdd.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final inviterId = _readlong(buffer, 0, inviterId);
+    // final date = _readint(buffer, 0, date);
+    // final version = _readint(buffer, 0, version);
+    // final result = UpdateChatParticipantAdd({chatId: chatId, userId: userId, inviterId: inviterId, date: date, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8953,6 +10493,12 @@ class UpdateChatParticipantDelete extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatParticipantDelete.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final version = _readint(buffer, 0, version);
+    // final result = UpdateChatParticipantDelete({chatId: chatId, userId: userId, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -8986,6 +10532,10 @@ class UpdateDcOptions extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDcOptions.deserialize(Uint8List buffer) {
+    // final dcOptions = _readVector<DcOption>(buffer, 0, dcOptions);
+    // final result = UpdateDcOptions({dcOptions: dcOptions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9012,6 +10562,11 @@ class UpdateNotifySettings extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNotifySettings.deserialize(Uint8List buffer) {
+    // final peer = _readNotifyPeer(buffer, 0, peer);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final result = UpdateNotifySettings({peer: peer, notifySettings: notifySettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9046,6 +10601,17 @@ class UpdateServiceNotification extends UpdateBase {
 
   /// Deserialize.
   factory UpdateServiceNotification.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final popup = _readflags.0?true(buffer, 0, popup);
+    // final invertMedia = _readflags.2?true(buffer, 0, invertMedia);
+    // final inboxDate = _readflags.1?int(buffer, 0, inboxDate);
+    // final type = _readstring(buffer, 0, type);
+    // final message = _readstring(buffer, 0, message);
+    // final media = _readMessageMedia(buffer, 0, media);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final result = UpdateServiceNotification({flags: flags, popup: popup, invertMedia: invertMedia, inboxDate: inboxDate, type: type, message: message, media: media, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9100,6 +10666,11 @@ class UpdatePrivacy extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePrivacy.deserialize(Uint8List buffer) {
+    // final key = _readPrivacyKey(buffer, 0, key);
+    // final rules = _readVector<PrivacyRule>(buffer, 0, rules);
+    // final result = UpdatePrivacy({key: key, rules: rules,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9130,6 +10701,11 @@ class UpdateUserPhone extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUserPhone.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final phone = _readstring(buffer, 0, phone);
+    // final result = UpdateUserPhone({userId: userId, phone: phone,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9165,6 +10741,16 @@ class UpdateReadHistoryInbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadHistoryInbox.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final folderId = _readflags.0?int(buffer, 0, folderId);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final stillUnreadCount = _readint(buffer, 0, stillUnreadCount);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateReadHistoryInbox({flags: flags, folderId: folderId, peer: peer, maxId: maxId, stillUnreadCount: stillUnreadCount, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9217,6 +10803,13 @@ class UpdateReadHistoryOutbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadHistoryOutbox.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateReadHistoryOutbox({peer: peer, maxId: maxId, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9256,6 +10849,12 @@ class UpdateWebPage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateWebPage.deserialize(Uint8List buffer) {
+    // final webpage = _readWebPage(buffer, 0, webpage);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateWebPage({webpage: webpage, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9293,6 +10892,14 @@ class UpdateReadMessagesContents extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadMessagesContents.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final date = _readflags.0?int(buffer, 0, date);
+    // final result = UpdateReadMessagesContents({flags: flags, messages: messages, pts: pts, ptsCount: ptsCount, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9336,6 +10943,12 @@ class UpdateChannelTooLong extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelTooLong.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final pts = _readflags.0?int(buffer, 0, pts);
+    // final result = UpdateChannelTooLong({flags: flags, channelId: channelId, pts: pts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9369,6 +10982,10 @@ class UpdateChannel extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannel.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final result = UpdateChannel({channelId: channelId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9396,6 +11013,12 @@ class UpdateNewChannelMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewChannelMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateNewChannelMessage({message: message, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9434,6 +11057,15 @@ class UpdateReadChannelInbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadChannelInbox.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final folderId = _readflags.0?int(buffer, 0, folderId);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final stillUnreadCount = _readint(buffer, 0, stillUnreadCount);
+    // final pts = _readint(buffer, 0, pts);
+    // final result = UpdateReadChannelInbox({flags: flags, folderId: folderId, channelId: channelId, maxId: maxId, stillUnreadCount: stillUnreadCount, pts: pts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9482,6 +11114,13 @@ class UpdateDeleteChannelMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDeleteChannelMessages.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateDeleteChannelMessages({channelId: channelId, messages: messages, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9521,6 +11160,12 @@ class UpdateChannelMessageViews extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelMessageViews.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final id = _readint(buffer, 0, id);
+    // final views = _readint(buffer, 0, views);
+    // final result = UpdateChannelMessageViews({channelId: channelId, id: id, views: views,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9557,6 +11202,13 @@ class UpdateChatParticipantAdmin extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatParticipantAdmin.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final isAdmin = _readBool(buffer, 0, isAdmin);
+    // final version = _readint(buffer, 0, version);
+    // final result = UpdateChatParticipantAdmin({chatId: chatId, userId: userId, isAdmin: isAdmin, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9594,6 +11246,10 @@ class UpdateNewStickerSet extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readmessages.StickerSet(buffer, 0, stickerset);
+    // final result = UpdateNewStickerSet({stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9620,6 +11276,13 @@ class UpdateStickerSetsOrder extends UpdateBase {
 
   /// Deserialize.
   factory UpdateStickerSetsOrder.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final emojis = _readflags.1?true(buffer, 0, emojis);
+    // final order = _readVector<long>(buffer, 0, order);
+    // final result = UpdateStickerSetsOrder({flags: flags, masks: masks, emojis: emojis, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9657,6 +11320,12 @@ class UpdateStickerSets extends UpdateBase {
 
   /// Deserialize.
   factory UpdateStickerSets.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final emojis = _readflags.1?true(buffer, 0, emojis);
+    // final result = UpdateStickerSets({flags: flags, masks: masks, emojis: emojis,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9688,6 +11357,9 @@ class UpdateSavedGifs extends UpdateBase {
 
   /// Deserialize.
   factory UpdateSavedGifs.deserialize(Uint8List buffer) {
+    // final result = UpdateSavedGifs();
+    // return result;
+
     throw Exception();
   }
 
@@ -9715,6 +11387,16 @@ class UpdateBotInlineQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotInlineQuery.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final query = _readstring(buffer, 0, query);
+    // final geo = _readflags.0?GeoPoint(buffer, 0, geo);
+    // final peerType = _readflags.1?InlineQueryPeerType(buffer, 0, peerType);
+    // final offset = _readstring(buffer, 0, offset);
+    // final result = UpdateBotInlineQuery({flags: flags, queryId: queryId, userId: userId, query: query, geo: geo, peerType: peerType, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9769,6 +11451,15 @@ class UpdateBotInlineSend extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotInlineSend.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final userId = _readlong(buffer, 0, userId);
+    // final query = _readstring(buffer, 0, query);
+    // final geo = _readflags.0?GeoPoint(buffer, 0, geo);
+    // final id = _readstring(buffer, 0, id);
+    // final msgId = _readflags.1?InputBotInlineMessageID(buffer, 0, msgId);
+    // final result = UpdateBotInlineSend({flags: flags, userId: userId, query: query, geo: geo, id: id, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9816,6 +11507,12 @@ class UpdateEditChannelMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateEditChannelMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateEditChannelMessage({message: message, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9856,6 +11553,17 @@ class UpdateBotCallbackQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotCallbackQuery.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final chatInstance = _readlong(buffer, 0, chatInstance);
+    // final data = _readflags.0?bytes(buffer, 0, data);
+    // final gameShortName = _readflags.1?string(buffer, 0, gameShortName);
+    // final result = UpdateBotCallbackQuery({flags: flags, queryId: queryId, userId: userId, peer: peer, msgId: msgId, chatInstance: chatInstance, data: data, gameShortName: gameShortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9911,6 +11619,12 @@ class UpdateEditMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateEditMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateEditMessage({message: message, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -9950,6 +11664,16 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateInlineBotCallbackQuery.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final msgId = _readInputBotInlineMessageID(buffer, 0, msgId);
+    // final chatInstance = _readlong(buffer, 0, chatInstance);
+    // final data = _readflags.0?bytes(buffer, 0, data);
+    // final gameShortName = _readflags.1?string(buffer, 0, gameShortName);
+    // final result = UpdateInlineBotCallbackQuery({flags: flags, queryId: queryId, userId: userId, msgId: msgId, chatInstance: chatInstance, data: data, gameShortName: gameShortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10000,6 +11724,11 @@ class UpdateReadChannelOutbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadChannelOutbox.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = UpdateReadChannelOutbox({channelId: channelId, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10032,6 +11761,13 @@ class UpdateDraftMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDraftMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final draft = _readDraftMessage(buffer, 0, draft);
+    // final result = UpdateDraftMessage({flags: flags, peer: peer, topMsgId: topMsgId, draft: draft,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10067,6 +11803,9 @@ class UpdateReadFeaturedStickers extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadFeaturedStickers.deserialize(Uint8List buffer) {
+    // final result = UpdateReadFeaturedStickers();
+    // return result;
+
     throw Exception();
   }
 
@@ -10086,6 +11825,9 @@ class UpdateRecentStickers extends UpdateBase {
 
   /// Deserialize.
   factory UpdateRecentStickers.deserialize(Uint8List buffer) {
+    // final result = UpdateRecentStickers();
+    // return result;
+
     throw Exception();
   }
 
@@ -10105,6 +11847,9 @@ class UpdateConfig extends UpdateBase {
 
   /// Deserialize.
   factory UpdateConfig.deserialize(Uint8List buffer) {
+    // final result = UpdateConfig();
+    // return result;
+
     throw Exception();
   }
 
@@ -10124,6 +11869,9 @@ class UpdatePtsChanged extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePtsChanged.deserialize(Uint8List buffer) {
+    // final result = UpdatePtsChanged();
+    // return result;
+
     throw Exception();
   }
 
@@ -10148,6 +11896,13 @@ class UpdateChannelWebPage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelWebPage.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final webpage = _readWebPage(buffer, 0, webpage);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateChannelWebPage({channelId: channelId, webpage: webpage, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10187,6 +11942,13 @@ class UpdateDialogPinned extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDialogPinned.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final folderId = _readflags.1?int(buffer, 0, folderId);
+    // final peer = _readDialogPeer(buffer, 0, peer);
+    // final result = UpdateDialogPinned({flags: flags, pinned: pinned, folderId: folderId, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10226,6 +11988,12 @@ class UpdatePinnedDialogs extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePinnedDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final folderId = _readflags.1?int(buffer, 0, folderId);
+    // final order = _readflags.0?Vector<DialogPeer>(buffer, 0, order);
+    // final result = UpdatePinnedDialogs({flags: flags, folderId: folderId, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10259,6 +12027,10 @@ class UpdateBotWebhookJSON extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotWebhookJSON.deserialize(Uint8List buffer) {
+    // final data = _readDataJSON(buffer, 0, data);
+    // final result = UpdateBotWebhookJSON({data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10286,6 +12058,12 @@ class UpdateBotWebhookJSONQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotWebhookJSONQuery.deserialize(Uint8List buffer) {
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final data = _readDataJSON(buffer, 0, data);
+    // final timeout = _readint(buffer, 0, timeout);
+    // final result = UpdateBotWebhookJSONQuery({queryId: queryId, data: data, timeout: timeout,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10322,6 +12100,13 @@ class UpdateBotShippingQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotShippingQuery.deserialize(Uint8List buffer) {
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final payload = _readbytes(buffer, 0, payload);
+    // final shippingAddress = _readPostAddress(buffer, 0, shippingAddress);
+    // final result = UpdateBotShippingQuery({queryId: queryId, userId: userId, payload: payload, shippingAddress: shippingAddress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10366,6 +12151,17 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotPrecheckoutQuery.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final payload = _readbytes(buffer, 0, payload);
+    // final info = _readflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // final shippingOptionId = _readflags.1?string(buffer, 0, shippingOptionId);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final result = UpdateBotPrecheckoutQuery({flags: flags, queryId: queryId, userId: userId, payload: payload, info: info, shippingOptionId: shippingOptionId, currency: currency, totalAmount: totalAmount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10419,6 +12215,10 @@ class UpdatePhoneCall extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePhoneCall.deserialize(Uint8List buffer) {
+    // final phoneCall = _readPhoneCall(buffer, 0, phoneCall);
+    // final result = UpdatePhoneCall({phoneCall: phoneCall,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10444,6 +12244,10 @@ class UpdateLangPackTooLong extends UpdateBase {
 
   /// Deserialize.
   factory UpdateLangPackTooLong.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = UpdateLangPackTooLong({langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10469,6 +12273,10 @@ class UpdateLangPack extends UpdateBase {
 
   /// Deserialize.
   factory UpdateLangPack.deserialize(Uint8List buffer) {
+    // final difference = _readLangPackDifference(buffer, 0, difference);
+    // final result = UpdateLangPack({difference: difference,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10492,6 +12300,9 @@ class UpdateFavedStickers extends UpdateBase {
 
   /// Deserialize.
   factory UpdateFavedStickers.deserialize(Uint8List buffer) {
+    // final result = UpdateFavedStickers();
+    // return result;
+
     throw Exception();
   }
 
@@ -10516,6 +12327,13 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelReadMessagesContents.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final result = UpdateChannelReadMessagesContents({flags: flags, channelId: channelId, topMsgId: topMsgId, messages: messages,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10551,6 +12369,9 @@ class UpdateContactsReset extends UpdateBase {
 
   /// Deserialize.
   factory UpdateContactsReset.deserialize(Uint8List buffer) {
+    // final result = UpdateContactsReset();
+    // return result;
+
     throw Exception();
   }
 
@@ -10573,6 +12394,11 @@ class UpdateChannelAvailableMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelAvailableMessages.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final availableMinId = _readint(buffer, 0, availableMinId);
+    // final result = UpdateChannelAvailableMessages({channelId: channelId, availableMinId: availableMinId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10603,6 +12429,12 @@ class UpdateDialogUnreadMark extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDialogUnreadMark.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final unread = _readflags.0?true(buffer, 0, unread);
+    // final peer = _readDialogPeer(buffer, 0, peer);
+    // final result = UpdateDialogUnreadMark({flags: flags, unread: unread, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10639,6 +12471,13 @@ class UpdateMessagePoll extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMessagePoll.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pollId = _readlong(buffer, 0, pollId);
+    // final poll = _readflags.0?Poll(buffer, 0, poll);
+    // final results = _readPollResults(buffer, 0, results);
+    // final result = UpdateMessagePoll({flags: flags, pollId: pollId, poll: poll, results: results,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10678,6 +12517,12 @@ class UpdateChatDefaultBannedRights extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatDefaultBannedRights.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final defaultBannedRights = _readChatBannedRights(buffer, 0, defaultBannedRights);
+    // final version = _readint(buffer, 0, version);
+    // final result = UpdateChatDefaultBannedRights({peer: peer, defaultBannedRights: defaultBannedRights, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10713,6 +12558,12 @@ class UpdateFolderPeers extends UpdateBase {
 
   /// Deserialize.
   factory UpdateFolderPeers.deserialize(Uint8List buffer) {
+    // final folderPeers = _readVector<FolderPeer>(buffer, 0, folderPeers);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdateFolderPeers({folderPeers: folderPeers, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10747,6 +12598,11 @@ class UpdatePeerSettings extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePeerSettings.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final settings = _readPeerSettings(buffer, 0, settings);
+    // final result = UpdatePeerSettings({peer: peer, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10776,6 +12632,10 @@ class UpdatePeerLocated extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePeerLocated.deserialize(Uint8List buffer) {
+    // final peers = _readVector<PeerLocated>(buffer, 0, peers);
+    // final result = UpdatePeerLocated({peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10801,6 +12661,10 @@ class UpdateNewScheduledMessage extends UpdateBase {
 
   /// Deserialize.
   factory UpdateNewScheduledMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = UpdateNewScheduledMessage({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10827,6 +12691,11 @@ class UpdateDeleteScheduledMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDeleteScheduledMessages.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final result = UpdateDeleteScheduledMessages({peer: peer, messages: messages,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10856,6 +12725,10 @@ class UpdateTheme extends UpdateBase {
 
   /// Deserialize.
   factory UpdateTheme.deserialize(Uint8List buffer) {
+    // final theme = _readTheme(buffer, 0, theme);
+    // final result = UpdateTheme({theme: theme,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10882,6 +12755,11 @@ class UpdateGeoLiveViewed extends UpdateBase {
 
   /// Deserialize.
   factory UpdateGeoLiveViewed.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = UpdateGeoLiveViewed({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10909,6 +12787,9 @@ class UpdateLoginToken extends UpdateBase {
 
   /// Deserialize.
   factory UpdateLoginToken.deserialize(Uint8List buffer) {
+    // final result = UpdateLoginToken();
+    // return result;
+
     throw Exception();
   }
 
@@ -10933,6 +12814,13 @@ class UpdateMessagePollVote extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMessagePollVote.deserialize(Uint8List buffer) {
+    // final pollId = _readlong(buffer, 0, pollId);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final options = _readVector<bytes>(buffer, 0, options);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateMessagePollVote({pollId: pollId, peer: peer, options: options, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -10972,6 +12860,12 @@ class UpdateDialogFilter extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDialogFilter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readint(buffer, 0, id);
+    // final filter = _readflags.0?DialogFilter(buffer, 0, filter);
+    // final result = UpdateDialogFilter({flags: flags, id: id, filter: filter,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11005,6 +12899,10 @@ class UpdateDialogFilterOrder extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDialogFilterOrder.deserialize(Uint8List buffer) {
+    // final order = _readVector<int>(buffer, 0, order);
+    // final result = UpdateDialogFilterOrder({order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11028,6 +12926,9 @@ class UpdateDialogFilters extends UpdateBase {
 
   /// Deserialize.
   factory UpdateDialogFilters.deserialize(Uint8List buffer) {
+    // final result = UpdateDialogFilters();
+    // return result;
+
     throw Exception();
   }
 
@@ -11050,6 +12951,11 @@ class UpdatePhoneCallSignalingData extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePhoneCallSignalingData.deserialize(Uint8List buffer) {
+    // final phoneCallId = _readlong(buffer, 0, phoneCallId);
+    // final data = _readbytes(buffer, 0, data);
+    // final result = UpdatePhoneCallSignalingData({phoneCallId: phoneCallId, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11081,6 +12987,12 @@ class UpdateChannelMessageForwards extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelMessageForwards.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final id = _readint(buffer, 0, id);
+    // final forwards = _readint(buffer, 0, forwards);
+    // final result = UpdateChannelMessageForwards({channelId: channelId, id: id, forwards: forwards,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11119,6 +13031,15 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadChannelDiscussionInbox.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final topMsgId = _readint(buffer, 0, topMsgId);
+    // final readMaxId = _readint(buffer, 0, readMaxId);
+    // final broadcastId = _readflags.0?long(buffer, 0, broadcastId);
+    // final broadcastPost = _readflags.0?int(buffer, 0, broadcastPost);
+    // final result = UpdateReadChannelDiscussionInbox({flags: flags, channelId: channelId, topMsgId: topMsgId, readMaxId: readMaxId, broadcastId: broadcastId, broadcastPost: broadcastPost,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11166,6 +13087,12 @@ class UpdateReadChannelDiscussionOutbox extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadChannelDiscussionOutbox.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final topMsgId = _readint(buffer, 0, topMsgId);
+    // final readMaxId = _readint(buffer, 0, readMaxId);
+    // final result = UpdateReadChannelDiscussionOutbox({channelId: channelId, topMsgId: topMsgId, readMaxId: readMaxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11200,6 +13127,13 @@ class UpdatePeerBlocked extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePeerBlocked.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blocked = _readflags.0?true(buffer, 0, blocked);
+    // final blockedMyStoriesFrom = _readflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final result = UpdatePeerBlocked({flags: flags, blocked: blocked, blockedMyStoriesFrom: blockedMyStoriesFrom, peerId: peerId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11241,6 +13175,14 @@ class UpdateChannelUserTyping extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelUserTyping.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final fromId = _readPeer(buffer, 0, fromId);
+    // final action = _readSendMessageAction(buffer, 0, action);
+    // final result = UpdateChannelUserTyping({flags: flags, channelId: channelId, topMsgId: topMsgId, fromId: fromId, action: action,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11286,6 +13228,15 @@ class UpdatePinnedMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePinnedMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdatePinnedMessages({flags: flags, pinned: pinned, peer: peer, messages: messages, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11335,6 +13286,15 @@ class UpdatePinnedChannelMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePinnedChannelMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = UpdatePinnedChannelMessages({flags: flags, pinned: pinned, channelId: channelId, messages: messages, pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11380,6 +13340,10 @@ class UpdateChat extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = UpdateChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11407,6 +13371,12 @@ class UpdateGroupCallParticipants extends UpdateBase {
 
   /// Deserialize.
   factory UpdateGroupCallParticipants.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final participants = _readVector<GroupCallParticipant>(buffer, 0, participants);
+    // final version = _readint(buffer, 0, version);
+    // final result = UpdateGroupCallParticipants({call: call, participants: participants, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11441,6 +13411,11 @@ class UpdateGroupCall extends UpdateBase {
 
   /// Deserialize.
   factory UpdateGroupCall.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final call = _readGroupCall(buffer, 0, call);
+    // final result = UpdateGroupCall({chatId: chatId, call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11472,6 +13447,12 @@ class UpdatePeerHistoryTTL extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePeerHistoryTTL.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final ttlPeriod = _readflags.0?int(buffer, 0, ttlPeriod);
+    // final result = UpdatePeerHistoryTTL({flags: flags, peer: peer, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11513,6 +13494,18 @@ class UpdateChatParticipant extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChatParticipant.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final date = _readint(buffer, 0, date);
+    // final actorId = _readlong(buffer, 0, actorId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final prevParticipant = _readflags.0?ChatParticipant(buffer, 0, prevParticipant);
+    // final newParticipant = _readflags.1?ChatParticipant(buffer, 0, newParticipant);
+    // final invite = _readflags.2?ExportedChatInvite(buffer, 0, invite);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateChatParticipant({flags: flags, chatId: chatId, date: date, actorId: actorId, userId: userId, prevParticipant: prevParticipant, newParticipant: newParticipant, invite: invite, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11578,6 +13571,19 @@ class UpdateChannelParticipant extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelParticipant.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaChatlist = _readflags.3?true(buffer, 0, viaChatlist);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final date = _readint(buffer, 0, date);
+    // final actorId = _readlong(buffer, 0, actorId);
+    // final userId = _readlong(buffer, 0, userId);
+    // final prevParticipant = _readflags.0?ChannelParticipant(buffer, 0, prevParticipant);
+    // final newParticipant = _readflags.1?ChannelParticipant(buffer, 0, newParticipant);
+    // final invite = _readflags.2?ExportedChatInvite(buffer, 0, invite);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateChannelParticipant({flags: flags, viaChatlist: viaChatlist, channelId: channelId, date: date, actorId: actorId, userId: userId, prevParticipant: prevParticipant, newParticipant: newParticipant, invite: invite, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11642,6 +13648,13 @@ class UpdateBotStopped extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotStopped.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final date = _readint(buffer, 0, date);
+    // final stopped = _readBool(buffer, 0, stopped);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateBotStopped({userId: userId, date: date, stopped: stopped, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11680,6 +13693,12 @@ class UpdateGroupCallConnection extends UpdateBase {
 
   /// Deserialize.
   factory UpdateGroupCallConnection.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final presentation = _readflags.0?true(buffer, 0, presentation);
+    // final params = _readDataJSON(buffer, 0, params);
+    // final result = UpdateGroupCallConnection({flags: flags, presentation: presentation, params: params,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11715,6 +13734,12 @@ class UpdateBotCommands extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotCommands.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final botId = _readlong(buffer, 0, botId);
+    // final commands = _readVector<BotCommand>(buffer, 0, commands);
+    // final result = UpdateBotCommands({peer: peer, botId: botId, commands: commands,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11750,6 +13775,12 @@ class UpdatePendingJoinRequests extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePendingJoinRequests.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final requestsPending = _readint(buffer, 0, requestsPending);
+    // final recentRequesters = _readVector<long>(buffer, 0, recentRequesters);
+    // final result = UpdatePendingJoinRequests({peer: peer, requestsPending: requestsPending, recentRequesters: recentRequesters,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11788,6 +13819,15 @@ class UpdateBotChatInviteRequester extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotChatInviteRequester.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final date = _readint(buffer, 0, date);
+    // final userId = _readlong(buffer, 0, userId);
+    // final about = _readstring(buffer, 0, about);
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateBotChatInviteRequester({peer: peer, date: date, userId: userId, about: about, invite: invite, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11837,6 +13877,14 @@ class UpdateMessageReactions extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMessageReactions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final reactions = _readMessageReactions(buffer, 0, reactions);
+    // final result = UpdateMessageReactions({flags: flags, peer: peer, msgId: msgId, topMsgId: topMsgId, reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11876,6 +13924,9 @@ class UpdateAttachMenuBots extends UpdateBase {
 
   /// Deserialize.
   factory UpdateAttachMenuBots.deserialize(Uint8List buffer) {
+    // final result = UpdateAttachMenuBots();
+    // return result;
+
     throw Exception();
   }
 
@@ -11897,6 +13948,10 @@ class UpdateWebViewResultSent extends UpdateBase {
 
   /// Deserialize.
   factory UpdateWebViewResultSent.deserialize(Uint8List buffer) {
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final result = UpdateWebViewResultSent({queryId: queryId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11923,6 +13978,11 @@ class UpdateBotMenuButton extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotMenuButton.deserialize(Uint8List buffer) {
+    // final botId = _readlong(buffer, 0, botId);
+    // final button = _readBotMenuButton(buffer, 0, button);
+    // final result = UpdateBotMenuButton({botId: botId, button: button,});
+    // return result;
+
     throw Exception();
   }
 
@@ -11950,6 +14010,9 @@ class UpdateSavedRingtones extends UpdateBase {
 
   /// Deserialize.
   factory UpdateSavedRingtones.deserialize(Uint8List buffer) {
+    // final result = UpdateSavedRingtones();
+    // return result;
+
     throw Exception();
   }
 
@@ -11975,6 +14038,15 @@ class UpdateTranscribedAudio extends UpdateBase {
 
   /// Deserialize.
   factory UpdateTranscribedAudio.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pending = _readflags.0?true(buffer, 0, pending);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final transcriptionId = _readlong(buffer, 0, transcriptionId);
+    // final text = _readstring(buffer, 0, text);
+    // final result = UpdateTranscribedAudio({flags: flags, pending: pending, peer: peer, msgId: msgId, transcriptionId: transcriptionId, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12018,6 +14090,9 @@ class UpdateReadFeaturedEmojiStickers extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadFeaturedEmojiStickers.deserialize(Uint8List buffer) {
+    // final result = UpdateReadFeaturedEmojiStickers();
+    // return result;
+
     throw Exception();
   }
 
@@ -12040,6 +14115,11 @@ class UpdateUserEmojiStatus extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUserEmojiStatus.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final emojiStatus = _readEmojiStatus(buffer, 0, emojiStatus);
+    // final result = UpdateUserEmojiStatus({userId: userId, emojiStatus: emojiStatus,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12067,6 +14147,9 @@ class UpdateRecentEmojiStatuses extends UpdateBase {
 
   /// Deserialize.
   factory UpdateRecentEmojiStatuses.deserialize(Uint8List buffer) {
+    // final result = UpdateRecentEmojiStatuses();
+    // return result;
+
     throw Exception();
   }
 
@@ -12086,6 +14169,9 @@ class UpdateRecentReactions extends UpdateBase {
 
   /// Deserialize.
   factory UpdateRecentReactions.deserialize(Uint8List buffer) {
+    // final result = UpdateRecentReactions();
+    // return result;
+
     throw Exception();
   }
 
@@ -12108,6 +14194,13 @@ class UpdateMoveStickerSetToTop extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMoveStickerSetToTop.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final emojis = _readflags.1?true(buffer, 0, emojis);
+    // final stickerset = _readlong(buffer, 0, stickerset);
+    // final result = UpdateMoveStickerSetToTop({flags: flags, masks: masks, emojis: emojis, stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12147,6 +14240,12 @@ class UpdateMessageExtendedMedia extends UpdateBase {
 
   /// Deserialize.
   factory UpdateMessageExtendedMedia.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final extendedMedia = _readMessageExtendedMedia(buffer, 0, extendedMedia);
+    // final result = UpdateMessageExtendedMedia({peer: peer, msgId: msgId, extendedMedia: extendedMedia,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12182,6 +14281,13 @@ class UpdateChannelPinnedTopic extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelPinnedTopic.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final topicId = _readint(buffer, 0, topicId);
+    // final result = UpdateChannelPinnedTopic({flags: flags, pinned: pinned, channelId: channelId, topicId: topicId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12221,6 +14327,12 @@ class UpdateChannelPinnedTopics extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelPinnedTopics.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final order = _readflags.0?Vector<int>(buffer, 0, order);
+    // final result = UpdateChannelPinnedTopics({flags: flags, channelId: channelId, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12254,6 +14366,10 @@ class UpdateUser extends UpdateBase {
 
   /// Deserialize.
   factory UpdateUser.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = UpdateUser({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12277,6 +14393,9 @@ class UpdateAutoSaveSettings extends UpdateBase {
 
   /// Deserialize.
   factory UpdateAutoSaveSettings.deserialize(Uint8List buffer) {
+    // final result = UpdateAutoSaveSettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -12298,6 +14417,10 @@ class UpdateGroupInvitePrivacyForbidden extends UpdateBase {
 
   /// Deserialize.
   factory UpdateGroupInvitePrivacyForbidden.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = UpdateGroupInvitePrivacyForbidden({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12324,6 +14447,11 @@ class UpdateStory extends UpdateBase {
 
   /// Deserialize.
   factory UpdateStory.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final story = _readStoryItem(buffer, 0, story);
+    // final result = UpdateStory({peer: peer, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12354,6 +14482,11 @@ class UpdateReadStories extends UpdateBase {
 
   /// Deserialize.
   factory UpdateReadStories.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = UpdateReadStories({peer: peer, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12384,6 +14517,11 @@ class UpdateStoryID extends UpdateBase {
 
   /// Deserialize.
   factory UpdateStoryID.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final result = UpdateStoryID({id: id, randomId: randomId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12413,6 +14551,10 @@ class UpdateStoriesStealthMode extends UpdateBase {
 
   /// Deserialize.
   factory UpdateStoriesStealthMode.deserialize(Uint8List buffer) {
+    // final stealthMode = _readStoriesStealthMode(buffer, 0, stealthMode);
+    // final result = UpdateStoriesStealthMode({stealthMode: stealthMode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12440,6 +14582,12 @@ class UpdateSentStoryReaction extends UpdateBase {
 
   /// Deserialize.
   factory UpdateSentStoryReaction.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final storyId = _readint(buffer, 0, storyId);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = UpdateSentStoryReaction({peer: peer, storyId: storyId, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12475,6 +14623,12 @@ class UpdateBotChatBoost extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotChatBoost.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final boost = _readBoost(buffer, 0, boost);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateBotChatBoost({peer: peer, boost: boost, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12509,6 +14663,11 @@ class UpdateChannelViewForumAsMessages extends UpdateBase {
 
   /// Deserialize.
   factory UpdateChannelViewForumAsMessages.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = UpdateChannelViewForumAsMessages({channelId: channelId, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12540,6 +14699,13 @@ class UpdatePeerWallpaper extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePeerWallpaper.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final wallpaperOverridden = _readflags.1?true(buffer, 0, wallpaperOverridden);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final wallpaper = _readflags.0?WallPaper(buffer, 0, wallpaper);
+    // final result = UpdatePeerWallpaper({flags: flags, wallpaperOverridden: wallpaperOverridden, peer: peer, wallpaper: wallpaper,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12583,6 +14749,16 @@ class UpdateBotMessageReaction extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotMessageReaction.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final date = _readint(buffer, 0, date);
+    // final actor = _readPeer(buffer, 0, actor);
+    // final oldReactions = _readVector<Reaction>(buffer, 0, oldReactions);
+    // final newReactions = _readVector<Reaction>(buffer, 0, newReactions);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateBotMessageReaction({peer: peer, msgId: msgId, date: date, actor: actor, oldReactions: oldReactions, newReactions: newReactions, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12636,6 +14812,14 @@ class UpdateBotMessageReactions extends UpdateBase {
 
   /// Deserialize.
   factory UpdateBotMessageReactions.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final date = _readint(buffer, 0, date);
+    // final reactions = _readVector<ReactionCount>(buffer, 0, reactions);
+    // final qts = _readint(buffer, 0, qts);
+    // final result = UpdateBotMessageReactions({peer: peer, msgId: msgId, date: date, reactions: reactions, qts: qts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12678,6 +14862,12 @@ class UpdateSavedDialogPinned extends UpdateBase {
 
   /// Deserialize.
   factory UpdateSavedDialogPinned.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final peer = _readDialogPeer(buffer, 0, peer);
+    // final result = UpdateSavedDialogPinned({flags: flags, pinned: pinned, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12712,6 +14902,11 @@ class UpdatePinnedSavedDialogs extends UpdateBase {
 
   /// Deserialize.
   factory UpdatePinnedSavedDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final order = _readflags.0?Vector<DialogPeer>(buffer, 0, order);
+    // final result = UpdatePinnedSavedDialogs({flags: flags, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12751,6 +14946,14 @@ class UpdatesState extends UpdatesStateBase {
 
   /// Deserialize.
   factory UpdatesState.deserialize(Uint8List buffer) {
+    // final pts = _readint(buffer, 0, pts);
+    // final qts = _readint(buffer, 0, qts);
+    // final date = _readint(buffer, 0, date);
+    // final seq = _readint(buffer, 0, seq);
+    // final unreadCount = _readint(buffer, 0, unreadCount);
+    // final result = UpdatesState({pts: pts, qts: qts, date: date, seq: seq, unreadCount: unreadCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12799,6 +15002,11 @@ class UpdatesDifferenceEmpty extends UpdatesDifferenceBase {
 
   /// Deserialize.
   factory UpdatesDifferenceEmpty.deserialize(Uint8List buffer) {
+    // final date = _readint(buffer, 0, date);
+    // final seq = _readint(buffer, 0, seq);
+    // final result = UpdatesDifferenceEmpty({date: date, seq: seq,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12833,6 +15041,15 @@ class UpdatesDifference extends UpdatesDifferenceBase {
 
   /// Deserialize.
   factory UpdatesDifference.deserialize(Uint8List buffer) {
+    // final newMessages = _readVector<Message>(buffer, 0, newMessages);
+    // final newEncryptedMessages = _readVector<EncryptedMessage>(buffer, 0, newEncryptedMessages);
+    // final otherUpdates = _readVector<Update>(buffer, 0, otherUpdates);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final state = _readupdates.State(buffer, 0, state);
+    // final result = UpdatesDifference({newMessages: newMessages, newEncryptedMessages: newEncryptedMessages, otherUpdates: otherUpdates, chats: chats, users: users, state: state,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12883,6 +15100,15 @@ class UpdatesDifferenceSlice extends UpdatesDifferenceBase {
 
   /// Deserialize.
   factory UpdatesDifferenceSlice.deserialize(Uint8List buffer) {
+    // final newMessages = _readVector<Message>(buffer, 0, newMessages);
+    // final newEncryptedMessages = _readVector<EncryptedMessage>(buffer, 0, newEncryptedMessages);
+    // final otherUpdates = _readVector<Update>(buffer, 0, otherUpdates);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final intermediateState = _readupdates.State(buffer, 0, intermediateState);
+    // final result = UpdatesDifferenceSlice({newMessages: newMessages, newEncryptedMessages: newEncryptedMessages, otherUpdates: otherUpdates, chats: chats, users: users, intermediateState: intermediateState,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12928,6 +15154,10 @@ class UpdatesDifferenceTooLong extends UpdatesDifferenceBase {
 
   /// Deserialize.
   factory UpdatesDifferenceTooLong.deserialize(Uint8List buffer) {
+    // final pts = _readint(buffer, 0, pts);
+    // final result = UpdatesDifferenceTooLong({pts: pts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -12957,6 +15187,9 @@ class UpdatesTooLong extends UpdatesBase {
 
   /// Deserialize.
   factory UpdatesTooLong.deserialize(Uint8List buffer) {
+    // final result = UpdatesTooLong();
+    // return result;
+
     throw Exception();
   }
 
@@ -12989,6 +15222,25 @@ class UpdateShortMessage extends UpdatesBase {
 
   /// Deserialize.
   factory UpdateShortMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final out = _readflags.1?true(buffer, 0, out);
+    // final mentioned = _readflags.4?true(buffer, 0, mentioned);
+    // final mediaUnread = _readflags.5?true(buffer, 0, mediaUnread);
+    // final silent = _readflags.13?true(buffer, 0, silent);
+    // final id = _readint(buffer, 0, id);
+    // final userId = _readlong(buffer, 0, userId);
+    // final message = _readstring(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final date = _readint(buffer, 0, date);
+    // final fwdFrom = _readflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // final viaBotId = _readflags.11?long(buffer, 0, viaBotId);
+    // final replyTo = _readflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // final entities = _readflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // final ttlPeriod = _readflags.25?int(buffer, 0, ttlPeriod);
+    // final result = UpdateShortMessage({flags: flags, out: out, mentioned: mentioned, mediaUnread: mediaUnread, silent: silent, id: id, userId: userId, message: message, pts: pts, ptsCount: ptsCount, date: date, fwdFrom: fwdFrom, viaBotId: viaBotId, replyTo: replyTo, entities: entities, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13086,6 +15338,26 @@ class UpdateShortChatMessage extends UpdatesBase {
 
   /// Deserialize.
   factory UpdateShortChatMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final out = _readflags.1?true(buffer, 0, out);
+    // final mentioned = _readflags.4?true(buffer, 0, mentioned);
+    // final mediaUnread = _readflags.5?true(buffer, 0, mediaUnread);
+    // final silent = _readflags.13?true(buffer, 0, silent);
+    // final id = _readint(buffer, 0, id);
+    // final fromId = _readlong(buffer, 0, fromId);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final message = _readstring(buffer, 0, message);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final date = _readint(buffer, 0, date);
+    // final fwdFrom = _readflags.2?MessageFwdHeader(buffer, 0, fwdFrom);
+    // final viaBotId = _readflags.11?long(buffer, 0, viaBotId);
+    // final replyTo = _readflags.3?MessageReplyHeader(buffer, 0, replyTo);
+    // final entities = _readflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // final ttlPeriod = _readflags.25?int(buffer, 0, ttlPeriod);
+    // final result = UpdateShortChatMessage({flags: flags, out: out, mentioned: mentioned, mediaUnread: mediaUnread, silent: silent, id: id, fromId: fromId, chatId: chatId, message: message, pts: pts, ptsCount: ptsCount, date: date, fwdFrom: fwdFrom, viaBotId: viaBotId, replyTo: replyTo, entities: entities, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13176,6 +15448,11 @@ class UpdateShort extends UpdatesBase {
 
   /// Deserialize.
   factory UpdateShort.deserialize(Uint8List buffer) {
+    // final update = _readUpdate(buffer, 0, update);
+    // final date = _readint(buffer, 0, date);
+    // final result = UpdateShort({update: update, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13210,6 +15487,15 @@ class UpdatesCombined extends UpdatesBase {
 
   /// Deserialize.
   factory UpdatesCombined.deserialize(Uint8List buffer) {
+    // final updates = _readVector<Update>(buffer, 0, updates);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final date = _readint(buffer, 0, date);
+    // final seqStart = _readint(buffer, 0, seqStart);
+    // final seq = _readint(buffer, 0, seq);
+    // final result = UpdatesCombined({updates: updates, users: users, chats: chats, date: date, seqStart: seqStart, seq: seq,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13259,6 +15545,14 @@ class Updates extends UpdatesBase {
 
   /// Deserialize.
   factory Updates.deserialize(Uint8List buffer) {
+    // final updates = _readVector<Update>(buffer, 0, updates);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final date = _readint(buffer, 0, date);
+    // final seq = _readint(buffer, 0, seq);
+    // final result = Updates({updates: updates, users: users, chats: chats, date: date, seq: seq,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13307,6 +15601,18 @@ class UpdateShortSentMessage extends UpdatesBase {
 
   /// Deserialize.
   factory UpdateShortSentMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final out = _readflags.1?true(buffer, 0, out);
+    // final id = _readint(buffer, 0, id);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final date = _readint(buffer, 0, date);
+    // final media = _readflags.9?MessageMedia(buffer, 0, media);
+    // final entities = _readflags.7?Vector<MessageEntity>(buffer, 0, entities);
+    // final ttlPeriod = _readflags.25?int(buffer, 0, ttlPeriod);
+    // final result = UpdateShortSentMessage({flags: flags, out: out, id: id, pts: pts, ptsCount: ptsCount, date: date, media: media, entities: entities, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13371,6 +15677,11 @@ class PhotosPhotos extends PhotosPhotosBase {
 
   /// Deserialize.
   factory PhotosPhotos.deserialize(Uint8List buffer) {
+    // final photos = _readVector<Photo>(buffer, 0, photos);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhotosPhotos({photos: photos, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13402,6 +15713,12 @@ class PhotosPhotosSlice extends PhotosPhotosBase {
 
   /// Deserialize.
   factory PhotosPhotosSlice.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final photos = _readVector<Photo>(buffer, 0, photos);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhotosPhotosSlice({count: count, photos: photos, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13442,6 +15759,11 @@ class PhotosPhoto extends PhotosPhotoBase {
 
   /// Deserialize.
   factory PhotosPhoto.deserialize(Uint8List buffer) {
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhotosPhoto({photo: photo, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13479,6 +15801,12 @@ class UploadFile extends UploadFileBase {
 
   /// Deserialize.
   factory UploadFile.deserialize(Uint8List buffer) {
+    // final type = _readstorage.FileType(buffer, 0, type);
+    // final mtime = _readint(buffer, 0, mtime);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = UploadFile({type: type, mtime: mtime, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13516,6 +15844,14 @@ class UploadFileCdnRedirect extends UploadFileBase {
 
   /// Deserialize.
   factory UploadFileCdnRedirect.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final fileToken = _readbytes(buffer, 0, fileToken);
+    // final encryptionKey = _readbytes(buffer, 0, encryptionKey);
+    // final encryptionIv = _readbytes(buffer, 0, encryptionIv);
+    // final fileHashes = _readVector<FileHash>(buffer, 0, fileHashes);
+    // final result = UploadFileCdnRedirect({dcId: dcId, fileToken: fileToken, encryptionKey: encryptionKey, encryptionIv: encryptionIv, fileHashes: fileHashes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13567,6 +15903,20 @@ class DcOption extends DcOptionBase {
 
   /// Deserialize.
   factory DcOption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final ipv6 = _readflags.0?true(buffer, 0, ipv6);
+    // final mediaOnly = _readflags.1?true(buffer, 0, mediaOnly);
+    // final tcpoOnly = _readflags.2?true(buffer, 0, tcpoOnly);
+    // final cdn = _readflags.3?true(buffer, 0, cdn);
+    // final static = _readflags.4?true(buffer, 0, static);
+    // final thisPortOnly = _readflags.5?true(buffer, 0, thisPortOnly);
+    // final id = _readint(buffer, 0, id);
+    // final ipAddress = _readstring(buffer, 0, ipAddress);
+    // final port = _readint(buffer, 0, port);
+    // final secret = _readflags.10?bytes(buffer, 0, secret);
+    // final result = DcOption({flags: flags, ipv6: ipv6, mediaOnly: mediaOnly, tcpoOnly: tcpoOnly, cdn: cdn, static: static, thisPortOnly: thisPortOnly, id: id, ipAddress: ipAddress, port: port, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13680,6 +16030,57 @@ class Config extends ConfigBase {
 
   /// Deserialize.
   factory Config.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final defaultP2pContacts = _readflags.3?true(buffer, 0, defaultP2pContacts);
+    // final preloadFeaturedStickers = _readflags.4?true(buffer, 0, preloadFeaturedStickers);
+    // final revokePmInbox = _readflags.6?true(buffer, 0, revokePmInbox);
+    // final blockedMode = _readflags.8?true(buffer, 0, blockedMode);
+    // final forceTryIpv6 = _readflags.14?true(buffer, 0, forceTryIpv6);
+    // final date = _readint(buffer, 0, date);
+    // final expires = _readint(buffer, 0, expires);
+    // final testMode = _readBool(buffer, 0, testMode);
+    // final thisDc = _readint(buffer, 0, thisDc);
+    // final dcOptions = _readVector<DcOption>(buffer, 0, dcOptions);
+    // final dcTxtDomainName = _readstring(buffer, 0, dcTxtDomainName);
+    // final chatSizeMax = _readint(buffer, 0, chatSizeMax);
+    // final megagroupSizeMax = _readint(buffer, 0, megagroupSizeMax);
+    // final forwardedCountMax = _readint(buffer, 0, forwardedCountMax);
+    // final onlineUpdatePeriodMs = _readint(buffer, 0, onlineUpdatePeriodMs);
+    // final offlineBlurTimeoutMs = _readint(buffer, 0, offlineBlurTimeoutMs);
+    // final offlineIdleTimeoutMs = _readint(buffer, 0, offlineIdleTimeoutMs);
+    // final onlineCloudTimeoutMs = _readint(buffer, 0, onlineCloudTimeoutMs);
+    // final notifyCloudDelayMs = _readint(buffer, 0, notifyCloudDelayMs);
+    // final notifyDefaultDelayMs = _readint(buffer, 0, notifyDefaultDelayMs);
+    // final pushChatPeriodMs = _readint(buffer, 0, pushChatPeriodMs);
+    // final pushChatLimit = _readint(buffer, 0, pushChatLimit);
+    // final editTimeLimit = _readint(buffer, 0, editTimeLimit);
+    // final revokeTimeLimit = _readint(buffer, 0, revokeTimeLimit);
+    // final revokePmTimeLimit = _readint(buffer, 0, revokePmTimeLimit);
+    // final ratingEDecay = _readint(buffer, 0, ratingEDecay);
+    // final stickersRecentLimit = _readint(buffer, 0, stickersRecentLimit);
+    // final channelsReadMediaPeriod = _readint(buffer, 0, channelsReadMediaPeriod);
+    // final tmpSessions = _readflags.0?int(buffer, 0, tmpSessions);
+    // final callReceiveTimeoutMs = _readint(buffer, 0, callReceiveTimeoutMs);
+    // final callRingTimeoutMs = _readint(buffer, 0, callRingTimeoutMs);
+    // final callConnectTimeoutMs = _readint(buffer, 0, callConnectTimeoutMs);
+    // final callPacketTimeoutMs = _readint(buffer, 0, callPacketTimeoutMs);
+    // final meUrlPrefix = _readstring(buffer, 0, meUrlPrefix);
+    // final autoupdateUrlPrefix = _readflags.7?string(buffer, 0, autoupdateUrlPrefix);
+    // final gifSearchUsername = _readflags.9?string(buffer, 0, gifSearchUsername);
+    // final venueSearchUsername = _readflags.10?string(buffer, 0, venueSearchUsername);
+    // final imgSearchUsername = _readflags.11?string(buffer, 0, imgSearchUsername);
+    // final staticMapsProvider = _readflags.12?string(buffer, 0, staticMapsProvider);
+    // final captionLengthMax = _readint(buffer, 0, captionLengthMax);
+    // final messageLengthMax = _readint(buffer, 0, messageLengthMax);
+    // final webfileDcId = _readint(buffer, 0, webfileDcId);
+    // final suggestedLangCode = _readflags.2?string(buffer, 0, suggestedLangCode);
+    // final langPackVersion = _readflags.2?int(buffer, 0, langPackVersion);
+    // final baseLangPackVersion = _readflags.2?int(buffer, 0, baseLangPackVersion);
+    // final reactionsDefault = _readflags.15?Reaction(buffer, 0, reactionsDefault);
+    // final autologinToken = _readflags.16?string(buffer, 0, autologinToken);
+    // final result = Config({flags: flags, defaultP2pContacts: defaultP2pContacts, preloadFeaturedStickers: preloadFeaturedStickers, revokePmInbox: revokePmInbox, blockedMode: blockedMode, forceTryIpv6: forceTryIpv6, date: date, expires: expires, testMode: testMode, thisDc: thisDc, dcOptions: dcOptions, dcTxtDomainName: dcTxtDomainName, chatSizeMax: chatSizeMax, megagroupSizeMax: megagroupSizeMax, forwardedCountMax: forwardedCountMax, onlineUpdatePeriodMs: onlineUpdatePeriodMs, offlineBlurTimeoutMs: offlineBlurTimeoutMs, offlineIdleTimeoutMs: offlineIdleTimeoutMs, onlineCloudTimeoutMs: onlineCloudTimeoutMs, notifyCloudDelayMs: notifyCloudDelayMs, notifyDefaultDelayMs: notifyDefaultDelayMs, pushChatPeriodMs: pushChatPeriodMs, pushChatLimit: pushChatLimit, editTimeLimit: editTimeLimit, revokeTimeLimit: revokeTimeLimit, revokePmTimeLimit: revokePmTimeLimit, ratingEDecay: ratingEDecay, stickersRecentLimit: stickersRecentLimit, channelsReadMediaPeriod: channelsReadMediaPeriod, tmpSessions: tmpSessions, callReceiveTimeoutMs: callReceiveTimeoutMs, callRingTimeoutMs: callRingTimeoutMs, callConnectTimeoutMs: callConnectTimeoutMs, callPacketTimeoutMs: callPacketTimeoutMs, meUrlPrefix: meUrlPrefix, autoupdateUrlPrefix: autoupdateUrlPrefix, gifSearchUsername: gifSearchUsername, venueSearchUsername: venueSearchUsername, imgSearchUsername: imgSearchUsername, staticMapsProvider: staticMapsProvider, captionLengthMax: captionLengthMax, messageLengthMax: messageLengthMax, webfileDcId: webfileDcId, suggestedLangCode: suggestedLangCode, langPackVersion: langPackVersion, baseLangPackVersion: baseLangPackVersion, reactionsDefault: reactionsDefault, autologinToken: autologinToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13901,6 +16302,12 @@ class NearestDc extends NearestDcBase {
 
   /// Deserialize.
   factory NearestDc.deserialize(Uint8List buffer) {
+    // final country = _readstring(buffer, 0, country);
+    // final thisDc = _readint(buffer, 0, thisDc);
+    // final nearestDc = _readint(buffer, 0, nearestDc);
+    // final result = NearestDc({country: country, thisDc: thisDc, nearestDc: nearestDc,});
+    // return result;
+
     throw Exception();
   }
 
@@ -13947,6 +16354,18 @@ class HelpAppUpdate extends HelpAppUpdateBase {
 
   /// Deserialize.
   factory HelpAppUpdate.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canNotSkip = _readflags.0?true(buffer, 0, canNotSkip);
+    // final id = _readint(buffer, 0, id);
+    // final version = _readstring(buffer, 0, version);
+    // final text = _readstring(buffer, 0, text);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final document = _readflags.1?Document(buffer, 0, document);
+    // final url = _readflags.2?string(buffer, 0, url);
+    // final sticker = _readflags.3?Document(buffer, 0, sticker);
+    // final result = HelpAppUpdate({flags: flags, canNotSkip: canNotSkip, id: id, version: version, text: text, entities: entities, document: document, url: url, sticker: sticker,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14002,6 +16421,9 @@ class HelpNoAppUpdate extends HelpAppUpdateBase {
 
   /// Deserialize.
   factory HelpNoAppUpdate.deserialize(Uint8List buffer) {
+    // final result = HelpNoAppUpdate();
+    // return result;
+
     throw Exception();
   }
 
@@ -14029,6 +16451,10 @@ class HelpInviteText extends HelpInviteTextBase {
 
   /// Deserialize.
   factory HelpInviteText.deserialize(Uint8List buffer) {
+    // final message = _readstring(buffer, 0, message);
+    // final result = HelpInviteText({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14060,6 +16486,10 @@ class EncryptedChatEmpty extends EncryptedChatBase {
 
   /// Deserialize.
   factory EncryptedChatEmpty.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final result = EncryptedChatEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14089,6 +16519,14 @@ class EncryptedChatWaiting extends EncryptedChatBase {
 
   /// Deserialize.
   factory EncryptedChatWaiting.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final result = EncryptedChatWaiting({id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14137,6 +16575,17 @@ class EncryptedChatRequested extends EncryptedChatBase {
 
   /// Deserialize.
   factory EncryptedChatRequested.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final folderId = _readflags.0?int(buffer, 0, folderId);
+    // final id = _readint(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final gA = _readbytes(buffer, 0, gA);
+    // final result = EncryptedChatRequested({flags: flags, folderId: folderId, id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, gA: gA,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14196,6 +16645,16 @@ class EncryptedChat extends EncryptedChatBase {
 
   /// Deserialize.
   factory EncryptedChat.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final gAOrB = _readbytes(buffer, 0, gAOrB);
+    // final keyFingerprint = _readlong(buffer, 0, keyFingerprint);
+    // final result = EncryptedChat({id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, gAOrB: gAOrB, keyFingerprint: keyFingerprint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14246,6 +16705,12 @@ class EncryptedChatDiscarded extends EncryptedChatBase {
 
   /// Deserialize.
   factory EncryptedChatDiscarded.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final historyDeleted = _readflags.0?true(buffer, 0, historyDeleted);
+    // final id = _readint(buffer, 0, id);
+    // final result = EncryptedChatDiscarded({flags: flags, historyDeleted: historyDeleted, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14286,6 +16751,11 @@ class InputEncryptedChat extends InputEncryptedChatBase {
 
   /// Deserialize.
   factory InputEncryptedChat.deserialize(Uint8List buffer) {
+    // final chatId = _readint(buffer, 0, chatId);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputEncryptedChat({chatId: chatId, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14319,6 +16789,9 @@ class EncryptedFileEmpty extends EncryptedFileBase {
 
   /// Deserialize.
   factory EncryptedFileEmpty.deserialize(Uint8List buffer) {
+    // final result = EncryptedFileEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -14344,6 +16817,14 @@ class EncryptedFile extends EncryptedFileBase {
 
   /// Deserialize.
   factory EncryptedFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final size = _readlong(buffer, 0, size);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final keyFingerprint = _readint(buffer, 0, keyFingerprint);
+    // final result = EncryptedFile({id: id, accessHash: accessHash, size: size, dcId: dcId, keyFingerprint: keyFingerprint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14389,6 +16870,9 @@ class InputEncryptedFileEmpty extends InputEncryptedFileBase {
 
   /// Deserialize.
   factory InputEncryptedFileEmpty.deserialize(Uint8List buffer) {
+    // final result = InputEncryptedFileEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -14413,6 +16897,13 @@ class InputEncryptedFileUploaded extends InputEncryptedFileBase {
 
   /// Deserialize.
   factory InputEncryptedFileUploaded.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final parts = _readint(buffer, 0, parts);
+    // final md5Checksum = _readstring(buffer, 0, md5Checksum);
+    // final keyFingerprint = _readint(buffer, 0, keyFingerprint);
+    // final result = InputEncryptedFileUploaded({id: id, parts: parts, md5Checksum: md5Checksum, keyFingerprint: keyFingerprint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14451,6 +16942,11 @@ class InputEncryptedFile extends InputEncryptedFileBase {
 
   /// Deserialize.
   factory InputEncryptedFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputEncryptedFile({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14482,6 +16978,12 @@ class InputEncryptedFileBigUploaded extends InputEncryptedFileBase {
 
   /// Deserialize.
   factory InputEncryptedFileBigUploaded.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final parts = _readint(buffer, 0, parts);
+    // final keyFingerprint = _readint(buffer, 0, keyFingerprint);
+    // final result = InputEncryptedFileBigUploaded({id: id, parts: parts, keyFingerprint: keyFingerprint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14525,6 +17027,14 @@ class EncryptedMessage extends EncryptedMessageBase {
 
   /// Deserialize.
   factory EncryptedMessage.deserialize(Uint8List buffer) {
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final chatId = _readint(buffer, 0, chatId);
+    // final date = _readint(buffer, 0, date);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final file = _readEncryptedFile(buffer, 0, file);
+    // final result = EncryptedMessage({randomId: randomId, chatId: chatId, date: date, bytes: bytes, file: file,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14569,6 +17079,13 @@ class EncryptedMessageService extends EncryptedMessageBase {
 
   /// Deserialize.
   factory EncryptedMessageService.deserialize(Uint8List buffer) {
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final chatId = _readint(buffer, 0, chatId);
+    // final date = _readint(buffer, 0, date);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = EncryptedMessageService({randomId: randomId, chatId: chatId, date: date, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14612,6 +17129,10 @@ class MessagesDhConfigNotModified extends MessagesDhConfigBase {
 
   /// Deserialize.
   factory MessagesDhConfigNotModified.deserialize(Uint8List buffer) {
+    // final random = _readbytes(buffer, 0, random);
+    // final result = MessagesDhConfigNotModified({random: random,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14640,6 +17161,13 @@ class MessagesDhConfig extends MessagesDhConfigBase {
 
   /// Deserialize.
   factory MessagesDhConfig.deserialize(Uint8List buffer) {
+    // final g = _readint(buffer, 0, g);
+    // final p = _readbytes(buffer, 0, p);
+    // final version = _readint(buffer, 0, version);
+    // final random = _readbytes(buffer, 0, random);
+    // final result = MessagesDhConfig({g: g, p: p, version: version, random: random,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14683,6 +17211,10 @@ class MessagesSentEncryptedMessage extends MessagesSentEncryptedMessageBase {
 
   /// Deserialize.
   factory MessagesSentEncryptedMessage.deserialize(Uint8List buffer) {
+    // final date = _readint(buffer, 0, date);
+    // final result = MessagesSentEncryptedMessage({date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14709,6 +17241,11 @@ class MessagesSentEncryptedFile extends MessagesSentEncryptedMessageBase {
 
   /// Deserialize.
   factory MessagesSentEncryptedFile.deserialize(Uint8List buffer) {
+    // final date = _readint(buffer, 0, date);
+    // final file = _readEncryptedFile(buffer, 0, file);
+    // final result = MessagesSentEncryptedFile({date: date, file: file,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14742,6 +17279,9 @@ class InputDocumentEmpty extends InputDocumentBase {
 
   /// Deserialize.
   factory InputDocumentEmpty.deserialize(Uint8List buffer) {
+    // final result = InputDocumentEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -14765,6 +17305,12 @@ class InputDocument extends InputDocumentBase {
 
   /// Deserialize.
   factory InputDocument.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final result = InputDocument({id: id, accessHash: accessHash, fileReference: fileReference,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14804,6 +17350,10 @@ class DocumentEmpty extends DocumentBase {
 
   /// Deserialize.
   factory DocumentEmpty.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = DocumentEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14839,6 +17389,20 @@ class Document extends DocumentBase {
 
   /// Deserialize.
   factory Document.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final fileReference = _readbytes(buffer, 0, fileReference);
+    // final date = _readint(buffer, 0, date);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final size = _readlong(buffer, 0, size);
+    // final thumbs = _readflags.0?Vector<PhotoSize>(buffer, 0, thumbs);
+    // final videoThumbs = _readflags.1?Vector<VideoSize>(buffer, 0, videoThumbs);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final attributes = _readVector<DocumentAttribute>(buffer, 0, attributes);
+    // final result = Document({flags: flags, id: id, accessHash: accessHash, fileReference: fileReference, date: date, mimeType: mimeType, size: size, thumbs: thumbs, videoThumbs: videoThumbs, dcId: dcId, attributes: attributes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14911,6 +17475,11 @@ class HelpSupport extends HelpSupportBase {
 
   /// Deserialize.
   factory HelpSupport.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final user = _readUser(buffer, 0, user);
+    // final result = HelpSupport({phoneNumber: phoneNumber, user: user,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14946,6 +17515,10 @@ class NotifyPeer extends NotifyPeerBase {
 
   /// Deserialize.
   factory NotifyPeer.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final result = NotifyPeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -14969,6 +17542,9 @@ class NotifyUsers extends NotifyPeerBase {
 
   /// Deserialize.
   factory NotifyUsers.deserialize(Uint8List buffer) {
+    // final result = NotifyUsers();
+    // return result;
+
     throw Exception();
   }
 
@@ -14988,6 +17564,9 @@ class NotifyChats extends NotifyPeerBase {
 
   /// Deserialize.
   factory NotifyChats.deserialize(Uint8List buffer) {
+    // final result = NotifyChats();
+    // return result;
+
     throw Exception();
   }
 
@@ -15007,6 +17586,9 @@ class NotifyBroadcasts extends NotifyPeerBase {
 
   /// Deserialize.
   factory NotifyBroadcasts.deserialize(Uint8List buffer) {
+    // final result = NotifyBroadcasts();
+    // return result;
+
     throw Exception();
   }
 
@@ -15029,6 +17611,11 @@ class NotifyForumTopic extends NotifyPeerBase {
 
   /// Deserialize.
   factory NotifyForumTopic.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final topMsgId = _readint(buffer, 0, topMsgId);
+    // final result = NotifyForumTopic({peer: peer, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15062,6 +17649,9 @@ class SendMessageTypingAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageTypingAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageTypingAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15081,6 +17671,9 @@ class SendMessageCancelAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageCancelAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageCancelAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15100,6 +17693,9 @@ class SendMessageRecordVideoAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageRecordVideoAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageRecordVideoAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15121,6 +17717,10 @@ class SendMessageUploadVideoAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageUploadVideoAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageUploadVideoAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15144,6 +17744,9 @@ class SendMessageRecordAudioAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageRecordAudioAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageRecordAudioAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15165,6 +17768,10 @@ class SendMessageUploadAudioAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageUploadAudioAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageUploadAudioAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15190,6 +17797,10 @@ class SendMessageUploadPhotoAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageUploadPhotoAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageUploadPhotoAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15215,6 +17826,10 @@ class SendMessageUploadDocumentAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageUploadDocumentAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageUploadDocumentAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15238,6 +17853,9 @@ class SendMessageGeoLocationAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageGeoLocationAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageGeoLocationAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15257,6 +17875,9 @@ class SendMessageChooseContactAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageChooseContactAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageChooseContactAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15276,6 +17897,9 @@ class SendMessageGamePlayAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageGamePlayAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageGamePlayAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15295,6 +17919,9 @@ class SendMessageRecordRoundAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageRecordRoundAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageRecordRoundAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15316,6 +17943,10 @@ class SendMessageUploadRoundAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageUploadRoundAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageUploadRoundAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15339,6 +17970,9 @@ class SpeakingInGroupCallAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SpeakingInGroupCallAction.deserialize(Uint8List buffer) {
+    // final result = SpeakingInGroupCallAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15360,6 +17994,10 @@ class SendMessageHistoryImportAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageHistoryImportAction.deserialize(Uint8List buffer) {
+    // final progress = _readint(buffer, 0, progress);
+    // final result = SendMessageHistoryImportAction({progress: progress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15383,6 +18021,9 @@ class SendMessageChooseStickerAction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageChooseStickerAction.deserialize(Uint8List buffer) {
+    // final result = SendMessageChooseStickerAction();
+    // return result;
+
     throw Exception();
   }
 
@@ -15406,6 +18047,12 @@ class SendMessageEmojiInteraction extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageEmojiInteraction.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final interaction = _readDataJSON(buffer, 0, interaction);
+    // final result = SendMessageEmojiInteraction({emoticon: emoticon, msgId: msgId, interaction: interaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15439,6 +18086,10 @@ class SendMessageEmojiInteractionSeen extends SendMessageActionBase {
 
   /// Deserialize.
   factory SendMessageEmojiInteractionSeen.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = SendMessageEmojiInteractionSeen({emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15473,6 +18124,13 @@ class ContactsFound extends ContactsFoundBase {
 
   /// Deserialize.
   factory ContactsFound.deserialize(Uint8List buffer) {
+    // final myResults = _readVector<Peer>(buffer, 0, myResults);
+    // final results = _readVector<Peer>(buffer, 0, results);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsFound({myResults: myResults, results: results, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15514,6 +18172,9 @@ class InputPrivacyKeyStatusTimestamp extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyStatusTimestamp.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyStatusTimestamp();
+    // return result;
+
     throw Exception();
   }
 
@@ -15533,6 +18194,9 @@ class InputPrivacyKeyChatInvite extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyChatInvite.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyChatInvite();
+    // return result;
+
     throw Exception();
   }
 
@@ -15552,6 +18216,9 @@ class InputPrivacyKeyPhoneCall extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyPhoneCall.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyPhoneCall();
+    // return result;
+
     throw Exception();
   }
 
@@ -15571,6 +18238,9 @@ class InputPrivacyKeyPhoneP2P extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyPhoneP2P.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyPhoneP2P();
+    // return result;
+
     throw Exception();
   }
 
@@ -15590,6 +18260,9 @@ class InputPrivacyKeyForwards extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyForwards.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyForwards();
+    // return result;
+
     throw Exception();
   }
 
@@ -15609,6 +18282,9 @@ class InputPrivacyKeyProfilePhoto extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyProfilePhoto.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyProfilePhoto();
+    // return result;
+
     throw Exception();
   }
 
@@ -15628,6 +18304,9 @@ class InputPrivacyKeyPhoneNumber extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyPhoneNumber.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyPhoneNumber();
+    // return result;
+
     throw Exception();
   }
 
@@ -15647,6 +18326,9 @@ class InputPrivacyKeyAddedByPhone extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyAddedByPhone.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyAddedByPhone();
+    // return result;
+
     throw Exception();
   }
 
@@ -15666,6 +18348,9 @@ class InputPrivacyKeyVoiceMessages extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyVoiceMessages.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyVoiceMessages();
+    // return result;
+
     throw Exception();
   }
 
@@ -15685,6 +18370,9 @@ class InputPrivacyKeyAbout extends InputPrivacyKeyBase {
 
   /// Deserialize.
   factory InputPrivacyKeyAbout.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyKeyAbout();
+    // return result;
+
     throw Exception();
   }
 
@@ -15710,6 +18398,9 @@ class PrivacyKeyStatusTimestamp extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyStatusTimestamp.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyStatusTimestamp();
+    // return result;
+
     throw Exception();
   }
 
@@ -15729,6 +18420,9 @@ class PrivacyKeyChatInvite extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyChatInvite.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyChatInvite();
+    // return result;
+
     throw Exception();
   }
 
@@ -15748,6 +18442,9 @@ class PrivacyKeyPhoneCall extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyPhoneCall.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyPhoneCall();
+    // return result;
+
     throw Exception();
   }
 
@@ -15767,6 +18464,9 @@ class PrivacyKeyPhoneP2P extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyPhoneP2P.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyPhoneP2P();
+    // return result;
+
     throw Exception();
   }
 
@@ -15786,6 +18486,9 @@ class PrivacyKeyForwards extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyForwards.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyForwards();
+    // return result;
+
     throw Exception();
   }
 
@@ -15805,6 +18508,9 @@ class PrivacyKeyProfilePhoto extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyProfilePhoto.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyProfilePhoto();
+    // return result;
+
     throw Exception();
   }
 
@@ -15824,6 +18530,9 @@ class PrivacyKeyPhoneNumber extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyPhoneNumber.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyPhoneNumber();
+    // return result;
+
     throw Exception();
   }
 
@@ -15843,6 +18552,9 @@ class PrivacyKeyAddedByPhone extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyAddedByPhone.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyAddedByPhone();
+    // return result;
+
     throw Exception();
   }
 
@@ -15862,6 +18574,9 @@ class PrivacyKeyVoiceMessages extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyVoiceMessages.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyVoiceMessages();
+    // return result;
+
     throw Exception();
   }
 
@@ -15881,6 +18596,9 @@ class PrivacyKeyAbout extends PrivacyKeyBase {
 
   /// Deserialize.
   factory PrivacyKeyAbout.deserialize(Uint8List buffer) {
+    // final result = PrivacyKeyAbout();
+    // return result;
+
     throw Exception();
   }
 
@@ -15906,6 +18624,9 @@ class InputPrivacyValueAllowContacts extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueAllowContacts.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyValueAllowContacts();
+    // return result;
+
     throw Exception();
   }
 
@@ -15925,6 +18646,9 @@ class InputPrivacyValueAllowAll extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueAllowAll.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyValueAllowAll();
+    // return result;
+
     throw Exception();
   }
 
@@ -15946,6 +18670,10 @@ class InputPrivacyValueAllowUsers extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueAllowUsers.deserialize(Uint8List buffer) {
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final result = InputPrivacyValueAllowUsers({users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -15969,6 +18697,9 @@ class InputPrivacyValueDisallowContacts extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueDisallowContacts.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyValueDisallowContacts();
+    // return result;
+
     throw Exception();
   }
 
@@ -15988,6 +18719,9 @@ class InputPrivacyValueDisallowAll extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueDisallowAll.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyValueDisallowAll();
+    // return result;
+
     throw Exception();
   }
 
@@ -16009,6 +18743,10 @@ class InputPrivacyValueDisallowUsers extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueDisallowUsers.deserialize(Uint8List buffer) {
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final result = InputPrivacyValueDisallowUsers({users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16034,6 +18772,10 @@ class InputPrivacyValueAllowChatParticipants extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueAllowChatParticipants.deserialize(Uint8List buffer) {
+    // final chats = _readVector<long>(buffer, 0, chats);
+    // final result = InputPrivacyValueAllowChatParticipants({chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16060,6 +18802,10 @@ class InputPrivacyValueDisallowChatParticipants extends InputPrivacyRuleBase {
   /// Deserialize.
   factory InputPrivacyValueDisallowChatParticipants.deserialize(
       Uint8List buffer) {
+    // final chats = _readVector<long>(buffer, 0, chats);
+    // final result = InputPrivacyValueDisallowChatParticipants({chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16083,6 +18829,9 @@ class InputPrivacyValueAllowCloseFriends extends InputPrivacyRuleBase {
 
   /// Deserialize.
   factory InputPrivacyValueAllowCloseFriends.deserialize(Uint8List buffer) {
+    // final result = InputPrivacyValueAllowCloseFriends();
+    // return result;
+
     throw Exception();
   }
 
@@ -16108,6 +18857,9 @@ class PrivacyValueAllowContacts extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueAllowContacts.deserialize(Uint8List buffer) {
+    // final result = PrivacyValueAllowContacts();
+    // return result;
+
     throw Exception();
   }
 
@@ -16127,6 +18879,9 @@ class PrivacyValueAllowAll extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueAllowAll.deserialize(Uint8List buffer) {
+    // final result = PrivacyValueAllowAll();
+    // return result;
+
     throw Exception();
   }
 
@@ -16148,6 +18903,10 @@ class PrivacyValueAllowUsers extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueAllowUsers.deserialize(Uint8List buffer) {
+    // final users = _readVector<long>(buffer, 0, users);
+    // final result = PrivacyValueAllowUsers({users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16171,6 +18930,9 @@ class PrivacyValueDisallowContacts extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueDisallowContacts.deserialize(Uint8List buffer) {
+    // final result = PrivacyValueDisallowContacts();
+    // return result;
+
     throw Exception();
   }
 
@@ -16190,6 +18952,9 @@ class PrivacyValueDisallowAll extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueDisallowAll.deserialize(Uint8List buffer) {
+    // final result = PrivacyValueDisallowAll();
+    // return result;
+
     throw Exception();
   }
 
@@ -16211,6 +18976,10 @@ class PrivacyValueDisallowUsers extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueDisallowUsers.deserialize(Uint8List buffer) {
+    // final users = _readVector<long>(buffer, 0, users);
+    // final result = PrivacyValueDisallowUsers({users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16236,6 +19005,10 @@ class PrivacyValueAllowChatParticipants extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueAllowChatParticipants.deserialize(Uint8List buffer) {
+    // final chats = _readVector<long>(buffer, 0, chats);
+    // final result = PrivacyValueAllowChatParticipants({chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16261,6 +19034,10 @@ class PrivacyValueDisallowChatParticipants extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueDisallowChatParticipants.deserialize(Uint8List buffer) {
+    // final chats = _readVector<long>(buffer, 0, chats);
+    // final result = PrivacyValueDisallowChatParticipants({chats: chats,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16284,6 +19061,9 @@ class PrivacyValueAllowCloseFriends extends PrivacyRuleBase {
 
   /// Deserialize.
   factory PrivacyValueAllowCloseFriends.deserialize(Uint8List buffer) {
+    // final result = PrivacyValueAllowCloseFriends();
+    // return result;
+
     throw Exception();
   }
 
@@ -16313,6 +19093,12 @@ class AccountPrivacyRules extends AccountPrivacyRulesBase {
 
   /// Deserialize.
   factory AccountPrivacyRules.deserialize(Uint8List buffer) {
+    // final rules = _readVector<PrivacyRule>(buffer, 0, rules);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = AccountPrivacyRules({rules: rules, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16352,6 +19138,10 @@ class AccountDaysTTL extends AccountDaysTTLBase {
 
   /// Deserialize.
   factory AccountDaysTTL.deserialize(Uint8List buffer) {
+    // final days = _readint(buffer, 0, days);
+    // final result = AccountDaysTTL({days: days,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16384,6 +19174,11 @@ class DocumentAttributeImageSize extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeImageSize.deserialize(Uint8List buffer) {
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final result = DocumentAttributeImageSize({w: w, h: h,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16411,6 +19206,9 @@ class DocumentAttributeAnimated extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeAnimated.deserialize(Uint8List buffer) {
+    // final result = DocumentAttributeAnimated();
+    // return result;
+
     throw Exception();
   }
 
@@ -16435,6 +19233,14 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeSticker.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final mask = _readflags.1?true(buffer, 0, mask);
+    // final alt = _readstring(buffer, 0, alt);
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final maskCoords = _readflags.0?MaskCoords(buffer, 0, maskCoords);
+    // final result = DocumentAttributeSticker({flags: flags, mask: mask, alt: alt, stickerset: stickerset, maskCoords: maskCoords,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16480,6 +19286,17 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeVideo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final roundMessage = _readflags.0?true(buffer, 0, roundMessage);
+    // final supportsStreaming = _readflags.1?true(buffer, 0, supportsStreaming);
+    // final nosound = _readflags.3?true(buffer, 0, nosound);
+    // final duration = _readdouble(buffer, 0, duration);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final preloadPrefixSize = _readflags.2?int(buffer, 0, preloadPrefixSize);
+    // final result = DocumentAttributeVideo({flags: flags, roundMessage: roundMessage, supportsStreaming: supportsStreaming, nosound: nosound, duration: duration, w: w, h: h, preloadPrefixSize: preloadPrefixSize,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16537,6 +19354,15 @@ class DocumentAttributeAudio extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeAudio.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final voice = _readflags.10?true(buffer, 0, voice);
+    // final duration = _readint(buffer, 0, duration);
+    // final title = _readflags.0?string(buffer, 0, title);
+    // final performer = _readflags.1?string(buffer, 0, performer);
+    // final waveform = _readflags.2?bytes(buffer, 0, waveform);
+    // final result = DocumentAttributeAudio({flags: flags, voice: voice, duration: duration, title: title, performer: performer, waveform: waveform,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16582,6 +19408,10 @@ class DocumentAttributeFilename extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeFilename.deserialize(Uint8List buffer) {
+    // final fileName = _readstring(buffer, 0, fileName);
+    // final result = DocumentAttributeFilename({fileName: fileName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16605,6 +19435,9 @@ class DocumentAttributeHasStickers extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeHasStickers.deserialize(Uint8List buffer) {
+    // final result = DocumentAttributeHasStickers();
+    // return result;
+
     throw Exception();
   }
 
@@ -16628,6 +19461,14 @@ class DocumentAttributeCustomEmoji extends DocumentAttributeBase {
 
   /// Deserialize.
   factory DocumentAttributeCustomEmoji.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final free = _readflags.0?true(buffer, 0, free);
+    // final textColor = _readflags.1?true(buffer, 0, textColor);
+    // final alt = _readstring(buffer, 0, alt);
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final result = DocumentAttributeCustomEmoji({flags: flags, free: free, textColor: textColor, alt: alt, stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16673,6 +19514,9 @@ class MessagesStickersNotModified extends MessagesStickersBase {
 
   /// Deserialize.
   factory MessagesStickersNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesStickersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -16695,6 +19539,11 @@ class MessagesStickers extends MessagesStickersBase {
 
   /// Deserialize.
   factory MessagesStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final stickers = _readVector<Document>(buffer, 0, stickers);
+    // final result = MessagesStickers({hash: hash, stickers: stickers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16731,6 +19580,11 @@ class StickerPack extends StickerPackBase {
 
   /// Deserialize.
   factory StickerPack.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final documents = _readVector<long>(buffer, 0, documents);
+    // final result = StickerPack({emoticon: emoticon, documents: documents,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16764,6 +19618,9 @@ class MessagesAllStickersNotModified extends MessagesAllStickersBase {
 
   /// Deserialize.
   factory MessagesAllStickersNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesAllStickersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -16786,6 +19643,11 @@ class MessagesAllStickers extends MessagesAllStickersBase {
 
   /// Deserialize.
   factory MessagesAllStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final sets = _readVector<StickerSet>(buffer, 0, sets);
+    // final result = MessagesAllStickers({hash: hash, sets: sets,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16822,6 +19684,11 @@ class MessagesAffectedMessages extends MessagesAffectedMessagesBase {
 
   /// Deserialize.
   factory MessagesAffectedMessages.deserialize(Uint8List buffer) {
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final result = MessagesAffectedMessages({pts: pts, ptsCount: ptsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16859,6 +19726,12 @@ class WebPageEmpty extends WebPageBase {
 
   /// Deserialize.
   factory WebPageEmpty.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readlong(buffer, 0, id);
+    // final url = _readflags.0?string(buffer, 0, url);
+    // final result = WebPageEmpty({flags: flags, id: id, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16895,6 +19768,13 @@ class WebPagePending extends WebPageBase {
 
   /// Deserialize.
   factory WebPagePending.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readlong(buffer, 0, id);
+    // final url = _readflags.0?string(buffer, 0, url);
+    // final date = _readint(buffer, 0, date);
+    // final result = WebPagePending({flags: flags, id: id, url: url, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -16950,6 +19830,29 @@ class WebPage extends WebPageBase {
 
   /// Deserialize.
   factory WebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasLargeMedia = _readflags.13?true(buffer, 0, hasLargeMedia);
+    // final id = _readlong(buffer, 0, id);
+    // final url = _readstring(buffer, 0, url);
+    // final displayUrl = _readstring(buffer, 0, displayUrl);
+    // final hash = _readint(buffer, 0, hash);
+    // final type = _readflags.0?string(buffer, 0, type);
+    // final siteName = _readflags.1?string(buffer, 0, siteName);
+    // final title = _readflags.2?string(buffer, 0, title);
+    // final description = _readflags.3?string(buffer, 0, description);
+    // final photo = _readflags.4?Photo(buffer, 0, photo);
+    // final embedUrl = _readflags.5?string(buffer, 0, embedUrl);
+    // final embedType = _readflags.5?string(buffer, 0, embedType);
+    // final embedWidth = _readflags.6?int(buffer, 0, embedWidth);
+    // final embedHeight = _readflags.6?int(buffer, 0, embedHeight);
+    // final duration = _readflags.7?int(buffer, 0, duration);
+    // final author = _readflags.8?string(buffer, 0, author);
+    // final document = _readflags.9?Document(buffer, 0, document);
+    // final cachedPage = _readflags.10?Page(buffer, 0, cachedPage);
+    // final attributes = _readflags.12?Vector<WebPageAttribute>(buffer, 0, attributes);
+    // final result = WebPage({flags: flags, hasLargeMedia: hasLargeMedia, id: id, url: url, displayUrl: displayUrl, hash: hash, type: type, siteName: siteName, title: title, description: description, photo: photo, embedUrl: embedUrl, embedType: embedType, embedWidth: embedWidth, embedHeight: embedHeight, duration: duration, author: author, document: document, cachedPage: cachedPage, attributes: attributes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17052,6 +19955,11 @@ class WebPageNotModified extends WebPageBase {
 
   /// Deserialize.
   factory WebPageNotModified.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final cachedPageViews = _readflags.0?int(buffer, 0, cachedPageViews);
+    // final result = WebPageNotModified({flags: flags, cachedPageViews: cachedPageViews,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17099,6 +20007,28 @@ class Authorization extends AuthorizationBase {
 
   /// Deserialize.
   factory Authorization.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final current = _readflags.0?true(buffer, 0, current);
+    // final officialApp = _readflags.1?true(buffer, 0, officialApp);
+    // final passwordPending = _readflags.2?true(buffer, 0, passwordPending);
+    // final encryptedRequestsDisabled = _readflags.3?true(buffer, 0, encryptedRequestsDisabled);
+    // final callRequestsDisabled = _readflags.4?true(buffer, 0, callRequestsDisabled);
+    // final unconfirmed = _readflags.5?true(buffer, 0, unconfirmed);
+    // final hash = _readlong(buffer, 0, hash);
+    // final deviceModel = _readstring(buffer, 0, deviceModel);
+    // final platform = _readstring(buffer, 0, platform);
+    // final systemVersion = _readstring(buffer, 0, systemVersion);
+    // final apiId = _readint(buffer, 0, apiId);
+    // final appName = _readstring(buffer, 0, appName);
+    // final appVersion = _readstring(buffer, 0, appVersion);
+    // final dateCreated = _readint(buffer, 0, dateCreated);
+    // final dateActive = _readint(buffer, 0, dateActive);
+    // final ip = _readstring(buffer, 0, ip);
+    // final country = _readstring(buffer, 0, country);
+    // final region = _readstring(buffer, 0, region);
+    // final result = Authorization({flags: flags, current: current, officialApp: officialApp, passwordPending: passwordPending, encryptedRequestsDisabled: encryptedRequestsDisabled, callRequestsDisabled: callRequestsDisabled, unconfirmed: unconfirmed, hash: hash, deviceModel: deviceModel, platform: platform, systemVersion: systemVersion, apiId: apiId, appName: appName, appVersion: appVersion, dateCreated: dateCreated, dateActive: dateActive, ip: ip, country: country, region: region,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17203,6 +20133,11 @@ class AccountAuthorizations extends AccountAuthorizationsBase {
 
   /// Deserialize.
   factory AccountAuthorizations.deserialize(Uint8List buffer) {
+    // final authorizationTtlDays = _readint(buffer, 0, authorizationTtlDays);
+    // final authorizations = _readVector<Authorization>(buffer, 0, authorizations);
+    // final result = AccountAuthorizations({authorizationTtlDays: authorizationTtlDays, authorizations: authorizations,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17248,6 +20183,23 @@ class AccountPassword extends AccountPasswordBase {
 
   /// Deserialize.
   factory AccountPassword.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasRecovery = _readflags.0?true(buffer, 0, hasRecovery);
+    // final hasSecureValues = _readflags.1?true(buffer, 0, hasSecureValues);
+    // final hasPassword = _readflags.2?true(buffer, 0, hasPassword);
+    // final currentAlgo = _readflags.2?PasswordKdfAlgo(buffer, 0, currentAlgo);
+    // final srpB = _readflags.2?bytes(buffer, 0, srpB);
+    // final srpId = _readflags.2?long(buffer, 0, srpId);
+    // final hint = _readflags.3?string(buffer, 0, hint);
+    // final emailUnconfirmedPattern = _readflags.4?string(buffer, 0, emailUnconfirmedPattern);
+    // final newAlgo = _readPasswordKdfAlgo(buffer, 0, newAlgo);
+    // final newSecureAlgo = _readSecurePasswordKdfAlgo(buffer, 0, newSecureAlgo);
+    // final secureRandom = _readbytes(buffer, 0, secureRandom);
+    // final pendingResetDate = _readflags.5?int(buffer, 0, pendingResetDate);
+    // final loginEmailPattern = _readflags.6?string(buffer, 0, loginEmailPattern);
+    // final result = AccountPassword({flags: flags, hasRecovery: hasRecovery, hasSecureValues: hasSecureValues, hasPassword: hasPassword, currentAlgo: currentAlgo, srpB: srpB, srpId: srpId, hint: hint, emailUnconfirmedPattern: emailUnconfirmedPattern, newAlgo: newAlgo, newSecureAlgo: newSecureAlgo, secureRandom: secureRandom, pendingResetDate: pendingResetDate, loginEmailPattern: loginEmailPattern,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17333,6 +20285,12 @@ class AccountPasswordSettings extends AccountPasswordSettingsBase {
 
   /// Deserialize.
   factory AccountPasswordSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final email = _readflags.0?string(buffer, 0, email);
+    // final secureSettings = _readflags.1?SecureSecretSettings(buffer, 0, secureSettings);
+    // final result = AccountPasswordSettings({flags: flags, email: email, secureSettings: secureSettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17377,6 +20335,15 @@ class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
 
   /// Deserialize.
   factory AccountPasswordInputSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final newAlgo = _readflags.0?PasswordKdfAlgo(buffer, 0, newAlgo);
+    // final newPasswordHash = _readflags.0?bytes(buffer, 0, newPasswordHash);
+    // final hint = _readflags.0?string(buffer, 0, hint);
+    // final email = _readflags.1?string(buffer, 0, email);
+    // final newSecureSettings = _readflags.2?SecureSecretSettings(buffer, 0, newSecureSettings);
+    // final result = AccountPasswordInputSettings({flags: flags, newAlgo: newAlgo, newPasswordHash: newPasswordHash, hint: hint, email: email, newSecureSettings: newSecureSettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17428,6 +20395,10 @@ class AuthPasswordRecovery extends AuthPasswordRecoveryBase {
 
   /// Deserialize.
   factory AuthPasswordRecovery.deserialize(Uint8List buffer) {
+    // final emailPattern = _readstring(buffer, 0, emailPattern);
+    // final result = AuthPasswordRecovery({emailPattern: emailPattern,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17460,6 +20431,11 @@ class ReceivedNotifyMessage extends ReceivedNotifyMessageBase {
 
   /// Deserialize.
   factory ReceivedNotifyMessage.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final flags = _readint(buffer, 0, flags);
+    // final result = ReceivedNotifyMessage({id: id, flags: flags,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17504,6 +20480,22 @@ class ChatInviteExported extends ExportedChatInviteBase {
 
   /// Deserialize.
   factory ChatInviteExported.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revoked = _readflags.0?true(buffer, 0, revoked);
+    // final permanent = _readflags.5?true(buffer, 0, permanent);
+    // final requestNeeded = _readflags.6?true(buffer, 0, requestNeeded);
+    // final link = _readstring(buffer, 0, link);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final date = _readint(buffer, 0, date);
+    // final startDate = _readflags.4?int(buffer, 0, startDate);
+    // final expireDate = _readflags.1?int(buffer, 0, expireDate);
+    // final usageLimit = _readflags.2?int(buffer, 0, usageLimit);
+    // final usage = _readflags.3?int(buffer, 0, usage);
+    // final requested = _readflags.7?int(buffer, 0, requested);
+    // final title = _readflags.8?string(buffer, 0, title);
+    // final result = ChatInviteExported({flags: flags, revoked: revoked, permanent: permanent, requestNeeded: requestNeeded, link: link, adminId: adminId, date: date, startDate: startDate, expireDate: expireDate, usageLimit: usageLimit, usage: usage, requested: requested, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17575,6 +20567,9 @@ class ChatInvitePublicJoinRequests extends ExportedChatInviteBase {
 
   /// Deserialize.
   factory ChatInvitePublicJoinRequests.deserialize(Uint8List buffer) {
+    // final result = ChatInvitePublicJoinRequests();
+    // return result;
+
     throw Exception();
   }
 
@@ -17602,6 +20597,10 @@ class ChatInviteAlready extends ChatInviteBase {
 
   /// Deserialize.
   factory ChatInviteAlready.deserialize(Uint8List buffer) {
+    // final chat = _readChat(buffer, 0, chat);
+    // final result = ChatInviteAlready({chat: chat,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17633,6 +20632,24 @@ class ChatInvite extends ChatInviteBase {
 
   /// Deserialize.
   factory ChatInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channel = _readflags.0?true(buffer, 0, channel);
+    // final broadcast = _readflags.1?true(buffer, 0, broadcast);
+    // final public = _readflags.2?true(buffer, 0, public);
+    // final megagroup = _readflags.3?true(buffer, 0, megagroup);
+    // final requestNeeded = _readflags.6?true(buffer, 0, requestNeeded);
+    // final verified = _readflags.7?true(buffer, 0, verified);
+    // final scam = _readflags.8?true(buffer, 0, scam);
+    // final fake = _readflags.9?true(buffer, 0, fake);
+    // final title = _readstring(buffer, 0, title);
+    // final about = _readflags.5?string(buffer, 0, about);
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final participantsCount = _readint(buffer, 0, participantsCount);
+    // final participants = _readflags.4?Vector<User>(buffer, 0, participants);
+    // final color = _readint(buffer, 0, color);
+    // final result = ChatInvite({flags: flags, channel: channel, broadcast: broadcast, public: public, megagroup: megagroup, requestNeeded: requestNeeded, verified: verified, scam: scam, fake: fake, title: title, about: about, photo: photo, participantsCount: participantsCount, participants: participants, color: color,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17715,6 +20732,11 @@ class ChatInvitePeek extends ChatInviteBase {
 
   /// Deserialize.
   factory ChatInvitePeek.deserialize(Uint8List buffer) {
+    // final chat = _readChat(buffer, 0, chat);
+    // final expires = _readint(buffer, 0, expires);
+    // final result = ChatInvitePeek({chat: chat, expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17748,6 +20770,9 @@ class InputStickerSetEmpty extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetEmpty.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -17770,6 +20795,11 @@ class InputStickerSetID extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetID.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputStickerSetID({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17799,6 +20829,10 @@ class InputStickerSetShortName extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetShortName.deserialize(Uint8List buffer) {
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final result = InputStickerSetShortName({shortName: shortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17822,6 +20856,9 @@ class InputStickerSetAnimatedEmoji extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetAnimatedEmoji.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetAnimatedEmoji();
+    // return result;
+
     throw Exception();
   }
 
@@ -17843,6 +20880,10 @@ class InputStickerSetDice extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetDice.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = InputStickerSetDice({emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -17866,6 +20907,9 @@ class InputStickerSetAnimatedEmojiAnimations extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetAnimatedEmojiAnimations.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetAnimatedEmojiAnimations();
+    // return result;
+
     throw Exception();
   }
 
@@ -17885,6 +20929,9 @@ class InputStickerSetPremiumGifts extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetPremiumGifts.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetPremiumGifts();
+    // return result;
+
     throw Exception();
   }
 
@@ -17904,6 +20951,9 @@ class InputStickerSetEmojiGenericAnimations extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetEmojiGenericAnimations.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetEmojiGenericAnimations();
+    // return result;
+
     throw Exception();
   }
 
@@ -17923,6 +20973,9 @@ class InputStickerSetEmojiDefaultStatuses extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetEmojiDefaultStatuses.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetEmojiDefaultStatuses();
+    // return result;
+
     throw Exception();
   }
 
@@ -17942,6 +20995,9 @@ class InputStickerSetEmojiDefaultTopicIcons extends InputStickerSetBase {
 
   /// Deserialize.
   factory InputStickerSetEmojiDefaultTopicIcons.deserialize(Uint8List buffer) {
+    // final result = InputStickerSetEmojiDefaultTopicIcons();
+    // return result;
+
     throw Exception();
   }
 
@@ -17962,6 +21018,9 @@ class InputStickerSetEmojiChannelDefaultStatuses extends InputStickerSetBase {
   /// Deserialize.
   factory InputStickerSetEmojiChannelDefaultStatuses.deserialize(
       Uint8List buffer) {
+    // final result = InputStickerSetEmojiChannelDefaultStatuses();
+    // return result;
+
     throw Exception();
   }
 
@@ -18000,6 +21059,29 @@ class StickerSet extends StickerSetBase {
 
   /// Deserialize.
   factory StickerSet.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final archived = _readflags.1?true(buffer, 0, archived);
+    // final official = _readflags.2?true(buffer, 0, official);
+    // final masks = _readflags.3?true(buffer, 0, masks);
+    // final animated = _readflags.5?true(buffer, 0, animated);
+    // final videos = _readflags.6?true(buffer, 0, videos);
+    // final emojis = _readflags.7?true(buffer, 0, emojis);
+    // final textColor = _readflags.9?true(buffer, 0, textColor);
+    // final channelEmojiStatus = _readflags.10?true(buffer, 0, channelEmojiStatus);
+    // final installedDate = _readflags.0?int(buffer, 0, installedDate);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final title = _readstring(buffer, 0, title);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final thumbs = _readflags.4?Vector<PhotoSize>(buffer, 0, thumbs);
+    // final thumbDcId = _readflags.4?int(buffer, 0, thumbDcId);
+    // final thumbVersion = _readflags.4?int(buffer, 0, thumbVersion);
+    // final thumbDocumentId = _readflags.8?long(buffer, 0, thumbDocumentId);
+    // final count = _readint(buffer, 0, count);
+    // final hash = _readint(buffer, 0, hash);
+    // final result = StickerSet({flags: flags, archived: archived, official: official, masks: masks, animated: animated, videos: videos, emojis: emojis, textColor: textColor, channelEmojiStatus: channelEmojiStatus, installedDate: installedDate, id: id, accessHash: accessHash, title: title, shortName: shortName, thumbs: thumbs, thumbDcId: thumbDcId, thumbVersion: thumbVersion, thumbDocumentId: thumbDocumentId, count: count, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18110,6 +21192,13 @@ class MessagesStickerSet extends MessagesStickerSetBase {
 
   /// Deserialize.
   factory MessagesStickerSet.deserialize(Uint8List buffer) {
+    // final set = _readStickerSet(buffer, 0, set);
+    // final packs = _readVector<StickerPack>(buffer, 0, packs);
+    // final keywords = _readVector<StickerKeyword>(buffer, 0, keywords);
+    // final documents = _readVector<Document>(buffer, 0, documents);
+    // final result = MessagesStickerSet({set: set, packs: packs, keywords: keywords, documents: documents,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18145,6 +21234,9 @@ class MessagesStickerSetNotModified extends MessagesStickerSetBase {
 
   /// Deserialize.
   factory MessagesStickerSetNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesStickerSetNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -18173,6 +21265,11 @@ class BotCommand extends BotCommandBase {
 
   /// Deserialize.
   factory BotCommand.deserialize(Uint8List buffer) {
+    // final command = _readstring(buffer, 0, command);
+    // final description = _readstring(buffer, 0, description);
+    // final result = BotCommand({command: command, description: description,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18214,6 +21311,16 @@ class BotInfo extends BotInfoBase {
 
   /// Deserialize.
   factory BotInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final userId = _readflags.0?long(buffer, 0, userId);
+    // final description = _readflags.1?string(buffer, 0, description);
+    // final descriptionPhoto = _readflags.4?Photo(buffer, 0, descriptionPhoto);
+    // final descriptionDocument = _readflags.5?Document(buffer, 0, descriptionDocument);
+    // final commands = _readflags.2?Vector<BotCommand>(buffer, 0, commands);
+    // final menuButton = _readflags.3?BotMenuButton(buffer, 0, menuButton);
+    // final result = BotInfo({flags: flags, userId: userId, description: description, descriptionPhoto: descriptionPhoto, descriptionDocument: descriptionDocument, commands: commands, menuButton: menuButton,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18269,6 +21376,10 @@ class KeyboardButton extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButton.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButton({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18295,6 +21406,11 @@ class KeyboardButtonUrl extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonUrl.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final result = KeyboardButtonUrl({text: text, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18326,6 +21442,13 @@ class KeyboardButtonCallback extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonCallback.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requiresPassword = _readflags.0?true(buffer, 0, requiresPassword);
+    // final text = _readstring(buffer, 0, text);
+    // final data = _readbytes(buffer, 0, data);
+    // final result = KeyboardButtonCallback({flags: flags, requiresPassword: requiresPassword, text: text, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18363,6 +21486,10 @@ class KeyboardButtonRequestPhone extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonRequestPhone.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButtonRequestPhone({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18388,6 +21515,10 @@ class KeyboardButtonRequestGeoLocation extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonRequestGeoLocation.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButtonRequestGeoLocation({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18416,6 +21547,14 @@ class KeyboardButtonSwitchInline extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonSwitchInline.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final samePeer = _readflags.0?true(buffer, 0, samePeer);
+    // final text = _readstring(buffer, 0, text);
+    // final query = _readstring(buffer, 0, query);
+    // final peerTypes = _readflags.1?Vector<InlineQueryPeerType>(buffer, 0, peerTypes);
+    // final result = KeyboardButtonSwitchInline({flags: flags, samePeer: samePeer, text: text, query: query, peerTypes: peerTypes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18457,6 +21596,10 @@ class KeyboardButtonGame extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonGame.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButtonGame({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18482,6 +21625,10 @@ class KeyboardButtonBuy extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonBuy.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButtonBuy({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18511,6 +21658,14 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonUrlAuth.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final text = _readstring(buffer, 0, text);
+    // final fwdText = _readflags.0?string(buffer, 0, fwdText);
+    // final url = _readstring(buffer, 0, url);
+    // final buttonId = _readint(buffer, 0, buttonId);
+    // final result = KeyboardButtonUrlAuth({flags: flags, text: text, fwdText: fwdText, url: url, buttonId: buttonId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18556,6 +21711,15 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Deserialize.
   factory InputKeyboardButtonUrlAuth.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requestWriteAccess = _readflags.0?true(buffer, 0, requestWriteAccess);
+    // final text = _readstring(buffer, 0, text);
+    // final fwdText = _readflags.1?string(buffer, 0, fwdText);
+    // final url = _readstring(buffer, 0, url);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final result = InputKeyboardButtonUrlAuth({flags: flags, requestWriteAccess: requestWriteAccess, text: text, fwdText: fwdText, url: url, bot: bot,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18603,6 +21767,12 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonRequestPoll.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final quiz = _readflags.0?Bool(buffer, 0, quiz);
+    // final text = _readstring(buffer, 0, text);
+    // final result = KeyboardButtonRequestPoll({flags: flags, quiz: quiz, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18637,6 +21807,11 @@ class InputKeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Deserialize.
   factory InputKeyboardButtonUserProfile.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = InputKeyboardButtonUserProfile({text: text, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18667,6 +21842,11 @@ class KeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonUserProfile.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = KeyboardButtonUserProfile({text: text, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18697,6 +21877,11 @@ class KeyboardButtonWebView extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonWebView.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final result = KeyboardButtonWebView({text: text, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18727,6 +21912,11 @@ class KeyboardButtonSimpleWebView extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonSimpleWebView.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final result = KeyboardButtonSimpleWebView({text: text, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18759,6 +21949,13 @@ class KeyboardButtonRequestPeer extends KeyboardButtonBase {
 
   /// Deserialize.
   factory KeyboardButtonRequestPeer.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final buttonId = _readint(buffer, 0, buttonId);
+    // final peerType = _readRequestPeerType(buffer, 0, peerType);
+    // final maxQuantity = _readint(buffer, 0, maxQuantity);
+    // final result = KeyboardButtonRequestPeer({text: text, buttonId: buttonId, peerType: peerType, maxQuantity: maxQuantity,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18802,6 +21999,10 @@ class KeyboardButtonRow extends KeyboardButtonRowBase {
 
   /// Deserialize.
   factory KeyboardButtonRow.deserialize(Uint8List buffer) {
+    // final buttons = _readVector<KeyboardButton>(buffer, 0, buttons);
+    // final result = KeyboardButtonRow({buttons: buttons,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18833,6 +22034,11 @@ class ReplyKeyboardHide extends ReplyMarkupBase {
 
   /// Deserialize.
   factory ReplyKeyboardHide.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final selective = _readflags.2?true(buffer, 0, selective);
+    // final result = ReplyKeyboardHide({flags: flags, selective: selective,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18863,6 +22069,13 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
 
   /// Deserialize.
   factory ReplyKeyboardForceReply.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final singleUse = _readflags.1?true(buffer, 0, singleUse);
+    // final selective = _readflags.2?true(buffer, 0, selective);
+    // final placeholder = _readflags.3?string(buffer, 0, placeholder);
+    // final result = ReplyKeyboardForceReply({flags: flags, singleUse: singleUse, selective: selective, placeholder: placeholder,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18902,6 +22115,16 @@ class ReplyKeyboardMarkup extends ReplyMarkupBase {
 
   /// Deserialize.
   factory ReplyKeyboardMarkup.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final resize = _readflags.0?true(buffer, 0, resize);
+    // final singleUse = _readflags.1?true(buffer, 0, singleUse);
+    // final selective = _readflags.2?true(buffer, 0, selective);
+    // final persistent = _readflags.4?true(buffer, 0, persistent);
+    // final rows = _readVector<KeyboardButtonRow>(buffer, 0, rows);
+    // final placeholder = _readflags.3?string(buffer, 0, placeholder);
+    // final result = ReplyKeyboardMarkup({flags: flags, resize: resize, singleUse: singleUse, selective: selective, persistent: persistent, rows: rows, placeholder: placeholder,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18951,6 +22174,10 @@ class ReplyInlineMarkup extends ReplyMarkupBase {
 
   /// Deserialize.
   factory ReplyInlineMarkup.deserialize(Uint8List buffer) {
+    // final rows = _readVector<KeyboardButtonRow>(buffer, 0, rows);
+    // final result = ReplyInlineMarkup({rows: rows,});
+    // return result;
+
     throw Exception();
   }
 
@@ -18983,6 +22210,11 @@ class MessageEntityUnknown extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityUnknown.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityUnknown({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19013,6 +22245,11 @@ class MessageEntityMention extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityMention.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityMention({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19043,6 +22280,11 @@ class MessageEntityHashtag extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityHashtag.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityHashtag({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19073,6 +22315,11 @@ class MessageEntityBotCommand extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityBotCommand.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityBotCommand({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19103,6 +22350,11 @@ class MessageEntityUrl extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityUrl.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityUrl({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19133,6 +22385,11 @@ class MessageEntityEmail extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityEmail.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityEmail({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19163,6 +22420,11 @@ class MessageEntityBold extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityBold.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityBold({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19193,6 +22455,11 @@ class MessageEntityItalic extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityItalic.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityItalic({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19223,6 +22490,11 @@ class MessageEntityCode extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityCode.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityCode({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19254,6 +22526,12 @@ class MessageEntityPre extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityPre.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final language = _readstring(buffer, 0, language);
+    // final result = MessageEntityPre({offset: offset, length: length, language: language,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19289,6 +22567,12 @@ class MessageEntityTextUrl extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityTextUrl.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final url = _readstring(buffer, 0, url);
+    // final result = MessageEntityTextUrl({offset: offset, length: length, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19324,6 +22608,12 @@ class MessageEntityMentionName extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityMentionName.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = MessageEntityMentionName({offset: offset, length: length, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19359,6 +22649,12 @@ class InputMessageEntityMentionName extends MessageEntityBase {
 
   /// Deserialize.
   factory InputMessageEntityMentionName.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = InputMessageEntityMentionName({offset: offset, length: length, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19393,6 +22689,11 @@ class MessageEntityPhone extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityPhone.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityPhone({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19423,6 +22724,11 @@ class MessageEntityCashtag extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityCashtag.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityCashtag({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19453,6 +22759,11 @@ class MessageEntityUnderline extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityUnderline.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityUnderline({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19483,6 +22794,11 @@ class MessageEntityStrike extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityStrike.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityStrike({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19513,6 +22829,11 @@ class MessageEntityBankCard extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityBankCard.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityBankCard({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19543,6 +22864,11 @@ class MessageEntitySpoiler extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntitySpoiler.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntitySpoiler({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19574,6 +22900,12 @@ class MessageEntityCustomEmoji extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityCustomEmoji.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final result = MessageEntityCustomEmoji({offset: offset, length: length, documentId: documentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19608,6 +22940,11 @@ class MessageEntityBlockquote extends MessageEntityBase {
 
   /// Deserialize.
   factory MessageEntityBlockquote.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final length = _readint(buffer, 0, length);
+    // final result = MessageEntityBlockquote({offset: offset, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19641,6 +22978,9 @@ class InputChannelEmpty extends InputChannelBase {
 
   /// Deserialize.
   factory InputChannelEmpty.deserialize(Uint8List buffer) {
+    // final result = InputChannelEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -19663,6 +23003,11 @@ class InputChannel extends InputChannelBase {
 
   /// Deserialize.
   factory InputChannel.deserialize(Uint8List buffer) {
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputChannel({channelId: channelId, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19694,6 +23039,12 @@ class InputChannelFromMessage extends InputChannelBase {
 
   /// Deserialize.
   factory InputChannelFromMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final result = InputChannelFromMessage({peer: peer, msgId: msgId, channelId: channelId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19735,6 +23086,12 @@ class ContactsResolvedPeer extends ContactsResolvedPeerBase {
 
   /// Deserialize.
   factory ContactsResolvedPeer.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsResolvedPeer({peer: peer, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19775,6 +23132,11 @@ class MessageRange extends MessageRangeBase {
 
   /// Deserialize.
   factory MessageRange.deserialize(Uint8List buffer) {
+    // final minId = _readint(buffer, 0, minId);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = MessageRange({minId: minId, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19812,6 +23174,13 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
 
   /// Deserialize.
   factory UpdatesChannelDifferenceEmpty.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final ffinal = _readflags.0?true(buffer, 0, ffinal);
+    // final pts = _readint(buffer, 0, pts);
+    // final timeout = _readflags.1?int(buffer, 0, timeout);
+    // final result = UpdatesChannelDifferenceEmpty({flags: flags, ffinal: ffinal, pts: pts, timeout: timeout,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19854,6 +23223,16 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
 
   /// Deserialize.
   factory UpdatesChannelDifferenceTooLong.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final ffinal = _readflags.0?true(buffer, 0, ffinal);
+    // final timeout = _readflags.1?int(buffer, 0, timeout);
+    // final dialog = _readDialog(buffer, 0, dialog);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = UpdatesChannelDifferenceTooLong({flags: flags, ffinal: ffinal, timeout: timeout, dialog: dialog, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19909,6 +23288,17 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
 
   /// Deserialize.
   factory UpdatesChannelDifference.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final ffinal = _readflags.0?true(buffer, 0, ffinal);
+    // final pts = _readint(buffer, 0, pts);
+    // final timeout = _readflags.1?int(buffer, 0, timeout);
+    // final newMessages = _readVector<Message>(buffer, 0, newMessages);
+    // final otherUpdates = _readVector<Update>(buffer, 0, otherUpdates);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = UpdatesChannelDifference({flags: flags, ffinal: ffinal, pts: pts, timeout: timeout, newMessages: newMessages, otherUpdates: otherUpdates, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -19966,6 +23356,9 @@ class ChannelMessagesFilterEmpty extends ChannelMessagesFilterBase {
 
   /// Deserialize.
   factory ChannelMessagesFilterEmpty.deserialize(Uint8List buffer) {
+    // final result = ChannelMessagesFilterEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -19988,6 +23381,12 @@ class ChannelMessagesFilter extends ChannelMessagesFilterBase {
 
   /// Deserialize.
   factory ChannelMessagesFilter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final excludeNewMessages = _readflags.1?true(buffer, 0, excludeNewMessages);
+    // final ranges = _readVector<MessageRange>(buffer, 0, ranges);
+    // final result = ChannelMessagesFilter({flags: flags, excludeNewMessages: excludeNewMessages, ranges: ranges,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20028,6 +23427,11 @@ class ChannelParticipant extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipant.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final date = _readint(buffer, 0, date);
+    // final result = ChannelParticipant({userId: userId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20060,6 +23464,14 @@ class ChannelParticipantSelf extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipantSelf.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaRequest = _readflags.0?true(buffer, 0, viaRequest);
+    // final userId = _readlong(buffer, 0, userId);
+    // final inviterId = _readlong(buffer, 0, inviterId);
+    // final date = _readint(buffer, 0, date);
+    // final result = ChannelParticipantSelf({flags: flags, viaRequest: viaRequest, userId: userId, inviterId: inviterId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20104,6 +23516,13 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipantCreator.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final userId = _readlong(buffer, 0, userId);
+    // final adminRights = _readChatAdminRights(buffer, 0, adminRights);
+    // final rank = _readflags.0?string(buffer, 0, rank);
+    // final result = ChannelParticipantCreator({flags: flags, userId: userId, adminRights: adminRights, rank: rank,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20147,6 +23566,18 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipantAdmin.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canEdit = _readflags.0?true(buffer, 0, canEdit);
+    // final self = _readflags.1?true(buffer, 0, self);
+    // final userId = _readlong(buffer, 0, userId);
+    // final inviterId = _readflags.1?long(buffer, 0, inviterId);
+    // final promotedBy = _readlong(buffer, 0, promotedBy);
+    // final date = _readint(buffer, 0, date);
+    // final adminRights = _readChatAdminRights(buffer, 0, adminRights);
+    // final rank = _readflags.2?string(buffer, 0, rank);
+    // final result = ChannelParticipantAdmin({flags: flags, canEdit: canEdit, self: self, userId: userId, inviterId: inviterId, promotedBy: promotedBy, date: date, adminRights: adminRights, rank: rank,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20208,6 +23639,15 @@ class ChannelParticipantBanned extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipantBanned.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final left = _readflags.0?true(buffer, 0, left);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final kickedBy = _readlong(buffer, 0, kickedBy);
+    // final date = _readint(buffer, 0, date);
+    // final bannedRights = _readChatBannedRights(buffer, 0, bannedRights);
+    // final result = ChannelParticipantBanned({flags: flags, left: left, peer: peer, kickedBy: kickedBy, date: date, bannedRights: bannedRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20253,6 +23693,10 @@ class ChannelParticipantLeft extends ChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelParticipantLeft.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final result = ChannelParticipantLeft({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20282,6 +23726,9 @@ class ChannelParticipantsRecent extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsRecent.deserialize(Uint8List buffer) {
+    // final result = ChannelParticipantsRecent();
+    // return result;
+
     throw Exception();
   }
 
@@ -20301,6 +23748,9 @@ class ChannelParticipantsAdmins extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsAdmins.deserialize(Uint8List buffer) {
+    // final result = ChannelParticipantsAdmins();
+    // return result;
+
     throw Exception();
   }
 
@@ -20322,6 +23772,10 @@ class ChannelParticipantsKicked extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsKicked.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final result = ChannelParticipantsKicked({q: q,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20345,6 +23799,9 @@ class ChannelParticipantsBots extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsBots.deserialize(Uint8List buffer) {
+    // final result = ChannelParticipantsBots();
+    // return result;
+
     throw Exception();
   }
 
@@ -20366,6 +23823,10 @@ class ChannelParticipantsBanned extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsBanned.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final result = ChannelParticipantsBanned({q: q,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20391,6 +23852,10 @@ class ChannelParticipantsSearch extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsSearch.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final result = ChannelParticipantsSearch({q: q,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20416,6 +23881,10 @@ class ChannelParticipantsContacts extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsContacts.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final result = ChannelParticipantsContacts({q: q,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20443,6 +23912,12 @@ class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
 
   /// Deserialize.
   factory ChannelParticipantsMentions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final q = _readflags.0?string(buffer, 0, q);
+    // final topMsgId = _readflags.1?int(buffer, 0, topMsgId);
+    // final result = ChannelParticipantsMentions({flags: flags, q: q, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20485,6 +23960,13 @@ class ChannelsChannelParticipants extends ChannelsChannelParticipantsBase {
 
   /// Deserialize.
   factory ChannelsChannelParticipants.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final participants = _readVector<ChannelParticipant>(buffer, 0, participants);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChannelsChannelParticipants({count: count, participants: participants, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20521,6 +24003,9 @@ class ChannelsChannelParticipantsNotModified
 
   /// Deserialize.
   factory ChannelsChannelParticipantsNotModified.deserialize(Uint8List buffer) {
+    // final result = ChannelsChannelParticipantsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -20550,6 +24035,12 @@ class ChannelsChannelParticipant extends ChannelsChannelParticipantBase {
 
   /// Deserialize.
   factory ChannelsChannelParticipant.deserialize(Uint8List buffer) {
+    // final participant = _readChannelParticipant(buffer, 0, participant);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChannelsChannelParticipant({participant: participant, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20593,6 +24084,15 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
 
   /// Deserialize.
   factory HelpTermsOfService.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final popup = _readflags.0?true(buffer, 0, popup);
+    // final id = _readDataJSON(buffer, 0, id);
+    // final text = _readstring(buffer, 0, text);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final minAgeConfirm = _readflags.1?int(buffer, 0, minAgeConfirm);
+    // final result = HelpTermsOfService({flags: flags, popup: popup, id: id, text: text, entities: entities, minAgeConfirm: minAgeConfirm,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20642,6 +24142,9 @@ class MessagesSavedGifsNotModified extends MessagesSavedGifsBase {
 
   /// Deserialize.
   factory MessagesSavedGifsNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesSavedGifsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -20664,6 +24167,11 @@ class MessagesSavedGifs extends MessagesSavedGifsBase {
 
   /// Deserialize.
   factory MessagesSavedGifs.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final gifs = _readVector<Document>(buffer, 0, gifs);
+    // final result = MessagesSavedGifs({hash: hash, gifs: gifs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20702,6 +24210,14 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaAuto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaAuto({flags: flags, invertMedia: invertMedia, message: message, entities: entities, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20746,6 +24262,15 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageText.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.0?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageText({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, message: message, entities: entities, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20796,6 +24321,15 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaGeo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final heading = _readflags.0?int(buffer, 0, heading);
+    // final period = _readflags.1?int(buffer, 0, period);
+    // final proximityNotificationRadius = _readflags.3?int(buffer, 0, proximityNotificationRadius);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaGeo({flags: flags, geoPoint: geoPoint, heading: heading, period: period, proximityNotificationRadius: proximityNotificationRadius, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20848,6 +24382,17 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaVenue.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final title = _readstring(buffer, 0, title);
+    // final address = _readstring(buffer, 0, address);
+    // final provider = _readstring(buffer, 0, provider);
+    // final venueId = _readstring(buffer, 0, venueId);
+    // final venueType = _readstring(buffer, 0, venueType);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaVenue({flags: flags, geoPoint: geoPoint, title: title, address: address, provider: provider, venueId: venueId, venueType: venueType, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20906,6 +24451,15 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaContact.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final vcard = _readstring(buffer, 0, vcard);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaContact({flags: flags, phoneNumber: phoneNumber, firstName: firstName, lastName: lastName, vcard: vcard, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20952,6 +24506,11 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageGame.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageGame({flags: flags, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -20989,6 +24548,18 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaInvoice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.0?InputWebDocument(buffer, 0, photo);
+    // final invoice = _readInvoice(buffer, 0, invoice);
+    // final payload = _readbytes(buffer, 0, payload);
+    // final provider = _readstring(buffer, 0, provider);
+    // final providerData = _readDataJSON(buffer, 0, providerData);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaInvoice({flags: flags, title: title, description: description, photo: photo, invoice: invoice, payload: payload, provider: provider, providerData: providerData, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21050,6 +24621,18 @@ class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
 
   /// Deserialize.
   factory InputBotInlineMessageMediaWebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final forceLargeMedia = _readflags.4?true(buffer, 0, forceLargeMedia);
+    // final forceSmallMedia = _readflags.5?true(buffer, 0, forceSmallMedia);
+    // final optional = _readflags.6?true(buffer, 0, optional);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final url = _readstring(buffer, 0, url);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = InputBotInlineMessageMediaWebPage({flags: flags, invertMedia: invertMedia, forceLargeMedia: forceLargeMedia, forceSmallMedia: forceSmallMedia, optional: optional, message: message, entities: entities, url: url, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21121,6 +24704,18 @@ class InputBotInlineResult extends InputBotInlineResultBase {
 
   /// Deserialize.
   factory InputBotInlineResult.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readstring(buffer, 0, id);
+    // final type = _readstring(buffer, 0, type);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final description = _readflags.2?string(buffer, 0, description);
+    // final url = _readflags.3?string(buffer, 0, url);
+    // final thumb = _readflags.4?InputWebDocument(buffer, 0, thumb);
+    // final content = _readflags.5?InputWebDocument(buffer, 0, content);
+    // final sendMessage = _readInputBotInlineMessage(buffer, 0, sendMessage);
+    // final result = InputBotInlineResult({flags: flags, id: id, type: type, title: title, description: description, url: url, thumb: thumb, content: content, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21181,6 +24776,13 @@ class InputBotInlineResultPhoto extends InputBotInlineResultBase {
 
   /// Deserialize.
   factory InputBotInlineResultPhoto.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final type = _readstring(buffer, 0, type);
+    // final photo = _readInputPhoto(buffer, 0, photo);
+    // final sendMessage = _readInputBotInlineMessage(buffer, 0, sendMessage);
+    // final result = InputBotInlineResultPhoto({id: id, type: type, photo: photo, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21224,6 +24826,16 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
 
   /// Deserialize.
   factory InputBotInlineResultDocument.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readstring(buffer, 0, id);
+    // final type = _readstring(buffer, 0, type);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final description = _readflags.2?string(buffer, 0, description);
+    // final document = _readInputDocument(buffer, 0, document);
+    // final sendMessage = _readInputBotInlineMessage(buffer, 0, sendMessage);
+    // final result = InputBotInlineResultDocument({flags: flags, id: id, type: type, title: title, description: description, document: document, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21275,6 +24887,12 @@ class InputBotInlineResultGame extends InputBotInlineResultBase {
 
   /// Deserialize.
   factory InputBotInlineResultGame.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final sendMessage = _readInputBotInlineMessage(buffer, 0, sendMessage);
+    // final result = InputBotInlineResultGame({id: id, shortName: shortName, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21317,6 +24935,14 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaAuto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaAuto({flags: flags, invertMedia: invertMedia, message: message, entities: entities, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21361,6 +24987,15 @@ class BotInlineMessageText extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageText.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.0?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageText({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, message: message, entities: entities, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21411,6 +25046,15 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaGeo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final heading = _readflags.0?int(buffer, 0, heading);
+    // final period = _readflags.1?int(buffer, 0, period);
+    // final proximityNotificationRadius = _readflags.3?int(buffer, 0, proximityNotificationRadius);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaGeo({flags: flags, geo: geo, heading: heading, period: period, proximityNotificationRadius: proximityNotificationRadius, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21463,6 +25107,17 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaVenue.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final title = _readstring(buffer, 0, title);
+    // final address = _readstring(buffer, 0, address);
+    // final provider = _readstring(buffer, 0, provider);
+    // final venueId = _readstring(buffer, 0, venueId);
+    // final venueType = _readstring(buffer, 0, venueType);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaVenue({flags: flags, geo: geo, title: title, address: address, provider: provider, venueId: venueId, venueType: venueType, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21521,6 +25176,15 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaContact.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final vcard = _readstring(buffer, 0, vcard);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaContact({flags: flags, phoneNumber: phoneNumber, firstName: firstName, lastName: lastName, vcard: vcard, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21572,6 +25236,18 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaInvoice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final shippingAddressRequested = _readflags.1?true(buffer, 0, shippingAddressRequested);
+    // final test = _readflags.3?true(buffer, 0, test);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.0?WebDocument(buffer, 0, photo);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaInvoice({flags: flags, shippingAddressRequested: shippingAddressRequested, test: test, title: title, description: description, photo: photo, currency: currency, totalAmount: totalAmount, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21633,6 +25309,19 @@ class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
 
   /// Deserialize.
   factory BotInlineMessageMediaWebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final invertMedia = _readflags.3?true(buffer, 0, invertMedia);
+    // final forceLargeMedia = _readflags.4?true(buffer, 0, forceLargeMedia);
+    // final forceSmallMedia = _readflags.5?true(buffer, 0, forceSmallMedia);
+    // final manual = _readflags.7?true(buffer, 0, manual);
+    // final safe = _readflags.8?true(buffer, 0, safe);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final url = _readstring(buffer, 0, url);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final result = BotInlineMessageMediaWebPage({flags: flags, invertMedia: invertMedia, forceLargeMedia: forceLargeMedia, forceSmallMedia: forceSmallMedia, manual: manual, safe: safe, message: message, entities: entities, url: url, replyMarkup: replyMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21708,6 +25397,18 @@ class BotInlineResult extends BotInlineResultBase {
 
   /// Deserialize.
   factory BotInlineResult.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readstring(buffer, 0, id);
+    // final type = _readstring(buffer, 0, type);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final description = _readflags.2?string(buffer, 0, description);
+    // final url = _readflags.3?string(buffer, 0, url);
+    // final thumb = _readflags.4?WebDocument(buffer, 0, thumb);
+    // final content = _readflags.5?WebDocument(buffer, 0, content);
+    // final sendMessage = _readBotInlineMessage(buffer, 0, sendMessage);
+    // final result = BotInlineResult({flags: flags, id: id, type: type, title: title, description: description, url: url, thumb: thumb, content: content, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21772,6 +25473,17 @@ class BotInlineMediaResult extends BotInlineResultBase {
 
   /// Deserialize.
   factory BotInlineMediaResult.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readstring(buffer, 0, id);
+    // final type = _readstring(buffer, 0, type);
+    // final photo = _readflags.0?Photo(buffer, 0, photo);
+    // final document = _readflags.1?Document(buffer, 0, document);
+    // final title = _readflags.2?string(buffer, 0, title);
+    // final description = _readflags.3?string(buffer, 0, description);
+    // final sendMessage = _readBotInlineMessage(buffer, 0, sendMessage);
+    // final result = BotInlineMediaResult({flags: flags, id: id, type: type, photo: photo, document: document, title: title, description: description, sendMessage: sendMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21838,6 +25550,18 @@ class MessagesBotResults extends MessagesBotResultsBase {
 
   /// Deserialize.
   factory MessagesBotResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final gallery = _readflags.0?true(buffer, 0, gallery);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final nextOffset = _readflags.1?string(buffer, 0, nextOffset);
+    // final switchPm = _readflags.2?InlineBotSwitchPM(buffer, 0, switchPm);
+    // final switchWebview = _readflags.3?InlineBotWebView(buffer, 0, switchWebview);
+    // final results = _readVector<BotInlineResult>(buffer, 0, results);
+    // final cacheTime = _readint(buffer, 0, cacheTime);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesBotResults({flags: flags, gallery: gallery, queryId: queryId, nextOffset: nextOffset, switchPm: switchPm, switchWebview: switchWebview, results: results, cacheTime: cacheTime, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21902,6 +25626,11 @@ class ExportedMessageLink extends ExportedMessageLinkBase {
 
   /// Deserialize.
   factory ExportedMessageLink.deserialize(Uint8List buffer) {
+    // final link = _readstring(buffer, 0, link);
+    // final html = _readstring(buffer, 0, html);
+    // final result = ExportedMessageLink({link: link, html: html,});
+    // return result;
+
     throw Exception();
   }
 
@@ -21948,6 +25677,23 @@ class MessageFwdHeader extends MessageFwdHeaderBase {
 
   /// Deserialize.
   factory MessageFwdHeader.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final imported = _readflags.7?true(buffer, 0, imported);
+    // final savedOut = _readflags.11?true(buffer, 0, savedOut);
+    // final fromId = _readflags.0?Peer(buffer, 0, fromId);
+    // final fromName = _readflags.5?string(buffer, 0, fromName);
+    // final date = _readint(buffer, 0, date);
+    // final channelPost = _readflags.2?int(buffer, 0, channelPost);
+    // final postAuthor = _readflags.3?string(buffer, 0, postAuthor);
+    // final savedFromPeer = _readflags.4?Peer(buffer, 0, savedFromPeer);
+    // final savedFromMsgId = _readflags.4?int(buffer, 0, savedFromMsgId);
+    // final savedFromId = _readflags.8?Peer(buffer, 0, savedFromId);
+    // final savedFromName = _readflags.9?string(buffer, 0, savedFromName);
+    // final savedDate = _readflags.10?int(buffer, 0, savedDate);
+    // final psaType = _readflags.6?string(buffer, 0, psaType);
+    // final result = MessageFwdHeader({flags: flags, imported: imported, savedOut: savedOut, fromId: fromId, fromName: fromName, date: date, channelPost: channelPost, postAuthor: postAuthor, savedFromPeer: savedFromPeer, savedFromMsgId: savedFromMsgId, savedFromId: savedFromId, savedFromName: savedFromName, savedDate: savedDate, psaType: psaType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22029,6 +25775,9 @@ class AuthCodeTypeSms extends AuthCodeTypeBase {
 
   /// Deserialize.
   factory AuthCodeTypeSms.deserialize(Uint8List buffer) {
+    // final result = AuthCodeTypeSms();
+    // return result;
+
     throw Exception();
   }
 
@@ -22048,6 +25797,9 @@ class AuthCodeTypeCall extends AuthCodeTypeBase {
 
   /// Deserialize.
   factory AuthCodeTypeCall.deserialize(Uint8List buffer) {
+    // final result = AuthCodeTypeCall();
+    // return result;
+
     throw Exception();
   }
 
@@ -22067,6 +25819,9 @@ class AuthCodeTypeFlashCall extends AuthCodeTypeBase {
 
   /// Deserialize.
   factory AuthCodeTypeFlashCall.deserialize(Uint8List buffer) {
+    // final result = AuthCodeTypeFlashCall();
+    // return result;
+
     throw Exception();
   }
 
@@ -22086,6 +25841,9 @@ class AuthCodeTypeMissedCall extends AuthCodeTypeBase {
 
   /// Deserialize.
   factory AuthCodeTypeMissedCall.deserialize(Uint8List buffer) {
+    // final result = AuthCodeTypeMissedCall();
+    // return result;
+
     throw Exception();
   }
 
@@ -22105,6 +25863,9 @@ class AuthCodeTypeFragmentSms extends AuthCodeTypeBase {
 
   /// Deserialize.
   factory AuthCodeTypeFragmentSms.deserialize(Uint8List buffer) {
+    // final result = AuthCodeTypeFragmentSms();
+    // return result;
+
     throw Exception();
   }
 
@@ -22132,6 +25893,10 @@ class AuthSentCodeTypeApp extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeApp.deserialize(Uint8List buffer) {
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeApp({length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22157,6 +25922,10 @@ class AuthSentCodeTypeSms extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeSms.deserialize(Uint8List buffer) {
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeSms({length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22182,6 +25951,10 @@ class AuthSentCodeTypeCall extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeCall.deserialize(Uint8List buffer) {
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeCall({length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22207,6 +25980,10 @@ class AuthSentCodeTypeFlashCall extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeFlashCall.deserialize(Uint8List buffer) {
+    // final pattern = _readstring(buffer, 0, pattern);
+    // final result = AuthSentCodeTypeFlashCall({pattern: pattern,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22233,6 +26010,11 @@ class AuthSentCodeTypeMissedCall extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeMissedCall.deserialize(Uint8List buffer) {
+    // final prefix = _readstring(buffer, 0, prefix);
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeMissedCall({prefix: prefix, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22266,6 +26048,16 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeEmailCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final appleSigninAllowed = _readflags.0?true(buffer, 0, appleSigninAllowed);
+    // final googleSigninAllowed = _readflags.1?true(buffer, 0, googleSigninAllowed);
+    // final emailPattern = _readstring(buffer, 0, emailPattern);
+    // final length = _readint(buffer, 0, length);
+    // final resetAvailablePeriod = _readflags.3?int(buffer, 0, resetAvailablePeriod);
+    // final resetPendingDate = _readflags.4?int(buffer, 0, resetPendingDate);
+    // final result = AuthSentCodeTypeEmailCode({flags: flags, appleSigninAllowed: appleSigninAllowed, googleSigninAllowed: googleSigninAllowed, emailPattern: emailPattern, length: length, resetAvailablePeriod: resetAvailablePeriod, resetPendingDate: resetPendingDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22315,6 +26107,12 @@ class AuthSentCodeTypeSetUpEmailRequired extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeSetUpEmailRequired.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final appleSigninAllowed = _readflags.0?true(buffer, 0, appleSigninAllowed);
+    // final googleSigninAllowed = _readflags.1?true(buffer, 0, googleSigninAllowed);
+    // final result = AuthSentCodeTypeSetUpEmailRequired({flags: flags, appleSigninAllowed: appleSigninAllowed, googleSigninAllowed: googleSigninAllowed,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22349,6 +26147,11 @@ class AuthSentCodeTypeFragmentSms extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeFragmentSms.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeFragmentSms({url: url, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22382,6 +26185,14 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
 
   /// Deserialize.
   factory AuthSentCodeTypeFirebaseSms.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final nonce = _readflags.0?bytes(buffer, 0, nonce);
+    // final receipt = _readflags.1?string(buffer, 0, receipt);
+    // final pushTimeout = _readflags.1?int(buffer, 0, pushTimeout);
+    // final length = _readint(buffer, 0, length);
+    // final result = AuthSentCodeTypeFirebaseSms({flags: flags, nonce: nonce, receipt: receipt, pushTimeout: pushTimeout, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22432,6 +26243,16 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
 
   /// Deserialize.
   factory MessagesBotCallbackAnswer.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final alert = _readflags.1?true(buffer, 0, alert);
+    // final hasUrl = _readflags.3?true(buffer, 0, hasUrl);
+    // final nativeUi = _readflags.4?true(buffer, 0, nativeUi);
+    // final message = _readflags.0?string(buffer, 0, message);
+    // final url = _readflags.2?string(buffer, 0, url);
+    // final cacheTime = _readint(buffer, 0, cacheTime);
+    // final result = MessagesBotCallbackAnswer({flags: flags, alert: alert, hasUrl: hasUrl, nativeUi: nativeUi, message: message, url: url, cacheTime: cacheTime,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22487,6 +26308,11 @@ class MessagesMessageEditData extends MessagesMessageEditDataBase {
 
   /// Deserialize.
   factory MessagesMessageEditData.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final caption = _readflags.0?true(buffer, 0, caption);
+    // final result = MessagesMessageEditData({flags: flags, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22524,6 +26350,12 @@ class InputBotInlineMessageID extends InputBotInlineMessageIDBase {
 
   /// Deserialize.
   factory InputBotInlineMessageID.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputBotInlineMessageID({dcId: dcId, id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22560,6 +26392,13 @@ class InputBotInlineMessageID64 extends InputBotInlineMessageIDBase {
 
   /// Deserialize.
   factory InputBotInlineMessageID64.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final ownerId = _readlong(buffer, 0, ownerId);
+    // final id = _readint(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputBotInlineMessageID64({dcId: dcId, ownerId: ownerId, id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22604,6 +26443,11 @@ class InlineBotSwitchPM extends InlineBotSwitchPMBase {
 
   /// Deserialize.
   factory InlineBotSwitchPM.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final startParam = _readstring(buffer, 0, startParam);
+    // final result = InlineBotSwitchPM({text: text, startParam: startParam,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22643,6 +26487,14 @@ class MessagesPeerDialogs extends MessagesPeerDialogsBase {
 
   /// Deserialize.
   factory MessagesPeerDialogs.deserialize(Uint8List buffer) {
+    // final dialogs = _readVector<Dialog>(buffer, 0, dialogs);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final state = _readupdates.State(buffer, 0, state);
+    // final result = MessagesPeerDialogs({dialogs: dialogs, messages: messages, chats: chats, users: users, state: state,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22691,6 +26543,11 @@ class TopPeer extends TopPeerBase {
 
   /// Deserialize.
   factory TopPeer.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final rating = _readdouble(buffer, 0, rating);
+    // final result = TopPeer({peer: peer, rating: rating,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22724,6 +26581,9 @@ class TopPeerCategoryBotsPM extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryBotsPM.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryBotsPM();
+    // return result;
+
     throw Exception();
   }
 
@@ -22743,6 +26603,9 @@ class TopPeerCategoryBotsInline extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryBotsInline.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryBotsInline();
+    // return result;
+
     throw Exception();
   }
 
@@ -22762,6 +26625,9 @@ class TopPeerCategoryCorrespondents extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryCorrespondents.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryCorrespondents();
+    // return result;
+
     throw Exception();
   }
 
@@ -22781,6 +26647,9 @@ class TopPeerCategoryGroups extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryGroups.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryGroups();
+    // return result;
+
     throw Exception();
   }
 
@@ -22800,6 +26669,9 @@ class TopPeerCategoryChannels extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryChannels.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryChannels();
+    // return result;
+
     throw Exception();
   }
 
@@ -22819,6 +26691,9 @@ class TopPeerCategoryPhoneCalls extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryPhoneCalls.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryPhoneCalls();
+    // return result;
+
     throw Exception();
   }
 
@@ -22838,6 +26713,9 @@ class TopPeerCategoryForwardUsers extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryForwardUsers.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryForwardUsers();
+    // return result;
+
     throw Exception();
   }
 
@@ -22857,6 +26735,9 @@ class TopPeerCategoryForwardChats extends TopPeerCategoryBase {
 
   /// Deserialize.
   factory TopPeerCategoryForwardChats.deserialize(Uint8List buffer) {
+    // final result = TopPeerCategoryForwardChats();
+    // return result;
+
     throw Exception();
   }
 
@@ -22886,6 +26767,12 @@ class TopPeerCategoryPeers extends TopPeerCategoryPeersBase {
 
   /// Deserialize.
   factory TopPeerCategoryPeers.deserialize(Uint8List buffer) {
+    // final category = _readTopPeerCategory(buffer, 0, category);
+    // final count = _readint(buffer, 0, count);
+    // final peers = _readVector<TopPeer>(buffer, 0, peers);
+    // final result = TopPeerCategoryPeers({category: category, count: count, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22923,6 +26810,9 @@ class ContactsTopPeersNotModified extends ContactsTopPeersBase {
 
   /// Deserialize.
   factory ContactsTopPeersNotModified.deserialize(Uint8List buffer) {
+    // final result = ContactsTopPeersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -22946,6 +26836,12 @@ class ContactsTopPeers extends ContactsTopPeersBase {
 
   /// Deserialize.
   factory ContactsTopPeers.deserialize(Uint8List buffer) {
+    // final categories = _readVector<TopPeerCategoryPeers>(buffer, 0, categories);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ContactsTopPeers({categories: categories, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -22977,6 +26873,9 @@ class ContactsTopPeersDisabled extends ContactsTopPeersBase {
 
   /// Deserialize.
   factory ContactsTopPeersDisabled.deserialize(Uint8List buffer) {
+    // final result = ContactsTopPeersDisabled();
+    // return result;
+
     throw Exception();
   }
 
@@ -23005,6 +26904,11 @@ class DraftMessageEmpty extends DraftMessageBase {
 
   /// Deserialize.
   factory DraftMessageEmpty.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final date = _readflags.0?int(buffer, 0, date);
+    // final result = DraftMessageEmpty({flags: flags, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23039,6 +26943,17 @@ class DraftMessage extends DraftMessageBase {
 
   /// Deserialize.
   factory DraftMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.1?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.6?true(buffer, 0, invertMedia);
+    // final replyTo = _readflags.4?InputReplyTo(buffer, 0, replyTo);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final media = _readflags.5?InputMedia(buffer, 0, media);
+    // final date = _readint(buffer, 0, date);
+    // final result = DraftMessage({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, replyTo: replyTo, message: message, entities: entities, media: media, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23098,6 +27013,10 @@ class MessagesFeaturedStickersNotModified extends MessagesFeaturedStickersBase {
 
   /// Deserialize.
   factory MessagesFeaturedStickersNotModified.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final result = MessagesFeaturedStickersNotModified({count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23127,6 +27046,15 @@ class MessagesFeaturedStickers extends MessagesFeaturedStickersBase {
 
   /// Deserialize.
   factory MessagesFeaturedStickers.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final premium = _readflags.0?true(buffer, 0, premium);
+    // final hash = _readlong(buffer, 0, hash);
+    // final count = _readint(buffer, 0, count);
+    // final sets = _readVector<StickerSetCovered>(buffer, 0, sets);
+    // final unread = _readVector<long>(buffer, 0, unread);
+    // final result = MessagesFeaturedStickers({flags: flags, premium: premium, hash: hash, count: count, sets: sets, unread: unread,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23176,6 +27104,9 @@ class MessagesRecentStickersNotModified extends MessagesRecentStickersBase {
 
   /// Deserialize.
   factory MessagesRecentStickersNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesRecentStickersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -23200,6 +27131,13 @@ class MessagesRecentStickers extends MessagesRecentStickersBase {
 
   /// Deserialize.
   factory MessagesRecentStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final packs = _readVector<StickerPack>(buffer, 0, packs);
+    // final stickers = _readVector<Document>(buffer, 0, stickers);
+    // final dates = _readVector<int>(buffer, 0, dates);
+    // final result = MessagesRecentStickers({hash: hash, packs: packs, stickers: stickers, dates: dates,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23244,6 +27182,11 @@ class MessagesArchivedStickers extends MessagesArchivedStickersBase {
 
   /// Deserialize.
   factory MessagesArchivedStickers.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final sets = _readVector<StickerSetCovered>(buffer, 0, sets);
+    // final result = MessagesArchivedStickers({count: count, sets: sets,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23278,6 +27221,9 @@ class MessagesStickerSetInstallResultSuccess
 
   /// Deserialize.
   factory MessagesStickerSetInstallResultSuccess.deserialize(Uint8List buffer) {
+    // final result = MessagesStickerSetInstallResultSuccess();
+    // return result;
+
     throw Exception();
   }
 
@@ -23300,6 +27246,10 @@ class MessagesStickerSetInstallResultArchive
 
   /// Deserialize.
   factory MessagesStickerSetInstallResultArchive.deserialize(Uint8List buffer) {
+    // final sets = _readVector<StickerSetCovered>(buffer, 0, sets);
+    // final result = MessagesStickerSetInstallResultArchive({sets: sets,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23332,6 +27282,11 @@ class StickerSetCovered extends StickerSetCoveredBase {
 
   /// Deserialize.
   factory StickerSetCovered.deserialize(Uint8List buffer) {
+    // final set = _readStickerSet(buffer, 0, set);
+    // final cover = _readDocument(buffer, 0, cover);
+    // final result = StickerSetCovered({set: set, cover: cover,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23362,6 +27317,11 @@ class StickerSetMultiCovered extends StickerSetCoveredBase {
 
   /// Deserialize.
   factory StickerSetMultiCovered.deserialize(Uint8List buffer) {
+    // final set = _readStickerSet(buffer, 0, set);
+    // final covers = _readVector<Document>(buffer, 0, covers);
+    // final result = StickerSetMultiCovered({set: set, covers: covers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23394,6 +27354,13 @@ class StickerSetFullCovered extends StickerSetCoveredBase {
 
   /// Deserialize.
   factory StickerSetFullCovered.deserialize(Uint8List buffer) {
+    // final set = _readStickerSet(buffer, 0, set);
+    // final packs = _readVector<StickerPack>(buffer, 0, packs);
+    // final keywords = _readVector<StickerKeyword>(buffer, 0, keywords);
+    // final documents = _readVector<Document>(buffer, 0, documents);
+    // final result = StickerSetFullCovered({set: set, packs: packs, keywords: keywords, documents: documents,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23431,6 +27398,10 @@ class StickerSetNoCovered extends StickerSetCoveredBase {
 
   /// Deserialize.
   factory StickerSetNoCovered.deserialize(Uint8List buffer) {
+    // final set = _readStickerSet(buffer, 0, set);
+    // final result = StickerSetNoCovered({set: set,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23465,6 +27436,13 @@ class MaskCoords extends MaskCoordsBase {
 
   /// Deserialize.
   factory MaskCoords.deserialize(Uint8List buffer) {
+    // final n = _readint(buffer, 0, n);
+    // final x = _readdouble(buffer, 0, x);
+    // final y = _readdouble(buffer, 0, y);
+    // final zoom = _readdouble(buffer, 0, zoom);
+    // final result = MaskCoords({n: n, x: x, y: y, zoom: zoom,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23508,6 +27486,10 @@ class InputStickeredMediaPhoto extends InputStickeredMediaBase {
 
   /// Deserialize.
   factory InputStickeredMediaPhoto.deserialize(Uint8List buffer) {
+    // final id = _readInputPhoto(buffer, 0, id);
+    // final result = InputStickeredMediaPhoto({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23533,6 +27515,10 @@ class InputStickeredMediaDocument extends InputStickeredMediaBase {
 
   /// Deserialize.
   factory InputStickeredMediaDocument.deserialize(Uint8List buffer) {
+    // final id = _readInputDocument(buffer, 0, id);
+    // final result = InputStickeredMediaDocument({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23571,6 +27557,17 @@ class Game extends GameBase {
 
   /// Deserialize.
   factory Game.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final document = _readflags.0?Document(buffer, 0, document);
+    // final result = Game({flags: flags, id: id, accessHash: accessHash, shortName: shortName, title: title, description: description, photo: photo, document: document,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23631,6 +27628,11 @@ class InputGameID extends InputGameBase {
 
   /// Deserialize.
   factory InputGameID.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputGameID({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23661,6 +27663,11 @@ class InputGameShortName extends InputGameBase {
 
   /// Deserialize.
   factory InputGameShortName.deserialize(Uint8List buffer) {
+    // final botId = _readInputUser(buffer, 0, botId);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final result = InputGameShortName({botId: botId, shortName: shortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23698,6 +27705,12 @@ class HighScore extends HighScoreBase {
 
   /// Deserialize.
   factory HighScore.deserialize(Uint8List buffer) {
+    // final pos = _readint(buffer, 0, pos);
+    // final userId = _readlong(buffer, 0, userId);
+    // final score = _readint(buffer, 0, score);
+    // final result = HighScore({pos: pos, userId: userId, score: score,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23738,6 +27751,11 @@ class MessagesHighScores extends MessagesHighScoresBase {
 
   /// Deserialize.
   factory MessagesHighScores.deserialize(Uint8List buffer) {
+    // final scores = _readVector<HighScore>(buffer, 0, scores);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesHighScores({scores: scores, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23771,6 +27789,9 @@ class TextEmpty extends RichTextBase {
 
   /// Deserialize.
   factory TextEmpty.deserialize(Uint8List buffer) {
+    // final result = TextEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -23792,6 +27813,10 @@ class TextPlain extends RichTextBase {
 
   /// Deserialize.
   factory TextPlain.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final result = TextPlain({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23817,6 +27842,10 @@ class TextBold extends RichTextBase {
 
   /// Deserialize.
   factory TextBold.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextBold({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23842,6 +27871,10 @@ class TextItalic extends RichTextBase {
 
   /// Deserialize.
   factory TextItalic.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextItalic({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23867,6 +27900,10 @@ class TextUnderline extends RichTextBase {
 
   /// Deserialize.
   factory TextUnderline.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextUnderline({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23892,6 +27929,10 @@ class TextStrike extends RichTextBase {
 
   /// Deserialize.
   factory TextStrike.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextStrike({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23917,6 +27958,10 @@ class TextFixed extends RichTextBase {
 
   /// Deserialize.
   factory TextFixed.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextFixed({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23944,6 +27989,12 @@ class TextUrl extends RichTextBase {
 
   /// Deserialize.
   factory TextUrl.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final webpageId = _readlong(buffer, 0, webpageId);
+    // final result = TextUrl({text: text, url: url, webpageId: webpageId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -23978,6 +28029,11 @@ class TextEmail extends RichTextBase {
 
   /// Deserialize.
   factory TextEmail.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final email = _readstring(buffer, 0, email);
+    // final result = TextEmail({text: text, email: email,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24007,6 +28063,10 @@ class TextConcat extends RichTextBase {
 
   /// Deserialize.
   factory TextConcat.deserialize(Uint8List buffer) {
+    // final texts = _readVector<RichText>(buffer, 0, texts);
+    // final result = TextConcat({texts: texts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24032,6 +28092,10 @@ class TextSubscript extends RichTextBase {
 
   /// Deserialize.
   factory TextSubscript.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextSubscript({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24057,6 +28121,10 @@ class TextSuperscript extends RichTextBase {
 
   /// Deserialize.
   factory TextSuperscript.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextSuperscript({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24082,6 +28150,10 @@ class TextMarked extends RichTextBase {
 
   /// Deserialize.
   factory TextMarked.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = TextMarked({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24108,6 +28180,11 @@ class TextPhone extends RichTextBase {
 
   /// Deserialize.
   factory TextPhone.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final phone = _readstring(buffer, 0, phone);
+    // final result = TextPhone({text: text, phone: phone,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24139,6 +28216,12 @@ class TextImage extends RichTextBase {
 
   /// Deserialize.
   factory TextImage.deserialize(Uint8List buffer) {
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final result = TextImage({documentId: documentId, w: w, h: h,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24173,6 +28256,11 @@ class TextAnchor extends RichTextBase {
 
   /// Deserialize.
   factory TextAnchor.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final name = _readstring(buffer, 0, name);
+    // final result = TextAnchor({text: text, name: name,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24206,6 +28294,9 @@ class PageBlockUnsupported extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockUnsupported.deserialize(Uint8List buffer) {
+    // final result = PageBlockUnsupported();
+    // return result;
+
     throw Exception();
   }
 
@@ -24227,6 +28318,10 @@ class PageBlockTitle extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockTitle.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockTitle({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24252,6 +28347,10 @@ class PageBlockSubtitle extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockSubtitle.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockSubtitle({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24278,6 +28377,11 @@ class PageBlockAuthorDate extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockAuthorDate.deserialize(Uint8List buffer) {
+    // final author = _readRichText(buffer, 0, author);
+    // final publishedDate = _readint(buffer, 0, publishedDate);
+    // final result = PageBlockAuthorDate({author: author, publishedDate: publishedDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24307,6 +28411,10 @@ class PageBlockHeader extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockHeader.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockHeader({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24332,6 +28440,10 @@ class PageBlockSubheader extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockSubheader.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockSubheader({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24357,6 +28469,10 @@ class PageBlockParagraph extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockParagraph.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockParagraph({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24383,6 +28499,11 @@ class PageBlockPreformatted extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockPreformatted.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final language = _readstring(buffer, 0, language);
+    // final result = PageBlockPreformatted({text: text, language: language,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24412,6 +28533,10 @@ class PageBlockFooter extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockFooter.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockFooter({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24435,6 +28560,9 @@ class PageBlockDivider extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockDivider.deserialize(Uint8List buffer) {
+    // final result = PageBlockDivider();
+    // return result;
+
     throw Exception();
   }
 
@@ -24456,6 +28584,10 @@ class PageBlockAnchor extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockAnchor.deserialize(Uint8List buffer) {
+    // final name = _readstring(buffer, 0, name);
+    // final result = PageBlockAnchor({name: name,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24481,6 +28613,10 @@ class PageBlockList extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockList.deserialize(Uint8List buffer) {
+    // final items = _readVector<PageListItem>(buffer, 0, items);
+    // final result = PageBlockList({items: items,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24507,6 +28643,11 @@ class PageBlockBlockquote extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockBlockquote.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final caption = _readRichText(buffer, 0, caption);
+    // final result = PageBlockBlockquote({text: text, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24537,6 +28678,11 @@ class PageBlockPullquote extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockPullquote.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final caption = _readRichText(buffer, 0, caption);
+    // final result = PageBlockPullquote({text: text, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24570,6 +28716,14 @@ class PageBlockPhoto extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockPhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final photoId = _readlong(buffer, 0, photoId);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final url = _readflags.0?string(buffer, 0, url);
+    // final webpageId = _readflags.0?long(buffer, 0, webpageId);
+    // final result = PageBlockPhoto({flags: flags, photoId: photoId, caption: caption, url: url, webpageId: webpageId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24613,6 +28767,14 @@ class PageBlockVideo extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockVideo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final autoplay = _readflags.0?true(buffer, 0, autoplay);
+    // final loop = _readflags.1?true(buffer, 0, loop);
+    // final videoId = _readlong(buffer, 0, videoId);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockVideo({flags: flags, autoplay: autoplay, loop: loop, videoId: videoId, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24654,6 +28816,10 @@ class PageBlockCover extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockCover.deserialize(Uint8List buffer) {
+    // final cover = _readPageBlock(buffer, 0, cover);
+    // final result = PageBlockCover({cover: cover,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24685,6 +28851,18 @@ class PageBlockEmbed extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockEmbed.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final fullWidth = _readflags.0?true(buffer, 0, fullWidth);
+    // final allowScrolling = _readflags.3?true(buffer, 0, allowScrolling);
+    // final url = _readflags.1?string(buffer, 0, url);
+    // final html = _readflags.2?string(buffer, 0, html);
+    // final posterPhotoId = _readflags.4?long(buffer, 0, posterPhotoId);
+    // final w = _readflags.5?int(buffer, 0, w);
+    // final h = _readflags.5?int(buffer, 0, h);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockEmbed({flags: flags, fullWidth: fullWidth, allowScrolling: allowScrolling, url: url, html: html, posterPhotoId: posterPhotoId, w: w, h: h, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24748,6 +28926,16 @@ class PageBlockEmbedPost extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockEmbedPost.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final webpageId = _readlong(buffer, 0, webpageId);
+    // final authorPhotoId = _readlong(buffer, 0, authorPhotoId);
+    // final author = _readstring(buffer, 0, author);
+    // final date = _readint(buffer, 0, date);
+    // final blocks = _readVector<PageBlock>(buffer, 0, blocks);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockEmbedPost({url: url, webpageId: webpageId, authorPhotoId: authorPhotoId, author: author, date: date, blocks: blocks, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24798,6 +28986,11 @@ class PageBlockCollage extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockCollage.deserialize(Uint8List buffer) {
+    // final items = _readVector<PageBlock>(buffer, 0, items);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockCollage({items: items, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24828,6 +29021,11 @@ class PageBlockSlideshow extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockSlideshow.deserialize(Uint8List buffer) {
+    // final items = _readVector<PageBlock>(buffer, 0, items);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockSlideshow({items: items, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24857,6 +29055,10 @@ class PageBlockChannel extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockChannel.deserialize(Uint8List buffer) {
+    // final channel = _readChat(buffer, 0, channel);
+    // final result = PageBlockChannel({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24883,6 +29085,11 @@ class PageBlockAudio extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockAudio.deserialize(Uint8List buffer) {
+    // final audioId = _readlong(buffer, 0, audioId);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockAudio({audioId: audioId, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24912,6 +29119,10 @@ class PageBlockKicker extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockKicker.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageBlockKicker({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24939,6 +29150,14 @@ class PageBlockTable extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockTable.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final bordered = _readflags.0?true(buffer, 0, bordered);
+    // final striped = _readflags.1?true(buffer, 0, striped);
+    // final title = _readRichText(buffer, 0, title);
+    // final rows = _readVector<PageTableRow>(buffer, 0, rows);
+    // final result = PageBlockTable({flags: flags, bordered: bordered, striped: striped, title: title, rows: rows,});
+    // return result;
+
     throw Exception();
   }
 
@@ -24980,6 +29199,10 @@ class PageBlockOrderedList extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockOrderedList.deserialize(Uint8List buffer) {
+    // final items = _readVector<PageListOrderedItem>(buffer, 0, items);
+    // final result = PageBlockOrderedList({items: items,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25007,6 +29230,13 @@ class PageBlockDetails extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockDetails.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final open = _readflags.0?true(buffer, 0, open);
+    // final blocks = _readVector<PageBlock>(buffer, 0, blocks);
+    // final title = _readRichText(buffer, 0, title);
+    // final result = PageBlockDetails({flags: flags, open: open, blocks: blocks, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25045,6 +29275,11 @@ class PageBlockRelatedArticles extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockRelatedArticles.deserialize(Uint8List buffer) {
+    // final title = _readRichText(buffer, 0, title);
+    // final articles = _readVector<PageRelatedArticle>(buffer, 0, articles);
+    // final result = PageBlockRelatedArticles({title: title, articles: articles,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25078,6 +29313,14 @@ class PageBlockMap extends PageBlockBase {
 
   /// Deserialize.
   factory PageBlockMap.deserialize(Uint8List buffer) {
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final zoom = _readint(buffer, 0, zoom);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final caption = _readPageCaption(buffer, 0, caption);
+    // final result = PageBlockMap({geo: geo, zoom: zoom, w: w, h: h, caption: caption,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25123,6 +29366,9 @@ class PhoneCallDiscardReasonMissed extends PhoneCallDiscardReasonBase {
 
   /// Deserialize.
   factory PhoneCallDiscardReasonMissed.deserialize(Uint8List buffer) {
+    // final result = PhoneCallDiscardReasonMissed();
+    // return result;
+
     throw Exception();
   }
 
@@ -25142,6 +29388,9 @@ class PhoneCallDiscardReasonDisconnect extends PhoneCallDiscardReasonBase {
 
   /// Deserialize.
   factory PhoneCallDiscardReasonDisconnect.deserialize(Uint8List buffer) {
+    // final result = PhoneCallDiscardReasonDisconnect();
+    // return result;
+
     throw Exception();
   }
 
@@ -25161,6 +29410,9 @@ class PhoneCallDiscardReasonHangup extends PhoneCallDiscardReasonBase {
 
   /// Deserialize.
   factory PhoneCallDiscardReasonHangup.deserialize(Uint8List buffer) {
+    // final result = PhoneCallDiscardReasonHangup();
+    // return result;
+
     throw Exception();
   }
 
@@ -25180,6 +29432,9 @@ class PhoneCallDiscardReasonBusy extends PhoneCallDiscardReasonBase {
 
   /// Deserialize.
   factory PhoneCallDiscardReasonBusy.deserialize(Uint8List buffer) {
+    // final result = PhoneCallDiscardReasonBusy();
+    // return result;
+
     throw Exception();
   }
 
@@ -25207,6 +29462,10 @@ class DataJSON extends DataJSONBase {
 
   /// Deserialize.
   factory DataJSON.deserialize(Uint8List buffer) {
+    // final data = _readstring(buffer, 0, data);
+    // final result = DataJSON({data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25239,6 +29498,11 @@ class LabeledPrice extends LabeledPriceBase {
 
   /// Deserialize.
   factory LabeledPrice.deserialize(Uint8List buffer) {
+    // final label = _readstring(buffer, 0, label);
+    // final amount = _readlong(buffer, 0, amount);
+    // final result = LabeledPrice({label: label, amount: amount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25279,6 +29543,24 @@ class Invoice extends InvoiceBase {
 
   /// Deserialize.
   factory Invoice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final test = _readflags.0?true(buffer, 0, test);
+    // final nameRequested = _readflags.1?true(buffer, 0, nameRequested);
+    // final phoneRequested = _readflags.2?true(buffer, 0, phoneRequested);
+    // final emailRequested = _readflags.3?true(buffer, 0, emailRequested);
+    // final shippingAddressRequested = _readflags.4?true(buffer, 0, shippingAddressRequested);
+    // final flexible = _readflags.5?true(buffer, 0, flexible);
+    // final phoneToProvider = _readflags.6?true(buffer, 0, phoneToProvider);
+    // final emailToProvider = _readflags.7?true(buffer, 0, emailToProvider);
+    // final recurring = _readflags.9?true(buffer, 0, recurring);
+    // final currency = _readstring(buffer, 0, currency);
+    // final prices = _readVector<LabeledPrice>(buffer, 0, prices);
+    // final maxTipAmount = _readflags.8?long(buffer, 0, maxTipAmount);
+    // final suggestedTipAmounts = _readflags.8?Vector<long>(buffer, 0, suggestedTipAmounts);
+    // final termsUrl = _readflags.10?string(buffer, 0, termsUrl);
+    // final result = Invoice({flags: flags, test: test, nameRequested: nameRequested, phoneRequested: phoneRequested, emailRequested: emailRequested, shippingAddressRequested: shippingAddressRequested, flexible: flexible, phoneToProvider: phoneToProvider, emailToProvider: emailToProvider, recurring: recurring, currency: currency, prices: prices, maxTipAmount: maxTipAmount, suggestedTipAmounts: suggestedTipAmounts, termsUrl: termsUrl,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25367,6 +29649,11 @@ class PaymentCharge extends PaymentChargeBase {
 
   /// Deserialize.
   factory PaymentCharge.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final providerChargeId = _readstring(buffer, 0, providerChargeId);
+    // final result = PaymentCharge({id: id, providerChargeId: providerChargeId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25407,6 +29694,15 @@ class PostAddress extends PostAddressBase {
 
   /// Deserialize.
   factory PostAddress.deserialize(Uint8List buffer) {
+    // final streetLine1 = _readstring(buffer, 0, streetLine1);
+    // final streetLine2 = _readstring(buffer, 0, streetLine2);
+    // final city = _readstring(buffer, 0, city);
+    // final state = _readstring(buffer, 0, state);
+    // final countryIso2 = _readstring(buffer, 0, countryIso2);
+    // final postCode = _readstring(buffer, 0, postCode);
+    // final result = PostAddress({streetLine1: streetLine1, streetLine2: streetLine2, city: city, state: state, countryIso2: countryIso2, postCode: postCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25462,6 +29758,14 @@ class PaymentRequestedInfo extends PaymentRequestedInfoBase {
 
   /// Deserialize.
   factory PaymentRequestedInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final name = _readflags.0?string(buffer, 0, name);
+    // final phone = _readflags.1?string(buffer, 0, phone);
+    // final email = _readflags.2?string(buffer, 0, email);
+    // final shippingAddress = _readflags.3?PostAddress(buffer, 0, shippingAddress);
+    // final result = PaymentRequestedInfo({flags: flags, name: name, phone: phone, email: email, shippingAddress: shippingAddress,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25510,6 +29814,11 @@ class PaymentSavedCredentialsCard extends PaymentSavedCredentialsBase {
 
   /// Deserialize.
   factory PaymentSavedCredentialsCard.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final result = PaymentSavedCredentialsCard({id: id, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25549,6 +29858,14 @@ class WebDocument extends WebDocumentBase {
 
   /// Deserialize.
   factory WebDocument.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final size = _readint(buffer, 0, size);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final attributes = _readVector<DocumentAttribute>(buffer, 0, attributes);
+    // final result = WebDocument({url: url, accessHash: accessHash, size: size, mimeType: mimeType, attributes: attributes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25593,6 +29910,13 @@ class WebDocumentNoProxy extends WebDocumentBase {
 
   /// Deserialize.
   factory WebDocumentNoProxy.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final size = _readint(buffer, 0, size);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final attributes = _readVector<DocumentAttribute>(buffer, 0, attributes);
+    // final result = WebDocumentNoProxy({url: url, size: size, mimeType: mimeType, attributes: attributes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25639,6 +29963,13 @@ class InputWebDocument extends InputWebDocumentBase {
 
   /// Deserialize.
   factory InputWebDocument.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final size = _readint(buffer, 0, size);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final attributes = _readVector<DocumentAttribute>(buffer, 0, attributes);
+    // final result = InputWebDocument({url: url, size: size, mimeType: mimeType, attributes: attributes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25683,6 +30014,11 @@ class InputWebFileLocation extends InputWebFileLocationBase {
 
   /// Deserialize.
   factory InputWebFileLocation.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputWebFileLocation({url: url, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25717,6 +30053,15 @@ class InputWebFileGeoPointLocation extends InputWebFileLocationBase {
 
   /// Deserialize.
   factory InputWebFileGeoPointLocation.deserialize(Uint8List buffer) {
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final zoom = _readint(buffer, 0, zoom);
+    // final scale = _readint(buffer, 0, scale);
+    // final result = InputWebFileGeoPointLocation({geoPoint: geoPoint, accessHash: accessHash, w: w, h: h, zoom: zoom, scale: scale,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25765,6 +30110,14 @@ class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
 
   /// Deserialize.
   factory InputWebFileAudioAlbumThumbLocation.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final small = _readflags.2?true(buffer, 0, small);
+    // final document = _readflags.0?InputDocument(buffer, 0, document);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final performer = _readflags.1?string(buffer, 0, performer);
+    // final result = InputWebFileAudioAlbumThumbLocation({flags: flags, small: small, document: document, title: title, performer: performer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25816,6 +30169,14 @@ class UploadWebFile extends UploadWebFileBase {
 
   /// Deserialize.
   factory UploadWebFile.deserialize(Uint8List buffer) {
+    // final size = _readint(buffer, 0, size);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final fileType = _readstorage.FileType(buffer, 0, fileType);
+    // final mtime = _readint(buffer, 0, mtime);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = UploadWebFile({size: size, mimeType: mimeType, fileType: fileType, mtime: mtime, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25877,6 +30238,26 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
 
   /// Deserialize.
   factory PaymentsPaymentForm.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canSaveCredentials = _readflags.2?true(buffer, 0, canSaveCredentials);
+    // final passwordMissing = _readflags.3?true(buffer, 0, passwordMissing);
+    // final formId = _readlong(buffer, 0, formId);
+    // final botId = _readlong(buffer, 0, botId);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.5?WebDocument(buffer, 0, photo);
+    // final invoice = _readInvoice(buffer, 0, invoice);
+    // final providerId = _readlong(buffer, 0, providerId);
+    // final url = _readstring(buffer, 0, url);
+    // final nativeProvider = _readflags.4?string(buffer, 0, nativeProvider);
+    // final nativeParams = _readflags.4?DataJSON(buffer, 0, nativeParams);
+    // final additionalMethods = _readflags.6?Vector<PaymentFormMethod>(buffer, 0, additionalMethods);
+    // final savedInfo = _readflags.0?PaymentRequestedInfo(buffer, 0, savedInfo);
+    // final savedCredentials = _readflags.1?Vector<PaymentSavedCredentials>(buffer, 0, savedCredentials);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PaymentsPaymentForm({flags: flags, canSaveCredentials: canSaveCredentials, passwordMissing: passwordMissing, formId: formId, botId: botId, title: title, description: description, photo: photo, invoice: invoice, providerId: providerId, url: url, nativeProvider: nativeProvider, nativeParams: nativeParams, additionalMethods: additionalMethods, savedInfo: savedInfo, savedCredentials: savedCredentials, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -25975,6 +30356,12 @@ class PaymentsValidatedRequestedInfo
 
   /// Deserialize.
   factory PaymentsValidatedRequestedInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readflags.0?string(buffer, 0, id);
+    // final shippingOptions = _readflags.1?Vector<ShippingOption>(buffer, 0, shippingOptions);
+    // final result = PaymentsValidatedRequestedInfo({flags: flags, id: id, shippingOptions: shippingOptions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26014,6 +30401,10 @@ class PaymentsPaymentResult extends PaymentsPaymentResultBase {
 
   /// Deserialize.
   factory PaymentsPaymentResult.deserialize(Uint8List buffer) {
+    // final updates = _readUpdates(buffer, 0, updates);
+    // final result = PaymentsPaymentResult({updates: updates,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26039,6 +30430,10 @@ class PaymentsPaymentVerificationNeeded extends PaymentsPaymentResultBase {
 
   /// Deserialize.
   factory PaymentsPaymentVerificationNeeded.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = PaymentsPaymentVerificationNeeded({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26084,6 +30479,24 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
 
   /// Deserialize.
   factory PaymentsPaymentReceipt.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final date = _readint(buffer, 0, date);
+    // final botId = _readlong(buffer, 0, botId);
+    // final providerId = _readlong(buffer, 0, providerId);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readflags.2?WebDocument(buffer, 0, photo);
+    // final invoice = _readInvoice(buffer, 0, invoice);
+    // final info = _readflags.0?PaymentRequestedInfo(buffer, 0, info);
+    // final shipping = _readflags.1?ShippingOption(buffer, 0, shipping);
+    // final tipAmount = _readflags.3?long(buffer, 0, tipAmount);
+    // final currency = _readstring(buffer, 0, currency);
+    // final totalAmount = _readlong(buffer, 0, totalAmount);
+    // final credentialsTitle = _readstring(buffer, 0, credentialsTitle);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PaymentsPaymentReceipt({flags: flags, date: date, botId: botId, providerId: providerId, title: title, description: description, photo: photo, invoice: invoice, info: info, shipping: shipping, tipAmount: tipAmount, currency: currency, totalAmount: totalAmount, credentialsTitle: credentialsTitle, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26172,6 +30585,12 @@ class PaymentsSavedInfo extends PaymentsSavedInfoBase {
 
   /// Deserialize.
   factory PaymentsSavedInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasSavedCredentials = _readflags.1?true(buffer, 0, hasSavedCredentials);
+    // final savedInfo = _readflags.0?PaymentRequestedInfo(buffer, 0, savedInfo);
+    // final result = PaymentsSavedInfo({flags: flags, hasSavedCredentials: hasSavedCredentials, savedInfo: savedInfo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26212,6 +30631,11 @@ class InputPaymentCredentialsSaved extends InputPaymentCredentialsBase {
 
   /// Deserialize.
   factory InputPaymentCredentialsSaved.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final tmpPassword = _readbytes(buffer, 0, tmpPassword);
+    // final result = InputPaymentCredentialsSaved({id: id, tmpPassword: tmpPassword,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26242,6 +30666,12 @@ class InputPaymentCredentials extends InputPaymentCredentialsBase {
 
   /// Deserialize.
   factory InputPaymentCredentials.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final save = _readflags.0?true(buffer, 0, save);
+    // final data = _readDataJSON(buffer, 0, data);
+    // final result = InputPaymentCredentials({flags: flags, save: save, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26275,6 +30705,10 @@ class InputPaymentCredentialsApplePay extends InputPaymentCredentialsBase {
 
   /// Deserialize.
   factory InputPaymentCredentialsApplePay.deserialize(Uint8List buffer) {
+    // final paymentData = _readDataJSON(buffer, 0, paymentData);
+    // final result = InputPaymentCredentialsApplePay({paymentData: paymentData,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26300,6 +30734,10 @@ class InputPaymentCredentialsGooglePay extends InputPaymentCredentialsBase {
 
   /// Deserialize.
   factory InputPaymentCredentialsGooglePay.deserialize(Uint8List buffer) {
+    // final paymentToken = _readDataJSON(buffer, 0, paymentToken);
+    // final result = InputPaymentCredentialsGooglePay({paymentToken: paymentToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26332,6 +30770,11 @@ class AccountTmpPassword extends AccountTmpPasswordBase {
 
   /// Deserialize.
   factory AccountTmpPassword.deserialize(Uint8List buffer) {
+    // final tmpPassword = _readbytes(buffer, 0, tmpPassword);
+    // final validUntil = _readint(buffer, 0, validUntil);
+    // final result = AccountTmpPassword({tmpPassword: tmpPassword, validUntil: validUntil,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26369,6 +30812,12 @@ class ShippingOption extends ShippingOptionBase {
 
   /// Deserialize.
   factory ShippingOption.deserialize(Uint8List buffer) {
+    // final id = _readstring(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final prices = _readVector<LabeledPrice>(buffer, 0, prices);
+    // final result = ShippingOption({id: id, title: title, prices: prices,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26412,6 +30861,14 @@ class InputStickerSetItem extends InputStickerSetItemBase {
 
   /// Deserialize.
   factory InputStickerSetItem.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final document = _readInputDocument(buffer, 0, document);
+    // final emoji = _readstring(buffer, 0, emoji);
+    // final maskCoords = _readflags.0?MaskCoords(buffer, 0, maskCoords);
+    // final keywords = _readflags.1?string(buffer, 0, keywords);
+    // final result = InputStickerSetItem({flags: flags, document: document, emoji: emoji, maskCoords: maskCoords, keywords: keywords,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26460,6 +30917,11 @@ class InputPhoneCall extends InputPhoneCallBase {
 
   /// Deserialize.
   factory InputPhoneCall.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputPhoneCall({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26495,6 +30957,10 @@ class PhoneCallEmpty extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCallEmpty.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = PhoneCallEmpty({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26527,6 +30993,18 @@ class PhoneCallWaiting extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCallWaiting.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final receiveDate = _readflags.0?int(buffer, 0, receiveDate);
+    // final result = PhoneCallWaiting({flags: flags, video: video, id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, protocol: protocol, receiveDate: receiveDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26591,6 +31069,18 @@ class PhoneCallRequested extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCallRequested.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final gAHash = _readbytes(buffer, 0, gAHash);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final result = PhoneCallRequested({flags: flags, video: video, id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, gAHash: gAHash, protocol: protocol,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26655,6 +31145,18 @@ class PhoneCallAccepted extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCallAccepted.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final gB = _readbytes(buffer, 0, gB);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final result = PhoneCallAccepted({flags: flags, video: video, id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, gB: gB, protocol: protocol,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26722,6 +31224,22 @@ class PhoneCall extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final p2pAllowed = _readflags.5?true(buffer, 0, p2pAllowed);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final date = _readint(buffer, 0, date);
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final participantId = _readlong(buffer, 0, participantId);
+    // final gAOrB = _readbytes(buffer, 0, gAOrB);
+    // final keyFingerprint = _readlong(buffer, 0, keyFingerprint);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final connections = _readVector<PhoneConnection>(buffer, 0, connections);
+    // final startDate = _readint(buffer, 0, startDate);
+    // final result = PhoneCall({flags: flags, p2pAllowed: p2pAllowed, video: video, id: id, accessHash: accessHash, date: date, adminId: adminId, participantId: participantId, gAOrB: gAOrB, keyFingerprint: keyFingerprint, protocol: protocol, connections: connections, startDate: startDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26798,6 +31316,16 @@ class PhoneCallDiscarded extends PhoneCallBase {
 
   /// Deserialize.
   factory PhoneCallDiscarded.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final needRating = _readflags.2?true(buffer, 0, needRating);
+    // final needDebug = _readflags.3?true(buffer, 0, needDebug);
+    // final video = _readflags.6?true(buffer, 0, video);
+    // final id = _readlong(buffer, 0, id);
+    // final reason = _readflags.0?PhoneCallDiscardReason(buffer, 0, reason);
+    // final duration = _readflags.1?int(buffer, 0, duration);
+    // final result = PhoneCallDiscarded({flags: flags, needRating: needRating, needDebug: needDebug, video: video, id: id, reason: reason, duration: duration,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26858,6 +31386,16 @@ class PhoneConnection extends PhoneConnectionBase {
 
   /// Deserialize.
   factory PhoneConnection.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final tcp = _readflags.0?true(buffer, 0, tcp);
+    // final id = _readlong(buffer, 0, id);
+    // final ip = _readstring(buffer, 0, ip);
+    // final ipv6 = _readstring(buffer, 0, ipv6);
+    // final port = _readint(buffer, 0, port);
+    // final peerTag = _readbytes(buffer, 0, peerTag);
+    // final result = PhoneConnection({flags: flags, tcp: tcp, id: id, ip: ip, ipv6: ipv6, port: port, peerTag: peerTag,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26913,6 +31451,18 @@ class PhoneConnectionWebrtc extends PhoneConnectionBase {
 
   /// Deserialize.
   factory PhoneConnectionWebrtc.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final turn = _readflags.0?true(buffer, 0, turn);
+    // final stun = _readflags.1?true(buffer, 0, stun);
+    // final id = _readlong(buffer, 0, id);
+    // final ip = _readstring(buffer, 0, ip);
+    // final ipv6 = _readstring(buffer, 0, ipv6);
+    // final port = _readint(buffer, 0, port);
+    // final username = _readstring(buffer, 0, username);
+    // final password = _readstring(buffer, 0, password);
+    // final result = PhoneConnectionWebrtc({flags: flags, turn: turn, stun: stun, id: id, ip: ip, ipv6: ipv6, port: port, username: username, password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -26979,6 +31529,15 @@ class PhoneCallProtocol extends PhoneCallProtocolBase {
 
   /// Deserialize.
   factory PhoneCallProtocol.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final udpP2p = _readflags.0?true(buffer, 0, udpP2p);
+    // final udpReflector = _readflags.1?true(buffer, 0, udpReflector);
+    // final minLayer = _readint(buffer, 0, minLayer);
+    // final maxLayer = _readint(buffer, 0, maxLayer);
+    // final libraryVersions = _readVector<string>(buffer, 0, libraryVersions);
+    // final result = PhoneCallProtocol({flags: flags, udpP2p: udpP2p, udpReflector: udpReflector, minLayer: minLayer, maxLayer: maxLayer, libraryVersions: libraryVersions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27031,6 +31590,11 @@ class PhonePhoneCall extends PhonePhoneCallBase {
 
   /// Deserialize.
   factory PhonePhoneCall.deserialize(Uint8List buffer) {
+    // final phoneCall = _readPhoneCall(buffer, 0, phoneCall);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhonePhoneCall({phoneCall: phoneCall, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27066,6 +31630,10 @@ class UploadCdnFileReuploadNeeded extends UploadCdnFileBase {
 
   /// Deserialize.
   factory UploadCdnFileReuploadNeeded.deserialize(Uint8List buffer) {
+    // final requestToken = _readbytes(buffer, 0, requestToken);
+    // final result = UploadCdnFileReuploadNeeded({requestToken: requestToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27091,6 +31659,10 @@ class UploadCdnFile extends UploadCdnFileBase {
 
   /// Deserialize.
   factory UploadCdnFile.deserialize(Uint8List buffer) {
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = UploadCdnFile({bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27123,6 +31695,11 @@ class CdnPublicKey extends CdnPublicKeyBase {
 
   /// Deserialize.
   factory CdnPublicKey.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final publicKey = _readstring(buffer, 0, publicKey);
+    // final result = CdnPublicKey({dcId: dcId, publicKey: publicKey,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27158,6 +31735,10 @@ class CdnConfig extends CdnConfigBase {
 
   /// Deserialize.
   factory CdnConfig.deserialize(Uint8List buffer) {
+    // final publicKeys = _readVector<CdnPublicKey>(buffer, 0, publicKeys);
+    // final result = CdnConfig({publicKeys: publicKeys,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27190,6 +31771,11 @@ class LangPackString extends LangPackStringBase {
 
   /// Deserialize.
   factory LangPackString.deserialize(Uint8List buffer) {
+    // final key = _readstring(buffer, 0, key);
+    // final value = _readstring(buffer, 0, value);
+    // final result = LangPackString({key: key, value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27226,6 +31812,17 @@ class LangPackStringPluralized extends LangPackStringBase {
 
   /// Deserialize.
   factory LangPackStringPluralized.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final key = _readstring(buffer, 0, key);
+    // final zeroValue = _readflags.0?string(buffer, 0, zeroValue);
+    // final oneValue = _readflags.1?string(buffer, 0, oneValue);
+    // final twoValue = _readflags.2?string(buffer, 0, twoValue);
+    // final fewValue = _readflags.3?string(buffer, 0, fewValue);
+    // final manyValue = _readflags.4?string(buffer, 0, manyValue);
+    // final otherValue = _readstring(buffer, 0, otherValue);
+    // final result = LangPackStringPluralized({flags: flags, key: key, zeroValue: zeroValue, oneValue: oneValue, twoValue: twoValue, fewValue: fewValue, manyValue: manyValue, otherValue: otherValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27279,6 +31876,10 @@ class LangPackStringDeleted extends LangPackStringBase {
 
   /// Deserialize.
   factory LangPackStringDeleted.deserialize(Uint8List buffer) {
+    // final key = _readstring(buffer, 0, key);
+    // final result = LangPackStringDeleted({key: key,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27313,6 +31914,13 @@ class LangPackDifference extends LangPackDifferenceBase {
 
   /// Deserialize.
   factory LangPackDifference.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final fromVersion = _readint(buffer, 0, fromVersion);
+    // final version = _readint(buffer, 0, version);
+    // final strings = _readVector<LangPackString>(buffer, 0, strings);
+    // final result = LangPackDifference({langCode: langCode, fromVersion: fromVersion, version: version, strings: strings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27364,6 +31972,21 @@ class LangPackLanguage extends LangPackLanguageBase {
 
   /// Deserialize.
   factory LangPackLanguage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final official = _readflags.0?true(buffer, 0, official);
+    // final rtl = _readflags.2?true(buffer, 0, rtl);
+    // final beta = _readflags.3?true(buffer, 0, beta);
+    // final name = _readstring(buffer, 0, name);
+    // final nativeName = _readstring(buffer, 0, nativeName);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final baseLangCode = _readflags.1?string(buffer, 0, baseLangCode);
+    // final pluralCode = _readstring(buffer, 0, pluralCode);
+    // final stringsCount = _readint(buffer, 0, stringsCount);
+    // final translatedCount = _readint(buffer, 0, translatedCount);
+    // final translationsUrl = _readstring(buffer, 0, translationsUrl);
+    // final result = LangPackLanguage({flags: flags, official: official, rtl: rtl, beta: beta, name: name, nativeName: nativeName, langCode: langCode, baseLangCode: baseLangCode, pluralCode: pluralCode, stringsCount: stringsCount, translatedCount: translatedCount, translationsUrl: translationsUrl,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27441,6 +32064,11 @@ class ChannelAdminLogEventActionChangeTitle
 
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeTitle.deserialize(Uint8List buffer) {
+    // final prevValue = _readstring(buffer, 0, prevValue);
+    // final newValue = _readstring(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeTitle({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27472,6 +32100,11 @@ class ChannelAdminLogEventActionChangeAbout
 
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeAbout.deserialize(Uint8List buffer) {
+    // final prevValue = _readstring(buffer, 0, prevValue);
+    // final newValue = _readstring(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeAbout({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27504,6 +32137,11 @@ class ChannelAdminLogEventActionChangeUsername
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeUsername.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readstring(buffer, 0, prevValue);
+    // final newValue = _readstring(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeUsername({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27535,6 +32173,11 @@ class ChannelAdminLogEventActionChangePhoto
 
   /// Deserialize.
   factory ChannelAdminLogEventActionChangePhoto.deserialize(Uint8List buffer) {
+    // final prevPhoto = _readPhoto(buffer, 0, prevPhoto);
+    // final newPhoto = _readPhoto(buffer, 0, newPhoto);
+    // final result = ChannelAdminLogEventActionChangePhoto({prevPhoto: prevPhoto, newPhoto: newPhoto,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27566,6 +32209,10 @@ class ChannelAdminLogEventActionToggleInvites
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleInvites.deserialize(
       Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleInvites({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27593,6 +32240,10 @@ class ChannelAdminLogEventActionToggleSignatures
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleSignatures.deserialize(
       Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleSignatures({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27619,6 +32270,10 @@ class ChannelAdminLogEventActionUpdatePinned
 
   /// Deserialize.
   factory ChannelAdminLogEventActionUpdatePinned.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = ChannelAdminLogEventActionUpdatePinned({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27646,6 +32301,11 @@ class ChannelAdminLogEventActionEditMessage
 
   /// Deserialize.
   factory ChannelAdminLogEventActionEditMessage.deserialize(Uint8List buffer) {
+    // final prevMessage = _readMessage(buffer, 0, prevMessage);
+    // final newMessage = _readMessage(buffer, 0, newMessage);
+    // final result = ChannelAdminLogEventActionEditMessage({prevMessage: prevMessage, newMessage: newMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27677,6 +32337,10 @@ class ChannelAdminLogEventActionDeleteMessage
   /// Deserialize.
   factory ChannelAdminLogEventActionDeleteMessage.deserialize(
       Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = ChannelAdminLogEventActionDeleteMessage({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27702,6 +32366,9 @@ class ChannelAdminLogEventActionParticipantJoin
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantJoin.deserialize(
       Uint8List buffer) {
+    // final result = ChannelAdminLogEventActionParticipantJoin();
+    // return result;
+
     throw Exception();
   }
 
@@ -27723,6 +32390,9 @@ class ChannelAdminLogEventActionParticipantLeave
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantLeave.deserialize(
       Uint8List buffer) {
+    // final result = ChannelAdminLogEventActionParticipantLeave();
+    // return result;
+
     throw Exception();
   }
 
@@ -27746,6 +32416,10 @@ class ChannelAdminLogEventActionParticipantInvite
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantInvite.deserialize(
       Uint8List buffer) {
+    // final participant = _readChannelParticipant(buffer, 0, participant);
+    // final result = ChannelAdminLogEventActionParticipantInvite({participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27774,6 +32448,11 @@ class ChannelAdminLogEventActionParticipantToggleBan
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantToggleBan.deserialize(
       Uint8List buffer) {
+    // final prevParticipant = _readChannelParticipant(buffer, 0, prevParticipant);
+    // final newParticipant = _readChannelParticipant(buffer, 0, newParticipant);
+    // final result = ChannelAdminLogEventActionParticipantToggleBan({prevParticipant: prevParticipant, newParticipant: newParticipant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27806,6 +32485,11 @@ class ChannelAdminLogEventActionParticipantToggleAdmin
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantToggleAdmin.deserialize(
       Uint8List buffer) {
+    // final prevParticipant = _readChannelParticipant(buffer, 0, prevParticipant);
+    // final newParticipant = _readChannelParticipant(buffer, 0, newParticipant);
+    // final result = ChannelAdminLogEventActionParticipantToggleAdmin({prevParticipant: prevParticipant, newParticipant: newParticipant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27838,6 +32522,11 @@ class ChannelAdminLogEventActionChangeStickerSet
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeStickerSet.deserialize(
       Uint8List buffer) {
+    // final prevStickerset = _readInputStickerSet(buffer, 0, prevStickerset);
+    // final newStickerset = _readInputStickerSet(buffer, 0, newStickerset);
+    // final result = ChannelAdminLogEventActionChangeStickerSet({prevStickerset: prevStickerset, newStickerset: newStickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27869,6 +32558,10 @@ class ChannelAdminLogEventActionTogglePreHistoryHidden
   /// Deserialize.
   factory ChannelAdminLogEventActionTogglePreHistoryHidden.deserialize(
       Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionTogglePreHistoryHidden({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27897,6 +32590,11 @@ class ChannelAdminLogEventActionDefaultBannedRights
   /// Deserialize.
   factory ChannelAdminLogEventActionDefaultBannedRights.deserialize(
       Uint8List buffer) {
+    // final prevBannedRights = _readChatBannedRights(buffer, 0, prevBannedRights);
+    // final newBannedRights = _readChatBannedRights(buffer, 0, newBannedRights);
+    // final result = ChannelAdminLogEventActionDefaultBannedRights({prevBannedRights: prevBannedRights, newBannedRights: newBannedRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27927,6 +32625,10 @@ class ChannelAdminLogEventActionStopPoll
 
   /// Deserialize.
   factory ChannelAdminLogEventActionStopPoll.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = ChannelAdminLogEventActionStopPoll({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27955,6 +32657,11 @@ class ChannelAdminLogEventActionChangeLinkedChat
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeLinkedChat.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readlong(buffer, 0, prevValue);
+    // final newValue = _readlong(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeLinkedChat({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -27987,6 +32694,11 @@ class ChannelAdminLogEventActionChangeLocation
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeLocation.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readChannelLocation(buffer, 0, prevValue);
+    // final newValue = _readChannelLocation(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeLocation({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28019,6 +32731,11 @@ class ChannelAdminLogEventActionToggleSlowMode
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleSlowMode.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readint(buffer, 0, prevValue);
+    // final newValue = _readint(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleSlowMode({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28050,6 +32767,10 @@ class ChannelAdminLogEventActionStartGroupCall
   /// Deserialize.
   factory ChannelAdminLogEventActionStartGroupCall.deserialize(
       Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = ChannelAdminLogEventActionStartGroupCall({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28077,6 +32798,10 @@ class ChannelAdminLogEventActionDiscardGroupCall
   /// Deserialize.
   factory ChannelAdminLogEventActionDiscardGroupCall.deserialize(
       Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = ChannelAdminLogEventActionDiscardGroupCall({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28104,6 +32829,10 @@ class ChannelAdminLogEventActionParticipantMute
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantMute.deserialize(
       Uint8List buffer) {
+    // final participant = _readGroupCallParticipant(buffer, 0, participant);
+    // final result = ChannelAdminLogEventActionParticipantMute({participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28131,6 +32860,10 @@ class ChannelAdminLogEventActionParticipantUnmute
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantUnmute.deserialize(
       Uint8List buffer) {
+    // final participant = _readGroupCallParticipant(buffer, 0, participant);
+    // final result = ChannelAdminLogEventActionParticipantUnmute({participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28158,6 +32891,10 @@ class ChannelAdminLogEventActionToggleGroupCallSetting
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleGroupCallSetting.deserialize(
       Uint8List buffer) {
+    // final joinMuted = _readBool(buffer, 0, joinMuted);
+    // final result = ChannelAdminLogEventActionToggleGroupCallSetting({joinMuted: joinMuted,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28186,6 +32923,12 @@ class ChannelAdminLogEventActionParticipantJoinByInvite
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantJoinByInvite.deserialize(
       Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaChatlist = _readflags.0?true(buffer, 0, viaChatlist);
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final result = ChannelAdminLogEventActionParticipantJoinByInvite({flags: flags, viaChatlist: viaChatlist, invite: invite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28221,6 +32964,10 @@ class ChannelAdminLogEventActionExportedInviteDelete
   /// Deserialize.
   factory ChannelAdminLogEventActionExportedInviteDelete.deserialize(
       Uint8List buffer) {
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final result = ChannelAdminLogEventActionExportedInviteDelete({invite: invite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28248,6 +32995,10 @@ class ChannelAdminLogEventActionExportedInviteRevoke
   /// Deserialize.
   factory ChannelAdminLogEventActionExportedInviteRevoke.deserialize(
       Uint8List buffer) {
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final result = ChannelAdminLogEventActionExportedInviteRevoke({invite: invite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28276,6 +33027,11 @@ class ChannelAdminLogEventActionExportedInviteEdit
   /// Deserialize.
   factory ChannelAdminLogEventActionExportedInviteEdit.deserialize(
       Uint8List buffer) {
+    // final prevInvite = _readExportedChatInvite(buffer, 0, prevInvite);
+    // final newInvite = _readExportedChatInvite(buffer, 0, newInvite);
+    // final result = ChannelAdminLogEventActionExportedInviteEdit({prevInvite: prevInvite, newInvite: newInvite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28307,6 +33063,10 @@ class ChannelAdminLogEventActionParticipantVolume
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantVolume.deserialize(
       Uint8List buffer) {
+    // final participant = _readGroupCallParticipant(buffer, 0, participant);
+    // final result = ChannelAdminLogEventActionParticipantVolume({participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28335,6 +33095,11 @@ class ChannelAdminLogEventActionChangeHistoryTTL
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeHistoryTTL.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readint(buffer, 0, prevValue);
+    // final newValue = _readint(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeHistoryTTL({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28367,6 +33132,11 @@ class ChannelAdminLogEventActionParticipantJoinByRequest
   /// Deserialize.
   factory ChannelAdminLogEventActionParticipantJoinByRequest.deserialize(
       Uint8List buffer) {
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final approvedBy = _readlong(buffer, 0, approvedBy);
+    // final result = ChannelAdminLogEventActionParticipantJoinByRequest({invite: invite, approvedBy: approvedBy,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28398,6 +33168,10 @@ class ChannelAdminLogEventActionToggleNoForwards
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleNoForwards.deserialize(
       Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleNoForwards({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28424,6 +33198,10 @@ class ChannelAdminLogEventActionSendMessage
 
   /// Deserialize.
   factory ChannelAdminLogEventActionSendMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = ChannelAdminLogEventActionSendMessage({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28452,6 +33230,11 @@ class ChannelAdminLogEventActionChangeAvailableReactions
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeAvailableReactions.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readChatReactions(buffer, 0, prevValue);
+    // final newValue = _readChatReactions(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeAvailableReactions({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28484,6 +33267,11 @@ class ChannelAdminLogEventActionChangeUsernames
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeUsernames.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readVector<string>(buffer, 0, prevValue);
+    // final newValue = _readVector<string>(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeUsernames({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28514,6 +33302,10 @@ class ChannelAdminLogEventActionToggleForum
 
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleForum.deserialize(Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleForum({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28540,6 +33332,10 @@ class ChannelAdminLogEventActionCreateTopic
 
   /// Deserialize.
   factory ChannelAdminLogEventActionCreateTopic.deserialize(Uint8List buffer) {
+    // final topic = _readForumTopic(buffer, 0, topic);
+    // final result = ChannelAdminLogEventActionCreateTopic({topic: topic,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28567,6 +33363,11 @@ class ChannelAdminLogEventActionEditTopic
 
   /// Deserialize.
   factory ChannelAdminLogEventActionEditTopic.deserialize(Uint8List buffer) {
+    // final prevTopic = _readForumTopic(buffer, 0, prevTopic);
+    // final newTopic = _readForumTopic(buffer, 0, newTopic);
+    // final result = ChannelAdminLogEventActionEditTopic({prevTopic: prevTopic, newTopic: newTopic,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28597,6 +33398,10 @@ class ChannelAdminLogEventActionDeleteTopic
 
   /// Deserialize.
   factory ChannelAdminLogEventActionDeleteTopic.deserialize(Uint8List buffer) {
+    // final topic = _readForumTopic(buffer, 0, topic);
+    // final result = ChannelAdminLogEventActionDeleteTopic({topic: topic,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28625,6 +33430,12 @@ class ChannelAdminLogEventActionPinTopic
 
   /// Deserialize.
   factory ChannelAdminLogEventActionPinTopic.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final prevTopic = _readflags.0?ForumTopic(buffer, 0, prevTopic);
+    // final newTopic = _readflags.1?ForumTopic(buffer, 0, newTopic);
+    // final result = ChannelAdminLogEventActionPinTopic({flags: flags, prevTopic: prevTopic, newTopic: newTopic,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28660,6 +33471,10 @@ class ChannelAdminLogEventActionToggleAntiSpam
   /// Deserialize.
   factory ChannelAdminLogEventActionToggleAntiSpam.deserialize(
       Uint8List buffer) {
+    // final newValue = _readBool(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionToggleAntiSpam({newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28688,6 +33503,11 @@ class ChannelAdminLogEventActionChangePeerColor
   /// Deserialize.
   factory ChannelAdminLogEventActionChangePeerColor.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readPeerColor(buffer, 0, prevValue);
+    // final newValue = _readPeerColor(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangePeerColor({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28720,6 +33540,11 @@ class ChannelAdminLogEventActionChangeProfilePeerColor
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeProfilePeerColor.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readPeerColor(buffer, 0, prevValue);
+    // final newValue = _readPeerColor(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeProfilePeerColor({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28752,6 +33577,11 @@ class ChannelAdminLogEventActionChangeWallpaper
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeWallpaper.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readWallPaper(buffer, 0, prevValue);
+    // final newValue = _readWallPaper(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeWallpaper({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28784,6 +33614,11 @@ class ChannelAdminLogEventActionChangeEmojiStatus
   /// Deserialize.
   factory ChannelAdminLogEventActionChangeEmojiStatus.deserialize(
       Uint8List buffer) {
+    // final prevValue = _readEmojiStatus(buffer, 0, prevValue);
+    // final newValue = _readEmojiStatus(buffer, 0, newValue);
+    // final result = ChannelAdminLogEventActionChangeEmojiStatus({prevValue: prevValue, newValue: newValue,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28822,6 +33657,13 @@ class ChannelAdminLogEvent extends ChannelAdminLogEventBase {
 
   /// Deserialize.
   factory ChannelAdminLogEvent.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final date = _readint(buffer, 0, date);
+    // final userId = _readlong(buffer, 0, userId);
+    // final action = _readChannelAdminLogEventAction(buffer, 0, action);
+    // final result = ChannelAdminLogEvent({id: id, date: date, userId: userId, action: action,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28867,6 +33709,12 @@ class ChannelsAdminLogResults extends ChannelsAdminLogResultsBase {
 
   /// Deserialize.
   factory ChannelsAdminLogResults.deserialize(Uint8List buffer) {
+    // final events = _readVector<ChannelAdminLogEvent>(buffer, 0, events);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChannelsAdminLogResults({events: events, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -28906,6 +33754,28 @@ class ChannelAdminLogEventsFilter extends ChannelAdminLogEventsFilterBase {
 
   /// Deserialize.
   factory ChannelAdminLogEventsFilter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final join = _readflags.0?true(buffer, 0, join);
+    // final leave = _readflags.1?true(buffer, 0, leave);
+    // final invite = _readflags.2?true(buffer, 0, invite);
+    // final ban = _readflags.3?true(buffer, 0, ban);
+    // final unban = _readflags.4?true(buffer, 0, unban);
+    // final kick = _readflags.5?true(buffer, 0, kick);
+    // final unkick = _readflags.6?true(buffer, 0, unkick);
+    // final promote = _readflags.7?true(buffer, 0, promote);
+    // final demote = _readflags.8?true(buffer, 0, demote);
+    // final info = _readflags.9?true(buffer, 0, info);
+    // final settings = _readflags.10?true(buffer, 0, settings);
+    // final pinned = _readflags.11?true(buffer, 0, pinned);
+    // final edit = _readflags.12?true(buffer, 0, edit);
+    // final delete = _readflags.13?true(buffer, 0, delete);
+    // final groupCall = _readflags.14?true(buffer, 0, groupCall);
+    // final invites = _readflags.15?true(buffer, 0, invites);
+    // final send = _readflags.16?true(buffer, 0, send);
+    // final forums = _readflags.17?true(buffer, 0, forums);
+    // final result = ChannelAdminLogEventsFilter({flags: flags, join: join, leave: leave, invite: invite, ban: ban, unban: unban, kick: kick, unkick: unkick, promote: promote, demote: demote, info: info, settings: settings, pinned: pinned, edit: edit, delete: delete, groupCall: groupCall, invites: invites, send: send, forums: forums,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29010,6 +33880,11 @@ class PopularContact extends PopularContactBase {
 
   /// Deserialize.
   factory PopularContact.deserialize(Uint8List buffer) {
+    // final clientId = _readlong(buffer, 0, clientId);
+    // final importers = _readint(buffer, 0, importers);
+    // final result = PopularContact({clientId: clientId, importers: importers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29043,6 +33918,9 @@ class MessagesFavedStickersNotModified extends MessagesFavedStickersBase {
 
   /// Deserialize.
   factory MessagesFavedStickersNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesFavedStickersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -29066,6 +33944,12 @@ class MessagesFavedStickers extends MessagesFavedStickersBase {
 
   /// Deserialize.
   factory MessagesFavedStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final packs = _readVector<StickerPack>(buffer, 0, packs);
+    // final stickers = _readVector<Document>(buffer, 0, stickers);
+    // final result = MessagesFavedStickers({hash: hash, packs: packs, stickers: stickers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29105,6 +33989,10 @@ class RecentMeUrlUnknown extends RecentMeUrlBase {
 
   /// Deserialize.
   factory RecentMeUrlUnknown.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = RecentMeUrlUnknown({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29131,6 +34019,11 @@ class RecentMeUrlUser extends RecentMeUrlBase {
 
   /// Deserialize.
   factory RecentMeUrlUser.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final userId = _readlong(buffer, 0, userId);
+    // final result = RecentMeUrlUser({url: url, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29161,6 +34054,11 @@ class RecentMeUrlChat extends RecentMeUrlBase {
 
   /// Deserialize.
   factory RecentMeUrlChat.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = RecentMeUrlChat({url: url, chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29191,6 +34089,11 @@ class RecentMeUrlChatInvite extends RecentMeUrlBase {
 
   /// Deserialize.
   factory RecentMeUrlChatInvite.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final chatInvite = _readChatInvite(buffer, 0, chatInvite);
+    // final result = RecentMeUrlChatInvite({url: url, chatInvite: chatInvite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29221,6 +34124,11 @@ class RecentMeUrlStickerSet extends RecentMeUrlBase {
 
   /// Deserialize.
   factory RecentMeUrlStickerSet.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final set = _readStickerSetCovered(buffer, 0, set);
+    // final result = RecentMeUrlStickerSet({url: url, set: set,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29258,6 +34166,12 @@ class HelpRecentMeUrls extends HelpRecentMeUrlsBase {
 
   /// Deserialize.
   factory HelpRecentMeUrls.deserialize(Uint8List buffer) {
+    // final urls = _readVector<RecentMeUrl>(buffer, 0, urls);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = HelpRecentMeUrls({urls: urls, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29301,6 +34215,14 @@ class InputSingleMedia extends InputSingleMediaBase {
 
   /// Deserialize.
   factory InputSingleMedia.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final media = _readInputMedia(buffer, 0, media);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.0?Vector<MessageEntity>(buffer, 0, entities);
+    // final result = InputSingleMedia({flags: flags, media: media, randomId: randomId, message: message, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29356,6 +34278,18 @@ class WebAuthorization extends WebAuthorizationBase {
 
   /// Deserialize.
   factory WebAuthorization.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final botId = _readlong(buffer, 0, botId);
+    // final domain = _readstring(buffer, 0, domain);
+    // final browser = _readstring(buffer, 0, browser);
+    // final platform = _readstring(buffer, 0, platform);
+    // final dateCreated = _readint(buffer, 0, dateCreated);
+    // final dateActive = _readint(buffer, 0, dateActive);
+    // final ip = _readstring(buffer, 0, ip);
+    // final region = _readstring(buffer, 0, region);
+    // final result = WebAuthorization({hash: hash, botId: botId, domain: domain, browser: browser, platform: platform, dateCreated: dateCreated, dateActive: dateActive, ip: ip, region: region,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29420,6 +34354,11 @@ class AccountWebAuthorizations extends AccountWebAuthorizationsBase {
 
   /// Deserialize.
   factory AccountWebAuthorizations.deserialize(Uint8List buffer) {
+    // final authorizations = _readVector<WebAuthorization>(buffer, 0, authorizations);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = AccountWebAuthorizations({authorizations: authorizations, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29455,6 +34394,10 @@ class InputMessageID extends InputMessageBase {
 
   /// Deserialize.
   factory InputMessageID.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final result = InputMessageID({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29480,6 +34423,10 @@ class InputMessageReplyTo extends InputMessageBase {
 
   /// Deserialize.
   factory InputMessageReplyTo.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final result = InputMessageReplyTo({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29503,6 +34450,9 @@ class InputMessagePinned extends InputMessageBase {
 
   /// Deserialize.
   factory InputMessagePinned.deserialize(Uint8List buffer) {
+    // final result = InputMessagePinned();
+    // return result;
+
     throw Exception();
   }
 
@@ -29525,6 +34475,11 @@ class InputMessageCallbackQuery extends InputMessageBase {
 
   /// Deserialize.
   factory InputMessageCallbackQuery.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final result = InputMessageCallbackQuery({id: id, queryId: queryId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29560,6 +34515,10 @@ class InputDialogPeer extends InputDialogPeerBase {
 
   /// Deserialize.
   factory InputDialogPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = InputDialogPeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29585,6 +34544,10 @@ class InputDialogPeerFolder extends InputDialogPeerBase {
 
   /// Deserialize.
   factory InputDialogPeerFolder.deserialize(Uint8List buffer) {
+    // final folderId = _readint(buffer, 0, folderId);
+    // final result = InputDialogPeerFolder({folderId: folderId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29616,6 +34579,10 @@ class DialogPeer extends DialogPeerBase {
 
   /// Deserialize.
   factory DialogPeer.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final result = DialogPeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29641,6 +34608,10 @@ class DialogPeerFolder extends DialogPeerBase {
 
   /// Deserialize.
   factory DialogPeerFolder.deserialize(Uint8List buffer) {
+    // final folderId = _readint(buffer, 0, folderId);
+    // final result = DialogPeerFolder({folderId: folderId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29670,6 +34641,9 @@ class MessagesFoundStickerSetsNotModified extends MessagesFoundStickerSetsBase {
 
   /// Deserialize.
   factory MessagesFoundStickerSetsNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesFoundStickerSetsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -29692,6 +34666,11 @@ class MessagesFoundStickerSets extends MessagesFoundStickerSetsBase {
 
   /// Deserialize.
   factory MessagesFoundStickerSets.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final sets = _readVector<StickerSetCovered>(buffer, 0, sets);
+    // final result = MessagesFoundStickerSets({hash: hash, sets: sets,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29729,6 +34708,12 @@ class FileHash extends FileHashBase {
 
   /// Deserialize.
   factory FileHash.deserialize(Uint8List buffer) {
+    // final offset = _readlong(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readbytes(buffer, 0, hash);
+    // final result = FileHash({offset: offset, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29769,6 +34754,11 @@ class InputClientProxy extends InputClientProxyBase {
 
   /// Deserialize.
   factory InputClientProxy.deserialize(Uint8List buffer) {
+    // final address = _readstring(buffer, 0, address);
+    // final port = _readint(buffer, 0, port);
+    // final result = InputClientProxy({address: address, port: port,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29804,6 +34794,10 @@ class HelpTermsOfServiceUpdateEmpty extends HelpTermsOfServiceUpdateBase {
 
   /// Deserialize.
   factory HelpTermsOfServiceUpdateEmpty.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final result = HelpTermsOfServiceUpdateEmpty({expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29830,6 +34824,11 @@ class HelpTermsOfServiceUpdate extends HelpTermsOfServiceUpdateBase {
 
   /// Deserialize.
   factory HelpTermsOfServiceUpdate.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final termsOfService = _readhelp.TermsOfService(buffer, 0, termsOfService);
+    // final result = HelpTermsOfServiceUpdate({expires: expires, termsOfService: termsOfService,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29869,6 +34868,14 @@ class InputSecureFileUploaded extends InputSecureFileBase {
 
   /// Deserialize.
   factory InputSecureFileUploaded.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final parts = _readint(buffer, 0, parts);
+    // final md5Checksum = _readstring(buffer, 0, md5Checksum);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final secret = _readbytes(buffer, 0, secret);
+    // final result = InputSecureFileUploaded({id: id, parts: parts, md5Checksum: md5Checksum, fileHash: fileHash, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29911,6 +34918,11 @@ class InputSecureFile extends InputSecureFileBase {
 
   /// Deserialize.
   factory InputSecureFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputSecureFile({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -29944,6 +34956,9 @@ class SecureFileEmpty extends SecureFileBase {
 
   /// Deserialize.
   factory SecureFileEmpty.deserialize(Uint8List buffer) {
+    // final result = SecureFileEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -29971,6 +34986,16 @@ class SecureFile extends SecureFileBase {
 
   /// Deserialize.
   factory SecureFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final size = _readlong(buffer, 0, size);
+    // final dcId = _readint(buffer, 0, dcId);
+    // final date = _readint(buffer, 0, date);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final secret = _readbytes(buffer, 0, secret);
+    // final result = SecureFile({id: id, accessHash: accessHash, size: size, dcId: dcId, date: date, fileHash: fileHash, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30028,6 +35053,12 @@ class SecureData extends SecureDataBase {
 
   /// Deserialize.
   factory SecureData.deserialize(Uint8List buffer) {
+    // final data = _readbytes(buffer, 0, data);
+    // final dataHash = _readbytes(buffer, 0, dataHash);
+    // final secret = _readbytes(buffer, 0, secret);
+    // final result = SecureData({data: data, dataHash: dataHash, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30067,6 +35098,10 @@ class SecurePlainPhone extends SecurePlainDataBase {
 
   /// Deserialize.
   factory SecurePlainPhone.deserialize(Uint8List buffer) {
+    // final phone = _readstring(buffer, 0, phone);
+    // final result = SecurePlainPhone({phone: phone,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30092,6 +35127,10 @@ class SecurePlainEmail extends SecurePlainDataBase {
 
   /// Deserialize.
   factory SecurePlainEmail.deserialize(Uint8List buffer) {
+    // final email = _readstring(buffer, 0, email);
+    // final result = SecurePlainEmail({email: email,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30121,6 +35160,9 @@ class SecureValueTypePersonalDetails extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypePersonalDetails.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypePersonalDetails();
+    // return result;
+
     throw Exception();
   }
 
@@ -30140,6 +35182,9 @@ class SecureValueTypePassport extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypePassport.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypePassport();
+    // return result;
+
     throw Exception();
   }
 
@@ -30159,6 +35204,9 @@ class SecureValueTypeDriverLicense extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeDriverLicense.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeDriverLicense();
+    // return result;
+
     throw Exception();
   }
 
@@ -30178,6 +35226,9 @@ class SecureValueTypeIdentityCard extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeIdentityCard.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeIdentityCard();
+    // return result;
+
     throw Exception();
   }
 
@@ -30197,6 +35248,9 @@ class SecureValueTypeInternalPassport extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeInternalPassport.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeInternalPassport();
+    // return result;
+
     throw Exception();
   }
 
@@ -30216,6 +35270,9 @@ class SecureValueTypeAddress extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeAddress.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeAddress();
+    // return result;
+
     throw Exception();
   }
 
@@ -30235,6 +35292,9 @@ class SecureValueTypeUtilityBill extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeUtilityBill.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeUtilityBill();
+    // return result;
+
     throw Exception();
   }
 
@@ -30254,6 +35314,9 @@ class SecureValueTypeBankStatement extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeBankStatement.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeBankStatement();
+    // return result;
+
     throw Exception();
   }
 
@@ -30273,6 +35336,9 @@ class SecureValueTypeRentalAgreement extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeRentalAgreement.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeRentalAgreement();
+    // return result;
+
     throw Exception();
   }
 
@@ -30292,6 +35358,9 @@ class SecureValueTypePassportRegistration extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypePassportRegistration.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypePassportRegistration();
+    // return result;
+
     throw Exception();
   }
 
@@ -30311,6 +35380,9 @@ class SecureValueTypeTemporaryRegistration extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeTemporaryRegistration.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeTemporaryRegistration();
+    // return result;
+
     throw Exception();
   }
 
@@ -30330,6 +35402,9 @@ class SecureValueTypePhone extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypePhone.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypePhone();
+    // return result;
+
     throw Exception();
   }
 
@@ -30349,6 +35424,9 @@ class SecureValueTypeEmail extends SecureValueTypeBase {
 
   /// Deserialize.
   factory SecureValueTypeEmail.deserialize(Uint8List buffer) {
+    // final result = SecureValueTypeEmail();
+    // return result;
+
     throw Exception();
   }
 
@@ -30385,6 +35463,19 @@ class SecureValue extends SecureValueBase {
 
   /// Deserialize.
   factory SecureValue.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final data = _readflags.0?SecureData(buffer, 0, data);
+    // final frontSide = _readflags.1?SecureFile(buffer, 0, frontSide);
+    // final reverseSide = _readflags.2?SecureFile(buffer, 0, reverseSide);
+    // final selfie = _readflags.3?SecureFile(buffer, 0, selfie);
+    // final translation = _readflags.6?Vector<SecureFile>(buffer, 0, translation);
+    // final files = _readflags.4?Vector<SecureFile>(buffer, 0, files);
+    // final plainData = _readflags.5?SecurePlainData(buffer, 0, plainData);
+    // final hash = _readbytes(buffer, 0, hash);
+    // final result = SecureValue({flags: flags, type: type, data: data, frontSide: frontSide, reverseSide: reverseSide, selfie: selfie, translation: translation, files: files, plainData: plainData, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30460,6 +35551,18 @@ class InputSecureValue extends InputSecureValueBase {
 
   /// Deserialize.
   factory InputSecureValue.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final data = _readflags.0?SecureData(buffer, 0, data);
+    // final frontSide = _readflags.1?InputSecureFile(buffer, 0, frontSide);
+    // final reverseSide = _readflags.2?InputSecureFile(buffer, 0, reverseSide);
+    // final selfie = _readflags.3?InputSecureFile(buffer, 0, selfie);
+    // final translation = _readflags.6?Vector<InputSecureFile>(buffer, 0, translation);
+    // final files = _readflags.4?Vector<InputSecureFile>(buffer, 0, files);
+    // final plainData = _readflags.5?SecurePlainData(buffer, 0, plainData);
+    // final result = InputSecureValue({flags: flags, type: type, data: data, frontSide: frontSide, reverseSide: reverseSide, selfie: selfie, translation: translation, files: files, plainData: plainData,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30524,6 +35627,11 @@ class SecureValueHash extends SecureValueHashBase {
 
   /// Deserialize.
   factory SecureValueHash.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final hash = _readbytes(buffer, 0, hash);
+    // final result = SecureValueHash({type: type, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30562,6 +35670,13 @@ class SecureValueErrorData extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorData.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final dataHash = _readbytes(buffer, 0, dataHash);
+    // final field = _readstring(buffer, 0, field);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorData({type: type, dataHash: dataHash, field: field, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30601,6 +35716,12 @@ class SecureValueErrorFrontSide extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorFrontSide.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorFrontSide({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30636,6 +35757,12 @@ class SecureValueErrorReverseSide extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorReverseSide.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorReverseSide({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30671,6 +35798,12 @@ class SecureValueErrorSelfie extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorSelfie.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorSelfie({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30706,6 +35839,12 @@ class SecureValueErrorFile extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorFile.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorFile({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30741,6 +35880,12 @@ class SecureValueErrorFiles extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorFiles.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readVector<bytes>(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorFiles({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30776,6 +35921,12 @@ class SecureValueError extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueError.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final hash = _readbytes(buffer, 0, hash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueError({type: type, hash: hash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30811,6 +35962,12 @@ class SecureValueErrorTranslationFile extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorTranslationFile.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readbytes(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorTranslationFile({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30846,6 +36003,12 @@ class SecureValueErrorTranslationFiles extends SecureValueErrorBase {
 
   /// Deserialize.
   factory SecureValueErrorTranslationFiles.deserialize(Uint8List buffer) {
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final fileHash = _readVector<bytes>(buffer, 0, fileHash);
+    // final text = _readstring(buffer, 0, text);
+    // final result = SecureValueErrorTranslationFiles({type: type, fileHash: fileHash, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30887,6 +36050,12 @@ class SecureCredentialsEncrypted extends SecureCredentialsEncryptedBase {
 
   /// Deserialize.
   factory SecureCredentialsEncrypted.deserialize(Uint8List buffer) {
+    // final data = _readbytes(buffer, 0, data);
+    // final hash = _readbytes(buffer, 0, hash);
+    // final secret = _readbytes(buffer, 0, secret);
+    // final result = SecureCredentialsEncrypted({data: data, hash: hash, secret: secret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30931,6 +36100,15 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
 
   /// Deserialize.
   factory AccountAuthorizationForm.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requiredTypes = _readVector<SecureRequiredType>(buffer, 0, requiredTypes);
+    // final values = _readVector<SecureValue>(buffer, 0, values);
+    // final errors = _readVector<SecureValueError>(buffer, 0, errors);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final privacyPolicyUrl = _readflags.0?string(buffer, 0, privacyPolicyUrl);
+    // final result = AccountAuthorizationForm({flags: flags, requiredTypes: requiredTypes, values: values, errors: errors, users: users, privacyPolicyUrl: privacyPolicyUrl,});
+    // return result;
+
     throw Exception();
   }
 
@@ -30983,6 +36161,11 @@ class AccountSentEmailCode extends AccountSentEmailCodeBase {
 
   /// Deserialize.
   factory AccountSentEmailCode.deserialize(Uint8List buffer) {
+    // final emailPattern = _readstring(buffer, 0, emailPattern);
+    // final length = _readint(buffer, 0, length);
+    // final result = AccountSentEmailCode({emailPattern: emailPattern, length: length,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31016,6 +36199,9 @@ class HelpDeepLinkInfoEmpty extends HelpDeepLinkInfoBase {
 
   /// Deserialize.
   factory HelpDeepLinkInfoEmpty.deserialize(Uint8List buffer) {
+    // final result = HelpDeepLinkInfoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -31039,6 +36225,13 @@ class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
 
   /// Deserialize.
   factory HelpDeepLinkInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final updateApp = _readflags.0?true(buffer, 0, updateApp);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final result = HelpDeepLinkInfo({flags: flags, updateApp: updateApp, message: message, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31085,6 +36278,13 @@ class SavedPhoneContact extends SavedContactBase {
 
   /// Deserialize.
   factory SavedPhoneContact.deserialize(Uint8List buffer) {
+    // final phone = _readstring(buffer, 0, phone);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final date = _readint(buffer, 0, date);
+    // final result = SavedPhoneContact({phone: phone, firstName: firstName, lastName: lastName, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31128,6 +36328,10 @@ class AccountTakeout extends AccountTakeoutBase {
 
   /// Deserialize.
   factory AccountTakeout.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = AccountTakeout({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31157,6 +36361,9 @@ class PasswordKdfAlgoUnknown extends PasswordKdfAlgoBase {
 
   /// Deserialize.
   factory PasswordKdfAlgoUnknown.deserialize(Uint8List buffer) {
+    // final result = PasswordKdfAlgoUnknown();
+    // return result;
+
     throw Exception();
   }
 
@@ -31183,6 +36390,13 @@ class PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow
   /// Deserialize.
   factory PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow.deserialize(
       Uint8List buffer) {
+    // final salt1 = _readbytes(buffer, 0, salt1);
+    // final salt2 = _readbytes(buffer, 0, salt2);
+    // final g = _readint(buffer, 0, g);
+    // final p = _readbytes(buffer, 0, p);
+    // final result = PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow({salt1: salt1, salt2: salt2, g: g, p: p,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31224,6 +36438,9 @@ class SecurePasswordKdfAlgoUnknown extends SecurePasswordKdfAlgoBase {
 
   /// Deserialize.
   factory SecurePasswordKdfAlgoUnknown.deserialize(Uint8List buffer) {
+    // final result = SecurePasswordKdfAlgoUnknown();
+    // return result;
+
     throw Exception();
   }
 
@@ -31247,6 +36464,10 @@ class SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000
   /// Deserialize.
   factory SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000.deserialize(
       Uint8List buffer) {
+    // final salt = _readbytes(buffer, 0, salt);
+    // final result = SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000({salt: salt,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31272,6 +36493,10 @@ class SecurePasswordKdfAlgoSHA512 extends SecurePasswordKdfAlgoBase {
 
   /// Deserialize.
   factory SecurePasswordKdfAlgoSHA512.deserialize(Uint8List buffer) {
+    // final salt = _readbytes(buffer, 0, salt);
+    // final result = SecurePasswordKdfAlgoSHA512({salt: salt,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31305,6 +36530,12 @@ class SecureSecretSettings extends SecureSecretSettingsBase {
 
   /// Deserialize.
   factory SecureSecretSettings.deserialize(Uint8List buffer) {
+    // final secureAlgo = _readSecurePasswordKdfAlgo(buffer, 0, secureAlgo);
+    // final secureSecret = _readbytes(buffer, 0, secureSecret);
+    // final secureSecretId = _readlong(buffer, 0, secureSecretId);
+    // final result = SecureSecretSettings({secureAlgo: secureAlgo, secureSecret: secureSecret, secureSecretId: secureSecretId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31342,6 +36573,9 @@ class InputCheckPasswordEmpty extends InputCheckPasswordSRPBase {
 
   /// Deserialize.
   factory InputCheckPasswordEmpty.deserialize(Uint8List buffer) {
+    // final result = InputCheckPasswordEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -31365,6 +36599,12 @@ class InputCheckPasswordSRP extends InputCheckPasswordSRPBase {
 
   /// Deserialize.
   factory InputCheckPasswordSRP.deserialize(Uint8List buffer) {
+    // final srpId = _readlong(buffer, 0, srpId);
+    // final a = _readbytes(buffer, 0, a);
+    // final m1 = _readbytes(buffer, 0, m1);
+    // final result = InputCheckPasswordSRP({srpId: srpId, a: a, m1: m1,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31405,6 +36645,14 @@ class SecureRequiredType extends SecureRequiredTypeBase {
 
   /// Deserialize.
   factory SecureRequiredType.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final nativeNames = _readflags.0?true(buffer, 0, nativeNames);
+    // final selfieRequired = _readflags.1?true(buffer, 0, selfieRequired);
+    // final translationRequired = _readflags.2?true(buffer, 0, translationRequired);
+    // final type = _readSecureValueType(buffer, 0, type);
+    // final result = SecureRequiredType({flags: flags, nativeNames: nativeNames, selfieRequired: selfieRequired, translationRequired: translationRequired, type: type,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31446,6 +36694,10 @@ class SecureRequiredTypeOneOf extends SecureRequiredTypeBase {
 
   /// Deserialize.
   factory SecureRequiredTypeOneOf.deserialize(Uint8List buffer) {
+    // final types = _readVector<SecureRequiredType>(buffer, 0, types);
+    // final result = SecureRequiredTypeOneOf({types: types,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31475,6 +36727,9 @@ class HelpPassportConfigNotModified extends HelpPassportConfigBase {
 
   /// Deserialize.
   factory HelpPassportConfigNotModified.deserialize(Uint8List buffer) {
+    // final result = HelpPassportConfigNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -31497,6 +36752,11 @@ class HelpPassportConfig extends HelpPassportConfigBase {
 
   /// Deserialize.
   factory HelpPassportConfig.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final countriesLangs = _readDataJSON(buffer, 0, countriesLangs);
+    // final result = HelpPassportConfig({hash: hash, countriesLangs: countriesLangs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31535,6 +36795,13 @@ class InputAppEvent extends InputAppEventBase {
 
   /// Deserialize.
   factory InputAppEvent.deserialize(Uint8List buffer) {
+    // final time = _readdouble(buffer, 0, time);
+    // final type = _readstring(buffer, 0, type);
+    // final peer = _readlong(buffer, 0, peer);
+    // final data = _readJSONValue(buffer, 0, data);
+    // final result = InputAppEvent({time: time, type: type, peer: peer, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31579,6 +36846,11 @@ class JsonObjectValue extends JSONObjectValueBase {
 
   /// Deserialize.
   factory JsonObjectValue.deserialize(Uint8List buffer) {
+    // final key = _readstring(buffer, 0, key);
+    // final value = _readJSONValue(buffer, 0, value);
+    // final result = JsonObjectValue({key: key, value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31612,6 +36884,9 @@ class JsonNull extends JSONValueBase {
 
   /// Deserialize.
   factory JsonNull.deserialize(Uint8List buffer) {
+    // final result = JsonNull();
+    // return result;
+
     throw Exception();
   }
 
@@ -31633,6 +36908,10 @@ class JsonBool extends JSONValueBase {
 
   /// Deserialize.
   factory JsonBool.deserialize(Uint8List buffer) {
+    // final value = _readBool(buffer, 0, value);
+    // final result = JsonBool({value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31658,6 +36937,10 @@ class JsonNumber extends JSONValueBase {
 
   /// Deserialize.
   factory JsonNumber.deserialize(Uint8List buffer) {
+    // final value = _readdouble(buffer, 0, value);
+    // final result = JsonNumber({value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31683,6 +36966,10 @@ class JsonString extends JSONValueBase {
 
   /// Deserialize.
   factory JsonString.deserialize(Uint8List buffer) {
+    // final value = _readstring(buffer, 0, value);
+    // final result = JsonString({value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31708,6 +36995,10 @@ class JsonArray extends JSONValueBase {
 
   /// Deserialize.
   factory JsonArray.deserialize(Uint8List buffer) {
+    // final value = _readVector<JSONValue>(buffer, 0, value);
+    // final result = JsonArray({value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31733,6 +37024,10 @@ class JsonObject extends JSONValueBase {
 
   /// Deserialize.
   factory JsonObject.deserialize(Uint8List buffer) {
+    // final value = _readVector<JSONObjectValue>(buffer, 0, value);
+    // final result = JsonObject({value: value,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31767,6 +37062,18 @@ class PageTableCell extends PageTableCellBase {
 
   /// Deserialize.
   factory PageTableCell.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final header = _readflags.0?true(buffer, 0, header);
+    // final alignCenter = _readflags.3?true(buffer, 0, alignCenter);
+    // final alignRight = _readflags.4?true(buffer, 0, alignRight);
+    // final valignMiddle = _readflags.5?true(buffer, 0, valignMiddle);
+    // final valignBottom = _readflags.6?true(buffer, 0, valignBottom);
+    // final text = _readflags.7?RichText(buffer, 0, text);
+    // final colspan = _readflags.1?int(buffer, 0, colspan);
+    // final rowspan = _readflags.2?int(buffer, 0, rowspan);
+    // final result = PageTableCell({flags: flags, header: header, alignCenter: alignCenter, alignRight: alignRight, valignMiddle: valignMiddle, valignBottom: valignBottom, text: text, colspan: colspan, rowspan: rowspan,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31830,6 +37137,10 @@ class PageTableRow extends PageTableRowBase {
 
   /// Deserialize.
   factory PageTableRow.deserialize(Uint8List buffer) {
+    // final cells = _readVector<PageTableCell>(buffer, 0, cells);
+    // final result = PageTableRow({cells: cells,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31862,6 +37173,11 @@ class PageCaption extends PageCaptionBase {
 
   /// Deserialize.
   factory PageCaption.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final credit = _readRichText(buffer, 0, credit);
+    // final result = PageCaption({text: text, credit: credit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31897,6 +37213,10 @@ class PageListItemText extends PageListItemBase {
 
   /// Deserialize.
   factory PageListItemText.deserialize(Uint8List buffer) {
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageListItemText({text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31922,6 +37242,10 @@ class PageListItemBlocks extends PageListItemBase {
 
   /// Deserialize.
   factory PageListItemBlocks.deserialize(Uint8List buffer) {
+    // final blocks = _readVector<PageBlock>(buffer, 0, blocks);
+    // final result = PageListItemBlocks({blocks: blocks,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31954,6 +37278,11 @@ class PageListOrderedItemText extends PageListOrderedItemBase {
 
   /// Deserialize.
   factory PageListOrderedItemText.deserialize(Uint8List buffer) {
+    // final num = _readstring(buffer, 0, num);
+    // final text = _readRichText(buffer, 0, text);
+    // final result = PageListOrderedItemText({num: num, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -31984,6 +37313,11 @@ class PageListOrderedItemBlocks extends PageListOrderedItemBase {
 
   /// Deserialize.
   factory PageListOrderedItemBlocks.deserialize(Uint8List buffer) {
+    // final num = _readstring(buffer, 0, num);
+    // final blocks = _readVector<PageBlock>(buffer, 0, blocks);
+    // final result = PageListOrderedItemBlocks({num: num, blocks: blocks,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32026,6 +37360,17 @@ class PageRelatedArticle extends PageRelatedArticleBase {
 
   /// Deserialize.
   factory PageRelatedArticle.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final url = _readstring(buffer, 0, url);
+    // final webpageId = _readlong(buffer, 0, webpageId);
+    // final title = _readflags.0?string(buffer, 0, title);
+    // final description = _readflags.1?string(buffer, 0, description);
+    // final photoId = _readflags.2?long(buffer, 0, photoId);
+    // final author = _readflags.3?string(buffer, 0, author);
+    // final publishedDate = _readflags.4?int(buffer, 0, publishedDate);
+    // final result = PageRelatedArticle({flags: flags, url: url, webpageId: webpageId, title: title, description: description, photoId: photoId, author: author, publishedDate: publishedDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32090,6 +37435,18 @@ class Page extends PageBase {
 
   /// Deserialize.
   factory Page.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final part = _readflags.0?true(buffer, 0, part);
+    // final rtl = _readflags.1?true(buffer, 0, rtl);
+    // final v2 = _readflags.2?true(buffer, 0, v2);
+    // final url = _readstring(buffer, 0, url);
+    // final blocks = _readVector<PageBlock>(buffer, 0, blocks);
+    // final photos = _readVector<Photo>(buffer, 0, photos);
+    // final documents = _readVector<Document>(buffer, 0, documents);
+    // final views = _readflags.3?int(buffer, 0, views);
+    // final result = Page({flags: flags, part: part, rtl: rtl, v2: v2, url: url, blocks: blocks, photos: photos, documents: documents, views: views,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32153,6 +37510,10 @@ class HelpSupportName extends HelpSupportNameBase {
 
   /// Deserialize.
   factory HelpSupportName.deserialize(Uint8List buffer) {
+    // final name = _readstring(buffer, 0, name);
+    // final result = HelpSupportName({name: name,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32182,6 +37543,9 @@ class HelpUserInfoEmpty extends HelpUserInfoBase {
 
   /// Deserialize.
   factory HelpUserInfoEmpty.deserialize(Uint8List buffer) {
+    // final result = HelpUserInfoEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -32206,6 +37570,13 @@ class HelpUserInfo extends HelpUserInfoBase {
 
   /// Deserialize.
   factory HelpUserInfo.deserialize(Uint8List buffer) {
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final author = _readstring(buffer, 0, author);
+    // final date = _readint(buffer, 0, date);
+    // final result = HelpUserInfo({message: message, entities: entities, author: author, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32250,6 +37621,11 @@ class PollAnswer extends PollAnswerBase {
 
   /// Deserialize.
   factory PollAnswer.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final option = _readbytes(buffer, 0, option);
+    // final result = PollAnswer({text: text, option: option,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32290,6 +37666,19 @@ class Poll extends PollBase {
 
   /// Deserialize.
   factory Poll.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final flags = _read#(buffer, 0, flags);
+    // final closed = _readflags.0?true(buffer, 0, closed);
+    // final publicVoters = _readflags.1?true(buffer, 0, publicVoters);
+    // final multipleChoice = _readflags.2?true(buffer, 0, multipleChoice);
+    // final quiz = _readflags.3?true(buffer, 0, quiz);
+    // final question = _readstring(buffer, 0, question);
+    // final answers = _readVector<PollAnswer>(buffer, 0, answers);
+    // final closePeriod = _readflags.4?int(buffer, 0, closePeriod);
+    // final closeDate = _readflags.5?int(buffer, 0, closeDate);
+    // final result = Poll({id: id, flags: flags, closed: closed, publicVoters: publicVoters, multipleChoice: multipleChoice, quiz: quiz, question: question, answers: answers, closePeriod: closePeriod, closeDate: closeDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32359,6 +37748,14 @@ class PollAnswerVoters extends PollAnswerVotersBase {
 
   /// Deserialize.
   factory PollAnswerVoters.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final chosen = _readflags.0?true(buffer, 0, chosen);
+    // final correct = _readflags.1?true(buffer, 0, correct);
+    // final option = _readbytes(buffer, 0, option);
+    // final voters = _readint(buffer, 0, voters);
+    // final result = PollAnswerVoters({flags: flags, chosen: chosen, correct: correct, option: option, voters: voters,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32411,6 +37808,16 @@ class PollResults extends PollResultsBase {
 
   /// Deserialize.
   factory PollResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final min = _readflags.0?true(buffer, 0, min);
+    // final results = _readflags.1?Vector<PollAnswerVoters>(buffer, 0, results);
+    // final totalVoters = _readflags.2?int(buffer, 0, totalVoters);
+    // final recentVoters = _readflags.3?Vector<Peer>(buffer, 0, recentVoters);
+    // final solution = _readflags.4?string(buffer, 0, solution);
+    // final solutionEntities = _readflags.4?Vector<MessageEntity>(buffer, 0, solutionEntities);
+    // final result = PollResults({flags: flags, min: min, results: results, totalVoters: totalVoters, recentVoters: recentVoters, solution: solution, solutionEntities: solutionEntities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32466,6 +37873,10 @@ class ChatOnlines extends ChatOnlinesBase {
 
   /// Deserialize.
   factory ChatOnlines.deserialize(Uint8List buffer) {
+    // final onlines = _readint(buffer, 0, onlines);
+    // final result = ChatOnlines({onlines: onlines,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32497,6 +37908,10 @@ class StatsURL extends StatsURLBase {
 
   /// Deserialize.
   factory StatsURL.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = StatsURL({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32528,6 +37943,25 @@ class ChatAdminRights extends ChatAdminRightsBase {
 
   /// Deserialize.
   factory ChatAdminRights.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final changeInfo = _readflags.0?true(buffer, 0, changeInfo);
+    // final postMessages = _readflags.1?true(buffer, 0, postMessages);
+    // final editMessages = _readflags.2?true(buffer, 0, editMessages);
+    // final deleteMessages = _readflags.3?true(buffer, 0, deleteMessages);
+    // final banUsers = _readflags.4?true(buffer, 0, banUsers);
+    // final inviteUsers = _readflags.5?true(buffer, 0, inviteUsers);
+    // final pinMessages = _readflags.7?true(buffer, 0, pinMessages);
+    // final addAdmins = _readflags.9?true(buffer, 0, addAdmins);
+    // final anonymous = _readflags.10?true(buffer, 0, anonymous);
+    // final manageCall = _readflags.11?true(buffer, 0, manageCall);
+    // final other = _readflags.12?true(buffer, 0, other);
+    // final manageTopics = _readflags.13?true(buffer, 0, manageTopics);
+    // final postStories = _readflags.14?true(buffer, 0, postStories);
+    // final editStories = _readflags.15?true(buffer, 0, editStories);
+    // final deleteStories = _readflags.16?true(buffer, 0, deleteStories);
+    // final result = ChatAdminRights({flags: flags, changeInfo: changeInfo, postMessages: postMessages, editMessages: editMessages, deleteMessages: deleteMessages, banUsers: banUsers, inviteUsers: inviteUsers, pinMessages: pinMessages, addAdmins: addAdmins, anonymous: anonymous, manageCall: manageCall, other: other, manageTopics: manageTopics, postStories: postStories, editStories: editStories, deleteStories: deleteStories,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32620,6 +38054,31 @@ class ChatBannedRights extends ChatBannedRightsBase {
 
   /// Deserialize.
   factory ChatBannedRights.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viewMessages = _readflags.0?true(buffer, 0, viewMessages);
+    // final sendMessages = _readflags.1?true(buffer, 0, sendMessages);
+    // final sendMedia = _readflags.2?true(buffer, 0, sendMedia);
+    // final sendStickers = _readflags.3?true(buffer, 0, sendStickers);
+    // final sendGifs = _readflags.4?true(buffer, 0, sendGifs);
+    // final sendGames = _readflags.5?true(buffer, 0, sendGames);
+    // final sendInline = _readflags.6?true(buffer, 0, sendInline);
+    // final embedLinks = _readflags.7?true(buffer, 0, embedLinks);
+    // final sendPolls = _readflags.8?true(buffer, 0, sendPolls);
+    // final changeInfo = _readflags.10?true(buffer, 0, changeInfo);
+    // final inviteUsers = _readflags.15?true(buffer, 0, inviteUsers);
+    // final pinMessages = _readflags.17?true(buffer, 0, pinMessages);
+    // final manageTopics = _readflags.18?true(buffer, 0, manageTopics);
+    // final sendPhotos = _readflags.19?true(buffer, 0, sendPhotos);
+    // final sendVideos = _readflags.20?true(buffer, 0, sendVideos);
+    // final sendRoundvideos = _readflags.21?true(buffer, 0, sendRoundvideos);
+    // final sendAudios = _readflags.22?true(buffer, 0, sendAudios);
+    // final sendVoices = _readflags.23?true(buffer, 0, sendVoices);
+    // final sendDocs = _readflags.24?true(buffer, 0, sendDocs);
+    // final sendPlain = _readflags.25?true(buffer, 0, sendPlain);
+    // final untilDate = _readint(buffer, 0, untilDate);
+    // final result = ChatBannedRights({flags: flags, viewMessages: viewMessages, sendMessages: sendMessages, sendMedia: sendMedia, sendStickers: sendStickers, sendGifs: sendGifs, sendGames: sendGames, sendInline: sendInline, embedLinks: embedLinks, sendPolls: sendPolls, changeInfo: changeInfo, inviteUsers: inviteUsers, pinMessages: pinMessages, manageTopics: manageTopics, sendPhotos: sendPhotos, sendVideos: sendVideos, sendRoundvideos: sendRoundvideos, sendAudios: sendAudios, sendVoices: sendVoices, sendDocs: sendDocs, sendPlain: sendPlain, untilDate: untilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32736,6 +38195,11 @@ class InputWallPaper extends InputWallPaperBase {
 
   /// Deserialize.
   factory InputWallPaper.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputWallPaper({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32765,6 +38229,10 @@ class InputWallPaperSlug extends InputWallPaperBase {
 
   /// Deserialize.
   factory InputWallPaperSlug.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = InputWallPaperSlug({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32790,6 +38258,10 @@ class InputWallPaperNoFile extends InputWallPaperBase {
 
   /// Deserialize.
   factory InputWallPaperNoFile.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = InputWallPaperNoFile({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32819,6 +38291,9 @@ class AccountWallPapersNotModified extends AccountWallPapersBase {
 
   /// Deserialize.
   factory AccountWallPapersNotModified.deserialize(Uint8List buffer) {
+    // final result = AccountWallPapersNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -32841,6 +38316,11 @@ class AccountWallPapers extends AccountWallPapersBase {
 
   /// Deserialize.
   factory AccountWallPapers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final wallpapers = _readVector<WallPaper>(buffer, 0, wallpapers);
+    // final result = AccountWallPapers({hash: hash, wallpapers: wallpapers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32879,6 +38359,18 @@ class CodeSettings extends CodeSettingsBase {
 
   /// Deserialize.
   factory CodeSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final allowFlashcall = _readflags.0?true(buffer, 0, allowFlashcall);
+    // final currentNumber = _readflags.1?true(buffer, 0, currentNumber);
+    // final allowAppHash = _readflags.4?true(buffer, 0, allowAppHash);
+    // final allowMissedCall = _readflags.5?true(buffer, 0, allowMissedCall);
+    // final allowFirebase = _readflags.7?true(buffer, 0, allowFirebase);
+    // final logoutTokens = _readflags.6?Vector<bytes>(buffer, 0, logoutTokens);
+    // final token = _readflags.8?string(buffer, 0, token);
+    // final appSandbox = _readflags.8?Bool(buffer, 0, appSandbox);
+    // final result = CodeSettings({flags: flags, allowFlashcall: allowFlashcall, currentNumber: currentNumber, allowAppHash: allowAppHash, allowMissedCall: allowMissedCall, allowFirebase: allowFirebase, logoutTokens: logoutTokens, token: token, appSandbox: appSandbox,});
+    // return result;
+
     throw Exception();
   }
 
@@ -32949,6 +38441,19 @@ class WallPaperSettings extends WallPaperSettingsBase {
 
   /// Deserialize.
   factory WallPaperSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blur = _readflags.1?true(buffer, 0, blur);
+    // final motion = _readflags.2?true(buffer, 0, motion);
+    // final backgroundColor = _readflags.0?int(buffer, 0, backgroundColor);
+    // final secondBackgroundColor = _readflags.4?int(buffer, 0, secondBackgroundColor);
+    // final thirdBackgroundColor = _readflags.5?int(buffer, 0, thirdBackgroundColor);
+    // final fourthBackgroundColor = _readflags.6?int(buffer, 0, fourthBackgroundColor);
+    // final intensity = _readflags.3?int(buffer, 0, intensity);
+    // final rotation = _readflags.4?int(buffer, 0, rotation);
+    // final emoticon = _readflags.7?string(buffer, 0, emoticon);
+    // final result = WallPaperSettings({flags: flags, blur: blur, motion: motion, backgroundColor: backgroundColor, secondBackgroundColor: secondBackgroundColor, thirdBackgroundColor: thirdBackgroundColor, fourthBackgroundColor: fourthBackgroundColor, intensity: intensity, rotation: rotation, emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33022,6 +38527,21 @@ class AutoDownloadSettings extends AutoDownloadSettingsBase {
 
   /// Deserialize.
   factory AutoDownloadSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final disabled = _readflags.0?true(buffer, 0, disabled);
+    // final videoPreloadLarge = _readflags.1?true(buffer, 0, videoPreloadLarge);
+    // final audioPreloadNext = _readflags.2?true(buffer, 0, audioPreloadNext);
+    // final phonecallsLessData = _readflags.3?true(buffer, 0, phonecallsLessData);
+    // final storiesPreload = _readflags.4?true(buffer, 0, storiesPreload);
+    // final photoSizeMax = _readint(buffer, 0, photoSizeMax);
+    // final videoSizeMax = _readlong(buffer, 0, videoSizeMax);
+    // final fileSizeMax = _readlong(buffer, 0, fileSizeMax);
+    // final videoUploadMaxbitrate = _readint(buffer, 0, videoUploadMaxbitrate);
+    // final smallQueueActiveOperationsMax = _readint(buffer, 0, smallQueueActiveOperationsMax);
+    // final largeQueueActiveOperationsMax = _readint(buffer, 0, largeQueueActiveOperationsMax);
+    // final result = AutoDownloadSettings({flags: flags, disabled: disabled, videoPreloadLarge: videoPreloadLarge, audioPreloadNext: audioPreloadNext, phonecallsLessData: phonecallsLessData, storiesPreload: storiesPreload, photoSizeMax: photoSizeMax, videoSizeMax: videoSizeMax, fileSizeMax: fileSizeMax, videoUploadMaxbitrate: videoUploadMaxbitrate, smallQueueActiveOperationsMax: smallQueueActiveOperationsMax, largeQueueActiveOperationsMax: largeQueueActiveOperationsMax,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33099,6 +38619,12 @@ class AccountAutoDownloadSettings extends AccountAutoDownloadSettingsBase {
 
   /// Deserialize.
   factory AccountAutoDownloadSettings.deserialize(Uint8List buffer) {
+    // final low = _readAutoDownloadSettings(buffer, 0, low);
+    // final medium = _readAutoDownloadSettings(buffer, 0, medium);
+    // final high = _readAutoDownloadSettings(buffer, 0, high);
+    // final result = AccountAutoDownloadSettings({low: low, medium: medium, high: high,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33139,6 +38665,11 @@ class EmojiKeyword extends EmojiKeywordBase {
 
   /// Deserialize.
   factory EmojiKeyword.deserialize(Uint8List buffer) {
+    // final keyword = _readstring(buffer, 0, keyword);
+    // final emoticons = _readVector<string>(buffer, 0, emoticons);
+    // final result = EmojiKeyword({keyword: keyword, emoticons: emoticons,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33169,6 +38700,11 @@ class EmojiKeywordDeleted extends EmojiKeywordBase {
 
   /// Deserialize.
   factory EmojiKeywordDeleted.deserialize(Uint8List buffer) {
+    // final keyword = _readstring(buffer, 0, keyword);
+    // final emoticons = _readVector<string>(buffer, 0, emoticons);
+    // final result = EmojiKeywordDeleted({keyword: keyword, emoticons: emoticons,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33207,6 +38743,13 @@ class EmojiKeywordsDifference extends EmojiKeywordsDifferenceBase {
 
   /// Deserialize.
   factory EmojiKeywordsDifference.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final fromVersion = _readint(buffer, 0, fromVersion);
+    // final version = _readint(buffer, 0, version);
+    // final keywords = _readVector<EmojiKeyword>(buffer, 0, keywords);
+    // final result = EmojiKeywordsDifference({langCode: langCode, fromVersion: fromVersion, version: version, keywords: keywords,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33250,6 +38793,10 @@ class EmojiURL extends EmojiURLBase {
 
   /// Deserialize.
   factory EmojiURL.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = EmojiURL({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33281,6 +38828,10 @@ class EmojiLanguage extends EmojiLanguageBase {
 
   /// Deserialize.
   factory EmojiLanguage.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = EmojiLanguage({langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33315,6 +38866,16 @@ class Folder extends FolderBase {
 
   /// Deserialize.
   factory Folder.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final autofillNewBroadcasts = _readflags.0?true(buffer, 0, autofillNewBroadcasts);
+    // final autofillPublicGroups = _readflags.1?true(buffer, 0, autofillPublicGroups);
+    // final autofillNewCorrespondents = _readflags.2?true(buffer, 0, autofillNewCorrespondents);
+    // final id = _readint(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final photo = _readflags.3?ChatPhoto(buffer, 0, photo);
+    // final result = Folder({flags: flags, autofillNewBroadcasts: autofillNewBroadcasts, autofillPublicGroups: autofillPublicGroups, autofillNewCorrespondents: autofillNewCorrespondents, id: id, title: title, photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33371,6 +38932,11 @@ class InputFolderPeer extends InputFolderPeerBase {
 
   /// Deserialize.
   factory InputFolderPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final folderId = _readint(buffer, 0, folderId);
+    // final result = InputFolderPeer({peer: peer, folderId: folderId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33407,6 +38973,11 @@ class FolderPeer extends FolderPeerBase {
 
   /// Deserialize.
   factory FolderPeer.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final folderId = _readint(buffer, 0, folderId);
+    // final result = FolderPeer({peer: peer, folderId: folderId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33444,6 +39015,13 @@ class MessagesSearchCounter extends MessagesSearchCounterBase {
 
   /// Deserialize.
   factory MessagesSearchCounter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inexact = _readflags.1?true(buffer, 0, inexact);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final count = _readint(buffer, 0, count);
+    // final result = MessagesSearchCounter({flags: flags, inexact: inexact, filter: filter, count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33489,6 +39067,13 @@ class UrlAuthResultRequest extends UrlAuthResultBase {
 
   /// Deserialize.
   factory UrlAuthResultRequest.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requestWriteAccess = _readflags.0?true(buffer, 0, requestWriteAccess);
+    // final bot = _readUser(buffer, 0, bot);
+    // final domain = _readstring(buffer, 0, domain);
+    // final result = UrlAuthResultRequest({flags: flags, requestWriteAccess: requestWriteAccess, bot: bot, domain: domain,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33526,6 +39111,10 @@ class UrlAuthResultAccepted extends UrlAuthResultBase {
 
   /// Deserialize.
   factory UrlAuthResultAccepted.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = UrlAuthResultAccepted({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33549,6 +39138,9 @@ class UrlAuthResultDefault extends UrlAuthResultBase {
 
   /// Deserialize.
   factory UrlAuthResultDefault.deserialize(Uint8List buffer) {
+    // final result = UrlAuthResultDefault();
+    // return result;
+
     throw Exception();
   }
 
@@ -33574,6 +39166,9 @@ class ChannelLocationEmpty extends ChannelLocationBase {
 
   /// Deserialize.
   factory ChannelLocationEmpty.deserialize(Uint8List buffer) {
+    // final result = ChannelLocationEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -33596,6 +39191,11 @@ class ChannelLocation extends ChannelLocationBase {
 
   /// Deserialize.
   factory ChannelLocation.deserialize(Uint8List buffer) {
+    // final geoPoint = _readGeoPoint(buffer, 0, geoPoint);
+    // final address = _readstring(buffer, 0, address);
+    // final result = ChannelLocation({geoPoint: geoPoint, address: address,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33633,6 +39233,12 @@ class PeerLocated extends PeerLocatedBase {
 
   /// Deserialize.
   factory PeerLocated.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final expires = _readint(buffer, 0, expires);
+    // final distance = _readint(buffer, 0, distance);
+    // final result = PeerLocated({peer: peer, expires: expires, distance: distance,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33666,6 +39272,10 @@ class PeerSelfLocated extends PeerLocatedBase {
 
   /// Deserialize.
   factory PeerSelfLocated.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final result = PeerSelfLocated({expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33699,6 +39309,12 @@ class RestrictionReason extends RestrictionReasonBase {
 
   /// Deserialize.
   factory RestrictionReason.deserialize(Uint8List buffer) {
+    // final platform = _readstring(buffer, 0, platform);
+    // final reason = _readstring(buffer, 0, reason);
+    // final text = _readstring(buffer, 0, text);
+    // final result = RestrictionReason({platform: platform, reason: reason, text: text,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33739,6 +39355,11 @@ class InputTheme extends InputThemeBase {
 
   /// Deserialize.
   factory InputTheme.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputTheme({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33768,6 +39389,10 @@ class InputThemeSlug extends InputThemeBase {
 
   /// Deserialize.
   factory InputThemeSlug.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = InputThemeSlug({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33807,6 +39432,21 @@ class Theme extends ThemeBase {
 
   /// Deserialize.
   factory Theme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final ddefault = _readflags.1?true(buffer, 0, ddefault);
+    // final forChat = _readflags.5?true(buffer, 0, forChat);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final slug = _readstring(buffer, 0, slug);
+    // final title = _readstring(buffer, 0, title);
+    // final document = _readflags.2?Document(buffer, 0, document);
+    // final settings = _readflags.3?Vector<ThemeSettings>(buffer, 0, settings);
+    // final emoticon = _readflags.6?string(buffer, 0, emoticon);
+    // final installsCount = _readflags.4?int(buffer, 0, installsCount);
+    // final result = Theme({flags: flags, creator: creator, ddefault: ddefault, forChat: forChat, id: id, accessHash: accessHash, slug: slug, title: title, document: document, settings: settings, emoticon: emoticon, installsCount: installsCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33880,6 +39520,9 @@ class AccountThemesNotModified extends AccountThemesBase {
 
   /// Deserialize.
   factory AccountThemesNotModified.deserialize(Uint8List buffer) {
+    // final result = AccountThemesNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -33902,6 +39545,11 @@ class AccountThemes extends AccountThemesBase {
 
   /// Deserialize.
   factory AccountThemes.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final themes = _readVector<Theme>(buffer, 0, themes);
+    // final result = AccountThemes({hash: hash, themes: themes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33938,6 +39586,11 @@ class AuthLoginToken extends AuthLoginTokenBase {
 
   /// Deserialize.
   factory AuthLoginToken.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final token = _readbytes(buffer, 0, token);
+    // final result = AuthLoginToken({expires: expires, token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33968,6 +39621,11 @@ class AuthLoginTokenMigrateTo extends AuthLoginTokenBase {
 
   /// Deserialize.
   factory AuthLoginTokenMigrateTo.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final token = _readbytes(buffer, 0, token);
+    // final result = AuthLoginTokenMigrateTo({dcId: dcId, token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -33997,6 +39655,10 @@ class AuthLoginTokenSuccess extends AuthLoginTokenBase {
 
   /// Deserialize.
   factory AuthLoginTokenSuccess.deserialize(Uint8List buffer) {
+    // final authorization = _readauth.Authorization(buffer, 0, authorization);
+    // final result = AuthLoginTokenSuccess({authorization: authorization,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34028,6 +39690,12 @@ class AccountContentSettings extends AccountContentSettingsBase {
 
   /// Deserialize.
   factory AccountContentSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final sensitiveEnabled = _readflags.0?true(buffer, 0, sensitiveEnabled);
+    // final sensitiveCanChange = _readflags.1?true(buffer, 0, sensitiveCanChange);
+    // final result = AccountContentSettings({flags: flags, sensitiveEnabled: sensitiveEnabled, sensitiveCanChange: sensitiveCanChange,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34069,6 +39737,12 @@ class MessagesInactiveChats extends MessagesInactiveChatsBase {
 
   /// Deserialize.
   factory MessagesInactiveChats.deserialize(Uint8List buffer) {
+    // final dates = _readVector<int>(buffer, 0, dates);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesInactiveChats({dates: dates, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34106,6 +39780,9 @@ class BaseThemeClassic extends BaseThemeBase {
 
   /// Deserialize.
   factory BaseThemeClassic.deserialize(Uint8List buffer) {
+    // final result = BaseThemeClassic();
+    // return result;
+
     throw Exception();
   }
 
@@ -34125,6 +39802,9 @@ class BaseThemeDay extends BaseThemeBase {
 
   /// Deserialize.
   factory BaseThemeDay.deserialize(Uint8List buffer) {
+    // final result = BaseThemeDay();
+    // return result;
+
     throw Exception();
   }
 
@@ -34144,6 +39824,9 @@ class BaseThemeNight extends BaseThemeBase {
 
   /// Deserialize.
   factory BaseThemeNight.deserialize(Uint8List buffer) {
+    // final result = BaseThemeNight();
+    // return result;
+
     throw Exception();
   }
 
@@ -34163,6 +39846,9 @@ class BaseThemeTinted extends BaseThemeBase {
 
   /// Deserialize.
   factory BaseThemeTinted.deserialize(Uint8List buffer) {
+    // final result = BaseThemeTinted();
+    // return result;
+
     throw Exception();
   }
 
@@ -34182,6 +39868,9 @@ class BaseThemeArctic extends BaseThemeBase {
 
   /// Deserialize.
   factory BaseThemeArctic.deserialize(Uint8List buffer) {
+    // final result = BaseThemeArctic();
+    // return result;
+
     throw Exception();
   }
 
@@ -34215,6 +39904,17 @@ class InputThemeSettings extends InputThemeSettingsBase {
 
   /// Deserialize.
   factory InputThemeSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final messageColorsAnimated = _readflags.2?true(buffer, 0, messageColorsAnimated);
+    // final baseTheme = _readBaseTheme(buffer, 0, baseTheme);
+    // final accentColor = _readint(buffer, 0, accentColor);
+    // final outboxAccentColor = _readflags.3?int(buffer, 0, outboxAccentColor);
+    // final messageColors = _readflags.0?Vector<int>(buffer, 0, messageColors);
+    // final wallpaper = _readflags.1?InputWallPaper(buffer, 0, wallpaper);
+    // final wallpaperSettings = _readflags.1?WallPaperSettings(buffer, 0, wallpaperSettings);
+    // final result = InputThemeSettings({flags: flags, messageColorsAnimated: messageColorsAnimated, baseTheme: baseTheme, accentColor: accentColor, outboxAccentColor: outboxAccentColor, messageColors: messageColors, wallpaper: wallpaper, wallpaperSettings: wallpaperSettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34279,6 +39979,16 @@ class ThemeSettings extends ThemeSettingsBase {
 
   /// Deserialize.
   factory ThemeSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final messageColorsAnimated = _readflags.2?true(buffer, 0, messageColorsAnimated);
+    // final baseTheme = _readBaseTheme(buffer, 0, baseTheme);
+    // final accentColor = _readint(buffer, 0, accentColor);
+    // final outboxAccentColor = _readflags.3?int(buffer, 0, outboxAccentColor);
+    // final messageColors = _readflags.0?Vector<int>(buffer, 0, messageColors);
+    // final wallpaper = _readflags.1?WallPaper(buffer, 0, wallpaper);
+    // final result = ThemeSettings({flags: flags, messageColorsAnimated: messageColorsAnimated, baseTheme: baseTheme, accentColor: accentColor, outboxAccentColor: outboxAccentColor, messageColors: messageColors, wallpaper: wallpaper,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34336,6 +40046,12 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
 
   /// Deserialize.
   factory WebPageAttributeTheme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final documents = _readflags.0?Vector<Document>(buffer, 0, documents);
+    // final settings = _readflags.1?ThemeSettings(buffer, 0, settings);
+    // final result = WebPageAttributeTheme({flags: flags, documents: documents, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34372,6 +40088,13 @@ class WebPageAttributeStory extends WebPageAttributeBase {
 
   /// Deserialize.
   factory WebPageAttributeStory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final story = _readflags.0?StoryItem(buffer, 0, story);
+    // final result = WebPageAttributeStory({flags: flags, peer: peer, id: id, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34420,6 +40143,15 @@ class MessagesVotesList extends MessagesVotesListBase {
 
   /// Deserialize.
   factory MessagesVotesList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final votes = _readVector<MessagePeerVote>(buffer, 0, votes);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final result = MessagesVotesList({flags: flags, count: count, votes: votes, chats: chats, users: users, nextOffset: nextOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34472,6 +40204,11 @@ class BankCardOpenUrl extends BankCardOpenUrlBase {
 
   /// Deserialize.
   factory BankCardOpenUrl.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final name = _readstring(buffer, 0, name);
+    // final result = BankCardOpenUrl({url: url, name: name,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34508,6 +40245,11 @@ class PaymentsBankCardData extends PaymentsBankCardDataBase {
 
   /// Deserialize.
   factory PaymentsBankCardData.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final openUrls = _readVector<BankCardOpenUrl>(buffer, 0, openUrls);
+    // final result = PaymentsBankCardData({title: title, openUrls: openUrls,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34549,6 +40291,24 @@ class DialogFilter extends DialogFilterBase {
 
   /// Deserialize.
   factory DialogFilter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final contacts = _readflags.0?true(buffer, 0, contacts);
+    // final nonContacts = _readflags.1?true(buffer, 0, nonContacts);
+    // final groups = _readflags.2?true(buffer, 0, groups);
+    // final broadcasts = _readflags.3?true(buffer, 0, broadcasts);
+    // final bots = _readflags.4?true(buffer, 0, bots);
+    // final excludeMuted = _readflags.11?true(buffer, 0, excludeMuted);
+    // final excludeRead = _readflags.12?true(buffer, 0, excludeRead);
+    // final excludeArchived = _readflags.13?true(buffer, 0, excludeArchived);
+    // final id = _readint(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final emoticon = _readflags.25?string(buffer, 0, emoticon);
+    // final pinnedPeers = _readVector<InputPeer>(buffer, 0, pinnedPeers);
+    // final includePeers = _readVector<InputPeer>(buffer, 0, includePeers);
+    // final excludePeers = _readVector<InputPeer>(buffer, 0, excludePeers);
+    // final result = DialogFilter({flags: flags, contacts: contacts, nonContacts: nonContacts, groups: groups, broadcasts: broadcasts, bots: bots, excludeMuted: excludeMuted, excludeRead: excludeRead, excludeArchived: excludeArchived, id: id, title: title, emoticon: emoticon, pinnedPeers: pinnedPeers, includePeers: includePeers, excludePeers: excludePeers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34628,6 +40388,9 @@ class DialogFilterDefault extends DialogFilterBase {
 
   /// Deserialize.
   factory DialogFilterDefault.deserialize(Uint8List buffer) {
+    // final result = DialogFilterDefault();
+    // return result;
+
     throw Exception();
   }
 
@@ -34654,6 +40417,16 @@ class DialogFilterChatlist extends DialogFilterBase {
 
   /// Deserialize.
   factory DialogFilterChatlist.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasMyInvites = _readflags.26?true(buffer, 0, hasMyInvites);
+    // final id = _readint(buffer, 0, id);
+    // final title = _readstring(buffer, 0, title);
+    // final emoticon = _readflags.25?string(buffer, 0, emoticon);
+    // final pinnedPeers = _readVector<InputPeer>(buffer, 0, pinnedPeers);
+    // final includePeers = _readVector<InputPeer>(buffer, 0, includePeers);
+    // final result = DialogFilterChatlist({flags: flags, hasMyInvites: hasMyInvites, id: id, title: title, emoticon: emoticon, pinnedPeers: pinnedPeers, includePeers: includePeers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34710,6 +40483,11 @@ class DialogFilterSuggested extends DialogFilterSuggestedBase {
 
   /// Deserialize.
   factory DialogFilterSuggested.deserialize(Uint8List buffer) {
+    // final filter = _readDialogFilter(buffer, 0, filter);
+    // final description = _readstring(buffer, 0, description);
+    // final result = DialogFilterSuggested({filter: filter, description: description,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34746,6 +40524,11 @@ class StatsDateRangeDays extends StatsDateRangeDaysBase {
 
   /// Deserialize.
   factory StatsDateRangeDays.deserialize(Uint8List buffer) {
+    // final minDate = _readint(buffer, 0, minDate);
+    // final maxDate = _readint(buffer, 0, maxDate);
+    // final result = StatsDateRangeDays({minDate: minDate, maxDate: maxDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34782,6 +40565,11 @@ class StatsAbsValueAndPrev extends StatsAbsValueAndPrevBase {
 
   /// Deserialize.
   factory StatsAbsValueAndPrev.deserialize(Uint8List buffer) {
+    // final current = _readdouble(buffer, 0, current);
+    // final previous = _readdouble(buffer, 0, previous);
+    // final result = StatsAbsValueAndPrev({current: current, previous: previous,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34818,6 +40606,11 @@ class StatsPercentValue extends StatsPercentValueBase {
 
   /// Deserialize.
   factory StatsPercentValue.deserialize(Uint8List buffer) {
+    // final part = _readdouble(buffer, 0, part);
+    // final total = _readdouble(buffer, 0, total);
+    // final result = StatsPercentValue({part: part, total: total,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34853,6 +40646,10 @@ class StatsGraphAsync extends StatsGraphBase {
 
   /// Deserialize.
   factory StatsGraphAsync.deserialize(Uint8List buffer) {
+    // final token = _readstring(buffer, 0, token);
+    // final result = StatsGraphAsync({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34878,6 +40675,10 @@ class StatsGraphError extends StatsGraphBase {
 
   /// Deserialize.
   factory StatsGraphError.deserialize(Uint8List buffer) {
+    // final error = _readstring(buffer, 0, error);
+    // final result = StatsGraphError({error: error,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34905,6 +40706,12 @@ class StatsGraph extends StatsGraphBase {
 
   /// Deserialize.
   factory StatsGraph.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final json = _readDataJSON(buffer, 0, json);
+    // final zoomToken = _readflags.0?string(buffer, 0, zoomToken);
+    // final result = StatsGraph({flags: flags, json: json, zoomToken: zoomToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -34965,6 +40772,31 @@ class StatsBroadcastStats extends StatsBroadcastStatsBase {
 
   /// Deserialize.
   factory StatsBroadcastStats.deserialize(Uint8List buffer) {
+    // final period = _readStatsDateRangeDays(buffer, 0, period);
+    // final followers = _readStatsAbsValueAndPrev(buffer, 0, followers);
+    // final viewsPerPost = _readStatsAbsValueAndPrev(buffer, 0, viewsPerPost);
+    // final sharesPerPost = _readStatsAbsValueAndPrev(buffer, 0, sharesPerPost);
+    // final reactionsPerPost = _readStatsAbsValueAndPrev(buffer, 0, reactionsPerPost);
+    // final viewsPerStory = _readStatsAbsValueAndPrev(buffer, 0, viewsPerStory);
+    // final sharesPerStory = _readStatsAbsValueAndPrev(buffer, 0, sharesPerStory);
+    // final reactionsPerStory = _readStatsAbsValueAndPrev(buffer, 0, reactionsPerStory);
+    // final enabledNotifications = _readStatsPercentValue(buffer, 0, enabledNotifications);
+    // final growthGraph = _readStatsGraph(buffer, 0, growthGraph);
+    // final followersGraph = _readStatsGraph(buffer, 0, followersGraph);
+    // final muteGraph = _readStatsGraph(buffer, 0, muteGraph);
+    // final topHoursGraph = _readStatsGraph(buffer, 0, topHoursGraph);
+    // final interactionsGraph = _readStatsGraph(buffer, 0, interactionsGraph);
+    // final ivInteractionsGraph = _readStatsGraph(buffer, 0, ivInteractionsGraph);
+    // final viewsBySourceGraph = _readStatsGraph(buffer, 0, viewsBySourceGraph);
+    // final newFollowersBySourceGraph = _readStatsGraph(buffer, 0, newFollowersBySourceGraph);
+    // final languagesGraph = _readStatsGraph(buffer, 0, languagesGraph);
+    // final reactionsByEmotionGraph = _readStatsGraph(buffer, 0, reactionsByEmotionGraph);
+    // final storyInteractionsGraph = _readStatsGraph(buffer, 0, storyInteractionsGraph);
+    // final storyReactionsByEmotionGraph = _readStatsGraph(buffer, 0, storyReactionsByEmotionGraph);
+    // final recentPostsInteractions = _readVector<PostInteractionCounters>(buffer, 0, recentPostsInteractions);
+    // final result = StatsBroadcastStats({period: period, followers: followers, viewsPerPost: viewsPerPost, sharesPerPost: sharesPerPost, reactionsPerPost: reactionsPerPost, viewsPerStory: viewsPerStory, sharesPerStory: sharesPerStory, reactionsPerStory: reactionsPerStory, enabledNotifications: enabledNotifications, growthGraph: growthGraph, followersGraph: followersGraph, muteGraph: muteGraph, topHoursGraph: topHoursGraph, interactionsGraph: interactionsGraph, ivInteractionsGraph: ivInteractionsGraph, viewsBySourceGraph: viewsBySourceGraph, newFollowersBySourceGraph: newFollowersBySourceGraph, languagesGraph: languagesGraph, reactionsByEmotionGraph: reactionsByEmotionGraph, storyInteractionsGraph: storyInteractionsGraph, storyReactionsByEmotionGraph: storyReactionsByEmotionGraph, recentPostsInteractions: recentPostsInteractions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35080,6 +40912,10 @@ class HelpPromoDataEmpty extends HelpPromoDataBase {
 
   /// Deserialize.
   factory HelpPromoDataEmpty.deserialize(Uint8List buffer) {
+    // final expires = _readint(buffer, 0, expires);
+    // final result = HelpPromoDataEmpty({expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35111,6 +40947,17 @@ class HelpPromoData extends HelpPromoDataBase {
 
   /// Deserialize.
   factory HelpPromoData.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final proxy = _readflags.0?true(buffer, 0, proxy);
+    // final expires = _readint(buffer, 0, expires);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final psaType = _readflags.1?string(buffer, 0, psaType);
+    // final psaMessage = _readflags.2?string(buffer, 0, psaMessage);
+    // final result = HelpPromoData({flags: flags, proxy: proxy, expires: expires, peer: peer, chats: chats, users: users, psaType: psaType, psaMessage: psaMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35175,6 +41022,15 @@ class VideoSize extends VideoSizeBase {
 
   /// Deserialize.
   factory VideoSize.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final type = _readstring(buffer, 0, type);
+    // final w = _readint(buffer, 0, w);
+    // final h = _readint(buffer, 0, h);
+    // final size = _readint(buffer, 0, size);
+    // final videoStartTs = _readflags.0?double(buffer, 0, videoStartTs);
+    // final result = VideoSize({flags: flags, type: type, w: w, h: h, size: size, videoStartTs: videoStartTs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35221,6 +41077,11 @@ class VideoSizeEmojiMarkup extends VideoSizeBase {
 
   /// Deserialize.
   factory VideoSizeEmojiMarkup.deserialize(Uint8List buffer) {
+    // final emojiId = _readlong(buffer, 0, emojiId);
+    // final backgroundColors = _readVector<int>(buffer, 0, backgroundColors);
+    // final result = VideoSizeEmojiMarkup({emojiId: emojiId, backgroundColors: backgroundColors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35252,6 +41113,12 @@ class VideoSizeStickerMarkup extends VideoSizeBase {
 
   /// Deserialize.
   factory VideoSizeStickerMarkup.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final stickerId = _readlong(buffer, 0, stickerId);
+    // final backgroundColors = _readVector<int>(buffer, 0, backgroundColors);
+    // final result = VideoSizeStickerMarkup({stickerset: stickerset, stickerId: stickerId, backgroundColors: backgroundColors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35293,6 +41160,12 @@ class StatsGroupTopPoster extends StatsGroupTopPosterBase {
 
   /// Deserialize.
   factory StatsGroupTopPoster.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final messages = _readint(buffer, 0, messages);
+    // final avgChars = _readint(buffer, 0, avgChars);
+    // final result = StatsGroupTopPoster({userId: userId, messages: messages, avgChars: avgChars,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35335,6 +41208,13 @@ class StatsGroupTopAdmin extends StatsGroupTopAdminBase {
 
   /// Deserialize.
   factory StatsGroupTopAdmin.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final deleted = _readint(buffer, 0, deleted);
+    // final kicked = _readint(buffer, 0, kicked);
+    // final banned = _readint(buffer, 0, banned);
+    // final result = StatsGroupTopAdmin({userId: userId, deleted: deleted, kicked: kicked, banned: banned,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35379,6 +41259,11 @@ class StatsGroupTopInviter extends StatsGroupTopInviterBase {
 
   /// Deserialize.
   factory StatsGroupTopInviter.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final invitations = _readint(buffer, 0, invitations);
+    // final result = StatsGroupTopInviter({userId: userId, invitations: invitations,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35430,6 +41315,26 @@ class StatsMegagroupStats extends StatsMegagroupStatsBase {
 
   /// Deserialize.
   factory StatsMegagroupStats.deserialize(Uint8List buffer) {
+    // final period = _readStatsDateRangeDays(buffer, 0, period);
+    // final members = _readStatsAbsValueAndPrev(buffer, 0, members);
+    // final messages = _readStatsAbsValueAndPrev(buffer, 0, messages);
+    // final viewers = _readStatsAbsValueAndPrev(buffer, 0, viewers);
+    // final posters = _readStatsAbsValueAndPrev(buffer, 0, posters);
+    // final growthGraph = _readStatsGraph(buffer, 0, growthGraph);
+    // final membersGraph = _readStatsGraph(buffer, 0, membersGraph);
+    // final newMembersBySourceGraph = _readStatsGraph(buffer, 0, newMembersBySourceGraph);
+    // final languagesGraph = _readStatsGraph(buffer, 0, languagesGraph);
+    // final messagesGraph = _readStatsGraph(buffer, 0, messagesGraph);
+    // final actionsGraph = _readStatsGraph(buffer, 0, actionsGraph);
+    // final topHoursGraph = _readStatsGraph(buffer, 0, topHoursGraph);
+    // final weekdaysGraph = _readStatsGraph(buffer, 0, weekdaysGraph);
+    // final topPosters = _readVector<StatsGroupTopPoster>(buffer, 0, topPosters);
+    // final topAdmins = _readVector<StatsGroupTopAdmin>(buffer, 0, topAdmins);
+    // final topInviters = _readVector<StatsGroupTopInviter>(buffer, 0, topInviters);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = StatsMegagroupStats({period: period, members: members, messages: messages, viewers: viewers, posters: posters, growthGraph: growthGraph, membersGraph: membersGraph, newMembersBySourceGraph: newMembersBySourceGraph, languagesGraph: languagesGraph, messagesGraph: messagesGraph, actionsGraph: actionsGraph, topHoursGraph: topHoursGraph, weekdaysGraph: weekdaysGraph, topPosters: topPosters, topAdmins: topAdmins, topInviters: topInviters, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35525,6 +41430,13 @@ class GlobalPrivacySettings extends GlobalPrivacySettingsBase {
 
   /// Deserialize.
   factory GlobalPrivacySettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final archiveAndMuteNewNoncontactPeers = _readflags.0?true(buffer, 0, archiveAndMuteNewNoncontactPeers);
+    // final keepArchivedUnmuted = _readflags.1?true(buffer, 0, keepArchivedUnmuted);
+    // final keepArchivedFolders = _readflags.2?true(buffer, 0, keepArchivedFolders);
+    // final result = GlobalPrivacySettings({flags: flags, archiveAndMuteNewNoncontactPeers: archiveAndMuteNewNoncontactPeers, keepArchivedUnmuted: keepArchivedUnmuted, keepArchivedFolders: keepArchivedFolders,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35571,6 +41483,13 @@ class HelpCountryCode extends HelpCountryCodeBase {
 
   /// Deserialize.
   factory HelpCountryCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final countryCode = _readstring(buffer, 0, countryCode);
+    // final prefixes = _readflags.0?Vector<string>(buffer, 0, prefixes);
+    // final patterns = _readflags.1?Vector<string>(buffer, 0, patterns);
+    // final result = HelpCountryCode({flags: flags, countryCode: countryCode, prefixes: prefixes, patterns: patterns,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35618,6 +41537,15 @@ class HelpCountry extends HelpCountryBase {
 
   /// Deserialize.
   factory HelpCountry.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hidden = _readflags.0?true(buffer, 0, hidden);
+    // final iso2 = _readstring(buffer, 0, iso2);
+    // final defaultName = _readstring(buffer, 0, defaultName);
+    // final name = _readflags.1?string(buffer, 0, name);
+    // final countryCodes = _readVector<help.CountryCode>(buffer, 0, countryCodes);
+    // final result = HelpCountry({flags: flags, hidden: hidden, iso2: iso2, defaultName: defaultName, name: name, countryCodes: countryCodes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35667,6 +41595,9 @@ class HelpCountriesListNotModified extends HelpCountriesListBase {
 
   /// Deserialize.
   factory HelpCountriesListNotModified.deserialize(Uint8List buffer) {
+    // final result = HelpCountriesListNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -35689,6 +41620,11 @@ class HelpCountriesList extends HelpCountriesListBase {
 
   /// Deserialize.
   factory HelpCountriesList.deserialize(Uint8List buffer) {
+    // final countries = _readVector<help.Country>(buffer, 0, countries);
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpCountriesList({countries: countries, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35727,6 +41663,13 @@ class MessageViews extends MessageViewsBase {
 
   /// Deserialize.
   factory MessageViews.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final views = _readflags.0?int(buffer, 0, views);
+    // final forwards = _readflags.1?int(buffer, 0, forwards);
+    // final replies = _readflags.2?MessageReplies(buffer, 0, replies);
+    // final result = MessageViews({flags: flags, views: views, forwards: forwards, replies: replies,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35772,6 +41715,12 @@ class MessagesMessageViews extends MessagesMessageViewsBase {
 
   /// Deserialize.
   factory MessagesMessageViews.deserialize(Uint8List buffer) {
+    // final views = _readVector<MessageViews>(buffer, 0, views);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesMessageViews({views: views, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35818,6 +41767,17 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
 
   /// Deserialize.
   factory MessagesDiscussionMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final maxId = _readflags.0?int(buffer, 0, maxId);
+    // final readInboxMaxId = _readflags.1?int(buffer, 0, readInboxMaxId);
+    // final readOutboxMaxId = _readflags.2?int(buffer, 0, readOutboxMaxId);
+    // final unreadCount = _readint(buffer, 0, unreadCount);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesDiscussionMessage({flags: flags, messages: messages, maxId: maxId, readInboxMaxId: readInboxMaxId, readOutboxMaxId: readOutboxMaxId, unreadCount: unreadCount, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35885,6 +41845,21 @@ class MessageReplyHeader extends MessageReplyHeaderBase {
 
   /// Deserialize.
   factory MessageReplyHeader.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final replyToScheduled = _readflags.2?true(buffer, 0, replyToScheduled);
+    // final forumTopic = _readflags.3?true(buffer, 0, forumTopic);
+    // final quote = _readflags.9?true(buffer, 0, quote);
+    // final replyToMsgId = _readflags.4?int(buffer, 0, replyToMsgId);
+    // final replyToPeerId = _readflags.0?Peer(buffer, 0, replyToPeerId);
+    // final replyFrom = _readflags.5?MessageFwdHeader(buffer, 0, replyFrom);
+    // final replyMedia = _readflags.8?MessageMedia(buffer, 0, replyMedia);
+    // final replyToTopId = _readflags.1?int(buffer, 0, replyToTopId);
+    // final quoteText = _readflags.6?string(buffer, 0, quoteText);
+    // final quoteEntities = _readflags.7?Vector<MessageEntity>(buffer, 0, quoteEntities);
+    // final quoteOffset = _readflags.10?int(buffer, 0, quoteOffset);
+    // final result = MessageReplyHeader({flags: flags, replyToScheduled: replyToScheduled, forumTopic: forumTopic, quote: quote, replyToMsgId: replyToMsgId, replyToPeerId: replyToPeerId, replyFrom: replyFrom, replyMedia: replyMedia, replyToTopId: replyToTopId, quoteText: quoteText, quoteEntities: quoteEntities, quoteOffset: quoteOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35955,6 +41930,11 @@ class MessageReplyStoryHeader extends MessageReplyHeaderBase {
 
   /// Deserialize.
   factory MessageReplyStoryHeader.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final storyId = _readint(buffer, 0, storyId);
+    // final result = MessageReplyStoryHeader({userId: userId, storyId: storyId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -35996,6 +41976,17 @@ class MessageReplies extends MessageRepliesBase {
 
   /// Deserialize.
   factory MessageReplies.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final comments = _readflags.0?true(buffer, 0, comments);
+    // final replies = _readint(buffer, 0, replies);
+    // final repliesPts = _readint(buffer, 0, repliesPts);
+    // final recentRepliers = _readflags.1?Vector<Peer>(buffer, 0, recentRepliers);
+    // final channelId = _readflags.0?long(buffer, 0, channelId);
+    // final maxId = _readflags.2?int(buffer, 0, maxId);
+    // final readMaxId = _readflags.3?int(buffer, 0, readMaxId);
+    // final result = MessageReplies({flags: flags, comments: comments, replies: replies, repliesPts: repliesPts, recentRepliers: recentRepliers, channelId: channelId, maxId: maxId, readMaxId: readMaxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36056,6 +42047,11 @@ class PeerBlocked extends PeerBlockedBase {
 
   /// Deserialize.
   factory PeerBlocked.deserialize(Uint8List buffer) {
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final date = _readint(buffer, 0, date);
+    // final result = PeerBlocked({peerId: peerId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36092,6 +42088,11 @@ class StatsMessageStats extends StatsMessageStatsBase {
 
   /// Deserialize.
   factory StatsMessageStats.deserialize(Uint8List buffer) {
+    // final viewsGraph = _readStatsGraph(buffer, 0, viewsGraph);
+    // final reactionsByEmotionGraph = _readStatsGraph(buffer, 0, reactionsByEmotionGraph);
+    // final result = StatsMessageStats({viewsGraph: viewsGraph, reactionsByEmotionGraph: reactionsByEmotionGraph,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36129,6 +42130,12 @@ class GroupCallDiscarded extends GroupCallBase {
 
   /// Deserialize.
   factory GroupCallDiscarded.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final duration = _readint(buffer, 0, duration);
+    // final result = GroupCallDiscarded({id: id, accessHash: accessHash, duration: duration,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36172,6 +42179,28 @@ class GroupCall extends GroupCallBase {
 
   /// Deserialize.
   factory GroupCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final joinMuted = _readflags.1?true(buffer, 0, joinMuted);
+    // final canChangeJoinMuted = _readflags.2?true(buffer, 0, canChangeJoinMuted);
+    // final joinDateAsc = _readflags.6?true(buffer, 0, joinDateAsc);
+    // final scheduleStartSubscribed = _readflags.8?true(buffer, 0, scheduleStartSubscribed);
+    // final canStartVideo = _readflags.9?true(buffer, 0, canStartVideo);
+    // final recordVideoActive = _readflags.11?true(buffer, 0, recordVideoActive);
+    // final rtmpStream = _readflags.12?true(buffer, 0, rtmpStream);
+    // final listenersHidden = _readflags.13?true(buffer, 0, listenersHidden);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final participantsCount = _readint(buffer, 0, participantsCount);
+    // final title = _readflags.3?string(buffer, 0, title);
+    // final streamDcId = _readflags.4?int(buffer, 0, streamDcId);
+    // final recordStartDate = _readflags.5?int(buffer, 0, recordStartDate);
+    // final scheduleDate = _readflags.7?int(buffer, 0, scheduleDate);
+    // final unmutedVideoCount = _readflags.10?int(buffer, 0, unmutedVideoCount);
+    // final unmutedVideoLimit = _readint(buffer, 0, unmutedVideoLimit);
+    // final version = _readint(buffer, 0, version);
+    // final result = GroupCall({flags: flags, joinMuted: joinMuted, canChangeJoinMuted: canChangeJoinMuted, joinDateAsc: joinDateAsc, scheduleStartSubscribed: scheduleStartSubscribed, canStartVideo: canStartVideo, recordVideoActive: recordVideoActive, rtmpStream: rtmpStream, listenersHidden: listenersHidden, id: id, accessHash: accessHash, participantsCount: participantsCount, title: title, streamDcId: streamDcId, recordStartDate: recordStartDate, scheduleDate: scheduleDate, unmutedVideoCount: unmutedVideoCount, unmutedVideoLimit: unmutedVideoLimit, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36276,6 +42305,11 @@ class InputGroupCall extends InputGroupCallBase {
 
   /// Deserialize.
   factory InputGroupCall.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputGroupCall({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36320,6 +42354,29 @@ class GroupCallParticipant extends GroupCallParticipantBase {
 
   /// Deserialize.
   factory GroupCallParticipant.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final muted = _readflags.0?true(buffer, 0, muted);
+    // final left = _readflags.1?true(buffer, 0, left);
+    // final canSelfUnmute = _readflags.2?true(buffer, 0, canSelfUnmute);
+    // final justJoined = _readflags.4?true(buffer, 0, justJoined);
+    // final versioned = _readflags.5?true(buffer, 0, versioned);
+    // final min = _readflags.8?true(buffer, 0, min);
+    // final mutedByYou = _readflags.9?true(buffer, 0, mutedByYou);
+    // final volumeByAdmin = _readflags.10?true(buffer, 0, volumeByAdmin);
+    // final self = _readflags.12?true(buffer, 0, self);
+    // final videoJoined = _readflags.15?true(buffer, 0, videoJoined);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final date = _readint(buffer, 0, date);
+    // final activeDate = _readflags.3?int(buffer, 0, activeDate);
+    // final source = _readint(buffer, 0, source);
+    // final volume = _readflags.7?int(buffer, 0, volume);
+    // final about = _readflags.11?string(buffer, 0, about);
+    // final raiseHandRating = _readflags.13?long(buffer, 0, raiseHandRating);
+    // final video = _readflags.6?GroupCallParticipantVideo(buffer, 0, video);
+    // final presentation = _readflags.14?GroupCallParticipantVideo(buffer, 0, presentation);
+    // final result = GroupCallParticipant({flags: flags, muted: muted, left: left, canSelfUnmute: canSelfUnmute, justJoined: justJoined, versioned: versioned, min: min, mutedByYou: mutedByYou, volumeByAdmin: volumeByAdmin, self: self, videoJoined: videoJoined, peer: peer, date: date, activeDate: activeDate, source: source, volume: volume, about: about, raiseHandRating: raiseHandRating, video: video, presentation: presentation,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36431,6 +42488,14 @@ class PhoneGroupCall extends PhoneGroupCallBase {
 
   /// Deserialize.
   factory PhoneGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readGroupCall(buffer, 0, call);
+    // final participants = _readVector<GroupCallParticipant>(buffer, 0, participants);
+    // final participantsNextOffset = _readstring(buffer, 0, participantsNextOffset);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhoneGroupCall({call: call, participants: participants, participantsNextOffset: participantsNextOffset, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36483,6 +42548,15 @@ class PhoneGroupParticipants extends PhoneGroupParticipantsBase {
 
   /// Deserialize.
   factory PhoneGroupParticipants.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final participants = _readVector<GroupCallParticipant>(buffer, 0, participants);
+    // final nextOffset = _readstring(buffer, 0, nextOffset);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final version = _readint(buffer, 0, version);
+    // final result = PhoneGroupParticipants({count: count, participants: participants, nextOffset: nextOffset, chats: chats, users: users, version: version,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36532,6 +42606,9 @@ class InlineQueryPeerTypeSameBotPM extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypeSameBotPM.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypeSameBotPM();
+    // return result;
+
     throw Exception();
   }
 
@@ -36551,6 +42628,9 @@ class InlineQueryPeerTypePM extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypePM.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypePM();
+    // return result;
+
     throw Exception();
   }
 
@@ -36570,6 +42650,9 @@ class InlineQueryPeerTypeChat extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypeChat.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypeChat();
+    // return result;
+
     throw Exception();
   }
 
@@ -36589,6 +42672,9 @@ class InlineQueryPeerTypeMegagroup extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypeMegagroup.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypeMegagroup();
+    // return result;
+
     throw Exception();
   }
 
@@ -36608,6 +42694,9 @@ class InlineQueryPeerTypeBroadcast extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypeBroadcast.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypeBroadcast();
+    // return result;
+
     throw Exception();
   }
 
@@ -36627,6 +42716,9 @@ class InlineQueryPeerTypeBotPM extends InlineQueryPeerTypeBase {
 
   /// Deserialize.
   factory InlineQueryPeerTypeBotPM.deserialize(Uint8List buffer) {
+    // final result = InlineQueryPeerTypeBotPM();
+    // return result;
+
     throw Exception();
   }
 
@@ -36654,6 +42746,10 @@ class MessagesHistoryImport extends MessagesHistoryImportBase {
 
   /// Deserialize.
   factory MessagesHistoryImport.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = MessagesHistoryImport({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36686,6 +42782,13 @@ class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
 
   /// Deserialize.
   factory MessagesHistoryImportParsed.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pm = _readflags.0?true(buffer, 0, pm);
+    // final group = _readflags.1?true(buffer, 0, group);
+    // final title = _readflags.2?string(buffer, 0, title);
+    // final result = MessagesHistoryImportParsed({flags: flags, pm: pm, group: group, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36732,6 +42835,13 @@ class MessagesAffectedFoundMessages extends MessagesAffectedFoundMessagesBase {
 
   /// Deserialize.
   factory MessagesAffectedFoundMessages.deserialize(Uint8List buffer) {
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsCount = _readint(buffer, 0, ptsCount);
+    // final offset = _readint(buffer, 0, offset);
+    // final messages = _readVector<int>(buffer, 0, messages);
+    // final result = MessagesAffectedFoundMessages({pts: pts, ptsCount: ptsCount, offset: offset, messages: messages,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36779,6 +42889,16 @@ class ChatInviteImporter extends ChatInviteImporterBase {
 
   /// Deserialize.
   factory ChatInviteImporter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requested = _readflags.0?true(buffer, 0, requested);
+    // final viaChatlist = _readflags.3?true(buffer, 0, viaChatlist);
+    // final userId = _readlong(buffer, 0, userId);
+    // final date = _readint(buffer, 0, date);
+    // final about = _readflags.2?string(buffer, 0, about);
+    // final approvedBy = _readflags.1?long(buffer, 0, approvedBy);
+    // final result = ChatInviteImporter({flags: flags, requested: requested, viaChatlist: viaChatlist, userId: userId, date: date, about: about, approvedBy: approvedBy,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36836,6 +42956,12 @@ class MessagesExportedChatInvites extends MessagesExportedChatInvitesBase {
 
   /// Deserialize.
   factory MessagesExportedChatInvites.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final invites = _readVector<ExportedChatInvite>(buffer, 0, invites);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesExportedChatInvites({count: count, invites: invites, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36876,6 +43002,11 @@ class MessagesExportedChatInvite extends MessagesExportedChatInviteBase {
 
   /// Deserialize.
   factory MessagesExportedChatInvite.deserialize(Uint8List buffer) {
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesExportedChatInvite({invite: invite, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36908,6 +43039,12 @@ class MessagesExportedChatInviteReplaced
 
   /// Deserialize.
   factory MessagesExportedChatInviteReplaced.deserialize(Uint8List buffer) {
+    // final invite = _readExportedChatInvite(buffer, 0, invite);
+    // final newInvite = _readExportedChatInvite(buffer, 0, newInvite);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesExportedChatInviteReplaced({invite: invite, newInvite: newInvite, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36949,6 +43086,12 @@ class MessagesChatInviteImporters extends MessagesChatInviteImportersBase {
 
   /// Deserialize.
   factory MessagesChatInviteImporters.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final importers = _readVector<ChatInviteImporter>(buffer, 0, importers);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesChatInviteImporters({count: count, importers: importers, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -36990,6 +43133,12 @@ class ChatAdminWithInvites extends ChatAdminWithInvitesBase {
 
   /// Deserialize.
   factory ChatAdminWithInvites.deserialize(Uint8List buffer) {
+    // final adminId = _readlong(buffer, 0, adminId);
+    // final invitesCount = _readint(buffer, 0, invitesCount);
+    // final revokedInvitesCount = _readint(buffer, 0, revokedInvitesCount);
+    // final result = ChatAdminWithInvites({adminId: adminId, invitesCount: invitesCount, revokedInvitesCount: revokedInvitesCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37030,6 +43179,11 @@ class MessagesChatAdminsWithInvites extends MessagesChatAdminsWithInvitesBase {
 
   /// Deserialize.
   factory MessagesChatAdminsWithInvites.deserialize(Uint8List buffer) {
+    // final admins = _readVector<ChatAdminWithInvites>(buffer, 0, admins);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesChatAdminsWithInvites({admins: admins, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37066,6 +43220,10 @@ class MessagesCheckedHistoryImportPeer
 
   /// Deserialize.
   factory MessagesCheckedHistoryImportPeer.deserialize(Uint8List buffer) {
+    // final confirmText = _readstring(buffer, 0, confirmText);
+    // final result = MessagesCheckedHistoryImportPeer({confirmText: confirmText,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37099,6 +43257,12 @@ class PhoneJoinAsPeers extends PhoneJoinAsPeersBase {
 
   /// Deserialize.
   factory PhoneJoinAsPeers.deserialize(Uint8List buffer) {
+    // final peers = _readVector<Peer>(buffer, 0, peers);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PhoneJoinAsPeers({peers: peers, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37138,6 +43302,10 @@ class PhoneExportedGroupCallInvite extends PhoneExportedGroupCallInviteBase {
 
   /// Deserialize.
   factory PhoneExportedGroupCallInvite.deserialize(Uint8List buffer) {
+    // final link = _readstring(buffer, 0, link);
+    // final result = PhoneExportedGroupCallInvite({link: link,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37171,6 +43339,11 @@ class GroupCallParticipantVideoSourceGroup
 
   /// Deserialize.
   factory GroupCallParticipantVideoSourceGroup.deserialize(Uint8List buffer) {
+    // final semantics = _readstring(buffer, 0, semantics);
+    // final sources = _readVector<int>(buffer, 0, sources);
+    // final result = GroupCallParticipantVideoSourceGroup({semantics: semantics, sources: sources,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37209,6 +43382,14 @@ class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
 
   /// Deserialize.
   factory GroupCallParticipantVideo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final paused = _readflags.0?true(buffer, 0, paused);
+    // final endpoint = _readstring(buffer, 0, endpoint);
+    // final sourceGroups = _readVector<GroupCallParticipantVideoSourceGroup>(buffer, 0, sourceGroups);
+    // final audioSource = _readflags.1?int(buffer, 0, audioSource);
+    // final result = GroupCallParticipantVideo({flags: flags, paused: paused, endpoint: endpoint, sourceGroups: sourceGroups, audioSource: audioSource,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37256,6 +43437,10 @@ class StickersSuggestedShortName extends StickersSuggestedShortNameBase {
 
   /// Deserialize.
   factory StickersSuggestedShortName.deserialize(Uint8List buffer) {
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final result = StickersSuggestedShortName({shortName: shortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37285,6 +43470,9 @@ class BotCommandScopeDefault extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopeDefault.deserialize(Uint8List buffer) {
+    // final result = BotCommandScopeDefault();
+    // return result;
+
     throw Exception();
   }
 
@@ -37304,6 +43492,9 @@ class BotCommandScopeUsers extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopeUsers.deserialize(Uint8List buffer) {
+    // final result = BotCommandScopeUsers();
+    // return result;
+
     throw Exception();
   }
 
@@ -37323,6 +43514,9 @@ class BotCommandScopeChats extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopeChats.deserialize(Uint8List buffer) {
+    // final result = BotCommandScopeChats();
+    // return result;
+
     throw Exception();
   }
 
@@ -37342,6 +43536,9 @@ class BotCommandScopeChatAdmins extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopeChatAdmins.deserialize(Uint8List buffer) {
+    // final result = BotCommandScopeChatAdmins();
+    // return result;
+
     throw Exception();
   }
 
@@ -37363,6 +43560,10 @@ class BotCommandScopePeer extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopePeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = BotCommandScopePeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37388,6 +43589,10 @@ class BotCommandScopePeerAdmins extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopePeerAdmins.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = BotCommandScopePeerAdmins({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37414,6 +43619,11 @@ class BotCommandScopePeerUser extends BotCommandScopeBase {
 
   /// Deserialize.
   factory BotCommandScopePeerUser.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = BotCommandScopePeerUser({peer: peer, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37449,6 +43659,10 @@ class AccountResetPasswordFailedWait extends AccountResetPasswordResultBase {
 
   /// Deserialize.
   factory AccountResetPasswordFailedWait.deserialize(Uint8List buffer) {
+    // final retryDate = _readint(buffer, 0, retryDate);
+    // final result = AccountResetPasswordFailedWait({retryDate: retryDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37474,6 +43688,10 @@ class AccountResetPasswordRequestedWait extends AccountResetPasswordResultBase {
 
   /// Deserialize.
   factory AccountResetPasswordRequestedWait.deserialize(Uint8List buffer) {
+    // final untilDate = _readint(buffer, 0, untilDate);
+    // final result = AccountResetPasswordRequestedWait({untilDate: untilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37497,6 +43715,9 @@ class AccountResetPasswordOk extends AccountResetPasswordResultBase {
 
   /// Deserialize.
   factory AccountResetPasswordOk.deserialize(Uint8List buffer) {
+    // final result = AccountResetPasswordOk();
+    // return result;
+
     throw Exception();
   }
 
@@ -37537,6 +43758,25 @@ class SponsoredMessage extends SponsoredMessageBase {
 
   /// Deserialize.
   factory SponsoredMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final recommended = _readflags.5?true(buffer, 0, recommended);
+    // final showPeerPhoto = _readflags.6?true(buffer, 0, showPeerPhoto);
+    // final randomId = _readbytes(buffer, 0, randomId);
+    // final fromId = _readflags.3?Peer(buffer, 0, fromId);
+    // final chatInvite = _readflags.4?ChatInvite(buffer, 0, chatInvite);
+    // final chatInviteHash = _readflags.4?string(buffer, 0, chatInviteHash);
+    // final channelPost = _readflags.2?int(buffer, 0, channelPost);
+    // final startParam = _readflags.0?string(buffer, 0, startParam);
+    // final webpage = _readflags.9?SponsoredWebPage(buffer, 0, webpage);
+    // final app = _readflags.10?BotApp(buffer, 0, app);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final buttonText = _readflags.11?string(buffer, 0, buttonText);
+    // final sponsorInfo = _readflags.7?string(buffer, 0, sponsorInfo);
+    // final additionalInfo = _readflags.8?string(buffer, 0, additionalInfo);
+    // final result = SponsoredMessage({flags: flags, recommended: recommended, showPeerPhoto: showPeerPhoto, randomId: randomId, fromId: fromId, chatInvite: chatInvite, chatInviteHash: chatInviteHash, channelPost: channelPost, startParam: startParam, webpage: webpage, app: app, message: message, entities: entities, buttonText: buttonText, sponsorInfo: sponsorInfo, additionalInfo: additionalInfo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37632,6 +43872,14 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
 
   /// Deserialize.
   factory MessagesSponsoredMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final postsBetween = _readflags.0?int(buffer, 0, postsBetween);
+    // final messages = _readVector<SponsoredMessage>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesSponsoredMessages({flags: flags, postsBetween: postsBetween, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37671,6 +43919,9 @@ class MessagesSponsoredMessagesEmpty extends MessagesSponsoredMessagesBase {
 
   /// Deserialize.
   factory MessagesSponsoredMessagesEmpty.deserialize(Uint8List buffer) {
+    // final result = MessagesSponsoredMessagesEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -37701,6 +43952,13 @@ class SearchResultsCalendarPeriod extends SearchResultsCalendarPeriodBase {
 
   /// Deserialize.
   factory SearchResultsCalendarPeriod.deserialize(Uint8List buffer) {
+    // final date = _readint(buffer, 0, date);
+    // final minMsgId = _readint(buffer, 0, minMsgId);
+    // final maxMsgId = _readint(buffer, 0, maxMsgId);
+    // final count = _readint(buffer, 0, count);
+    // final result = SearchResultsCalendarPeriod({date: date, minMsgId: minMsgId, maxMsgId: maxMsgId, count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37752,6 +44010,19 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
 
   /// Deserialize.
   factory MessagesSearchResultsCalendar.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inexact = _readflags.0?true(buffer, 0, inexact);
+    // final count = _readint(buffer, 0, count);
+    // final minDate = _readint(buffer, 0, minDate);
+    // final minMsgId = _readint(buffer, 0, minMsgId);
+    // final offsetIdOffset = _readflags.1?int(buffer, 0, offsetIdOffset);
+    // final periods = _readVector<SearchResultsCalendarPeriod>(buffer, 0, periods);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesSearchResultsCalendar({flags: flags, inexact: inexact, count: count, minDate: minDate, minMsgId: minMsgId, offsetIdOffset: offsetIdOffset, periods: periods, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37821,6 +44092,12 @@ class SearchResultPosition extends SearchResultsPositionBase {
 
   /// Deserialize.
   factory SearchResultPosition.deserialize(Uint8List buffer) {
+    // final msgId = _readint(buffer, 0, msgId);
+    // final date = _readint(buffer, 0, date);
+    // final offset = _readint(buffer, 0, offset);
+    // final result = SearchResultPosition({msgId: msgId, date: date, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37862,6 +44139,11 @@ class MessagesSearchResultsPositions
 
   /// Deserialize.
   factory MessagesSearchResultsPositions.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final positions = _readVector<SearchResultsPosition>(buffer, 0, positions);
+    // final result = MessagesSearchResultsPositions({count: count, positions: positions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37899,6 +44181,12 @@ class ChannelsSendAsPeers extends ChannelsSendAsPeersBase {
 
   /// Deserialize.
   factory ChannelsSendAsPeers.deserialize(Uint8List buffer) {
+    // final peers = _readVector<SendAsPeer>(buffer, 0, peers);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChannelsSendAsPeers({peers: peers, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37940,6 +44228,12 @@ class UsersUserFull extends UsersUserFullBase {
 
   /// Deserialize.
   factory UsersUserFull.deserialize(Uint8List buffer) {
+    // final fullUser = _readUserFull(buffer, 0, fullUser);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = UsersUserFull({fullUser: fullUser, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -37981,6 +44275,12 @@ class MessagesPeerSettings extends MessagesPeerSettingsBase {
 
   /// Deserialize.
   factory MessagesPeerSettings.deserialize(Uint8List buffer) {
+    // final settings = _readPeerSettings(buffer, 0, settings);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesPeerSettings({settings: settings, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38021,6 +44321,11 @@ class AuthLoggedOut extends AuthLoggedOutBase {
 
   /// Deserialize.
   factory AuthLoggedOut.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final futureAuthToken = _readflags.0?bytes(buffer, 0, futureAuthToken);
+    // final result = AuthLoggedOut({flags: flags, futureAuthToken: futureAuthToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38059,6 +44364,13 @@ class ReactionCount extends ReactionCountBase {
 
   /// Deserialize.
   factory ReactionCount.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final chosenOrder = _readflags.0?int(buffer, 0, chosenOrder);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final count = _readint(buffer, 0, count);
+    // final result = ReactionCount({flags: flags, chosenOrder: chosenOrder, reaction: reaction, count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38104,6 +44416,14 @@ class MessageReactions extends MessageReactionsBase {
 
   /// Deserialize.
   factory MessageReactions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final min = _readflags.0?true(buffer, 0, min);
+    // final canSeeList = _readflags.2?true(buffer, 0, canSeeList);
+    // final results = _readVector<ReactionCount>(buffer, 0, results);
+    // final recentReactions = _readflags.1?Vector<MessagePeerReaction>(buffer, 0, recentReactions);
+    // final result = MessageReactions({flags: flags, min: min, canSeeList: canSeeList, results: results, recentReactions: recentReactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38156,6 +44476,15 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
 
   /// Deserialize.
   factory MessagesMessageReactionsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final reactions = _readVector<MessagePeerReaction>(buffer, 0, reactions);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final result = MessagesMessageReactionsList({flags: flags, count: count, reactions: reactions, chats: chats, users: users, nextOffset: nextOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38216,6 +44545,21 @@ class AvailableReaction extends AvailableReactionBase {
 
   /// Deserialize.
   factory AvailableReaction.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inactive = _readflags.0?true(buffer, 0, inactive);
+    // final premium = _readflags.2?true(buffer, 0, premium);
+    // final reaction = _readstring(buffer, 0, reaction);
+    // final title = _readstring(buffer, 0, title);
+    // final staticIcon = _readDocument(buffer, 0, staticIcon);
+    // final appearAnimation = _readDocument(buffer, 0, appearAnimation);
+    // final selectAnimation = _readDocument(buffer, 0, selectAnimation);
+    // final activateAnimation = _readDocument(buffer, 0, activateAnimation);
+    // final effectAnimation = _readDocument(buffer, 0, effectAnimation);
+    // final aroundAnimation = _readflags.1?Document(buffer, 0, aroundAnimation);
+    // final centerIcon = _readflags.1?Document(buffer, 0, centerIcon);
+    // final result = AvailableReaction({flags: flags, inactive: inactive, premium: premium, reaction: reaction, title: title, staticIcon: staticIcon, appearAnimation: appearAnimation, selectAnimation: selectAnimation, activateAnimation: activateAnimation, effectAnimation: effectAnimation, aroundAnimation: aroundAnimation, centerIcon: centerIcon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38290,6 +44634,9 @@ class MessagesAvailableReactionsNotModified
 
   /// Deserialize.
   factory MessagesAvailableReactionsNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesAvailableReactionsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -38312,6 +44659,11 @@ class MessagesAvailableReactions extends MessagesAvailableReactionsBase {
 
   /// Deserialize.
   factory MessagesAvailableReactions.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final reactions = _readVector<AvailableReaction>(buffer, 0, reactions);
+    // final result = MessagesAvailableReactions({hash: hash, reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38350,6 +44702,16 @@ class MessagePeerReaction extends MessagePeerReactionBase {
 
   /// Deserialize.
   factory MessagePeerReaction.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final big = _readflags.0?true(buffer, 0, big);
+    // final unread = _readflags.1?true(buffer, 0, unread);
+    // final my = _readflags.2?true(buffer, 0, my);
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final date = _readint(buffer, 0, date);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = MessagePeerReaction({flags: flags, big: big, unread: unread, my: my, peerId: peerId, date: date, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38407,6 +44769,12 @@ class GroupCallStreamChannel extends GroupCallStreamChannelBase {
 
   /// Deserialize.
   factory GroupCallStreamChannel.deserialize(Uint8List buffer) {
+    // final channel = _readint(buffer, 0, channel);
+    // final scale = _readint(buffer, 0, scale);
+    // final lastTimestampMs = _readlong(buffer, 0, lastTimestampMs);
+    // final result = GroupCallStreamChannel({channel: channel, scale: scale, lastTimestampMs: lastTimestampMs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38446,6 +44814,10 @@ class PhoneGroupCallStreamChannels extends PhoneGroupCallStreamChannelsBase {
 
   /// Deserialize.
   factory PhoneGroupCallStreamChannels.deserialize(Uint8List buffer) {
+    // final channels = _readVector<GroupCallStreamChannel>(buffer, 0, channels);
+    // final result = PhoneGroupCallStreamChannels({channels: channels,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38478,6 +44850,11 @@ class PhoneGroupCallStreamRtmpUrl extends PhoneGroupCallStreamRtmpUrlBase {
 
   /// Deserialize.
   factory PhoneGroupCallStreamRtmpUrl.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final key = _readstring(buffer, 0, key);
+    // final result = PhoneGroupCallStreamRtmpUrl({url: url, key: key,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38514,6 +44891,11 @@ class AttachMenuBotIconColor extends AttachMenuBotIconColorBase {
 
   /// Deserialize.
   factory AttachMenuBotIconColor.deserialize(Uint8List buffer) {
+    // final name = _readstring(buffer, 0, name);
+    // final color = _readint(buffer, 0, color);
+    // final result = AttachMenuBotIconColor({name: name, color: color,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38552,6 +44934,13 @@ class AttachMenuBotIcon extends AttachMenuBotIconBase {
 
   /// Deserialize.
   factory AttachMenuBotIcon.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final name = _readstring(buffer, 0, name);
+    // final icon = _readDocument(buffer, 0, icon);
+    // final colors = _readflags.0?Vector<AttachMenuBotIconColor>(buffer, 0, colors);
+    // final result = AttachMenuBotIcon({flags: flags, name: name, icon: icon, colors: colors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38599,6 +44988,20 @@ class AttachMenuBot extends AttachMenuBotBase {
 
   /// Deserialize.
   factory AttachMenuBot.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inactive = _readflags.0?true(buffer, 0, inactive);
+    // final hasSettings = _readflags.1?true(buffer, 0, hasSettings);
+    // final requestWriteAccess = _readflags.2?true(buffer, 0, requestWriteAccess);
+    // final showInAttachMenu = _readflags.3?true(buffer, 0, showInAttachMenu);
+    // final showInSideMenu = _readflags.4?true(buffer, 0, showInSideMenu);
+    // final sideMenuDisclaimerNeeded = _readflags.5?true(buffer, 0, sideMenuDisclaimerNeeded);
+    // final botId = _readlong(buffer, 0, botId);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final peerTypes = _readflags.3?Vector<AttachMenuPeerType>(buffer, 0, peerTypes);
+    // final icons = _readVector<AttachMenuBotIcon>(buffer, 0, icons);
+    // final result = AttachMenuBot({flags: flags, inactive: inactive, hasSettings: hasSettings, requestWriteAccess: requestWriteAccess, showInAttachMenu: showInAttachMenu, showInSideMenu: showInSideMenu, sideMenuDisclaimerNeeded: sideMenuDisclaimerNeeded, botId: botId, shortName: shortName, peerTypes: peerTypes, icons: icons,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38668,6 +45071,9 @@ class AttachMenuBotsNotModified extends AttachMenuBotsBase {
 
   /// Deserialize.
   factory AttachMenuBotsNotModified.deserialize(Uint8List buffer) {
+    // final result = AttachMenuBotsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -38691,6 +45097,12 @@ class AttachMenuBots extends AttachMenuBotsBase {
 
   /// Deserialize.
   factory AttachMenuBots.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final bots = _readVector<AttachMenuBot>(buffer, 0, bots);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = AttachMenuBots({hash: hash, bots: bots, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38731,6 +45143,11 @@ class AttachMenuBotsBot extends AttachMenuBotsBotBase {
 
   /// Deserialize.
   factory AttachMenuBotsBot.deserialize(Uint8List buffer) {
+    // final bot = _readAttachMenuBot(buffer, 0, bot);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = AttachMenuBotsBot({bot: bot, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38767,6 +45184,11 @@ class WebViewResultUrl extends WebViewResultBase {
 
   /// Deserialize.
   factory WebViewResultUrl.deserialize(Uint8List buffer) {
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final url = _readstring(buffer, 0, url);
+    // final result = WebViewResultUrl({queryId: queryId, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38802,6 +45224,10 @@ class SimpleWebViewResultUrl extends SimpleWebViewResultBase {
 
   /// Deserialize.
   factory SimpleWebViewResultUrl.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = SimpleWebViewResultUrl({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38834,6 +45260,11 @@ class WebViewMessageSent extends WebViewMessageSentBase {
 
   /// Deserialize.
   factory WebViewMessageSent.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final msgId = _readflags.0?InputBotInlineMessageID(buffer, 0, msgId);
+    // final result = WebViewMessageSent({flags: flags, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38867,6 +45298,9 @@ class BotMenuButtonDefault extends BotMenuButtonBase {
 
   /// Deserialize.
   factory BotMenuButtonDefault.deserialize(Uint8List buffer) {
+    // final result = BotMenuButtonDefault();
+    // return result;
+
     throw Exception();
   }
 
@@ -38886,6 +45320,9 @@ class BotMenuButtonCommands extends BotMenuButtonBase {
 
   /// Deserialize.
   factory BotMenuButtonCommands.deserialize(Uint8List buffer) {
+    // final result = BotMenuButtonCommands();
+    // return result;
+
     throw Exception();
   }
 
@@ -38908,6 +45345,11 @@ class BotMenuButton extends BotMenuButtonBase {
 
   /// Deserialize.
   factory BotMenuButton.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final result = BotMenuButton({text: text, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38941,6 +45383,9 @@ class AccountSavedRingtonesNotModified extends AccountSavedRingtonesBase {
 
   /// Deserialize.
   factory AccountSavedRingtonesNotModified.deserialize(Uint8List buffer) {
+    // final result = AccountSavedRingtonesNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -38963,6 +45408,11 @@ class AccountSavedRingtones extends AccountSavedRingtonesBase {
 
   /// Deserialize.
   factory AccountSavedRingtones.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final ringtones = _readVector<Document>(buffer, 0, ringtones);
+    // final result = AccountSavedRingtones({hash: hash, ringtones: ringtones,});
+    // return result;
+
     throw Exception();
   }
 
@@ -38996,6 +45446,9 @@ class NotificationSoundDefault extends NotificationSoundBase {
 
   /// Deserialize.
   factory NotificationSoundDefault.deserialize(Uint8List buffer) {
+    // final result = NotificationSoundDefault();
+    // return result;
+
     throw Exception();
   }
 
@@ -39015,6 +45468,9 @@ class NotificationSoundNone extends NotificationSoundBase {
 
   /// Deserialize.
   factory NotificationSoundNone.deserialize(Uint8List buffer) {
+    // final result = NotificationSoundNone();
+    // return result;
+
     throw Exception();
   }
 
@@ -39037,6 +45493,11 @@ class NotificationSoundLocal extends NotificationSoundBase {
 
   /// Deserialize.
   factory NotificationSoundLocal.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final data = _readstring(buffer, 0, data);
+    // final result = NotificationSoundLocal({title: title, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39066,6 +45527,10 @@ class NotificationSoundRingtone extends NotificationSoundBase {
 
   /// Deserialize.
   factory NotificationSoundRingtone.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final result = NotificationSoundRingtone({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39095,6 +45560,9 @@ class AccountSavedRingtone extends AccountSavedRingtoneBase {
 
   /// Deserialize.
   factory AccountSavedRingtone.deserialize(Uint8List buffer) {
+    // final result = AccountSavedRingtone();
+    // return result;
+
     throw Exception();
   }
 
@@ -39116,6 +45584,10 @@ class AccountSavedRingtoneConverted extends AccountSavedRingtoneBase {
 
   /// Deserialize.
   factory AccountSavedRingtoneConverted.deserialize(Uint8List buffer) {
+    // final document = _readDocument(buffer, 0, document);
+    // final result = AccountSavedRingtoneConverted({document: document,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39145,6 +45617,9 @@ class AttachMenuPeerTypeSameBotPM extends AttachMenuPeerTypeBase {
 
   /// Deserialize.
   factory AttachMenuPeerTypeSameBotPM.deserialize(Uint8List buffer) {
+    // final result = AttachMenuPeerTypeSameBotPM();
+    // return result;
+
     throw Exception();
   }
 
@@ -39164,6 +45639,9 @@ class AttachMenuPeerTypeBotPM extends AttachMenuPeerTypeBase {
 
   /// Deserialize.
   factory AttachMenuPeerTypeBotPM.deserialize(Uint8List buffer) {
+    // final result = AttachMenuPeerTypeBotPM();
+    // return result;
+
     throw Exception();
   }
 
@@ -39183,6 +45661,9 @@ class AttachMenuPeerTypePM extends AttachMenuPeerTypeBase {
 
   /// Deserialize.
   factory AttachMenuPeerTypePM.deserialize(Uint8List buffer) {
+    // final result = AttachMenuPeerTypePM();
+    // return result;
+
     throw Exception();
   }
 
@@ -39202,6 +45683,9 @@ class AttachMenuPeerTypeChat extends AttachMenuPeerTypeBase {
 
   /// Deserialize.
   factory AttachMenuPeerTypeChat.deserialize(Uint8List buffer) {
+    // final result = AttachMenuPeerTypeChat();
+    // return result;
+
     throw Exception();
   }
 
@@ -39221,6 +45705,9 @@ class AttachMenuPeerTypeBroadcast extends AttachMenuPeerTypeBase {
 
   /// Deserialize.
   factory AttachMenuPeerTypeBroadcast.deserialize(Uint8List buffer) {
+    // final result = AttachMenuPeerTypeBroadcast();
+    // return result;
+
     throw Exception();
   }
 
@@ -39249,6 +45736,11 @@ class InputInvoiceMessage extends InputInvoiceBase {
 
   /// Deserialize.
   factory InputInvoiceMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = InputInvoiceMessage({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39278,6 +45770,10 @@ class InputInvoiceSlug extends InputInvoiceBase {
 
   /// Deserialize.
   factory InputInvoiceSlug.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = InputInvoiceSlug({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39304,6 +45800,11 @@ class InputInvoicePremiumGiftCode extends InputInvoiceBase {
 
   /// Deserialize.
   factory InputInvoicePremiumGiftCode.deserialize(Uint8List buffer) {
+    // final purpose = _readInputStorePaymentPurpose(buffer, 0, purpose);
+    // final option = _readPremiumGiftCodeOption(buffer, 0, option);
+    // final result = InputInvoicePremiumGiftCode({purpose: purpose, option: option,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39339,6 +45840,10 @@ class PaymentsExportedInvoice extends PaymentsExportedInvoiceBase {
 
   /// Deserialize.
   factory PaymentsExportedInvoice.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = PaymentsExportedInvoice({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39374,6 +45879,15 @@ class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
 
   /// Deserialize.
   factory MessagesTranscribedAudio.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pending = _readflags.0?true(buffer, 0, pending);
+    // final transcriptionId = _readlong(buffer, 0, transcriptionId);
+    // final text = _readstring(buffer, 0, text);
+    // final trialRemainsNum = _readflags.1?int(buffer, 0, trialRemainsNum);
+    // final trialRemainsUntilDate = _readflags.1?int(buffer, 0, trialRemainsUntilDate);
+    // final result = MessagesTranscribedAudio({flags: flags, pending: pending, transcriptionId: transcriptionId, text: text, trialRemainsNum: trialRemainsNum, trialRemainsUntilDate: trialRemainsUntilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39430,6 +45944,15 @@ class HelpPremiumPromo extends HelpPremiumPromoBase {
 
   /// Deserialize.
   factory HelpPremiumPromo.deserialize(Uint8List buffer) {
+    // final statusText = _readstring(buffer, 0, statusText);
+    // final statusEntities = _readVector<MessageEntity>(buffer, 0, statusEntities);
+    // final videoSections = _readVector<string>(buffer, 0, videoSections);
+    // final videos = _readVector<Document>(buffer, 0, videos);
+    // final periodOptions = _readVector<PremiumSubscriptionOption>(buffer, 0, periodOptions);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = HelpPremiumPromo({statusText: statusText, statusEntities: statusEntities, videoSections: videoSections, videos: videos, periodOptions: periodOptions, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39482,6 +46005,12 @@ class InputStorePaymentPremiumSubscription
 
   /// Deserialize.
   factory InputStorePaymentPremiumSubscription.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final restore = _readflags.0?true(buffer, 0, restore);
+    // final upgrade = _readflags.1?true(buffer, 0, upgrade);
+    // final result = InputStorePaymentPremiumSubscription({flags: flags, restore: restore, upgrade: upgrade,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39517,6 +46046,12 @@ class InputStorePaymentGiftPremium extends InputStorePaymentPurposeBase {
 
   /// Deserialize.
   factory InputStorePaymentGiftPremium.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final result = InputStorePaymentGiftPremium({userId: userId, currency: currency, amount: amount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39554,6 +46089,14 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
 
   /// Deserialize.
   factory InputStorePaymentPremiumGiftCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final boostPeer = _readflags.0?InputPeer(buffer, 0, boostPeer);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final result = InputStorePaymentPremiumGiftCode({flags: flags, users: users, boostPeer: boostPeer, currency: currency, amount: amount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39603,6 +46146,20 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
 
   /// Deserialize.
   factory InputStorePaymentPremiumGiveaway.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final onlyNewSubscribers = _readflags.0?true(buffer, 0, onlyNewSubscribers);
+    // final winnersAreVisible = _readflags.3?true(buffer, 0, winnersAreVisible);
+    // final boostPeer = _readInputPeer(buffer, 0, boostPeer);
+    // final additionalPeers = _readflags.1?Vector<InputPeer>(buffer, 0, additionalPeers);
+    // final countriesIso2 = _readflags.2?Vector<string>(buffer, 0, countriesIso2);
+    // final prizeDescription = _readflags.4?string(buffer, 0, prizeDescription);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final untilDate = _readint(buffer, 0, untilDate);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final result = InputStorePaymentPremiumGiveaway({flags: flags, onlyNewSubscribers: onlyNewSubscribers, winnersAreVisible: winnersAreVisible, boostPeer: boostPeer, additionalPeers: additionalPeers, countriesIso2: countriesIso2, prizeDescription: prizeDescription, randomId: randomId, untilDate: untilDate, currency: currency, amount: amount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39679,6 +46236,15 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
 
   /// Deserialize.
   factory PremiumGiftOption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final months = _readint(buffer, 0, months);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final botUrl = _readstring(buffer, 0, botUrl);
+    // final storeProduct = _readflags.0?string(buffer, 0, storeProduct);
+    // final result = PremiumGiftOption({flags: flags, months: months, currency: currency, amount: amount, botUrl: botUrl, storeProduct: storeProduct,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39731,6 +46297,11 @@ class PaymentFormMethod extends PaymentFormMethodBase {
 
   /// Deserialize.
   factory PaymentFormMethod.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final title = _readstring(buffer, 0, title);
+    // final result = PaymentFormMethod({url: url, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39764,6 +46335,9 @@ class EmojiStatusEmpty extends EmojiStatusBase {
 
   /// Deserialize.
   factory EmojiStatusEmpty.deserialize(Uint8List buffer) {
+    // final result = EmojiStatusEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -39785,6 +46359,10 @@ class EmojiStatus extends EmojiStatusBase {
 
   /// Deserialize.
   factory EmojiStatus.deserialize(Uint8List buffer) {
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final result = EmojiStatus({documentId: documentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39811,6 +46389,11 @@ class EmojiStatusUntil extends EmojiStatusBase {
 
   /// Deserialize.
   factory EmojiStatusUntil.deserialize(Uint8List buffer) {
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final until = _readint(buffer, 0, until);
+    // final result = EmojiStatusUntil({documentId: documentId, until: until,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39844,6 +46427,9 @@ class AccountEmojiStatusesNotModified extends AccountEmojiStatusesBase {
 
   /// Deserialize.
   factory AccountEmojiStatusesNotModified.deserialize(Uint8List buffer) {
+    // final result = AccountEmojiStatusesNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -39866,6 +46452,11 @@ class AccountEmojiStatuses extends AccountEmojiStatusesBase {
 
   /// Deserialize.
   factory AccountEmojiStatuses.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final statuses = _readVector<EmojiStatus>(buffer, 0, statuses);
+    // final result = AccountEmojiStatuses({hash: hash, statuses: statuses,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39899,6 +46490,9 @@ class ReactionEmpty extends ReactionBase {
 
   /// Deserialize.
   factory ReactionEmpty.deserialize(Uint8List buffer) {
+    // final result = ReactionEmpty();
+    // return result;
+
     throw Exception();
   }
 
@@ -39920,6 +46514,10 @@ class ReactionEmoji extends ReactionBase {
 
   /// Deserialize.
   factory ReactionEmoji.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = ReactionEmoji({emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39945,6 +46543,10 @@ class ReactionCustomEmoji extends ReactionBase {
 
   /// Deserialize.
   factory ReactionCustomEmoji.deserialize(Uint8List buffer) {
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final result = ReactionCustomEmoji({documentId: documentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -39974,6 +46576,9 @@ class ChatReactionsNone extends ChatReactionsBase {
 
   /// Deserialize.
   factory ChatReactionsNone.deserialize(Uint8List buffer) {
+    // final result = ChatReactionsNone();
+    // return result;
+
     throw Exception();
   }
 
@@ -39995,6 +46600,11 @@ class ChatReactionsAll extends ChatReactionsBase {
 
   /// Deserialize.
   factory ChatReactionsAll.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final allowCustom = _readflags.0?true(buffer, 0, allowCustom);
+    // final result = ChatReactionsAll({flags: flags, allowCustom: allowCustom,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40024,6 +46634,10 @@ class ChatReactionsSome extends ChatReactionsBase {
 
   /// Deserialize.
   factory ChatReactionsSome.deserialize(Uint8List buffer) {
+    // final reactions = _readVector<Reaction>(buffer, 0, reactions);
+    // final result = ChatReactionsSome({reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40053,6 +46667,9 @@ class MessagesReactionsNotModified extends MessagesReactionsBase {
 
   /// Deserialize.
   factory MessagesReactionsNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesReactionsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -40075,6 +46692,11 @@ class MessagesReactions extends MessagesReactionsBase {
 
   /// Deserialize.
   factory MessagesReactions.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final reactions = _readVector<Reaction>(buffer, 0, reactions);
+    // final result = MessagesReactions({hash: hash, reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40111,6 +46733,11 @@ class EmailVerifyPurposeLoginSetup extends EmailVerifyPurposeBase {
 
   /// Deserialize.
   factory EmailVerifyPurposeLoginSetup.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final result = EmailVerifyPurposeLoginSetup({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40138,6 +46765,9 @@ class EmailVerifyPurposeLoginChange extends EmailVerifyPurposeBase {
 
   /// Deserialize.
   factory EmailVerifyPurposeLoginChange.deserialize(Uint8List buffer) {
+    // final result = EmailVerifyPurposeLoginChange();
+    // return result;
+
     throw Exception();
   }
 
@@ -40157,6 +46787,9 @@ class EmailVerifyPurposePassport extends EmailVerifyPurposeBase {
 
   /// Deserialize.
   factory EmailVerifyPurposePassport.deserialize(Uint8List buffer) {
+    // final result = EmailVerifyPurposePassport();
+    // return result;
+
     throw Exception();
   }
 
@@ -40184,6 +46817,10 @@ class EmailVerificationCode extends EmailVerificationBase {
 
   /// Deserialize.
   factory EmailVerificationCode.deserialize(Uint8List buffer) {
+    // final code = _readstring(buffer, 0, code);
+    // final result = EmailVerificationCode({code: code,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40209,6 +46846,10 @@ class EmailVerificationGoogle extends EmailVerificationBase {
 
   /// Deserialize.
   factory EmailVerificationGoogle.deserialize(Uint8List buffer) {
+    // final token = _readstring(buffer, 0, token);
+    // final result = EmailVerificationGoogle({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40234,6 +46875,10 @@ class EmailVerificationApple extends EmailVerificationBase {
 
   /// Deserialize.
   factory EmailVerificationApple.deserialize(Uint8List buffer) {
+    // final token = _readstring(buffer, 0, token);
+    // final result = EmailVerificationApple({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40265,6 +46910,10 @@ class AccountEmailVerified extends AccountEmailVerifiedBase {
 
   /// Deserialize.
   factory AccountEmailVerified.deserialize(Uint8List buffer) {
+    // final email = _readstring(buffer, 0, email);
+    // final result = AccountEmailVerified({email: email,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40291,6 +46940,11 @@ class AccountEmailVerifiedLogin extends AccountEmailVerifiedBase {
 
   /// Deserialize.
   factory AccountEmailVerifiedLogin.deserialize(Uint8List buffer) {
+    // final email = _readstring(buffer, 0, email);
+    // final sentCode = _readauth.SentCode(buffer, 0, sentCode);
+    // final result = AccountEmailVerifiedLogin({email: email, sentCode: sentCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40332,6 +46986,18 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
 
   /// Deserialize.
   factory PremiumSubscriptionOption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final current = _readflags.1?true(buffer, 0, current);
+    // final canPurchaseUpgrade = _readflags.2?true(buffer, 0, canPurchaseUpgrade);
+    // final transaction = _readflags.3?string(buffer, 0, transaction);
+    // final months = _readint(buffer, 0, months);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final botUrl = _readstring(buffer, 0, botUrl);
+    // final storeProduct = _readflags.0?string(buffer, 0, storeProduct);
+    // final result = PremiumSubscriptionOption({flags: flags, current: current, canPurchaseUpgrade: canPurchaseUpgrade, transaction: transaction, months: months, currency: currency, amount: amount, botUrl: botUrl, storeProduct: storeProduct,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40396,6 +47062,12 @@ class SendAsPeer extends SendAsPeerBase {
 
   /// Deserialize.
   factory SendAsPeer.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final premiumRequired = _readflags.0?true(buffer, 0, premiumRequired);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final result = SendAsPeer({flags: flags, premiumRequired: premiumRequired, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40439,6 +47111,14 @@ class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
 
   /// Deserialize.
   factory MessageExtendedMediaPreview.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final w = _readflags.0?int(buffer, 0, w);
+    // final h = _readflags.0?int(buffer, 0, h);
+    // final thumb = _readflags.1?PhotoSize(buffer, 0, thumb);
+    // final videoDuration = _readflags.2?int(buffer, 0, videoDuration);
+    // final result = MessageExtendedMediaPreview({flags: flags, w: w, h: h, thumb: thumb, videoDuration: videoDuration,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40480,6 +47160,10 @@ class MessageExtendedMedia extends MessageExtendedMediaBase {
 
   /// Deserialize.
   factory MessageExtendedMedia.deserialize(Uint8List buffer) {
+    // final media = _readMessageMedia(buffer, 0, media);
+    // final result = MessageExtendedMedia({media: media,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40512,6 +47196,11 @@ class StickerKeyword extends StickerKeywordBase {
 
   /// Deserialize.
   factory StickerKeyword.deserialize(Uint8List buffer) {
+    // final documentId = _readlong(buffer, 0, documentId);
+    // final keyword = _readVector<string>(buffer, 0, keyword);
+    // final result = StickerKeyword({documentId: documentId, keyword: keyword,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40548,6 +47237,13 @@ class Username extends UsernameBase {
 
   /// Deserialize.
   factory Username.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final editable = _readflags.0?true(buffer, 0, editable);
+    // final active = _readflags.1?true(buffer, 0, active);
+    // final username = _readstring(buffer, 0, username);
+    // final result = Username({flags: flags, editable: editable, active: active, username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40591,6 +47287,10 @@ class ForumTopicDeleted extends ForumTopicBase {
 
   /// Deserialize.
   factory ForumTopicDeleted.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final result = ForumTopicDeleted({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40630,6 +47330,29 @@ class ForumTopic extends ForumTopicBase {
 
   /// Deserialize.
   factory ForumTopic.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final my = _readflags.1?true(buffer, 0, my);
+    // final closed = _readflags.2?true(buffer, 0, closed);
+    // final pinned = _readflags.3?true(buffer, 0, pinned);
+    // final short = _readflags.5?true(buffer, 0, short);
+    // final hidden = _readflags.6?true(buffer, 0, hidden);
+    // final id = _readint(buffer, 0, id);
+    // final date = _readint(buffer, 0, date);
+    // final title = _readstring(buffer, 0, title);
+    // final iconColor = _readint(buffer, 0, iconColor);
+    // final iconEmojiId = _readflags.0?long(buffer, 0, iconEmojiId);
+    // final topMessage = _readint(buffer, 0, topMessage);
+    // final readInboxMaxId = _readint(buffer, 0, readInboxMaxId);
+    // final readOutboxMaxId = _readint(buffer, 0, readOutboxMaxId);
+    // final unreadCount = _readint(buffer, 0, unreadCount);
+    // final unreadMentionsCount = _readint(buffer, 0, unreadMentionsCount);
+    // final unreadReactionsCount = _readint(buffer, 0, unreadReactionsCount);
+    // final fromId = _readPeer(buffer, 0, fromId);
+    // final notifySettings = _readPeerNotifySettings(buffer, 0, notifySettings);
+    // final draft = _readflags.4?DraftMessage(buffer, 0, draft);
+    // final result = ForumTopic({flags: flags, my: my, closed: closed, pinned: pinned, short: short, hidden: hidden, id: id, date: date, title: title, iconColor: iconColor, iconEmojiId: iconEmojiId, topMessage: topMessage, readInboxMaxId: readInboxMaxId, readOutboxMaxId: readOutboxMaxId, unreadCount: unreadCount, unreadMentionsCount: unreadMentionsCount, unreadReactionsCount: unreadReactionsCount, fromId: fromId, notifySettings: notifySettings, draft: draft,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40743,6 +47466,17 @@ class MessagesForumTopics extends MessagesForumTopicsBase {
 
   /// Deserialize.
   factory MessagesForumTopics.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final orderByCreateDate = _readflags.0?true(buffer, 0, orderByCreateDate);
+    // final count = _readint(buffer, 0, count);
+    // final topics = _readVector<ForumTopic>(buffer, 0, topics);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final pts = _readint(buffer, 0, pts);
+    // final result = MessagesForumTopics({flags: flags, orderByCreateDate: orderByCreateDate, count: count, topics: topics, messages: messages, chats: chats, users: users, pts: pts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40802,6 +47536,10 @@ class DefaultHistoryTTL extends DefaultHistoryTTLBase {
 
   /// Deserialize.
   factory DefaultHistoryTTL.deserialize(Uint8List buffer) {
+    // final period = _readint(buffer, 0, period);
+    // final result = DefaultHistoryTTL({period: period,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40834,6 +47572,11 @@ class ExportedContactToken extends ExportedContactTokenBase {
 
   /// Deserialize.
   factory ExportedContactToken.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final expires = _readint(buffer, 0, expires);
+    // final result = ExportedContactToken({url: url, expires: expires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40871,6 +47614,12 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
 
   /// Deserialize.
   factory RequestPeerTypeUser.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final bot = _readflags.0?Bool(buffer, 0, bot);
+    // final premium = _readflags.1?Bool(buffer, 0, premium);
+    // final result = RequestPeerTypeUser({flags: flags, bot: bot, premium: premium,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40908,6 +47657,16 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
 
   /// Deserialize.
   factory RequestPeerTypeChat.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final botParticipant = _readflags.5?true(buffer, 0, botParticipant);
+    // final hasUsername = _readflags.3?Bool(buffer, 0, hasUsername);
+    // final forum = _readflags.4?Bool(buffer, 0, forum);
+    // final userAdminRights = _readflags.1?ChatAdminRights(buffer, 0, userAdminRights);
+    // final botAdminRights = _readflags.2?ChatAdminRights(buffer, 0, botAdminRights);
+    // final result = RequestPeerTypeChat({flags: flags, creator: creator, botParticipant: botParticipant, hasUsername: hasUsername, forum: forum, userAdminRights: userAdminRights, botAdminRights: botAdminRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -40960,6 +47719,14 @@ class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
 
   /// Deserialize.
   factory RequestPeerTypeBroadcast.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final creator = _readflags.0?true(buffer, 0, creator);
+    // final hasUsername = _readflags.3?Bool(buffer, 0, hasUsername);
+    // final userAdminRights = _readflags.1?ChatAdminRights(buffer, 0, userAdminRights);
+    // final botAdminRights = _readflags.2?ChatAdminRights(buffer, 0, botAdminRights);
+    // final result = RequestPeerTypeBroadcast({flags: flags, creator: creator, hasUsername: hasUsername, userAdminRights: userAdminRights, botAdminRights: botAdminRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41005,6 +47772,9 @@ class EmojiListNotModified extends EmojiListBase {
 
   /// Deserialize.
   factory EmojiListNotModified.deserialize(Uint8List buffer) {
+    // final result = EmojiListNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -41027,6 +47797,11 @@ class EmojiList extends EmojiListBase {
 
   /// Deserialize.
   factory EmojiList.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final documentId = _readVector<long>(buffer, 0, documentId);
+    // final result = EmojiList({hash: hash, documentId: documentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41064,6 +47839,12 @@ class EmojiGroup extends EmojiGroupBase {
 
   /// Deserialize.
   factory EmojiGroup.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final iconEmojiId = _readlong(buffer, 0, iconEmojiId);
+    // final emoticons = _readVector<string>(buffer, 0, emoticons);
+    // final result = EmojiGroup({title: title, iconEmojiId: iconEmojiId, emoticons: emoticons,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41101,6 +47882,9 @@ class MessagesEmojiGroupsNotModified extends MessagesEmojiGroupsBase {
 
   /// Deserialize.
   factory MessagesEmojiGroupsNotModified.deserialize(Uint8List buffer) {
+    // final result = MessagesEmojiGroupsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -41123,6 +47907,11 @@ class MessagesEmojiGroups extends MessagesEmojiGroupsBase {
 
   /// Deserialize.
   factory MessagesEmojiGroups.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final groups = _readVector<EmojiGroup>(buffer, 0, groups);
+    // final result = MessagesEmojiGroups({hash: hash, groups: groups,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41159,6 +47948,11 @@ class TextWithEntities extends TextWithEntitiesBase {
 
   /// Deserialize.
   factory TextWithEntities.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final result = TextWithEntities({text: text, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41194,6 +47988,10 @@ class MessagesTranslateResult extends MessagesTranslatedTextBase {
 
   /// Deserialize.
   factory MessagesTranslateResult.deserialize(Uint8List buffer) {
+    // final result = _readVector<TextWithEntities>(buffer, 0, result);
+    // final result = MessagesTranslateResult({result: result,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41226,6 +48024,13 @@ class AutoSaveSettings extends AutoSaveSettingsBase {
 
   /// Deserialize.
   factory AutoSaveSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final photos = _readflags.0?true(buffer, 0, photos);
+    // final videos = _readflags.1?true(buffer, 0, videos);
+    // final videoMaxSize = _readflags.2?long(buffer, 0, videoMaxSize);
+    // final result = AutoSaveSettings({flags: flags, photos: photos, videos: videos, videoMaxSize: videoMaxSize,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41270,6 +48075,11 @@ class AutoSaveException extends AutoSaveExceptionBase {
 
   /// Deserialize.
   factory AutoSaveException.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final settings = _readAutoSaveSettings(buffer, 0, settings);
+    // final result = AutoSaveException({peer: peer, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41310,6 +48120,15 @@ class AccountAutoSaveSettings extends AccountAutoSaveSettingsBase {
 
   /// Deserialize.
   factory AccountAutoSaveSettings.deserialize(Uint8List buffer) {
+    // final usersSettings = _readAutoSaveSettings(buffer, 0, usersSettings);
+    // final chatsSettings = _readAutoSaveSettings(buffer, 0, chatsSettings);
+    // final broadcastsSettings = _readAutoSaveSettings(buffer, 0, broadcastsSettings);
+    // final exceptions = _readVector<AutoSaveException>(buffer, 0, exceptions);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = AccountAutoSaveSettings({usersSettings: usersSettings, chatsSettings: chatsSettings, broadcastsSettings: broadcastsSettings, exceptions: exceptions, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41359,6 +48178,9 @@ class HelpAppConfigNotModified extends HelpAppConfigBase {
 
   /// Deserialize.
   factory HelpAppConfigNotModified.deserialize(Uint8List buffer) {
+    // final result = HelpAppConfigNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -41381,6 +48203,11 @@ class HelpAppConfig extends HelpAppConfigBase {
 
   /// Deserialize.
   factory HelpAppConfig.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final config = _readJSONValue(buffer, 0, config);
+    // final result = HelpAppConfig({hash: hash, config: config,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41417,6 +48244,11 @@ class InputBotAppID extends InputBotAppBase {
 
   /// Deserialize.
   factory InputBotAppID.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final result = InputBotAppID({id: id, accessHash: accessHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41447,6 +48279,11 @@ class InputBotAppShortName extends InputBotAppBase {
 
   /// Deserialize.
   factory InputBotAppShortName.deserialize(Uint8List buffer) {
+    // final botId = _readInputUser(buffer, 0, botId);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final result = InputBotAppShortName({botId: botId, shortName: shortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41480,6 +48317,9 @@ class BotAppNotModified extends BotAppBase {
 
   /// Deserialize.
   factory BotAppNotModified.deserialize(Uint8List buffer) {
+    // final result = BotAppNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -41509,6 +48349,18 @@ class BotApp extends BotAppBase {
 
   /// Deserialize.
   factory BotApp.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readlong(buffer, 0, id);
+    // final accessHash = _readlong(buffer, 0, accessHash);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final title = _readstring(buffer, 0, title);
+    // final description = _readstring(buffer, 0, description);
+    // final photo = _readPhoto(buffer, 0, photo);
+    // final document = _readflags.0?Document(buffer, 0, document);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = BotApp({flags: flags, id: id, accessHash: accessHash, shortName: shortName, title: title, description: description, photo: photo, document: document, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41573,6 +48425,14 @@ class MessagesBotApp extends MessagesBotAppBase {
 
   /// Deserialize.
   factory MessagesBotApp.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final inactive = _readflags.0?true(buffer, 0, inactive);
+    // final requestWriteAccess = _readflags.1?true(buffer, 0, requestWriteAccess);
+    // final hasSettings = _readflags.2?true(buffer, 0, hasSettings);
+    // final app = _readBotApp(buffer, 0, app);
+    // final result = MessagesBotApp({flags: flags, inactive: inactive, requestWriteAccess: requestWriteAccess, hasSettings: hasSettings, app: app,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41620,6 +48480,10 @@ class AppWebViewResultUrl extends AppWebViewResultBase {
 
   /// Deserialize.
   factory AppWebViewResultUrl.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final result = AppWebViewResultUrl({url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41652,6 +48516,11 @@ class InlineBotWebView extends InlineBotWebViewBase {
 
   /// Deserialize.
   factory InlineBotWebView.deserialize(Uint8List buffer) {
+    // final text = _readstring(buffer, 0, text);
+    // final url = _readstring(buffer, 0, url);
+    // final result = InlineBotWebView({text: text, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41688,6 +48557,11 @@ class ReadParticipantDate extends ReadParticipantDateBase {
 
   /// Deserialize.
   factory ReadParticipantDate.deserialize(Uint8List buffer) {
+    // final userId = _readlong(buffer, 0, userId);
+    // final date = _readint(buffer, 0, date);
+    // final result = ReadParticipantDate({userId: userId, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41723,6 +48597,10 @@ class InputChatlistDialogFilter extends InputChatlistBase {
 
   /// Deserialize.
   factory InputChatlistDialogFilter.deserialize(Uint8List buffer) {
+    // final filterId = _readint(buffer, 0, filterId);
+    // final result = InputChatlistDialogFilter({filterId: filterId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41757,6 +48635,13 @@ class ExportedChatlistInvite extends ExportedChatlistInviteBase {
 
   /// Deserialize.
   factory ExportedChatlistInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readstring(buffer, 0, title);
+    // final url = _readstring(buffer, 0, url);
+    // final peers = _readVector<Peer>(buffer, 0, peers);
+    // final result = ExportedChatlistInvite({flags: flags, title: title, url: url, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41802,6 +48687,11 @@ class ChatlistsExportedChatlistInvite
 
   /// Deserialize.
   factory ChatlistsExportedChatlistInvite.deserialize(Uint8List buffer) {
+    // final filter = _readDialogFilter(buffer, 0, filter);
+    // final invite = _readExportedChatlistInvite(buffer, 0, invite);
+    // final result = ChatlistsExportedChatlistInvite({filter: filter, invite: invite,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41839,6 +48729,12 @@ class ChatlistsExportedInvites extends ChatlistsExportedInvitesBase {
 
   /// Deserialize.
   factory ChatlistsExportedInvites.deserialize(Uint8List buffer) {
+    // final invites = _readVector<ExportedChatlistInvite>(buffer, 0, invites);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChatlistsExportedInvites({invites: invites, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41882,6 +48778,14 @@ class ChatlistsChatlistInviteAlready extends ChatlistsChatlistInviteBase {
 
   /// Deserialize.
   factory ChatlistsChatlistInviteAlready.deserialize(Uint8List buffer) {
+    // final filterId = _readint(buffer, 0, filterId);
+    // final missingPeers = _readVector<Peer>(buffer, 0, missingPeers);
+    // final alreadyPeers = _readVector<Peer>(buffer, 0, alreadyPeers);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChatlistsChatlistInviteAlready({filterId: filterId, missingPeers: missingPeers, alreadyPeers: alreadyPeers, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41928,6 +48832,15 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
 
   /// Deserialize.
   factory ChatlistsChatlistInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final title = _readstring(buffer, 0, title);
+    // final emoticon = _readflags.0?string(buffer, 0, emoticon);
+    // final peers = _readVector<Peer>(buffer, 0, peers);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChatlistsChatlistInvite({flags: flags, title: title, emoticon: emoticon, peers: peers, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -41981,6 +48894,12 @@ class ChatlistsChatlistUpdates extends ChatlistsChatlistUpdatesBase {
 
   /// Deserialize.
   factory ChatlistsChatlistUpdates.deserialize(Uint8List buffer) {
+    // final missingPeers = _readVector<Peer>(buffer, 0, missingPeers);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = ChatlistsChatlistUpdates({missingPeers: missingPeers, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42022,6 +48941,12 @@ class BotsBotInfo extends BotsBotInfoBase {
 
   /// Deserialize.
   factory BotsBotInfo.deserialize(Uint8List buffer) {
+    // final name = _readstring(buffer, 0, name);
+    // final about = _readstring(buffer, 0, about);
+    // final description = _readstring(buffer, 0, description);
+    // final result = BotsBotInfo({name: name, about: about, description: description,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42063,6 +48988,12 @@ class MessagePeerVote extends MessagePeerVoteBase {
 
   /// Deserialize.
   factory MessagePeerVote.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final option = _readbytes(buffer, 0, option);
+    // final date = _readint(buffer, 0, date);
+    // final result = MessagePeerVote({peer: peer, option: option, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42097,6 +49028,11 @@ class MessagePeerVoteInputOption extends MessagePeerVoteBase {
 
   /// Deserialize.
   factory MessagePeerVoteInputOption.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final date = _readint(buffer, 0, date);
+    // final result = MessagePeerVoteInputOption({peer: peer, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42128,6 +49064,12 @@ class MessagePeerVoteMultiple extends MessagePeerVoteBase {
 
   /// Deserialize.
   factory MessagePeerVoteMultiple.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final options = _readVector<bytes>(buffer, 0, options);
+    // final date = _readint(buffer, 0, date);
+    // final result = MessagePeerVoteMultiple({peer: peer, options: options, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42170,6 +49112,13 @@ class SponsoredWebPage extends SponsoredWebPageBase {
 
   /// Deserialize.
   factory SponsoredWebPage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final url = _readstring(buffer, 0, url);
+    // final siteName = _readstring(buffer, 0, siteName);
+    // final photo = _readflags.0?Photo(buffer, 0, photo);
+    // final result = SponsoredWebPage({flags: flags, url: url, siteName: siteName, photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42218,6 +49167,16 @@ class StoryViews extends StoryViewsBase {
 
   /// Deserialize.
   factory StoryViews.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasViewers = _readflags.1?true(buffer, 0, hasViewers);
+    // final viewsCount = _readint(buffer, 0, viewsCount);
+    // final forwardsCount = _readflags.2?int(buffer, 0, forwardsCount);
+    // final reactions = _readflags.3?Vector<ReactionCount>(buffer, 0, reactions);
+    // final reactionsCount = _readflags.4?int(buffer, 0, reactionsCount);
+    // final recentViewers = _readflags.0?Vector<long>(buffer, 0, recentViewers);
+    // final result = StoryViews({flags: flags, hasViewers: hasViewers, viewsCount: viewsCount, forwardsCount: forwardsCount, reactions: reactions, reactionsCount: reactionsCount, recentViewers: recentViewers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42273,6 +49232,10 @@ class StoryItemDeleted extends StoryItemBase {
 
   /// Deserialize.
   factory StoryItemDeleted.deserialize(Uint8List buffer) {
+    // final id = _readint(buffer, 0, id);
+    // final result = StoryItemDeleted({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42301,6 +49264,14 @@ class StoryItemSkipped extends StoryItemBase {
 
   /// Deserialize.
   factory StoryItemSkipped.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final closeFriends = _readflags.8?true(buffer, 0, closeFriends);
+    // final id = _readint(buffer, 0, id);
+    // final date = _readint(buffer, 0, date);
+    // final expireDate = _readint(buffer, 0, expireDate);
+    // final result = StoryItemSkipped({flags: flags, closeFriends: closeFriends, id: id, date: date, expireDate: expireDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42353,6 +49324,30 @@ class StoryItem extends StoryItemBase {
 
   /// Deserialize.
   factory StoryItem.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.5?true(buffer, 0, pinned);
+    // final public = _readflags.7?true(buffer, 0, public);
+    // final closeFriends = _readflags.8?true(buffer, 0, closeFriends);
+    // final min = _readflags.9?true(buffer, 0, min);
+    // final noforwards = _readflags.10?true(buffer, 0, noforwards);
+    // final edited = _readflags.11?true(buffer, 0, edited);
+    // final contacts = _readflags.12?true(buffer, 0, contacts);
+    // final selectedContacts = _readflags.13?true(buffer, 0, selectedContacts);
+    // final out = _readflags.16?true(buffer, 0, out);
+    // final id = _readint(buffer, 0, id);
+    // final date = _readint(buffer, 0, date);
+    // final fwdFrom = _readflags.17?StoryFwdHeader(buffer, 0, fwdFrom);
+    // final expireDate = _readint(buffer, 0, expireDate);
+    // final caption = _readflags.0?string(buffer, 0, caption);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final media = _readMessageMedia(buffer, 0, media);
+    // final mediaAreas = _readflags.14?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // final privacy = _readflags.2?Vector<PrivacyRule>(buffer, 0, privacy);
+    // final views = _readflags.3?StoryViews(buffer, 0, views);
+    // final sentReaction = _readflags.15?Reaction(buffer, 0, sentReaction);
+    // final result = StoryItem({flags: flags, pinned: pinned, public: public, closeFriends: closeFriends, min: min, noforwards: noforwards, edited: edited, contacts: contacts, selectedContacts: selectedContacts, out: out, id: id, date: date, fwdFrom: fwdFrom, expireDate: expireDate, caption: caption, entities: entities, media: media, mediaAreas: mediaAreas, privacy: privacy, views: views, sentReaction: sentReaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42466,6 +49461,12 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
 
   /// Deserialize.
   factory StoriesAllStoriesNotModified.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final state = _readstring(buffer, 0, state);
+    // final stealthMode = _readStoriesStealthMode(buffer, 0, stealthMode);
+    // final result = StoriesAllStoriesNotModified({flags: flags, state: state, stealthMode: stealthMode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42505,6 +49506,17 @@ class StoriesAllStories extends StoriesAllStoriesBase {
 
   /// Deserialize.
   factory StoriesAllStories.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hasMore = _readflags.0?true(buffer, 0, hasMore);
+    // final count = _readint(buffer, 0, count);
+    // final state = _readstring(buffer, 0, state);
+    // final peerStories = _readVector<PeerStories>(buffer, 0, peerStories);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final stealthMode = _readStoriesStealthMode(buffer, 0, stealthMode);
+    // final result = StoriesAllStories({flags: flags, hasMore: hasMore, count: count, state: state, peerStories: peerStories, chats: chats, users: users, stealthMode: stealthMode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42567,6 +49579,13 @@ class StoriesStories extends StoriesStoriesBase {
 
   /// Deserialize.
   factory StoriesStories.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final stories = _readVector<StoryItem>(buffer, 0, stories);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = StoriesStories({count: count, stories: stories, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42613,6 +49632,15 @@ class StoryView extends StoryViewBase {
 
   /// Deserialize.
   factory StoryView.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blocked = _readflags.0?true(buffer, 0, blocked);
+    // final blockedMyStoriesFrom = _readflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // final userId = _readlong(buffer, 0, userId);
+    // final date = _readint(buffer, 0, date);
+    // final reaction = _readflags.2?Reaction(buffer, 0, reaction);
+    // final result = StoryView({flags: flags, blocked: blocked, blockedMyStoriesFrom: blockedMyStoriesFrom, userId: userId, date: date, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42659,6 +49687,13 @@ class StoryViewPublicForward extends StoryViewBase {
 
   /// Deserialize.
   factory StoryViewPublicForward.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blocked = _readflags.0?true(buffer, 0, blocked);
+    // final blockedMyStoriesFrom = _readflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // final message = _readMessage(buffer, 0, message);
+    // final result = StoryViewPublicForward({flags: flags, blocked: blocked, blockedMyStoriesFrom: blockedMyStoriesFrom, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42698,6 +49733,14 @@ class StoryViewPublicRepost extends StoryViewBase {
 
   /// Deserialize.
   factory StoryViewPublicRepost.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final blocked = _readflags.0?true(buffer, 0, blocked);
+    // final blockedMyStoriesFrom = _readflags.1?true(buffer, 0, blockedMyStoriesFrom);
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final story = _readStoryItem(buffer, 0, story);
+    // final result = StoryViewPublicRepost({flags: flags, blocked: blocked, blockedMyStoriesFrom: blockedMyStoriesFrom, peerId: peerId, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42753,6 +49796,18 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
 
   /// Deserialize.
   factory StoriesStoryViewsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final viewsCount = _readint(buffer, 0, viewsCount);
+    // final forwardsCount = _readint(buffer, 0, forwardsCount);
+    // final reactionsCount = _readint(buffer, 0, reactionsCount);
+    // final views = _readVector<StoryView>(buffer, 0, views);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final result = StoriesStoryViewsList({flags: flags, count: count, viewsCount: viewsCount, forwardsCount: forwardsCount, reactionsCount: reactionsCount, views: views, chats: chats, users: users, nextOffset: nextOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42817,6 +49872,11 @@ class StoriesStoryViews extends StoriesStoryViewsBase {
 
   /// Deserialize.
   factory StoriesStoryViews.deserialize(Uint8List buffer) {
+    // final views = _readVector<StoryViews>(buffer, 0, views);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = StoriesStoryViews({views: views, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42858,6 +49918,16 @@ class InputReplyToMessage extends InputReplyToBase {
 
   /// Deserialize.
   factory InputReplyToMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final replyToMsgId = _readint(buffer, 0, replyToMsgId);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final replyToPeerId = _readflags.1?InputPeer(buffer, 0, replyToPeerId);
+    // final quoteText = _readflags.2?string(buffer, 0, quoteText);
+    // final quoteEntities = _readflags.3?Vector<MessageEntity>(buffer, 0, quoteEntities);
+    // final quoteOffset = _readflags.4?int(buffer, 0, quoteOffset);
+    // final result = InputReplyToMessage({flags: flags, replyToMsgId: replyToMsgId, topMsgId: topMsgId, replyToPeerId: replyToPeerId, quoteText: quoteText, quoteEntities: quoteEntities, quoteOffset: quoteOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42908,6 +49978,11 @@ class InputReplyToStory extends InputReplyToBase {
 
   /// Deserialize.
   factory InputReplyToStory.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final storyId = _readint(buffer, 0, storyId);
+    // final result = InputReplyToStory({userId: userId, storyId: storyId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42943,6 +50018,10 @@ class ExportedStoryLink extends ExportedStoryLinkBase {
 
   /// Deserialize.
   factory ExportedStoryLink.deserialize(Uint8List buffer) {
+    // final link = _readstring(buffer, 0, link);
+    // final result = ExportedStoryLink({link: link,});
+    // return result;
+
     throw Exception();
   }
 
@@ -42976,6 +50055,12 @@ class StoriesStealthMode extends StoriesStealthModeBase {
 
   /// Deserialize.
   factory StoriesStealthMode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final activeUntilDate = _readflags.0?int(buffer, 0, activeUntilDate);
+    // final cooldownUntilDate = _readflags.1?int(buffer, 0, cooldownUntilDate);
+    // final result = StoriesStealthMode({flags: flags, activeUntilDate: activeUntilDate, cooldownUntilDate: cooldownUntilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43019,6 +50104,14 @@ class MediaAreaCoordinates extends MediaAreaCoordinatesBase {
 
   /// Deserialize.
   factory MediaAreaCoordinates.deserialize(Uint8List buffer) {
+    // final x = _readdouble(buffer, 0, x);
+    // final y = _readdouble(buffer, 0, y);
+    // final w = _readdouble(buffer, 0, w);
+    // final h = _readdouble(buffer, 0, h);
+    // final rotation = _readdouble(buffer, 0, rotation);
+    // final result = MediaAreaCoordinates({x: x, y: y, w: w, h: h, rotation: rotation,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43072,6 +50165,16 @@ class MediaAreaVenue extends MediaAreaBase {
 
   /// Deserialize.
   factory MediaAreaVenue.deserialize(Uint8List buffer) {
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final title = _readstring(buffer, 0, title);
+    // final address = _readstring(buffer, 0, address);
+    // final provider = _readstring(buffer, 0, provider);
+    // final venueId = _readstring(buffer, 0, venueId);
+    // final venueType = _readstring(buffer, 0, venueType);
+    // final result = MediaAreaVenue({coordinates: coordinates, geo: geo, title: title, address: address, provider: provider, venueId: venueId, venueType: venueType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43123,6 +50226,12 @@ class InputMediaAreaVenue extends MediaAreaBase {
 
   /// Deserialize.
   factory InputMediaAreaVenue.deserialize(Uint8List buffer) {
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final resultId = _readstring(buffer, 0, resultId);
+    // final result = InputMediaAreaVenue({coordinates: coordinates, queryId: queryId, resultId: resultId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43157,6 +50266,11 @@ class MediaAreaGeoPoint extends MediaAreaBase {
 
   /// Deserialize.
   factory MediaAreaGeoPoint.deserialize(Uint8List buffer) {
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final geo = _readGeoPoint(buffer, 0, geo);
+    // final result = MediaAreaGeoPoint({coordinates: coordinates, geo: geo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43188,6 +50302,14 @@ class MediaAreaSuggestedReaction extends MediaAreaBase {
 
   /// Deserialize.
   factory MediaAreaSuggestedReaction.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final flipped = _readflags.1?true(buffer, 0, flipped);
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = MediaAreaSuggestedReaction({flags: flags, dark: dark, flipped: flipped, coordinates: coordinates, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43231,6 +50353,12 @@ class MediaAreaChannelPost extends MediaAreaBase {
 
   /// Deserialize.
   factory MediaAreaChannelPost.deserialize(Uint8List buffer) {
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final channelId = _readlong(buffer, 0, channelId);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = MediaAreaChannelPost({coordinates: coordinates, channelId: channelId, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43266,6 +50394,12 @@ class InputMediaAreaChannelPost extends MediaAreaBase {
 
   /// Deserialize.
   factory InputMediaAreaChannelPost.deserialize(Uint8List buffer) {
+    // final coordinates = _readMediaAreaCoordinates(buffer, 0, coordinates);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = InputMediaAreaChannelPost({coordinates: coordinates, channel: channel, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43308,6 +50442,13 @@ class PeerStories extends PeerStoriesBase {
 
   /// Deserialize.
   factory PeerStories.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final maxReadId = _readflags.0?int(buffer, 0, maxReadId);
+    // final stories = _readVector<StoryItem>(buffer, 0, stories);
+    // final result = PeerStories({flags: flags, peer: peer, maxReadId: maxReadId, stories: stories,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43353,6 +50494,12 @@ class StoriesPeerStories extends StoriesPeerStoriesBase {
 
   /// Deserialize.
   factory StoriesPeerStories.deserialize(Uint8List buffer) {
+    // final stories = _readPeerStories(buffer, 0, stories);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = StoriesPeerStories({stories: stories, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43394,6 +50541,12 @@ class MessagesWebPage extends MessagesWebPageBase {
 
   /// Deserialize.
   factory MessagesWebPage.deserialize(Uint8List buffer) {
+    // final webpage = _readWebPage(buffer, 0, webpage);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesWebPage({webpage: webpage, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43439,6 +50592,16 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
 
   /// Deserialize.
   factory PremiumGiftCodeOption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final users = _readint(buffer, 0, users);
+    // final months = _readint(buffer, 0, months);
+    // final storeProduct = _readflags.0?string(buffer, 0, storeProduct);
+    // final storeQuantity = _readflags.1?int(buffer, 0, storeQuantity);
+    // final currency = _readstring(buffer, 0, currency);
+    // final amount = _readlong(buffer, 0, amount);
+    // final result = PremiumGiftCodeOption({flags: flags, users: users, months: months, storeProduct: storeProduct, storeQuantity: storeQuantity, currency: currency, amount: amount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43502,6 +50665,19 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
 
   /// Deserialize.
   factory PaymentsCheckedGiftCode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final viaGiveaway = _readflags.2?true(buffer, 0, viaGiveaway);
+    // final fromId = _readflags.4?Peer(buffer, 0, fromId);
+    // final giveawayMsgId = _readflags.3?int(buffer, 0, giveawayMsgId);
+    // final toId = _readflags.0?long(buffer, 0, toId);
+    // final date = _readint(buffer, 0, date);
+    // final months = _readint(buffer, 0, months);
+    // final usedDate = _readflags.1?int(buffer, 0, usedDate);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PaymentsCheckedGiftCode({flags: flags, viaGiveaway: viaGiveaway, fromId: fromId, giveawayMsgId: giveawayMsgId, toId: toId, date: date, months: months, usedDate: usedDate, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43573,6 +50749,16 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
 
   /// Deserialize.
   factory PaymentsGiveawayInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final participating = _readflags.0?true(buffer, 0, participating);
+    // final preparingResults = _readflags.3?true(buffer, 0, preparingResults);
+    // final startDate = _readint(buffer, 0, startDate);
+    // final joinedTooEarlyDate = _readflags.1?int(buffer, 0, joinedTooEarlyDate);
+    // final adminDisallowedChatId = _readflags.2?long(buffer, 0, adminDisallowedChatId);
+    // final disallowedCountry = _readflags.4?string(buffer, 0, disallowedCountry);
+    // final result = PaymentsGiveawayInfo({flags: flags, participating: participating, preparingResults: preparingResults, startDate: startDate, joinedTooEarlyDate: joinedTooEarlyDate, adminDisallowedChatId: adminDisallowedChatId, disallowedCountry: disallowedCountry,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43627,6 +50813,17 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
 
   /// Deserialize.
   factory PaymentsGiveawayInfoResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final winner = _readflags.0?true(buffer, 0, winner);
+    // final refunded = _readflags.1?true(buffer, 0, refunded);
+    // final startDate = _readint(buffer, 0, startDate);
+    // final giftCodeSlug = _readflags.0?string(buffer, 0, giftCodeSlug);
+    // final finishDate = _readint(buffer, 0, finishDate);
+    // final winnersCount = _readint(buffer, 0, winnersCount);
+    // final activatedCount = _readint(buffer, 0, activatedCount);
+    // final result = PaymentsGiveawayInfoResults({flags: flags, winner: winner, refunded: refunded, startDate: startDate, giftCodeSlug: giftCodeSlug, finishDate: finishDate, winnersCount: winnersCount, activatedCount: activatedCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43689,6 +50886,13 @@ class PrepaidGiveaway extends PrepaidGiveawayBase {
 
   /// Deserialize.
   factory PrepaidGiveaway.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final months = _readint(buffer, 0, months);
+    // final quantity = _readint(buffer, 0, quantity);
+    // final date = _readint(buffer, 0, date);
+    // final result = PrepaidGiveaway({id: id, months: months, quantity: quantity, date: date,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43739,6 +50943,20 @@ class Boost extends BoostBase {
 
   /// Deserialize.
   factory Boost.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final gift = _readflags.1?true(buffer, 0, gift);
+    // final giveaway = _readflags.2?true(buffer, 0, giveaway);
+    // final unclaimed = _readflags.3?true(buffer, 0, unclaimed);
+    // final id = _readstring(buffer, 0, id);
+    // final userId = _readflags.0?long(buffer, 0, userId);
+    // final giveawayMsgId = _readflags.2?int(buffer, 0, giveawayMsgId);
+    // final date = _readint(buffer, 0, date);
+    // final expires = _readint(buffer, 0, expires);
+    // final usedGiftSlug = _readflags.4?string(buffer, 0, usedGiftSlug);
+    // final multiplier = _readflags.5?int(buffer, 0, multiplier);
+    // final result = Boost({flags: flags, gift: gift, giveaway: giveaway, unclaimed: unclaimed, id: id, userId: userId, giveawayMsgId: giveawayMsgId, date: date, expires: expires, usedGiftSlug: usedGiftSlug, multiplier: multiplier,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43814,6 +51032,14 @@ class PremiumBoostsList extends PremiumBoostsListBase {
 
   /// Deserialize.
   factory PremiumBoostsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final boosts = _readVector<Boost>(buffer, 0, boosts);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PremiumBoostsList({flags: flags, count: count, boosts: boosts, nextOffset: nextOffset, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43866,6 +51092,15 @@ class MyBoost extends MyBoostBase {
 
   /// Deserialize.
   factory MyBoost.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final slot = _readint(buffer, 0, slot);
+    // final peer = _readflags.0?Peer(buffer, 0, peer);
+    // final date = _readint(buffer, 0, date);
+    // final expires = _readint(buffer, 0, expires);
+    // final cooldownUntilDate = _readflags.1?int(buffer, 0, cooldownUntilDate);
+    // final result = MyBoost({flags: flags, slot: slot, peer: peer, date: date, expires: expires, cooldownUntilDate: cooldownUntilDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43919,6 +51154,12 @@ class PremiumMyBoosts extends PremiumMyBoostsBase {
 
   /// Deserialize.
   factory PremiumMyBoosts.deserialize(Uint8List buffer) {
+    // final myBoosts = _readVector<MyBoost>(buffer, 0, myBoosts);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = PremiumMyBoosts({myBoosts: myBoosts, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -43967,6 +51208,20 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
 
   /// Deserialize.
   factory PremiumBoostsStatus.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final myBoost = _readflags.2?true(buffer, 0, myBoost);
+    // final level = _readint(buffer, 0, level);
+    // final currentLevelBoosts = _readint(buffer, 0, currentLevelBoosts);
+    // final boosts = _readint(buffer, 0, boosts);
+    // final giftBoosts = _readflags.4?int(buffer, 0, giftBoosts);
+    // final nextLevelBoosts = _readflags.0?int(buffer, 0, nextLevelBoosts);
+    // final premiumAudience = _readflags.1?StatsPercentValue(buffer, 0, premiumAudience);
+    // final boostUrl = _readstring(buffer, 0, boostUrl);
+    // final prepaidGiveaways = _readflags.3?Vector<PrepaidGiveaway>(buffer, 0, prepaidGiveaways);
+    // final myBoostSlots = _readflags.2?Vector<int>(buffer, 0, myBoostSlots);
+    // final result = PremiumBoostsStatus({flags: flags, myBoost: myBoost, level: level, currentLevelBoosts: currentLevelBoosts, boosts: boosts, giftBoosts: giftBoosts, nextLevelBoosts: nextLevelBoosts, premiumAudience: premiumAudience, boostUrl: boostUrl, prepaidGiveaways: prepaidGiveaways, myBoostSlots: myBoostSlots,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44041,6 +51296,14 @@ class StoryFwdHeader extends StoryFwdHeaderBase {
 
   /// Deserialize.
   factory StoryFwdHeader.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final modified = _readflags.3?true(buffer, 0, modified);
+    // final from = _readflags.0?Peer(buffer, 0, from);
+    // final fromName = _readflags.1?string(buffer, 0, fromName);
+    // final storyId = _readflags.2?int(buffer, 0, storyId);
+    // final result = StoryFwdHeader({flags: flags, modified: modified, from: from, fromName: fromName, storyId: storyId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44091,6 +51354,13 @@ class PostInteractionCountersMessage extends PostInteractionCountersBase {
 
   /// Deserialize.
   factory PostInteractionCountersMessage.deserialize(Uint8List buffer) {
+    // final msgId = _readint(buffer, 0, msgId);
+    // final views = _readint(buffer, 0, views);
+    // final forwards = _readint(buffer, 0, forwards);
+    // final reactions = _readint(buffer, 0, reactions);
+    // final result = PostInteractionCountersMessage({msgId: msgId, views: views, forwards: forwards, reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44131,6 +51401,13 @@ class PostInteractionCountersStory extends PostInteractionCountersBase {
 
   /// Deserialize.
   factory PostInteractionCountersStory.deserialize(Uint8List buffer) {
+    // final storyId = _readint(buffer, 0, storyId);
+    // final views = _readint(buffer, 0, views);
+    // final forwards = _readint(buffer, 0, forwards);
+    // final reactions = _readint(buffer, 0, reactions);
+    // final result = PostInteractionCountersStory({storyId: storyId, views: views, forwards: forwards, reactions: reactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44175,6 +51452,11 @@ class StatsStoryStats extends StatsStoryStatsBase {
 
   /// Deserialize.
   factory StatsStoryStats.deserialize(Uint8List buffer) {
+    // final viewsGraph = _readStatsGraph(buffer, 0, viewsGraph);
+    // final reactionsByEmotionGraph = _readStatsGraph(buffer, 0, reactionsByEmotionGraph);
+    // final result = StatsStoryStats({viewsGraph: viewsGraph, reactionsByEmotionGraph: reactionsByEmotionGraph,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44210,6 +51492,10 @@ class PublicForwardMessage extends PublicForwardBase {
 
   /// Deserialize.
   factory PublicForwardMessage.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = PublicForwardMessage({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44236,6 +51522,11 @@ class PublicForwardStory extends PublicForwardBase {
 
   /// Deserialize.
   factory PublicForwardStory.deserialize(Uint8List buffer) {
+    // final peer = _readPeer(buffer, 0, peer);
+    // final story = _readStoryItem(buffer, 0, story);
+    // final result = PublicForwardStory({peer: peer, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44276,6 +51567,15 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
 
   /// Deserialize.
   factory StatsPublicForwards.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final forwards = _readVector<PublicForward>(buffer, 0, forwards);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = StatsPublicForwards({flags: flags, count: count, forwards: forwards, nextOffset: nextOffset, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44329,6 +51629,12 @@ class PeerColor extends PeerColorBase {
 
   /// Deserialize.
   factory PeerColor.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final color = _readflags.0?int(buffer, 0, color);
+    // final backgroundEmojiId = _readflags.1?long(buffer, 0, backgroundEmojiId);
+    // final result = PeerColor({flags: flags, color: color, backgroundEmojiId: backgroundEmojiId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44368,6 +51674,10 @@ class HelpPeerColorSet extends HelpPeerColorSetBase {
 
   /// Deserialize.
   factory HelpPeerColorSet.deserialize(Uint8List buffer) {
+    // final colors = _readVector<int>(buffer, 0, colors);
+    // final result = HelpPeerColorSet({colors: colors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44395,6 +51705,12 @@ class HelpPeerColorProfileSet extends HelpPeerColorSetBase {
 
   /// Deserialize.
   factory HelpPeerColorProfileSet.deserialize(Uint8List buffer) {
+    // final paletteColors = _readVector<int>(buffer, 0, paletteColors);
+    // final bgColors = _readVector<int>(buffer, 0, bgColors);
+    // final storyColors = _readVector<int>(buffer, 0, storyColors);
+    // final result = HelpPeerColorProfileSet({paletteColors: paletteColors, bgColors: bgColors, storyColors: storyColors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44438,6 +51754,15 @@ class HelpPeerColorOption extends HelpPeerColorOptionBase {
 
   /// Deserialize.
   factory HelpPeerColorOption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final hidden = _readflags.0?true(buffer, 0, hidden);
+    // final colorId = _readint(buffer, 0, colorId);
+    // final colors = _readflags.1?help.PeerColorSet(buffer, 0, colors);
+    // final darkColors = _readflags.2?help.PeerColorSet(buffer, 0, darkColors);
+    // final channelMinLevel = _readflags.3?int(buffer, 0, channelMinLevel);
+    // final result = HelpPeerColorOption({flags: flags, hidden: hidden, colorId: colorId, colors: colors, darkColors: darkColors, channelMinLevel: channelMinLevel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44487,6 +51812,9 @@ class HelpPeerColorsNotModified extends HelpPeerColorsBase {
 
   /// Deserialize.
   factory HelpPeerColorsNotModified.deserialize(Uint8List buffer) {
+    // final result = HelpPeerColorsNotModified();
+    // return result;
+
     throw Exception();
   }
 
@@ -44509,6 +51837,11 @@ class HelpPeerColors extends HelpPeerColorsBase {
 
   /// Deserialize.
   factory HelpPeerColors.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final colors = _readVector<help.PeerColorOption>(buffer, 0, colors);
+    // final result = HelpPeerColors({hash: hash, colors: colors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44546,6 +51879,12 @@ class StoryReaction extends StoryReactionBase {
 
   /// Deserialize.
   factory StoryReaction.deserialize(Uint8List buffer) {
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final date = _readint(buffer, 0, date);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = StoryReaction({peerId: peerId, date: date, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44579,6 +51918,10 @@ class StoryReactionPublicForward extends StoryReactionBase {
 
   /// Deserialize.
   factory StoryReactionPublicForward.deserialize(Uint8List buffer) {
+    // final message = _readMessage(buffer, 0, message);
+    // final result = StoryReactionPublicForward({message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44605,6 +51948,11 @@ class StoryReactionPublicRepost extends StoryReactionBase {
 
   /// Deserialize.
   factory StoryReactionPublicRepost.deserialize(Uint8List buffer) {
+    // final peerId = _readPeer(buffer, 0, peerId);
+    // final story = _readStoryItem(buffer, 0, story);
+    // final result = StoryReactionPublicRepost({peerId: peerId, story: story,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44645,6 +51993,15 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
 
   /// Deserialize.
   factory StoriesStoryReactionsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final count = _readint(buffer, 0, count);
+    // final reactions = _readVector<StoryReaction>(buffer, 0, reactions);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final nextOffset = _readflags.0?string(buffer, 0, nextOffset);
+    // final result = StoriesStoryReactionsList({flags: flags, count: count, reactions: reactions, chats: chats, users: users, nextOffset: nextOffset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44698,6 +52055,13 @@ class SavedDialog extends SavedDialogBase {
 
   /// Deserialize.
   factory SavedDialog.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.2?true(buffer, 0, pinned);
+    // final peer = _readPeer(buffer, 0, peer);
+    // final topMessage = _readint(buffer, 0, topMessage);
+    // final result = SavedDialog({flags: flags, pinned: pinned, peer: peer, topMessage: topMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44744,6 +52108,13 @@ class MessagesSavedDialogs extends MessagesSavedDialogsBase {
 
   /// Deserialize.
   factory MessagesSavedDialogs.deserialize(Uint8List buffer) {
+    // final dialogs = _readVector<SavedDialog>(buffer, 0, dialogs);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesSavedDialogs({dialogs: dialogs, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44785,6 +52156,14 @@ class MessagesSavedDialogsSlice extends MessagesSavedDialogsBase {
 
   /// Deserialize.
   factory MessagesSavedDialogsSlice.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final dialogs = _readVector<SavedDialog>(buffer, 0, dialogs);
+    // final messages = _readVector<Message>(buffer, 0, messages);
+    // final chats = _readVector<Chat>(buffer, 0, chats);
+    // final users = _readVector<User>(buffer, 0, users);
+    // final result = MessagesSavedDialogsSlice({count: count, dialogs: dialogs, messages: messages, chats: chats, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44826,6 +52205,10 @@ class MessagesSavedDialogsNotModified extends MessagesSavedDialogsBase {
 
   /// Deserialize.
   factory MessagesSavedDialogsNotModified.deserialize(Uint8List buffer) {
+    // final count = _readint(buffer, 0, count);
+    // final result = MessagesSavedDialogsNotModified({count: count,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44852,6 +52235,11 @@ class InvokeAfterMsg<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeAfterMsg.deserialize(Uint8List buffer) {
+    // final msgId = _readlong(buffer, 0, msgId);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeAfterMsg({msgId: msgId, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44882,6 +52270,11 @@ class InvokeAfterMsgs<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeAfterMsgs.deserialize(Uint8List buffer) {
+    // final msgIds = _readVector<long>(buffer, 0, msgIds);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeAfterMsgs({msgIds: msgIds, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44914,6 +52307,13 @@ class AuthSendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AuthSendCode.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final apiId = _readint(buffer, 0, apiId);
+    // final apiHash = _readstring(buffer, 0, apiHash);
+    // final settings = _readCodeSettings(buffer, 0, settings);
+    // final result = AuthSendCode({phoneNumber: phoneNumber, apiId: apiId, apiHash: apiHash, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44954,6 +52354,13 @@ class AuthSignUp extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthSignUp.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final result = AuthSignUp({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash, firstName: firstName, lastName: lastName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -44995,6 +52402,14 @@ class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthSignIn.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final phoneCode = _readflags.0?string(buffer, 0, phoneCode);
+    // final emailVerification = _readflags.1?EmailVerification(buffer, 0, emailVerification);
+    // final result = AuthSignIn({flags: flags, phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash, phoneCode: phoneCode, emailVerification: emailVerification,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45034,6 +52449,9 @@ class AuthLogOut extends TlMethod<AuthLoggedOutBase> {
 
   /// Deserialize.
   factory AuthLogOut.deserialize(Uint8List buffer) {
+    // final result = AuthLogOut();
+    // return result;
+
     throw Exception();
   }
 
@@ -45053,6 +52471,9 @@ class AuthResetAuthorizations extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthResetAuthorizations.deserialize(Uint8List buffer) {
+    // final result = AuthResetAuthorizations();
+    // return result;
+
     throw Exception();
   }
 
@@ -45074,6 +52495,10 @@ class AuthExportAuthorization extends TlMethod<AuthExportedAuthorizationBase> {
 
   /// Deserialize.
   factory AuthExportAuthorization.deserialize(Uint8List buffer) {
+    // final dcId = _readint(buffer, 0, dcId);
+    // final result = AuthExportAuthorization({dcId: dcId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45100,6 +52525,11 @@ class AuthImportAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthImportAuthorization.deserialize(Uint8List buffer) {
+    // final id = _readlong(buffer, 0, id);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = AuthImportAuthorization({id: id, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45132,6 +52562,13 @@ class AuthBindTempAuthKey extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthBindTempAuthKey.deserialize(Uint8List buffer) {
+    // final permAuthKeyId = _readlong(buffer, 0, permAuthKeyId);
+    // final nonce = _readlong(buffer, 0, nonce);
+    // final expiresAt = _readint(buffer, 0, expiresAt);
+    // final encryptedMessage = _readbytes(buffer, 0, encryptedMessage);
+    // final result = AuthBindTempAuthKey({permAuthKeyId: permAuthKeyId, nonce: nonce, expiresAt: expiresAt, encryptedMessage: encryptedMessage,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45174,6 +52611,16 @@ class AccountRegisterDevice extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountRegisterDevice.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noMuted = _readflags.0?true(buffer, 0, noMuted);
+    // final tokenType = _readint(buffer, 0, tokenType);
+    // final token = _readstring(buffer, 0, token);
+    // final appSandbox = _readBool(buffer, 0, appSandbox);
+    // final secret = _readbytes(buffer, 0, secret);
+    // final otherUids = _readVector<long>(buffer, 0, otherUids);
+    // final result = AccountRegisterDevice({flags: flags, noMuted: noMuted, tokenType: tokenType, token: token, appSandbox: appSandbox, secret: secret, otherUids: otherUids,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45225,6 +52672,12 @@ class AccountUnregisterDevice extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUnregisterDevice.deserialize(Uint8List buffer) {
+    // final tokenType = _readint(buffer, 0, tokenType);
+    // final token = _readstring(buffer, 0, token);
+    // final otherUids = _readVector<long>(buffer, 0, otherUids);
+    // final result = AccountUnregisterDevice({tokenType: tokenType, token: token, otherUids: otherUids,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45259,6 +52712,11 @@ class AccountUpdateNotifySettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdateNotifySettings.deserialize(Uint8List buffer) {
+    // final peer = _readInputNotifyPeer(buffer, 0, peer);
+    // final settings = _readInputPeerNotifySettings(buffer, 0, settings);
+    // final result = AccountUpdateNotifySettings({peer: peer, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45288,6 +52746,10 @@ class AccountGetNotifySettings extends TlMethod<PeerNotifySettingsBase> {
 
   /// Deserialize.
   factory AccountGetNotifySettings.deserialize(Uint8List buffer) {
+    // final peer = _readInputNotifyPeer(buffer, 0, peer);
+    // final result = AccountGetNotifySettings({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45311,6 +52773,9 @@ class AccountResetNotifySettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResetNotifySettings.deserialize(Uint8List buffer) {
+    // final result = AccountResetNotifySettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -45335,6 +52800,13 @@ class AccountUpdateProfile extends TlMethod<UserBase> {
 
   /// Deserialize.
   factory AccountUpdateProfile.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final firstName = _readflags.0?string(buffer, 0, firstName);
+    // final lastName = _readflags.1?string(buffer, 0, lastName);
+    // final about = _readflags.2?string(buffer, 0, about);
+    // final result = AccountUpdateProfile({flags: flags, firstName: firstName, lastName: lastName, about: about,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45372,6 +52844,10 @@ class AccountUpdateStatus extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdateStatus.deserialize(Uint8List buffer) {
+    // final offline = _readBool(buffer, 0, offline);
+    // final result = AccountUpdateStatus({offline: offline,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45397,6 +52873,10 @@ class AccountGetWallPapers extends TlMethod<AccountWallPapersBase> {
 
   /// Deserialize.
   factory AccountGetWallPapers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetWallPapers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45424,6 +52904,12 @@ class AccountReportPeer extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountReportPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final reason = _readReportReason(buffer, 0, reason);
+    // final message = _readstring(buffer, 0, message);
+    // final result = AccountReportPeer({peer: peer, reason: reason, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45457,6 +52943,10 @@ class UsersGetUsers extends TlMethod<List<UserBase>> {
 
   /// Deserialize.
   factory UsersGetUsers.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputUser>(buffer, 0, id);
+    // final result = UsersGetUsers({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45482,6 +52972,10 @@ class UsersGetFullUser extends TlMethod<UsersUserFullBase> {
 
   /// Deserialize.
   factory UsersGetFullUser.deserialize(Uint8List buffer) {
+    // final id = _readInputUser(buffer, 0, id);
+    // final result = UsersGetFullUser({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45507,6 +53001,10 @@ class ContactsGetContactIDs extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory ContactsGetContactIDs.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = ContactsGetContactIDs({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45530,6 +53028,9 @@ class ContactsGetStatuses extends TlMethod<List<ContactStatusBase>> {
 
   /// Deserialize.
   factory ContactsGetStatuses.deserialize(Uint8List buffer) {
+    // final result = ContactsGetStatuses();
+    // return result;
+
     throw Exception();
   }
 
@@ -45551,6 +53052,10 @@ class ContactsGetContacts extends TlMethod<ContactsContactsBase> {
 
   /// Deserialize.
   factory ContactsGetContacts.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = ContactsGetContacts({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45576,6 +53081,10 @@ class ContactsImportContacts extends TlMethod<ContactsImportedContactsBase> {
 
   /// Deserialize.
   factory ContactsImportContacts.deserialize(Uint8List buffer) {
+    // final contacts = _readVector<InputContact>(buffer, 0, contacts);
+    // final result = ContactsImportContacts({contacts: contacts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45601,6 +53110,10 @@ class ContactsDeleteContacts extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ContactsDeleteContacts.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputUser>(buffer, 0, id);
+    // final result = ContactsDeleteContacts({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45626,6 +53139,10 @@ class ContactsDeleteByPhones extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsDeleteByPhones.deserialize(Uint8List buffer) {
+    // final phones = _readVector<string>(buffer, 0, phones);
+    // final result = ContactsDeleteByPhones({phones: phones,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45652,6 +53169,12 @@ class ContactsBlock extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsBlock.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final myStoriesFrom = _readflags.0?true(buffer, 0, myStoriesFrom);
+    // final id = _readInputPeer(buffer, 0, id);
+    // final result = ContactsBlock({flags: flags, myStoriesFrom: myStoriesFrom, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45686,6 +53209,12 @@ class ContactsUnblock extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsUnblock.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final myStoriesFrom = _readflags.0?true(buffer, 0, myStoriesFrom);
+    // final id = _readInputPeer(buffer, 0, id);
+    // final result = ContactsUnblock({flags: flags, myStoriesFrom: myStoriesFrom, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45721,6 +53250,13 @@ class ContactsGetBlocked extends TlMethod<ContactsBlockedBase> {
 
   /// Deserialize.
   factory ContactsGetBlocked.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final myStoriesFrom = _readflags.0?true(buffer, 0, myStoriesFrom);
+    // final offset = _readint(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = ContactsGetBlocked({flags: flags, myStoriesFrom: myStoriesFrom, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45758,6 +53294,10 @@ class MessagesGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetMessages.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputMessage>(buffer, 0, id);
+    // final result = MessagesGetMessages({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45789,6 +53329,17 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
 
   /// Deserialize.
   factory MessagesGetDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final excludePinned = _readflags.0?true(buffer, 0, excludePinned);
+    // final folderId = _readflags.1?int(buffer, 0, folderId);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetPeer = _readInputPeer(buffer, 0, offsetPeer);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetDialogs({flags: flags, excludePinned: excludePinned, folderId: folderId, offsetDate: offsetDate, offsetId: offsetId, offsetPeer: offsetPeer, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45849,6 +53400,17 @@ class MessagesGetHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetHistory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetHistory({peer: peer, offsetId: offsetId, offsetDate: offsetDate, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45916,6 +53478,24 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesSearch.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final q = _readstring(buffer, 0, q);
+    // final fromId = _readflags.0?InputPeer(buffer, 0, fromId);
+    // final savedPeerId = _readflags.2?InputPeer(buffer, 0, savedPeerId);
+    // final topMsgId = _readflags.1?int(buffer, 0, topMsgId);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final minDate = _readint(buffer, 0, minDate);
+    // final maxDate = _readint(buffer, 0, maxDate);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesSearch({flags: flags, peer: peer, q: q, fromId: fromId, savedPeerId: savedPeerId, topMsgId: topMsgId, filter: filter, minDate: minDate, maxDate: maxDate, offsetId: offsetId, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -45998,6 +53578,11 @@ class MessagesReadHistory extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Deserialize.
   factory MessagesReadHistory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = MessagesReadHistory({peer: peer, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46031,6 +53616,16 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory MessagesDeleteHistory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final justClear = _readflags.0?true(buffer, 0, justClear);
+    // final revoke = _readflags.1?true(buffer, 0, revoke);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minDate = _readflags.2?int(buffer, 0, minDate);
+    // final maxDate = _readflags.3?int(buffer, 0, maxDate);
+    // final result = MessagesDeleteHistory({flags: flags, justClear: justClear, revoke: revoke, peer: peer, maxId: maxId, minDate: minDate, maxDate: maxDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46081,6 +53676,12 @@ class MessagesDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Deserialize.
   factory MessagesDeleteMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revoke = _readflags.0?true(buffer, 0, revoke);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesDeleteMessages({flags: flags, revoke: revoke, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46115,6 +53716,10 @@ class MessagesReceivedMessages
 
   /// Deserialize.
   factory MessagesReceivedMessages.deserialize(Uint8List buffer) {
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = MessagesReceivedMessages({maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46143,6 +53748,13 @@ class MessagesSetTyping extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetTyping.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final action = _readSendMessageAction(buffer, 0, action);
+    // final result = MessagesSetTyping({flags: flags, peer: peer, topMsgId: topMsgId, action: action,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46188,6 +53800,25 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.1?true(buffer, 0, noWebpage);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final background = _readflags.6?true(buffer, 0, background);
+    // final clearDraft = _readflags.7?true(buffer, 0, clearDraft);
+    // final noforwards = _readflags.14?true(buffer, 0, noforwards);
+    // final updateStickersetsOrder = _readflags.15?true(buffer, 0, updateStickersetsOrder);
+    // final invertMedia = _readflags.16?true(buffer, 0, invertMedia);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final message = _readstring(buffer, 0, message);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final scheduleDate = _readflags.10?int(buffer, 0, scheduleDate);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesSendMessage({flags: flags, noWebpage: noWebpage, silent: silent, background: background, clearDraft: clearDraft, noforwards: noforwards, updateStickersetsOrder: updateStickersetsOrder, invertMedia: invertMedia, peer: peer, replyTo: replyTo, message: message, randomId: randomId, replyMarkup: replyMarkup, entities: entities, scheduleDate: scheduleDate, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46282,6 +53913,25 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendMedia.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final background = _readflags.6?true(buffer, 0, background);
+    // final clearDraft = _readflags.7?true(buffer, 0, clearDraft);
+    // final noforwards = _readflags.14?true(buffer, 0, noforwards);
+    // final updateStickersetsOrder = _readflags.15?true(buffer, 0, updateStickersetsOrder);
+    // final invertMedia = _readflags.16?true(buffer, 0, invertMedia);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final media = _readInputMedia(buffer, 0, media);
+    // final message = _readstring(buffer, 0, message);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final scheduleDate = _readflags.10?int(buffer, 0, scheduleDate);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesSendMedia({flags: flags, silent: silent, background: background, clearDraft: clearDraft, noforwards: noforwards, updateStickersetsOrder: updateStickersetsOrder, invertMedia: invertMedia, peer: peer, replyTo: replyTo, media: media, message: message, randomId: randomId, replyMarkup: replyMarkup, entities: entities, scheduleDate: scheduleDate, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46374,6 +54024,23 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesForwardMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final background = _readflags.6?true(buffer, 0, background);
+    // final withMyScore = _readflags.8?true(buffer, 0, withMyScore);
+    // final dropAuthor = _readflags.11?true(buffer, 0, dropAuthor);
+    // final dropMediaCaptions = _readflags.12?true(buffer, 0, dropMediaCaptions);
+    // final noforwards = _readflags.14?true(buffer, 0, noforwards);
+    // final fromPeer = _readInputPeer(buffer, 0, fromPeer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final randomId = _readVector<long>(buffer, 0, randomId);
+    // final toPeer = _readInputPeer(buffer, 0, toPeer);
+    // final topMsgId = _readflags.9?int(buffer, 0, topMsgId);
+    // final scheduleDate = _readflags.10?int(buffer, 0, scheduleDate);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesForwardMessages({flags: flags, silent: silent, background: background, withMyScore: withMyScore, dropAuthor: dropAuthor, dropMediaCaptions: dropMediaCaptions, noforwards: noforwards, fromPeer: fromPeer, id: id, randomId: randomId, toPeer: toPeer, topMsgId: topMsgId, scheduleDate: scheduleDate, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46451,6 +54118,10 @@ class MessagesReportSpam extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReportSpam.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesReportSpam({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46476,6 +54147,10 @@ class MessagesGetPeerSettings extends TlMethod<MessagesPeerSettingsBase> {
 
   /// Deserialize.
   factory MessagesGetPeerSettings.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesGetPeerSettings({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46504,6 +54179,13 @@ class MessagesReport extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReport.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final reason = _readReportReason(buffer, 0, reason);
+    // final message = _readstring(buffer, 0, message);
+    // final result = MessagesReport({peer: peer, id: id, reason: reason, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46541,6 +54223,10 @@ class MessagesGetChats extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory MessagesGetChats.deserialize(Uint8List buffer) {
+    // final id = _readVector<long>(buffer, 0, id);
+    // final result = MessagesGetChats({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46566,6 +54252,10 @@ class MessagesGetFullChat extends TlMethod<MessagesChatFullBase> {
 
   /// Deserialize.
   factory MessagesGetFullChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = MessagesGetFullChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46592,6 +54282,11 @@ class MessagesEditChatTitle extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesEditChatTitle.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final title = _readstring(buffer, 0, title);
+    // final result = MessagesEditChatTitle({chatId: chatId, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46622,6 +54317,11 @@ class MessagesEditChatPhoto extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesEditChatPhoto.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final photo = _readInputChatPhoto(buffer, 0, photo);
+    // final result = MessagesEditChatPhoto({chatId: chatId, photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46653,6 +54353,12 @@ class MessagesAddChatUser extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesAddChatUser.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final fwdLimit = _readint(buffer, 0, fwdLimit);
+    // final result = MessagesAddChatUser({chatId: chatId, userId: userId, fwdLimit: fwdLimit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46688,6 +54394,13 @@ class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesDeleteChatUser.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revokeHistory = _readflags.0?true(buffer, 0, revokeHistory);
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = MessagesDeleteChatUser({flags: flags, revokeHistory: revokeHistory, chatId: chatId, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46728,6 +54441,13 @@ class MessagesCreateChat extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesCreateChat.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final title = _readstring(buffer, 0, title);
+    // final ttlPeriod = _readflags.0?int(buffer, 0, ttlPeriod);
+    // final result = MessagesCreateChat({flags: flags, users: users, title: title, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46763,6 +54483,9 @@ class UpdatesGetState extends TlMethod<UpdatesStateBase> {
 
   /// Deserialize.
   factory UpdatesGetState.deserialize(Uint8List buffer) {
+    // final result = UpdatesGetState();
+    // return result;
+
     throw Exception();
   }
 
@@ -46790,6 +54513,16 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
 
   /// Deserialize.
   factory UpdatesGetDifference.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pts = _readint(buffer, 0, pts);
+    // final ptsLimit = _readflags.1?int(buffer, 0, ptsLimit);
+    // final ptsTotalLimit = _readflags.0?int(buffer, 0, ptsTotalLimit);
+    // final date = _readint(buffer, 0, date);
+    // final qts = _readint(buffer, 0, qts);
+    // final qtsLimit = _readflags.2?int(buffer, 0, qtsLimit);
+    // final result = UpdatesGetDifference({flags: flags, pts: pts, ptsLimit: ptsLimit, ptsTotalLimit: ptsTotalLimit, date: date, qts: qts, qtsLimit: qtsLimit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46841,6 +54574,13 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
 
   /// Deserialize.
   factory PhotosUpdateProfilePhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final fallback = _readflags.0?true(buffer, 0, fallback);
+    // final bot = _readflags.1?InputUser(buffer, 0, bot);
+    // final id = _readInputPhoto(buffer, 0, id);
+    // final result = PhotosUpdateProfilePhoto({flags: flags, fallback: fallback, bot: bot, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46883,6 +54623,16 @@ class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
 
   /// Deserialize.
   factory PhotosUploadProfilePhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final fallback = _readflags.3?true(buffer, 0, fallback);
+    // final bot = _readflags.5?InputUser(buffer, 0, bot);
+    // final file = _readflags.0?InputFile(buffer, 0, file);
+    // final video = _readflags.1?InputFile(buffer, 0, video);
+    // final videoStartTs = _readflags.2?double(buffer, 0, videoStartTs);
+    // final videoEmojiMarkup = _readflags.4?VideoSize(buffer, 0, videoEmojiMarkup);
+    // final result = PhotosUploadProfilePhoto({flags: flags, fallback: fallback, bot: bot, file: file, video: video, videoStartTs: videoStartTs, videoEmojiMarkup: videoEmojiMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46932,6 +54682,10 @@ class PhotosDeletePhotos extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory PhotosDeletePhotos.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputPhoto>(buffer, 0, id);
+    // final result = PhotosDeletePhotos({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46959,6 +54713,12 @@ class UploadSaveFilePart extends TlMethod<bool> {
 
   /// Deserialize.
   factory UploadSaveFilePart.deserialize(Uint8List buffer) {
+    // final fileId = _readlong(buffer, 0, fileId);
+    // final filePart = _readint(buffer, 0, filePart);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = UploadSaveFilePart({fileId: fileId, filePart: filePart, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -46995,6 +54755,15 @@ class UploadGetFile extends TlMethod<UploadFileBase> {
 
   /// Deserialize.
   factory UploadGetFile.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final precise = _readflags.0?true(buffer, 0, precise);
+    // final cdnSupported = _readflags.1?true(buffer, 0, cdnSupported);
+    // final location = _readInputFileLocation(buffer, 0, location);
+    // final offset = _readlong(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = UploadGetFile({flags: flags, precise: precise, cdnSupported: cdnSupported, location: location, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47038,6 +54807,9 @@ class HelpGetConfig extends TlMethod<ConfigBase> {
 
   /// Deserialize.
   factory HelpGetConfig.deserialize(Uint8List buffer) {
+    // final result = HelpGetConfig();
+    // return result;
+
     throw Exception();
   }
 
@@ -47057,6 +54829,9 @@ class HelpGetNearestDc extends TlMethod<NearestDcBase> {
 
   /// Deserialize.
   factory HelpGetNearestDc.deserialize(Uint8List buffer) {
+    // final result = HelpGetNearestDc();
+    // return result;
+
     throw Exception();
   }
 
@@ -47078,6 +54853,10 @@ class HelpGetAppUpdate extends TlMethod<HelpAppUpdateBase> {
 
   /// Deserialize.
   factory HelpGetAppUpdate.deserialize(Uint8List buffer) {
+    // final source = _readstring(buffer, 0, source);
+    // final result = HelpGetAppUpdate({source: source,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47101,6 +54880,9 @@ class HelpGetInviteText extends TlMethod<HelpInviteTextBase> {
 
   /// Deserialize.
   factory HelpGetInviteText.deserialize(Uint8List buffer) {
+    // final result = HelpGetInviteText();
+    // return result;
+
     throw Exception();
   }
 
@@ -47125,6 +54907,13 @@ class PhotosGetUserPhotos extends TlMethod<PhotosPhotosBase> {
 
   /// Deserialize.
   factory PhotosGetUserPhotos.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final offset = _readint(buffer, 0, offset);
+    // final maxId = _readlong(buffer, 0, maxId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = PhotosGetUserPhotos({userId: userId, offset: offset, maxId: maxId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47163,6 +54952,11 @@ class MessagesGetDhConfig extends TlMethod<MessagesDhConfigBase> {
 
   /// Deserialize.
   factory MessagesGetDhConfig.deserialize(Uint8List buffer) {
+    // final version = _readint(buffer, 0, version);
+    // final randomLength = _readint(buffer, 0, randomLength);
+    // final result = MessagesGetDhConfig({version: version, randomLength: randomLength,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47194,6 +54988,12 @@ class MessagesRequestEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Deserialize.
   factory MessagesRequestEncryption.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final randomId = _readint(buffer, 0, randomId);
+    // final gA = _readbytes(buffer, 0, gA);
+    // final result = MessagesRequestEncryption({userId: userId, randomId: randomId, gA: gA,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47229,6 +55029,12 @@ class MessagesAcceptEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Deserialize.
   factory MessagesAcceptEncryption.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final gB = _readbytes(buffer, 0, gB);
+    // final keyFingerprint = _readlong(buffer, 0, keyFingerprint);
+    // final result = MessagesAcceptEncryption({peer: peer, gB: gB, keyFingerprint: keyFingerprint,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47263,6 +55069,12 @@ class MessagesDiscardEncryption extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesDiscardEncryption.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final deleteHistory = _readflags.0?true(buffer, 0, deleteHistory);
+    // final chatId = _readint(buffer, 0, chatId);
+    // final result = MessagesDiscardEncryption({flags: flags, deleteHistory: deleteHistory, chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47297,6 +55109,11 @@ class MessagesSetEncryptedTyping extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetEncryptedTyping.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final typing = _readBool(buffer, 0, typing);
+    // final result = MessagesSetEncryptedTyping({peer: peer, typing: typing,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47327,6 +55144,11 @@ class MessagesReadEncryptedHistory extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReadEncryptedHistory.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final maxDate = _readint(buffer, 0, maxDate);
+    // final result = MessagesReadEncryptedHistory({peer: peer, maxDate: maxDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47359,6 +55181,14 @@ class MessagesSendEncrypted extends TlMethod<MessagesSentEncryptedMessageBase> {
 
   /// Deserialize.
   factory MessagesSendEncrypted.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.0?true(buffer, 0, silent);
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final data = _readbytes(buffer, 0, data);
+    // final result = MessagesSendEncrypted({flags: flags, silent: silent, peer: peer, randomId: randomId, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47405,6 +55235,15 @@ class MessagesSendEncryptedFile
 
   /// Deserialize.
   factory MessagesSendEncryptedFile.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.0?true(buffer, 0, silent);
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final data = _readbytes(buffer, 0, data);
+    // final file = _readInputEncryptedFile(buffer, 0, file);
+    // final result = MessagesSendEncryptedFile({flags: flags, silent: silent, peer: peer, randomId: randomId, data: data, file: file,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47453,6 +55292,12 @@ class MessagesSendEncryptedService
 
   /// Deserialize.
   factory MessagesSendEncryptedService.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final data = _readbytes(buffer, 0, data);
+    // final result = MessagesSendEncryptedService({peer: peer, randomId: randomId, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47486,6 +55331,10 @@ class MessagesReceivedQueue extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory MessagesReceivedQueue.deserialize(Uint8List buffer) {
+    // final maxQts = _readint(buffer, 0, maxQts);
+    // final result = MessagesReceivedQueue({maxQts: maxQts,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47511,6 +55360,10 @@ class MessagesReportEncryptedSpam extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReportEncryptedSpam.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final result = MessagesReportEncryptedSpam({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47539,6 +55392,13 @@ class UploadSaveBigFilePart extends TlMethod<bool> {
 
   /// Deserialize.
   factory UploadSaveBigFilePart.deserialize(Uint8List buffer) {
+    // final fileId = _readlong(buffer, 0, fileId);
+    // final filePart = _readint(buffer, 0, filePart);
+    // final fileTotalParts = _readint(buffer, 0, fileTotalParts);
+    // final bytes = _readbytes(buffer, 0, bytes);
+    // final result = UploadSaveBigFilePart({fileId: fileId, filePart: filePart, fileTotalParts: fileTotalParts, bytes: bytes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47586,6 +55446,20 @@ class InitConnection<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InitConnection.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final apiId = _readint(buffer, 0, apiId);
+    // final deviceModel = _readstring(buffer, 0, deviceModel);
+    // final systemVersion = _readstring(buffer, 0, systemVersion);
+    // final appVersion = _readstring(buffer, 0, appVersion);
+    // final systemLangCode = _readstring(buffer, 0, systemLangCode);
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final proxy = _readflags.0?InputClientProxy(buffer, 0, proxy);
+    // final params = _readflags.1?JSONValue(buffer, 0, params);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InitConnection({flags: flags, apiId: apiId, deviceModel: deviceModel, systemVersion: systemVersion, appVersion: appVersion, systemLangCode: systemLangCode, langPack: langPack, langCode: langCode, proxy: proxy, params: params, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47649,6 +55523,9 @@ class HelpGetSupport extends TlMethod<HelpSupportBase> {
 
   /// Deserialize.
   factory HelpGetSupport.deserialize(Uint8List buffer) {
+    // final result = HelpGetSupport();
+    // return result;
+
     throw Exception();
   }
 
@@ -47671,6 +55548,10 @@ class MessagesReadMessageContents
 
   /// Deserialize.
   factory MessagesReadMessageContents.deserialize(Uint8List buffer) {
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesReadMessageContents({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47696,6 +55577,10 @@ class AccountCheckUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountCheckUsername.deserialize(Uint8List buffer) {
+    // final username = _readstring(buffer, 0, username);
+    // final result = AccountCheckUsername({username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47721,6 +55606,10 @@ class AccountUpdateUsername extends TlMethod<UserBase> {
 
   /// Deserialize.
   factory AccountUpdateUsername.deserialize(Uint8List buffer) {
+    // final username = _readstring(buffer, 0, username);
+    // final result = AccountUpdateUsername({username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47747,6 +55636,11 @@ class ContactsSearch extends TlMethod<ContactsFoundBase> {
 
   /// Deserialize.
   factory ContactsSearch.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = ContactsSearch({q: q, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47776,6 +55670,10 @@ class AccountGetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Deserialize.
   factory AccountGetPrivacy.deserialize(Uint8List buffer) {
+    // final key = _readInputPrivacyKey(buffer, 0, key);
+    // final result = AccountGetPrivacy({key: key,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47802,6 +55700,11 @@ class AccountSetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Deserialize.
   factory AccountSetPrivacy.deserialize(Uint8List buffer) {
+    // final key = _readInputPrivacyKey(buffer, 0, key);
+    // final rules = _readVector<InputPrivacyRule>(buffer, 0, rules);
+    // final result = AccountSetPrivacy({key: key, rules: rules,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47833,6 +55736,12 @@ class AccountDeleteAccount extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountDeleteAccount.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final reason = _readstring(buffer, 0, reason);
+    // final password = _readflags.0?InputCheckPasswordSRP(buffer, 0, password);
+    // final result = AccountDeleteAccount({flags: flags, reason: reason, password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47864,6 +55773,9 @@ class AccountGetAccountTTL extends TlMethod<AccountDaysTTLBase> {
 
   /// Deserialize.
   factory AccountGetAccountTTL.deserialize(Uint8List buffer) {
+    // final result = AccountGetAccountTTL();
+    // return result;
+
     throw Exception();
   }
 
@@ -47885,6 +55797,10 @@ class AccountSetAccountTTL extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSetAccountTTL.deserialize(Uint8List buffer) {
+    // final ttl = _readAccountDaysTTL(buffer, 0, ttl);
+    // final result = AccountSetAccountTTL({ttl: ttl,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47911,6 +55827,11 @@ class InvokeWithLayer<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeWithLayer.deserialize(Uint8List buffer) {
+    // final layer = _readint(buffer, 0, layer);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeWithLayer({layer: layer, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47940,6 +55861,10 @@ class ContactsResolveUsername extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Deserialize.
   factory ContactsResolveUsername.deserialize(Uint8List buffer) {
+    // final username = _readstring(buffer, 0, username);
+    // final result = ContactsResolveUsername({username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47966,6 +55891,11 @@ class AccountSendChangePhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AccountSendChangePhoneCode.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final settings = _readCodeSettings(buffer, 0, settings);
+    // final result = AccountSendChangePhoneCode({phoneNumber: phoneNumber, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -47997,6 +55927,12 @@ class AccountChangePhone extends TlMethod<UserBase> {
 
   /// Deserialize.
   factory AccountChangePhone.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final phoneCode = _readstring(buffer, 0, phoneCode);
+    // final result = AccountChangePhone({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash, phoneCode: phoneCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48031,6 +55967,11 @@ class MessagesGetStickers extends TlMethod<MessagesStickersBase> {
 
   /// Deserialize.
   factory MessagesGetStickers.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetStickers({emoticon: emoticon, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48060,6 +56001,10 @@ class MessagesGetAllStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Deserialize.
   factory MessagesGetAllStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetAllStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48085,6 +56030,10 @@ class AccountUpdateDeviceLocked extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdateDeviceLocked.deserialize(Uint8List buffer) {
+    // final period = _readint(buffer, 0, period);
+    // final result = AccountUpdateDeviceLocked({period: period,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48113,6 +56062,13 @@ class AuthImportBotAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthImportBotAuthorization.deserialize(Uint8List buffer) {
+    // final flags = _readint(buffer, 0, flags);
+    // final apiId = _readint(buffer, 0, apiId);
+    // final apiHash = _readstring(buffer, 0, apiHash);
+    // final botAuthToken = _readstring(buffer, 0, botAuthToken);
+    // final result = AuthImportBotAuthorization({flags: flags, apiId: apiId, apiHash: apiHash, botAuthToken: botAuthToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48152,6 +56108,12 @@ class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
 
   /// Deserialize.
   factory MessagesGetWebPagePreview.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final result = MessagesGetWebPagePreview({flags: flags, message: message, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48183,6 +56145,9 @@ class AccountGetAuthorizations extends TlMethod<AccountAuthorizationsBase> {
 
   /// Deserialize.
   factory AccountGetAuthorizations.deserialize(Uint8List buffer) {
+    // final result = AccountGetAuthorizations();
+    // return result;
+
     throw Exception();
   }
 
@@ -48204,6 +56169,10 @@ class AccountResetAuthorization extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResetAuthorization.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountResetAuthorization({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48227,6 +56196,9 @@ class AccountGetPassword extends TlMethod<AccountPasswordBase> {
 
   /// Deserialize.
   factory AccountGetPassword.deserialize(Uint8List buffer) {
+    // final result = AccountGetPassword();
+    // return result;
+
     throw Exception();
   }
 
@@ -48248,6 +56220,10 @@ class AccountGetPasswordSettings extends TlMethod<AccountPasswordSettingsBase> {
 
   /// Deserialize.
   factory AccountGetPasswordSettings.deserialize(Uint8List buffer) {
+    // final password = _readInputCheckPasswordSRP(buffer, 0, password);
+    // final result = AccountGetPasswordSettings({password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48274,6 +56250,11 @@ class AccountUpdatePasswordSettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdatePasswordSettings.deserialize(Uint8List buffer) {
+    // final password = _readInputCheckPasswordSRP(buffer, 0, password);
+    // final newSettings = _readaccount.PasswordInputSettings(buffer, 0, newSettings);
+    // final result = AccountUpdatePasswordSettings({password: password, newSettings: newSettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48303,6 +56284,10 @@ class AuthCheckPassword extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthCheckPassword.deserialize(Uint8List buffer) {
+    // final password = _readInputCheckPasswordSRP(buffer, 0, password);
+    // final result = AuthCheckPassword({password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48326,6 +56311,9 @@ class AuthRequestPasswordRecovery extends TlMethod<AuthPasswordRecoveryBase> {
 
   /// Deserialize.
   factory AuthRequestPasswordRecovery.deserialize(Uint8List buffer) {
+    // final result = AuthRequestPasswordRecovery();
+    // return result;
+
     throw Exception();
   }
 
@@ -48349,6 +56337,12 @@ class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthRecoverPassword.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final code = _readstring(buffer, 0, code);
+    // final newSettings = _readflags.0?account.PasswordInputSettings(buffer, 0, newSettings);
+    // final result = AuthRecoverPassword({flags: flags, code: code, newSettings: newSettings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48382,6 +56376,10 @@ class InvokeWithoutUpdates<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeWithoutUpdates.deserialize(Uint8List buffer) {
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeWithoutUpdates({query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48411,6 +56409,16 @@ class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
 
   /// Deserialize.
   factory MessagesExportChatInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final legacyRevokePermanent = _readflags.2?true(buffer, 0, legacyRevokePermanent);
+    // final requestNeeded = _readflags.3?true(buffer, 0, requestNeeded);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final expireDate = _readflags.0?int(buffer, 0, expireDate);
+    // final usageLimit = _readflags.1?int(buffer, 0, usageLimit);
+    // final title = _readflags.4?string(buffer, 0, title);
+    // final result = MessagesExportChatInvite({flags: flags, legacyRevokePermanent: legacyRevokePermanent, requestNeeded: requestNeeded, peer: peer, expireDate: expireDate, usageLimit: usageLimit, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48460,6 +56468,10 @@ class MessagesCheckChatInvite extends TlMethod<ChatInviteBase> {
 
   /// Deserialize.
   factory MessagesCheckChatInvite.deserialize(Uint8List buffer) {
+    // final hash = _readstring(buffer, 0, hash);
+    // final result = MessagesCheckChatInvite({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48485,6 +56497,10 @@ class MessagesImportChatInvite extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesImportChatInvite.deserialize(Uint8List buffer) {
+    // final hash = _readstring(buffer, 0, hash);
+    // final result = MessagesImportChatInvite({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48511,6 +56527,11 @@ class MessagesGetStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory MessagesGetStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetStickerSet({stickerset: stickerset, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48542,6 +56563,11 @@ class MessagesInstallStickerSet
 
   /// Deserialize.
   factory MessagesInstallStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final archived = _readBool(buffer, 0, archived);
+    // final result = MessagesInstallStickerSet({stickerset: stickerset, archived: archived,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48571,6 +56597,10 @@ class MessagesUninstallStickerSet extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesUninstallStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final result = MessagesUninstallStickerSet({stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48599,6 +56629,13 @@ class MessagesStartBot extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesStartBot.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final startParam = _readstring(buffer, 0, startParam);
+    // final result = MessagesStartBot({bot: bot, peer: peer, randomId: randomId, startParam: startParam,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48638,6 +56675,12 @@ class MessagesGetMessagesViews extends TlMethod<MessagesMessageViewsBase> {
 
   /// Deserialize.
   factory MessagesGetMessagesViews.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final increment = _readBool(buffer, 0, increment);
+    // final result = MessagesGetMessagesViews({peer: peer, id: id, increment: increment,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48672,6 +56715,11 @@ class ChannelsReadHistory extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsReadHistory.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = ChannelsReadHistory({channel: channel, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48702,6 +56750,11 @@ class ChannelsDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Deserialize.
   factory ChannelsDeleteMessages.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = ChannelsDeleteMessages({channel: channel, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48733,6 +56786,12 @@ class ChannelsReportSpam extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsReportSpam.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final participant = _readInputPeer(buffer, 0, participant);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = ChannelsReportSpam({channel: channel, participant: participant, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48767,6 +56826,11 @@ class ChannelsGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory ChannelsGetMessages.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final id = _readVector<InputMessage>(buffer, 0, id);
+    // final result = ChannelsGetMessages({channel: channel, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48801,6 +56865,14 @@ class ChannelsGetParticipants
 
   /// Deserialize.
   factory ChannelsGetParticipants.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final filter = _readChannelParticipantsFilter(buffer, 0, filter);
+    // final offset = _readint(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = ChannelsGetParticipants({channel: channel, filter: filter, offset: offset, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48843,6 +56915,11 @@ class ChannelsGetParticipant extends TlMethod<ChannelsChannelParticipantBase> {
 
   /// Deserialize.
   factory ChannelsGetParticipant.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final participant = _readInputPeer(buffer, 0, participant);
+    // final result = ChannelsGetParticipant({channel: channel, participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48872,6 +56949,10 @@ class ChannelsGetChannels extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetChannels.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputChannel>(buffer, 0, id);
+    // final result = ChannelsGetChannels({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48897,6 +56978,10 @@ class ChannelsGetFullChannel extends TlMethod<MessagesChatFullBase> {
 
   /// Deserialize.
   factory ChannelsGetFullChannel.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsGetFullChannel({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48927,6 +57012,19 @@ class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsCreateChannel.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final broadcast = _readflags.0?true(buffer, 0, broadcast);
+    // final megagroup = _readflags.1?true(buffer, 0, megagroup);
+    // final forImport = _readflags.3?true(buffer, 0, forImport);
+    // final forum = _readflags.5?true(buffer, 0, forum);
+    // final title = _readstring(buffer, 0, title);
+    // final about = _readstring(buffer, 0, about);
+    // final geoPoint = _readflags.2?InputGeoPoint(buffer, 0, geoPoint);
+    // final address = _readflags.2?string(buffer, 0, address);
+    // final ttlPeriod = _readflags.4?int(buffer, 0, ttlPeriod);
+    // final result = ChannelsCreateChannel({flags: flags, broadcast: broadcast, megagroup: megagroup, forImport: forImport, forum: forum, title: title, about: about, geoPoint: geoPoint, address: address, ttlPeriod: ttlPeriod,});
+    // return result;
+
     throw Exception();
   }
 
@@ -48991,6 +57089,13 @@ class ChannelsEditAdmin extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditAdmin.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final adminRights = _readChatAdminRights(buffer, 0, adminRights);
+    // final rank = _readstring(buffer, 0, rank);
+    // final result = ChannelsEditAdmin({channel: channel, userId: userId, adminRights: adminRights, rank: rank,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49029,6 +57134,11 @@ class ChannelsEditTitle extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditTitle.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final title = _readstring(buffer, 0, title);
+    // final result = ChannelsEditTitle({channel: channel, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49059,6 +57169,11 @@ class ChannelsEditPhoto extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditPhoto.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final photo = _readInputChatPhoto(buffer, 0, photo);
+    // final result = ChannelsEditPhoto({channel: channel, photo: photo,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49089,6 +57204,11 @@ class ChannelsCheckUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsCheckUsername.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final username = _readstring(buffer, 0, username);
+    // final result = ChannelsCheckUsername({channel: channel, username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49119,6 +57239,11 @@ class ChannelsUpdateUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsUpdateUsername.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final username = _readstring(buffer, 0, username);
+    // final result = ChannelsUpdateUsername({channel: channel, username: username,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49148,6 +57273,10 @@ class ChannelsJoinChannel extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsJoinChannel.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsJoinChannel({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49173,6 +57302,10 @@ class ChannelsLeaveChannel extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsLeaveChannel.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsLeaveChannel({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49199,6 +57332,11 @@ class ChannelsInviteToChannel extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsInviteToChannel.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final result = ChannelsInviteToChannel({channel: channel, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49228,6 +57366,10 @@ class ChannelsDeleteChannel extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsDeleteChannel.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsDeleteChannel({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49258,6 +57400,15 @@ class UpdatesGetChannelDifference
 
   /// Deserialize.
   factory UpdatesGetChannelDifference.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final force = _readflags.0?true(buffer, 0, force);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final filter = _readChannelMessagesFilter(buffer, 0, filter);
+    // final pts = _readint(buffer, 0, pts);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = UpdatesGetChannelDifference({flags: flags, force: force, channel: channel, filter: filter, pts: pts, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49305,6 +57456,12 @@ class MessagesEditChatAdmin extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesEditChatAdmin.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final isAdmin = _readBool(buffer, 0, isAdmin);
+    // final result = MessagesEditChatAdmin({chatId: chatId, userId: userId, isAdmin: isAdmin,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49338,6 +57495,10 @@ class MessagesMigrateChat extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesMigrateChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = MessagesMigrateChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49372,6 +57533,19 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesSearchGlobal.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final folderId = _readflags.0?int(buffer, 0, folderId);
+    // final q = _readstring(buffer, 0, q);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final minDate = _readint(buffer, 0, minDate);
+    // final maxDate = _readint(buffer, 0, maxDate);
+    // final offsetRate = _readint(buffer, 0, offsetRate);
+    // final offsetPeer = _readInputPeer(buffer, 0, offsetPeer);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesSearchGlobal({flags: flags, folderId: folderId, q: q, filter: filter, minDate: minDate, maxDate: maxDate, offsetRate: offsetRate, offsetPeer: offsetPeer, offsetId: offsetId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49434,6 +57608,13 @@ class MessagesReorderStickerSets extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReorderStickerSets.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final emojis = _readflags.1?true(buffer, 0, emojis);
+    // final order = _readVector<long>(buffer, 0, order);
+    // final result = MessagesReorderStickerSets({flags: flags, masks: masks, emojis: emojis, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49473,6 +57654,12 @@ class MessagesGetDocumentByHash extends TlMethod<DocumentBase> {
 
   /// Deserialize.
   factory MessagesGetDocumentByHash.deserialize(Uint8List buffer) {
+    // final sha256 = _readbytes(buffer, 0, sha256);
+    // final size = _readlong(buffer, 0, size);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final result = MessagesGetDocumentByHash({sha256: sha256, size: size, mimeType: mimeType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49506,6 +57693,10 @@ class MessagesGetSavedGifs extends TlMethod<MessagesSavedGifsBase> {
 
   /// Deserialize.
   factory MessagesGetSavedGifs.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetSavedGifs({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49532,6 +57723,11 @@ class MessagesSaveGif extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSaveGif.deserialize(Uint8List buffer) {
+    // final id = _readInputDocument(buffer, 0, id);
+    // final unsave = _readBool(buffer, 0, unsave);
+    // final result = MessagesSaveGif({id: id, unsave: unsave,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49566,6 +57762,15 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
 
   /// Deserialize.
   factory MessagesGetInlineBotResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final geoPoint = _readflags.0?InputGeoPoint(buffer, 0, geoPoint);
+    // final query = _readstring(buffer, 0, query);
+    // final offset = _readstring(buffer, 0, offset);
+    // final result = MessagesGetInlineBotResults({flags: flags, bot: bot, peer: peer, geoPoint: geoPoint, query: query, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49617,6 +57822,18 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetInlineBotResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final gallery = _readflags.0?true(buffer, 0, gallery);
+    // final private = _readflags.1?true(buffer, 0, private);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final results = _readVector<InputBotInlineResult>(buffer, 0, results);
+    // final cacheTime = _readint(buffer, 0, cacheTime);
+    // final nextOffset = _readflags.2?string(buffer, 0, nextOffset);
+    // final switchPm = _readflags.3?InlineBotSwitchPM(buffer, 0, switchPm);
+    // final switchWebview = _readflags.4?InlineBotWebView(buffer, 0, switchWebview);
+    // final result = MessagesSetInlineBotResults({flags: flags, gallery: gallery, private: private, queryId: queryId, results: results, cacheTime: cacheTime, nextOffset: nextOffset, switchPm: switchPm, switchWebview: switchWebview,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49681,6 +57898,21 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendInlineBotResult.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final background = _readflags.6?true(buffer, 0, background);
+    // final clearDraft = _readflags.7?true(buffer, 0, clearDraft);
+    // final hideVia = _readflags.11?true(buffer, 0, hideVia);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final id = _readstring(buffer, 0, id);
+    // final scheduleDate = _readflags.10?int(buffer, 0, scheduleDate);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesSendInlineBotResult({flags: flags, silent: silent, background: background, clearDraft: clearDraft, hideVia: hideVia, peer: peer, replyTo: replyTo, randomId: randomId, queryId: queryId, id: id, scheduleDate: scheduleDate, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49752,6 +57984,14 @@ class ChannelsExportMessageLink extends TlMethod<ExportedMessageLinkBase> {
 
   /// Deserialize.
   factory ChannelsExportMessageLink.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final grouped = _readflags.0?true(buffer, 0, grouped);
+    // final thread = _readflags.1?true(buffer, 0, thread);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final id = _readint(buffer, 0, id);
+    // final result = ChannelsExportMessageLink({flags: flags, grouped: grouped, thread: thread, channel: channel, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49794,6 +58034,11 @@ class ChannelsToggleSignatures extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleSignatures.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleSignatures({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49824,6 +58069,11 @@ class AuthResendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AuthResendCode.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final result = AuthResendCode({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49854,6 +58104,11 @@ class AuthCancelCode extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthCancelCode.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final result = AuthCancelCode({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49884,6 +58139,11 @@ class MessagesGetMessageEditData extends TlMethod<MessagesMessageEditDataBase> {
 
   /// Deserialize.
   factory MessagesGetMessageEditData.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final result = MessagesGetMessageEditData({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49920,6 +58180,19 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesEditMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.1?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.16?true(buffer, 0, invertMedia);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final message = _readflags.11?string(buffer, 0, message);
+    // final media = _readflags.14?InputMedia(buffer, 0, media);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final scheduleDate = _readflags.15?int(buffer, 0, scheduleDate);
+    // final result = MessagesEditMessage({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, peer: peer, id: id, message: message, media: media, replyMarkup: replyMarkup, entities: entities, scheduleDate: scheduleDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -49986,6 +58259,17 @@ class MessagesEditInlineBotMessage extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesEditInlineBotMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.1?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.16?true(buffer, 0, invertMedia);
+    // final id = _readInputBotInlineMessageID(buffer, 0, id);
+    // final message = _readflags.11?string(buffer, 0, message);
+    // final media = _readflags.14?InputMedia(buffer, 0, media);
+    // final replyMarkup = _readflags.2?ReplyMarkup(buffer, 0, replyMarkup);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final result = MessagesEditInlineBotMessage({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, id: id, message: message, media: media, replyMarkup: replyMarkup, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50044,6 +58328,15 @@ class MessagesGetBotCallbackAnswer
 
   /// Deserialize.
   factory MessagesGetBotCallbackAnswer.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final game = _readflags.1?true(buffer, 0, game);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final data = _readflags.0?bytes(buffer, 0, data);
+    // final password = _readflags.2?InputCheckPasswordSRP(buffer, 0, password);
+    // final result = MessagesGetBotCallbackAnswer({flags: flags, game: game, peer: peer, msgId: msgId, data: data, password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50093,6 +58386,15 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetBotCallbackAnswer.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final alert = _readflags.1?true(buffer, 0, alert);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final message = _readflags.0?string(buffer, 0, message);
+    // final url = _readflags.2?string(buffer, 0, url);
+    // final cacheTime = _readint(buffer, 0, cacheTime);
+    // final result = MessagesSetBotCallbackAnswer({flags: flags, alert: alert, queryId: queryId, message: message, url: url, cacheTime: cacheTime,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50141,6 +58443,21 @@ class ContactsGetTopPeers extends TlMethod<ContactsTopPeersBase> {
 
   /// Deserialize.
   factory ContactsGetTopPeers.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final correspondents = _readflags.0?true(buffer, 0, correspondents);
+    // final botsPm = _readflags.1?true(buffer, 0, botsPm);
+    // final botsInline = _readflags.2?true(buffer, 0, botsInline);
+    // final phoneCalls = _readflags.3?true(buffer, 0, phoneCalls);
+    // final forwardUsers = _readflags.4?true(buffer, 0, forwardUsers);
+    // final forwardChats = _readflags.5?true(buffer, 0, forwardChats);
+    // final groups = _readflags.10?true(buffer, 0, groups);
+    // final channels = _readflags.15?true(buffer, 0, channels);
+    // final offset = _readint(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = ContactsGetTopPeers({flags: flags, correspondents: correspondents, botsPm: botsPm, botsInline: botsInline, phoneCalls: phoneCalls, forwardUsers: forwardUsers, forwardChats: forwardChats, groups: groups, channels: channels, offset: offset, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50211,6 +58528,11 @@ class ContactsResetTopPeerRating extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsResetTopPeerRating.deserialize(Uint8List buffer) {
+    // final category = _readTopPeerCategory(buffer, 0, category);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = ContactsResetTopPeerRating({category: category, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50240,6 +58562,10 @@ class MessagesGetPeerDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Deserialize.
   factory MessagesGetPeerDialogs.deserialize(Uint8List buffer) {
+    // final peers = _readVector<InputDialogPeer>(buffer, 0, peers);
+    // final result = MessagesGetPeerDialogs({peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50270,6 +58596,17 @@ class MessagesSaveDraft extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSaveDraft.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final noWebpage = _readflags.1?true(buffer, 0, noWebpage);
+    // final invertMedia = _readflags.6?true(buffer, 0, invertMedia);
+    // final replyTo = _readflags.4?InputReplyTo(buffer, 0, replyTo);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readflags.3?Vector<MessageEntity>(buffer, 0, entities);
+    // final media = _readflags.5?InputMedia(buffer, 0, media);
+    // final result = MessagesSaveDraft({flags: flags, noWebpage: noWebpage, invertMedia: invertMedia, replyTo: replyTo, peer: peer, message: message, entities: entities, media: media,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50321,6 +58658,9 @@ class MessagesGetAllDrafts extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesGetAllDrafts.deserialize(Uint8List buffer) {
+    // final result = MessagesGetAllDrafts();
+    // return result;
+
     throw Exception();
   }
 
@@ -50343,6 +58683,10 @@ class MessagesGetFeaturedStickers
 
   /// Deserialize.
   factory MessagesGetFeaturedStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetFeaturedStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50368,6 +58712,10 @@ class MessagesReadFeaturedStickers extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReadFeaturedStickers.deserialize(Uint8List buffer) {
+    // final id = _readVector<long>(buffer, 0, id);
+    // final result = MessagesReadFeaturedStickers({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50394,6 +58742,12 @@ class MessagesGetRecentStickers extends TlMethod<MessagesRecentStickersBase> {
 
   /// Deserialize.
   factory MessagesGetRecentStickers.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final attached = _readflags.0?true(buffer, 0, attached);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetRecentStickers({flags: flags, attached: attached, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50429,6 +58783,13 @@ class MessagesSaveRecentSticker extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSaveRecentSticker.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final attached = _readflags.0?true(buffer, 0, attached);
+    // final id = _readInputDocument(buffer, 0, id);
+    // final unsave = _readBool(buffer, 0, unsave);
+    // final result = MessagesSaveRecentSticker({flags: flags, attached: attached, id: id, unsave: unsave,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50466,6 +58827,11 @@ class MessagesClearRecentStickers extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesClearRecentStickers.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final attached = _readflags.0?true(buffer, 0, attached);
+    // final result = MessagesClearRecentStickers({flags: flags, attached: attached,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50498,6 +58864,14 @@ class MessagesGetArchivedStickers
 
   /// Deserialize.
   factory MessagesGetArchivedStickers.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final emojis = _readflags.1?true(buffer, 0, emojis);
+    // final offsetId = _readlong(buffer, 0, offsetId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetArchivedStickers({flags: flags, masks: masks, emojis: emojis, offsetId: offsetId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50540,6 +58914,11 @@ class AccountSendConfirmPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AccountSendConfirmPhoneCode.deserialize(Uint8List buffer) {
+    // final hash = _readstring(buffer, 0, hash);
+    // final settings = _readCodeSettings(buffer, 0, settings);
+    // final result = AccountSendConfirmPhoneCode({hash: hash, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50570,6 +58949,11 @@ class AccountConfirmPhone extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountConfirmPhone.deserialize(Uint8List buffer) {
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final phoneCode = _readstring(buffer, 0, phoneCode);
+    // final result = AccountConfirmPhone({phoneCodeHash: phoneCodeHash, phoneCode: phoneCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50599,6 +58983,12 @@ class ChannelsGetAdminedPublicChannels extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetAdminedPublicChannels.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final byLocation = _readflags.0?true(buffer, 0, byLocation);
+    // final checkLimit = _readflags.1?true(buffer, 0, checkLimit);
+    // final result = ChannelsGetAdminedPublicChannels({flags: flags, byLocation: byLocation, checkLimit: checkLimit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50632,6 +59022,10 @@ class MessagesGetMaskStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Deserialize.
   factory MessagesGetMaskStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetMaskStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50658,6 +59052,10 @@ class MessagesGetAttachedStickers
 
   /// Deserialize.
   factory MessagesGetAttachedStickers.deserialize(Uint8List buffer) {
+    // final media = _readInputStickeredMedia(buffer, 0, media);
+    // final result = MessagesGetAttachedStickers({media: media,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50683,6 +59081,10 @@ class AuthDropTempAuthKeys extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthDropTempAuthKeys.deserialize(Uint8List buffer) {
+    // final exceptAuthKeys = _readVector<long>(buffer, 0, exceptAuthKeys);
+    // final result = AuthDropTempAuthKeys({exceptAuthKeys: exceptAuthKeys,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50712,6 +59114,16 @@ class MessagesSetGameScore extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSetGameScore.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final editMessage = _readflags.0?true(buffer, 0, editMessage);
+    // final force = _readflags.1?true(buffer, 0, force);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final score = _readint(buffer, 0, score);
+    // final result = MessagesSetGameScore({flags: flags, editMessage: editMessage, force: force, peer: peer, id: id, userId: userId, score: score,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50764,6 +59176,15 @@ class MessagesSetInlineGameScore extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetInlineGameScore.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final editMessage = _readflags.0?true(buffer, 0, editMessage);
+    // final force = _readflags.1?true(buffer, 0, force);
+    // final id = _readInputBotInlineMessageID(buffer, 0, id);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final score = _readint(buffer, 0, score);
+    // final result = MessagesSetInlineGameScore({flags: flags, editMessage: editMessage, force: force, id: id, userId: userId, score: score,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50811,6 +59232,12 @@ class MessagesGetGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Deserialize.
   factory MessagesGetGameHighScores.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = MessagesGetGameHighScores({peer: peer, id: id, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50845,6 +59272,11 @@ class MessagesGetInlineGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Deserialize.
   factory MessagesGetInlineGameHighScores.deserialize(Uint8List buffer) {
+    // final id = _readInputBotInlineMessageID(buffer, 0, id);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = MessagesGetInlineGameHighScores({id: id, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50876,6 +59308,12 @@ class MessagesGetCommonChats extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory MessagesGetCommonChats.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final maxId = _readlong(buffer, 0, maxId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetCommonChats({userId: userId, maxId: maxId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50910,6 +59348,11 @@ class HelpSetBotUpdatesStatus extends TlMethod<bool> {
 
   /// Deserialize.
   factory HelpSetBotUpdatesStatus.deserialize(Uint8List buffer) {
+    // final pendingUpdatesCount = _readint(buffer, 0, pendingUpdatesCount);
+    // final message = _readstring(buffer, 0, message);
+    // final result = HelpSetBotUpdatesStatus({pendingUpdatesCount: pendingUpdatesCount, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50940,6 +59383,11 @@ class MessagesGetWebPage extends TlMethod<MessagesWebPageBase> {
 
   /// Deserialize.
   factory MessagesGetWebPage.deserialize(Uint8List buffer) {
+    // final url = _readstring(buffer, 0, url);
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetWebPage({url: url, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -50970,6 +59418,12 @@ class MessagesToggleDialogPin extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesToggleDialogPin.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final peer = _readInputDialogPeer(buffer, 0, peer);
+    // final result = MessagesToggleDialogPin({flags: flags, pinned: pinned, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51005,6 +59459,13 @@ class MessagesReorderPinnedDialogs extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReorderPinnedDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final force = _readflags.0?true(buffer, 0, force);
+    // final folderId = _readint(buffer, 0, folderId);
+    // final order = _readVector<InputDialogPeer>(buffer, 0, order);
+    // final result = MessagesReorderPinnedDialogs({flags: flags, force: force, folderId: folderId, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51042,6 +59503,10 @@ class MessagesGetPinnedDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Deserialize.
   factory MessagesGetPinnedDialogs.deserialize(Uint8List buffer) {
+    // final folderId = _readint(buffer, 0, folderId);
+    // final result = MessagesGetPinnedDialogs({folderId: folderId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51068,6 +59533,11 @@ class BotsSendCustomRequest extends TlMethod<DataJSONBase> {
 
   /// Deserialize.
   factory BotsSendCustomRequest.deserialize(Uint8List buffer) {
+    // final customMethod = _readstring(buffer, 0, customMethod);
+    // final params = _readDataJSON(buffer, 0, params);
+    // final result = BotsSendCustomRequest({customMethod: customMethod, params: params,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51098,6 +59568,11 @@ class BotsAnswerWebhookJSONQuery extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsAnswerWebhookJSONQuery.deserialize(Uint8List buffer) {
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final data = _readDataJSON(buffer, 0, data);
+    // final result = BotsAnswerWebhookJSONQuery({queryId: queryId, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51129,6 +59604,12 @@ class UploadGetWebFile extends TlMethod<UploadWebFileBase> {
 
   /// Deserialize.
   factory UploadGetWebFile.deserialize(Uint8List buffer) {
+    // final location = _readInputWebFileLocation(buffer, 0, location);
+    // final offset = _readint(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = UploadGetWebFile({location: location, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51164,6 +59645,12 @@ class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
 
   /// Deserialize.
   factory PaymentsGetPaymentForm.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final invoice = _readInputInvoice(buffer, 0, invoice);
+    // final themeParams = _readflags.0?DataJSON(buffer, 0, themeParams);
+    // final result = PaymentsGetPaymentForm({flags: flags, invoice: invoice, themeParams: themeParams,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51198,6 +59685,11 @@ class PaymentsGetPaymentReceipt extends TlMethod<PaymentsPaymentReceiptBase> {
 
   /// Deserialize.
   factory PaymentsGetPaymentReceipt.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = PaymentsGetPaymentReceipt({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51230,6 +59722,13 @@ class PaymentsValidateRequestedInfo
 
   /// Deserialize.
   factory PaymentsValidateRequestedInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final save = _readflags.0?true(buffer, 0, save);
+    // final invoice = _readInputInvoice(buffer, 0, invoice);
+    // final info = _readPaymentRequestedInfo(buffer, 0, info);
+    // final result = PaymentsValidateRequestedInfo({flags: flags, save: save, invoice: invoice, info: info,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51273,6 +59772,16 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
 
   /// Deserialize.
   factory PaymentsSendPaymentForm.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final formId = _readlong(buffer, 0, formId);
+    // final invoice = _readInputInvoice(buffer, 0, invoice);
+    // final requestedInfoId = _readflags.0?string(buffer, 0, requestedInfoId);
+    // final shippingOptionId = _readflags.1?string(buffer, 0, shippingOptionId);
+    // final credentials = _readInputPaymentCredentials(buffer, 0, credentials);
+    // final tipAmount = _readflags.2?long(buffer, 0, tipAmount);
+    // final result = PaymentsSendPaymentForm({flags: flags, formId: formId, invoice: invoice, requestedInfoId: requestedInfoId, shippingOptionId: shippingOptionId, credentials: credentials, tipAmount: tipAmount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51323,6 +59832,11 @@ class AccountGetTmpPassword extends TlMethod<AccountTmpPasswordBase> {
 
   /// Deserialize.
   factory AccountGetTmpPassword.deserialize(Uint8List buffer) {
+    // final password = _readInputCheckPasswordSRP(buffer, 0, password);
+    // final period = _readint(buffer, 0, period);
+    // final result = AccountGetTmpPassword({password: password, period: period,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51350,6 +59864,9 @@ class PaymentsGetSavedInfo extends TlMethod<PaymentsSavedInfoBase> {
 
   /// Deserialize.
   factory PaymentsGetSavedInfo.deserialize(Uint8List buffer) {
+    // final result = PaymentsGetSavedInfo();
+    // return result;
+
     throw Exception();
   }
 
@@ -51371,6 +59888,12 @@ class PaymentsClearSavedInfo extends TlMethod<bool> {
 
   /// Deserialize.
   factory PaymentsClearSavedInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final credentials = _readflags.0?true(buffer, 0, credentials);
+    // final info = _readflags.1?true(buffer, 0, info);
+    // final result = PaymentsClearSavedInfo({flags: flags, credentials: credentials, info: info,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51407,6 +59930,13 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetBotShippingResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final error = _readflags.0?string(buffer, 0, error);
+    // final shippingOptions = _readflags.1?Vector<ShippingOption>(buffer, 0, shippingOptions);
+    // final result = MessagesSetBotShippingResults({flags: flags, queryId: queryId, error: error, shippingOptions: shippingOptions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51446,6 +59976,13 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetBotPrecheckoutResults.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final success = _readflags.1?true(buffer, 0, success);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final error = _readflags.0?string(buffer, 0, error);
+    // final result = MessagesSetBotPrecheckoutResults({flags: flags, success: success, queryId: queryId, error: error,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51489,6 +60026,21 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersCreateStickerSet.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final masks = _readflags.0?true(buffer, 0, masks);
+    // final animated = _readflags.1?true(buffer, 0, animated);
+    // final videos = _readflags.4?true(buffer, 0, videos);
+    // final emojis = _readflags.5?true(buffer, 0, emojis);
+    // final textColor = _readflags.6?true(buffer, 0, textColor);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final title = _readstring(buffer, 0, title);
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final thumb = _readflags.2?InputDocument(buffer, 0, thumb);
+    // final stickers = _readVector<InputStickerSetItem>(buffer, 0, stickers);
+    // final software = _readflags.3?string(buffer, 0, software);
+    // final result = StickersCreateStickerSet({flags: flags, masks: masks, animated: animated, videos: videos, emojis: emojis, textColor: textColor, userId: userId, title: title, shortName: shortName, thumb: thumb, stickers: stickers, software: software,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51558,6 +60110,10 @@ class StickersRemoveStickerFromSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersRemoveStickerFromSet.deserialize(Uint8List buffer) {
+    // final sticker = _readInputDocument(buffer, 0, sticker);
+    // final result = StickersRemoveStickerFromSet({sticker: sticker,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51584,6 +60140,11 @@ class StickersChangeStickerPosition extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersChangeStickerPosition.deserialize(Uint8List buffer) {
+    // final sticker = _readInputDocument(buffer, 0, sticker);
+    // final position = _readint(buffer, 0, position);
+    // final result = StickersChangeStickerPosition({sticker: sticker, position: position,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51614,6 +60175,11 @@ class StickersAddStickerToSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersAddStickerToSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final sticker = _readInputStickerSetItem(buffer, 0, sticker);
+    // final result = StickersAddStickerToSet({stickerset: stickerset, sticker: sticker,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51644,6 +60210,11 @@ class MessagesUploadMedia extends TlMethod<MessageMediaBase> {
 
   /// Deserialize.
   factory MessagesUploadMedia.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final media = _readInputMedia(buffer, 0, media);
+    // final result = MessagesUploadMedia({peer: peer, media: media,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51671,6 +60242,9 @@ class PhoneGetCallConfig extends TlMethod<DataJSONBase> {
 
   /// Deserialize.
   factory PhoneGetCallConfig.deserialize(Uint8List buffer) {
+    // final result = PhoneGetCallConfig();
+    // return result;
+
     throw Exception();
   }
 
@@ -51696,6 +60270,15 @@ class PhoneRequestCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Deserialize.
   factory PhoneRequestCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.0?true(buffer, 0, video);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final randomId = _readint(buffer, 0, randomId);
+    // final gAHash = _readbytes(buffer, 0, gAHash);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final result = PhoneRequestCall({flags: flags, video: video, userId: userId, randomId: randomId, gAHash: gAHash, protocol: protocol,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51743,6 +60326,12 @@ class PhoneAcceptCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Deserialize.
   factory PhoneAcceptCall.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final gB = _readbytes(buffer, 0, gB);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final result = PhoneAcceptCall({peer: peer, gB: gB, protocol: protocol,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51779,6 +60368,13 @@ class PhoneConfirmCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Deserialize.
   factory PhoneConfirmCall.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final gA = _readbytes(buffer, 0, gA);
+    // final keyFingerprint = _readlong(buffer, 0, keyFingerprint);
+    // final protocol = _readPhoneCallProtocol(buffer, 0, protocol);
+    // final result = PhoneConfirmCall({peer: peer, gA: gA, keyFingerprint: keyFingerprint, protocol: protocol,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51816,6 +60412,10 @@ class PhoneReceivedCall extends TlMethod<bool> {
 
   /// Deserialize.
   factory PhoneReceivedCall.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final result = PhoneReceivedCall({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51845,6 +60445,15 @@ class PhoneDiscardCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneDiscardCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final video = _readflags.0?true(buffer, 0, video);
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final duration = _readint(buffer, 0, duration);
+    // final reason = _readPhoneCallDiscardReason(buffer, 0, reason);
+    // final connectionId = _readlong(buffer, 0, connectionId);
+    // final result = PhoneDiscardCall({flags: flags, video: video, peer: peer, duration: duration, reason: reason, connectionId: connectionId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51893,6 +60502,14 @@ class PhoneSetCallRating extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneSetCallRating.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final userInitiative = _readflags.0?true(buffer, 0, userInitiative);
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final rating = _readint(buffer, 0, rating);
+    // final comment = _readstring(buffer, 0, comment);
+    // final result = PhoneSetCallRating({flags: flags, userInitiative: userInitiative, peer: peer, rating: rating, comment: comment,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51935,6 +60552,11 @@ class PhoneSaveCallDebug extends TlMethod<bool> {
 
   /// Deserialize.
   factory PhoneSaveCallDebug.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final debug = _readDataJSON(buffer, 0, debug);
+    // final result = PhoneSaveCallDebug({peer: peer, debug: debug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -51966,6 +60588,12 @@ class UploadGetCdnFile extends TlMethod<UploadCdnFileBase> {
 
   /// Deserialize.
   factory UploadGetCdnFile.deserialize(Uint8List buffer) {
+    // final fileToken = _readbytes(buffer, 0, fileToken);
+    // final offset = _readlong(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = UploadGetCdnFile({fileToken: fileToken, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52000,6 +60628,11 @@ class UploadReuploadCdnFile extends TlMethod<List<FileHashBase>> {
 
   /// Deserialize.
   factory UploadReuploadCdnFile.deserialize(Uint8List buffer) {
+    // final fileToken = _readbytes(buffer, 0, fileToken);
+    // final requestToken = _readbytes(buffer, 0, requestToken);
+    // final result = UploadReuploadCdnFile({fileToken: fileToken, requestToken: requestToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52027,6 +60660,9 @@ class HelpGetCdnConfig extends TlMethod<CdnConfigBase> {
 
   /// Deserialize.
   factory HelpGetCdnConfig.deserialize(Uint8List buffer) {
+    // final result = HelpGetCdnConfig();
+    // return result;
+
     throw Exception();
   }
 
@@ -52049,6 +60685,11 @@ class LangpackGetLangPack extends TlMethod<LangPackDifferenceBase> {
 
   /// Deserialize.
   factory LangpackGetLangPack.deserialize(Uint8List buffer) {
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = LangpackGetLangPack({langPack: langPack, langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52080,6 +60721,12 @@ class LangpackGetStrings extends TlMethod<List<LangPackStringBase>> {
 
   /// Deserialize.
   factory LangpackGetStrings.deserialize(Uint8List buffer) {
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final keys = _readVector<string>(buffer, 0, keys);
+    // final result = LangpackGetStrings({langPack: langPack, langCode: langCode, keys: keys,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52115,6 +60762,12 @@ class LangpackGetDifference extends TlMethod<LangPackDifferenceBase> {
 
   /// Deserialize.
   factory LangpackGetDifference.deserialize(Uint8List buffer) {
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final fromVersion = _readint(buffer, 0, fromVersion);
+    // final result = LangpackGetDifference({langPack: langPack, langCode: langCode, fromVersion: fromVersion,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52148,6 +60801,10 @@ class LangpackGetLanguages extends TlMethod<List<LangPackLanguageBase>> {
 
   /// Deserialize.
   factory LangpackGetLanguages.deserialize(Uint8List buffer) {
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final result = LangpackGetLanguages({langPack: langPack,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52175,6 +60832,12 @@ class ChannelsEditBanned extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditBanned.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final participant = _readInputPeer(buffer, 0, participant);
+    // final bannedRights = _readChatBannedRights(buffer, 0, bannedRights);
+    // final result = ChannelsEditBanned({channel: channel, participant: participant, bannedRights: bannedRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52215,6 +60878,17 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
 
   /// Deserialize.
   factory ChannelsGetAdminLog.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final q = _readstring(buffer, 0, q);
+    // final eventsFilter = _readflags.0?ChannelAdminLogEventsFilter(buffer, 0, eventsFilter);
+    // final admins = _readflags.1?Vector<InputUser>(buffer, 0, admins);
+    // final maxId = _readlong(buffer, 0, maxId);
+    // final minId = _readlong(buffer, 0, minId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = ChannelsGetAdminLog({flags: flags, channel: channel, q: q, eventsFilter: eventsFilter, admins: admins, maxId: maxId, minId: minId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52269,6 +60943,11 @@ class UploadGetCdnFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Deserialize.
   factory UploadGetCdnFileHashes.deserialize(Uint8List buffer) {
+    // final fileToken = _readbytes(buffer, 0, fileToken);
+    // final offset = _readlong(buffer, 0, offset);
+    // final result = UploadGetCdnFileHashes({fileToken: fileToken, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52300,6 +60979,12 @@ class MessagesSendScreenshotNotification extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendScreenshotNotification.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final replyTo = _readInputReplyTo(buffer, 0, replyTo);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final result = MessagesSendScreenshotNotification({peer: peer, replyTo: replyTo, randomId: randomId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52334,6 +61019,11 @@ class ChannelsSetStickers extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsSetStickers.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final result = ChannelsSetStickers({channel: channel, stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52363,6 +61053,10 @@ class MessagesGetFavedStickers extends TlMethod<MessagesFavedStickersBase> {
 
   /// Deserialize.
   factory MessagesGetFavedStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetFavedStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52389,6 +61083,11 @@ class MessagesFaveSticker extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesFaveSticker.deserialize(Uint8List buffer) {
+    // final id = _readInputDocument(buffer, 0, id);
+    // final unfave = _readBool(buffer, 0, unfave);
+    // final result = MessagesFaveSticker({id: id, unfave: unfave,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52419,6 +61118,11 @@ class ChannelsReadMessageContents extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsReadMessageContents.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = ChannelsReadMessageContents({channel: channel, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52446,6 +61150,9 @@ class ContactsResetSaved extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsResetSaved.deserialize(Uint8List buffer) {
+    // final result = ContactsResetSaved();
+    // return result;
+
     throw Exception();
   }
 
@@ -52474,6 +61181,17 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetUnreadMentions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final result = MessagesGetUnreadMentions({flags: flags, peer: peer, topMsgId: topMsgId, offsetId: offsetId, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52529,6 +61247,13 @@ class ChannelsDeleteHistory extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsDeleteHistory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forEveryone = _readflags.0?true(buffer, 0, forEveryone);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = ChannelsDeleteHistory({flags: flags, forEveryone: forEveryone, channel: channel, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52566,6 +61291,10 @@ class HelpGetRecentMeUrls extends TlMethod<HelpRecentMeUrlsBase> {
 
   /// Deserialize.
   factory HelpGetRecentMeUrls.deserialize(Uint8List buffer) {
+    // final referer = _readstring(buffer, 0, referer);
+    // final result = HelpGetRecentMeUrls({referer: referer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52592,6 +61321,11 @@ class ChannelsTogglePreHistoryHidden extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsTogglePreHistoryHidden.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsTogglePreHistoryHidden({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52623,6 +61357,12 @@ class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory MessagesReadMentions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final result = MessagesReadMentions({flags: flags, peer: peer, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52658,6 +61398,12 @@ class MessagesGetRecentLocations extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetRecentLocations.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetRecentLocations({peer: peer, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52696,6 +61442,21 @@ class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendMultiMedia.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final background = _readflags.6?true(buffer, 0, background);
+    // final clearDraft = _readflags.7?true(buffer, 0, clearDraft);
+    // final noforwards = _readflags.14?true(buffer, 0, noforwards);
+    // final updateStickersetsOrder = _readflags.15?true(buffer, 0, updateStickersetsOrder);
+    // final invertMedia = _readflags.16?true(buffer, 0, invertMedia);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final multiMedia = _readVector<InputSingleMedia>(buffer, 0, multiMedia);
+    // final scheduleDate = _readflags.10?int(buffer, 0, scheduleDate);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesSendMultiMedia({flags: flags, silent: silent, background: background, clearDraft: clearDraft, noforwards: noforwards, updateStickersetsOrder: updateStickersetsOrder, invertMedia: invertMedia, peer: peer, replyTo: replyTo, multiMedia: multiMedia, scheduleDate: scheduleDate, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52766,6 +61527,11 @@ class MessagesUploadEncryptedFile extends TlMethod<EncryptedFileBase> {
 
   /// Deserialize.
   factory MessagesUploadEncryptedFile.deserialize(Uint8List buffer) {
+    // final peer = _readInputEncryptedChat(buffer, 0, peer);
+    // final file = _readInputEncryptedFile(buffer, 0, file);
+    // final result = MessagesUploadEncryptedFile({peer: peer, file: file,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52794,6 +61560,9 @@ class AccountGetWebAuthorizations
 
   /// Deserialize.
   factory AccountGetWebAuthorizations.deserialize(Uint8List buffer) {
+    // final result = AccountGetWebAuthorizations();
+    // return result;
+
     throw Exception();
   }
 
@@ -52815,6 +61584,10 @@ class AccountResetWebAuthorization extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResetWebAuthorization.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountResetWebAuthorization({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52838,6 +61611,9 @@ class AccountResetWebAuthorizations extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResetWebAuthorizations.deserialize(Uint8List buffer) {
+    // final result = AccountResetWebAuthorizations();
+    // return result;
+
     throw Exception();
   }
 
@@ -52861,6 +61637,13 @@ class MessagesSearchStickerSets extends TlMethod<MessagesFoundStickerSetsBase> {
 
   /// Deserialize.
   factory MessagesSearchStickerSets.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final excludeFeatured = _readflags.0?true(buffer, 0, excludeFeatured);
+    // final q = _readstring(buffer, 0, q);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesSearchStickerSets({flags: flags, excludeFeatured: excludeFeatured, q: q, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52899,6 +61682,11 @@ class UploadGetFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Deserialize.
   factory UploadGetFileHashes.deserialize(Uint8List buffer) {
+    // final location = _readInputFileLocation(buffer, 0, location);
+    // final offset = _readlong(buffer, 0, offset);
+    // final result = UploadGetFileHashes({location: location, offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52927,6 +61715,9 @@ class HelpGetTermsOfServiceUpdate
 
   /// Deserialize.
   factory HelpGetTermsOfServiceUpdate.deserialize(Uint8List buffer) {
+    // final result = HelpGetTermsOfServiceUpdate();
+    // return result;
+
     throw Exception();
   }
 
@@ -52948,6 +61739,10 @@ class HelpAcceptTermsOfService extends TlMethod<bool> {
 
   /// Deserialize.
   factory HelpAcceptTermsOfService.deserialize(Uint8List buffer) {
+    // final id = _readDataJSON(buffer, 0, id);
+    // final result = HelpAcceptTermsOfService({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -52971,6 +61766,9 @@ class AccountGetAllSecureValues extends TlMethod<List<SecureValueBase>> {
 
   /// Deserialize.
   factory AccountGetAllSecureValues.deserialize(Uint8List buffer) {
+    // final result = AccountGetAllSecureValues();
+    // return result;
+
     throw Exception();
   }
 
@@ -52992,6 +61790,10 @@ class AccountGetSecureValue extends TlMethod<List<SecureValueBase>> {
 
   /// Deserialize.
   factory AccountGetSecureValue.deserialize(Uint8List buffer) {
+    // final types = _readVector<SecureValueType>(buffer, 0, types);
+    // final result = AccountGetSecureValue({types: types,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53018,6 +61820,11 @@ class AccountSaveSecureValue extends TlMethod<SecureValueBase> {
 
   /// Deserialize.
   factory AccountSaveSecureValue.deserialize(Uint8List buffer) {
+    // final value = _readInputSecureValue(buffer, 0, value);
+    // final secureSecretId = _readlong(buffer, 0, secureSecretId);
+    // final result = AccountSaveSecureValue({value: value, secureSecretId: secureSecretId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53047,6 +61854,10 @@ class AccountDeleteSecureValue extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountDeleteSecureValue.deserialize(Uint8List buffer) {
+    // final types = _readVector<SecureValueType>(buffer, 0, types);
+    // final result = AccountDeleteSecureValue({types: types,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53073,6 +61884,11 @@ class UsersSetSecureValueErrors extends TlMethod<bool> {
 
   /// Deserialize.
   factory UsersSetSecureValueErrors.deserialize(Uint8List buffer) {
+    // final id = _readInputUser(buffer, 0, id);
+    // final errors = _readVector<SecureValueError>(buffer, 0, errors);
+    // final result = UsersSetSecureValueErrors({id: id, errors: errors,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53105,6 +61921,12 @@ class AccountGetAuthorizationForm
 
   /// Deserialize.
   factory AccountGetAuthorizationForm.deserialize(Uint8List buffer) {
+    // final botId = _readlong(buffer, 0, botId);
+    // final scope = _readstring(buffer, 0, scope);
+    // final publicKey = _readstring(buffer, 0, publicKey);
+    // final result = AccountGetAuthorizationForm({botId: botId, scope: scope, publicKey: publicKey,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53142,6 +61964,14 @@ class AccountAcceptAuthorization extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountAcceptAuthorization.deserialize(Uint8List buffer) {
+    // final botId = _readlong(buffer, 0, botId);
+    // final scope = _readstring(buffer, 0, scope);
+    // final publicKey = _readstring(buffer, 0, publicKey);
+    // final valueHashes = _readVector<SecureValueHash>(buffer, 0, valueHashes);
+    // final credentials = _readSecureCredentialsEncrypted(buffer, 0, credentials);
+    // final result = AccountAcceptAuthorization({botId: botId, scope: scope, publicKey: publicKey, valueHashes: valueHashes, credentials: credentials,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53184,6 +62014,11 @@ class AccountSendVerifyPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AccountSendVerifyPhoneCode.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final settings = _readCodeSettings(buffer, 0, settings);
+    // final result = AccountSendVerifyPhoneCode({phoneNumber: phoneNumber, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53215,6 +62050,12 @@ class AccountVerifyPhone extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountVerifyPhone.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final phoneCode = _readstring(buffer, 0, phoneCode);
+    // final result = AccountVerifyPhone({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash, phoneCode: phoneCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53249,6 +62090,11 @@ class AccountSendVerifyEmailCode extends TlMethod<AccountSentEmailCodeBase> {
 
   /// Deserialize.
   factory AccountSendVerifyEmailCode.deserialize(Uint8List buffer) {
+    // final purpose = _readEmailVerifyPurpose(buffer, 0, purpose);
+    // final email = _readstring(buffer, 0, email);
+    // final result = AccountSendVerifyEmailCode({purpose: purpose, email: email,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53279,6 +62125,11 @@ class AccountVerifyEmail extends TlMethod<AccountEmailVerifiedBase> {
 
   /// Deserialize.
   factory AccountVerifyEmail.deserialize(Uint8List buffer) {
+    // final purpose = _readEmailVerifyPurpose(buffer, 0, purpose);
+    // final verification = _readEmailVerification(buffer, 0, verification);
+    // final result = AccountVerifyEmail({purpose: purpose, verification: verification,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53308,6 +62159,10 @@ class HelpGetDeepLinkInfo extends TlMethod<HelpDeepLinkInfoBase> {
 
   /// Deserialize.
   factory HelpGetDeepLinkInfo.deserialize(Uint8List buffer) {
+    // final path = _readstring(buffer, 0, path);
+    // final result = HelpGetDeepLinkInfo({path: path,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53331,6 +62186,9 @@ class ContactsGetSaved extends TlMethod<List<SavedContactBase>> {
 
   /// Deserialize.
   factory ContactsGetSaved.deserialize(Uint8List buffer) {
+    // final result = ContactsGetSaved();
+    // return result;
+
     throw Exception();
   }
 
@@ -53352,6 +62210,10 @@ class ChannelsGetLeftChannels extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetLeftChannels.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final result = ChannelsGetLeftChannels({offset: offset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53378,6 +62240,17 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
 
   /// Deserialize.
   factory AccountInitTakeoutSession.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final contacts = _readflags.0?true(buffer, 0, contacts);
+    // final messageUsers = _readflags.1?true(buffer, 0, messageUsers);
+    // final messageChats = _readflags.2?true(buffer, 0, messageChats);
+    // final messageMegagroups = _readflags.3?true(buffer, 0, messageMegagroups);
+    // final messageChannels = _readflags.4?true(buffer, 0, messageChannels);
+    // final files = _readflags.5?true(buffer, 0, files);
+    // final fileMaxSize = _readflags.5?long(buffer, 0, fileMaxSize);
+    // final result = AccountInitTakeoutSession({flags: flags, contacts: contacts, messageUsers: messageUsers, messageChats: messageChats, messageMegagroups: messageMegagroups, messageChannels: messageChannels, files: files, fileMaxSize: fileMaxSize,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53431,6 +62304,11 @@ class AccountFinishTakeoutSession extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountFinishTakeoutSession.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final success = _readflags.0?true(buffer, 0, success);
+    // final result = AccountFinishTakeoutSession({flags: flags, success: success,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53458,6 +62336,9 @@ class MessagesGetSplitRanges extends TlMethod<List<MessageRangeBase>> {
 
   /// Deserialize.
   factory MessagesGetSplitRanges.deserialize(Uint8List buffer) {
+    // final result = MessagesGetSplitRanges();
+    // return result;
+
     throw Exception();
   }
 
@@ -53480,6 +62361,11 @@ class InvokeWithMessagesRange<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeWithMessagesRange.deserialize(Uint8List buffer) {
+    // final range = _readMessageRange(buffer, 0, range);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeWithMessagesRange({range: range, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53510,6 +62396,11 @@ class InvokeWithTakeout<X> extends TlMethod<X> {
 
   /// Deserialize.
   factory InvokeWithTakeout.deserialize(Uint8List buffer) {
+    // final takeoutId = _readlong(buffer, 0, takeoutId);
+    // final query = _read!X(buffer, 0, query);
+    // final result = InvokeWithTakeout({takeoutId: takeoutId, query: query,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53540,6 +62431,12 @@ class MessagesMarkDialogUnread extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesMarkDialogUnread.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final unread = _readflags.0?true(buffer, 0, unread);
+    // final peer = _readInputDialogPeer(buffer, 0, peer);
+    // final result = MessagesMarkDialogUnread({flags: flags, unread: unread, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53571,6 +62468,9 @@ class MessagesGetDialogUnreadMarks extends TlMethod<List<DialogPeerBase>> {
 
   /// Deserialize.
   factory MessagesGetDialogUnreadMarks.deserialize(Uint8List buffer) {
+    // final result = MessagesGetDialogUnreadMarks();
+    // return result;
+
     throw Exception();
   }
 
@@ -53592,6 +62492,10 @@ class ContactsToggleTopPeers extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsToggleTopPeers.deserialize(Uint8List buffer) {
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ContactsToggleTopPeers({enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53615,6 +62519,9 @@ class MessagesClearAllDrafts extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesClearAllDrafts.deserialize(Uint8List buffer) {
+    // final result = MessagesClearAllDrafts();
+    // return result;
+
     throw Exception();
   }
 
@@ -53636,6 +62543,10 @@ class HelpGetAppConfig extends TlMethod<HelpAppConfigBase> {
 
   /// Deserialize.
   factory HelpGetAppConfig.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpGetAppConfig({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53661,6 +62572,10 @@ class HelpSaveAppLog extends TlMethod<bool> {
 
   /// Deserialize.
   factory HelpSaveAppLog.deserialize(Uint8List buffer) {
+    // final events = _readVector<InputAppEvent>(buffer, 0, events);
+    // final result = HelpSaveAppLog({events: events,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53686,6 +62601,10 @@ class HelpGetPassportConfig extends TlMethod<HelpPassportConfigBase> {
 
   /// Deserialize.
   factory HelpGetPassportConfig.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpGetPassportConfig({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53712,6 +62631,11 @@ class LangpackGetLanguage extends TlMethod<LangPackLanguageBase> {
 
   /// Deserialize.
   factory LangpackGetLanguage.deserialize(Uint8List buffer) {
+    // final langPack = _readstring(buffer, 0, langPack);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = LangpackGetLanguage({langPack: langPack, langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53743,6 +62667,15 @@ class MessagesUpdatePinnedMessage extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesUpdatePinnedMessage.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.0?true(buffer, 0, silent);
+    // final unpin = _readflags.1?true(buffer, 0, unpin);
+    // final pmOneside = _readflags.2?true(buffer, 0, pmOneside);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final result = MessagesUpdatePinnedMessage({flags: flags, silent: silent, unpin: unpin, pmOneside: pmOneside, peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53788,6 +62721,10 @@ class AccountConfirmPasswordEmail extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountConfirmPasswordEmail.deserialize(Uint8List buffer) {
+    // final code = _readstring(buffer, 0, code);
+    // final result = AccountConfirmPasswordEmail({code: code,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53811,6 +62748,9 @@ class AccountResendPasswordEmail extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResendPasswordEmail.deserialize(Uint8List buffer) {
+    // final result = AccountResendPasswordEmail();
+    // return result;
+
     throw Exception();
   }
 
@@ -53830,6 +62770,9 @@ class AccountCancelPasswordEmail extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountCancelPasswordEmail.deserialize(Uint8List buffer) {
+    // final result = AccountCancelPasswordEmail();
+    // return result;
+
     throw Exception();
   }
 
@@ -53849,6 +62792,9 @@ class HelpGetSupportName extends TlMethod<HelpSupportNameBase> {
 
   /// Deserialize.
   factory HelpGetSupportName.deserialize(Uint8List buffer) {
+    // final result = HelpGetSupportName();
+    // return result;
+
     throw Exception();
   }
 
@@ -53870,6 +62816,10 @@ class HelpGetUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Deserialize.
   factory HelpGetUserInfo.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = HelpGetUserInfo({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53897,6 +62847,12 @@ class HelpEditUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Deserialize.
   factory HelpEditUserInfo.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final message = _readstring(buffer, 0, message);
+    // final entities = _readVector<MessageEntity>(buffer, 0, entities);
+    // final result = HelpEditUserInfo({userId: userId, message: message, entities: entities,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53928,6 +62884,9 @@ class AccountGetContactSignUpNotification extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountGetContactSignUpNotification.deserialize(Uint8List buffer) {
+    // final result = AccountGetContactSignUpNotification();
+    // return result;
+
     throw Exception();
   }
 
@@ -53949,6 +62908,10 @@ class AccountSetContactSignUpNotification extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSetContactSignUpNotification.deserialize(Uint8List buffer) {
+    // final silent = _readBool(buffer, 0, silent);
+    // final result = AccountSetContactSignUpNotification({silent: silent,});
+    // return result;
+
     throw Exception();
   }
 
@@ -53975,6 +62938,13 @@ class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory AccountGetNotifyExceptions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final compareSound = _readflags.1?true(buffer, 0, compareSound);
+    // final compareStories = _readflags.2?true(buffer, 0, compareStories);
+    // final peer = _readflags.0?InputNotifyPeer(buffer, 0, peer);
+    // final result = AccountGetNotifyExceptions({flags: flags, compareSound: compareSound, compareStories: compareStories, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54014,6 +62984,12 @@ class MessagesSendVote extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendVote.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final options = _readVector<bytes>(buffer, 0, options);
+    // final result = MessagesSendVote({peer: peer, msgId: msgId, options: options,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54048,6 +63024,11 @@ class MessagesGetPollResults extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesGetPollResults.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = MessagesGetPollResults({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54077,6 +63058,10 @@ class MessagesGetOnlines extends TlMethod<ChatOnlinesBase> {
 
   /// Deserialize.
   factory MessagesGetOnlines.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesGetOnlines({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54103,6 +63088,11 @@ class MessagesEditChatAbout extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesEditChatAbout.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final about = _readstring(buffer, 0, about);
+    // final result = MessagesEditChatAbout({peer: peer, about: about,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54133,6 +63123,11 @@ class MessagesEditChatDefaultBannedRights extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesEditChatDefaultBannedRights.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final bannedRights = _readChatBannedRights(buffer, 0, bannedRights);
+    // final result = MessagesEditChatDefaultBannedRights({peer: peer, bannedRights: bannedRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54162,6 +63157,10 @@ class AccountGetWallPaper extends TlMethod<WallPaperBase> {
 
   /// Deserialize.
   factory AccountGetWallPaper.deserialize(Uint8List buffer) {
+    // final wallpaper = _readInputWallPaper(buffer, 0, wallpaper);
+    // final result = AccountGetWallPaper({wallpaper: wallpaper,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54190,6 +63189,14 @@ class AccountUploadWallPaper extends TlMethod<WallPaperBase> {
 
   /// Deserialize.
   factory AccountUploadWallPaper.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forChat = _readflags.0?true(buffer, 0, forChat);
+    // final file = _readInputFile(buffer, 0, file);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final settings = _readWallPaperSettings(buffer, 0, settings);
+    // final result = AccountUploadWallPaper({flags: flags, forChat: forChat, file: file, mimeType: mimeType, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54233,6 +63240,12 @@ class AccountSaveWallPaper extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSaveWallPaper.deserialize(Uint8List buffer) {
+    // final wallpaper = _readInputWallPaper(buffer, 0, wallpaper);
+    // final unsave = _readBool(buffer, 0, unsave);
+    // final settings = _readWallPaperSettings(buffer, 0, settings);
+    // final result = AccountSaveWallPaper({wallpaper: wallpaper, unsave: unsave, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54267,6 +63280,11 @@ class AccountInstallWallPaper extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountInstallWallPaper.deserialize(Uint8List buffer) {
+    // final wallpaper = _readInputWallPaper(buffer, 0, wallpaper);
+    // final settings = _readWallPaperSettings(buffer, 0, settings);
+    // final result = AccountInstallWallPaper({wallpaper: wallpaper, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54294,6 +63312,9 @@ class AccountResetWallPapers extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountResetWallPapers.deserialize(Uint8List buffer) {
+    // final result = AccountResetWallPapers();
+    // return result;
+
     throw Exception();
   }
 
@@ -54314,6 +63335,9 @@ class AccountGetAutoDownloadSettings
 
   /// Deserialize.
   factory AccountGetAutoDownloadSettings.deserialize(Uint8List buffer) {
+    // final result = AccountGetAutoDownloadSettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -54336,6 +63360,13 @@ class AccountSaveAutoDownloadSettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSaveAutoDownloadSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final low = _readflags.0?true(buffer, 0, low);
+    // final high = _readflags.1?true(buffer, 0, high);
+    // final settings = _readAutoDownloadSettings(buffer, 0, settings);
+    // final result = AccountSaveAutoDownloadSettings({flags: flags, low: low, high: high, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54373,6 +63404,10 @@ class MessagesGetEmojiKeywords extends TlMethod<EmojiKeywordsDifferenceBase> {
 
   /// Deserialize.
   factory MessagesGetEmojiKeywords.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = MessagesGetEmojiKeywords({langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54400,6 +63435,11 @@ class MessagesGetEmojiKeywordsDifference
 
   /// Deserialize.
   factory MessagesGetEmojiKeywordsDifference.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final fromVersion = _readint(buffer, 0, fromVersion);
+    // final result = MessagesGetEmojiKeywordsDifference({langCode: langCode, fromVersion: fromVersion,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54430,6 +63470,10 @@ class MessagesGetEmojiKeywordsLanguages
 
   /// Deserialize.
   factory MessagesGetEmojiKeywordsLanguages.deserialize(Uint8List buffer) {
+    // final langCodes = _readVector<string>(buffer, 0, langCodes);
+    // final result = MessagesGetEmojiKeywordsLanguages({langCodes: langCodes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54455,6 +63499,10 @@ class MessagesGetEmojiURL extends TlMethod<EmojiURLBase> {
 
   /// Deserialize.
   factory MessagesGetEmojiURL.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = MessagesGetEmojiURL({langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54480,6 +63528,10 @@ class FoldersEditPeerFolders extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory FoldersEditPeerFolders.deserialize(Uint8List buffer) {
+    // final folderPeers = _readVector<InputFolderPeer>(buffer, 0, folderPeers);
+    // final result = FoldersEditPeerFolders({folderPeers: folderPeers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54510,6 +63562,14 @@ class MessagesGetSearchCounters
 
   /// Deserialize.
   factory MessagesGetSearchCounters.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final savedPeerId = _readflags.2?InputPeer(buffer, 0, savedPeerId);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final filters = _readVector<MessagesFilter>(buffer, 0, filters);
+    // final result = MessagesGetSearchCounters({flags: flags, peer: peer, savedPeerId: savedPeerId, topMsgId: topMsgId, filters: filters,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54549,6 +63609,9 @@ class ChannelsGetGroupsForDiscussion extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetGroupsForDiscussion.deserialize(Uint8List buffer) {
+    // final result = ChannelsGetGroupsForDiscussion();
+    // return result;
+
     throw Exception();
   }
 
@@ -54571,6 +63634,11 @@ class ChannelsSetDiscussionGroup extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsSetDiscussionGroup.deserialize(Uint8List buffer) {
+    // final broadcast = _readInputChannel(buffer, 0, broadcast);
+    // final group = _readInputChannel(buffer, 0, group);
+    // final result = ChannelsSetDiscussionGroup({broadcast: broadcast, group: group,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54604,6 +63672,14 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
 
   /// Deserialize.
   factory MessagesRequestUrlAuth.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readflags.1?InputPeer(buffer, 0, peer);
+    // final msgId = _readflags.1?int(buffer, 0, msgId);
+    // final buttonId = _readflags.1?int(buffer, 0, buttonId);
+    // final url = _readflags.2?string(buffer, 0, url);
+    // final result = MessagesRequestUrlAuth({flags: flags, peer: peer, msgId: msgId, buttonId: buttonId, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54649,6 +63725,15 @@ class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
 
   /// Deserialize.
   factory MessagesAcceptUrlAuth.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final writeAllowed = _readflags.0?true(buffer, 0, writeAllowed);
+    // final peer = _readflags.1?InputPeer(buffer, 0, peer);
+    // final msgId = _readflags.1?int(buffer, 0, msgId);
+    // final buttonId = _readflags.1?int(buffer, 0, buttonId);
+    // final url = _readflags.2?string(buffer, 0, url);
+    // final result = MessagesAcceptUrlAuth({flags: flags, writeAllowed: writeAllowed, peer: peer, msgId: msgId, buttonId: buttonId, url: url,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54694,6 +63779,10 @@ class MessagesHidePeerSettingsBar extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesHidePeerSettingsBar.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesHidePeerSettingsBar({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54723,6 +63812,15 @@ class ContactsAddContact extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ContactsAddContact.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final addPhonePrivacyException = _readflags.0?true(buffer, 0, addPhonePrivacyException);
+    // final id = _readInputUser(buffer, 0, id);
+    // final firstName = _readstring(buffer, 0, firstName);
+    // final lastName = _readstring(buffer, 0, lastName);
+    // final phone = _readstring(buffer, 0, phone);
+    // final result = ContactsAddContact({flags: flags, addPhonePrivacyException: addPhonePrivacyException, id: id, firstName: firstName, lastName: lastName, phone: phone,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54768,6 +63866,10 @@ class ContactsAcceptContact extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ContactsAcceptContact.deserialize(Uint8List buffer) {
+    // final id = _readInputUser(buffer, 0, id);
+    // final result = ContactsAcceptContact({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54795,6 +63897,12 @@ class ChannelsEditCreator extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditCreator.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final password = _readInputCheckPasswordSRP(buffer, 0, password);
+    // final result = ChannelsEditCreator({channel: channel, userId: userId, password: password,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54830,6 +63938,13 @@ class ContactsGetLocated extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ContactsGetLocated.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final background = _readflags.1?true(buffer, 0, background);
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final selfExpires = _readflags.0?int(buffer, 0, selfExpires);
+    // final result = ContactsGetLocated({flags: flags, background: background, geoPoint: geoPoint, selfExpires: selfExpires,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54869,6 +63984,12 @@ class ChannelsEditLocation extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsEditLocation.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final geoPoint = _readInputGeoPoint(buffer, 0, geoPoint);
+    // final address = _readstring(buffer, 0, address);
+    // final result = ChannelsEditLocation({channel: channel, geoPoint: geoPoint, address: address,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54903,6 +64024,11 @@ class ChannelsToggleSlowMode extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleSlowMode.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final seconds = _readint(buffer, 0, seconds);
+    // final result = ChannelsToggleSlowMode({channel: channel, seconds: seconds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54933,6 +64059,11 @@ class MessagesGetScheduledHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetScheduledHistory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetScheduledHistory({peer: peer, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54963,6 +64094,11 @@ class MessagesGetScheduledMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetScheduledMessages.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesGetScheduledMessages({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -54993,6 +64129,11 @@ class MessagesSendScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendScheduledMessages.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesSendScheduledMessages({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55023,6 +64164,11 @@ class MessagesDeleteScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesDeleteScheduledMessages.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesDeleteScheduledMessages({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55056,6 +64202,14 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
 
   /// Deserialize.
   factory AccountUploadTheme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final file = _readInputFile(buffer, 0, file);
+    // final thumb = _readflags.0?InputFile(buffer, 0, thumb);
+    // final fileName = _readstring(buffer, 0, fileName);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final result = AccountUploadTheme({flags: flags, file: file, thumb: thumb, fileName: fileName, mimeType: mimeType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55101,6 +64255,14 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
 
   /// Deserialize.
   factory AccountCreateTheme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final slug = _readstring(buffer, 0, slug);
+    // final title = _readstring(buffer, 0, title);
+    // final document = _readflags.2?InputDocument(buffer, 0, document);
+    // final settings = _readflags.3?Vector<InputThemeSettings>(buffer, 0, settings);
+    // final result = AccountCreateTheme({flags: flags, slug: slug, title: title, document: document, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55148,6 +64310,16 @@ class AccountUpdateTheme extends TlMethod<ThemeBase> {
 
   /// Deserialize.
   factory AccountUpdateTheme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final format = _readstring(buffer, 0, format);
+    // final theme = _readInputTheme(buffer, 0, theme);
+    // final slug = _readflags.0?string(buffer, 0, slug);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final document = _readflags.2?InputDocument(buffer, 0, document);
+    // final settings = _readflags.3?Vector<InputThemeSettings>(buffer, 0, settings);
+    // final result = AccountUpdateTheme({flags: flags, format: format, theme: theme, slug: slug, title: title, document: document, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55198,6 +64370,11 @@ class AccountSaveTheme extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSaveTheme.deserialize(Uint8List buffer) {
+    // final theme = _readInputTheme(buffer, 0, theme);
+    // final unsave = _readBool(buffer, 0, unsave);
+    // final result = AccountSaveTheme({theme: theme, unsave: unsave,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55230,6 +64407,14 @@ class AccountInstallTheme extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountInstallTheme.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final theme = _readflags.1?InputTheme(buffer, 0, theme);
+    // final format = _readflags.2?string(buffer, 0, format);
+    // final baseTheme = _readflags.3?BaseTheme(buffer, 0, baseTheme);
+    // final result = AccountInstallTheme({flags: flags, dark: dark, theme: theme, format: format, baseTheme: baseTheme,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55272,6 +64457,11 @@ class AccountGetTheme extends TlMethod<ThemeBase> {
 
   /// Deserialize.
   factory AccountGetTheme.deserialize(Uint8List buffer) {
+    // final format = _readstring(buffer, 0, format);
+    // final theme = _readInputTheme(buffer, 0, theme);
+    // final result = AccountGetTheme({format: format, theme: theme,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55302,6 +64492,11 @@ class AccountGetThemes extends TlMethod<AccountThemesBase> {
 
   /// Deserialize.
   factory AccountGetThemes.deserialize(Uint8List buffer) {
+    // final format = _readstring(buffer, 0, format);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetThemes({format: format, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55333,6 +64528,12 @@ class AuthExportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Deserialize.
   factory AuthExportLoginToken.deserialize(Uint8List buffer) {
+    // final apiId = _readint(buffer, 0, apiId);
+    // final apiHash = _readstring(buffer, 0, apiHash);
+    // final exceptIds = _readVector<long>(buffer, 0, exceptIds);
+    // final result = AuthExportLoginToken({apiId: apiId, apiHash: apiHash, exceptIds: exceptIds,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55366,6 +64567,10 @@ class AuthImportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Deserialize.
   factory AuthImportLoginToken.deserialize(Uint8List buffer) {
+    // final token = _readbytes(buffer, 0, token);
+    // final result = AuthImportLoginToken({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55391,6 +64596,10 @@ class AuthAcceptLoginToken extends TlMethod<AuthorizationBase> {
 
   /// Deserialize.
   factory AuthAcceptLoginToken.deserialize(Uint8List buffer) {
+    // final token = _readbytes(buffer, 0, token);
+    // final result = AuthAcceptLoginToken({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55416,6 +64625,11 @@ class AccountSetContentSettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSetContentSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final sensitiveEnabled = _readflags.0?true(buffer, 0, sensitiveEnabled);
+    // final result = AccountSetContentSettings({flags: flags, sensitiveEnabled: sensitiveEnabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55443,6 +64657,9 @@ class AccountGetContentSettings extends TlMethod<AccountContentSettingsBase> {
 
   /// Deserialize.
   factory AccountGetContentSettings.deserialize(Uint8List buffer) {
+    // final result = AccountGetContentSettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -55462,6 +64679,9 @@ class ChannelsGetInactiveChannels extends TlMethod<MessagesInactiveChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetInactiveChannels.deserialize(Uint8List buffer) {
+    // final result = ChannelsGetInactiveChannels();
+    // return result;
+
     throw Exception();
   }
 
@@ -55483,6 +64703,10 @@ class AccountGetMultiWallPapers extends TlMethod<List<WallPaperBase>> {
 
   /// Deserialize.
   factory AccountGetMultiWallPapers.deserialize(Uint8List buffer) {
+    // final wallpapers = _readVector<InputWallPaper>(buffer, 0, wallpapers);
+    // final result = AccountGetMultiWallPapers({wallpapers: wallpapers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55513,6 +64737,15 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
 
   /// Deserialize.
   factory MessagesGetPollVotes.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final option = _readflags.0?bytes(buffer, 0, option);
+    // final offset = _readflags.1?string(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetPollVotes({flags: flags, peer: peer, id: id, option: option, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55559,6 +64792,14 @@ class MessagesToggleStickerSets extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesToggleStickerSets.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final uninstall = _readflags.0?true(buffer, 0, uninstall);
+    // final archive = _readflags.1?true(buffer, 0, archive);
+    // final unarchive = _readflags.2?true(buffer, 0, unarchive);
+    // final stickersets = _readVector<InputStickerSet>(buffer, 0, stickersets);
+    // final result = MessagesToggleStickerSets({flags: flags, uninstall: uninstall, archive: archive, unarchive: unarchive, stickersets: stickersets,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55600,6 +64841,10 @@ class PaymentsGetBankCardData extends TlMethod<PaymentsBankCardDataBase> {
 
   /// Deserialize.
   factory PaymentsGetBankCardData.deserialize(Uint8List buffer) {
+    // final number = _readstring(buffer, 0, number);
+    // final result = PaymentsGetBankCardData({number: number,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55623,6 +64868,9 @@ class MessagesGetDialogFilters extends TlMethod<List<DialogFilterBase>> {
 
   /// Deserialize.
   factory MessagesGetDialogFilters.deserialize(Uint8List buffer) {
+    // final result = MessagesGetDialogFilters();
+    // return result;
+
     throw Exception();
   }
 
@@ -55643,6 +64891,9 @@ class MessagesGetSuggestedDialogFilters
 
   /// Deserialize.
   factory MessagesGetSuggestedDialogFilters.deserialize(Uint8List buffer) {
+    // final result = MessagesGetSuggestedDialogFilters();
+    // return result;
+
     throw Exception();
   }
 
@@ -55666,6 +64917,12 @@ class MessagesUpdateDialogFilter extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesUpdateDialogFilter.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final id = _readint(buffer, 0, id);
+    // final filter = _readflags.0?DialogFilter(buffer, 0, filter);
+    // final result = MessagesUpdateDialogFilter({flags: flags, id: id, filter: filter,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55699,6 +64956,10 @@ class MessagesUpdateDialogFiltersOrder extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesUpdateDialogFiltersOrder.deserialize(Uint8List buffer) {
+    // final order = _readVector<int>(buffer, 0, order);
+    // final result = MessagesUpdateDialogFiltersOrder({order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55725,6 +64986,12 @@ class StatsGetBroadcastStats extends TlMethod<StatsBroadcastStatsBase> {
 
   /// Deserialize.
   factory StatsGetBroadcastStats.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = StatsGetBroadcastStats({flags: flags, dark: dark, channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55760,6 +65027,12 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
 
   /// Deserialize.
   factory StatsLoadAsyncGraph.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final token = _readstring(buffer, 0, token);
+    // final x = _readflags.0?long(buffer, 0, x);
+    // final result = StatsLoadAsyncGraph({flags: flags, token: token, x: x,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55796,6 +65069,13 @@ class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersSetStickerSetThumb.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final thumb = _readflags.0?InputDocument(buffer, 0, thumb);
+    // final thumbDocumentId = _readflags.1?long(buffer, 0, thumbDocumentId);
+    // final result = StickersSetStickerSetThumb({flags: flags, stickerset: stickerset, thumb: thumb, thumbDocumentId: thumbDocumentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55835,6 +65115,12 @@ class BotsSetBotCommands extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsSetBotCommands.deserialize(Uint8List buffer) {
+    // final scope = _readBotCommandScope(buffer, 0, scope);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final commands = _readVector<BotCommand>(buffer, 0, commands);
+    // final result = BotsSetBotCommands({scope: scope, langCode: langCode, commands: commands,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55871,6 +65157,12 @@ class MessagesGetOldFeaturedStickers
 
   /// Deserialize.
   factory MessagesGetOldFeaturedStickers.deserialize(Uint8List buffer) {
+    // final offset = _readint(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetOldFeaturedStickers({offset: offset, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55902,6 +65194,9 @@ class HelpGetPromoData extends TlMethod<HelpPromoDataBase> {
 
   /// Deserialize.
   factory HelpGetPromoData.deserialize(Uint8List buffer) {
+    // final result = HelpGetPromoData();
+    // return result;
+
     throw Exception();
   }
 
@@ -55923,6 +65218,10 @@ class HelpHidePromoData extends TlMethod<bool> {
 
   /// Deserialize.
   factory HelpHidePromoData.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = HelpHidePromoData({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55949,6 +65248,11 @@ class PhoneSendSignalingData extends TlMethod<bool> {
 
   /// Deserialize.
   factory PhoneSendSignalingData.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final data = _readbytes(buffer, 0, data);
+    // final result = PhoneSendSignalingData({peer: peer, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -55979,6 +65283,12 @@ class StatsGetMegagroupStats extends TlMethod<StatsMegagroupStatsBase> {
 
   /// Deserialize.
   factory StatsGetMegagroupStats.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = StatsGetMegagroupStats({flags: flags, dark: dark, channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56011,6 +65321,9 @@ class AccountGetGlobalPrivacySettings
 
   /// Deserialize.
   factory AccountGetGlobalPrivacySettings.deserialize(Uint8List buffer) {
+    // final result = AccountGetGlobalPrivacySettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -56033,6 +65346,10 @@ class AccountSetGlobalPrivacySettings
 
   /// Deserialize.
   factory AccountSetGlobalPrivacySettings.deserialize(Uint8List buffer) {
+    // final settings = _readGlobalPrivacySettings(buffer, 0, settings);
+    // final result = AccountSetGlobalPrivacySettings({settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56059,6 +65376,11 @@ class HelpDismissSuggestion extends TlMethod<bool> {
 
   /// Deserialize.
   factory HelpDismissSuggestion.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final suggestion = _readstring(buffer, 0, suggestion);
+    // final result = HelpDismissSuggestion({peer: peer, suggestion: suggestion,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56089,6 +65411,11 @@ class HelpGetCountriesList extends TlMethod<HelpCountriesListBase> {
 
   /// Deserialize.
   factory HelpGetCountriesList.deserialize(Uint8List buffer) {
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpGetCountriesList({langCode: langCode, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56126,6 +65453,18 @@ class MessagesGetReplies extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetReplies.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetReplies({peer: peer, msgId: msgId, offsetId: offsetId, offsetDate: offsetDate, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56185,6 +65524,11 @@ class MessagesGetDiscussionMessage
 
   /// Deserialize.
   factory MessagesGetDiscussionMessage.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = MessagesGetDiscussionMessage({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56216,6 +65560,12 @@ class MessagesReadDiscussion extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReadDiscussion.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final readMaxId = _readint(buffer, 0, readMaxId);
+    // final result = MessagesReadDiscussion({peer: peer, msgId: msgId, readMaxId: readMaxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56250,6 +65600,14 @@ class ContactsBlockFromReplies extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ContactsBlockFromReplies.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final deleteMessage = _readflags.0?true(buffer, 0, deleteMessage);
+    // final deleteHistory = _readflags.1?true(buffer, 0, deleteHistory);
+    // final reportSpam = _readflags.2?true(buffer, 0, reportSpam);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = ContactsBlockFromReplies({flags: flags, deleteMessage: deleteMessage, deleteHistory: deleteHistory, reportSpam: reportSpam, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56294,6 +65652,13 @@ class StatsGetMessagePublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Deserialize.
   factory StatsGetMessagePublicForwards.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final offset = _readstring(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StatsGetMessagePublicForwards({channel: channel, msgId: msgId, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56333,6 +65698,13 @@ class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
 
   /// Deserialize.
   factory StatsGetMessageStats.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = StatsGetMessageStats({flags: flags, dark: dark, channel: channel, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56372,6 +65744,12 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory MessagesUnpinAllMessages.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final result = MessagesUnpinAllMessages({flags: flags, peer: peer, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56409,6 +65787,15 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneCreateGroupCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final rtmpStream = _readflags.2?true(buffer, 0, rtmpStream);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final randomId = _readint(buffer, 0, randomId);
+    // final title = _readflags.0?string(buffer, 0, title);
+    // final scheduleDate = _readflags.1?int(buffer, 0, scheduleDate);
+    // final result = PhoneCreateGroupCall({flags: flags, rtmpStream: rtmpStream, peer: peer, randomId: randomId, title: title, scheduleDate: scheduleDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56458,6 +65845,16 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneJoinGroupCall.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final muted = _readflags.0?true(buffer, 0, muted);
+    // final videoStopped = _readflags.2?true(buffer, 0, videoStopped);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final joinAs = _readInputPeer(buffer, 0, joinAs);
+    // final inviteHash = _readflags.1?string(buffer, 0, inviteHash);
+    // final params = _readDataJSON(buffer, 0, params);
+    // final result = PhoneJoinGroupCall({flags: flags, muted: muted, videoStopped: videoStopped, call: call, joinAs: joinAs, inviteHash: inviteHash, params: params,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56508,6 +65905,11 @@ class PhoneLeaveGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneLeaveGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final source = _readint(buffer, 0, source);
+    // final result = PhoneLeaveGroupCall({call: call, source: source,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56538,6 +65940,11 @@ class PhoneInviteToGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneInviteToGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final users = _readVector<InputUser>(buffer, 0, users);
+    // final result = PhoneInviteToGroupCall({call: call, users: users,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56567,6 +65974,10 @@ class PhoneDiscardGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneDiscardGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = PhoneDiscardGroupCall({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56594,6 +66005,13 @@ class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneToggleGroupCallSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final resetInviteHash = _readflags.1?true(buffer, 0, resetInviteHash);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final joinMuted = _readflags.0?Bool(buffer, 0, joinMuted);
+    // final result = PhoneToggleGroupCallSettings({flags: flags, resetInviteHash: resetInviteHash, call: call, joinMuted: joinMuted,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56632,6 +66050,11 @@ class PhoneGetGroupCall extends TlMethod<PhoneGroupCallBase> {
 
   /// Deserialize.
   factory PhoneGetGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = PhoneGetGroupCall({call: call, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56665,6 +66088,14 @@ class PhoneGetGroupParticipants extends TlMethod<PhoneGroupParticipantsBase> {
 
   /// Deserialize.
   factory PhoneGetGroupParticipants.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final ids = _readVector<InputPeer>(buffer, 0, ids);
+    // final sources = _readVector<int>(buffer, 0, sources);
+    // final offset = _readstring(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = PhoneGetGroupParticipants({call: call, ids: ids, sources: sources, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56707,6 +66138,11 @@ class PhoneCheckGroupCall extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory PhoneCheckGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final sources = _readVector<int>(buffer, 0, sources);
+    // final result = PhoneCheckGroupCall({call: call, sources: sources,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56736,6 +66172,10 @@ class MessagesDeleteChat extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesDeleteChat.deserialize(Uint8List buffer) {
+    // final chatId = _readlong(buffer, 0, chatId);
+    // final result = MessagesDeleteChat({chatId: chatId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56762,6 +66202,11 @@ class MessagesDeletePhoneCallHistory
 
   /// Deserialize.
   factory MessagesDeletePhoneCallHistory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revoke = _readflags.0?true(buffer, 0, revoke);
+    // final result = MessagesDeletePhoneCallHistory({flags: flags, revoke: revoke,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56792,6 +66237,10 @@ class MessagesCheckHistoryImport
 
   /// Deserialize.
   factory MessagesCheckHistoryImport.deserialize(Uint8List buffer) {
+    // final importHead = _readstring(buffer, 0, importHead);
+    // final result = MessagesCheckHistoryImport({importHead: importHead,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56819,6 +66268,12 @@ class MessagesInitHistoryImport extends TlMethod<MessagesHistoryImportBase> {
 
   /// Deserialize.
   factory MessagesInitHistoryImport.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final file = _readInputFile(buffer, 0, file);
+    // final mediaCount = _readint(buffer, 0, mediaCount);
+    // final result = MessagesInitHistoryImport({peer: peer, file: file, mediaCount: mediaCount,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56855,6 +66310,13 @@ class MessagesUploadImportedMedia extends TlMethod<MessageMediaBase> {
 
   /// Deserialize.
   factory MessagesUploadImportedMedia.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final importId = _readlong(buffer, 0, importId);
+    // final fileName = _readstring(buffer, 0, fileName);
+    // final media = _readInputMedia(buffer, 0, media);
+    // final result = MessagesUploadImportedMedia({peer: peer, importId: importId, fileName: fileName, media: media,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56893,6 +66355,11 @@ class MessagesStartHistoryImport extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesStartHistoryImport.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final importId = _readlong(buffer, 0, importId);
+    // final result = MessagesStartHistoryImport({peer: peer, importId: importId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56928,6 +66395,16 @@ class MessagesGetExportedChatInvites
 
   /// Deserialize.
   factory MessagesGetExportedChatInvites.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revoked = _readflags.3?true(buffer, 0, revoked);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final adminId = _readInputUser(buffer, 0, adminId);
+    // final offsetDate = _readflags.2?int(buffer, 0, offsetDate);
+    // final offsetLink = _readflags.2?string(buffer, 0, offsetLink);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetExportedChatInvites({flags: flags, revoked: revoked, peer: peer, adminId: adminId, offsetDate: offsetDate, offsetLink: offsetLink, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -56979,6 +66456,11 @@ class MessagesGetExportedChatInvite
 
   /// Deserialize.
   factory MessagesGetExportedChatInvite.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final link = _readstring(buffer, 0, link);
+    // final result = MessagesGetExportedChatInvite({peer: peer, link: link,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57015,6 +66497,17 @@ class MessagesEditExportedChatInvite
 
   /// Deserialize.
   factory MessagesEditExportedChatInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final revoked = _readflags.2?true(buffer, 0, revoked);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final link = _readstring(buffer, 0, link);
+    // final expireDate = _readflags.0?int(buffer, 0, expireDate);
+    // final usageLimit = _readflags.1?int(buffer, 0, usageLimit);
+    // final requestNeeded = _readflags.3?Bool(buffer, 0, requestNeeded);
+    // final title = _readflags.4?string(buffer, 0, title);
+    // final result = MessagesEditExportedChatInvite({flags: flags, revoked: revoked, peer: peer, link: link, expireDate: expireDate, usageLimit: usageLimit, requestNeeded: requestNeeded, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57070,6 +66563,11 @@ class MessagesDeleteRevokedExportedChatInvites extends TlMethod<bool> {
   /// Deserialize.
   factory MessagesDeleteRevokedExportedChatInvites.deserialize(
       Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final adminId = _readInputUser(buffer, 0, adminId);
+    // final result = MessagesDeleteRevokedExportedChatInvites({peer: peer, adminId: adminId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57100,6 +66598,11 @@ class MessagesDeleteExportedChatInvite extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesDeleteExportedChatInvite.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final link = _readstring(buffer, 0, link);
+    // final result = MessagesDeleteExportedChatInvite({peer: peer, link: link,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57130,6 +66633,10 @@ class MessagesGetAdminsWithInvites
 
   /// Deserialize.
   factory MessagesGetAdminsWithInvites.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesGetAdminsWithInvites({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57162,6 +66669,17 @@ class MessagesGetChatInviteImporters
 
   /// Deserialize.
   factory MessagesGetChatInviteImporters.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final requested = _readflags.0?true(buffer, 0, requested);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final link = _readflags.1?string(buffer, 0, link);
+    // final q = _readflags.2?string(buffer, 0, q);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final offsetUser = _readInputUser(buffer, 0, offsetUser);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetChatInviteImporters({flags: flags, requested: requested, peer: peer, link: link, q: q, offsetDate: offsetDate, offsetUser: offsetUser, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57216,6 +66734,11 @@ class MessagesSetHistoryTTL extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSetHistoryTTL.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final period = _readint(buffer, 0, period);
+    // final result = MessagesSetHistoryTTL({peer: peer, period: period,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57248,6 +66771,13 @@ class AccountReportProfilePhoto extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountReportProfilePhoto.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final photoId = _readInputPhoto(buffer, 0, photoId);
+    // final reason = _readReportReason(buffer, 0, reason);
+    // final message = _readstring(buffer, 0, message);
+    // final result = AccountReportProfilePhoto({peer: peer, photoId: photoId, reason: reason, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57285,6 +66815,10 @@ class ChannelsConvertToGigagroup extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsConvertToGigagroup.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsConvertToGigagroup({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57311,6 +66845,10 @@ class MessagesCheckHistoryImportPeer
 
   /// Deserialize.
   factory MessagesCheckHistoryImportPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesCheckHistoryImportPeer({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57339,6 +66877,15 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneToggleGroupCallRecord.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final start = _readflags.0?true(buffer, 0, start);
+    // final video = _readflags.2?true(buffer, 0, video);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final videoPortrait = _readflags.2?Bool(buffer, 0, videoPortrait);
+    // final result = PhoneToggleGroupCallRecord({flags: flags, start: start, video: video, call: call, title: title, videoPortrait: videoPortrait,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57392,6 +66939,18 @@ class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneEditGroupCallParticipant.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final participant = _readInputPeer(buffer, 0, participant);
+    // final muted = _readflags.0?Bool(buffer, 0, muted);
+    // final volume = _readflags.1?int(buffer, 0, volume);
+    // final raiseHand = _readflags.2?Bool(buffer, 0, raiseHand);
+    // final videoStopped = _readflags.3?Bool(buffer, 0, videoStopped);
+    // final videoPaused = _readflags.4?Bool(buffer, 0, videoPaused);
+    // final presentationPaused = _readflags.5?Bool(buffer, 0, presentationPaused);
+    // final result = PhoneEditGroupCallParticipant({flags: flags, call: call, participant: participant, muted: muted, volume: volume, raiseHand: raiseHand, videoStopped: videoStopped, videoPaused: videoPaused, presentationPaused: presentationPaused,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57450,6 +67009,11 @@ class PhoneEditGroupCallTitle extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneEditGroupCallTitle.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final title = _readstring(buffer, 0, title);
+    // final result = PhoneEditGroupCallTitle({call: call, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57479,6 +67043,10 @@ class PhoneGetGroupCallJoinAs extends TlMethod<PhoneJoinAsPeersBase> {
 
   /// Deserialize.
   factory PhoneGetGroupCallJoinAs.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = PhoneGetGroupCallJoinAs({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57506,6 +67074,12 @@ class PhoneExportGroupCallInvite
 
   /// Deserialize.
   factory PhoneExportGroupCallInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final canSelfUnmute = _readflags.0?true(buffer, 0, canSelfUnmute);
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = PhoneExportGroupCallInvite({flags: flags, canSelfUnmute: canSelfUnmute, call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57540,6 +67114,11 @@ class PhoneToggleGroupCallStartSubscription extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneToggleGroupCallStartSubscription.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final subscribed = _readBool(buffer, 0, subscribed);
+    // final result = PhoneToggleGroupCallStartSubscription({call: call, subscribed: subscribed,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57569,6 +67148,10 @@ class PhoneStartScheduledGroupCall extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneStartScheduledGroupCall.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = PhoneStartScheduledGroupCall({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57595,6 +67178,11 @@ class PhoneSaveDefaultGroupCallJoinAs extends TlMethod<bool> {
 
   /// Deserialize.
   factory PhoneSaveDefaultGroupCallJoinAs.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final joinAs = _readInputPeer(buffer, 0, joinAs);
+    // final result = PhoneSaveDefaultGroupCallJoinAs({peer: peer, joinAs: joinAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57625,6 +67213,11 @@ class PhoneJoinGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneJoinGroupCallPresentation.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final params = _readDataJSON(buffer, 0, params);
+    // final result = PhoneJoinGroupCallPresentation({call: call, params: params,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57654,6 +67247,10 @@ class PhoneLeaveGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PhoneLeaveGroupCallPresentation.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = PhoneLeaveGroupCallPresentation({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57679,6 +67276,10 @@ class StickersCheckShortName extends TlMethod<bool> {
 
   /// Deserialize.
   factory StickersCheckShortName.deserialize(Uint8List buffer) {
+    // final shortName = _readstring(buffer, 0, shortName);
+    // final result = StickersCheckShortName({shortName: shortName,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57705,6 +67306,10 @@ class StickersSuggestShortName
 
   /// Deserialize.
   factory StickersSuggestShortName.deserialize(Uint8List buffer) {
+    // final title = _readstring(buffer, 0, title);
+    // final result = StickersSuggestShortName({title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57731,6 +67336,11 @@ class BotsResetBotCommands extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsResetBotCommands.deserialize(Uint8List buffer) {
+    // final scope = _readBotCommandScope(buffer, 0, scope);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = BotsResetBotCommands({scope: scope, langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57761,6 +67371,11 @@ class BotsGetBotCommands extends TlMethod<List<BotCommandBase>> {
 
   /// Deserialize.
   factory BotsGetBotCommands.deserialize(Uint8List buffer) {
+    // final scope = _readBotCommandScope(buffer, 0, scope);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = BotsGetBotCommands({scope: scope, langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57788,6 +67403,9 @@ class AccountResetPassword extends TlMethod<AccountResetPasswordResultBase> {
 
   /// Deserialize.
   factory AccountResetPassword.deserialize(Uint8List buffer) {
+    // final result = AccountResetPassword();
+    // return result;
+
     throw Exception();
   }
 
@@ -57807,6 +67425,9 @@ class AccountDeclinePasswordReset extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountDeclinePasswordReset.deserialize(Uint8List buffer) {
+    // final result = AccountDeclinePasswordReset();
+    // return result;
+
     throw Exception();
   }
 
@@ -57828,6 +67449,10 @@ class AuthCheckRecoveryPassword extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthCheckRecoveryPassword.deserialize(Uint8List buffer) {
+    // final code = _readstring(buffer, 0, code);
+    // final result = AuthCheckRecoveryPassword({code: code,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57853,6 +67478,10 @@ class AccountGetChatThemes extends TlMethod<AccountThemesBase> {
 
   /// Deserialize.
   factory AccountGetChatThemes.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetChatThemes({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57879,6 +67508,11 @@ class MessagesSetChatTheme extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSetChatTheme.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final result = MessagesSetChatTheme({peer: peer, emoticon: emoticon,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57909,6 +67543,11 @@ class ChannelsViewSponsoredMessage extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsViewSponsoredMessage.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final randomId = _readbytes(buffer, 0, randomId);
+    // final result = ChannelsViewSponsoredMessage({channel: channel, randomId: randomId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57939,6 +67578,10 @@ class ChannelsGetSponsoredMessages
 
   /// Deserialize.
   factory ChannelsGetSponsoredMessages.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsGetSponsoredMessages({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -57966,6 +67609,11 @@ class MessagesGetMessageReadParticipants
 
   /// Deserialize.
   factory MessagesGetMessageReadParticipants.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = MessagesGetMessageReadParticipants({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58001,6 +67649,15 @@ class MessagesGetSearchResultsCalendar
 
   /// Deserialize.
   factory MessagesGetSearchResultsCalendar.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final savedPeerId = _readflags.2?InputPeer(buffer, 0, savedPeerId);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final result = MessagesGetSearchResultsCalendar({flags: flags, peer: peer, savedPeerId: savedPeerId, filter: filter, offsetId: offsetId, offsetDate: offsetDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58052,6 +67709,15 @@ class MessagesGetSearchResultsPositions
 
   /// Deserialize.
   factory MessagesGetSearchResultsPositions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final savedPeerId = _readflags.2?InputPeer(buffer, 0, savedPeerId);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetSearchResultsPositions({flags: flags, peer: peer, savedPeerId: savedPeerId, filter: filter, offsetId: offsetId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58099,6 +67765,13 @@ class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesHideChatJoinRequest.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final approved = _readflags.0?true(buffer, 0, approved);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = MessagesHideChatJoinRequest({flags: flags, approved: approved, peer: peer, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58138,6 +67811,13 @@ class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesHideAllChatJoinRequests.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final approved = _readflags.0?true(buffer, 0, approved);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final link = _readflags.1?string(buffer, 0, link);
+    // final result = MessagesHideAllChatJoinRequests({flags: flags, approved: approved, peer: peer, link: link,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58176,6 +67856,11 @@ class MessagesToggleNoForwards extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesToggleNoForwards.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = MessagesToggleNoForwards({peer: peer, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58206,6 +67891,11 @@ class MessagesSaveDefaultSendAs extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSaveDefaultSendAs.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final sendAs = _readInputPeer(buffer, 0, sendAs);
+    // final result = MessagesSaveDefaultSendAs({peer: peer, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58235,6 +67925,10 @@ class ChannelsGetSendAs extends TlMethod<ChannelsSendAsPeersBase> {
 
   /// Deserialize.
   factory ChannelsGetSendAs.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = ChannelsGetSendAs({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58260,6 +67954,10 @@ class AccountSetAuthorizationTTL extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSetAuthorizationTTL.deserialize(Uint8List buffer) {
+    // final authorizationTtlDays = _readint(buffer, 0, authorizationTtlDays);
+    // final result = AccountSetAuthorizationTTL({authorizationTtlDays: authorizationTtlDays,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58288,6 +67986,14 @@ class AccountChangeAuthorizationSettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountChangeAuthorizationSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final confirmed = _readflags.3?true(buffer, 0, confirmed);
+    // final hash = _readlong(buffer, 0, hash);
+    // final encryptedRequestsDisabled = _readflags.0?Bool(buffer, 0, encryptedRequestsDisabled);
+    // final callRequestsDisabled = _readflags.1?Bool(buffer, 0, callRequestsDisabled);
+    // final result = AccountChangeAuthorizationSettings({flags: flags, confirmed: confirmed, hash: hash, encryptedRequestsDisabled: encryptedRequestsDisabled, callRequestsDisabled: callRequestsDisabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58331,6 +68037,11 @@ class ChannelsDeleteParticipantHistory
 
   /// Deserialize.
   factory ChannelsDeleteParticipantHistory.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final participant = _readInputPeer(buffer, 0, participant);
+    // final result = ChannelsDeleteParticipantHistory({channel: channel, participant: participant,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58363,6 +68074,15 @@ class MessagesSendReaction extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendReaction.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final big = _readflags.1?true(buffer, 0, big);
+    // final addToRecent = _readflags.2?true(buffer, 0, addToRecent);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final reaction = _readflags.0?Vector<Reaction>(buffer, 0, reaction);
+    // final result = MessagesSendReaction({flags: flags, big: big, addToRecent: addToRecent, peer: peer, msgId: msgId, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58409,6 +68129,11 @@ class MessagesGetMessagesReactions extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesGetMessagesReactions.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesGetMessagesReactions({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58444,6 +68169,15 @@ class MessagesGetMessageReactionsList
 
   /// Deserialize.
   factory MessagesGetMessageReactionsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final reaction = _readflags.0?Reaction(buffer, 0, reaction);
+    // final offset = _readflags.1?string(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesGetMessageReactionsList({flags: flags, peer: peer, id: id, reaction: reaction, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58490,6 +68224,11 @@ class MessagesSetChatAvailableReactions extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSetChatAvailableReactions.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final availableReactions = _readChatReactions(buffer, 0, availableReactions);
+    // final result = MessagesSetChatAvailableReactions({peer: peer, availableReactions: availableReactions,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58520,6 +68259,10 @@ class MessagesGetAvailableReactions
 
   /// Deserialize.
   factory MessagesGetAvailableReactions.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetAvailableReactions({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58545,6 +68288,10 @@ class MessagesSetDefaultReaction extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetDefaultReaction.deserialize(Uint8List buffer) {
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = MessagesSetDefaultReaction({reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58574,6 +68321,14 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
 
   /// Deserialize.
   factory MessagesTranslateText.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readflags.0?InputPeer(buffer, 0, peer);
+    // final id = _readflags.0?Vector<int>(buffer, 0, id);
+    // final text = _readflags.1?Vector<TextWithEntities>(buffer, 0, text);
+    // final toLang = _readstring(buffer, 0, toLang);
+    // final result = MessagesTranslateText({flags: flags, peer: peer, id: id, text: text, toLang: toLang,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58622,6 +68377,17 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetUnreadReactions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final result = MessagesGetUnreadReactions({flags: flags, peer: peer, topMsgId: topMsgId, offsetId: offsetId, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58677,6 +68443,12 @@ class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory MessagesReadReactions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final topMsgId = _readflags.0?int(buffer, 0, topMsgId);
+    // final result = MessagesReadReactions({flags: flags, peer: peer, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58710,6 +68482,10 @@ class ContactsResolvePhone extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Deserialize.
   factory ContactsResolvePhone.deserialize(Uint8List buffer) {
+    // final phone = _readstring(buffer, 0, phone);
+    // final result = ContactsResolvePhone({phone: phone,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58736,6 +68512,10 @@ class PhoneGetGroupCallStreamChannels
 
   /// Deserialize.
   factory PhoneGetGroupCallStreamChannels.deserialize(Uint8List buffer) {
+    // final call = _readInputGroupCall(buffer, 0, call);
+    // final result = PhoneGetGroupCallStreamChannels({call: call,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58763,6 +68543,11 @@ class PhoneGetGroupCallStreamRtmpUrl
 
   /// Deserialize.
   factory PhoneGetGroupCallStreamRtmpUrl.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final revoke = _readBool(buffer, 0, revoke);
+    // final result = PhoneGetGroupCallStreamRtmpUrl({peer: peer, revoke: revoke,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58794,6 +68579,12 @@ class MessagesSearchSentMedia extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesSearchSentMedia.deserialize(Uint8List buffer) {
+    // final q = _readstring(buffer, 0, q);
+    // final filter = _readMessagesFilter(buffer, 0, filter);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = MessagesSearchSentMedia({q: q, filter: filter, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58827,6 +68618,10 @@ class MessagesGetAttachMenuBots extends TlMethod<AttachMenuBotsBase> {
 
   /// Deserialize.
   factory MessagesGetAttachMenuBots.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetAttachMenuBots({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58852,6 +68647,10 @@ class MessagesGetAttachMenuBot extends TlMethod<AttachMenuBotsBotBase> {
 
   /// Deserialize.
   factory MessagesGetAttachMenuBot.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final result = MessagesGetAttachMenuBot({bot: bot,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58879,6 +68678,13 @@ class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesToggleBotInAttachMenu.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final writeAllowed = _readflags.0?true(buffer, 0, writeAllowed);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = MessagesToggleBotInAttachMenu({flags: flags, writeAllowed: writeAllowed, bot: bot, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58924,6 +68730,20 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
 
   /// Deserialize.
   factory MessagesRequestWebView.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final fromBotMenu = _readflags.4?true(buffer, 0, fromBotMenu);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final url = _readflags.1?string(buffer, 0, url);
+    // final startParam = _readflags.3?string(buffer, 0, startParam);
+    // final themeParams = _readflags.2?DataJSON(buffer, 0, themeParams);
+    // final platform = _readstring(buffer, 0, platform);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesRequestWebView({flags: flags, fromBotMenu: fromBotMenu, silent: silent, peer: peer, bot: bot, url: url, startParam: startParam, themeParams: themeParams, platform: platform, replyTo: replyTo, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -58994,6 +68814,16 @@ class MessagesProlongWebView extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesProlongWebView.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final silent = _readflags.5?true(buffer, 0, silent);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final queryId = _readlong(buffer, 0, queryId);
+    // final replyTo = _readflags.0?InputReplyTo(buffer, 0, replyTo);
+    // final sendAs = _readflags.13?InputPeer(buffer, 0, sendAs);
+    // final result = MessagesProlongWebView({flags: flags, silent: silent, peer: peer, bot: bot, queryId: queryId, replyTo: replyTo, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59048,6 +68878,17 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
 
   /// Deserialize.
   factory MessagesRequestSimpleWebView.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final fromSwitchWebview = _readflags.1?true(buffer, 0, fromSwitchWebview);
+    // final fromSideMenu = _readflags.2?true(buffer, 0, fromSideMenu);
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final url = _readflags.3?string(buffer, 0, url);
+    // final startParam = _readflags.4?string(buffer, 0, startParam);
+    // final themeParams = _readflags.0?DataJSON(buffer, 0, themeParams);
+    // final platform = _readstring(buffer, 0, platform);
+    // final result = MessagesRequestSimpleWebView({flags: flags, fromSwitchWebview: fromSwitchWebview, fromSideMenu: fromSideMenu, bot: bot, url: url, startParam: startParam, themeParams: themeParams, platform: platform,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59103,6 +68944,11 @@ class MessagesSendWebViewResultMessage
 
   /// Deserialize.
   factory MessagesSendWebViewResultMessage.deserialize(Uint8List buffer) {
+    // final botQueryId = _readstring(buffer, 0, botQueryId);
+    // final result = _readInputBotInlineResult(buffer, 0, result);
+    // final result = MessagesSendWebViewResultMessage({botQueryId: botQueryId, result: result,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59135,6 +68981,13 @@ class MessagesSendWebViewData extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendWebViewData.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final buttonText = _readstring(buffer, 0, buttonText);
+    // final data = _readstring(buffer, 0, data);
+    // final result = MessagesSendWebViewData({bot: bot, randomId: randomId, buttonText: buttonText, data: data,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59173,6 +69026,11 @@ class BotsSetBotMenuButton extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsSetBotMenuButton.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final button = _readBotMenuButton(buffer, 0, button);
+    // final result = BotsSetBotMenuButton({userId: userId, button: button,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59202,6 +69060,10 @@ class BotsGetBotMenuButton extends TlMethod<BotMenuButtonBase> {
 
   /// Deserialize.
   factory BotsGetBotMenuButton.deserialize(Uint8List buffer) {
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = BotsGetBotMenuButton({userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59227,6 +69089,10 @@ class AccountGetSavedRingtones extends TlMethod<AccountSavedRingtonesBase> {
 
   /// Deserialize.
   factory AccountGetSavedRingtones.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetSavedRingtones({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59253,6 +69119,11 @@ class AccountSaveRingtone extends TlMethod<AccountSavedRingtoneBase> {
 
   /// Deserialize.
   factory AccountSaveRingtone.deserialize(Uint8List buffer) {
+    // final id = _readInputDocument(buffer, 0, id);
+    // final unsave = _readBool(buffer, 0, unsave);
+    // final result = AccountSaveRingtone({id: id, unsave: unsave,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59284,6 +69155,12 @@ class AccountUploadRingtone extends TlMethod<DocumentBase> {
 
   /// Deserialize.
   factory AccountUploadRingtone.deserialize(Uint8List buffer) {
+    // final file = _readInputFile(buffer, 0, file);
+    // final fileName = _readstring(buffer, 0, fileName);
+    // final mimeType = _readstring(buffer, 0, mimeType);
+    // final result = AccountUploadRingtone({file: file, fileName: fileName, mimeType: mimeType,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59317,6 +69194,10 @@ class BotsSetBotBroadcastDefaultAdminRights extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsSetBotBroadcastDefaultAdminRights.deserialize(Uint8List buffer) {
+    // final adminRights = _readChatAdminRights(buffer, 0, adminRights);
+    // final result = BotsSetBotBroadcastDefaultAdminRights({adminRights: adminRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59342,6 +69223,10 @@ class BotsSetBotGroupDefaultAdminRights extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsSetBotGroupDefaultAdminRights.deserialize(Uint8List buffer) {
+    // final adminRights = _readChatAdminRights(buffer, 0, adminRights);
+    // final result = BotsSetBotGroupDefaultAdminRights({adminRights: adminRights,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59368,6 +69253,11 @@ class PhoneSaveCallLog extends TlMethod<bool> {
 
   /// Deserialize.
   factory PhoneSaveCallLog.deserialize(Uint8List buffer) {
+    // final peer = _readInputPhoneCall(buffer, 0, peer);
+    // final file = _readInputFile(buffer, 0, file);
+    // final result = PhoneSaveCallLog({peer: peer, file: file,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59398,6 +69288,11 @@ class ChannelsToggleJoinToSend extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleJoinToSend.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleJoinToSend({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59428,6 +69323,11 @@ class ChannelsToggleJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleJoinRequest.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleJoinRequest({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59457,6 +69357,10 @@ class PaymentsExportInvoice extends TlMethod<PaymentsExportedInvoiceBase> {
 
   /// Deserialize.
   factory PaymentsExportInvoice.deserialize(Uint8List buffer) {
+    // final invoiceMedia = _readInputMedia(buffer, 0, invoiceMedia);
+    // final result = PaymentsExportInvoice({invoiceMedia: invoiceMedia,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59483,6 +69387,11 @@ class MessagesTranscribeAudio extends TlMethod<MessagesTranscribedAudioBase> {
 
   /// Deserialize.
   factory MessagesTranscribeAudio.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = MessagesTranscribeAudio({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59515,6 +69424,13 @@ class MessagesRateTranscribedAudio extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesRateTranscribedAudio.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final transcriptionId = _readlong(buffer, 0, transcriptionId);
+    // final good = _readBool(buffer, 0, good);
+    // final result = MessagesRateTranscribedAudio({peer: peer, msgId: msgId, transcriptionId: transcriptionId, good: good,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59553,6 +69469,11 @@ class PaymentsAssignAppStoreTransaction extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PaymentsAssignAppStoreTransaction.deserialize(Uint8List buffer) {
+    // final receipt = _readbytes(buffer, 0, receipt);
+    // final purpose = _readInputStorePaymentPurpose(buffer, 0, purpose);
+    // final result = PaymentsAssignAppStoreTransaction({receipt: receipt, purpose: purpose,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59583,6 +69504,11 @@ class PaymentsAssignPlayMarketTransaction extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PaymentsAssignPlayMarketTransaction.deserialize(Uint8List buffer) {
+    // final receipt = _readDataJSON(buffer, 0, receipt);
+    // final purpose = _readInputStorePaymentPurpose(buffer, 0, purpose);
+    // final result = PaymentsAssignPlayMarketTransaction({receipt: receipt, purpose: purpose,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59612,6 +69538,10 @@ class PaymentsCanPurchasePremium extends TlMethod<bool> {
 
   /// Deserialize.
   factory PaymentsCanPurchasePremium.deserialize(Uint8List buffer) {
+    // final purpose = _readInputStorePaymentPurpose(buffer, 0, purpose);
+    // final result = PaymentsCanPurchasePremium({purpose: purpose,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59635,6 +69565,9 @@ class HelpGetPremiumPromo extends TlMethod<HelpPremiumPromoBase> {
 
   /// Deserialize.
   factory HelpGetPremiumPromo.deserialize(Uint8List buffer) {
+    // final result = HelpGetPremiumPromo();
+    // return result;
+
     throw Exception();
   }
 
@@ -59656,6 +69589,10 @@ class MessagesGetCustomEmojiDocuments extends TlMethod<List<DocumentBase>> {
 
   /// Deserialize.
   factory MessagesGetCustomEmojiDocuments.deserialize(Uint8List buffer) {
+    // final documentId = _readVector<long>(buffer, 0, documentId);
+    // final result = MessagesGetCustomEmojiDocuments({documentId: documentId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59681,6 +69618,10 @@ class MessagesGetEmojiStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Deserialize.
   factory MessagesGetEmojiStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetEmojiStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59707,6 +69648,10 @@ class MessagesGetFeaturedEmojiStickers
 
   /// Deserialize.
   factory MessagesGetFeaturedEmojiStickers.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetFeaturedEmojiStickers({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59732,6 +69677,10 @@ class AccountUpdateEmojiStatus extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdateEmojiStatus.deserialize(Uint8List buffer) {
+    // final emojiStatus = _readEmojiStatus(buffer, 0, emojiStatus);
+    // final result = AccountUpdateEmojiStatus({emojiStatus: emojiStatus,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59758,6 +69707,10 @@ class AccountGetDefaultEmojiStatuses
 
   /// Deserialize.
   factory AccountGetDefaultEmojiStatuses.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetDefaultEmojiStatuses({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59783,6 +69736,10 @@ class AccountGetRecentEmojiStatuses extends TlMethod<AccountEmojiStatusesBase> {
 
   /// Deserialize.
   factory AccountGetRecentEmojiStatuses.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetRecentEmojiStatuses({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59806,6 +69763,9 @@ class AccountClearRecentEmojiStatuses extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountClearRecentEmojiStatuses.deserialize(Uint8List buffer) {
+    // final result = AccountClearRecentEmojiStatuses();
+    // return result;
+
     throw Exception();
   }
 
@@ -59829,6 +69789,12 @@ class MessagesReportReaction extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReportReaction.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final reactionPeer = _readInputPeer(buffer, 0, reactionPeer);
+    // final result = MessagesReportReaction({peer: peer, id: id, reactionPeer: reactionPeer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59863,6 +69829,11 @@ class MessagesGetTopReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Deserialize.
   factory MessagesGetTopReactions.deserialize(Uint8List buffer) {
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetTopReactions({limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59893,6 +69864,11 @@ class MessagesGetRecentReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Deserialize.
   factory MessagesGetRecentReactions.deserialize(Uint8List buffer) {
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetRecentReactions({limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59920,6 +69896,9 @@ class MessagesClearRecentReactions extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesClearRecentReactions.deserialize(Uint8List buffer) {
+    // final result = MessagesClearRecentReactions();
+    // return result;
+
     throw Exception();
   }
 
@@ -59942,6 +69921,11 @@ class MessagesGetExtendedMedia extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesGetExtendedMedia.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = MessagesGetExtendedMedia({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -59973,6 +69957,12 @@ class AuthImportWebTokenAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Deserialize.
   factory AuthImportWebTokenAuthorization.deserialize(Uint8List buffer) {
+    // final apiId = _readint(buffer, 0, apiId);
+    // final apiHash = _readstring(buffer, 0, apiHash);
+    // final webAuthToken = _readstring(buffer, 0, webAuthToken);
+    // final result = AuthImportWebTokenAuthorization({apiId: apiId, apiHash: apiHash, webAuthToken: webAuthToken,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60006,6 +69996,10 @@ class AccountReorderUsernames extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountReorderUsernames.deserialize(Uint8List buffer) {
+    // final order = _readVector<string>(buffer, 0, order);
+    // final result = AccountReorderUsernames({order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60032,6 +70026,11 @@ class AccountToggleUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountToggleUsername.deserialize(Uint8List buffer) {
+    // final username = _readstring(buffer, 0, username);
+    // final active = _readBool(buffer, 0, active);
+    // final result = AccountToggleUsername({username: username, active: active,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60062,6 +70061,11 @@ class ChannelsReorderUsernames extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsReorderUsernames.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final order = _readVector<string>(buffer, 0, order);
+    // final result = ChannelsReorderUsernames({channel: channel, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60093,6 +70097,12 @@ class ChannelsToggleUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsToggleUsername.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final username = _readstring(buffer, 0, username);
+    // final active = _readBool(buffer, 0, active);
+    // final result = ChannelsToggleUsername({channel: channel, username: username, active: active,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60126,6 +70136,10 @@ class ChannelsDeactivateAllUsernames extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsDeactivateAllUsernames.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsDeactivateAllUsernames({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60152,6 +70166,11 @@ class ChannelsToggleForum extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleForum.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleForum({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60187,6 +70206,16 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsCreateForumTopic.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final title = _readstring(buffer, 0, title);
+    // final iconColor = _readflags.0?int(buffer, 0, iconColor);
+    // final iconEmojiId = _readflags.3?long(buffer, 0, iconEmojiId);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final sendAs = _readflags.2?InputPeer(buffer, 0, sendAs);
+    // final result = ChannelsCreateForumTopic({flags: flags, channel: channel, title: title, iconColor: iconColor, iconEmojiId: iconEmojiId, randomId: randomId, sendAs: sendAs,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60242,6 +70271,16 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
 
   /// Deserialize.
   factory ChannelsGetForumTopics.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final q = _readflags.0?string(buffer, 0, q);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetTopic = _readint(buffer, 0, offsetTopic);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = ChannelsGetForumTopics({flags: flags, channel: channel, q: q, offsetDate: offsetDate, offsetId: offsetId, offsetTopic: offsetTopic, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60292,6 +70331,11 @@ class ChannelsGetForumTopicsByID extends TlMethod<MessagesForumTopicsBase> {
 
   /// Deserialize.
   factory ChannelsGetForumTopicsByID.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final topics = _readVector<int>(buffer, 0, topics);
+    // final result = ChannelsGetForumTopicsByID({channel: channel, topics: topics,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60327,6 +70371,16 @@ class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsEditForumTopic.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final topicId = _readint(buffer, 0, topicId);
+    // final title = _readflags.0?string(buffer, 0, title);
+    // final iconEmojiId = _readflags.1?long(buffer, 0, iconEmojiId);
+    // final closed = _readflags.2?Bool(buffer, 0, closed);
+    // final hidden = _readflags.3?Bool(buffer, 0, hidden);
+    // final result = ChannelsEditForumTopic({flags: flags, channel: channel, topicId: topicId, title: title, iconEmojiId: iconEmojiId, closed: closed, hidden: hidden,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60378,6 +70432,12 @@ class ChannelsUpdatePinnedForumTopic extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsUpdatePinnedForumTopic.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final topicId = _readint(buffer, 0, topicId);
+    // final pinned = _readBool(buffer, 0, pinned);
+    // final result = ChannelsUpdatePinnedForumTopic({channel: channel, topicId: topicId, pinned: pinned,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60412,6 +70472,11 @@ class ChannelsDeleteTopicHistory extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory ChannelsDeleteTopicHistory.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final topMsgId = _readint(buffer, 0, topMsgId);
+    // final result = ChannelsDeleteTopicHistory({channel: channel, topMsgId: topMsgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60443,6 +70508,13 @@ class ChannelsReorderPinnedForumTopics extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsReorderPinnedForumTopics.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final force = _readflags.0?true(buffer, 0, force);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final order = _readVector<int>(buffer, 0, order);
+    // final result = ChannelsReorderPinnedForumTopics({flags: flags, force: force, channel: channel, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60481,6 +70553,11 @@ class ChannelsToggleAntiSpam extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleAntiSpam.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleAntiSpam({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60511,6 +70588,11 @@ class ChannelsReportAntiSpamFalsePositive extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsReportAntiSpamFalsePositive.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = ChannelsReportAntiSpamFalsePositive({channel: channel, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60540,6 +70622,10 @@ class MessagesSetDefaultHistoryTTL extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesSetDefaultHistoryTTL.deserialize(Uint8List buffer) {
+    // final period = _readint(buffer, 0, period);
+    // final result = MessagesSetDefaultHistoryTTL({period: period,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60563,6 +70649,9 @@ class MessagesGetDefaultHistoryTTL extends TlMethod<DefaultHistoryTTLBase> {
 
   /// Deserialize.
   factory MessagesGetDefaultHistoryTTL.deserialize(Uint8List buffer) {
+    // final result = MessagesGetDefaultHistoryTTL();
+    // return result;
+
     throw Exception();
   }
 
@@ -60582,6 +70671,9 @@ class ContactsExportContactToken extends TlMethod<ExportedContactTokenBase> {
 
   /// Deserialize.
   factory ContactsExportContactToken.deserialize(Uint8List buffer) {
+    // final result = ContactsExportContactToken();
+    // return result;
+
     throw Exception();
   }
 
@@ -60603,6 +70695,10 @@ class ContactsImportContactToken extends TlMethod<UserBase> {
 
   /// Deserialize.
   factory ContactsImportContactToken.deserialize(Uint8List buffer) {
+    // final token = _readstring(buffer, 0, token);
+    // final result = ContactsImportContactToken({token: token,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60633,6 +70729,17 @@ class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
 
   /// Deserialize.
   factory PhotosUploadContactProfilePhoto.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final suggest = _readflags.3?true(buffer, 0, suggest);
+    // final save = _readflags.4?true(buffer, 0, save);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final file = _readflags.0?InputFile(buffer, 0, file);
+    // final video = _readflags.1?InputFile(buffer, 0, video);
+    // final videoStartTs = _readflags.2?double(buffer, 0, videoStartTs);
+    // final videoEmojiMarkup = _readflags.5?VideoSize(buffer, 0, videoEmojiMarkup);
+    // final result = PhotosUploadContactProfilePhoto({flags: flags, suggest: suggest, save: save, userId: userId, file: file, video: video, videoStartTs: videoStartTs, videoEmojiMarkup: videoEmojiMarkup,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60687,6 +70794,11 @@ class ChannelsToggleParticipantsHidden extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleParticipantsHidden.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleParticipantsHidden({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60719,6 +70831,13 @@ class MessagesSendBotRequestedPeer extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSendBotRequestedPeer.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final buttonId = _readint(buffer, 0, buttonId);
+    // final requestedPeers = _readVector<InputPeer>(buffer, 0, requestedPeers);
+    // final result = MessagesSendBotRequestedPeer({peer: peer, msgId: msgId, buttonId: buttonId, requestedPeers: requestedPeers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60756,6 +70875,10 @@ class AccountGetDefaultProfilePhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Deserialize.
   factory AccountGetDefaultProfilePhotoEmojis.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetDefaultProfilePhotoEmojis({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60781,6 +70904,10 @@ class AccountGetDefaultGroupPhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Deserialize.
   factory AccountGetDefaultGroupPhotoEmojis.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetDefaultGroupPhotoEmojis({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60810,6 +70937,14 @@ class AuthRequestFirebaseSms extends TlMethod<bool> {
 
   /// Deserialize.
   factory AuthRequestFirebaseSms.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final safetyNetToken = _readflags.0?string(buffer, 0, safetyNetToken);
+    // final iosPushSecret = _readflags.1?string(buffer, 0, iosPushSecret);
+    // final result = AuthRequestFirebaseSms({flags: flags, phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash, safetyNetToken: safetyNetToken, iosPushSecret: iosPushSecret,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60851,6 +70986,10 @@ class MessagesGetEmojiGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Deserialize.
   factory MessagesGetEmojiGroups.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetEmojiGroups({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60876,6 +71015,10 @@ class MessagesGetEmojiStatusGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Deserialize.
   factory MessagesGetEmojiStatusGroups.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetEmojiStatusGroups({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60902,6 +71045,10 @@ class MessagesGetEmojiProfilePhotoGroups
 
   /// Deserialize.
   factory MessagesGetEmojiProfilePhotoGroups.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = MessagesGetEmojiProfilePhotoGroups({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60928,6 +71075,11 @@ class MessagesSearchCustomEmoji extends TlMethod<EmojiListBase> {
 
   /// Deserialize.
   factory MessagesSearchCustomEmoji.deserialize(Uint8List buffer) {
+    // final emoticon = _readstring(buffer, 0, emoticon);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesSearchCustomEmoji({emoticon: emoticon, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60958,6 +71110,12 @@ class MessagesTogglePeerTranslations extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesTogglePeerTranslations.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final disabled = _readflags.0?true(buffer, 0, disabled);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = MessagesTogglePeerTranslations({flags: flags, disabled: disabled, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -60989,6 +71147,9 @@ class AccountGetAutoSaveSettings extends TlMethod<AccountAutoSaveSettingsBase> {
 
   /// Deserialize.
   factory AccountGetAutoSaveSettings.deserialize(Uint8List buffer) {
+    // final result = AccountGetAutoSaveSettings();
+    // return result;
+
     throw Exception();
   }
 
@@ -61012,6 +71173,15 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountSaveAutoSaveSettings.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final users = _readflags.0?true(buffer, 0, users);
+    // final chats = _readflags.1?true(buffer, 0, chats);
+    // final broadcasts = _readflags.2?true(buffer, 0, broadcasts);
+    // final peer = _readflags.3?InputPeer(buffer, 0, peer);
+    // final settings = _readAutoSaveSettings(buffer, 0, settings);
+    // final result = AccountSaveAutoSaveSettings({flags: flags, users: users, chats: chats, broadcasts: broadcasts, peer: peer, settings: settings,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61055,6 +71225,9 @@ class AccountDeleteAutoSaveExceptions extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountDeleteAutoSaveExceptions.deserialize(Uint8List buffer) {
+    // final result = AccountDeleteAutoSaveExceptions();
+    // return result;
+
     throw Exception();
   }
 
@@ -61080,6 +71253,14 @@ class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersChangeSticker.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final sticker = _readInputDocument(buffer, 0, sticker);
+    // final emoji = _readflags.0?string(buffer, 0, emoji);
+    // final maskCoords = _readflags.1?MaskCoords(buffer, 0, maskCoords);
+    // final keywords = _readflags.2?string(buffer, 0, keywords);
+    // final result = StickersChangeSticker({flags: flags, sticker: sticker, emoji: emoji, maskCoords: maskCoords, keywords: keywords,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61122,6 +71303,11 @@ class StickersRenameStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Deserialize.
   factory StickersRenameStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final title = _readstring(buffer, 0, title);
+    // final result = StickersRenameStickerSet({stickerset: stickerset, title: title,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61151,6 +71337,10 @@ class StickersDeleteStickerSet extends TlMethod<bool> {
 
   /// Deserialize.
   factory StickersDeleteStickerSet.deserialize(Uint8List buffer) {
+    // final stickerset = _readInputStickerSet(buffer, 0, stickerset);
+    // final result = StickersDeleteStickerSet({stickerset: stickerset,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61177,6 +71367,11 @@ class MessagesGetBotApp extends TlMethod<MessagesBotAppBase> {
 
   /// Deserialize.
   factory MessagesGetBotApp.deserialize(Uint8List buffer) {
+    // final app = _readInputBotApp(buffer, 0, app);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetBotApp({app: app, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61211,6 +71406,16 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
 
   /// Deserialize.
   factory MessagesRequestAppWebView.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final writeAllowed = _readflags.0?true(buffer, 0, writeAllowed);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final app = _readInputBotApp(buffer, 0, app);
+    // final startParam = _readflags.1?string(buffer, 0, startParam);
+    // final themeParams = _readflags.2?DataJSON(buffer, 0, themeParams);
+    // final platform = _readstring(buffer, 0, platform);
+    // final result = MessagesRequestAppWebView({flags: flags, writeAllowed: writeAllowed, peer: peer, app: app, startParam: startParam, themeParams: themeParams, platform: platform,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61265,6 +71470,15 @@ class BotsSetBotInfo extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsSetBotInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final bot = _readflags.2?InputUser(buffer, 0, bot);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final name = _readflags.3?string(buffer, 0, name);
+    // final about = _readflags.0?string(buffer, 0, about);
+    // final description = _readflags.1?string(buffer, 0, description);
+    // final result = BotsSetBotInfo({flags: flags, bot: bot, langCode: langCode, name: name, about: about, description: description,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61312,6 +71526,12 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
 
   /// Deserialize.
   factory BotsGetBotInfo.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final bot = _readflags.0?InputUser(buffer, 0, bot);
+    // final langCode = _readstring(buffer, 0, langCode);
+    // final result = BotsGetBotInfo({flags: flags, bot: bot, langCode: langCode,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61346,6 +71566,11 @@ class AuthResetLoginEmail extends TlMethod<AuthSentCodeBase> {
 
   /// Deserialize.
   factory AuthResetLoginEmail.deserialize(Uint8List buffer) {
+    // final phoneNumber = _readstring(buffer, 0, phoneNumber);
+    // final phoneCodeHash = _readstring(buffer, 0, phoneCodeHash);
+    // final result = AuthResetLoginEmail({phoneNumber: phoneNumber, phoneCodeHash: phoneCodeHash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61378,6 +71603,12 @@ class ChatlistsExportChatlistInvite
 
   /// Deserialize.
   factory ChatlistsExportChatlistInvite.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final title = _readstring(buffer, 0, title);
+    // final peers = _readVector<InputPeer>(buffer, 0, peers);
+    // final result = ChatlistsExportChatlistInvite({chatlist: chatlist, title: title, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61412,6 +71643,11 @@ class ChatlistsDeleteExportedInvite extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChatlistsDeleteExportedInvite.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = ChatlistsDeleteExportedInvite({chatlist: chatlist, slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61445,6 +71681,14 @@ class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
 
   /// Deserialize.
   factory ChatlistsEditExportedInvite.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final slug = _readstring(buffer, 0, slug);
+    // final title = _readflags.1?string(buffer, 0, title);
+    // final peers = _readflags.2?Vector<InputPeer>(buffer, 0, peers);
+    // final result = ChatlistsEditExportedInvite({flags: flags, chatlist: chatlist, slug: slug, title: title, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61487,6 +71731,10 @@ class ChatlistsGetExportedInvites
 
   /// Deserialize.
   factory ChatlistsGetExportedInvites.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final result = ChatlistsGetExportedInvites({chatlist: chatlist,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61513,6 +71761,10 @@ class ChatlistsCheckChatlistInvite
 
   /// Deserialize.
   factory ChatlistsCheckChatlistInvite.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = ChatlistsCheckChatlistInvite({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61539,6 +71791,11 @@ class ChatlistsJoinChatlistInvite extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChatlistsJoinChatlistInvite.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final peers = _readVector<InputPeer>(buffer, 0, peers);
+    // final result = ChatlistsJoinChatlistInvite({slug: slug, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61569,6 +71826,10 @@ class ChatlistsGetChatlistUpdates
 
   /// Deserialize.
   factory ChatlistsGetChatlistUpdates.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final result = ChatlistsGetChatlistUpdates({chatlist: chatlist,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61595,6 +71856,11 @@ class ChatlistsJoinChatlistUpdates extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChatlistsJoinChatlistUpdates.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final peers = _readVector<InputPeer>(buffer, 0, peers);
+    // final result = ChatlistsJoinChatlistUpdates({chatlist: chatlist, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61624,6 +71890,10 @@ class ChatlistsHideChatlistUpdates extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChatlistsHideChatlistUpdates.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final result = ChatlistsHideChatlistUpdates({chatlist: chatlist,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61649,6 +71919,10 @@ class ChatlistsGetLeaveChatlistSuggestions extends TlMethod<List<PeerBase>> {
 
   /// Deserialize.
   factory ChatlistsGetLeaveChatlistSuggestions.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final result = ChatlistsGetLeaveChatlistSuggestions({chatlist: chatlist,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61675,6 +71949,11 @@ class ChatlistsLeaveChatlist extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChatlistsLeaveChatlist.deserialize(Uint8List buffer) {
+    // final chatlist = _readInputChatlist(buffer, 0, chatlist);
+    // final peers = _readVector<InputPeer>(buffer, 0, peers);
+    // final result = ChatlistsLeaveChatlist({chatlist: chatlist, peers: peers,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61705,6 +71984,11 @@ class BotsReorderUsernames extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsReorderUsernames.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final order = _readVector<string>(buffer, 0, order);
+    // final result = BotsReorderUsernames({bot: bot, order: order,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61736,6 +72020,12 @@ class BotsToggleUsername extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsToggleUsername.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final username = _readstring(buffer, 0, username);
+    // final active = _readBool(buffer, 0, active);
+    // final result = BotsToggleUsername({bot: bot, username: username, active: active,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61773,6 +72063,16 @@ class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory MessagesSetChatWallPaper.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forBoth = _readflags.3?true(buffer, 0, forBoth);
+    // final revert = _readflags.4?true(buffer, 0, revert);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final wallpaper = _readflags.0?InputWallPaper(buffer, 0, wallpaper);
+    // final settings = _readflags.2?WallPaperSettings(buffer, 0, settings);
+    // final id = _readflags.1?int(buffer, 0, id);
+    // final result = MessagesSetChatWallPaper({flags: flags, forBoth: forBoth, revert: revert, peer: peer, wallpaper: wallpaper, settings: settings, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61822,6 +72122,10 @@ class AccountInvalidateSignInCodes extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountInvalidateSignInCodes.deserialize(Uint8List buffer) {
+    // final codes = _readVector<string>(buffer, 0, codes);
+    // final result = AccountInvalidateSignInCodes({codes: codes,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61848,6 +72152,11 @@ class ChannelsClickSponsoredMessage extends TlMethod<bool> {
 
   /// Deserialize.
   factory ChannelsClickSponsoredMessage.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final randomId = _readbytes(buffer, 0, randomId);
+    // final result = ChannelsClickSponsoredMessage({channel: channel, randomId: randomId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61877,6 +72186,10 @@ class ContactsEditCloseFriends extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsEditCloseFriends.deserialize(Uint8List buffer) {
+    // final id = _readVector<long>(buffer, 0, id);
+    // final result = ContactsEditCloseFriends({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61902,6 +72215,10 @@ class StoriesCanSendStory extends TlMethod<bool> {
 
   /// Deserialize.
   factory StoriesCanSendStory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = StoriesCanSendStory({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -61937,6 +72254,23 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory StoriesSendStory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.2?true(buffer, 0, pinned);
+    // final noforwards = _readflags.4?true(buffer, 0, noforwards);
+    // final fwdModified = _readflags.7?true(buffer, 0, fwdModified);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final media = _readInputMedia(buffer, 0, media);
+    // final mediaAreas = _readflags.5?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // final caption = _readflags.0?string(buffer, 0, caption);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final privacyRules = _readVector<InputPrivacyRule>(buffer, 0, privacyRules);
+    // final randomId = _readlong(buffer, 0, randomId);
+    // final period = _readflags.3?int(buffer, 0, period);
+    // final fwdFromId = _readflags.6?InputPeer(buffer, 0, fwdFromId);
+    // final fwdFromStory = _readflags.6?int(buffer, 0, fwdFromStory);
+    // final result = StoriesSendStory({flags: flags, pinned: pinned, noforwards: noforwards, fwdModified: fwdModified, peer: peer, media: media, mediaAreas: mediaAreas, caption: caption, entities: entities, privacyRules: privacyRules, randomId: randomId, period: period, fwdFromId: fwdFromId, fwdFromStory: fwdFromStory,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62021,6 +72355,17 @@ class StoriesEditStory extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory StoriesEditStory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final media = _readflags.0?InputMedia(buffer, 0, media);
+    // final mediaAreas = _readflags.3?Vector<MediaArea>(buffer, 0, mediaAreas);
+    // final caption = _readflags.1?string(buffer, 0, caption);
+    // final entities = _readflags.1?Vector<MessageEntity>(buffer, 0, entities);
+    // final privacyRules = _readflags.2?Vector<InputPrivacyRule>(buffer, 0, privacyRules);
+    // final result = StoriesEditStory({flags: flags, peer: peer, id: id, media: media, mediaAreas: mediaAreas, caption: caption, entities: entities, privacyRules: privacyRules,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62075,6 +72420,11 @@ class StoriesDeleteStories extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory StoriesDeleteStories.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = StoriesDeleteStories({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62106,6 +72456,12 @@ class StoriesTogglePinned extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory StoriesTogglePinned.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final pinned = _readBool(buffer, 0, pinned);
+    // final result = StoriesTogglePinned({peer: peer, id: id, pinned: pinned,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62140,6 +72496,13 @@ class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
 
   /// Deserialize.
   factory StoriesGetAllStories.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final next = _readflags.1?true(buffer, 0, next);
+    // final hidden = _readflags.2?true(buffer, 0, hidden);
+    // final state = _readflags.0?string(buffer, 0, state);
+    // final result = StoriesGetAllStories({flags: flags, next: next, hidden: hidden, state: state,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62179,6 +72542,12 @@ class StoriesGetPinnedStories extends TlMethod<StoriesStoriesBase> {
 
   /// Deserialize.
   factory StoriesGetPinnedStories.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StoriesGetPinnedStories({peer: peer, offsetId: offsetId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62214,6 +72583,12 @@ class StoriesGetStoriesArchive extends TlMethod<StoriesStoriesBase> {
 
   /// Deserialize.
   factory StoriesGetStoriesArchive.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StoriesGetStoriesArchive({peer: peer, offsetId: offsetId, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62248,6 +72623,11 @@ class StoriesGetStoriesByID extends TlMethod<StoriesStoriesBase> {
 
   /// Deserialize.
   factory StoriesGetStoriesByID.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = StoriesGetStoriesByID({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62277,6 +72657,10 @@ class StoriesToggleAllStoriesHidden extends TlMethod<bool> {
 
   /// Deserialize.
   factory StoriesToggleAllStoriesHidden.deserialize(Uint8List buffer) {
+    // final hidden = _readBool(buffer, 0, hidden);
+    // final result = StoriesToggleAllStoriesHidden({hidden: hidden,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62303,6 +72687,11 @@ class StoriesReadStories extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory StoriesReadStories.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final result = StoriesReadStories({peer: peer, maxId: maxId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62333,6 +72722,11 @@ class StoriesIncrementStoryViews extends TlMethod<bool> {
 
   /// Deserialize.
   factory StoriesIncrementStoryViews.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = StoriesIncrementStoryViews({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62367,6 +72761,18 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
 
   /// Deserialize.
   factory StoriesGetStoryViewsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final justContacts = _readflags.0?true(buffer, 0, justContacts);
+    // final reactionsFirst = _readflags.2?true(buffer, 0, reactionsFirst);
+    // final forwardsFirst = _readflags.3?true(buffer, 0, forwardsFirst);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final q = _readflags.1?string(buffer, 0, q);
+    // final id = _readint(buffer, 0, id);
+    // final offset = _readstring(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StoriesGetStoryViewsList({flags: flags, justContacts: justContacts, reactionsFirst: reactionsFirst, forwardsFirst: forwardsFirst, peer: peer, q: q, id: id, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62425,6 +72831,11 @@ class StoriesGetStoriesViews extends TlMethod<StoriesStoryViewsBase> {
 
   /// Deserialize.
   factory StoriesGetStoriesViews.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final result = StoriesGetStoriesViews({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62455,6 +72866,11 @@ class StoriesExportStoryLink extends TlMethod<ExportedStoryLinkBase> {
 
   /// Deserialize.
   factory StoriesExportStoryLink.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final result = StoriesExportStoryLink({peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62487,6 +72903,13 @@ class StoriesReport extends TlMethod<bool> {
 
   /// Deserialize.
   factory StoriesReport.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readVector<int>(buffer, 0, id);
+    // final reason = _readReportReason(buffer, 0, reason);
+    // final message = _readstring(buffer, 0, message);
+    // final result = StoriesReport({peer: peer, id: id, reason: reason, message: message,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62524,6 +72947,12 @@ class StoriesActivateStealthMode extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory StoriesActivateStealthMode.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final past = _readflags.0?true(buffer, 0, past);
+    // final future = _readflags.1?true(buffer, 0, future);
+    // final result = StoriesActivateStealthMode({flags: flags, past: past, future: future,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62559,6 +72988,13 @@ class ContactsSetBlocked extends TlMethod<bool> {
 
   /// Deserialize.
   factory ContactsSetBlocked.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final myStoriesFrom = _readflags.0?true(buffer, 0, myStoriesFrom);
+    // final id = _readVector<InputPeer>(buffer, 0, id);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = ContactsSetBlocked({flags: flags, myStoriesFrom: myStoriesFrom, id: id, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62599,6 +73035,14 @@ class StoriesSendReaction extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory StoriesSendReaction.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final addToRecent = _readflags.0?true(buffer, 0, addToRecent);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final storyId = _readint(buffer, 0, storyId);
+    // final reaction = _readReaction(buffer, 0, reaction);
+    // final result = StoriesSendReaction({flags: flags, addToRecent: addToRecent, peer: peer, storyId: storyId, reaction: reaction,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62640,6 +73084,10 @@ class BotsCanSendMessage extends TlMethod<bool> {
 
   /// Deserialize.
   factory BotsCanSendMessage.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final result = BotsCanSendMessage({bot: bot,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62665,6 +73113,10 @@ class BotsAllowSendMessage extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory BotsAllowSendMessage.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final result = BotsAllowSendMessage({bot: bot,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62692,6 +73144,12 @@ class BotsInvokeWebViewCustomMethod extends TlMethod<DataJSONBase> {
 
   /// Deserialize.
   factory BotsInvokeWebViewCustomMethod.deserialize(Uint8List buffer) {
+    // final bot = _readInputUser(buffer, 0, bot);
+    // final customMethod = _readstring(buffer, 0, customMethod);
+    // final params = _readDataJSON(buffer, 0, params);
+    // final result = BotsInvokeWebViewCustomMethod({bot: bot, customMethod: customMethod, params: params,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62725,6 +73183,10 @@ class StoriesGetPeerStories extends TlMethod<StoriesPeerStoriesBase> {
 
   /// Deserialize.
   factory StoriesGetPeerStories.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = StoriesGetPeerStories({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62748,6 +73210,9 @@ class StoriesGetAllReadPeerStories extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory StoriesGetAllReadPeerStories.deserialize(Uint8List buffer) {
+    // final result = StoriesGetAllReadPeerStories();
+    // return result;
+
     throw Exception();
   }
 
@@ -62769,6 +73234,10 @@ class StoriesGetPeerMaxIDs extends TlMethod<List<int>> {
 
   /// Deserialize.
   factory StoriesGetPeerMaxIDs.deserialize(Uint8List buffer) {
+    // final id = _readVector<InputPeer>(buffer, 0, id);
+    // final result = StoriesGetPeerMaxIDs({id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62792,6 +73261,9 @@ class StoriesGetChatsToSend extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory StoriesGetChatsToSend.deserialize(Uint8List buffer) {
+    // final result = StoriesGetChatsToSend();
+    // return result;
+
     throw Exception();
   }
 
@@ -62814,6 +73286,11 @@ class StoriesTogglePeerStoriesHidden extends TlMethod<bool> {
 
   /// Deserialize.
   factory StoriesTogglePeerStoriesHidden.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final hidden = _readBool(buffer, 0, hidden);
+    // final result = StoriesTogglePeerStoriesHidden({peer: peer, hidden: hidden,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62845,6 +73322,11 @@ class PaymentsGetPremiumGiftCodeOptions
 
   /// Deserialize.
   factory PaymentsGetPremiumGiftCodeOptions.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final boostPeer = _readflags.0?InputPeer(buffer, 0, boostPeer);
+    // final result = PaymentsGetPremiumGiftCodeOptions({flags: flags, boostPeer: boostPeer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62874,6 +73356,10 @@ class PaymentsCheckGiftCode extends TlMethod<PaymentsCheckedGiftCodeBase> {
 
   /// Deserialize.
   factory PaymentsCheckGiftCode.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = PaymentsCheckGiftCode({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62899,6 +73385,10 @@ class PaymentsApplyGiftCode extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PaymentsApplyGiftCode.deserialize(Uint8List buffer) {
+    // final slug = _readstring(buffer, 0, slug);
+    // final result = PaymentsApplyGiftCode({slug: slug,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62925,6 +73415,11 @@ class PaymentsGetGiveawayInfo extends TlMethod<PaymentsGiveawayInfoBase> {
 
   /// Deserialize.
   factory PaymentsGetGiveawayInfo.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final msgId = _readint(buffer, 0, msgId);
+    // final result = PaymentsGetGiveawayInfo({peer: peer, msgId: msgId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62956,6 +73451,12 @@ class PaymentsLaunchPrepaidGiveaway extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory PaymentsLaunchPrepaidGiveaway.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final giveawayId = _readlong(buffer, 0, giveawayId);
+    // final purpose = _readInputStorePaymentPurpose(buffer, 0, purpose);
+    // final result = PaymentsLaunchPrepaidGiveaway({peer: peer, giveawayId: giveawayId, purpose: purpose,});
+    // return result;
+
     throw Exception();
   }
 
@@ -62991,6 +73492,13 @@ class AccountUpdateColor extends TlMethod<bool> {
 
   /// Deserialize.
   factory AccountUpdateColor.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forProfile = _readflags.1?true(buffer, 0, forProfile);
+    // final color = _readflags.2?int(buffer, 0, color);
+    // final backgroundEmojiId = _readflags.0?long(buffer, 0, backgroundEmojiId);
+    // final result = AccountUpdateColor({flags: flags, forProfile: forProfile, color: color, backgroundEmojiId: backgroundEmojiId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63031,6 +73539,14 @@ class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsUpdateColor.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forProfile = _readflags.1?true(buffer, 0, forProfile);
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final color = _readflags.2?int(buffer, 0, color);
+    // final backgroundEmojiId = _readflags.0?long(buffer, 0, backgroundEmojiId);
+    // final result = ChannelsUpdateColor({flags: flags, forProfile: forProfile, channel: channel, color: color, backgroundEmojiId: backgroundEmojiId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63072,6 +73588,10 @@ class AccountGetDefaultBackgroundEmojis extends TlMethod<EmojiListBase> {
 
   /// Deserialize.
   factory AccountGetDefaultBackgroundEmojis.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetDefaultBackgroundEmojis({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63100,6 +73620,14 @@ class PremiumGetBoostsList extends TlMethod<PremiumBoostsListBase> {
 
   /// Deserialize.
   factory PremiumGetBoostsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final gifts = _readflags.0?true(buffer, 0, gifts);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final offset = _readstring(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = PremiumGetBoostsList({flags: flags, gifts: gifts, peer: peer, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63139,6 +73667,9 @@ class PremiumGetMyBoosts extends TlMethod<PremiumMyBoostsBase> {
 
   /// Deserialize.
   factory PremiumGetMyBoosts.deserialize(Uint8List buffer) {
+    // final result = PremiumGetMyBoosts();
+    // return result;
+
     throw Exception();
   }
 
@@ -63162,6 +73693,12 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
 
   /// Deserialize.
   factory PremiumApplyBoost.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final slots = _readflags.0?Vector<int>(buffer, 0, slots);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = PremiumApplyBoost({flags: flags, slots: slots, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63195,6 +73732,10 @@ class PremiumGetBoostsStatus extends TlMethod<PremiumBoostsStatusBase> {
 
   /// Deserialize.
   factory PremiumGetBoostsStatus.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final result = PremiumGetBoostsStatus({peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63221,6 +73762,11 @@ class PremiumGetUserBoosts extends TlMethod<PremiumBoostsListBase> {
 
   /// Deserialize.
   factory PremiumGetUserBoosts.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final userId = _readInputUser(buffer, 0, userId);
+    // final result = PremiumGetUserBoosts({peer: peer, userId: userId,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63251,6 +73797,11 @@ class ChannelsToggleViewForumAsMessages extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsToggleViewForumAsMessages.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final enabled = _readBool(buffer, 0, enabled);
+    // final result = ChannelsToggleViewForumAsMessages({channel: channel, enabled: enabled,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63283,6 +73834,13 @@ class MessagesSearchEmojiStickerSets
 
   /// Deserialize.
   factory MessagesSearchEmojiStickerSets.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final excludeFeatured = _readflags.0?true(buffer, 0, excludeFeatured);
+    // final q = _readstring(buffer, 0, q);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesSearchEmojiStickerSets({flags: flags, excludeFeatured: excludeFeatured, q: q, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63320,6 +73878,10 @@ class ChannelsGetChannelRecommendations extends TlMethod<MessagesChatsBase> {
 
   /// Deserialize.
   factory ChannelsGetChannelRecommendations.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final result = ChannelsGetChannelRecommendations({channel: channel,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63347,6 +73909,13 @@ class StatsGetStoryStats extends TlMethod<StatsStoryStatsBase> {
 
   /// Deserialize.
   factory StatsGetStoryStats.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final dark = _readflags.0?true(buffer, 0, dark);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final result = StatsGetStoryStats({flags: flags, dark: dark, peer: peer, id: id,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63387,6 +73956,13 @@ class StatsGetStoryPublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Deserialize.
   factory StatsGetStoryPublicForwards.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final offset = _readstring(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StatsGetStoryPublicForwards({peer: peer, id: id, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63424,6 +74000,10 @@ class HelpGetPeerColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Deserialize.
   factory HelpGetPeerColors.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpGetPeerColors({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63449,6 +74029,10 @@ class HelpGetPeerProfileColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Deserialize.
   factory HelpGetPeerProfileColors.deserialize(Uint8List buffer) {
+    // final hash = _readint(buffer, 0, hash);
+    // final result = HelpGetPeerProfileColors({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63480,6 +74064,16 @@ class StoriesGetStoryReactionsList
 
   /// Deserialize.
   factory StoriesGetStoryReactionsList.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final forwardsFirst = _readflags.2?true(buffer, 0, forwardsFirst);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final id = _readint(buffer, 0, id);
+    // final reaction = _readflags.0?Reaction(buffer, 0, reaction);
+    // final offset = _readflags.1?string(buffer, 0, offset);
+    // final limit = _readint(buffer, 0, limit);
+    // final result = StoriesGetStoryReactionsList({flags: flags, forwardsFirst: forwardsFirst, peer: peer, id: id, reaction: reaction, offset: offset, limit: limit,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63530,6 +74124,11 @@ class ChannelsUpdateEmojiStatus extends TlMethod<UpdatesBase> {
 
   /// Deserialize.
   factory ChannelsUpdateEmojiStatus.deserialize(Uint8List buffer) {
+    // final channel = _readInputChannel(buffer, 0, channel);
+    // final emojiStatus = _readEmojiStatus(buffer, 0, emojiStatus);
+    // final result = ChannelsUpdateEmojiStatus({channel: channel, emojiStatus: emojiStatus,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63560,6 +74159,10 @@ class AccountGetChannelDefaultEmojiStatuses
 
   /// Deserialize.
   factory AccountGetChannelDefaultEmojiStatuses.deserialize(Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetChannelDefaultEmojiStatuses({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63586,6 +74189,10 @@ class AccountGetChannelRestrictedStatusEmojis extends TlMethod<EmojiListBase> {
   /// Deserialize.
   factory AccountGetChannelRestrictedStatusEmojis.deserialize(
       Uint8List buffer) {
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = AccountGetChannelRestrictedStatusEmojis({hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63616,6 +74223,16 @@ class MessagesGetSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Deserialize.
   factory MessagesGetSavedDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final excludePinned = _readflags.0?true(buffer, 0, excludePinned);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetPeer = _readInputPeer(buffer, 0, offsetPeer);
+    // final limit = _readint(buffer, 0, limit);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetSavedDialogs({flags: flags, excludePinned: excludePinned, offsetDate: offsetDate, offsetId: offsetId, offsetPeer: offsetPeer, limit: limit, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63672,6 +74289,17 @@ class MessagesGetSavedHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Deserialize.
   factory MessagesGetSavedHistory.deserialize(Uint8List buffer) {
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final offsetId = _readint(buffer, 0, offsetId);
+    // final offsetDate = _readint(buffer, 0, offsetDate);
+    // final addOffset = _readint(buffer, 0, addOffset);
+    // final limit = _readint(buffer, 0, limit);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minId = _readint(buffer, 0, minId);
+    // final hash = _readlong(buffer, 0, hash);
+    // final result = MessagesGetSavedHistory({peer: peer, offsetId: offsetId, offsetDate: offsetDate, addOffset: addOffset, limit: limit, maxId: maxId, minId: minId, hash: hash,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63729,6 +74357,14 @@ class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Deserialize.
   factory MessagesDeleteSavedHistory.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final peer = _readInputPeer(buffer, 0, peer);
+    // final maxId = _readint(buffer, 0, maxId);
+    // final minDate = _readflags.2?int(buffer, 0, minDate);
+    // final maxDate = _readflags.3?int(buffer, 0, maxDate);
+    // final result = MessagesDeleteSavedHistory({flags: flags, peer: peer, maxId: maxId, minDate: minDate, maxDate: maxDate,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63768,6 +74404,9 @@ class MessagesGetPinnedSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Deserialize.
   factory MessagesGetPinnedSavedDialogs.deserialize(Uint8List buffer) {
+    // final result = MessagesGetPinnedSavedDialogs();
+    // return result;
+
     throw Exception();
   }
 
@@ -63790,6 +74429,12 @@ class MessagesToggleSavedDialogPin extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesToggleSavedDialogPin.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final pinned = _readflags.0?true(buffer, 0, pinned);
+    // final peer = _readInputDialogPeer(buffer, 0, peer);
+    // final result = MessagesToggleSavedDialogPin({flags: flags, pinned: pinned, peer: peer,});
+    // return result;
+
     throw Exception();
   }
 
@@ -63824,6 +74469,12 @@ class MessagesReorderPinnedSavedDialogs extends TlMethod<bool> {
 
   /// Deserialize.
   factory MessagesReorderPinnedSavedDialogs.deserialize(Uint8List buffer) {
+    // final flags = _read#(buffer, 0, flags);
+    // final force = _readflags.0?true(buffer, 0, force);
+    // final order = _readVector<InputDialogPeer>(buffer, 0, order);
+    // final result = MessagesReorderPinnedSavedDialogs({flags: flags, force: force, order: order,});
+    // return result;
+
     throw Exception();
   }
 
