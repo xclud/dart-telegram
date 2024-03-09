@@ -4,6 +4,9 @@ part of '../tg.dart';
 abstract class TlObject {
   /// Constructor.
   const TlObject._();
+
+  /// Serialize to MTProto binary.
+  void serialize(Uint8List buffer);
 }
 
 /// Base Constructor class.

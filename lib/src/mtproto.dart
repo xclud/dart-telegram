@@ -14,6 +14,11 @@ class RSAPublicKey extends TlObject {
 
   /// E
   final Uint8List e;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
 
 /// Rpc Result
@@ -28,6 +33,11 @@ class RpcResult extends TlObject {
 
   /// Result.
   final Object result;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
 
 /// Message
@@ -48,6 +58,11 @@ class MsgMessage extends TlObject {
 
   /// Body.
   final TlObject? body;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
 
 /// Message Container
@@ -59,6 +74,11 @@ class MsgContainer extends TlObject {
 
   /// Messages
   final List<MsgMessage> messages;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
 
 /// Message Copy
@@ -70,13 +90,25 @@ class MsgCopy extends TlObject {
 
   /// Original Message.
   final MsgMessage origMessage;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
 
-//[TLDef(0x3072CFA1)] //gzip_packed#3072cfa1 packed_data:bytes = Object
+/// Gzip Packed
+///
+/// ID: `3072cfa1`.
 class GzipPacked extends TlObject {
   /// Constructor.
   const GzipPacked(this.packedData) : super._();
 
   /// Packed data.
   final Uint8List packedData;
+
+  @override
+  int serialize(Uint8List buffer) {
+    throw UnimplementedError();
+  }
 }
