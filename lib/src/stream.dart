@@ -9,22 +9,43 @@ extension _Y on List<int> {
   }
 
   void writeLong(int v) {
-    final b = Uint8List(4);
+    final b = Uint8List(8);
     b.buffer.asUint64List(0, 1)[0] = v;
 
     addAll(b);
   }
 
   void writeString(String v) {
-    //add(0);
+    final bytes = utf8.encode(v);
+
+    writeBytes(bytes);
   }
 
   void writeDouble(double v) {
-    //add(0);
+    final b = Uint8List(8);
+    b.buffer.asFloat64List(0, 1)[0] = v;
+
+    addAll(b);
   }
 
-  void writeBytes(Uint8List v) {
-    addAll(v);
+  void writeBytes(Uint8List? bytes) {
+    if (bytes == null) {
+      add(0);
+      return;
+    }
+
+    int length = bytes.length;
+    if (length < 254) {
+      add(length);
+    } else {
+      writeInt(length << 8 | 254);
+      length += 3;
+    }
+    addAll(bytes);
+
+    while (++length % 4 != 0) {
+      add(0);
+    }
   }
 
   void writeDateTime(DateTime v) {
