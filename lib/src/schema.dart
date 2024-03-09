@@ -1,7 +1,5 @@
 part of '../tg.dart';
 
-bool _bit(int value, int bit) => (value & (1 << bit)) != 0;
-
 /// Predicate Error.
 abstract class ErrorBase extends TlConstructor {
   /// Predicate Error constructor.
@@ -37,7 +35,7 @@ class Error extends ErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc4b9f9bb);
     buffer.writeInt(code);
     buffer.writeString(text);
@@ -68,7 +66,7 @@ class InputPeerEmpty extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f3b18ea);
   }
 }
@@ -91,7 +89,7 @@ class InputPeerSelf extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7da07ec9);
   }
 }
@@ -120,7 +118,7 @@ class InputPeerChat extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35a95cb9);
     buffer.writeLong(chatId);
   }
@@ -155,7 +153,7 @@ class InputPeerUser extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdde8a54c);
     buffer.writeLong(userId);
     buffer.writeLong(accessHash);
@@ -191,7 +189,7 @@ class InputPeerChannel extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x27bcbbfc);
     buffer.writeLong(channelId);
     buffer.writeLong(accessHash);
@@ -232,7 +230,7 @@ class InputPeerUserFromMessage extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa87b0a1c);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -274,7 +272,7 @@ class InputPeerChannelFromMessage extends InputPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd2a0840);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -306,7 +304,7 @@ class InputUserEmpty extends InputUserBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb98886cf);
   }
 }
@@ -329,7 +327,7 @@ class InputUserSelf extends InputUserBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf7c1b13f);
   }
 }
@@ -363,7 +361,7 @@ class InputUser extends InputUserBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf21158c6);
     buffer.writeLong(userId);
     buffer.writeLong(accessHash);
@@ -404,7 +402,7 @@ class InputUserFromMessage extends InputUserBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1da448e2);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -457,7 +455,7 @@ class InputPhoneContact extends InputContactBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf392b7f4);
     buffer.writeLong(clientId);
     buffer.writeString(phone);
@@ -511,7 +509,7 @@ class InputFile extends InputFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf52ff27f);
     buffer.writeLong(id);
     buffer.writeInt(parts);
@@ -554,7 +552,7 @@ class InputFileBig extends InputFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa4f0bb5);
     buffer.writeLong(id);
     buffer.writeInt(parts);
@@ -586,7 +584,7 @@ class InputMediaEmpty extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9664f57f);
   }
 }
@@ -597,7 +595,7 @@ class InputMediaEmpty extends InputMediaBase {
 class InputMediaUploadedPhoto extends InputMediaBase {
   /// Input Media Uploaded Photo constructor.
   const InputMediaUploadedPhoto({
-    required this.flags,
+    required this.spoiler,
     required this.file,
     this.stickers,
     this.ttlSeconds,
@@ -618,19 +616,31 @@ class InputMediaUploadedPhoto extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: spoiler,
+      b00: stickers != null,
+      b01: ttlSeconds != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 2);
+    return v;
+  }
+
+  /// spoiler: bit 2 of flags.2?true
+  final bool spoiler;
 
   /// File.
   final InputFileBase file;
+
+  /// Stickers.
   final List<InputDocumentBase>? stickers;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e287d04);
     buffer.writeInt(flags);
     buffer.writeObject(file);
@@ -651,7 +661,7 @@ class InputMediaUploadedPhoto extends InputMediaBase {
 class InputMediaPhoto extends InputMediaBase {
   /// Input Media Photo constructor.
   const InputMediaPhoto({
-    required this.flags,
+    required this.spoiler,
     required this.id,
     this.ttlSeconds,
   }) : super._();
@@ -670,18 +680,27 @@ class InputMediaPhoto extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: spoiler,
+      b00: ttlSeconds != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 1);
+    return v;
+  }
+
+  /// spoiler: bit 1 of flags.1?true
+  final bool spoiler;
 
   /// Id.
   final InputPhotoBase id;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb3ba0635);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -716,7 +735,7 @@ class InputMediaGeoPoint extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf9c44144);
     buffer.writeObject(geoPoint);
   }
@@ -761,7 +780,7 @@ class InputMediaContact extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf8ab7dfb);
     buffer.writeString(phoneNumber);
     buffer.writeString(firstName);
@@ -776,7 +795,9 @@ class InputMediaContact extends InputMediaBase {
 class InputMediaUploadedDocument extends InputMediaBase {
   /// Input Media Uploaded Document constructor.
   const InputMediaUploadedDocument({
-    required this.flags,
+    required this.nosoundVideo,
+    required this.forceFile,
+    required this.spoiler,
     required this.file,
     this.thumb,
     required this.mimeType,
@@ -805,19 +826,32 @@ class InputMediaUploadedDocument extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: nosoundVideo,
+      b04: forceFile,
+      b05: spoiler,
+      b02: thumb != null,
+      b00: stickers != null,
+      b01: ttlSeconds != null,
+    );
 
-  /// nosound_video: bit
-  bool get nosoundVideo => _bit(flags, 3);
+    return v;
+  }
 
-  /// force_file: bit
-  bool get forceFile => _bit(flags, 4);
+  /// nosound_video: bit 3 of flags.3?true
+  final bool nosoundVideo;
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 5);
+  /// force_file: bit 4 of flags.4?true
+  final bool forceFile;
+
+  /// spoiler: bit 5 of flags.5?true
+  final bool spoiler;
 
   /// File.
   final InputFileBase file;
+
+  /// Thumb.
   final InputFileBase? thumb;
 
   /// Mime Type.
@@ -825,12 +859,16 @@ class InputMediaUploadedDocument extends InputMediaBase {
 
   /// Attributes.
   final List<DocumentAttributeBase> attributes;
+
+  /// Stickers.
   final List<InputDocumentBase>? stickers;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5b38c6c1);
     buffer.writeInt(flags);
     buffer.writeObject(file);
@@ -857,7 +895,7 @@ class InputMediaUploadedDocument extends InputMediaBase {
 class InputMediaDocument extends InputMediaBase {
   /// Input Media Document constructor.
   const InputMediaDocument({
-    required this.flags,
+    required this.spoiler,
     required this.id,
     this.ttlSeconds,
     this.query,
@@ -878,19 +916,31 @@ class InputMediaDocument extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: spoiler,
+      b00: ttlSeconds != null,
+      b01: query != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 2);
+    return v;
+  }
+
+  /// spoiler: bit 2 of flags.2?true
+  final bool spoiler;
 
   /// Id.
   final InputDocumentBase id;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
+
+  /// Query.
   final String? query;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x33473058);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -954,7 +1004,7 @@ class InputMediaVenue extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc13d1c11);
     buffer.writeObject(geoPoint);
     buffer.writeString(title);
@@ -971,7 +1021,7 @@ class InputMediaVenue extends InputMediaBase {
 class InputMediaPhotoExternal extends InputMediaBase {
   /// Input Media Photo External constructor.
   const InputMediaPhotoExternal({
-    required this.flags,
+    required this.spoiler,
     required this.url,
     this.ttlSeconds,
   }) : super._();
@@ -990,18 +1040,27 @@ class InputMediaPhotoExternal extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: spoiler,
+      b00: ttlSeconds != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 1);
+    return v;
+  }
+
+  /// spoiler: bit 1 of flags.1?true
+  final bool spoiler;
 
   /// Url.
   final String url;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe5bbfe1a);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -1018,7 +1077,7 @@ class InputMediaPhotoExternal extends InputMediaBase {
 class InputMediaDocumentExternal extends InputMediaBase {
   /// Input Media Document External constructor.
   const InputMediaDocumentExternal({
-    required this.flags,
+    required this.spoiler,
     required this.url,
     this.ttlSeconds,
   }) : super._();
@@ -1037,18 +1096,27 @@ class InputMediaDocumentExternal extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: spoiler,
+      b00: ttlSeconds != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 1);
+    return v;
+  }
+
+  /// spoiler: bit 1 of flags.1?true
+  final bool spoiler;
 
   /// Url.
   final String url;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfb52dc99);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -1083,7 +1151,7 @@ class InputMediaGame extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd33f43f3);
     buffer.writeObject(id);
   }
@@ -1095,7 +1163,6 @@ class InputMediaGame extends InputMediaBase {
 class InputMediaInvoice extends InputMediaBase {
   /// Input Media Invoice constructor.
   const InputMediaInvoice({
-    required this.flags,
     required this.title,
     required this.description,
     this.photo,
@@ -1127,13 +1194,23 @@ class InputMediaInvoice extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: photo != null,
+      b01: startParam != null,
+      b02: extendedMedia != null,
+    );
+
+    return v;
+  }
 
   /// Title.
   final String title;
 
   /// Description.
   final String description;
+
+  /// Photo.
   final InputWebDocumentBase? photo;
 
   /// Invoice.
@@ -1147,12 +1224,16 @@ class InputMediaInvoice extends InputMediaBase {
 
   /// Provider Data.
   final DataJSONBase providerData;
+
+  /// Start Param.
   final String? startParam;
+
+  /// Extended Media.
   final InputMediaBase? extendedMedia;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8eb5a6d5);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -1182,7 +1263,7 @@ class InputMediaInvoice extends InputMediaBase {
 class InputMediaGeoLive extends InputMediaBase {
   /// Input Media Geo Live constructor.
   const InputMediaGeoLive({
-    required this.flags,
+    required this.stopped,
     required this.geoPoint,
     this.heading,
     this.period,
@@ -1205,20 +1286,35 @@ class InputMediaGeoLive extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: stopped,
+      b02: heading != null,
+      b01: period != null,
+      b03: proximityNotificationRadius != null,
+    );
 
-  /// stopped: bit
-  bool get stopped => _bit(flags, 0);
+    return v;
+  }
+
+  /// stopped: bit 0 of flags.0?true
+  final bool stopped;
 
   /// Geo Point.
   final InputGeoPointBase geoPoint;
+
+  /// Heading.
   final int? heading;
+
+  /// Period.
   final int? period;
+
+  /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x971fa843);
     buffer.writeInt(flags);
     buffer.writeObject(geoPoint);
@@ -1243,7 +1339,6 @@ class InputMediaGeoLive extends InputMediaBase {
 class InputMediaPoll extends InputMediaBase {
   /// Input Media Poll constructor.
   const InputMediaPoll({
-    required this.flags,
     required this.poll,
     this.correctAnswers,
     this.solution,
@@ -1265,17 +1360,30 @@ class InputMediaPoll extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: correctAnswers != null,
+      b01: solution != null || solutionEntities != null,
+    );
+
+    return v;
+  }
 
   /// Poll.
   final PollBase poll;
+
+  /// Correct Answers.
   final List<Uint8List>? correctAnswers;
+
+  /// Solution.
   final String? solution;
+
+  /// Solution Entities.
   final List<MessageEntityBase>? solutionEntities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0f94e5f1);
     buffer.writeInt(flags);
     buffer.writeObject(poll);
@@ -1318,7 +1426,7 @@ class InputMediaDice extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe66fbf7b);
     buffer.writeString(emoticon);
   }
@@ -1353,7 +1461,7 @@ class InputMediaStory extends InputMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x89fdd778);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -1366,7 +1474,9 @@ class InputMediaStory extends InputMediaBase {
 class InputMediaWebPage extends InputMediaBase {
   /// Input Media Web Page constructor.
   const InputMediaWebPage({
-    required this.flags,
+    required this.forceLargeMedia,
+    required this.forceSmallMedia,
+    required this.optional,
     required this.url,
   }) : super._();
 
@@ -1385,23 +1495,31 @@ class InputMediaWebPage extends InputMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: forceLargeMedia,
+      b01: forceSmallMedia,
+      b02: optional,
+    );
 
-  /// force_large_media: bit
-  bool get forceLargeMedia => _bit(flags, 0);
+    return v;
+  }
 
-  /// force_small_media: bit
-  bool get forceSmallMedia => _bit(flags, 1);
+  /// force_large_media: bit 0 of flags.0?true
+  final bool forceLargeMedia;
 
-  /// optional: bit
-  bool get optional => _bit(flags, 2);
+  /// force_small_media: bit 1 of flags.1?true
+  final bool forceSmallMedia;
+
+  /// optional: bit 2 of flags.2?true
+  final bool optional;
 
   /// Url.
   final String url;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc21b8849);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -1432,7 +1550,7 @@ class InputChatPhotoEmpty extends InputChatPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ca48f57);
   }
 }
@@ -1443,7 +1561,6 @@ class InputChatPhotoEmpty extends InputChatPhotoBase {
 class InputChatUploadedPhoto extends InputChatPhotoBase {
   /// Input Chat Uploaded Photo constructor.
   const InputChatUploadedPhoto({
-    required this.flags,
     this.file,
     this.video,
     this.videoStartTs,
@@ -1465,15 +1582,32 @@ class InputChatUploadedPhoto extends InputChatPhotoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: file != null,
+      b01: video != null,
+      b02: videoStartTs != null,
+      b03: videoEmojiMarkup != null,
+    );
+
+    return v;
+  }
+
+  /// File.
   final InputFileBase? file;
+
+  /// Video.
   final InputFileBase? video;
+
+  /// Video Start Ts.
   final double? videoStartTs;
+
+  /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdcdaec0);
     buffer.writeInt(flags);
     final localFileCopy = file;
@@ -1519,7 +1653,7 @@ class InputChatPhoto extends InputChatPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8953ad37);
     buffer.writeObject(id);
   }
@@ -1549,7 +1683,7 @@ class InputGeoPointEmpty extends InputGeoPointBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe4c123d6);
   }
 }
@@ -1560,7 +1694,6 @@ class InputGeoPointEmpty extends InputGeoPointBase {
 class InputGeoPoint extends InputGeoPointBase {
   /// Input Geo Point constructor.
   const InputGeoPoint({
-    required this.flags,
     required this.lat,
     required this.long,
     this.accuracyRadius,
@@ -1580,18 +1713,26 @@ class InputGeoPoint extends InputGeoPointBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: accuracyRadius != null,
+    );
+
+    return v;
+  }
 
   /// Lat.
   final double lat;
 
   /// Long.
   final double long;
+
+  /// Accuracy Radius.
   final int? accuracyRadius;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48222faf);
     buffer.writeInt(flags);
     buffer.writeDouble(lat);
@@ -1627,7 +1768,7 @@ class InputPhotoEmpty extends InputPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1cd7bf0d);
   }
 }
@@ -1666,7 +1807,7 @@ class InputPhoto extends InputPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3bb3b94a);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1719,7 +1860,7 @@ class InputFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdfdaabe1);
     buffer.writeLong(volumeId);
     buffer.writeInt(localId);
@@ -1757,7 +1898,7 @@ class InputEncryptedFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf5235d55);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1803,7 +1944,7 @@ class InputDocumentFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbad07584);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1841,7 +1982,7 @@ class InputSecureFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcbc7ee28);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1866,7 +2007,7 @@ class InputTakeoutFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x29be5899);
   }
 }
@@ -1910,7 +2051,7 @@ class InputPhotoFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x40181ffe);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1968,7 +2109,7 @@ class InputPhotoLegacyFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd83466f3);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -1985,7 +2126,7 @@ class InputPhotoLegacyFileLocation extends InputFileLocationBase {
 class InputPeerPhotoFileLocation extends InputFileLocationBase {
   /// Input Peer Photo File Location constructor.
   const InputPeerPhotoFileLocation({
-    required this.flags,
+    required this.big,
     required this.peer,
     required this.photoId,
   }) : super._();
@@ -2004,10 +2145,16 @@ class InputPeerPhotoFileLocation extends InputFileLocationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: big,
+    );
 
-  /// big: bit
-  bool get big => _bit(flags, 0);
+    return v;
+  }
+
+  /// big: bit 0 of flags.0?true
+  final bool big;
 
   /// Peer.
   final InputPeerBase peer;
@@ -2017,7 +2164,7 @@ class InputPeerPhotoFileLocation extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x37257e99);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -2054,7 +2201,7 @@ class InputStickerSetThumb extends InputFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9d84f3db);
     buffer.writeObject(stickerset);
     buffer.writeInt(thumbVersion);
@@ -2067,7 +2214,6 @@ class InputStickerSetThumb extends InputFileLocationBase {
 class InputGroupCallStream extends InputFileLocationBase {
   /// Input Group Call Stream constructor.
   const InputGroupCallStream({
-    required this.flags,
     required this.call,
     required this.timeMs,
     required this.scale,
@@ -2091,7 +2237,13 @@ class InputGroupCallStream extends InputFileLocationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: videoChannel != null || videoQuality != null,
+    );
+
+    return v;
+  }
 
   /// Call.
   final InputGroupCallBase call;
@@ -2101,12 +2253,16 @@ class InputGroupCallStream extends InputFileLocationBase {
 
   /// Scale.
   final int scale;
+
+  /// Video Channel.
   final int? videoChannel;
+
+  /// Video Quality.
   final int? videoQuality;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0598a92a);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -2153,7 +2309,7 @@ class PeerUser extends PeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x59511722);
     buffer.writeLong(userId);
   }
@@ -2183,7 +2339,7 @@ class PeerChat extends PeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x36c6019a);
     buffer.writeLong(chatId);
   }
@@ -2213,7 +2369,7 @@ class PeerChannel extends PeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2a5371e);
     buffer.writeLong(channelId);
   }
@@ -2243,7 +2399,7 @@ class StorageFileUnknown extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaa963b05);
   }
 }
@@ -2266,7 +2422,7 @@ class StorageFilePartial extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x40bc6f52);
   }
 }
@@ -2289,7 +2445,7 @@ class StorageFileJpeg extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x007efe0e);
   }
 }
@@ -2312,7 +2468,7 @@ class StorageFileGif extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcae1aadf);
   }
 }
@@ -2335,7 +2491,7 @@ class StorageFilePng extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a4f63c0);
   }
 }
@@ -2358,7 +2514,7 @@ class StorageFilePdf extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xae1e508d);
   }
 }
@@ -2381,7 +2537,7 @@ class StorageFileMp3 extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x528a0677);
   }
 }
@@ -2404,7 +2560,7 @@ class StorageFileMov extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4b09ebbc);
   }
 }
@@ -2427,7 +2583,7 @@ class StorageFileMp4 extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb3cea0e4);
   }
 }
@@ -2450,7 +2606,7 @@ class StorageFileWebp extends StorageFileTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1081464c);
   }
 }
@@ -2485,7 +2641,7 @@ class UserEmpty extends UserBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd3bc4b7a);
     buffer.writeLong(id);
   }
@@ -2497,8 +2653,28 @@ class UserEmpty extends UserBase {
 class User extends UserBase {
   /// User constructor.
   const User({
-    required this.flags,
-    required this.flags2,
+    required this.self,
+    required this.contact,
+    required this.mutualContact,
+    required this.deleted,
+    required this.bot,
+    required this.botChatHistory,
+    required this.botNochats,
+    required this.verified,
+    required this.restricted,
+    required this.min,
+    required this.botInlineGeo,
+    required this.support,
+    required this.scam,
+    required this.applyMinPhoto,
+    required this.fake,
+    required this.botAttachMenu,
+    required this.premium,
+    required this.attachMenuEnabled,
+    required this.botCanEdit,
+    required this.closeFriend,
+    required this.storiesHidden,
+    required this.storiesUnavailable,
     required this.id,
     this.accessHash,
     this.firstName,
@@ -2512,10 +2688,10 @@ class User extends UserBase {
     this.botInlinePlaceholder,
     this.langCode,
     this.emojiStatus,
-    required this.usernames,
-    required this.storiesMaxId,
-    required this.color,
-    required this.profileColor,
+    this.usernames,
+    this.storiesMaxId,
+    this.color,
+    this.profileColor,
   }) : super._();
 
   /// Deserialize.
@@ -2569,107 +2745,177 @@ class User extends UserBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b10: self,
+      b11: contact,
+      b12: mutualContact,
+      b13: deleted,
+      b14: bot || botInfoVersion != null,
+      b15: botChatHistory,
+      b16: botNochats,
+      b17: verified,
+      b18: restricted || restrictionReason != null,
+      b20: min,
+      b21: botInlineGeo,
+      b23: support,
+      b24: scam,
+      b25: applyMinPhoto,
+      b26: fake,
+      b27: botAttachMenu,
+      b28: premium,
+      b29: attachMenuEnabled,
+      b00: accessHash != null,
+      b01: firstName != null,
+      b02: lastName != null,
+      b03: username != null,
+      b04: phone != null,
+      b05: photo != null,
+      b06: status != null,
+      b19: botInlinePlaceholder != null,
+      b22: langCode != null,
+      b30: emojiStatus != null,
+    );
 
-  /// self: bit
-  bool get self => _bit(flags, 10);
-
-  /// contact: bit
-  bool get contact => _bit(flags, 11);
-
-  /// mutual_contact: bit
-  bool get mutualContact => _bit(flags, 12);
-
-  /// deleted: bit
-  bool get deleted => _bit(flags, 13);
-
-  /// bot: bit
-  bool get bot => _bit(flags, 14);
-
-  /// bot_chat_history: bit
-  bool get botChatHistory => _bit(flags, 15);
-
-  /// bot_nochats: bit
-  bool get botNochats => _bit(flags, 16);
-
-  /// verified: bit
-  bool get verified => _bit(flags, 17);
-
-  /// restricted: bit
-  bool get restricted => _bit(flags, 18);
-
-  /// min: bit
-  bool get min => _bit(flags, 20);
-
-  /// bot_inline_geo: bit
-  bool get botInlineGeo => _bit(flags, 21);
-
-  /// support: bit
-  bool get support => _bit(flags, 23);
-
-  /// scam: bit
-  bool get scam => _bit(flags, 24);
-
-  /// apply_min_photo: bit
-  bool get applyMinPhoto => _bit(flags, 25);
-
-  /// fake: bit
-  bool get fake => _bit(flags, 26);
-
-  /// bot_attach_menu: bit
-  bool get botAttachMenu => _bit(flags, 27);
-
-  /// premium: bit
-  bool get premium => _bit(flags, 28);
-
-  /// attach_menu_enabled: bit
-  bool get attachMenuEnabled => _bit(flags, 29);
+    return v;
+  }
 
   /// Flags2.
-  final int flags2;
+  int get flags2 {
+    final v = _flag(
+      b01: botCanEdit,
+      b02: closeFriend,
+      b03: storiesHidden,
+      b04: storiesUnavailable,
+      b00: usernames != null,
+      b05: storiesMaxId != null,
+      b08: color != null,
+      b09: profileColor != null,
+    );
 
-  /// Bot Can Edit.
-  bool get botCanEdit => _bit(flags2, 1);
+    return v;
+  }
 
-  /// Close Friend.
-  bool get closeFriend => _bit(flags2, 2);
+  /// self: bit 10 of flags.10?true
+  final bool self;
 
-  /// Stories Hidden.
-  bool get storiesHidden => _bit(flags2, 3);
+  /// contact: bit 11 of flags.11?true
+  final bool contact;
 
-  /// Stories Unavailable.
-  bool get storiesUnavailable => _bit(flags2, 4);
+  /// mutual_contact: bit 12 of flags.12?true
+  final bool mutualContact;
+
+  /// deleted: bit 13 of flags.13?true
+  final bool deleted;
+
+  /// bot: bit 14 of flags.14?true
+  final bool bot;
+
+  /// bot_chat_history: bit 15 of flags.15?true
+  final bool botChatHistory;
+
+  /// bot_nochats: bit 16 of flags.16?true
+  final bool botNochats;
+
+  /// verified: bit 17 of flags.17?true
+  final bool verified;
+
+  /// restricted: bit 18 of flags.18?true
+  final bool restricted;
+
+  /// min: bit 20 of flags.20?true
+  final bool min;
+
+  /// bot_inline_geo: bit 21 of flags.21?true
+  final bool botInlineGeo;
+
+  /// support: bit 23 of flags.23?true
+  final bool support;
+
+  /// scam: bit 24 of flags.24?true
+  final bool scam;
+
+  /// apply_min_photo: bit 25 of flags.25?true
+  final bool applyMinPhoto;
+
+  /// fake: bit 26 of flags.26?true
+  final bool fake;
+
+  /// bot_attach_menu: bit 27 of flags.27?true
+  final bool botAttachMenu;
+
+  /// premium: bit 28 of flags.28?true
+  final bool premium;
+
+  /// attach_menu_enabled: bit 29 of flags.29?true
+  final bool attachMenuEnabled;
+
+  /// bot_can_edit: bit 1 of flags2.1?true
+  final bool botCanEdit;
+
+  /// close_friend: bit 2 of flags2.2?true
+  final bool closeFriend;
+
+  /// stories_hidden: bit 3 of flags2.3?true
+  final bool storiesHidden;
+
+  /// stories_unavailable: bit 4 of flags2.4?true
+  final bool storiesUnavailable;
 
   /// Id.
   final int id;
+
+  /// Access Hash.
   final int? accessHash;
+
+  /// First Name.
   final String? firstName;
+
+  /// Last Name.
   final String? lastName;
+
+  /// Username.
   final String? username;
+
+  /// Phone.
   final String? phone;
+
+  /// Photo.
   final UserProfilePhotoBase? photo;
+
+  /// Status.
   final UserStatusBase? status;
+
+  /// Bot Info Version.
   final int? botInfoVersion;
+
+  /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
+
+  /// Bot Inline Placeholder.
   final String? botInlinePlaceholder;
+
+  /// Lang Code.
   final String? langCode;
+
+  /// Emoji Status.
   final EmojiStatusBase? emojiStatus;
 
-  /// usernames: flags2.0?Vector<Username>
+  /// Usernames.
   final List<UsernameBase>? usernames;
 
-  /// stories_max_id: flags2.5?int
+  /// Stories Max Id.
   final int? storiesMaxId;
 
-  /// color: flags2.8?PeerColor
+  /// Color.
   final PeerColorBase? color;
 
-  /// profile_color: flags2.9?PeerColor
+  /// Profile Color.
   final PeerColorBase? profileColor;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x215c4438);
     buffer.writeInt(flags);
     buffer.writeInt(flags2);
@@ -2765,7 +3011,7 @@ class UserProfilePhotoEmpty extends UserProfilePhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4f11bae1);
   }
 }
@@ -2776,7 +3022,8 @@ class UserProfilePhotoEmpty extends UserProfilePhotoBase {
 class UserProfilePhoto extends UserProfilePhotoBase {
   /// User Profile Photo constructor.
   const UserProfilePhoto({
-    required this.flags,
+    required this.hasVideo,
+    required this.personal,
     required this.photoId,
     this.strippedThumb,
     required this.dcId,
@@ -2798,16 +3045,26 @@ class UserProfilePhoto extends UserProfilePhotoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hasVideo,
+      b02: personal,
+      b01: strippedThumb != null,
+    );
 
-  /// has_video: bit
-  bool get hasVideo => _bit(flags, 0);
+    return v;
+  }
 
-  /// personal: bit
-  bool get personal => _bit(flags, 2);
+  /// has_video: bit 0 of flags.0?true
+  final bool hasVideo;
+
+  /// personal: bit 2 of flags.2?true
+  final bool personal;
 
   /// Photo Id.
   final int photoId;
+
+  /// Stripped Thumb.
   final Uint8List? strippedThumb;
 
   /// Dc Id.
@@ -2815,7 +3072,7 @@ class UserProfilePhoto extends UserProfilePhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x82d1f706);
     buffer.writeInt(flags);
     buffer.writeLong(photoId);
@@ -2851,7 +3108,7 @@ class UserStatusEmpty extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x09d05049);
   }
 }
@@ -2880,7 +3137,7 @@ class UserStatusOnline extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xedb93949);
     buffer.writeInt(expires);
   }
@@ -2910,7 +3167,7 @@ class UserStatusOffline extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x008c703f);
     buffer.writeInt(wasOnline);
   }
@@ -2934,7 +3191,7 @@ class UserStatusRecently extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe26f42f1);
   }
 }
@@ -2957,7 +3214,7 @@ class UserStatusLastWeek extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x07bf09fc);
   }
 }
@@ -2980,7 +3237,7 @@ class UserStatusLastMonth extends UserStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77ebc742);
   }
 }
@@ -3015,7 +3272,7 @@ class ChatEmpty extends ChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x29562865);
     buffer.writeLong(id);
   }
@@ -3027,7 +3284,12 @@ class ChatEmpty extends ChatBase {
 class Chat extends ChatBase {
   /// Chat constructor.
   const Chat({
-    required this.flags,
+    required this.creator,
+    required this.left,
+    required this.deactivated,
+    required this.callActive,
+    required this.callNotEmpty,
+    required this.noforwards,
     required this.id,
     required this.title,
     required this.photo,
@@ -3065,25 +3327,39 @@ class Chat extends ChatBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b02: left,
+      b05: deactivated,
+      b23: callActive,
+      b24: callNotEmpty,
+      b25: noforwards,
+      b06: migratedTo != null,
+      b14: adminRights != null,
+      b18: defaultBannedRights != null,
+    );
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
+    return v;
+  }
 
-  /// left: bit
-  bool get left => _bit(flags, 2);
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
 
-  /// deactivated: bit
-  bool get deactivated => _bit(flags, 5);
+  /// left: bit 2 of flags.2?true
+  final bool left;
 
-  /// call_active: bit
-  bool get callActive => _bit(flags, 23);
+  /// deactivated: bit 5 of flags.5?true
+  final bool deactivated;
 
-  /// call_not_empty: bit
-  bool get callNotEmpty => _bit(flags, 24);
+  /// call_active: bit 23 of flags.23?true
+  final bool callActive;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 25);
+  /// call_not_empty: bit 24 of flags.24?true
+  final bool callNotEmpty;
+
+  /// noforwards: bit 25 of flags.25?true
+  final bool noforwards;
 
   /// Id.
   final int id;
@@ -3102,13 +3378,19 @@ class Chat extends ChatBase {
 
   /// Version.
   final int version;
+
+  /// Migrated To.
   final InputChannelBase? migratedTo;
+
+  /// Admin Rights.
   final ChatAdminRightsBase? adminRights;
+
+  /// Default Banned Rights.
   final ChatBannedRightsBase? defaultBannedRights;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x41cbf256);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -3161,7 +3443,7 @@ class ChatForbidden extends ChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6592a1a7);
     buffer.writeLong(id);
     buffer.writeString(title);
@@ -3174,8 +3456,29 @@ class ChatForbidden extends ChatBase {
 class Channel extends ChatBase {
   /// Channel constructor.
   const Channel({
-    required this.flags,
-    required this.flags2,
+    required this.creator,
+    required this.left,
+    required this.broadcast,
+    required this.verified,
+    required this.megagroup,
+    required this.restricted,
+    required this.signatures,
+    required this.min,
+    required this.scam,
+    required this.hasLink,
+    required this.hasGeo,
+    required this.slowmodeEnabled,
+    required this.callActive,
+    required this.callNotEmpty,
+    required this.fake,
+    required this.gigagroup,
+    required this.noforwards,
+    required this.joinToSend,
+    required this.joinRequest,
+    required this.forum,
+    required this.storiesHidden,
+    required this.storiesHiddenMin,
+    required this.storiesUnavailable,
     required this.id,
     this.accessHash,
     required this.title,
@@ -3187,12 +3490,12 @@ class Channel extends ChatBase {
     this.bannedRights,
     this.defaultBannedRights,
     this.participantsCount,
-    required this.usernames,
-    required this.storiesMaxId,
-    required this.color,
-    required this.profileColor,
-    required this.emojiStatus,
-    required this.level,
+    this.usernames,
+    this.storiesMaxId,
+    this.color,
+    this.profileColor,
+    this.emojiStatus,
+    this.level,
   }) : super._();
 
   /// Deserialize.
@@ -3247,86 +3550,135 @@ class Channel extends ChatBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b02: left,
+      b05: broadcast,
+      b07: verified,
+      b08: megagroup,
+      b09: restricted || restrictionReason != null,
+      b11: signatures,
+      b12: min,
+      b19: scam,
+      b20: hasLink,
+      b21: hasGeo,
+      b22: slowmodeEnabled,
+      b23: callActive,
+      b24: callNotEmpty,
+      b25: fake,
+      b26: gigagroup,
+      b27: noforwards,
+      b28: joinToSend,
+      b29: joinRequest,
+      b30: forum,
+      b13: accessHash != null,
+      b06: username != null,
+      b14: adminRights != null,
+      b15: bannedRights != null,
+      b18: defaultBannedRights != null,
+      b17: participantsCount != null,
+    );
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
-
-  /// left: bit
-  bool get left => _bit(flags, 2);
-
-  /// broadcast: bit
-  bool get broadcast => _bit(flags, 5);
-
-  /// verified: bit
-  bool get verified => _bit(flags, 7);
-
-  /// megagroup: bit
-  bool get megagroup => _bit(flags, 8);
-
-  /// restricted: bit
-  bool get restricted => _bit(flags, 9);
-
-  /// signatures: bit
-  bool get signatures => _bit(flags, 11);
-
-  /// min: bit
-  bool get min => _bit(flags, 12);
-
-  /// scam: bit
-  bool get scam => _bit(flags, 19);
-
-  /// has_link: bit
-  bool get hasLink => _bit(flags, 20);
-
-  /// has_geo: bit
-  bool get hasGeo => _bit(flags, 21);
-
-  /// slowmode_enabled: bit
-  bool get slowmodeEnabled => _bit(flags, 22);
-
-  /// call_active: bit
-  bool get callActive => _bit(flags, 23);
-
-  /// call_not_empty: bit
-  bool get callNotEmpty => _bit(flags, 24);
-
-  /// fake: bit
-  bool get fake => _bit(flags, 25);
-
-  /// gigagroup: bit
-  bool get gigagroup => _bit(flags, 26);
-
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 27);
-
-  /// join_to_send: bit
-  bool get joinToSend => _bit(flags, 28);
-
-  /// join_request: bit
-  bool get joinRequest => _bit(flags, 29);
-
-  /// forum: bit
-  bool get forum => _bit(flags, 30);
+    return v;
+  }
 
   /// Flags2.
-  final int flags2;
+  int get flags2 {
+    final v = _flag(
+      b01: storiesHidden,
+      b02: storiesHiddenMin,
+      b03: storiesUnavailable,
+      b00: usernames != null,
+      b04: storiesMaxId != null,
+      b07: color != null,
+      b08: profileColor != null,
+      b09: emojiStatus != null,
+      b10: level != null,
+    );
 
-  /// Stories Hidden.
-  bool get storiesHidden => _bit(flags2, 1);
+    return v;
+  }
 
-  /// Stories Hidden Min.
-  bool get storiesHiddenMin => _bit(flags2, 2);
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
 
-  /// Stories Unavailable.
-  bool get storiesUnavailable => _bit(flags2, 3);
+  /// left: bit 2 of flags.2?true
+  final bool left;
+
+  /// broadcast: bit 5 of flags.5?true
+  final bool broadcast;
+
+  /// verified: bit 7 of flags.7?true
+  final bool verified;
+
+  /// megagroup: bit 8 of flags.8?true
+  final bool megagroup;
+
+  /// restricted: bit 9 of flags.9?true
+  final bool restricted;
+
+  /// signatures: bit 11 of flags.11?true
+  final bool signatures;
+
+  /// min: bit 12 of flags.12?true
+  final bool min;
+
+  /// scam: bit 19 of flags.19?true
+  final bool scam;
+
+  /// has_link: bit 20 of flags.20?true
+  final bool hasLink;
+
+  /// has_geo: bit 21 of flags.21?true
+  final bool hasGeo;
+
+  /// slowmode_enabled: bit 22 of flags.22?true
+  final bool slowmodeEnabled;
+
+  /// call_active: bit 23 of flags.23?true
+  final bool callActive;
+
+  /// call_not_empty: bit 24 of flags.24?true
+  final bool callNotEmpty;
+
+  /// fake: bit 25 of flags.25?true
+  final bool fake;
+
+  /// gigagroup: bit 26 of flags.26?true
+  final bool gigagroup;
+
+  /// noforwards: bit 27 of flags.27?true
+  final bool noforwards;
+
+  /// join_to_send: bit 28 of flags.28?true
+  final bool joinToSend;
+
+  /// join_request: bit 29 of flags.29?true
+  final bool joinRequest;
+
+  /// forum: bit 30 of flags.30?true
+  final bool forum;
+
+  /// stories_hidden: bit 1 of flags2.1?true
+  final bool storiesHidden;
+
+  /// stories_hidden_min: bit 2 of flags2.2?true
+  final bool storiesHiddenMin;
+
+  /// stories_unavailable: bit 3 of flags2.3?true
+  final bool storiesUnavailable;
 
   /// Id.
   final int id;
+
+  /// Access Hash.
   final int? accessHash;
 
   /// Title.
   final String title;
+
+  /// Username.
   final String? username;
 
   /// Photo.
@@ -3334,33 +3686,43 @@ class Channel extends ChatBase {
 
   /// Date.
   final DateTime date;
+
+  /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
+
+  /// Admin Rights.
   final ChatAdminRightsBase? adminRights;
+
+  /// Banned Rights.
   final ChatBannedRightsBase? bannedRights;
+
+  /// Default Banned Rights.
   final ChatBannedRightsBase? defaultBannedRights;
+
+  /// Participants Count.
   final int? participantsCount;
 
-  /// usernames: flags2.0?Vector<Username>
+  /// Usernames.
   final List<UsernameBase>? usernames;
 
-  /// stories_max_id: flags2.4?int
+  /// Stories Max Id.
   final int? storiesMaxId;
 
-  /// color: flags2.7?PeerColor
+  /// Color.
   final PeerColorBase? color;
 
-  /// profile_color: flags2.8?PeerColor
+  /// Profile Color.
   final PeerColorBase? profileColor;
 
-  /// emoji_status: flags2.9?EmojiStatus
+  /// Emoji Status.
   final EmojiStatusBase? emojiStatus;
 
-  /// level: flags2.10?int
+  /// Level.
   final int? level;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0aadfc8f);
     buffer.writeInt(flags);
     buffer.writeInt(flags2);
@@ -3429,7 +3791,8 @@ class Channel extends ChatBase {
 class ChannelForbidden extends ChatBase {
   /// Channel Forbidden constructor.
   const ChannelForbidden({
-    required this.flags,
+    required this.broadcast,
+    required this.megagroup,
     required this.id,
     required this.accessHash,
     required this.title,
@@ -3453,13 +3816,21 @@ class ChannelForbidden extends ChatBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: broadcast,
+      b08: megagroup,
+      b16: untilDate != null,
+    );
 
-  /// broadcast: bit
-  bool get broadcast => _bit(flags, 5);
+    return v;
+  }
 
-  /// megagroup: bit
-  bool get megagroup => _bit(flags, 8);
+  /// broadcast: bit 5 of flags.5?true
+  final bool broadcast;
+
+  /// megagroup: bit 8 of flags.8?true
+  final bool megagroup;
 
   /// Id.
   final int id;
@@ -3469,11 +3840,13 @@ class ChannelForbidden extends ChatBase {
 
   /// Title.
   final String title;
+
+  /// Until Date.
   final DateTime? untilDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x17d493d5);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -3498,7 +3871,9 @@ abstract class ChatFullBase extends TlConstructor {
 class ChatFull extends ChatFullBase {
   /// Chat Full constructor.
   const ChatFull({
-    required this.flags,
+    required this.canSetUsername,
+    required this.hasScheduled,
+    required this.translationsDisabled,
     required this.id,
     required this.about,
     required this.participants,
@@ -3547,16 +3922,35 @@ class ChatFull extends ChatFullBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b07: canSetUsername,
+      b08: hasScheduled,
+      b19: translationsDisabled,
+      b02: chatPhoto != null,
+      b13: exportedInvite != null,
+      b03: botInfo != null,
+      b06: pinnedMsgId != null,
+      b11: folderId != null,
+      b12: call != null,
+      b14: ttlPeriod != null,
+      b15: groupcallDefaultJoinAs != null,
+      b16: themeEmoticon != null,
+      b17: requestsPending != null || recentRequesters != null,
+      b18: availableReactions != null,
+    );
 
-  /// can_set_username: bit
-  bool get canSetUsername => _bit(flags, 7);
+    return v;
+  }
 
-  /// has_scheduled: bit
-  bool get hasScheduled => _bit(flags, 8);
+  /// can_set_username: bit 7 of flags.7?true
+  final bool canSetUsername;
 
-  /// translations_disabled: bit
-  bool get translationsDisabled => _bit(flags, 19);
+  /// has_scheduled: bit 8 of flags.8?true
+  final bool hasScheduled;
+
+  /// translations_disabled: bit 19 of flags.19?true
+  final bool translationsDisabled;
 
   /// Id.
   final int id;
@@ -3566,25 +3960,49 @@ class ChatFull extends ChatFullBase {
 
   /// Participants.
   final ChatParticipantsBase participants;
+
+  /// Chat Photo.
   final PhotoBase? chatPhoto;
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
+
+  /// Exported Invite.
   final ExportedChatInviteBase? exportedInvite;
+
+  /// Bot Info.
   final List<BotInfoBase>? botInfo;
+
+  /// Pinned Msg Id.
   final int? pinnedMsgId;
+
+  /// Folder Id.
   final int? folderId;
+
+  /// Call.
   final InputGroupCallBase? call;
+
+  /// Ttl Period.
   final int? ttlPeriod;
+
+  /// Groupcall Default Join As.
   final PeerBase? groupcallDefaultJoinAs;
+
+  /// Theme Emoticon.
   final String? themeEmoticon;
+
+  /// Requests Pending.
   final int? requestsPending;
+
+  /// Recent Requesters.
   final List<int>? recentRequesters;
+
+  /// Available Reactions.
   final ChatReactionsBase? availableReactions;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc9d31138);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -3648,8 +4066,20 @@ class ChatFull extends ChatFullBase {
 class ChannelFull extends ChatFullBase {
   /// Channel Full constructor.
   const ChannelFull({
-    required this.flags,
-    required this.flags2,
+    required this.canViewParticipants,
+    required this.canSetUsername,
+    required this.canSetStickers,
+    required this.hiddenPrehistory,
+    required this.canSetLocation,
+    required this.hasScheduled,
+    required this.canViewStats,
+    required this.blocked,
+    required this.canDeleteChannel,
+    required this.antispam,
+    required this.participantsHidden,
+    required this.translationsDisabled,
+    required this.storiesPinnedAvailable,
+    required this.viewForumAsMessages,
     required this.id,
     required this.about,
     this.participantsCount,
@@ -3685,8 +4115,8 @@ class ChannelFull extends ChatFullBase {
     this.recentRequesters,
     this.defaultSendAs,
     this.availableReactions,
-    required this.stories,
-    required this.wallpaper,
+    this.stories,
+    this.wallpaper,
   }) : super._();
 
   /// Deserialize.
@@ -3752,62 +4182,121 @@ class ChannelFull extends ChatFullBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: canViewParticipants,
+      b06: canSetUsername,
+      b07: canSetStickers,
+      b10: hiddenPrehistory,
+      b16: canSetLocation,
+      b19: hasScheduled,
+      b20: canViewStats,
+      b22: blocked,
+      b00: participantsCount != null,
+      b01: adminsCount != null,
+      b02: kickedCount != null || bannedCount != null,
+      b13: onlineCount != null,
+      b23: exportedInvite != null,
+      b04: migratedFromChatId != null || migratedFromMaxId != null,
+      b05: pinnedMsgId != null,
+      b08: stickerset != null,
+      b09: availableMinId != null,
+      b11: folderId != null,
+      b14: linkedChatId != null,
+      b15: location != null,
+      b17: slowmodeSeconds != null,
+      b18: slowmodeNextSendDate != null,
+      b12: statsDc != null,
+      b21: call != null,
+      b24: ttlPeriod != null,
+      b25: pendingSuggestions != null,
+      b26: groupcallDefaultJoinAs != null,
+      b27: themeEmoticon != null,
+      b28: requestsPending != null || recentRequesters != null,
+      b29: defaultSendAs != null,
+      b30: availableReactions != null,
+    );
 
-  /// can_view_participants: bit
-  bool get canViewParticipants => _bit(flags, 3);
-
-  /// can_set_username: bit
-  bool get canSetUsername => _bit(flags, 6);
-
-  /// can_set_stickers: bit
-  bool get canSetStickers => _bit(flags, 7);
-
-  /// hidden_prehistory: bit
-  bool get hiddenPrehistory => _bit(flags, 10);
-
-  /// can_set_location: bit
-  bool get canSetLocation => _bit(flags, 16);
-
-  /// has_scheduled: bit
-  bool get hasScheduled => _bit(flags, 19);
-
-  /// can_view_stats: bit
-  bool get canViewStats => _bit(flags, 20);
-
-  /// blocked: bit
-  bool get blocked => _bit(flags, 22);
+    return v;
+  }
 
   /// Flags2.
-  final int flags2;
+  int get flags2 {
+    final v = _flag(
+      b00: canDeleteChannel,
+      b01: antispam,
+      b02: participantsHidden,
+      b03: translationsDisabled,
+      b05: storiesPinnedAvailable,
+      b06: viewForumAsMessages,
+      b04: stories != null,
+      b07: wallpaper != null,
+    );
 
-  /// Can Delete Channel.
-  bool get canDeleteChannel => _bit(flags2, 0);
+    return v;
+  }
 
-  /// Antispam.
-  bool get antispam => _bit(flags2, 1);
+  /// can_view_participants: bit 3 of flags.3?true
+  final bool canViewParticipants;
 
-  /// Participants Hidden.
-  bool get participantsHidden => _bit(flags2, 2);
+  /// can_set_username: bit 6 of flags.6?true
+  final bool canSetUsername;
 
-  /// Translations Disabled.
-  bool get translationsDisabled => _bit(flags2, 3);
+  /// can_set_stickers: bit 7 of flags.7?true
+  final bool canSetStickers;
 
-  /// Stories Pinned Available.
-  bool get storiesPinnedAvailable => _bit(flags2, 5);
+  /// hidden_prehistory: bit 10 of flags.10?true
+  final bool hiddenPrehistory;
 
-  /// View Forum As Messages.
-  bool get viewForumAsMessages => _bit(flags2, 6);
+  /// can_set_location: bit 16 of flags.16?true
+  final bool canSetLocation;
+
+  /// has_scheduled: bit 19 of flags.19?true
+  final bool hasScheduled;
+
+  /// can_view_stats: bit 20 of flags.20?true
+  final bool canViewStats;
+
+  /// blocked: bit 22 of flags.22?true
+  final bool blocked;
+
+  /// can_delete_channel: bit 0 of flags2.0?true
+  final bool canDeleteChannel;
+
+  /// antispam: bit 1 of flags2.1?true
+  final bool antispam;
+
+  /// participants_hidden: bit 2 of flags2.2?true
+  final bool participantsHidden;
+
+  /// translations_disabled: bit 3 of flags2.3?true
+  final bool translationsDisabled;
+
+  /// stories_pinned_available: bit 5 of flags2.5?true
+  final bool storiesPinnedAvailable;
+
+  /// view_forum_as_messages: bit 6 of flags2.6?true
+  final bool viewForumAsMessages;
 
   /// Id.
   final int id;
 
   /// About.
   final String about;
+
+  /// Participants Count.
   final int? participantsCount;
+
+  /// Admins Count.
   final int? adminsCount;
+
+  /// Kicked Count.
   final int? kickedCount;
+
+  /// Banned Count.
   final int? bannedCount;
+
+  /// Online Count.
   final int? onlineCount;
 
   /// Read Inbox Max Id.
@@ -3824,43 +4313,85 @@ class ChannelFull extends ChatFullBase {
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
+
+  /// Exported Invite.
   final ExportedChatInviteBase? exportedInvite;
 
   /// Bot Info.
   final List<BotInfoBase> botInfo;
+
+  /// Migrated From Chat Id.
   final int? migratedFromChatId;
+
+  /// Migrated From Max Id.
   final int? migratedFromMaxId;
+
+  /// Pinned Msg Id.
   final int? pinnedMsgId;
+
+  /// Stickerset.
   final StickerSetBase? stickerset;
+
+  /// Available Min Id.
   final int? availableMinId;
+
+  /// Folder Id.
   final int? folderId;
+
+  /// Linked Chat Id.
   final int? linkedChatId;
+
+  /// Location.
   final ChannelLocationBase? location;
+
+  /// Slowmode Seconds.
   final int? slowmodeSeconds;
+
+  /// Slowmode Next Send Date.
   final DateTime? slowmodeNextSendDate;
+
+  /// Stats Dc.
   final int? statsDc;
 
   /// Pts.
   final int pts;
+
+  /// Call.
   final InputGroupCallBase? call;
+
+  /// Ttl Period.
   final int? ttlPeriod;
+
+  /// Pending Suggestions.
   final List<String>? pendingSuggestions;
+
+  /// Groupcall Default Join As.
   final PeerBase? groupcallDefaultJoinAs;
+
+  /// Theme Emoticon.
   final String? themeEmoticon;
+
+  /// Requests Pending.
   final int? requestsPending;
+
+  /// Recent Requesters.
   final List<int>? recentRequesters;
+
+  /// Default Send As.
   final PeerBase? defaultSendAs;
+
+  /// Available Reactions.
   final ChatReactionsBase? availableReactions;
 
-  /// stories: flags2.4?PeerStories
+  /// Stories.
   final PeerStoriesBase? stories;
 
-  /// wallpaper: flags2.7?WallPaper
+  /// Wallpaper.
   final WallPaperBase? wallpaper;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0f2bcb6f);
     buffer.writeInt(flags);
     buffer.writeInt(flags2);
@@ -4028,7 +4559,7 @@ class ChatParticipant extends ChatParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc02d4007);
     buffer.writeLong(userId);
     buffer.writeLong(inviterId);
@@ -4060,7 +4591,7 @@ class ChatParticipantCreator extends ChatParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe46bcee4);
     buffer.writeLong(userId);
   }
@@ -4100,7 +4631,7 @@ class ChatParticipantAdmin extends ChatParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0933f5b);
     buffer.writeLong(userId);
     buffer.writeLong(inviterId);
@@ -4120,7 +4651,6 @@ abstract class ChatParticipantsBase extends TlConstructor {
 class ChatParticipantsForbidden extends ChatParticipantsBase {
   /// Chat Participants Forbidden constructor.
   const ChatParticipantsForbidden({
-    required this.flags,
     required this.chatId,
     this.selfParticipant,
   }) : super._();
@@ -4138,15 +4668,23 @@ class ChatParticipantsForbidden extends ChatParticipantsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: selfParticipant != null,
+    );
+
+    return v;
+  }
 
   /// Chat Id.
   final int chatId;
+
+  /// Self Participant.
   final ChatParticipantBase? selfParticipant;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8763d3e1);
     buffer.writeInt(flags);
     buffer.writeLong(chatId);
@@ -4191,7 +4729,7 @@ class ChatParticipants extends ChatParticipantsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3cbc93f8);
     buffer.writeLong(chatId);
     buffer.writeVectorObject(participants);
@@ -4223,7 +4761,7 @@ class ChatPhotoEmpty extends ChatPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x37c1011c);
   }
 }
@@ -4234,7 +4772,7 @@ class ChatPhotoEmpty extends ChatPhotoBase {
 class ChatPhoto extends ChatPhotoBase {
   /// Chat Photo constructor.
   const ChatPhoto({
-    required this.flags,
+    required this.hasVideo,
     required this.photoId,
     this.strippedThumb,
     required this.dcId,
@@ -4255,13 +4793,22 @@ class ChatPhoto extends ChatPhotoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hasVideo,
+      b01: strippedThumb != null,
+    );
 
-  /// has_video: bit
-  bool get hasVideo => _bit(flags, 0);
+    return v;
+  }
+
+  /// has_video: bit 0 of flags.0?true
+  final bool hasVideo;
 
   /// Photo Id.
   final int photoId;
+
+  /// Stripped Thumb.
   final Uint8List? strippedThumb;
 
   /// Dc Id.
@@ -4269,7 +4816,7 @@ class ChatPhoto extends ChatPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1c6e1c11);
     buffer.writeInt(flags);
     buffer.writeLong(photoId);
@@ -4293,7 +4840,6 @@ abstract class MessageBase extends TlConstructor {
 class MessageEmpty extends MessageBase {
   /// Message Empty constructor.
   const MessageEmpty({
-    required this.flags,
     required this.id,
     this.peerId,
   }) : super._();
@@ -4311,15 +4857,23 @@ class MessageEmpty extends MessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: peerId != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
+
+  /// Peer Id.
   final PeerBase? peerId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x90a6ca84);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -4336,7 +4890,17 @@ class MessageEmpty extends MessageBase {
 class Message extends MessageBase {
   /// Message constructor.
   const Message({
-    required this.flags,
+    required this.out,
+    required this.mentioned,
+    required this.mediaUnread,
+    required this.silent,
+    required this.post,
+    required this.fromScheduled,
+    required this.legacy,
+    required this.editHide,
+    required this.pinned,
+    required this.noforwards,
+    required this.invertMedia,
     required this.id,
     this.fromId,
     required this.peerId,
@@ -4403,50 +4967,92 @@ class Message extends MessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: out,
+      b04: mentioned,
+      b05: mediaUnread,
+      b13: silent,
+      b14: post,
+      b18: fromScheduled,
+      b19: legacy,
+      b21: editHide,
+      b24: pinned,
+      b26: noforwards,
+      b27: invertMedia,
+      b08: fromId != null,
+      b28: savedPeerId != null,
+      b02: fwdFrom != null,
+      b11: viaBotId != null,
+      b03: replyTo != null,
+      b09: media != null,
+      b06: replyMarkup != null,
+      b07: entities != null,
+      b10: views != null || forwards != null,
+      b23: replies != null,
+      b15: editDate != null,
+      b16: postAuthor != null,
+      b17: groupedId != null,
+      b20: reactions != null,
+      b22: restrictionReason != null,
+      b25: ttlPeriod != null,
+    );
 
-  /// out: bit
-  bool get out => _bit(flags, 1);
+    return v;
+  }
 
-  /// mentioned: bit
-  bool get mentioned => _bit(flags, 4);
+  /// out: bit 1 of flags.1?true
+  final bool out;
 
-  /// media_unread: bit
-  bool get mediaUnread => _bit(flags, 5);
+  /// mentioned: bit 4 of flags.4?true
+  final bool mentioned;
 
-  /// silent: bit
-  bool get silent => _bit(flags, 13);
+  /// media_unread: bit 5 of flags.5?true
+  final bool mediaUnread;
 
-  /// post: bit
-  bool get post => _bit(flags, 14);
+  /// silent: bit 13 of flags.13?true
+  final bool silent;
 
-  /// from_scheduled: bit
-  bool get fromScheduled => _bit(flags, 18);
+  /// post: bit 14 of flags.14?true
+  final bool post;
 
-  /// legacy: bit
-  bool get legacy => _bit(flags, 19);
+  /// from_scheduled: bit 18 of flags.18?true
+  final bool fromScheduled;
 
-  /// edit_hide: bit
-  bool get editHide => _bit(flags, 21);
+  /// legacy: bit 19 of flags.19?true
+  final bool legacy;
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 24);
+  /// edit_hide: bit 21 of flags.21?true
+  final bool editHide;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 26);
+  /// pinned: bit 24 of flags.24?true
+  final bool pinned;
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 27);
+  /// noforwards: bit 26 of flags.26?true
+  final bool noforwards;
+
+  /// invert_media: bit 27 of flags.27?true
+  final bool invertMedia;
 
   /// Id.
   final int id;
+
+  /// From Id.
   final PeerBase? fromId;
 
   /// Peer Id.
   final PeerBase peerId;
+
+  /// Saved Peer Id.
   final PeerBase? savedPeerId;
+
+  /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
+
+  /// Via Bot Id.
   final int? viaBotId;
+
+  /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
   /// Date.
@@ -4454,22 +5060,46 @@ class Message extends MessageBase {
 
   /// Message.
   final String message;
+
+  /// Media.
   final MessageMediaBase? media;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Views.
   final int? views;
+
+  /// Forwards.
   final int? forwards;
+
+  /// Replies.
   final MessageRepliesBase? replies;
+
+  /// Edit Date.
   final DateTime? editDate;
+
+  /// Post Author.
   final String? postAuthor;
+
+  /// Grouped Id.
   final int? groupedId;
+
+  /// Reactions.
   final MessageReactionsBase? reactions;
+
+  /// Restriction Reason.
   final List<RestrictionReasonBase>? restrictionReason;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x76bec211);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -4553,7 +5183,12 @@ class Message extends MessageBase {
 class MessageService extends MessageBase {
   /// Message Service constructor.
   const MessageService({
-    required this.flags,
+    required this.out,
+    required this.mentioned,
+    required this.mediaUnread,
+    required this.silent,
+    required this.post,
+    required this.legacy,
     required this.id,
     this.fromId,
     required this.peerId,
@@ -4587,32 +5222,50 @@ class MessageService extends MessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: out,
+      b04: mentioned,
+      b05: mediaUnread,
+      b13: silent,
+      b14: post,
+      b19: legacy,
+      b08: fromId != null,
+      b03: replyTo != null,
+      b25: ttlPeriod != null,
+    );
 
-  /// out: bit
-  bool get out => _bit(flags, 1);
+    return v;
+  }
 
-  /// mentioned: bit
-  bool get mentioned => _bit(flags, 4);
+  /// out: bit 1 of flags.1?true
+  final bool out;
 
-  /// media_unread: bit
-  bool get mediaUnread => _bit(flags, 5);
+  /// mentioned: bit 4 of flags.4?true
+  final bool mentioned;
 
-  /// silent: bit
-  bool get silent => _bit(flags, 13);
+  /// media_unread: bit 5 of flags.5?true
+  final bool mediaUnread;
 
-  /// post: bit
-  bool get post => _bit(flags, 14);
+  /// silent: bit 13 of flags.13?true
+  final bool silent;
 
-  /// legacy: bit
-  bool get legacy => _bit(flags, 19);
+  /// post: bit 14 of flags.14?true
+  final bool post;
+
+  /// legacy: bit 19 of flags.19?true
+  final bool legacy;
 
   /// Id.
   final int id;
+
+  /// From Id.
   final PeerBase? fromId;
 
   /// Peer Id.
   final PeerBase peerId;
+
+  /// Reply To.
   final MessageReplyHeaderBase? replyTo;
 
   /// Date.
@@ -4620,11 +5273,13 @@ class MessageService extends MessageBase {
 
   /// Action.
   final MessageActionBase action;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2b085862);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -4670,7 +5325,7 @@ class MessageMediaEmpty extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3ded6320);
   }
 }
@@ -4681,7 +5336,7 @@ class MessageMediaEmpty extends MessageMediaBase {
 class MessageMediaPhoto extends MessageMediaBase {
   /// Message Media Photo constructor.
   const MessageMediaPhoto({
-    required this.flags,
+    required this.spoiler,
     this.photo,
     this.ttlSeconds,
   }) : super._();
@@ -4700,16 +5355,28 @@ class MessageMediaPhoto extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: spoiler,
+      b00: photo != null,
+      b02: ttlSeconds != null,
+    );
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 3);
+    return v;
+  }
+
+  /// spoiler: bit 3 of flags.3?true
+  final bool spoiler;
+
+  /// Photo.
   final PhotoBase? photo;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x695150d7);
     buffer.writeInt(flags);
     final localPhotoCopy = photo;
@@ -4747,7 +5414,7 @@ class MessageMediaGeo extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56e0d474);
     buffer.writeObject(geo);
   }
@@ -4797,7 +5464,7 @@ class MessageMediaContact extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x70322949);
     buffer.writeString(phoneNumber);
     buffer.writeString(firstName);
@@ -4825,7 +5492,7 @@ class MessageMediaUnsupported extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9f84f49e);
   }
 }
@@ -4836,7 +5503,11 @@ class MessageMediaUnsupported extends MessageMediaBase {
 class MessageMediaDocument extends MessageMediaBase {
   /// Message Media Document constructor.
   const MessageMediaDocument({
-    required this.flags,
+    required this.nopremium,
+    required this.spoiler,
+    required this.video,
+    required this.round,
+    required this.voice,
     this.document,
     this.altDocument,
     this.ttlSeconds,
@@ -4861,29 +5532,48 @@ class MessageMediaDocument extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: nopremium,
+      b04: spoiler,
+      b06: video,
+      b07: round,
+      b08: voice,
+      b00: document != null,
+      b05: altDocument != null,
+      b02: ttlSeconds != null,
+    );
 
-  /// nopremium: bit
-  bool get nopremium => _bit(flags, 3);
+    return v;
+  }
 
-  /// spoiler: bit
-  bool get spoiler => _bit(flags, 4);
+  /// nopremium: bit 3 of flags.3?true
+  final bool nopremium;
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+  /// spoiler: bit 4 of flags.4?true
+  final bool spoiler;
 
-  /// round: bit
-  bool get round => _bit(flags, 7);
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
-  /// voice: bit
-  bool get voice => _bit(flags, 8);
+  /// round: bit 7 of flags.7?true
+  final bool round;
+
+  /// voice: bit 8 of flags.8?true
+  final bool voice;
+
+  /// Document.
   final DocumentBase? document;
+
+  /// Alt Document.
   final DocumentBase? altDocument;
+
+  /// Ttl Seconds.
   final int? ttlSeconds;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4cf4d72d);
     buffer.writeInt(flags);
     final localDocumentCopy = document;
@@ -4907,7 +5597,10 @@ class MessageMediaDocument extends MessageMediaBase {
 class MessageMediaWebPage extends MessageMediaBase {
   /// Message Media Web Page constructor.
   const MessageMediaWebPage({
-    required this.flags,
+    required this.forceLargeMedia,
+    required this.forceSmallMedia,
+    required this.manual,
+    required this.safe,
     required this.webpage,
   }) : super._();
 
@@ -4927,26 +5620,35 @@ class MessageMediaWebPage extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: forceLargeMedia,
+      b01: forceSmallMedia,
+      b03: manual,
+      b04: safe,
+    );
 
-  /// force_large_media: bit
-  bool get forceLargeMedia => _bit(flags, 0);
+    return v;
+  }
 
-  /// force_small_media: bit
-  bool get forceSmallMedia => _bit(flags, 1);
+  /// force_large_media: bit 0 of flags.0?true
+  final bool forceLargeMedia;
 
-  /// manual: bit
-  bool get manual => _bit(flags, 3);
+  /// force_small_media: bit 1 of flags.1?true
+  final bool forceSmallMedia;
 
-  /// safe: bit
-  bool get safe => _bit(flags, 4);
+  /// manual: bit 3 of flags.3?true
+  final bool manual;
+
+  /// safe: bit 4 of flags.4?true
+  final bool safe;
 
   /// Webpage.
   final WebPageBase webpage;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xddf10c3b);
     buffer.writeInt(flags);
     buffer.writeObject(webpage);
@@ -5002,7 +5704,7 @@ class MessageMediaVenue extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2ec0533f);
     buffer.writeObject(geo);
     buffer.writeString(title);
@@ -5037,7 +5739,7 @@ class MessageMediaGame extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfdb19008);
     buffer.writeObject(game);
   }
@@ -5049,7 +5751,8 @@ class MessageMediaGame extends MessageMediaBase {
 class MessageMediaInvoice extends MessageMediaBase {
   /// Message Media Invoice constructor.
   const MessageMediaInvoice({
-    required this.flags,
+    required this.shippingAddressRequested,
+    required this.test,
     required this.title,
     required this.description,
     this.photo,
@@ -5081,20 +5784,34 @@ class MessageMediaInvoice extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: shippingAddressRequested,
+      b03: test,
+      b00: photo != null,
+      b02: receiptMsgId != null,
+      b04: extendedMedia != null,
+    );
 
-  /// shipping_address_requested: bit
-  bool get shippingAddressRequested => _bit(flags, 1);
+    return v;
+  }
 
-  /// test: bit
-  bool get test => _bit(flags, 3);
+  /// shipping_address_requested: bit 1 of flags.1?true
+  final bool shippingAddressRequested;
+
+  /// test: bit 3 of flags.3?true
+  final bool test;
 
   /// Title.
   final String title;
 
   /// Description.
   final String description;
+
+  /// Photo.
   final WebDocumentBase? photo;
+
+  /// Receipt Msg Id.
   final int? receiptMsgId;
 
   /// Currency.
@@ -5105,11 +5822,13 @@ class MessageMediaInvoice extends MessageMediaBase {
 
   /// Start Param.
   final String startParam;
+
+  /// Extended Media.
   final MessageExtendedMediaBase? extendedMedia;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf6a548d3);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -5138,7 +5857,6 @@ class MessageMediaInvoice extends MessageMediaBase {
 class MessageMediaGeoLive extends MessageMediaBase {
   /// Message Media Geo Live constructor.
   const MessageMediaGeoLive({
-    required this.flags,
     required this.geo,
     this.heading,
     required this.period,
@@ -5160,19 +5878,30 @@ class MessageMediaGeoLive extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: heading != null,
+      b01: proximityNotificationRadius != null,
+    );
+
+    return v;
+  }
 
   /// Geo.
   final GeoPointBase geo;
+
+  /// Heading.
   final int? heading;
 
   /// Period.
   final int period;
+
+  /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb940c666);
     buffer.writeInt(flags);
     buffer.writeObject(geo);
@@ -5217,7 +5946,7 @@ class MessageMediaPoll extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4bd6e798);
     buffer.writeObject(poll);
     buffer.writeObject(results);
@@ -5253,7 +5982,7 @@ class MessageMediaDice extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3f7ee58b);
     buffer.writeInt(value);
     buffer.writeString(emoticon);
@@ -5266,7 +5995,7 @@ class MessageMediaDice extends MessageMediaBase {
 class MessageMediaStory extends MessageMediaBase {
   /// Message Media Story constructor.
   const MessageMediaStory({
-    required this.flags,
+    required this.viaMention,
     required this.peer,
     required this.id,
     this.story,
@@ -5287,21 +6016,30 @@ class MessageMediaStory extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: viaMention,
+      b00: story != null,
+    );
 
-  /// via_mention: bit
-  bool get viaMention => _bit(flags, 1);
+    return v;
+  }
+
+  /// via_mention: bit 1 of flags.1?true
+  final bool viaMention;
 
   /// Peer.
   final PeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Story.
   final StoryItemBase? story;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x68cb6283);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -5319,7 +6057,8 @@ class MessageMediaStory extends MessageMediaBase {
 class MessageMediaGiveaway extends MessageMediaBase {
   /// Message Media Giveaway constructor.
   const MessageMediaGiveaway({
-    required this.flags,
+    required this.onlyNewSubscribers,
+    required this.winnersAreVisible,
     required this.channels,
     this.countriesIso2,
     this.prizeDescription,
@@ -5347,17 +6086,30 @@ class MessageMediaGiveaway extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: onlyNewSubscribers,
+      b02: winnersAreVisible,
+      b01: countriesIso2 != null,
+      b03: prizeDescription != null,
+    );
 
-  /// only_new_subscribers: bit
-  bool get onlyNewSubscribers => _bit(flags, 0);
+    return v;
+  }
 
-  /// winners_are_visible: bit
-  bool get winnersAreVisible => _bit(flags, 2);
+  /// only_new_subscribers: bit 0 of flags.0?true
+  final bool onlyNewSubscribers;
+
+  /// winners_are_visible: bit 2 of flags.2?true
+  final bool winnersAreVisible;
 
   /// Channels.
   final List<int> channels;
+
+  /// Countries Iso2.
   final List<String>? countriesIso2;
+
+  /// Prize Description.
   final String? prizeDescription;
 
   /// Quantity.
@@ -5371,7 +6123,7 @@ class MessageMediaGiveaway extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdaad85b0);
     buffer.writeInt(flags);
     buffer.writeVectorLong(channels);
@@ -5395,7 +6147,8 @@ class MessageMediaGiveaway extends MessageMediaBase {
 class MessageMediaGiveawayResults extends MessageMediaBase {
   /// Message Media Giveaway Results constructor.
   const MessageMediaGiveawayResults({
-    required this.flags,
+    required this.onlyNewSubscribers,
+    required this.refunded,
     required this.channelId,
     this.additionalPeersCount,
     required this.launchMsgId,
@@ -5429,16 +6182,27 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: onlyNewSubscribers,
+      b02: refunded,
+      b03: additionalPeersCount != null,
+      b01: prizeDescription != null,
+    );
 
-  /// only_new_subscribers: bit
-  bool get onlyNewSubscribers => _bit(flags, 0);
+    return v;
+  }
 
-  /// refunded: bit
-  bool get refunded => _bit(flags, 2);
+  /// only_new_subscribers: bit 0 of flags.0?true
+  final bool onlyNewSubscribers;
+
+  /// refunded: bit 2 of flags.2?true
+  final bool refunded;
 
   /// Channel Id.
   final int channelId;
+
+  /// Additional Peers Count.
   final int? additionalPeersCount;
 
   /// Launch Msg Id.
@@ -5455,6 +6219,8 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
 
   /// Months.
   final int months;
+
+  /// Prize Description.
   final String? prizeDescription;
 
   /// Until Date.
@@ -5462,7 +6228,7 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc6991068);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -5507,7 +6273,7 @@ class MessageActionEmpty extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6aef7b0);
   }
 }
@@ -5541,7 +6307,7 @@ class MessageActionChatCreate extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd47cbad);
     buffer.writeString(title);
     buffer.writeVectorLong(users);
@@ -5572,7 +6338,7 @@ class MessageActionChatEditTitle extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb5a1ce5a);
     buffer.writeString(title);
   }
@@ -5602,7 +6368,7 @@ class MessageActionChatEditPhoto extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7fcb13a8);
     buffer.writeObject(photo);
   }
@@ -5626,7 +6392,7 @@ class MessageActionChatDeletePhoto extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x95e3fbef);
   }
 }
@@ -5655,7 +6421,7 @@ class MessageActionChatAddUser extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15cefd00);
     buffer.writeVectorLong(users);
   }
@@ -5685,7 +6451,7 @@ class MessageActionChatDeleteUser extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa43f30cc);
     buffer.writeLong(userId);
   }
@@ -5715,7 +6481,7 @@ class MessageActionChatJoinedByLink extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x031224c3);
     buffer.writeLong(inviterId);
   }
@@ -5745,7 +6511,7 @@ class MessageActionChannelCreate extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x95d2ac92);
     buffer.writeString(title);
   }
@@ -5775,7 +6541,7 @@ class MessageActionChatMigrateTo extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe1037f92);
     buffer.writeLong(channelId);
   }
@@ -5810,7 +6576,7 @@ class MessageActionChannelMigrateFrom extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea3948e9);
     buffer.writeString(title);
     buffer.writeLong(chatId);
@@ -5835,7 +6601,7 @@ class MessageActionPinMessage extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x94bd38ed);
   }
 }
@@ -5858,7 +6624,7 @@ class MessageActionHistoryClear extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9fbab604);
   }
 }
@@ -5892,7 +6658,7 @@ class MessageActionGameScore extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x92a72876);
     buffer.writeLong(gameId);
     buffer.writeInt(score);
@@ -5905,7 +6671,8 @@ class MessageActionGameScore extends MessageActionBase {
 class MessageActionPaymentSentMe extends MessageActionBase {
   /// Message Action Payment Sent Me constructor.
   const MessageActionPaymentSentMe({
-    required this.flags,
+    required this.recurringInit,
+    required this.recurringUsed,
     required this.currency,
     required this.totalAmount,
     required this.payload,
@@ -5933,13 +6700,22 @@ class MessageActionPaymentSentMe extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: recurringInit,
+      b03: recurringUsed,
+      b00: info != null,
+      b01: shippingOptionId != null,
+    );
 
-  /// recurring_init: bit
-  bool get recurringInit => _bit(flags, 2);
+    return v;
+  }
 
-  /// recurring_used: bit
-  bool get recurringUsed => _bit(flags, 3);
+  /// recurring_init: bit 2 of flags.2?true
+  final bool recurringInit;
+
+  /// recurring_used: bit 3 of flags.3?true
+  final bool recurringUsed;
 
   /// Currency.
   final String currency;
@@ -5949,7 +6725,11 @@ class MessageActionPaymentSentMe extends MessageActionBase {
 
   /// Payload.
   final Uint8List payload;
+
+  /// Info.
   final PaymentRequestedInfoBase? info;
+
+  /// Shipping Option Id.
   final String? shippingOptionId;
 
   /// Charge.
@@ -5957,7 +6737,7 @@ class MessageActionPaymentSentMe extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8f31b327);
     buffer.writeInt(flags);
     buffer.writeString(currency);
@@ -5981,7 +6761,8 @@ class MessageActionPaymentSentMe extends MessageActionBase {
 class MessageActionPaymentSent extends MessageActionBase {
   /// Message Action Payment Sent constructor.
   const MessageActionPaymentSent({
-    required this.flags,
+    required this.recurringInit,
+    required this.recurringUsed,
     required this.currency,
     required this.totalAmount,
     this.invoiceSlug,
@@ -6003,24 +6784,34 @@ class MessageActionPaymentSent extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: recurringInit,
+      b03: recurringUsed,
+      b00: invoiceSlug != null,
+    );
 
-  /// recurring_init: bit
-  bool get recurringInit => _bit(flags, 2);
+    return v;
+  }
 
-  /// recurring_used: bit
-  bool get recurringUsed => _bit(flags, 3);
+  /// recurring_init: bit 2 of flags.2?true
+  final bool recurringInit;
+
+  /// recurring_used: bit 3 of flags.3?true
+  final bool recurringUsed;
 
   /// Currency.
   final String currency;
 
   /// Total Amount.
   final int totalAmount;
+
+  /// Invoice Slug.
   final String? invoiceSlug;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x96163f56);
     buffer.writeInt(flags);
     buffer.writeString(currency);
@@ -6038,7 +6829,7 @@ class MessageActionPaymentSent extends MessageActionBase {
 class MessageActionPhoneCall extends MessageActionBase {
   /// Message Action Phone Call constructor.
   const MessageActionPhoneCall({
-    required this.flags,
+    required this.video,
     required this.callId,
     this.reason,
     this.duration,
@@ -6059,19 +6850,31 @@ class MessageActionPhoneCall extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: video,
+      b00: reason != null,
+      b01: duration != null,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 2);
+    return v;
+  }
+
+  /// video: bit 2 of flags.2?true
+  final bool video;
 
   /// Call Id.
   final int callId;
+
+  /// Reason.
   final PhoneCallDiscardReasonBase? reason;
+
+  /// Duration.
   final int? duration;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x80e11a7f);
     buffer.writeInt(flags);
     buffer.writeLong(callId);
@@ -6104,7 +6907,7 @@ class MessageActionScreenshotTaken extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4792929b);
   }
 }
@@ -6133,7 +6936,7 @@ class MessageActionCustomAction extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfae69f56);
     buffer.writeString(message);
   }
@@ -6145,7 +6948,8 @@ class MessageActionCustomAction extends MessageActionBase {
 class MessageActionBotAllowed extends MessageActionBase {
   /// Message Action Bot Allowed constructor.
   const MessageActionBotAllowed({
-    required this.flags,
+    required this.attachMenu,
+    required this.fromRequest,
     this.domain,
     this.app,
   }) : super._();
@@ -6165,19 +6969,32 @@ class MessageActionBotAllowed extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: attachMenu,
+      b03: fromRequest,
+      b00: domain != null,
+      b02: app != null,
+    );
 
-  /// attach_menu: bit
-  bool get attachMenu => _bit(flags, 1);
+    return v;
+  }
 
-  /// from_request: bit
-  bool get fromRequest => _bit(flags, 3);
+  /// attach_menu: bit 1 of flags.1?true
+  final bool attachMenu;
+
+  /// from_request: bit 3 of flags.3?true
+  final bool fromRequest;
+
+  /// Domain.
   final String? domain;
+
+  /// App.
   final BotAppBase? app;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc516d679);
     buffer.writeInt(flags);
     final localDomainCopy = domain;
@@ -6220,7 +7037,7 @@ class MessageActionSecureValuesSentMe extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b287353);
     buffer.writeVectorObject(values);
     buffer.writeObject(credentials);
@@ -6251,7 +7068,7 @@ class MessageActionSecureValuesSent extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd95c6154);
     buffer.writeVectorObject(types);
   }
@@ -6275,7 +7092,7 @@ class MessageActionContactSignUp extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf3f25f76);
   }
 }
@@ -6314,7 +7131,7 @@ class MessageActionGeoProximityReached extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98e0d697);
     buffer.writeObject(fromId);
     buffer.writeObject(toId);
@@ -6328,7 +7145,6 @@ class MessageActionGeoProximityReached extends MessageActionBase {
 class MessageActionGroupCall extends MessageActionBase {
   /// Message Action Group Call constructor.
   const MessageActionGroupCall({
-    required this.flags,
     required this.call,
     this.duration,
   }) : super._();
@@ -6346,15 +7162,23 @@ class MessageActionGroupCall extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: duration != null,
+    );
+
+    return v;
+  }
 
   /// Call.
   final InputGroupCallBase call;
+
+  /// Duration.
   final int? duration;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a0d7f42);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -6394,7 +7218,7 @@ class MessageActionInviteToGroupCall extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x502f92f7);
     buffer.writeObject(call);
     buffer.writeVectorLong(users);
@@ -6407,7 +7231,6 @@ class MessageActionInviteToGroupCall extends MessageActionBase {
 class MessageActionSetMessagesTTL extends MessageActionBase {
   /// Message Action Set Messages T T L constructor.
   const MessageActionSetMessagesTTL({
-    required this.flags,
     required this.period,
     this.autoSettingFrom,
   }) : super._();
@@ -6425,15 +7248,23 @@ class MessageActionSetMessagesTTL extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: autoSettingFrom != null,
+    );
+
+    return v;
+  }
 
   /// Period.
   final int period;
+
+  /// Auto Setting From.
   final int? autoSettingFrom;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c134d7b);
     buffer.writeInt(flags);
     buffer.writeInt(period);
@@ -6473,7 +7304,7 @@ class MessageActionGroupCallScheduled extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb3a07661);
     buffer.writeObject(call);
     buffer.writeDateTime(scheduleDate);
@@ -6504,7 +7335,7 @@ class MessageActionSetChatTheme extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaa786345);
     buffer.writeString(emoticon);
   }
@@ -6528,7 +7359,7 @@ class MessageActionChatJoinedByRequest extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xebbca3cb);
   }
 }
@@ -6562,7 +7393,7 @@ class MessageActionWebViewDataSentMe extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x47dd8079);
     buffer.writeString(text);
     buffer.writeString(data);
@@ -6593,7 +7424,7 @@ class MessageActionWebViewDataSent extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4c38cb5);
     buffer.writeString(text);
   }
@@ -6605,7 +7436,6 @@ class MessageActionWebViewDataSent extends MessageActionBase {
 class MessageActionGiftPremium extends MessageActionBase {
   /// Message Action Gift Premium constructor.
   const MessageActionGiftPremium({
-    required this.flags,
     required this.currency,
     required this.amount,
     required this.months,
@@ -6629,7 +7459,13 @@ class MessageActionGiftPremium extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: cryptoCurrency != null || cryptoAmount != null,
+    );
+
+    return v;
+  }
 
   /// Currency.
   final String currency;
@@ -6639,12 +7475,16 @@ class MessageActionGiftPremium extends MessageActionBase {
 
   /// Months.
   final int months;
+
+  /// Crypto Currency.
   final String? cryptoCurrency;
+
+  /// Crypto Amount.
   final int? cryptoAmount;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc83d6aec);
     buffer.writeInt(flags);
     buffer.writeString(currency);
@@ -6667,7 +7507,6 @@ class MessageActionGiftPremium extends MessageActionBase {
 class MessageActionTopicCreate extends MessageActionBase {
   /// Message Action Topic Create constructor.
   const MessageActionTopicCreate({
-    required this.flags,
     required this.title,
     required this.iconColor,
     this.iconEmojiId,
@@ -6687,18 +7526,26 @@ class MessageActionTopicCreate extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: iconEmojiId != null,
+    );
+
+    return v;
+  }
 
   /// Title.
   final String title;
 
   /// Icon Color.
   final int iconColor;
+
+  /// Icon Emoji Id.
   final int? iconEmojiId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0d999256);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -6716,7 +7563,6 @@ class MessageActionTopicCreate extends MessageActionBase {
 class MessageActionTopicEdit extends MessageActionBase {
   /// Message Action Topic Edit constructor.
   const MessageActionTopicEdit({
-    required this.flags,
     this.title,
     this.iconEmojiId,
     this.closed,
@@ -6738,15 +7584,32 @@ class MessageActionTopicEdit extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: title != null,
+      b01: iconEmojiId != null,
+      b02: closed != null,
+      b03: hidden != null,
+    );
+
+    return v;
+  }
+
+  /// Title.
   final String? title;
+
+  /// Icon Emoji Id.
   final int? iconEmojiId;
+
+  /// Closed.
   final bool? closed;
+
+  /// Hidden.
   final bool? hidden;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc0944820);
     buffer.writeInt(flags);
     final localTitleCopy = title;
@@ -6792,7 +7655,7 @@ class MessageActionSuggestProfilePhoto extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57de635e);
     buffer.writeObject(photo);
   }
@@ -6827,7 +7690,7 @@ class MessageActionRequestedPeer extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x31518e9b);
     buffer.writeInt(buttonId);
     buffer.writeVectorObject(peers);
@@ -6840,7 +7703,8 @@ class MessageActionRequestedPeer extends MessageActionBase {
 class MessageActionSetChatWallPaper extends MessageActionBase {
   /// Message Action Set Chat Wall Paper constructor.
   const MessageActionSetChatWallPaper({
-    required this.flags,
+    required this.same,
+    required this.forBoth,
     required this.wallpaper,
   }) : super._();
 
@@ -6858,20 +7722,27 @@ class MessageActionSetChatWallPaper extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: same,
+      b01: forBoth,
+    );
 
-  /// same: bit
-  bool get same => _bit(flags, 0);
+    return v;
+  }
 
-  /// for_both: bit
-  bool get forBoth => _bit(flags, 1);
+  /// same: bit 0 of flags.0?true
+  final bool same;
+
+  /// for_both: bit 1 of flags.1?true
+  final bool forBoth;
 
   /// Wallpaper.
   final WallPaperBase wallpaper;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5060a3f4);
     buffer.writeInt(flags);
     buffer.writeObject(wallpaper);
@@ -6884,7 +7755,8 @@ class MessageActionSetChatWallPaper extends MessageActionBase {
 class MessageActionGiftCode extends MessageActionBase {
   /// Message Action Gift Code constructor.
   const MessageActionGiftCode({
-    required this.flags,
+    required this.viaGiveaway,
+    required this.unclaimed,
     this.boostPeer,
     required this.months,
     required this.slug,
@@ -6914,13 +7786,24 @@ class MessageActionGiftCode extends MessageActionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: viaGiveaway,
+      b02: unclaimed || currency != null || amount != null,
+      b01: boostPeer != null,
+      b03: cryptoCurrency != null || cryptoAmount != null,
+    );
 
-  /// via_giveaway: bit
-  bool get viaGiveaway => _bit(flags, 0);
+    return v;
+  }
 
-  /// unclaimed: bit
-  bool get unclaimed => _bit(flags, 2);
+  /// via_giveaway: bit 0 of flags.0?true
+  final bool viaGiveaway;
+
+  /// unclaimed: bit 2 of flags.2?true
+  final bool unclaimed;
+
+  /// Boost Peer.
   final PeerBase? boostPeer;
 
   /// Months.
@@ -6928,14 +7811,22 @@ class MessageActionGiftCode extends MessageActionBase {
 
   /// Slug.
   final String slug;
+
+  /// Currency.
   final String? currency;
+
+  /// Amount.
   final int? amount;
+
+  /// Crypto Currency.
   final String? cryptoCurrency;
+
+  /// Crypto Amount.
   final int? cryptoAmount;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x678c2e09);
     buffer.writeInt(flags);
     final localBoostPeerCopy = boostPeer;
@@ -6981,7 +7872,7 @@ class MessageActionGiveawayLaunch extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x332ba9ed);
   }
 }
@@ -7015,7 +7906,7 @@ class MessageActionGiveawayResults extends MessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2a9fadc5);
     buffer.writeInt(winnersCount);
     buffer.writeInt(unclaimedCount);
@@ -7034,7 +7925,9 @@ abstract class DialogBase extends TlConstructor {
 class Dialog extends DialogBase {
   /// Dialog constructor.
   const Dialog({
-    required this.flags,
+    required this.pinned,
+    required this.unreadMark,
+    required this.viewForumAsMessages,
     required this.peer,
     required this.topMessage,
     required this.readInboxMaxId,
@@ -7075,16 +7968,28 @@ class Dialog extends DialogBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: pinned,
+      b03: unreadMark,
+      b06: viewForumAsMessages,
+      b00: pts != null,
+      b01: draft != null,
+      b04: folderId != null,
+      b05: ttlPeriod != null,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 2);
+    return v;
+  }
 
-  /// unread_mark: bit
-  bool get unreadMark => _bit(flags, 3);
+  /// pinned: bit 2 of flags.2?true
+  final bool pinned;
 
-  /// view_forum_as_messages: bit
-  bool get viewForumAsMessages => _bit(flags, 6);
+  /// unread_mark: bit 3 of flags.3?true
+  final bool unreadMark;
+
+  /// view_forum_as_messages: bit 6 of flags.6?true
+  final bool viewForumAsMessages;
 
   /// Peer.
   final PeerBase peer;
@@ -7109,14 +8014,22 @@ class Dialog extends DialogBase {
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
+
+  /// Pts.
   final int? pts;
+
+  /// Draft.
   final DraftMessageBase? draft;
+
+  /// Folder Id.
   final int? folderId;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd58a08c6);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -7152,7 +8065,7 @@ class Dialog extends DialogBase {
 class DialogFolder extends DialogBase {
   /// Dialog Folder constructor.
   const DialogFolder({
-    required this.flags,
+    required this.pinned,
     required this.folder,
     required this.peer,
     required this.topMessage,
@@ -7181,10 +8094,16 @@ class DialogFolder extends DialogBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 2);
+    return v;
+  }
+
+  /// pinned: bit 2 of flags.2?true
+  final bool pinned;
 
   /// Folder.
   final FolderBase folder;
@@ -7209,7 +8128,7 @@ class DialogFolder extends DialogBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x71bd134c);
     buffer.writeInt(flags);
     buffer.writeObject(folder);
@@ -7252,7 +8171,7 @@ class PhotoEmpty extends PhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2331b22d);
     buffer.writeLong(id);
   }
@@ -7264,7 +8183,7 @@ class PhotoEmpty extends PhotoBase {
 class Photo extends PhotoBase {
   /// Photo constructor.
   const Photo({
-    required this.flags,
+    required this.hasStickers,
     required this.id,
     required this.accessHash,
     required this.fileReference,
@@ -7293,10 +8212,17 @@ class Photo extends PhotoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hasStickers,
+      b01: videoSizes != null,
+    );
 
-  /// has_stickers: bit
-  bool get hasStickers => _bit(flags, 0);
+    return v;
+  }
+
+  /// has_stickers: bit 0 of flags.0?true
+  final bool hasStickers;
 
   /// Id.
   final int id;
@@ -7312,6 +8238,8 @@ class Photo extends PhotoBase {
 
   /// Sizes.
   final List<PhotoSizeBase> sizes;
+
+  /// Video Sizes.
   final List<VideoSizeBase>? videoSizes;
 
   /// Dc Id.
@@ -7319,7 +8247,7 @@ class Photo extends PhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfb197a65);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -7365,7 +8293,7 @@ class PhotoSizeEmpty extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0e17e23c);
     buffer.writeString(type);
   }
@@ -7410,7 +8338,7 @@ class PhotoSize extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x75c78e60);
     buffer.writeString(type);
     buffer.writeInt(w);
@@ -7458,7 +8386,7 @@ class PhotoCachedSize extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x021e1ad6);
     buffer.writeString(type);
     buffer.writeInt(w);
@@ -7496,7 +8424,7 @@ class PhotoStrippedSize extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe0b0bc2e);
     buffer.writeString(type);
     buffer.writeBytes(bytes);
@@ -7542,7 +8470,7 @@ class PhotoSizeProgressive extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa3efb95);
     buffer.writeString(type);
     buffer.writeInt(w);
@@ -7580,7 +8508,7 @@ class PhotoPathSize extends PhotoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd8214d41);
     buffer.writeString(type);
     buffer.writeBytes(bytes);
@@ -7611,7 +8539,7 @@ class GeoPointEmpty extends GeoPointBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1117dd5f);
   }
 }
@@ -7622,7 +8550,6 @@ class GeoPointEmpty extends GeoPointBase {
 class GeoPoint extends GeoPointBase {
   /// Geo Point constructor.
   const GeoPoint({
-    required this.flags,
     required this.long,
     required this.lat,
     required this.accessHash,
@@ -7644,7 +8571,13 @@ class GeoPoint extends GeoPointBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: accuracyRadius != null,
+    );
+
+    return v;
+  }
 
   /// Long.
   final double long;
@@ -7654,11 +8587,13 @@ class GeoPoint extends GeoPointBase {
 
   /// Access Hash.
   final int accessHash;
+
+  /// Accuracy Radius.
   final int? accuracyRadius;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2a2f663);
     buffer.writeInt(flags);
     buffer.writeDouble(long);
@@ -7683,7 +8618,6 @@ abstract class AuthSentCodeBase extends TlConstructor {
 class AuthSentCode extends AuthSentCodeBase {
   /// Auth Sent Code constructor.
   const AuthSentCode({
-    required this.flags,
     required this.type,
     required this.phoneCodeHash,
     this.nextType,
@@ -7705,19 +8639,30 @@ class AuthSentCode extends AuthSentCodeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: nextType != null,
+      b02: timeout != null,
+    );
+
+    return v;
+  }
 
   /// Type.
   final AuthSentCodeTypeBase type;
 
   /// Phone Code Hash.
   final String phoneCodeHash;
+
+  /// Next Type.
   final AuthCodeTypeBase? nextType;
+
+  /// Timeout.
   final int? timeout;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5e002502);
     buffer.writeInt(flags);
     buffer.writeObject(type);
@@ -7757,7 +8702,7 @@ class AuthSentCodeSuccess extends AuthSentCodeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2390fe44);
     buffer.writeObject(authorization);
   }
@@ -7775,7 +8720,7 @@ abstract class AuthAuthorizationBase extends TlConstructor {
 class AuthAuthorization extends AuthAuthorizationBase {
   /// Auth Authorization constructor.
   const AuthAuthorization({
-    required this.flags,
+    required this.setupPasswordRequired,
     this.otherwiseReloginDays,
     this.tmpSessions,
     this.futureAuthToken,
@@ -7798,12 +8743,26 @@ class AuthAuthorization extends AuthAuthorizationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: setupPasswordRequired || otherwiseReloginDays != null,
+      b00: tmpSessions != null,
+      b02: futureAuthToken != null,
+    );
 
-  /// setup_password_required: bit
-  bool get setupPasswordRequired => _bit(flags, 1);
+    return v;
+  }
+
+  /// setup_password_required: bit 1 of flags.1?true
+  final bool setupPasswordRequired;
+
+  /// Otherwise Relogin Days.
   final int? otherwiseReloginDays;
+
+  /// Tmp Sessions.
   final int? tmpSessions;
+
+  /// Future Auth Token.
   final Uint8List? futureAuthToken;
 
   /// User.
@@ -7811,7 +8770,7 @@ class AuthAuthorization extends AuthAuthorizationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2ea2c0d4);
     buffer.writeInt(flags);
     final localOtherwiseReloginDaysCopy = otherwiseReloginDays;
@@ -7836,7 +8795,6 @@ class AuthAuthorization extends AuthAuthorizationBase {
 class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
   /// Auth Authorization Sign Up Required constructor.
   const AuthAuthorizationSignUpRequired({
-    required this.flags,
     this.termsOfService,
   }) : super._();
 
@@ -7852,12 +8810,20 @@ class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: termsOfService != null,
+    );
+
+    return v;
+  }
+
+  /// Terms Of Service.
   final HelpTermsOfServiceBase? termsOfService;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x44747e9a);
     buffer.writeInt(flags);
     final localTermsOfServiceCopy = termsOfService;
@@ -7902,7 +8868,7 @@ class AuthExportedAuthorization extends AuthExportedAuthorizationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb434e2b8);
     buffer.writeLong(id);
     buffer.writeBytes(bytes);
@@ -7939,7 +8905,7 @@ class InputNotifyPeer extends InputNotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb8bc5b0c);
     buffer.writeObject(peer);
   }
@@ -7963,7 +8929,7 @@ class InputNotifyUsers extends InputNotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x193b4417);
   }
 }
@@ -7986,7 +8952,7 @@ class InputNotifyChats extends InputNotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4a95e84e);
   }
 }
@@ -8009,7 +8975,7 @@ class InputNotifyBroadcasts extends InputNotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb1db7c7e);
   }
 }
@@ -8043,7 +9009,7 @@ class InputNotifyForumTopic extends InputNotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5c467992);
     buffer.writeObject(peer);
     buffer.writeInt(topMsgId);
@@ -8062,7 +9028,6 @@ abstract class InputPeerNotifySettingsBase extends TlConstructor {
 class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
   /// Input Peer Notify Settings constructor.
   const InputPeerNotifySettings({
-    required this.flags,
     this.showPreviews,
     this.silent,
     this.muteUntil,
@@ -8090,18 +9055,44 @@ class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: showPreviews != null,
+      b01: silent != null,
+      b02: muteUntil != null,
+      b03: sound != null,
+      b06: storiesMuted != null,
+      b07: storiesHideSender != null,
+      b08: storiesSound != null,
+    );
+
+    return v;
+  }
+
+  /// Show Previews.
   final bool? showPreviews;
+
+  /// Silent.
   final bool? silent;
+
+  /// Mute Until.
   final int? muteUntil;
+
+  /// Sound.
   final NotificationSoundBase? sound;
+
+  /// Stories Muted.
   final bool? storiesMuted;
+
+  /// Stories Hide Sender.
   final bool? storiesHideSender;
+
+  /// Stories Sound.
   final NotificationSoundBase? storiesSound;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcacb6ae2);
     buffer.writeInt(flags);
     final localShowPreviewsCopy = showPreviews;
@@ -8147,7 +9138,6 @@ abstract class PeerNotifySettingsBase extends TlConstructor {
 class PeerNotifySettings extends PeerNotifySettingsBase {
   /// Peer Notify Settings constructor.
   const PeerNotifySettings({
-    required this.flags,
     this.showPreviews,
     this.silent,
     this.muteUntil,
@@ -8183,22 +9173,60 @@ class PeerNotifySettings extends PeerNotifySettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: showPreviews != null,
+      b01: silent != null,
+      b02: muteUntil != null,
+      b03: iosSound != null,
+      b04: androidSound != null,
+      b05: otherSound != null,
+      b06: storiesMuted != null,
+      b07: storiesHideSender != null,
+      b08: storiesIosSound != null,
+      b09: storiesAndroidSound != null,
+      b10: storiesOtherSound != null,
+    );
+
+    return v;
+  }
+
+  /// Show Previews.
   final bool? showPreviews;
+
+  /// Silent.
   final bool? silent;
+
+  /// Mute Until.
   final int? muteUntil;
+
+  /// Ios Sound.
   final NotificationSoundBase? iosSound;
+
+  /// Android Sound.
   final NotificationSoundBase? androidSound;
+
+  /// Other Sound.
   final NotificationSoundBase? otherSound;
+
+  /// Stories Muted.
   final bool? storiesMuted;
+
+  /// Stories Hide Sender.
   final bool? storiesHideSender;
+
+  /// Stories Ios Sound.
   final NotificationSoundBase? storiesIosSound;
+
+  /// Stories Android Sound.
   final NotificationSoundBase? storiesAndroidSound;
+
+  /// Stories Other Sound.
   final NotificationSoundBase? storiesOtherSound;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x99622c0c);
     buffer.writeInt(flags);
     final localShowPreviewsCopy = showPreviews;
@@ -8260,7 +9288,15 @@ abstract class PeerSettingsBase extends TlConstructor {
 class PeerSettings extends PeerSettingsBase {
   /// Peer Settings constructor.
   const PeerSettings({
-    required this.flags,
+    required this.reportSpam,
+    required this.addContact,
+    required this.blockContact,
+    required this.shareContact,
+    required this.needContactsException,
+    required this.reportGeo,
+    required this.autoarchived,
+    required this.inviteMembers,
+    required this.requestChatBroadcast,
     this.geoDistance,
     this.requestChatTitle,
     this.requestChatDate,
@@ -8289,41 +9325,63 @@ class PeerSettings extends PeerSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: reportSpam,
+      b01: addContact,
+      b02: blockContact,
+      b03: shareContact,
+      b04: needContactsException,
+      b05: reportGeo,
+      b07: autoarchived,
+      b08: inviteMembers,
+      b10: requestChatBroadcast,
+      b06: geoDistance != null,
+      b09: requestChatTitle != null || requestChatDate != null,
+    );
 
-  /// report_spam: bit
-  bool get reportSpam => _bit(flags, 0);
+    return v;
+  }
 
-  /// add_contact: bit
-  bool get addContact => _bit(flags, 1);
+  /// report_spam: bit 0 of flags.0?true
+  final bool reportSpam;
 
-  /// block_contact: bit
-  bool get blockContact => _bit(flags, 2);
+  /// add_contact: bit 1 of flags.1?true
+  final bool addContact;
 
-  /// share_contact: bit
-  bool get shareContact => _bit(flags, 3);
+  /// block_contact: bit 2 of flags.2?true
+  final bool blockContact;
 
-  /// need_contacts_exception: bit
-  bool get needContactsException => _bit(flags, 4);
+  /// share_contact: bit 3 of flags.3?true
+  final bool shareContact;
 
-  /// report_geo: bit
-  bool get reportGeo => _bit(flags, 5);
+  /// need_contacts_exception: bit 4 of flags.4?true
+  final bool needContactsException;
 
-  /// autoarchived: bit
-  bool get autoarchived => _bit(flags, 7);
+  /// report_geo: bit 5 of flags.5?true
+  final bool reportGeo;
 
-  /// invite_members: bit
-  bool get inviteMembers => _bit(flags, 8);
+  /// autoarchived: bit 7 of flags.7?true
+  final bool autoarchived;
 
-  /// request_chat_broadcast: bit
-  bool get requestChatBroadcast => _bit(flags, 10);
+  /// invite_members: bit 8 of flags.8?true
+  final bool inviteMembers;
+
+  /// request_chat_broadcast: bit 10 of flags.10?true
+  final bool requestChatBroadcast;
+
+  /// Geo Distance.
   final int? geoDistance;
+
+  /// Request Chat Title.
   final String? requestChatTitle;
+
+  /// Request Chat Date.
   final DateTime? requestChatDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa518110d);
     buffer.writeInt(flags);
     final localGeoDistanceCopy = geoDistance;
@@ -8354,7 +9412,10 @@ class WallPaper extends WallPaperBase {
   /// Wall Paper constructor.
   const WallPaper({
     required this.id,
-    required this.flags,
+    required this.creator,
+    required this.ddefault,
+    required this.pattern,
+    required this.dark,
     required this.accessHash,
     required this.slug,
     required this.document,
@@ -8380,23 +9441,33 @@ class WallPaper extends WallPaperBase {
     throw Exception();
   }
 
+  /// Flags.
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b01: ddefault,
+      b03: pattern,
+      b04: dark,
+      b02: settings != null,
+    );
+
+    return v;
+  }
+
   /// Id.
   final int id;
 
-  /// Flags.
-  final int flags;
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
+  /// default: bit 1 of flags.1?true
+  final bool ddefault;
 
-  /// default: bit
-  bool get ddefault => _bit(flags, 1);
+  /// pattern: bit 3 of flags.3?true
+  final bool pattern;
 
-  /// pattern: bit
-  bool get pattern => _bit(flags, 3);
-
-  /// dark: bit
-  bool get dark => _bit(flags, 4);
+  /// dark: bit 4 of flags.4?true
+  final bool dark;
 
   /// Access Hash.
   final int accessHash;
@@ -8406,11 +9477,13 @@ class WallPaper extends WallPaperBase {
 
   /// Document.
   final DocumentBase document;
+
+  /// Settings.
   final WallPaperSettingsBase? settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa437c3ed);
     buffer.writeLong(id);
     buffer.writeInt(flags);
@@ -8431,7 +9504,8 @@ class WallPaperNoFile extends WallPaperBase {
   /// Wall Paper No File constructor.
   const WallPaperNoFile({
     required this.id,
-    required this.flags,
+    required this.ddefault,
+    required this.dark,
     this.settings,
   }) : super._();
 
@@ -8449,22 +9523,32 @@ class WallPaperNoFile extends WallPaperBase {
     throw Exception();
   }
 
+  /// Flags.
+  int get flags {
+    final v = _flag(
+      b01: ddefault,
+      b04: dark,
+      b02: settings != null,
+    );
+
+    return v;
+  }
+
   /// Id.
   final int id;
 
-  /// Flags.
-  final int flags;
+  /// default: bit 1 of flags.1?true
+  final bool ddefault;
 
-  /// default: bit
-  bool get ddefault => _bit(flags, 1);
+  /// dark: bit 4 of flags.4?true
+  final bool dark;
 
-  /// dark: bit
-  bool get dark => _bit(flags, 4);
+  /// Settings.
   final WallPaperSettingsBase? settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe0804116);
     buffer.writeLong(id);
     buffer.writeInt(flags);
@@ -8499,7 +9583,7 @@ class InputReportReasonSpam extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x58dbcab8);
   }
 }
@@ -8522,7 +9606,7 @@ class InputReportReasonViolence extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e22c78d);
   }
 }
@@ -8545,7 +9629,7 @@ class InputReportReasonPornography extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2e59d922);
   }
 }
@@ -8568,7 +9652,7 @@ class InputReportReasonChildAbuse extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xadf44ee3);
   }
 }
@@ -8591,7 +9675,7 @@ class InputReportReasonOther extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc1e4a2b1);
   }
 }
@@ -8614,7 +9698,7 @@ class InputReportReasonCopyright extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9b89f93a);
   }
 }
@@ -8637,7 +9721,7 @@ class InputReportReasonGeoIrrelevant extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdbd4feed);
   }
 }
@@ -8660,7 +9744,7 @@ class InputReportReasonFake extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf5ddd6e7);
   }
 }
@@ -8683,7 +9767,7 @@ class InputReportReasonIllegalDrugs extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a8eb2be);
   }
 }
@@ -8706,7 +9790,7 @@ class InputReportReasonPersonalDetails extends ReportReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9ec7863d);
   }
 }
@@ -8723,7 +9807,17 @@ abstract class UserFullBase extends TlConstructor {
 class UserFull extends UserFullBase {
   /// User Full constructor.
   const UserFull({
-    required this.flags,
+    required this.blocked,
+    required this.phoneCallsAvailable,
+    required this.phoneCallsPrivate,
+    required this.canPinMessage,
+    required this.hasScheduled,
+    required this.videoCallsAvailable,
+    required this.voiceMessagesForbidden,
+    required this.translationsDisabled,
+    required this.storiesPinnedAvailable,
+    required this.blockedMyStoriesFrom,
+    required this.wallpaperOverridden,
     required this.id,
     this.about,
     required this.settings,
@@ -8786,71 +9880,132 @@ class UserFull extends UserFullBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: blocked,
+      b04: phoneCallsAvailable,
+      b05: phoneCallsPrivate,
+      b07: canPinMessage,
+      b12: hasScheduled,
+      b13: videoCallsAvailable,
+      b20: voiceMessagesForbidden,
+      b23: translationsDisabled,
+      b26: storiesPinnedAvailable,
+      b27: blockedMyStoriesFrom,
+      b28: wallpaperOverridden,
+      b01: about != null,
+      b21: personalPhoto != null,
+      b02: profilePhoto != null,
+      b22: fallbackPhoto != null,
+      b03: botInfo != null,
+      b06: pinnedMsgId != null,
+      b11: folderId != null,
+      b14: ttlPeriod != null,
+      b15: themeEmoticon != null,
+      b16: privateForwardName != null,
+      b17: botGroupAdminRights != null,
+      b18: botBroadcastAdminRights != null,
+      b19: premiumGifts != null,
+      b24: wallpaper != null,
+      b25: stories != null,
+    );
 
-  /// blocked: bit
-  bool get blocked => _bit(flags, 0);
+    return v;
+  }
 
-  /// phone_calls_available: bit
-  bool get phoneCallsAvailable => _bit(flags, 4);
+  /// blocked: bit 0 of flags.0?true
+  final bool blocked;
 
-  /// phone_calls_private: bit
-  bool get phoneCallsPrivate => _bit(flags, 5);
+  /// phone_calls_available: bit 4 of flags.4?true
+  final bool phoneCallsAvailable;
 
-  /// can_pin_message: bit
-  bool get canPinMessage => _bit(flags, 7);
+  /// phone_calls_private: bit 5 of flags.5?true
+  final bool phoneCallsPrivate;
 
-  /// has_scheduled: bit
-  bool get hasScheduled => _bit(flags, 12);
+  /// can_pin_message: bit 7 of flags.7?true
+  final bool canPinMessage;
 
-  /// video_calls_available: bit
-  bool get videoCallsAvailable => _bit(flags, 13);
+  /// has_scheduled: bit 12 of flags.12?true
+  final bool hasScheduled;
 
-  /// voice_messages_forbidden: bit
-  bool get voiceMessagesForbidden => _bit(flags, 20);
+  /// video_calls_available: bit 13 of flags.13?true
+  final bool videoCallsAvailable;
 
-  /// translations_disabled: bit
-  bool get translationsDisabled => _bit(flags, 23);
+  /// voice_messages_forbidden: bit 20 of flags.20?true
+  final bool voiceMessagesForbidden;
 
-  /// stories_pinned_available: bit
-  bool get storiesPinnedAvailable => _bit(flags, 26);
+  /// translations_disabled: bit 23 of flags.23?true
+  final bool translationsDisabled;
 
-  /// blocked_my_stories_from: bit
-  bool get blockedMyStoriesFrom => _bit(flags, 27);
+  /// stories_pinned_available: bit 26 of flags.26?true
+  final bool storiesPinnedAvailable;
 
-  /// wallpaper_overridden: bit
-  bool get wallpaperOverridden => _bit(flags, 28);
+  /// blocked_my_stories_from: bit 27 of flags.27?true
+  final bool blockedMyStoriesFrom;
+
+  /// wallpaper_overridden: bit 28 of flags.28?true
+  final bool wallpaperOverridden;
 
   /// Id.
   final int id;
+
+  /// About.
   final String? about;
 
   /// Settings.
   final PeerSettingsBase settings;
+
+  /// Personal Photo.
   final PhotoBase? personalPhoto;
+
+  /// Profile Photo.
   final PhotoBase? profilePhoto;
+
+  /// Fallback Photo.
   final PhotoBase? fallbackPhoto;
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
+
+  /// Bot Info.
   final BotInfoBase? botInfo;
+
+  /// Pinned Msg Id.
   final int? pinnedMsgId;
 
   /// Common Chats Count.
   final int commonChatsCount;
+
+  /// Folder Id.
   final int? folderId;
+
+  /// Ttl Period.
   final int? ttlPeriod;
+
+  /// Theme Emoticon.
   final String? themeEmoticon;
+
+  /// Private Forward Name.
   final String? privateForwardName;
+
+  /// Bot Group Admin Rights.
   final ChatAdminRightsBase? botGroupAdminRights;
+
+  /// Bot Broadcast Admin Rights.
   final ChatAdminRightsBase? botBroadcastAdminRights;
+
+  /// Premium Gifts.
   final List<PremiumGiftOptionBase>? premiumGifts;
+
+  /// Wallpaper.
   final WallPaperBase? wallpaper;
+
+  /// Stories.
   final PeerStoriesBase? stories;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb9b12c6c);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -8955,7 +10110,7 @@ class Contact extends ContactBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x145ade0b);
     buffer.writeLong(userId);
     buffer.writeBool(mutual);
@@ -8997,7 +10152,7 @@ class ImportedContact extends ImportedContactBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc13e3c50);
     buffer.writeLong(userId);
     buffer.writeLong(clientId);
@@ -9039,7 +10194,7 @@ class ContactStatus extends ContactStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x16d9703b);
     buffer.writeLong(userId);
     buffer.writeObject(status);
@@ -9070,7 +10225,7 @@ class ContactsContactsNotModified extends ContactsContactsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb74ba9d2);
   }
 }
@@ -9109,7 +10264,7 @@ class ContactsContacts extends ContactsContactsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeae87e42);
     buffer.writeVectorObject(contacts);
     buffer.writeInt(savedCount);
@@ -9162,7 +10317,7 @@ class ContactsImportedContacts extends ContactsImportedContactsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77d01c3b);
     buffer.writeVectorObject(imported);
     buffer.writeVectorObject(popularInvites);
@@ -9211,7 +10366,7 @@ class ContactsBlocked extends ContactsBlockedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0ade1591);
     buffer.writeVectorObject(blocked);
     buffer.writeVectorObject(chats);
@@ -9258,7 +10413,7 @@ class ContactsBlockedSlice extends ContactsBlockedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe1664194);
     buffer.writeInt(count);
     buffer.writeVectorObject(blocked);
@@ -9312,7 +10467,7 @@ class MessagesDialogs extends MessagesDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15ba6c40);
     buffer.writeVectorObject(dialogs);
     buffer.writeVectorObject(messages);
@@ -9365,7 +10520,7 @@ class MessagesDialogsSlice extends MessagesDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x71e094f3);
     buffer.writeInt(count);
     buffer.writeVectorObject(dialogs);
@@ -9399,7 +10554,7 @@ class MessagesDialogsNotModified extends MessagesDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf0e3e596);
     buffer.writeInt(count);
   }
@@ -9445,7 +10600,7 @@ class MessagesMessages extends MessagesMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c718e87);
     buffer.writeVectorObject(messages);
     buffer.writeVectorObject(chats);
@@ -9459,7 +10614,7 @@ class MessagesMessages extends MessagesMessagesBase {
 class MessagesMessagesSlice extends MessagesMessagesBase {
   /// Messages Messages Slice constructor.
   const MessagesMessagesSlice({
-    required this.flags,
+    required this.inexact,
     required this.count,
     this.nextRate,
     this.offsetIdOffset,
@@ -9486,14 +10641,26 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: inexact,
+      b00: nextRate != null,
+      b02: offsetIdOffset != null,
+    );
 
-  /// inexact: bit
-  bool get inexact => _bit(flags, 1);
+    return v;
+  }
+
+  /// inexact: bit 1 of flags.1?true
+  final bool inexact;
 
   /// Count.
   final int count;
+
+  /// Next Rate.
   final int? nextRate;
+
+  /// Offset Id Offset.
   final int? offsetIdOffset;
 
   /// Messages.
@@ -9507,7 +10674,7 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3a54685e);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -9531,7 +10698,7 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
 class MessagesChannelMessages extends MessagesMessagesBase {
   /// Messages Channel Messages constructor.
   const MessagesChannelMessages({
-    required this.flags,
+    required this.inexact,
     required this.pts,
     required this.count,
     this.offsetIdOffset,
@@ -9560,16 +10727,25 @@ class MessagesChannelMessages extends MessagesMessagesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: inexact,
+      b02: offsetIdOffset != null,
+    );
 
-  /// inexact: bit
-  bool get inexact => _bit(flags, 1);
+    return v;
+  }
+
+  /// inexact: bit 1 of flags.1?true
+  final bool inexact;
 
   /// Pts.
   final int pts;
 
   /// Count.
   final int count;
+
+  /// Offset Id Offset.
   final int? offsetIdOffset;
 
   /// Messages.
@@ -9586,7 +10762,7 @@ class MessagesChannelMessages extends MessagesMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc776ba4e);
     buffer.writeInt(flags);
     buffer.writeInt(pts);
@@ -9626,7 +10802,7 @@ class MessagesMessagesNotModified extends MessagesMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74535f21);
     buffer.writeInt(count);
   }
@@ -9662,7 +10838,7 @@ class MessagesChats extends MessagesChatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64ff9fd5);
     buffer.writeVectorObject(chats);
   }
@@ -9697,7 +10873,7 @@ class MessagesChatsSlice extends MessagesChatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9cd81144);
     buffer.writeInt(count);
     buffer.writeVectorObject(chats);
@@ -9744,7 +10920,7 @@ class MessagesChatFull extends MessagesChatFullBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe5d7d19c);
     buffer.writeObject(fullChat);
     buffer.writeVectorObject(chats);
@@ -9792,7 +10968,7 @@ class MessagesAffectedHistory extends MessagesAffectedHistoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb45c69d1);
     buffer.writeInt(pts);
     buffer.writeInt(ptsCount);
@@ -9824,7 +11000,7 @@ class InputMessagesFilterEmpty extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57e2f66c);
   }
 }
@@ -9847,7 +11023,7 @@ class InputMessagesFilterPhotos extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9609a51c);
   }
 }
@@ -9870,7 +11046,7 @@ class InputMessagesFilterVideo extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9fc00e65);
   }
 }
@@ -9893,7 +11069,7 @@ class InputMessagesFilterPhotoVideo extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56e9f0e4);
   }
 }
@@ -9916,7 +11092,7 @@ class InputMessagesFilterDocument extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9eddf188);
   }
 }
@@ -9939,7 +11115,7 @@ class InputMessagesFilterUrl extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7ef0dd87);
   }
 }
@@ -9962,7 +11138,7 @@ class InputMessagesFilterGif extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xffc86587);
   }
 }
@@ -9985,7 +11161,7 @@ class InputMessagesFilterVoice extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50f5c392);
   }
 }
@@ -10008,7 +11184,7 @@ class InputMessagesFilterMusic extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3751b49e);
   }
 }
@@ -10031,7 +11207,7 @@ class InputMessagesFilterChatPhotos extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3a20ecb8);
   }
 }
@@ -10042,7 +11218,7 @@ class InputMessagesFilterChatPhotos extends MessagesFilterBase {
 class InputMessagesFilterPhoneCalls extends MessagesFilterBase {
   /// Input Messages Filter Phone Calls constructor.
   const InputMessagesFilterPhoneCalls({
-    required this.flags,
+    required this.missed,
   }) : super._();
 
   /// Deserialize.
@@ -10057,14 +11233,20 @@ class InputMessagesFilterPhoneCalls extends MessagesFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: missed,
+    );
 
-  /// missed: bit
-  bool get missed => _bit(flags, 0);
+    return v;
+  }
+
+  /// missed: bit 0 of flags.0?true
+  final bool missed;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x80c99768);
     buffer.writeInt(flags);
   }
@@ -10088,7 +11270,7 @@ class InputMessagesFilterRoundVoice extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a7c17a4);
   }
 }
@@ -10111,7 +11293,7 @@ class InputMessagesFilterRoundVideo extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb549da53);
   }
 }
@@ -10134,7 +11316,7 @@ class InputMessagesFilterMyMentions extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc1f8e69a);
   }
 }
@@ -10157,7 +11339,7 @@ class InputMessagesFilterGeo extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe7026d0d);
   }
 }
@@ -10180,7 +11362,7 @@ class InputMessagesFilterContacts extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe062db83);
   }
 }
@@ -10203,7 +11385,7 @@ class InputMessagesFilterPinned extends MessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1bb00451);
   }
 }
@@ -10248,7 +11430,7 @@ class UpdateNewMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1f2b0afd);
     buffer.writeObject(message);
     buffer.writeInt(pts);
@@ -10285,7 +11467,7 @@ class UpdateMessageID extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4e90bfd6);
     buffer.writeInt(id);
     buffer.writeLong(randomId);
@@ -10326,7 +11508,7 @@ class UpdateDeleteMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa20db0e5);
     buffer.writeVectorInt(messages);
     buffer.writeInt(pts);
@@ -10363,7 +11545,7 @@ class UpdateUserTyping extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc01e857f);
     buffer.writeLong(userId);
     buffer.writeObject(action);
@@ -10404,7 +11586,7 @@ class UpdateChatUserTyping extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x83487af0);
     buffer.writeLong(chatId);
     buffer.writeObject(fromId);
@@ -10436,7 +11618,7 @@ class UpdateChatParticipants extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x07761198);
     buffer.writeObject(participants);
   }
@@ -10471,7 +11653,7 @@ class UpdateUserStatus extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe5bdf8de);
     buffer.writeLong(userId);
     buffer.writeObject(status);
@@ -10517,7 +11699,7 @@ class UpdateUserName extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa7848924);
     buffer.writeLong(userId);
     buffer.writeString(firstName);
@@ -10532,7 +11714,7 @@ class UpdateUserName extends UpdateBase {
 class UpdateNewAuthorization extends UpdateBase {
   /// Update New Authorization constructor.
   const UpdateNewAuthorization({
-    required this.flags,
+    required this.unconfirmed,
     required this.hash,
     this.date,
     this.device,
@@ -10555,20 +11737,32 @@ class UpdateNewAuthorization extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: unconfirmed || date != null || device != null || location != null,
+    );
 
-  /// unconfirmed: bit
-  bool get unconfirmed => _bit(flags, 0);
+    return v;
+  }
+
+  /// unconfirmed: bit 0 of flags.0?true
+  final bool unconfirmed;
 
   /// Hash.
   final int hash;
+
+  /// Date.
   final DateTime? date;
+
+  /// Device.
   final String? device;
+
+  /// Location.
   final String? location;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8951abef);
     buffer.writeInt(flags);
     buffer.writeLong(hash);
@@ -10616,7 +11810,7 @@ class UpdateNewEncryptedMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x12bcbd9a);
     buffer.writeObject(message);
     buffer.writeInt(qts);
@@ -10647,7 +11841,7 @@ class UpdateEncryptedChatTyping extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1710f156);
     buffer.writeInt(chatId);
   }
@@ -10682,7 +11876,7 @@ class UpdateEncryption extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4a2e88d);
     buffer.writeObject(chat);
     buffer.writeDateTime(date);
@@ -10723,7 +11917,7 @@ class UpdateEncryptedMessagesRead extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x38fe25b7);
     buffer.writeInt(chatId);
     buffer.writeDateTime(maxDate);
@@ -10775,7 +11969,7 @@ class UpdateChatParticipantAdd extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dda5451);
     buffer.writeLong(chatId);
     buffer.writeLong(userId);
@@ -10819,7 +12013,7 @@ class UpdateChatParticipantDelete extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe32f3d77);
     buffer.writeLong(chatId);
     buffer.writeLong(userId);
@@ -10851,7 +12045,7 @@ class UpdateDcOptions extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8e5e9873);
     buffer.writeVectorObject(dcOptions);
   }
@@ -10886,7 +12080,7 @@ class UpdateNotifySettings extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbec268ef);
     buffer.writeObject(peer);
     buffer.writeObject(notifySettings);
@@ -10899,7 +12093,8 @@ class UpdateNotifySettings extends UpdateBase {
 class UpdateServiceNotification extends UpdateBase {
   /// Update Service Notification constructor.
   const UpdateServiceNotification({
-    required this.flags,
+    required this.popup,
+    required this.invertMedia,
     this.inboxDate,
     required this.type,
     required this.message,
@@ -10925,13 +12120,23 @@ class UpdateServiceNotification extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: popup,
+      b02: invertMedia,
+      b01: inboxDate != null,
+    );
 
-  /// popup: bit
-  bool get popup => _bit(flags, 0);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 2);
+  /// popup: bit 0 of flags.0?true
+  final bool popup;
+
+  /// invert_media: bit 2 of flags.2?true
+  final bool invertMedia;
+
+  /// Inbox Date.
   final DateTime? inboxDate;
 
   /// Type.
@@ -10948,7 +12153,7 @@ class UpdateServiceNotification extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xebe46819);
     buffer.writeInt(flags);
     final localInboxDateCopy = inboxDate;
@@ -10991,7 +12196,7 @@ class UpdatePrivacy extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xee3b272a);
     buffer.writeObject(key);
     buffer.writeVectorObject(rules);
@@ -11027,7 +12232,7 @@ class UpdateUserPhone extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x05492a13);
     buffer.writeLong(userId);
     buffer.writeString(phone);
@@ -11040,7 +12245,6 @@ class UpdateUserPhone extends UpdateBase {
 class UpdateReadHistoryInbox extends UpdateBase {
   /// Update Read History Inbox constructor.
   const UpdateReadHistoryInbox({
-    required this.flags,
     this.folderId,
     required this.peer,
     required this.maxId,
@@ -11066,7 +12270,15 @@ class UpdateReadHistoryInbox extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: folderId != null,
+    );
+
+    return v;
+  }
+
+  /// Folder Id.
   final int? folderId;
 
   /// Peer.
@@ -11086,7 +12298,7 @@ class UpdateReadHistoryInbox extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9c974fdf);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -11140,7 +12352,7 @@ class UpdateReadHistoryOutbox extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2f2f21bf);
     buffer.writeObject(peer);
     buffer.writeInt(maxId);
@@ -11183,7 +12395,7 @@ class UpdateWebPage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f891213);
     buffer.writeObject(webpage);
     buffer.writeInt(pts);
@@ -11197,7 +12409,6 @@ class UpdateWebPage extends UpdateBase {
 class UpdateReadMessagesContents extends UpdateBase {
   /// Update Read Messages Contents constructor.
   const UpdateReadMessagesContents({
-    required this.flags,
     required this.messages,
     required this.pts,
     required this.ptsCount,
@@ -11219,7 +12430,13 @@ class UpdateReadMessagesContents extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: date != null,
+    );
+
+    return v;
+  }
 
   /// Messages.
   final List<int> messages;
@@ -11229,11 +12446,13 @@ class UpdateReadMessagesContents extends UpdateBase {
 
   /// Pts Count.
   final int ptsCount;
+
+  /// Date.
   final DateTime? date;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf8227181);
     buffer.writeInt(flags);
     buffer.writeVectorInt(messages);
@@ -11252,7 +12471,6 @@ class UpdateReadMessagesContents extends UpdateBase {
 class UpdateChannelTooLong extends UpdateBase {
   /// Update Channel Too Long constructor.
   const UpdateChannelTooLong({
-    required this.flags,
     required this.channelId,
     this.pts,
   }) : super._();
@@ -11270,15 +12488,23 @@ class UpdateChannelTooLong extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pts != null,
+    );
+
+    return v;
+  }
 
   /// Channel Id.
   final int channelId;
+
+  /// Pts.
   final int? pts;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x108d941f);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -11313,7 +12539,7 @@ class UpdateChannel extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x635b4c09);
     buffer.writeLong(channelId);
   }
@@ -11353,7 +12579,7 @@ class UpdateNewChannelMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x62ba04d9);
     buffer.writeObject(message);
     buffer.writeInt(pts);
@@ -11367,7 +12593,6 @@ class UpdateNewChannelMessage extends UpdateBase {
 class UpdateReadChannelInbox extends UpdateBase {
   /// Update Read Channel Inbox constructor.
   const UpdateReadChannelInbox({
-    required this.flags,
     this.folderId,
     required this.channelId,
     required this.maxId,
@@ -11391,7 +12616,15 @@ class UpdateReadChannelInbox extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: folderId != null,
+    );
+
+    return v;
+  }
+
+  /// Folder Id.
   final int? folderId;
 
   /// Channel Id.
@@ -11408,7 +12641,7 @@ class UpdateReadChannelInbox extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x922e6e10);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -11461,7 +12694,7 @@ class UpdateDeleteChannelMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc32d5b12);
     buffer.writeLong(channelId);
     buffer.writeVectorInt(messages);
@@ -11504,7 +12737,7 @@ class UpdateChannelMessageViews extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf226ac08);
     buffer.writeLong(channelId);
     buffer.writeInt(id);
@@ -11551,7 +12784,7 @@ class UpdateChatParticipantAdmin extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd7ca61a2);
     buffer.writeLong(chatId);
     buffer.writeLong(userId);
@@ -11584,7 +12817,7 @@ class UpdateNewStickerSet extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x688a30aa);
     buffer.writeObject(stickerset);
   }
@@ -11596,7 +12829,8 @@ class UpdateNewStickerSet extends UpdateBase {
 class UpdateStickerSetsOrder extends UpdateBase {
   /// Update Sticker Sets Order constructor.
   const UpdateStickerSetsOrder({
-    required this.flags,
+    required this.masks,
+    required this.emojis,
     required this.order,
   }) : super._();
 
@@ -11614,20 +12848,27 @@ class UpdateStickerSetsOrder extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: emojis,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
+
+  /// emojis: bit 1 of flags.1?true
+  final bool emojis;
 
   /// Order.
   final List<int> order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0bb2d201);
     buffer.writeInt(flags);
     buffer.writeVectorLong(order);
@@ -11640,7 +12881,8 @@ class UpdateStickerSetsOrder extends UpdateBase {
 class UpdateStickerSets extends UpdateBase {
   /// Update Sticker Sets constructor.
   const UpdateStickerSets({
-    required this.flags,
+    required this.masks,
+    required this.emojis,
   }) : super._();
 
   /// Deserialize.
@@ -11656,17 +12898,24 @@ class UpdateStickerSets extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: emojis,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
+
+  /// emojis: bit 1 of flags.1?true
+  final bool emojis;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x31c24808);
     buffer.writeInt(flags);
   }
@@ -11690,7 +12939,7 @@ class UpdateSavedGifs extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9375341e);
   }
 }
@@ -11701,7 +12950,6 @@ class UpdateSavedGifs extends UpdateBase {
 class UpdateBotInlineQuery extends UpdateBase {
   /// Update Bot Inline Query constructor.
   const UpdateBotInlineQuery({
-    required this.flags,
     required this.queryId,
     required this.userId,
     required this.query,
@@ -11727,7 +12975,14 @@ class UpdateBotInlineQuery extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: geo != null,
+      b01: peerType != null,
+    );
+
+    return v;
+  }
 
   /// Query Id.
   final int queryId;
@@ -11737,7 +12992,11 @@ class UpdateBotInlineQuery extends UpdateBase {
 
   /// Query.
   final String query;
+
+  /// Geo.
   final GeoPointBase? geo;
+
+  /// Peer Type.
   final InlineQueryPeerTypeBase? peerType;
 
   /// Offset.
@@ -11745,7 +13004,7 @@ class UpdateBotInlineQuery extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x496f379c);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -11769,7 +13028,6 @@ class UpdateBotInlineQuery extends UpdateBase {
 class UpdateBotInlineSend extends UpdateBase {
   /// Update Bot Inline Send constructor.
   const UpdateBotInlineSend({
-    required this.flags,
     required this.userId,
     required this.query,
     this.geo,
@@ -11793,22 +13051,33 @@ class UpdateBotInlineSend extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: geo != null,
+      b01: msgId != null,
+    );
+
+    return v;
+  }
 
   /// User Id.
   final int userId;
 
   /// Query.
   final String query;
+
+  /// Geo.
   final GeoPointBase? geo;
 
   /// Id.
   final String id;
+
+  /// Msg Id.
   final InputBotInlineMessageIDBase? msgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x12f12a07);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -11859,7 +13128,7 @@ class UpdateEditChannelMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b3f4df7);
     buffer.writeObject(message);
     buffer.writeInt(pts);
@@ -11873,7 +13142,6 @@ class UpdateEditChannelMessage extends UpdateBase {
 class UpdateBotCallbackQuery extends UpdateBase {
   /// Update Bot Callback Query constructor.
   const UpdateBotCallbackQuery({
-    required this.flags,
     required this.queryId,
     required this.userId,
     required this.peer,
@@ -11901,7 +13169,14 @@ class UpdateBotCallbackQuery extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: data != null,
+      b01: gameShortName != null,
+    );
+
+    return v;
+  }
 
   /// Query Id.
   final int queryId;
@@ -11917,12 +13192,16 @@ class UpdateBotCallbackQuery extends UpdateBase {
 
   /// Chat Instance.
   final int chatInstance;
+
+  /// Data.
   final Uint8List? data;
+
+  /// Game Short Name.
   final String? gameShortName;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb9cfc48d);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -11975,7 +13254,7 @@ class UpdateEditMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe40370a3);
     buffer.writeObject(message);
     buffer.writeInt(pts);
@@ -11989,7 +13268,6 @@ class UpdateEditMessage extends UpdateBase {
 class UpdateInlineBotCallbackQuery extends UpdateBase {
   /// Update Inline Bot Callback Query constructor.
   const UpdateInlineBotCallbackQuery({
-    required this.flags,
     required this.queryId,
     required this.userId,
     required this.msgId,
@@ -12015,7 +13293,14 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: data != null,
+      b01: gameShortName != null,
+    );
+
+    return v;
+  }
 
   /// Query Id.
   final int queryId;
@@ -12028,12 +13313,16 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
 
   /// Chat Instance.
   final int chatInstance;
+
+  /// Data.
   final Uint8List? data;
+
+  /// Game Short Name.
   final String? gameShortName;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x691e9052);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -12080,7 +13369,7 @@ class UpdateReadChannelOutbox extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb75f99a9);
     buffer.writeLong(channelId);
     buffer.writeInt(maxId);
@@ -12093,7 +13382,6 @@ class UpdateReadChannelOutbox extends UpdateBase {
 class UpdateDraftMessage extends UpdateBase {
   /// Update Draft Message constructor.
   const UpdateDraftMessage({
-    required this.flags,
     required this.peer,
     this.topMsgId,
     required this.draft,
@@ -12113,10 +13401,18 @@ class UpdateDraftMessage extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final PeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Draft.
@@ -12124,7 +13420,7 @@ class UpdateDraftMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b49ec6d);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -12154,7 +13450,7 @@ class UpdateReadFeaturedStickers extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x571d2742);
   }
 }
@@ -12177,7 +13473,7 @@ class UpdateRecentStickers extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a422c20);
   }
 }
@@ -12200,7 +13496,7 @@ class UpdateConfig extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa229dd06);
   }
 }
@@ -12223,7 +13519,7 @@ class UpdatePtsChanged extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3354678f);
   }
 }
@@ -12267,7 +13563,7 @@ class UpdateChannelWebPage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2f2ba99f);
     buffer.writeLong(channelId);
     buffer.writeObject(webpage);
@@ -12282,7 +13578,7 @@ class UpdateChannelWebPage extends UpdateBase {
 class UpdateDialogPinned extends UpdateBase {
   /// Update Dialog Pinned constructor.
   const UpdateDialogPinned({
-    required this.flags,
+    required this.pinned,
     this.folderId,
     required this.peer,
   }) : super._();
@@ -12301,10 +13597,19 @@ class UpdateDialogPinned extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+      b01: folderId != null,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
+
+  /// Folder Id.
   final int? folderId;
 
   /// Peer.
@@ -12312,7 +13617,7 @@ class UpdateDialogPinned extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6e6fe51c);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -12329,7 +13634,6 @@ class UpdateDialogPinned extends UpdateBase {
 class UpdatePinnedDialogs extends UpdateBase {
   /// Update Pinned Dialogs constructor.
   const UpdatePinnedDialogs({
-    required this.flags,
     this.folderId,
     this.order,
   }) : super._();
@@ -12347,13 +13651,24 @@ class UpdatePinnedDialogs extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: folderId != null,
+      b00: order != null,
+    );
+
+    return v;
+  }
+
+  /// Folder Id.
   final int? folderId;
+
+  /// Order.
   final List<DialogPeerBase>? order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa0f3ca2);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -12391,7 +13706,7 @@ class UpdateBotWebhookJSON extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8317c0c3);
     buffer.writeObject(data);
   }
@@ -12431,7 +13746,7 @@ class UpdateBotWebhookJSONQuery extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9b9240a6);
     buffer.writeLong(queryId);
     buffer.writeObject(data);
@@ -12478,7 +13793,7 @@ class UpdateBotShippingQuery extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb5aefd7d);
     buffer.writeLong(queryId);
     buffer.writeLong(userId);
@@ -12493,7 +13808,6 @@ class UpdateBotShippingQuery extends UpdateBase {
 class UpdateBotPrecheckoutQuery extends UpdateBase {
   /// Update Bot Precheckout Query constructor.
   const UpdateBotPrecheckoutQuery({
-    required this.flags,
     required this.queryId,
     required this.userId,
     required this.payload,
@@ -12521,7 +13835,14 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: info != null,
+      b01: shippingOptionId != null,
+    );
+
+    return v;
+  }
 
   /// Query Id.
   final int queryId;
@@ -12531,7 +13852,11 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
 
   /// Payload.
   final Uint8List payload;
+
+  /// Info.
   final PaymentRequestedInfoBase? info;
+
+  /// Shipping Option Id.
   final String? shippingOptionId;
 
   /// Currency.
@@ -12542,7 +13867,7 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8caa9a96);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -12585,7 +13910,7 @@ class UpdatePhoneCall extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xab0f6b1e);
     buffer.writeObject(phoneCall);
   }
@@ -12615,7 +13940,7 @@ class UpdateLangPackTooLong extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x46560264);
     buffer.writeString(langCode);
   }
@@ -12645,7 +13970,7 @@ class UpdateLangPack extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56022f4d);
     buffer.writeObject(difference);
   }
@@ -12669,7 +13994,7 @@ class UpdateFavedStickers extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe511996d);
   }
 }
@@ -12680,7 +14005,6 @@ class UpdateFavedStickers extends UpdateBase {
 class UpdateChannelReadMessagesContents extends UpdateBase {
   /// Update Channel Read Messages Contents constructor.
   const UpdateChannelReadMessagesContents({
-    required this.flags,
     required this.channelId,
     this.topMsgId,
     required this.messages,
@@ -12700,10 +14024,18 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Channel Id.
   final int channelId;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Messages.
@@ -12711,7 +14043,7 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea29055d);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -12741,7 +14073,7 @@ class UpdateContactsReset extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7084a7be);
   }
 }
@@ -12775,7 +14107,7 @@ class UpdateChannelAvailableMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb23fc698);
     buffer.writeLong(channelId);
     buffer.writeInt(availableMinId);
@@ -12788,7 +14120,7 @@ class UpdateChannelAvailableMessages extends UpdateBase {
 class UpdateDialogUnreadMark extends UpdateBase {
   /// Update Dialog Unread Mark constructor.
   const UpdateDialogUnreadMark({
-    required this.flags,
+    required this.unread,
     required this.peer,
   }) : super._();
 
@@ -12805,17 +14137,23 @@ class UpdateDialogUnreadMark extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: unread,
+    );
 
-  /// unread: bit
-  bool get unread => _bit(flags, 0);
+    return v;
+  }
+
+  /// unread: bit 0 of flags.0?true
+  final bool unread;
 
   /// Peer.
   final DialogPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe16459c3);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -12828,7 +14166,6 @@ class UpdateDialogUnreadMark extends UpdateBase {
 class UpdateMessagePoll extends UpdateBase {
   /// Update Message Poll constructor.
   const UpdateMessagePoll({
-    required this.flags,
     required this.pollId,
     this.poll,
     required this.results,
@@ -12848,10 +14185,18 @@ class UpdateMessagePoll extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: poll != null,
+    );
+
+    return v;
+  }
 
   /// Poll Id.
   final int pollId;
+
+  /// Poll.
   final PollBase? poll;
 
   /// Results.
@@ -12859,7 +14204,7 @@ class UpdateMessagePoll extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaca1657b);
     buffer.writeInt(flags);
     buffer.writeLong(pollId);
@@ -12905,7 +14250,7 @@ class UpdateChatDefaultBannedRights extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x54c01850);
     buffer.writeObject(peer);
     buffer.writeObject(defaultBannedRights);
@@ -12947,7 +14292,7 @@ class UpdateFolderPeers extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x19360dc0);
     buffer.writeVectorObject(folderPeers);
     buffer.writeInt(pts);
@@ -12984,7 +14329,7 @@ class UpdatePeerSettings extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a7e7366);
     buffer.writeObject(peer);
     buffer.writeObject(settings);
@@ -13015,7 +14360,7 @@ class UpdatePeerLocated extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4afcfb0);
     buffer.writeVectorObject(peers);
   }
@@ -13045,7 +14390,7 @@ class UpdateNewScheduledMessage extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x39a51dfb);
     buffer.writeObject(message);
   }
@@ -13080,7 +14425,7 @@ class UpdateDeleteScheduledMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x90866cee);
     buffer.writeObject(peer);
     buffer.writeVectorInt(messages);
@@ -13111,7 +14456,7 @@ class UpdateTheme extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8216fba3);
     buffer.writeObject(theme);
   }
@@ -13146,7 +14491,7 @@ class UpdateGeoLiveViewed extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x871fb939);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -13171,7 +14516,7 @@ class UpdateLoginToken extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x564fe691);
   }
 }
@@ -13215,7 +14560,7 @@ class UpdateMessagePollVote extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x24f40e77);
     buffer.writeLong(pollId);
     buffer.writeObject(peer);
@@ -13230,7 +14575,6 @@ class UpdateMessagePollVote extends UpdateBase {
 class UpdateDialogFilter extends UpdateBase {
   /// Update Dialog Filter constructor.
   const UpdateDialogFilter({
-    required this.flags,
     required this.id,
     this.filter,
   }) : super._();
@@ -13248,15 +14592,23 @@ class UpdateDialogFilter extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: filter != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
+
+  /// Filter.
   final DialogFilterBase? filter;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x26ffde7d);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -13291,7 +14643,7 @@ class UpdateDialogFilterOrder extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa5d72105);
     buffer.writeVectorInt(order);
   }
@@ -13315,7 +14667,7 @@ class UpdateDialogFilters extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3504914f);
   }
 }
@@ -13349,7 +14701,7 @@ class UpdatePhoneCallSignalingData extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2661bf09);
     buffer.writeLong(phoneCallId);
     buffer.writeBytes(data);
@@ -13390,7 +14742,7 @@ class UpdateChannelMessageForwards extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd29a27f4);
     buffer.writeLong(channelId);
     buffer.writeInt(id);
@@ -13404,7 +14756,6 @@ class UpdateChannelMessageForwards extends UpdateBase {
 class UpdateReadChannelDiscussionInbox extends UpdateBase {
   /// Update Read Channel Discussion Inbox constructor.
   const UpdateReadChannelDiscussionInbox({
-    required this.flags,
     required this.channelId,
     required this.topMsgId,
     required this.readMaxId,
@@ -13428,7 +14779,13 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: broadcastId != null || broadcastPost != null,
+    );
+
+    return v;
+  }
 
   /// Channel Id.
   final int channelId;
@@ -13438,12 +14795,16 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
 
   /// Read Max Id.
   final int readMaxId;
+
+  /// Broadcast Id.
   final int? broadcastId;
+
+  /// Broadcast Post.
   final int? broadcastPost;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd6b19546);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -13494,7 +14855,7 @@ class UpdateReadChannelDiscussionOutbox extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x695c9e7c);
     buffer.writeLong(channelId);
     buffer.writeInt(topMsgId);
@@ -13508,7 +14869,8 @@ class UpdateReadChannelDiscussionOutbox extends UpdateBase {
 class UpdatePeerBlocked extends UpdateBase {
   /// Update Peer Blocked constructor.
   const UpdatePeerBlocked({
-    required this.flags,
+    required this.blocked,
+    required this.blockedMyStoriesFrom,
     required this.peerId,
   }) : super._();
 
@@ -13526,20 +14888,27 @@ class UpdatePeerBlocked extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: blocked,
+      b01: blockedMyStoriesFrom,
+    );
 
-  /// blocked: bit
-  bool get blocked => _bit(flags, 0);
+    return v;
+  }
 
-  /// blocked_my_stories_from: bit
-  bool get blockedMyStoriesFrom => _bit(flags, 1);
+  /// blocked: bit 0 of flags.0?true
+  final bool blocked;
+
+  /// blocked_my_stories_from: bit 1 of flags.1?true
+  final bool blockedMyStoriesFrom;
 
   /// Peer Id.
   final PeerBase peerId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xebe07752);
     buffer.writeInt(flags);
     buffer.writeObject(peerId);
@@ -13552,7 +14921,6 @@ class UpdatePeerBlocked extends UpdateBase {
 class UpdateChannelUserTyping extends UpdateBase {
   /// Update Channel User Typing constructor.
   const UpdateChannelUserTyping({
-    required this.flags,
     required this.channelId,
     this.topMsgId,
     required this.fromId,
@@ -13574,10 +14942,18 @@ class UpdateChannelUserTyping extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Channel Id.
   final int channelId;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// From Id.
@@ -13588,7 +14964,7 @@ class UpdateChannelUserTyping extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c88c923);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -13607,7 +14983,7 @@ class UpdateChannelUserTyping extends UpdateBase {
 class UpdatePinnedMessages extends UpdateBase {
   /// Update Pinned Messages constructor.
   const UpdatePinnedMessages({
-    required this.flags,
+    required this.pinned,
     required this.peer,
     required this.messages,
     required this.pts,
@@ -13630,10 +15006,16 @@ class UpdatePinnedMessages extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Peer.
   final PeerBase peer;
@@ -13649,7 +15031,7 @@ class UpdatePinnedMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed85eab5);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -13665,7 +15047,7 @@ class UpdatePinnedMessages extends UpdateBase {
 class UpdatePinnedChannelMessages extends UpdateBase {
   /// Update Pinned Channel Messages constructor.
   const UpdatePinnedChannelMessages({
-    required this.flags,
+    required this.pinned,
     required this.channelId,
     required this.messages,
     required this.pts,
@@ -13688,10 +15070,16 @@ class UpdatePinnedChannelMessages extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Channel Id.
   final int channelId;
@@ -13707,7 +15095,7 @@ class UpdatePinnedChannelMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5bb98608);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -13741,7 +15129,7 @@ class UpdateChat extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf89a6a4e);
     buffer.writeLong(chatId);
   }
@@ -13781,7 +15169,7 @@ class UpdateGroupCallParticipants extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf2ebdb4e);
     buffer.writeObject(call);
     buffer.writeVectorObject(participants);
@@ -13818,7 +15206,7 @@ class UpdateGroupCall extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x14b24500);
     buffer.writeLong(chatId);
     buffer.writeObject(call);
@@ -13831,7 +15219,6 @@ class UpdateGroupCall extends UpdateBase {
 class UpdatePeerHistoryTTL extends UpdateBase {
   /// Update Peer History T T L constructor.
   const UpdatePeerHistoryTTL({
-    required this.flags,
     required this.peer,
     this.ttlPeriod,
   }) : super._();
@@ -13849,15 +15236,23 @@ class UpdatePeerHistoryTTL extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ttlPeriod != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final PeerBase peer;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb9bb9a5);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -13874,7 +15269,6 @@ class UpdatePeerHistoryTTL extends UpdateBase {
 class UpdateChatParticipant extends UpdateBase {
   /// Update Chat Participant constructor.
   const UpdateChatParticipant({
-    required this.flags,
     required this.chatId,
     required this.date,
     required this.actorId,
@@ -13904,7 +15298,15 @@ class UpdateChatParticipant extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: prevParticipant != null,
+      b01: newParticipant != null,
+      b02: invite != null,
+    );
+
+    return v;
+  }
 
   /// Chat Id.
   final int chatId;
@@ -13917,8 +15319,14 @@ class UpdateChatParticipant extends UpdateBase {
 
   /// User Id.
   final int userId;
+
+  /// Prev Participant.
   final ChatParticipantBase? prevParticipant;
+
+  /// New Participant.
   final ChatParticipantBase? newParticipant;
+
+  /// Invite.
   final ExportedChatInviteBase? invite;
 
   /// Qts.
@@ -13926,7 +15334,7 @@ class UpdateChatParticipant extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd087663a);
     buffer.writeInt(flags);
     buffer.writeLong(chatId);
@@ -13955,7 +15363,7 @@ class UpdateChatParticipant extends UpdateBase {
 class UpdateChannelParticipant extends UpdateBase {
   /// Update Channel Participant constructor.
   const UpdateChannelParticipant({
-    required this.flags,
+    required this.viaChatlist,
     required this.channelId,
     required this.date,
     required this.actorId,
@@ -13986,10 +15394,19 @@ class UpdateChannelParticipant extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: viaChatlist,
+      b00: prevParticipant != null,
+      b01: newParticipant != null,
+      b02: invite != null,
+    );
 
-  /// via_chatlist: bit
-  bool get viaChatlist => _bit(flags, 3);
+    return v;
+  }
+
+  /// via_chatlist: bit 3 of flags.3?true
+  final bool viaChatlist;
 
   /// Channel Id.
   final int channelId;
@@ -14002,8 +15419,14 @@ class UpdateChannelParticipant extends UpdateBase {
 
   /// User Id.
   final int userId;
+
+  /// Prev Participant.
   final ChannelParticipantBase? prevParticipant;
+
+  /// New Participant.
   final ChannelParticipantBase? newParticipant;
+
+  /// Invite.
   final ExportedChatInviteBase? invite;
 
   /// Qts.
@@ -14011,7 +15434,7 @@ class UpdateChannelParticipant extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x985d3abb);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -14073,7 +15496,7 @@ class UpdateBotStopped extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc4870a49);
     buffer.writeLong(userId);
     buffer.writeDateTime(date);
@@ -14088,7 +15511,7 @@ class UpdateBotStopped extends UpdateBase {
 class UpdateGroupCallConnection extends UpdateBase {
   /// Update Group Call Connection constructor.
   const UpdateGroupCallConnection({
-    required this.flags,
+    required this.presentation,
     required this.params,
   }) : super._();
 
@@ -14105,17 +15528,23 @@ class UpdateGroupCallConnection extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: presentation,
+    );
 
-  /// presentation: bit
-  bool get presentation => _bit(flags, 0);
+    return v;
+  }
+
+  /// presentation: bit 0 of flags.0?true
+  final bool presentation;
 
   /// Params.
   final DataJSONBase params;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0b783982);
     buffer.writeInt(flags);
     buffer.writeObject(params);
@@ -14156,7 +15585,7 @@ class UpdateBotCommands extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4d712f2e);
     buffer.writeObject(peer);
     buffer.writeLong(botId);
@@ -14198,7 +15627,7 @@ class UpdatePendingJoinRequests extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7063c3db);
     buffer.writeObject(peer);
     buffer.writeInt(requestsPending);
@@ -14255,7 +15684,7 @@ class UpdateBotChatInviteRequester extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x11dfa986);
     buffer.writeObject(peer);
     buffer.writeDateTime(date);
@@ -14272,7 +15701,6 @@ class UpdateBotChatInviteRequester extends UpdateBase {
 class UpdateMessageReactions extends UpdateBase {
   /// Update Message Reactions constructor.
   const UpdateMessageReactions({
-    required this.flags,
     required this.peer,
     required this.msgId,
     this.topMsgId,
@@ -14294,13 +15722,21 @@ class UpdateMessageReactions extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final PeerBase peer;
 
   /// Msg Id.
   final int msgId;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Reactions.
@@ -14308,7 +15744,7 @@ class UpdateMessageReactions extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5e1b3cb8);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -14339,7 +15775,7 @@ class UpdateAttachMenuBots extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x17b7a20b);
   }
 }
@@ -14368,7 +15804,7 @@ class UpdateWebViewResultSent extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1592b79d);
     buffer.writeLong(queryId);
   }
@@ -14403,7 +15839,7 @@ class UpdateBotMenuButton extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x14b85813);
     buffer.writeLong(botId);
     buffer.writeObject(button);
@@ -14428,7 +15864,7 @@ class UpdateSavedRingtones extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74d8be99);
   }
 }
@@ -14439,7 +15875,7 @@ class UpdateSavedRingtones extends UpdateBase {
 class UpdateTranscribedAudio extends UpdateBase {
   /// Update Transcribed Audio constructor.
   const UpdateTranscribedAudio({
-    required this.flags,
+    required this.pending,
     required this.peer,
     required this.msgId,
     required this.transcriptionId,
@@ -14462,10 +15898,16 @@ class UpdateTranscribedAudio extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pending,
+    );
 
-  /// pending: bit
-  bool get pending => _bit(flags, 0);
+    return v;
+  }
+
+  /// pending: bit 0 of flags.0?true
+  final bool pending;
 
   /// Peer.
   final PeerBase peer;
@@ -14481,7 +15923,7 @@ class UpdateTranscribedAudio extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0084cd5a);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -14509,7 +15951,7 @@ class UpdateReadFeaturedEmojiStickers extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfb4c496c);
   }
 }
@@ -14543,7 +15985,7 @@ class UpdateUserEmojiStatus extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x28373599);
     buffer.writeLong(userId);
     buffer.writeObject(emojiStatus);
@@ -14568,7 +16010,7 @@ class UpdateRecentEmojiStatuses extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x30f443db);
   }
 }
@@ -14591,7 +16033,7 @@ class UpdateRecentReactions extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6f7863f4);
   }
 }
@@ -14602,7 +16044,8 @@ class UpdateRecentReactions extends UpdateBase {
 class UpdateMoveStickerSetToTop extends UpdateBase {
   /// Update Move Sticker Set To Top constructor.
   const UpdateMoveStickerSetToTop({
-    required this.flags,
+    required this.masks,
+    required this.emojis,
     required this.stickerset,
   }) : super._();
 
@@ -14620,20 +16063,27 @@ class UpdateMoveStickerSetToTop extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: emojis,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
+
+  /// emojis: bit 1 of flags.1?true
+  final bool emojis;
 
   /// Stickerset.
   final int stickerset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86fccf85);
     buffer.writeInt(flags);
     buffer.writeLong(stickerset);
@@ -14674,7 +16124,7 @@ class UpdateMessageExtendedMedia extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5a73a98c);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -14688,7 +16138,7 @@ class UpdateMessageExtendedMedia extends UpdateBase {
 class UpdateChannelPinnedTopic extends UpdateBase {
   /// Update Channel Pinned Topic constructor.
   const UpdateChannelPinnedTopic({
-    required this.flags,
+    required this.pinned,
     required this.channelId,
     required this.topicId,
   }) : super._();
@@ -14707,10 +16157,16 @@ class UpdateChannelPinnedTopic extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Channel Id.
   final int channelId;
@@ -14720,7 +16176,7 @@ class UpdateChannelPinnedTopic extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x192efbe3);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -14734,7 +16190,6 @@ class UpdateChannelPinnedTopic extends UpdateBase {
 class UpdateChannelPinnedTopics extends UpdateBase {
   /// Update Channel Pinned Topics constructor.
   const UpdateChannelPinnedTopics({
-    required this.flags,
     required this.channelId,
     this.order,
   }) : super._();
@@ -14752,15 +16207,23 @@ class UpdateChannelPinnedTopics extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: order != null,
+    );
+
+    return v;
+  }
 
   /// Channel Id.
   final int channelId;
+
+  /// Order.
   final List<int>? order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfe198602);
     buffer.writeInt(flags);
     buffer.writeLong(channelId);
@@ -14795,7 +16258,7 @@ class UpdateUser extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x20529438);
     buffer.writeLong(userId);
   }
@@ -14819,7 +16282,7 @@ class UpdateAutoSaveSettings extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xec05b097);
   }
 }
@@ -14848,7 +16311,7 @@ class UpdateGroupInvitePrivacyForbidden extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xccf08ad6);
     buffer.writeLong(userId);
   }
@@ -14883,7 +16346,7 @@ class UpdateStory extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x75b3b798);
     buffer.writeObject(peer);
     buffer.writeObject(story);
@@ -14919,7 +16382,7 @@ class UpdateReadStories extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf74e932b);
     buffer.writeObject(peer);
     buffer.writeInt(maxId);
@@ -14955,7 +16418,7 @@ class UpdateStoryID extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1bf335b9);
     buffer.writeInt(id);
     buffer.writeLong(randomId);
@@ -14986,7 +16449,7 @@ class UpdateStoriesStealthMode extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2c084dc1);
     buffer.writeObject(stealthMode);
   }
@@ -15026,7 +16489,7 @@ class UpdateSentStoryReaction extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7d627683);
     buffer.writeObject(peer);
     buffer.writeInt(storyId);
@@ -15068,7 +16531,7 @@ class UpdateBotChatBoost extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x904dd49c);
     buffer.writeObject(peer);
     buffer.writeObject(boost);
@@ -15105,7 +16568,7 @@ class UpdateChannelViewForumAsMessages extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x07b68920);
     buffer.writeLong(channelId);
     buffer.writeBool(enabled);
@@ -15118,7 +16581,7 @@ class UpdateChannelViewForumAsMessages extends UpdateBase {
 class UpdatePeerWallpaper extends UpdateBase {
   /// Update Peer Wallpaper constructor.
   const UpdatePeerWallpaper({
-    required this.flags,
+    required this.wallpaperOverridden,
     required this.peer,
     this.wallpaper,
   }) : super._();
@@ -15137,18 +16600,27 @@ class UpdatePeerWallpaper extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: wallpaperOverridden,
+      b00: wallpaper != null,
+    );
 
-  /// wallpaper_overridden: bit
-  bool get wallpaperOverridden => _bit(flags, 1);
+    return v;
+  }
+
+  /// wallpaper_overridden: bit 1 of flags.1?true
+  final bool wallpaperOverridden;
 
   /// Peer.
   final PeerBase peer;
+
+  /// Wallpaper.
   final WallPaperBase? wallpaper;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xae3f101d);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -15213,7 +16685,7 @@ class UpdateBotMessageReaction extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xac21d3ce);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -15269,7 +16741,7 @@ class UpdateBotMessageReactions extends UpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x09cb7759);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -15285,7 +16757,7 @@ class UpdateBotMessageReactions extends UpdateBase {
 class UpdateSavedDialogPinned extends UpdateBase {
   /// Update Saved Dialog Pinned constructor.
   const UpdateSavedDialogPinned({
-    required this.flags,
+    required this.pinned,
     required this.peer,
   }) : super._();
 
@@ -15302,17 +16774,23 @@ class UpdateSavedDialogPinned extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Peer.
   final DialogPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaeaf9e74);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -15325,7 +16803,6 @@ class UpdateSavedDialogPinned extends UpdateBase {
 class UpdatePinnedSavedDialogs extends UpdateBase {
   /// Update Pinned Saved Dialogs constructor.
   const UpdatePinnedSavedDialogs({
-    required this.flags,
     this.order,
   }) : super._();
 
@@ -15341,12 +16818,20 @@ class UpdatePinnedSavedDialogs extends UpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: order != null,
+    );
+
+    return v;
+  }
+
+  /// Order.
   final List<DialogPeerBase>? order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x686c85a6);
     buffer.writeInt(flags);
     final localOrderCopy = order;
@@ -15406,7 +16891,7 @@ class UpdatesState extends UpdatesStateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa56c2a3e);
     buffer.writeInt(pts);
     buffer.writeInt(qts);
@@ -15451,7 +16936,7 @@ class UpdatesDifferenceEmpty extends UpdatesDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5d75a138);
     buffer.writeDateTime(date);
     buffer.writeInt(seq);
@@ -15507,7 +16992,7 @@ class UpdatesDifference extends UpdatesDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x00f49ca0);
     buffer.writeVectorObject(newMessages);
     buffer.writeVectorObject(newEncryptedMessages);
@@ -15567,7 +17052,7 @@ class UpdatesDifferenceSlice extends UpdatesDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa8fb1981);
     buffer.writeVectorObject(newMessages);
     buffer.writeVectorObject(newEncryptedMessages);
@@ -15602,7 +17087,7 @@ class UpdatesDifferenceTooLong extends UpdatesDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4afe8f6d);
     buffer.writeInt(pts);
   }
@@ -15632,7 +17117,7 @@ class UpdatesTooLong extends UpdatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe317af7e);
   }
 }
@@ -15643,7 +17128,10 @@ class UpdatesTooLong extends UpdatesBase {
 class UpdateShortMessage extends UpdatesBase {
   /// Update Short Message constructor.
   const UpdateShortMessage({
-    required this.flags,
+    required this.out,
+    required this.mentioned,
+    required this.mediaUnread,
+    required this.silent,
     required this.id,
     required this.userId,
     required this.message,
@@ -15683,19 +17171,33 @@ class UpdateShortMessage extends UpdatesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: out,
+      b04: mentioned,
+      b05: mediaUnread,
+      b13: silent,
+      b02: fwdFrom != null,
+      b11: viaBotId != null,
+      b03: replyTo != null,
+      b07: entities != null,
+      b25: ttlPeriod != null,
+    );
 
-  /// out: bit
-  bool get out => _bit(flags, 1);
+    return v;
+  }
 
-  /// mentioned: bit
-  bool get mentioned => _bit(flags, 4);
+  /// out: bit 1 of flags.1?true
+  final bool out;
 
-  /// media_unread: bit
-  bool get mediaUnread => _bit(flags, 5);
+  /// mentioned: bit 4 of flags.4?true
+  final bool mentioned;
 
-  /// silent: bit
-  bool get silent => _bit(flags, 13);
+  /// media_unread: bit 5 of flags.5?true
+  final bool mediaUnread;
+
+  /// silent: bit 13 of flags.13?true
+  final bool silent;
 
   /// Id.
   final int id;
@@ -15714,15 +17216,25 @@ class UpdateShortMessage extends UpdatesBase {
 
   /// Date.
   final DateTime date;
+
+  /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
+
+  /// Via Bot Id.
   final int? viaBotId;
+
+  /// Reply To.
   final MessageReplyHeaderBase? replyTo;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x313bc7f8);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -15760,7 +17272,10 @@ class UpdateShortMessage extends UpdatesBase {
 class UpdateShortChatMessage extends UpdatesBase {
   /// Update Short Chat Message constructor.
   const UpdateShortChatMessage({
-    required this.flags,
+    required this.out,
+    required this.mentioned,
+    required this.mediaUnread,
+    required this.silent,
     required this.id,
     required this.fromId,
     required this.chatId,
@@ -15802,19 +17317,33 @@ class UpdateShortChatMessage extends UpdatesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: out,
+      b04: mentioned,
+      b05: mediaUnread,
+      b13: silent,
+      b02: fwdFrom != null,
+      b11: viaBotId != null,
+      b03: replyTo != null,
+      b07: entities != null,
+      b25: ttlPeriod != null,
+    );
 
-  /// out: bit
-  bool get out => _bit(flags, 1);
+    return v;
+  }
 
-  /// mentioned: bit
-  bool get mentioned => _bit(flags, 4);
+  /// out: bit 1 of flags.1?true
+  final bool out;
 
-  /// media_unread: bit
-  bool get mediaUnread => _bit(flags, 5);
+  /// mentioned: bit 4 of flags.4?true
+  final bool mentioned;
 
-  /// silent: bit
-  bool get silent => _bit(flags, 13);
+  /// media_unread: bit 5 of flags.5?true
+  final bool mediaUnread;
+
+  /// silent: bit 13 of flags.13?true
+  final bool silent;
 
   /// Id.
   final int id;
@@ -15836,15 +17365,25 @@ class UpdateShortChatMessage extends UpdatesBase {
 
   /// Date.
   final DateTime date;
+
+  /// Fwd From.
   final MessageFwdHeaderBase? fwdFrom;
+
+  /// Via Bot Id.
   final int? viaBotId;
+
+  /// Reply To.
   final MessageReplyHeaderBase? replyTo;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4d6deea5);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -15906,7 +17445,7 @@ class UpdateShort extends UpdatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x78d4dec1);
     buffer.writeObject(update);
     buffer.writeDateTime(date);
@@ -15962,7 +17501,7 @@ class UpdatesCombined extends UpdatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x725b04c3);
     buffer.writeVectorObject(updates);
     buffer.writeVectorObject(users);
@@ -16017,7 +17556,7 @@ class Updates extends UpdatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74ae4240);
     buffer.writeVectorObject(updates);
     buffer.writeVectorObject(users);
@@ -16033,7 +17572,7 @@ class Updates extends UpdatesBase {
 class UpdateShortSentMessage extends UpdatesBase {
   /// Update Short Sent Message constructor.
   const UpdateShortSentMessage({
-    required this.flags,
+    required this.out,
     required this.id,
     required this.pts,
     required this.ptsCount,
@@ -16062,10 +17601,19 @@ class UpdateShortSentMessage extends UpdatesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: out,
+      b09: media != null,
+      b07: entities != null,
+      b25: ttlPeriod != null,
+    );
 
-  /// out: bit
-  bool get out => _bit(flags, 1);
+    return v;
+  }
+
+  /// out: bit 1 of flags.1?true
+  final bool out;
 
   /// Id.
   final int id;
@@ -16078,13 +17626,19 @@ class UpdateShortSentMessage extends UpdatesBase {
 
   /// Date.
   final DateTime date;
+
+  /// Media.
   final MessageMediaBase? media;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9015e101);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -16141,7 +17695,7 @@ class PhotosPhotos extends PhotosPhotosBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8dca6aa5);
     buffer.writeVectorObject(photos);
     buffer.writeVectorObject(users);
@@ -16182,7 +17736,7 @@ class PhotosPhotosSlice extends PhotosPhotosBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15051f54);
     buffer.writeInt(count);
     buffer.writeVectorObject(photos);
@@ -16225,7 +17779,7 @@ class PhotosPhoto extends PhotosPhotoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x20212ca8);
     buffer.writeObject(photo);
     buffer.writeVectorObject(users);
@@ -16272,7 +17826,7 @@ class UploadFile extends UploadFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x096a18d5);
     buffer.writeObject(type);
     buffer.writeInt(mtime);
@@ -16324,7 +17878,7 @@ class UploadFileCdnRedirect extends UploadFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf18cda44);
     buffer.writeInt(dcId);
     buffer.writeBytes(fileToken);
@@ -16346,7 +17900,12 @@ abstract class DcOptionBase extends TlConstructor {
 class DcOption extends DcOptionBase {
   /// Dc Option constructor.
   const DcOption({
-    required this.flags,
+    required this.ipv6,
+    required this.mediaOnly,
+    required this.tcpoOnly,
+    required this.cdn,
+    required this.static,
+    required this.thisPortOnly,
     required this.id,
     required this.ipAddress,
     required this.port,
@@ -16374,25 +17933,37 @@ class DcOption extends DcOptionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ipv6,
+      b01: mediaOnly,
+      b02: tcpoOnly,
+      b03: cdn,
+      b04: static,
+      b05: thisPortOnly,
+      b10: secret != null,
+    );
 
-  /// ipv6: bit
-  bool get ipv6 => _bit(flags, 0);
+    return v;
+  }
 
-  /// media_only: bit
-  bool get mediaOnly => _bit(flags, 1);
+  /// ipv6: bit 0 of flags.0?true
+  final bool ipv6;
 
-  /// tcpo_only: bit
-  bool get tcpoOnly => _bit(flags, 2);
+  /// media_only: bit 1 of flags.1?true
+  final bool mediaOnly;
 
-  /// cdn: bit
-  bool get cdn => _bit(flags, 3);
+  /// tcpo_only: bit 2 of flags.2?true
+  final bool tcpoOnly;
 
-  /// static: bit
-  bool get static => _bit(flags, 4);
+  /// cdn: bit 3 of flags.3?true
+  final bool cdn;
 
-  /// this_port_only: bit
-  bool get thisPortOnly => _bit(flags, 5);
+  /// static: bit 4 of flags.4?true
+  final bool static;
+
+  /// this_port_only: bit 5 of flags.5?true
+  final bool thisPortOnly;
 
   /// Id.
   final int id;
@@ -16402,11 +17973,13 @@ class DcOption extends DcOptionBase {
 
   /// Port.
   final int port;
+
+  /// Secret.
   final Uint8List? secret;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18b7a10d);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -16431,7 +18004,11 @@ abstract class ConfigBase extends TlConstructor {
 class Config extends ConfigBase {
   /// Config constructor.
   const Config({
-    required this.flags,
+    required this.defaultP2pContacts,
+    required this.preloadFeaturedStickers,
+    required this.revokePmInbox,
+    required this.blockedMode,
+    required this.forceTryIpv6,
     required this.date,
     required this.expires,
     required this.testMode,
@@ -16534,22 +18111,43 @@ class Config extends ConfigBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: defaultP2pContacts,
+      b04: preloadFeaturedStickers,
+      b06: revokePmInbox,
+      b08: blockedMode,
+      b14: forceTryIpv6,
+      b00: tmpSessions != null,
+      b07: autoupdateUrlPrefix != null,
+      b09: gifSearchUsername != null,
+      b10: venueSearchUsername != null,
+      b11: imgSearchUsername != null,
+      b12: staticMapsProvider != null,
+      b02: suggestedLangCode != null ||
+          langPackVersion != null ||
+          baseLangPackVersion != null,
+      b15: reactionsDefault != null,
+      b16: autologinToken != null,
+    );
 
-  /// default_p2p_contacts: bit
-  bool get defaultP2pContacts => _bit(flags, 3);
+    return v;
+  }
 
-  /// preload_featured_stickers: bit
-  bool get preloadFeaturedStickers => _bit(flags, 4);
+  /// default_p2p_contacts: bit 3 of flags.3?true
+  final bool defaultP2pContacts;
 
-  /// revoke_pm_inbox: bit
-  bool get revokePmInbox => _bit(flags, 6);
+  /// preload_featured_stickers: bit 4 of flags.4?true
+  final bool preloadFeaturedStickers;
 
-  /// blocked_mode: bit
-  bool get blockedMode => _bit(flags, 8);
+  /// revoke_pm_inbox: bit 6 of flags.6?true
+  final bool revokePmInbox;
 
-  /// force_try_ipv6: bit
-  bool get forceTryIpv6 => _bit(flags, 14);
+  /// blocked_mode: bit 8 of flags.8?true
+  final bool blockedMode;
+
+  /// force_try_ipv6: bit 14 of flags.14?true
+  final bool forceTryIpv6;
 
   /// Date.
   final DateTime date;
@@ -16619,6 +18217,8 @@ class Config extends ConfigBase {
 
   /// Channels Read Media Period.
   final int channelsReadMediaPeriod;
+
+  /// Tmp Sessions.
   final int? tmpSessions;
 
   /// Call Receive Timeout Ms.
@@ -16635,10 +18235,20 @@ class Config extends ConfigBase {
 
   /// Me Url Prefix.
   final String meUrlPrefix;
+
+  /// Autoupdate Url Prefix.
   final String? autoupdateUrlPrefix;
+
+  /// Gif Search Username.
   final String? gifSearchUsername;
+
+  /// Venue Search Username.
   final String? venueSearchUsername;
+
+  /// Img Search Username.
   final String? imgSearchUsername;
+
+  /// Static Maps Provider.
   final String? staticMapsProvider;
 
   /// Caption Length Max.
@@ -16649,15 +18259,25 @@ class Config extends ConfigBase {
 
   /// Webfile Dc Id.
   final int webfileDcId;
+
+  /// Suggested Lang Code.
   final String? suggestedLangCode;
+
+  /// Lang Pack Version.
   final int? langPackVersion;
+
+  /// Base Lang Pack Version.
   final int? baseLangPackVersion;
+
+  /// Reactions Default.
   final ReactionBase? reactionsDefault;
+
+  /// Autologin Token.
   final String? autologinToken;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcc1a241e);
     buffer.writeInt(flags);
     buffer.writeDateTime(date);
@@ -16778,7 +18398,7 @@ class NearestDc extends NearestDcBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8e1a1775);
     buffer.writeString(country);
     buffer.writeInt(thisDc);
@@ -16798,7 +18418,7 @@ abstract class HelpAppUpdateBase extends TlConstructor {
 class HelpAppUpdate extends HelpAppUpdateBase {
   /// Help App Update constructor.
   const HelpAppUpdate({
-    required this.flags,
+    required this.canNotSkip,
     required this.id,
     required this.version,
     required this.text,
@@ -16827,10 +18447,19 @@ class HelpAppUpdate extends HelpAppUpdateBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: canNotSkip,
+      b01: document != null,
+      b02: url != null,
+      b03: sticker != null,
+    );
 
-  /// can_not_skip: bit
-  bool get canNotSkip => _bit(flags, 0);
+    return v;
+  }
+
+  /// can_not_skip: bit 0 of flags.0?true
+  final bool canNotSkip;
 
   /// Id.
   final int id;
@@ -16843,13 +18472,19 @@ class HelpAppUpdate extends HelpAppUpdateBase {
 
   /// Entities.
   final List<MessageEntityBase> entities;
+
+  /// Document.
   final DocumentBase? document;
+
+  /// Url.
   final String? url;
+
+  /// Sticker.
   final DocumentBase? sticker;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xccbbce30);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -16889,7 +18524,7 @@ class HelpNoAppUpdate extends HelpAppUpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc45a6536);
   }
 }
@@ -16924,7 +18559,7 @@ class HelpInviteText extends HelpInviteTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18cb9f78);
     buffer.writeString(message);
   }
@@ -16960,7 +18595,7 @@ class EncryptedChatEmpty extends EncryptedChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xab7ec0a0);
     buffer.writeInt(id);
   }
@@ -17010,7 +18645,7 @@ class EncryptedChatWaiting extends EncryptedChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x66b25953);
     buffer.writeInt(id);
     buffer.writeLong(accessHash);
@@ -17026,7 +18661,6 @@ class EncryptedChatWaiting extends EncryptedChatBase {
 class EncryptedChatRequested extends EncryptedChatBase {
   /// Encrypted Chat Requested constructor.
   const EncryptedChatRequested({
-    required this.flags,
     this.folderId,
     required this.id,
     required this.accessHash,
@@ -17054,7 +18688,15 @@ class EncryptedChatRequested extends EncryptedChatBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: folderId != null,
+    );
+
+    return v;
+  }
+
+  /// Folder Id.
   final int? folderId;
 
   /// Id.
@@ -17077,7 +18719,7 @@ class EncryptedChatRequested extends EncryptedChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48f1d94c);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -17147,7 +18789,7 @@ class EncryptedChat extends EncryptedChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x61f0d4c7);
     buffer.writeInt(id);
     buffer.writeLong(accessHash);
@@ -17165,7 +18807,7 @@ class EncryptedChat extends EncryptedChatBase {
 class EncryptedChatDiscarded extends EncryptedChatBase {
   /// Encrypted Chat Discarded constructor.
   const EncryptedChatDiscarded({
-    required this.flags,
+    required this.historyDeleted,
     required this.id,
   }) : super._();
 
@@ -17182,17 +18824,23 @@ class EncryptedChatDiscarded extends EncryptedChatBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: historyDeleted,
+    );
 
-  /// history_deleted: bit
-  bool get historyDeleted => _bit(flags, 0);
+    return v;
+  }
+
+  /// history_deleted: bit 0 of flags.0?true
+  final bool historyDeleted;
 
   /// Id.
   final int id;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e1c7c45);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -17234,7 +18882,7 @@ class InputEncryptedChat extends InputEncryptedChatBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf141b5e1);
     buffer.writeInt(chatId);
     buffer.writeLong(accessHash);
@@ -17265,7 +18913,7 @@ class EncryptedFileEmpty extends EncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc21f497e);
   }
 }
@@ -17314,7 +18962,7 @@ class EncryptedFile extends EncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa8008cd8);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -17348,7 +18996,7 @@ class InputEncryptedFileEmpty extends InputEncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1837c364);
   }
 }
@@ -17392,7 +19040,7 @@ class InputEncryptedFileUploaded extends InputEncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64bd0306);
     buffer.writeLong(id);
     buffer.writeInt(parts);
@@ -17430,7 +19078,7 @@ class InputEncryptedFile extends InputEncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5a17b5e5);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -17471,7 +19119,7 @@ class InputEncryptedFileBigUploaded extends InputEncryptedFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2dc173c8);
     buffer.writeLong(id);
     buffer.writeInt(parts);
@@ -17529,7 +19177,7 @@ class EncryptedMessage extends EncryptedMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed18c118);
     buffer.writeLong(randomId);
     buffer.writeInt(chatId);
@@ -17578,7 +19226,7 @@ class EncryptedMessageService extends EncryptedMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x23734b06);
     buffer.writeLong(randomId);
     buffer.writeInt(chatId);
@@ -17617,7 +19265,7 @@ class MessagesDhConfigNotModified extends MessagesDhConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc0e24635);
     buffer.writeBytes(random);
   }
@@ -17662,7 +19310,7 @@ class MessagesDhConfig extends MessagesDhConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2c221edd);
     buffer.writeInt(g);
     buffer.writeBytes(p);
@@ -17701,7 +19349,7 @@ class MessagesSentEncryptedMessage extends MessagesSentEncryptedMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x560f8935);
     buffer.writeDateTime(date);
   }
@@ -17736,7 +19384,7 @@ class MessagesSentEncryptedFile extends MessagesSentEncryptedMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9493ff32);
     buffer.writeDateTime(date);
     buffer.writeObject(file);
@@ -17767,7 +19415,7 @@ class InputDocumentEmpty extends InputDocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x72f0eaae);
   }
 }
@@ -17806,7 +19454,7 @@ class InputDocument extends InputDocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1abfb575);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -17844,7 +19492,7 @@ class DocumentEmpty extends DocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x36f8c871);
     buffer.writeLong(id);
   }
@@ -17856,7 +19504,6 @@ class DocumentEmpty extends DocumentBase {
 class Document extends DocumentBase {
   /// Document constructor.
   const Document({
-    required this.flags,
     required this.id,
     required this.accessHash,
     required this.fileReference,
@@ -17890,7 +19537,14 @@ class Document extends DocumentBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: thumbs != null,
+      b01: videoThumbs != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
@@ -17909,7 +19563,11 @@ class Document extends DocumentBase {
 
   /// Size.
   final int size;
+
+  /// Thumbs.
   final List<PhotoSizeBase>? thumbs;
+
+  /// Video Thumbs.
   final List<VideoSizeBase>? videoThumbs;
 
   /// Dc Id.
@@ -17920,7 +19578,7 @@ class Document extends DocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8fd4c4d8);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -17977,7 +19635,7 @@ class HelpSupport extends HelpSupportBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x17c6b5f6);
     buffer.writeString(phoneNumber);
     buffer.writeObject(user);
@@ -18014,7 +19672,7 @@ class NotifyPeer extends NotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9fd40bd8);
     buffer.writeObject(peer);
   }
@@ -18038,7 +19696,7 @@ class NotifyUsers extends NotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4c83b4c);
   }
 }
@@ -18061,7 +19719,7 @@ class NotifyChats extends NotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc007cec3);
   }
 }
@@ -18084,7 +19742,7 @@ class NotifyBroadcasts extends NotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd612e8ef);
   }
 }
@@ -18118,7 +19776,7 @@ class NotifyForumTopic extends NotifyPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x226e6308);
     buffer.writeObject(peer);
     buffer.writeInt(topMsgId);
@@ -18149,7 +19807,7 @@ class SendMessageTypingAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x16bf744e);
   }
 }
@@ -18172,7 +19830,7 @@ class SendMessageCancelAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfd5ec8f5);
   }
 }
@@ -18195,7 +19853,7 @@ class SendMessageRecordVideoAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa187d66f);
   }
 }
@@ -18224,7 +19882,7 @@ class SendMessageUploadVideoAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe9763aec);
     buffer.writeInt(progress);
   }
@@ -18248,7 +19906,7 @@ class SendMessageRecordAudioAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd52f73f7);
   }
 }
@@ -18277,7 +19935,7 @@ class SendMessageUploadAudioAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf351d7ab);
     buffer.writeInt(progress);
   }
@@ -18307,7 +19965,7 @@ class SendMessageUploadPhotoAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd1d34a26);
     buffer.writeInt(progress);
   }
@@ -18337,7 +19995,7 @@ class SendMessageUploadDocumentAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaa0cd9e4);
     buffer.writeInt(progress);
   }
@@ -18361,7 +20019,7 @@ class SendMessageGeoLocationAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x176f8ba1);
   }
 }
@@ -18384,7 +20042,7 @@ class SendMessageChooseContactAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x628cbc6f);
   }
 }
@@ -18407,7 +20065,7 @@ class SendMessageGamePlayAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdd6a8f48);
   }
 }
@@ -18430,7 +20088,7 @@ class SendMessageRecordRoundAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x88f27fbc);
   }
 }
@@ -18459,7 +20117,7 @@ class SendMessageUploadRoundAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x243e1c66);
     buffer.writeInt(progress);
   }
@@ -18483,7 +20141,7 @@ class SpeakingInGroupCallAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd92c2285);
   }
 }
@@ -18512,7 +20170,7 @@ class SendMessageHistoryImportAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdbda9246);
     buffer.writeInt(progress);
   }
@@ -18536,7 +20194,7 @@ class SendMessageChooseStickerAction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb05ac6b1);
   }
 }
@@ -18575,7 +20233,7 @@ class SendMessageEmojiInteraction extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x25972bcb);
     buffer.writeString(emoticon);
     buffer.writeInt(msgId);
@@ -18607,7 +20265,7 @@ class SendMessageEmojiInteractionSeen extends SendMessageActionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb665902e);
     buffer.writeString(emoticon);
   }
@@ -18658,7 +20316,7 @@ class ContactsFound extends ContactsFoundBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb3134d9d);
     buffer.writeVectorObject(myResults);
     buffer.writeVectorObject(results);
@@ -18691,7 +20349,7 @@ class InputPrivacyKeyStatusTimestamp extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4f96cb18);
   }
 }
@@ -18714,7 +20372,7 @@ class InputPrivacyKeyChatInvite extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdfb0426);
   }
 }
@@ -18737,7 +20395,7 @@ class InputPrivacyKeyPhoneCall extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfabadc5f);
   }
 }
@@ -18760,7 +20418,7 @@ class InputPrivacyKeyPhoneP2P extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb9e70d2);
   }
 }
@@ -18783,7 +20441,7 @@ class InputPrivacyKeyForwards extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa4dd4c08);
   }
 }
@@ -18806,7 +20464,7 @@ class InputPrivacyKeyProfilePhoto extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5719bacc);
   }
 }
@@ -18829,7 +20487,7 @@ class InputPrivacyKeyPhoneNumber extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0352dafa);
   }
 }
@@ -18852,7 +20510,7 @@ class InputPrivacyKeyAddedByPhone extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd1219bdd);
   }
 }
@@ -18875,7 +20533,7 @@ class InputPrivacyKeyVoiceMessages extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaee69d68);
   }
 }
@@ -18898,7 +20556,7 @@ class InputPrivacyKeyAbout extends InputPrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3823cc40);
   }
 }
@@ -18927,7 +20585,7 @@ class PrivacyKeyStatusTimestamp extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbc2eab30);
   }
 }
@@ -18950,7 +20608,7 @@ class PrivacyKeyChatInvite extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x500e6dfa);
   }
 }
@@ -18973,7 +20631,7 @@ class PrivacyKeyPhoneCall extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3d662b7b);
   }
 }
@@ -18996,7 +20654,7 @@ class PrivacyKeyPhoneP2P extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x39491cc8);
   }
 }
@@ -19019,7 +20677,7 @@ class PrivacyKeyForwards extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x69ec56a3);
   }
 }
@@ -19042,7 +20700,7 @@ class PrivacyKeyProfilePhoto extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x96151fed);
   }
 }
@@ -19065,7 +20723,7 @@ class PrivacyKeyPhoneNumber extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd19ae46d);
   }
 }
@@ -19088,7 +20746,7 @@ class PrivacyKeyAddedByPhone extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x42ffd42b);
   }
 }
@@ -19111,7 +20769,7 @@ class PrivacyKeyVoiceMessages extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0697f414);
   }
 }
@@ -19134,7 +20792,7 @@ class PrivacyKeyAbout extends PrivacyKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa486b761);
   }
 }
@@ -19163,7 +20821,7 @@ class InputPrivacyValueAllowContacts extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0d09e07b);
   }
 }
@@ -19186,7 +20844,7 @@ class InputPrivacyValueAllowAll extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x184b35ce);
   }
 }
@@ -19215,7 +20873,7 @@ class InputPrivacyValueAllowUsers extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x131cc67f);
     buffer.writeVectorObject(users);
   }
@@ -19239,7 +20897,7 @@ class InputPrivacyValueDisallowContacts extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0ba52007);
   }
 }
@@ -19262,7 +20920,7 @@ class InputPrivacyValueDisallowAll extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd66b66c9);
   }
 }
@@ -19291,7 +20949,7 @@ class InputPrivacyValueDisallowUsers extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x90110467);
     buffer.writeVectorObject(users);
   }
@@ -19321,7 +20979,7 @@ class InputPrivacyValueAllowChatParticipants extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x840649cf);
     buffer.writeVectorLong(chats);
   }
@@ -19352,7 +21010,7 @@ class InputPrivacyValueDisallowChatParticipants extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe94f0f86);
     buffer.writeVectorLong(chats);
   }
@@ -19376,7 +21034,7 @@ class InputPrivacyValueAllowCloseFriends extends InputPrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2f453e49);
   }
 }
@@ -19405,7 +21063,7 @@ class PrivacyValueAllowContacts extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfffe1bac);
   }
 }
@@ -19428,7 +21086,7 @@ class PrivacyValueAllowAll extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x65427b82);
   }
 }
@@ -19457,7 +21115,7 @@ class PrivacyValueAllowUsers extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb8905fb2);
     buffer.writeVectorLong(users);
   }
@@ -19481,7 +21139,7 @@ class PrivacyValueDisallowContacts extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf888fa1a);
   }
 }
@@ -19504,7 +21162,7 @@ class PrivacyValueDisallowAll extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8b73e763);
   }
 }
@@ -19533,7 +21191,7 @@ class PrivacyValueDisallowUsers extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe4621141);
     buffer.writeVectorLong(users);
   }
@@ -19563,7 +21221,7 @@ class PrivacyValueAllowChatParticipants extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6b134e8e);
     buffer.writeVectorLong(chats);
   }
@@ -19593,7 +21251,7 @@ class PrivacyValueDisallowChatParticipants extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x41c87565);
     buffer.writeVectorLong(chats);
   }
@@ -19617,7 +21275,7 @@ class PrivacyValueAllowCloseFriends extends PrivacyRuleBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf7e8d89b);
   }
 }
@@ -19662,7 +21320,7 @@ class AccountPrivacyRules extends AccountPrivacyRulesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50a04e45);
     buffer.writeVectorObject(rules);
     buffer.writeVectorObject(chats);
@@ -19700,7 +21358,7 @@ class AccountDaysTTL extends AccountDaysTTLBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb8d0afdf);
     buffer.writeInt(days);
   }
@@ -19741,7 +21399,7 @@ class DocumentAttributeImageSize extends DocumentAttributeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c37c15c);
     buffer.writeInt(w);
     buffer.writeInt(h);
@@ -19766,7 +21424,7 @@ class DocumentAttributeAnimated extends DocumentAttributeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x11b58939);
   }
 }
@@ -19777,7 +21435,7 @@ class DocumentAttributeAnimated extends DocumentAttributeBase {
 class DocumentAttributeSticker extends DocumentAttributeBase {
   /// Document Attribute Sticker constructor.
   const DocumentAttributeSticker({
-    required this.flags,
+    required this.mask,
     required this.alt,
     required this.stickerset,
     this.maskCoords,
@@ -19798,21 +21456,30 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: mask,
+      b00: maskCoords != null,
+    );
 
-  /// mask: bit
-  bool get mask => _bit(flags, 1);
+    return v;
+  }
+
+  /// mask: bit 1 of flags.1?true
+  final bool mask;
 
   /// Alt.
   final String alt;
 
   /// Stickerset.
   final InputStickerSetBase stickerset;
+
+  /// Mask Coords.
   final MaskCoordsBase? maskCoords;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6319d612);
     buffer.writeInt(flags);
     buffer.writeString(alt);
@@ -19830,7 +21497,9 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
 class DocumentAttributeVideo extends DocumentAttributeBase {
   /// Document Attribute Video constructor.
   const DocumentAttributeVideo({
-    required this.flags,
+    required this.roundMessage,
+    required this.supportsStreaming,
+    required this.nosound,
     required this.duration,
     required this.w,
     required this.h,
@@ -19855,16 +21524,25 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: roundMessage,
+      b01: supportsStreaming,
+      b03: nosound,
+      b02: preloadPrefixSize != null,
+    );
 
-  /// round_message: bit
-  bool get roundMessage => _bit(flags, 0);
+    return v;
+  }
 
-  /// supports_streaming: bit
-  bool get supportsStreaming => _bit(flags, 1);
+  /// round_message: bit 0 of flags.0?true
+  final bool roundMessage;
 
-  /// nosound: bit
-  bool get nosound => _bit(flags, 3);
+  /// supports_streaming: bit 1 of flags.1?true
+  final bool supportsStreaming;
+
+  /// nosound: bit 3 of flags.3?true
+  final bool nosound;
 
   /// Duration.
   final double duration;
@@ -19874,11 +21552,13 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
 
   /// H.
   final int h;
+
+  /// Preload Prefix Size.
   final int? preloadPrefixSize;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd38ff1c2);
     buffer.writeInt(flags);
     buffer.writeDouble(duration);
@@ -19897,7 +21577,7 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
 class DocumentAttributeAudio extends DocumentAttributeBase {
   /// Document Attribute Audio constructor.
   const DocumentAttributeAudio({
-    required this.flags,
+    required this.voice,
     required this.duration,
     this.title,
     this.performer,
@@ -19920,20 +21600,35 @@ class DocumentAttributeAudio extends DocumentAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b10: voice,
+      b00: title != null,
+      b01: performer != null,
+      b02: waveform != null,
+    );
 
-  /// voice: bit
-  bool get voice => _bit(flags, 10);
+    return v;
+  }
+
+  /// voice: bit 10 of flags.10?true
+  final bool voice;
 
   /// Duration.
   final int duration;
+
+  /// Title.
   final String? title;
+
+  /// Performer.
   final String? performer;
+
+  /// Waveform.
   final Uint8List? waveform;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9852f9c6);
     buffer.writeInt(flags);
     buffer.writeInt(duration);
@@ -19976,7 +21671,7 @@ class DocumentAttributeFilename extends DocumentAttributeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15590068);
     buffer.writeString(fileName);
   }
@@ -20000,7 +21695,7 @@ class DocumentAttributeHasStickers extends DocumentAttributeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9801d2f7);
   }
 }
@@ -20011,7 +21706,8 @@ class DocumentAttributeHasStickers extends DocumentAttributeBase {
 class DocumentAttributeCustomEmoji extends DocumentAttributeBase {
   /// Document Attribute Custom Emoji constructor.
   const DocumentAttributeCustomEmoji({
-    required this.flags,
+    required this.free,
+    required this.textColor,
     required this.alt,
     required this.stickerset,
   }) : super._();
@@ -20031,13 +21727,20 @@ class DocumentAttributeCustomEmoji extends DocumentAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: free,
+      b01: textColor,
+    );
 
-  /// free: bit
-  bool get free => _bit(flags, 0);
+    return v;
+  }
 
-  /// text_color: bit
-  bool get textColor => _bit(flags, 1);
+  /// free: bit 0 of flags.0?true
+  final bool free;
+
+  /// text_color: bit 1 of flags.1?true
+  final bool textColor;
 
   /// Alt.
   final String alt;
@@ -20047,7 +21750,7 @@ class DocumentAttributeCustomEmoji extends DocumentAttributeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfd149899);
     buffer.writeInt(flags);
     buffer.writeString(alt);
@@ -20079,7 +21782,7 @@ class MessagesStickersNotModified extends MessagesStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf1749a22);
   }
 }
@@ -20113,7 +21816,7 @@ class MessagesStickers extends MessagesStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x30a6ec7e);
     buffer.writeLong(hash);
     buffer.writeVectorObject(stickers);
@@ -20155,7 +21858,7 @@ class StickerPack extends StickerPackBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x12b299d4);
     buffer.writeString(emoticon);
     buffer.writeVectorLong(documents);
@@ -20186,7 +21889,7 @@ class MessagesAllStickersNotModified extends MessagesAllStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe86602c3);
   }
 }
@@ -20220,7 +21923,7 @@ class MessagesAllStickers extends MessagesAllStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcdbbcebb);
     buffer.writeLong(hash);
     buffer.writeVectorObject(sets);
@@ -20262,7 +21965,7 @@ class MessagesAffectedMessages extends MessagesAffectedMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x84d19185);
     buffer.writeInt(pts);
     buffer.writeInt(ptsCount);
@@ -20281,7 +21984,6 @@ abstract class WebPageBase extends TlConstructor {
 class WebPageEmpty extends WebPageBase {
   /// Web Page Empty constructor.
   const WebPageEmpty({
-    required this.flags,
     required this.id,
     this.url,
   }) : super._();
@@ -20299,15 +22001,23 @@ class WebPageEmpty extends WebPageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: url != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
+
+  /// Url.
   final String? url;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x211a1788);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -20324,7 +22034,6 @@ class WebPageEmpty extends WebPageBase {
 class WebPagePending extends WebPageBase {
   /// Web Page Pending constructor.
   const WebPagePending({
-    required this.flags,
     required this.id,
     this.url,
     required this.date,
@@ -20344,10 +22053,18 @@ class WebPagePending extends WebPageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: url != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
+
+  /// Url.
   final String? url;
 
   /// Date.
@@ -20355,7 +22072,7 @@ class WebPagePending extends WebPageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb0d13e47);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -20373,7 +22090,7 @@ class WebPagePending extends WebPageBase {
 class WebPage extends WebPageBase {
   /// Web Page constructor.
   const WebPage({
-    required this.flags,
+    required this.hasLargeMedia,
     required this.id,
     required this.url,
     required this.displayUrl,
@@ -20424,10 +22141,28 @@ class WebPage extends WebPageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b13: hasLargeMedia,
+      b00: type != null,
+      b01: siteName != null,
+      b02: title != null,
+      b03: description != null,
+      b04: photo != null,
+      b05: embedUrl != null || embedType != null,
+      b06: embedWidth != null || embedHeight != null,
+      b07: duration != null,
+      b08: author != null,
+      b09: document != null,
+      b10: cachedPage != null,
+      b12: attributes != null,
+    );
 
-  /// has_large_media: bit
-  bool get hasLargeMedia => _bit(flags, 13);
+    return v;
+  }
+
+  /// has_large_media: bit 13 of flags.13?true
+  final bool hasLargeMedia;
 
   /// Id.
   final int id;
@@ -20440,24 +22175,52 @@ class WebPage extends WebPageBase {
 
   /// Hash.
   final int hash;
+
+  /// Type.
   final String? type;
+
+  /// Site Name.
   final String? siteName;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
+
+  /// Photo.
   final PhotoBase? photo;
+
+  /// Embed Url.
   final String? embedUrl;
+
+  /// Embed Type.
   final String? embedType;
+
+  /// Embed Width.
   final int? embedWidth;
+
+  /// Embed Height.
   final int? embedHeight;
+
+  /// Duration.
   final int? duration;
+
+  /// Author.
   final String? author;
+
+  /// Document.
   final DocumentBase? document;
+
+  /// Cached Page.
   final PageBase? cachedPage;
+
+  /// Attributes.
   final List<WebPageAttributeBase>? attributes;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe89c45b2);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -20529,7 +22292,6 @@ class WebPage extends WebPageBase {
 class WebPageNotModified extends WebPageBase {
   /// Web Page Not Modified constructor.
   const WebPageNotModified({
-    required this.flags,
     this.cachedPageViews,
   }) : super._();
 
@@ -20545,12 +22307,20 @@ class WebPageNotModified extends WebPageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: cachedPageViews != null,
+    );
+
+    return v;
+  }
+
+  /// Cached Page Views.
   final int? cachedPageViews;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7311ca11);
     buffer.writeInt(flags);
     final localCachedPageViewsCopy = cachedPageViews;
@@ -20572,7 +22342,12 @@ abstract class AuthorizationBase extends TlConstructor {
 class Authorization extends AuthorizationBase {
   /// Authorization constructor.
   const Authorization({
-    required this.flags,
+    required this.current,
+    required this.officialApp,
+    required this.passwordPending,
+    required this.encryptedRequestsDisabled,
+    required this.callRequestsDisabled,
+    required this.unconfirmed,
     required this.hash,
     required this.deviceModel,
     required this.platform,
@@ -20616,25 +22391,36 @@ class Authorization extends AuthorizationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: current,
+      b01: officialApp,
+      b02: passwordPending,
+      b03: encryptedRequestsDisabled,
+      b04: callRequestsDisabled,
+      b05: unconfirmed,
+    );
 
-  /// current: bit
-  bool get current => _bit(flags, 0);
+    return v;
+  }
 
-  /// official_app: bit
-  bool get officialApp => _bit(flags, 1);
+  /// current: bit 0 of flags.0?true
+  final bool current;
 
-  /// password_pending: bit
-  bool get passwordPending => _bit(flags, 2);
+  /// official_app: bit 1 of flags.1?true
+  final bool officialApp;
 
-  /// encrypted_requests_disabled: bit
-  bool get encryptedRequestsDisabled => _bit(flags, 3);
+  /// password_pending: bit 2 of flags.2?true
+  final bool passwordPending;
 
-  /// call_requests_disabled: bit
-  bool get callRequestsDisabled => _bit(flags, 4);
+  /// encrypted_requests_disabled: bit 3 of flags.3?true
+  final bool encryptedRequestsDisabled;
 
-  /// unconfirmed: bit
-  bool get unconfirmed => _bit(flags, 5);
+  /// call_requests_disabled: bit 4 of flags.4?true
+  final bool callRequestsDisabled;
+
+  /// unconfirmed: bit 5 of flags.5?true
+  final bool unconfirmed;
 
   /// Hash.
   final int hash;
@@ -20674,7 +22460,7 @@ class Authorization extends AuthorizationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xad01d61d);
     buffer.writeInt(flags);
     buffer.writeLong(hash);
@@ -20727,7 +22513,7 @@ class AccountAuthorizations extends AccountAuthorizationsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4bff8ea0);
     buffer.writeInt(authorizationTtlDays);
     buffer.writeVectorObject(authorizations);
@@ -20746,7 +22532,9 @@ abstract class AccountPasswordBase extends TlConstructor {
 class AccountPassword extends AccountPasswordBase {
   /// Account Password constructor.
   const AccountPassword({
-    required this.flags,
+    required this.hasRecovery,
+    required this.hasSecureValues,
+    required this.hasPassword,
     this.currentAlgo,
     this.srpB,
     this.srpId,
@@ -20783,20 +22571,42 @@ class AccountPassword extends AccountPasswordBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hasRecovery,
+      b01: hasSecureValues,
+      b02: hasPassword || currentAlgo != null || srpB != null || srpId != null,
+      b03: hint != null,
+      b04: emailUnconfirmedPattern != null,
+      b05: pendingResetDate != null,
+      b06: loginEmailPattern != null,
+    );
 
-  /// has_recovery: bit
-  bool get hasRecovery => _bit(flags, 0);
+    return v;
+  }
 
-  /// has_secure_values: bit
-  bool get hasSecureValues => _bit(flags, 1);
+  /// has_recovery: bit 0 of flags.0?true
+  final bool hasRecovery;
 
-  /// has_password: bit
-  bool get hasPassword => _bit(flags, 2);
+  /// has_secure_values: bit 1 of flags.1?true
+  final bool hasSecureValues;
+
+  /// has_password: bit 2 of flags.2?true
+  final bool hasPassword;
+
+  /// Current Algo.
   final PasswordKdfAlgoBase? currentAlgo;
+
+  /// Srp B.
   final Uint8List? srpB;
+
+  /// Srp Id.
   final int? srpId;
+
+  /// Hint.
   final String? hint;
+
+  /// Email Unconfirmed Pattern.
   final String? emailUnconfirmedPattern;
 
   /// New Algo.
@@ -20807,12 +22617,16 @@ class AccountPassword extends AccountPasswordBase {
 
   /// Secure Random.
   final Uint8List secureRandom;
+
+  /// Pending Reset Date.
   final DateTime? pendingResetDate;
+
+  /// Login Email Pattern.
   final String? loginEmailPattern;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x957b50fb);
     buffer.writeInt(flags);
     final localCurrentAlgoCopy = currentAlgo;
@@ -20861,7 +22675,6 @@ abstract class AccountPasswordSettingsBase extends TlConstructor {
 class AccountPasswordSettings extends AccountPasswordSettingsBase {
   /// Account Password Settings constructor.
   const AccountPasswordSettings({
-    required this.flags,
     this.email,
     this.secureSettings,
   }) : super._();
@@ -20879,13 +22692,24 @@ class AccountPasswordSettings extends AccountPasswordSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: email != null,
+      b01: secureSettings != null,
+    );
+
+    return v;
+  }
+
+  /// Email.
   final String? email;
+
+  /// Secure Settings.
   final SecureSecretSettingsBase? secureSettings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a5c33e5);
     buffer.writeInt(flags);
     final localEmailCopy = email;
@@ -20911,7 +22735,6 @@ abstract class AccountPasswordInputSettingsBase extends TlConstructor {
 class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
   /// Account Password Input Settings constructor.
   const AccountPasswordInputSettings({
-    required this.flags,
     this.newAlgo,
     this.newPasswordHash,
     this.hint,
@@ -20935,16 +22758,34 @@ class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: newAlgo != null || newPasswordHash != null || hint != null,
+      b01: email != null,
+      b02: newSecureSettings != null,
+    );
+
+    return v;
+  }
+
+  /// New Algo.
   final PasswordKdfAlgoBase? newAlgo;
+
+  /// New Password Hash.
   final Uint8List? newPasswordHash;
+
+  /// Hint.
   final String? hint;
+
+  /// Email.
   final String? email;
+
+  /// New Secure Settings.
   final SecureSecretSettingsBase? newSecureSettings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc23727c9);
     buffer.writeInt(flags);
     final localNewAlgoCopy = newAlgo;
@@ -21000,7 +22841,7 @@ class AuthPasswordRecovery extends AuthPasswordRecoveryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x137948a5);
     buffer.writeString(emailPattern);
   }
@@ -21041,7 +22882,7 @@ class ReceivedNotifyMessage extends ReceivedNotifyMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa384b779);
     buffer.writeInt(id);
     buffer.writeInt(flags);
@@ -21060,7 +22901,9 @@ abstract class ExportedChatInviteBase extends TlConstructor {
 class ChatInviteExported extends ExportedChatInviteBase {
   /// Chat Invite Exported constructor.
   const ChatInviteExported({
-    required this.flags,
+    required this.revoked,
+    required this.permanent,
+    required this.requestNeeded,
     required this.link,
     required this.adminId,
     required this.date,
@@ -21095,16 +22938,30 @@ class ChatInviteExported extends ExportedChatInviteBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: revoked,
+      b05: permanent,
+      b06: requestNeeded,
+      b04: startDate != null,
+      b01: expireDate != null,
+      b02: usageLimit != null,
+      b03: usage != null,
+      b07: requested != null,
+      b08: title != null,
+    );
 
-  /// revoked: bit
-  bool get revoked => _bit(flags, 0);
+    return v;
+  }
 
-  /// permanent: bit
-  bool get permanent => _bit(flags, 5);
+  /// revoked: bit 0 of flags.0?true
+  final bool revoked;
 
-  /// request_needed: bit
-  bool get requestNeeded => _bit(flags, 6);
+  /// permanent: bit 5 of flags.5?true
+  final bool permanent;
+
+  /// request_needed: bit 6 of flags.6?true
+  final bool requestNeeded;
 
   /// Link.
   final String link;
@@ -21114,16 +22971,28 @@ class ChatInviteExported extends ExportedChatInviteBase {
 
   /// Date.
   final DateTime date;
+
+  /// Start Date.
   final DateTime? startDate;
+
+  /// Expire Date.
   final DateTime? expireDate;
+
+  /// Usage Limit.
   final int? usageLimit;
+
+  /// Usage.
   final int? usage;
+
+  /// Requested.
   final int? requested;
+
+  /// Title.
   final String? title;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0ab4a819);
     buffer.writeInt(flags);
     buffer.writeString(link);
@@ -21174,7 +23043,7 @@ class ChatInvitePublicJoinRequests extends ExportedChatInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed107ab7);
   }
 }
@@ -21209,7 +23078,7 @@ class ChatInviteAlready extends ChatInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5a686d7c);
     buffer.writeObject(chat);
   }
@@ -21221,7 +23090,14 @@ class ChatInviteAlready extends ChatInviteBase {
 class ChatInvite extends ChatInviteBase {
   /// Chat Invite constructor.
   const ChatInvite({
-    required this.flags,
+    required this.channel,
+    required this.broadcast,
+    required this.public,
+    required this.megagroup,
+    required this.requestNeeded,
+    required this.verified,
+    required this.scam,
+    required this.fake,
     required this.title,
     this.about,
     required this.photo,
@@ -21255,34 +23131,51 @@ class ChatInvite extends ChatInviteBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: channel,
+      b01: broadcast,
+      b02: public,
+      b03: megagroup,
+      b06: requestNeeded,
+      b07: verified,
+      b08: scam,
+      b09: fake,
+      b05: about != null,
+      b04: participants != null,
+    );
 
-  /// channel: bit
-  bool get channel => _bit(flags, 0);
+    return v;
+  }
 
-  /// broadcast: bit
-  bool get broadcast => _bit(flags, 1);
+  /// channel: bit 0 of flags.0?true
+  final bool channel;
 
-  /// public: bit
-  bool get public => _bit(flags, 2);
+  /// broadcast: bit 1 of flags.1?true
+  final bool broadcast;
 
-  /// megagroup: bit
-  bool get megagroup => _bit(flags, 3);
+  /// public: bit 2 of flags.2?true
+  final bool public;
 
-  /// request_needed: bit
-  bool get requestNeeded => _bit(flags, 6);
+  /// megagroup: bit 3 of flags.3?true
+  final bool megagroup;
 
-  /// verified: bit
-  bool get verified => _bit(flags, 7);
+  /// request_needed: bit 6 of flags.6?true
+  final bool requestNeeded;
 
-  /// scam: bit
-  bool get scam => _bit(flags, 8);
+  /// verified: bit 7 of flags.7?true
+  final bool verified;
 
-  /// fake: bit
-  bool get fake => _bit(flags, 9);
+  /// scam: bit 8 of flags.8?true
+  final bool scam;
+
+  /// fake: bit 9 of flags.9?true
+  final bool fake;
 
   /// Title.
   final String title;
+
+  /// About.
   final String? about;
 
   /// Photo.
@@ -21290,6 +23183,8 @@ class ChatInvite extends ChatInviteBase {
 
   /// Participants Count.
   final int participantsCount;
+
+  /// Participants.
   final List<UserBase>? participants;
 
   /// Color.
@@ -21297,7 +23192,7 @@ class ChatInvite extends ChatInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcde0ec40);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -21344,7 +23239,7 @@ class ChatInvitePeek extends ChatInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x61695cb0);
     buffer.writeObject(chat);
     buffer.writeInt(expires);
@@ -21375,7 +23270,7 @@ class InputStickerSetEmpty extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xffb62b95);
   }
 }
@@ -21409,7 +23304,7 @@ class InputStickerSetID extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9de7a269);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -21440,7 +23335,7 @@ class InputStickerSetShortName extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x861cc8a0);
     buffer.writeString(shortName);
   }
@@ -21464,7 +23359,7 @@ class InputStickerSetAnimatedEmoji extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x028703c8);
   }
 }
@@ -21493,7 +23388,7 @@ class InputStickerSetDice extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe67f520e);
     buffer.writeString(emoticon);
   }
@@ -21517,7 +23412,7 @@ class InputStickerSetAnimatedEmojiAnimations extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0cde3739);
   }
 }
@@ -21540,7 +23435,7 @@ class InputStickerSetPremiumGifts extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc88b3b02);
   }
 }
@@ -21563,7 +23458,7 @@ class InputStickerSetEmojiGenericAnimations extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x04c4d4ce);
   }
 }
@@ -21586,7 +23481,7 @@ class InputStickerSetEmojiDefaultStatuses extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x29d0f5ee);
   }
 }
@@ -21609,7 +23504,7 @@ class InputStickerSetEmojiDefaultTopicIcons extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x44c1f8e9);
   }
 }
@@ -21633,7 +23528,7 @@ class InputStickerSetEmojiChannelDefaultStatuses extends InputStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x49748553);
   }
 }
@@ -21650,7 +23545,14 @@ abstract class StickerSetBase extends TlConstructor {
 class StickerSet extends StickerSetBase {
   /// Sticker Set constructor.
   const StickerSet({
-    required this.flags,
+    required this.archived,
+    required this.official,
+    required this.masks,
+    required this.animated,
+    required this.videos,
+    required this.emojis,
+    required this.textColor,
+    required this.channelEmojiStatus,
     this.installedDate,
     required this.id,
     required this.accessHash,
@@ -21694,31 +23596,49 @@ class StickerSet extends StickerSetBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: archived,
+      b02: official,
+      b03: masks,
+      b05: animated,
+      b06: videos,
+      b07: emojis,
+      b09: textColor,
+      b10: channelEmojiStatus,
+      b00: installedDate != null,
+      b04: thumbs != null || thumbDcId != null || thumbVersion != null,
+      b08: thumbDocumentId != null,
+    );
 
-  /// archived: bit
-  bool get archived => _bit(flags, 1);
+    return v;
+  }
 
-  /// official: bit
-  bool get official => _bit(flags, 2);
+  /// archived: bit 1 of flags.1?true
+  final bool archived;
 
-  /// masks: bit
-  bool get masks => _bit(flags, 3);
+  /// official: bit 2 of flags.2?true
+  final bool official;
 
-  /// animated: bit
-  bool get animated => _bit(flags, 5);
+  /// masks: bit 3 of flags.3?true
+  final bool masks;
 
-  /// videos: bit
-  bool get videos => _bit(flags, 6);
+  /// animated: bit 5 of flags.5?true
+  final bool animated;
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 7);
+  /// videos: bit 6 of flags.6?true
+  final bool videos;
 
-  /// text_color: bit
-  bool get textColor => _bit(flags, 9);
+  /// emojis: bit 7 of flags.7?true
+  final bool emojis;
 
-  /// channel_emoji_status: bit
-  bool get channelEmojiStatus => _bit(flags, 10);
+  /// text_color: bit 9 of flags.9?true
+  final bool textColor;
+
+  /// channel_emoji_status: bit 10 of flags.10?true
+  final bool channelEmojiStatus;
+
+  /// Installed Date.
   final DateTime? installedDate;
 
   /// Id.
@@ -21732,9 +23652,17 @@ class StickerSet extends StickerSetBase {
 
   /// Short Name.
   final String shortName;
+
+  /// Thumbs.
   final List<PhotoSizeBase>? thumbs;
+
+  /// Thumb Dc Id.
   final int? thumbDcId;
+
+  /// Thumb Version.
   final int? thumbVersion;
+
+  /// Thumb Document Id.
   final int? thumbDocumentId;
 
   /// Count.
@@ -21745,7 +23673,7 @@ class StickerSet extends StickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2dd14edc);
     buffer.writeInt(flags);
     final localInstalledDateCopy = installedDate;
@@ -21822,7 +23750,7 @@ class MessagesStickerSet extends MessagesStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6e153f16);
     buffer.writeObject(set);
     buffer.writeVectorObject(packs);
@@ -21849,7 +23777,7 @@ class MessagesStickerSetNotModified extends MessagesStickerSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd3f924eb);
   }
 }
@@ -21889,7 +23817,7 @@ class BotCommand extends BotCommandBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc27ac8c7);
     buffer.writeString(command);
     buffer.writeString(description);
@@ -21908,7 +23836,6 @@ abstract class BotInfoBase extends TlConstructor {
 class BotInfo extends BotInfoBase {
   /// Bot Info constructor.
   const BotInfo({
-    required this.flags,
     this.userId,
     this.description,
     this.descriptionPhoto,
@@ -21934,17 +23861,40 @@ class BotInfo extends BotInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: userId != null,
+      b01: description != null,
+      b04: descriptionPhoto != null,
+      b05: descriptionDocument != null,
+      b02: commands != null,
+      b03: menuButton != null,
+    );
+
+    return v;
+  }
+
+  /// User Id.
   final int? userId;
+
+  /// Description.
   final String? description;
+
+  /// Description Photo.
   final PhotoBase? descriptionPhoto;
+
+  /// Description Document.
   final DocumentBase? descriptionDocument;
+
+  /// Commands.
   final List<BotCommandBase>? commands;
+
+  /// Menu Button.
   final BotMenuButtonBase? menuButton;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8f300b57);
     buffer.writeInt(flags);
     final localUserIdCopy = userId;
@@ -22004,7 +23954,7 @@ class KeyboardButton extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2fa4880);
     buffer.writeString(text);
   }
@@ -22039,7 +23989,7 @@ class KeyboardButtonUrl extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x258aff05);
     buffer.writeString(text);
     buffer.writeString(url);
@@ -22052,7 +24002,7 @@ class KeyboardButtonUrl extends KeyboardButtonBase {
 class KeyboardButtonCallback extends KeyboardButtonBase {
   /// Keyboard Button Callback constructor.
   const KeyboardButtonCallback({
-    required this.flags,
+    required this.requiresPassword,
     required this.text,
     required this.data,
   }) : super._();
@@ -22071,10 +24021,16 @@ class KeyboardButtonCallback extends KeyboardButtonBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requiresPassword,
+    );
 
-  /// requires_password: bit
-  bool get requiresPassword => _bit(flags, 0);
+    return v;
+  }
+
+  /// requires_password: bit 0 of flags.0?true
+  final bool requiresPassword;
 
   /// Text.
   final String text;
@@ -22084,7 +24040,7 @@ class KeyboardButtonCallback extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35bbdb6b);
     buffer.writeInt(flags);
     buffer.writeString(text);
@@ -22116,7 +24072,7 @@ class KeyboardButtonRequestPhone extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb16a6c29);
     buffer.writeString(text);
   }
@@ -22146,7 +24102,7 @@ class KeyboardButtonRequestGeoLocation extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfc796b3f);
     buffer.writeString(text);
   }
@@ -22158,7 +24114,7 @@ class KeyboardButtonRequestGeoLocation extends KeyboardButtonBase {
 class KeyboardButtonSwitchInline extends KeyboardButtonBase {
   /// Keyboard Button Switch Inline constructor.
   const KeyboardButtonSwitchInline({
-    required this.flags,
+    required this.samePeer,
     required this.text,
     required this.query,
     this.peerTypes,
@@ -22179,21 +24135,30 @@ class KeyboardButtonSwitchInline extends KeyboardButtonBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: samePeer,
+      b01: peerTypes != null,
+    );
 
-  /// same_peer: bit
-  bool get samePeer => _bit(flags, 0);
+    return v;
+  }
+
+  /// same_peer: bit 0 of flags.0?true
+  final bool samePeer;
 
   /// Text.
   final String text;
 
   /// Query.
   final String query;
+
+  /// Peer Types.
   final List<InlineQueryPeerTypeBase>? peerTypes;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x93b9fbb5);
     buffer.writeInt(flags);
     buffer.writeString(text);
@@ -22229,7 +24194,7 @@ class KeyboardButtonGame extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50f41ccf);
     buffer.writeString(text);
   }
@@ -22259,7 +24224,7 @@ class KeyboardButtonBuy extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xafd93fbb);
     buffer.writeString(text);
   }
@@ -22271,7 +24236,6 @@ class KeyboardButtonBuy extends KeyboardButtonBase {
 class KeyboardButtonUrlAuth extends KeyboardButtonBase {
   /// Keyboard Button Url Auth constructor.
   const KeyboardButtonUrlAuth({
-    required this.flags,
     required this.text,
     this.fwdText,
     required this.url,
@@ -22293,10 +24257,18 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: fwdText != null,
+    );
+
+    return v;
+  }
 
   /// Text.
   final String text;
+
+  /// Fwd Text.
   final String? fwdText;
 
   /// Url.
@@ -22307,7 +24279,7 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10b78d29);
     buffer.writeInt(flags);
     buffer.writeString(text);
@@ -22326,7 +24298,7 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
 class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
   /// Input Keyboard Button Url Auth constructor.
   const InputKeyboardButtonUrlAuth({
-    required this.flags,
+    required this.requestWriteAccess,
     required this.text,
     this.fwdText,
     required this.url,
@@ -22349,13 +24321,22 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requestWriteAccess,
+      b01: fwdText != null,
+    );
 
-  /// request_write_access: bit
-  bool get requestWriteAccess => _bit(flags, 0);
+    return v;
+  }
+
+  /// request_write_access: bit 0 of flags.0?true
+  final bool requestWriteAccess;
 
   /// Text.
   final String text;
+
+  /// Fwd Text.
   final String? fwdText;
 
   /// Url.
@@ -22366,7 +24347,7 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd02e7fd4);
     buffer.writeInt(flags);
     buffer.writeString(text);
@@ -22385,7 +24366,6 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
 class KeyboardButtonRequestPoll extends KeyboardButtonBase {
   /// Keyboard Button Request Poll constructor.
   const KeyboardButtonRequestPoll({
-    required this.flags,
     this.quiz,
     required this.text,
   }) : super._();
@@ -22403,7 +24383,15 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: quiz != null,
+    );
+
+    return v;
+  }
+
+  /// Quiz.
   final bool? quiz;
 
   /// Text.
@@ -22411,7 +24399,7 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbbc7515d);
     buffer.writeInt(flags);
     final localQuizCopy = quiz;
@@ -22451,7 +24439,7 @@ class InputKeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe988037b);
     buffer.writeString(text);
     buffer.writeObject(userId);
@@ -22487,7 +24475,7 @@ class KeyboardButtonUserProfile extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x308660c1);
     buffer.writeString(text);
     buffer.writeLong(userId);
@@ -22523,7 +24511,7 @@ class KeyboardButtonWebView extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x13767230);
     buffer.writeString(text);
     buffer.writeString(url);
@@ -22559,7 +24547,7 @@ class KeyboardButtonSimpleWebView extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0c0505c);
     buffer.writeString(text);
     buffer.writeString(url);
@@ -22605,7 +24593,7 @@ class KeyboardButtonRequestPeer extends KeyboardButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x53d7bfd8);
     buffer.writeString(text);
     buffer.writeInt(buttonId);
@@ -22644,7 +24632,7 @@ class KeyboardButtonRow extends KeyboardButtonRowBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77608b83);
     buffer.writeVectorObject(buttons);
   }
@@ -22662,7 +24650,7 @@ abstract class ReplyMarkupBase extends TlConstructor {
 class ReplyKeyboardHide extends ReplyMarkupBase {
   /// Reply Keyboard Hide constructor.
   const ReplyKeyboardHide({
-    required this.flags,
+    required this.selective,
   }) : super._();
 
   /// Deserialize.
@@ -22677,14 +24665,20 @@ class ReplyKeyboardHide extends ReplyMarkupBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: selective,
+    );
 
-  /// selective: bit
-  bool get selective => _bit(flags, 2);
+    return v;
+  }
+
+  /// selective: bit 2 of flags.2?true
+  final bool selective;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa03e5b85);
     buffer.writeInt(flags);
   }
@@ -22696,7 +24690,8 @@ class ReplyKeyboardHide extends ReplyMarkupBase {
 class ReplyKeyboardForceReply extends ReplyMarkupBase {
   /// Reply Keyboard Force Reply constructor.
   const ReplyKeyboardForceReply({
-    required this.flags,
+    required this.singleUse,
+    required this.selective,
     this.placeholder,
   }) : super._();
 
@@ -22714,18 +24709,28 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: singleUse,
+      b02: selective,
+      b03: placeholder != null,
+    );
 
-  /// single_use: bit
-  bool get singleUse => _bit(flags, 1);
+    return v;
+  }
 
-  /// selective: bit
-  bool get selective => _bit(flags, 2);
+  /// single_use: bit 1 of flags.1?true
+  final bool singleUse;
+
+  /// selective: bit 2 of flags.2?true
+  final bool selective;
+
+  /// Placeholder.
   final String? placeholder;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86b40b08);
     buffer.writeInt(flags);
     final localPlaceholderCopy = placeholder;
@@ -22741,7 +24746,10 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
 class ReplyKeyboardMarkup extends ReplyMarkupBase {
   /// Reply Keyboard Markup constructor.
   const ReplyKeyboardMarkup({
-    required this.flags,
+    required this.resize,
+    required this.singleUse,
+    required this.selective,
+    required this.persistent,
     required this.rows,
     this.placeholder,
   }) : super._();
@@ -22763,27 +24771,39 @@ class ReplyKeyboardMarkup extends ReplyMarkupBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: resize,
+      b01: singleUse,
+      b02: selective,
+      b04: persistent,
+      b03: placeholder != null,
+    );
 
-  /// resize: bit
-  bool get resize => _bit(flags, 0);
+    return v;
+  }
 
-  /// single_use: bit
-  bool get singleUse => _bit(flags, 1);
+  /// resize: bit 0 of flags.0?true
+  final bool resize;
 
-  /// selective: bit
-  bool get selective => _bit(flags, 2);
+  /// single_use: bit 1 of flags.1?true
+  final bool singleUse;
 
-  /// persistent: bit
-  bool get persistent => _bit(flags, 4);
+  /// selective: bit 2 of flags.2?true
+  final bool selective;
+
+  /// persistent: bit 4 of flags.4?true
+  final bool persistent;
 
   /// Rows.
   final List<KeyboardButtonRowBase> rows;
+
+  /// Placeholder.
   final String? placeholder;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x85dd99d1);
     buffer.writeInt(flags);
     buffer.writeVectorObject(rows);
@@ -22818,7 +24838,7 @@ class ReplyInlineMarkup extends ReplyMarkupBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48a30254);
     buffer.writeVectorObject(rows);
   }
@@ -22859,7 +24879,7 @@ class MessageEntityUnknown extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb92ba95);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -22895,7 +24915,7 @@ class MessageEntityMention extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa04579d);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -22931,7 +24951,7 @@ class MessageEntityHashtag extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6f635b0d);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -22967,7 +24987,7 @@ class MessageEntityBotCommand extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6cef8ac7);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23003,7 +25023,7 @@ class MessageEntityUrl extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6ed02538);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23039,7 +25059,7 @@ class MessageEntityEmail extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64e475c2);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23075,7 +25095,7 @@ class MessageEntityBold extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd610bc9);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23111,7 +25131,7 @@ class MessageEntityItalic extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x826f8b60);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23147,7 +25167,7 @@ class MessageEntityCode extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x28a20571);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23188,7 +25208,7 @@ class MessageEntityPre extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73924be0);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23230,7 +25250,7 @@ class MessageEntityTextUrl extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x76a6d327);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23272,7 +25292,7 @@ class MessageEntityMentionName extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdc7b1140);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23314,7 +25334,7 @@ class InputMessageEntityMentionName extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x208e68c9);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23351,7 +25371,7 @@ class MessageEntityPhone extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9b69e34b);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23387,7 +25407,7 @@ class MessageEntityCashtag extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4c4e743f);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23423,7 +25443,7 @@ class MessageEntityUnderline extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9c4e7e8b);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23459,7 +25479,7 @@ class MessageEntityStrike extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbf0693d4);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23495,7 +25515,7 @@ class MessageEntityBankCard extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x761e6af4);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23531,7 +25551,7 @@ class MessageEntitySpoiler extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x32ca960f);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23572,7 +25592,7 @@ class MessageEntityCustomEmoji extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc8cf05f8);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23609,7 +25629,7 @@ class MessageEntityBlockquote extends MessageEntityBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x020df5d0);
     buffer.writeInt(offset);
     buffer.writeInt(length);
@@ -23640,7 +25660,7 @@ class InputChannelEmpty extends InputChannelBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xee8c1e86);
   }
 }
@@ -23674,7 +25694,7 @@ class InputChannel extends InputChannelBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf35aec28);
     buffer.writeLong(channelId);
     buffer.writeLong(accessHash);
@@ -23715,7 +25735,7 @@ class InputChannelFromMessage extends InputChannelBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5b934f9d);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -23763,7 +25783,7 @@ class ContactsResolvedPeer extends ContactsResolvedPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f077ad9);
     buffer.writeObject(peer);
     buffer.writeVectorObject(chats);
@@ -23806,7 +25826,7 @@ class MessageRange extends MessageRangeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0ae30253);
     buffer.writeInt(minId);
     buffer.writeInt(maxId);
@@ -23825,7 +25845,7 @@ abstract class UpdatesChannelDifferenceBase extends TlConstructor {
 class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
   /// Updates Channel Difference Empty constructor.
   const UpdatesChannelDifferenceEmpty({
-    required this.flags,
+    required this.ffinal,
     required this.pts,
     this.timeout,
   }) : super._();
@@ -23844,18 +25864,27 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ffinal,
+      b01: timeout != null,
+    );
 
-  /// final: bit
-  bool get ffinal => _bit(flags, 0);
+    return v;
+  }
+
+  /// final: bit 0 of flags.0?true
+  final bool ffinal;
 
   /// Pts.
   final int pts;
+
+  /// Timeout.
   final int? timeout;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3e11affb);
     buffer.writeInt(flags);
     buffer.writeInt(pts);
@@ -23872,7 +25901,7 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
 class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
   /// Updates Channel Difference Too Long constructor.
   const UpdatesChannelDifferenceTooLong({
-    required this.flags,
+    required this.ffinal,
     this.timeout,
     required this.dialog,
     required this.messages,
@@ -23897,10 +25926,19 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ffinal,
+      b01: timeout != null,
+    );
 
-  /// final: bit
-  bool get ffinal => _bit(flags, 0);
+    return v;
+  }
+
+  /// final: bit 0 of flags.0?true
+  final bool ffinal;
+
+  /// Timeout.
   final int? timeout;
 
   /// Dialog.
@@ -23917,7 +25955,7 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa4bcc6fe);
     buffer.writeInt(flags);
     final localTimeoutCopy = timeout;
@@ -23937,7 +25975,7 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
 class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
   /// Updates Channel Difference constructor.
   const UpdatesChannelDifference({
-    required this.flags,
+    required this.ffinal,
     required this.pts,
     this.timeout,
     required this.newMessages,
@@ -23964,13 +26002,22 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ffinal,
+      b01: timeout != null,
+    );
 
-  /// final: bit
-  bool get ffinal => _bit(flags, 0);
+    return v;
+  }
+
+  /// final: bit 0 of flags.0?true
+  final bool ffinal;
 
   /// Pts.
   final int pts;
+
+  /// Timeout.
   final int? timeout;
 
   /// New Messages.
@@ -23987,7 +26034,7 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2064674e);
     buffer.writeInt(flags);
     buffer.writeInt(pts);
@@ -24026,7 +26073,7 @@ class ChannelMessagesFilterEmpty extends ChannelMessagesFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x94d42ee7);
   }
 }
@@ -24037,7 +26084,7 @@ class ChannelMessagesFilterEmpty extends ChannelMessagesFilterBase {
 class ChannelMessagesFilter extends ChannelMessagesFilterBase {
   /// Channel Messages Filter constructor.
   const ChannelMessagesFilter({
-    required this.flags,
+    required this.excludeNewMessages,
     required this.ranges,
   }) : super._();
 
@@ -24054,17 +26101,23 @@ class ChannelMessagesFilter extends ChannelMessagesFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: excludeNewMessages,
+    );
 
-  /// exclude_new_messages: bit
-  bool get excludeNewMessages => _bit(flags, 1);
+    return v;
+  }
+
+  /// exclude_new_messages: bit 1 of flags.1?true
+  final bool excludeNewMessages;
 
   /// Ranges.
   final List<MessageRangeBase> ranges;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcd77d957);
     buffer.writeInt(flags);
     buffer.writeVectorObject(ranges);
@@ -24106,7 +26159,7 @@ class ChannelParticipant extends ChannelParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc00c07c0);
     buffer.writeLong(userId);
     buffer.writeDateTime(date);
@@ -24119,7 +26172,7 @@ class ChannelParticipant extends ChannelParticipantBase {
 class ChannelParticipantSelf extends ChannelParticipantBase {
   /// Channel Participant Self constructor.
   const ChannelParticipantSelf({
-    required this.flags,
+    required this.viaRequest,
     required this.userId,
     required this.inviterId,
     required this.date,
@@ -24140,10 +26193,16 @@ class ChannelParticipantSelf extends ChannelParticipantBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: viaRequest,
+    );
 
-  /// via_request: bit
-  bool get viaRequest => _bit(flags, 0);
+    return v;
+  }
+
+  /// via_request: bit 0 of flags.0?true
+  final bool viaRequest;
 
   /// User Id.
   final int userId;
@@ -24156,7 +26215,7 @@ class ChannelParticipantSelf extends ChannelParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35a8bfa7);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -24171,7 +26230,6 @@ class ChannelParticipantSelf extends ChannelParticipantBase {
 class ChannelParticipantCreator extends ChannelParticipantBase {
   /// Channel Participant Creator constructor.
   const ChannelParticipantCreator({
-    required this.flags,
     required this.userId,
     required this.adminRights,
     this.rank,
@@ -24191,18 +26249,26 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: rank != null,
+    );
+
+    return v;
+  }
 
   /// User Id.
   final int userId;
 
   /// Admin Rights.
   final ChatAdminRightsBase adminRights;
+
+  /// Rank.
   final String? rank;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2fe601d3);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -24220,7 +26286,8 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
 class ChannelParticipantAdmin extends ChannelParticipantBase {
   /// Channel Participant Admin constructor.
   const ChannelParticipantAdmin({
-    required this.flags,
+    required this.canEdit,
+    required this.self,
     required this.userId,
     this.inviterId,
     required this.promotedBy,
@@ -24248,16 +26315,26 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: canEdit,
+      b01: self || inviterId != null,
+      b02: rank != null,
+    );
 
-  /// can_edit: bit
-  bool get canEdit => _bit(flags, 0);
+    return v;
+  }
 
-  /// self: bit
-  bool get self => _bit(flags, 1);
+  /// can_edit: bit 0 of flags.0?true
+  final bool canEdit;
+
+  /// self: bit 1 of flags.1?true
+  final bool self;
 
   /// User Id.
   final int userId;
+
+  /// Inviter Id.
   final int? inviterId;
 
   /// Promoted By.
@@ -24268,11 +26345,13 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
 
   /// Admin Rights.
   final ChatAdminRightsBase adminRights;
+
+  /// Rank.
   final String? rank;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34c3bb53);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -24296,7 +26375,7 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
 class ChannelParticipantBanned extends ChannelParticipantBase {
   /// Channel Participant Banned constructor.
   const ChannelParticipantBanned({
-    required this.flags,
+    required this.left,
     required this.peer,
     required this.kickedBy,
     required this.date,
@@ -24319,10 +26398,16 @@ class ChannelParticipantBanned extends ChannelParticipantBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: left,
+    );
 
-  /// left: bit
-  bool get left => _bit(flags, 0);
+    return v;
+  }
+
+  /// left: bit 0 of flags.0?true
+  final bool left;
 
   /// Peer.
   final PeerBase peer;
@@ -24338,7 +26423,7 @@ class ChannelParticipantBanned extends ChannelParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6df8014e);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -24372,7 +26457,7 @@ class ChannelParticipantLeft extends ChannelParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b03f006);
     buffer.writeObject(peer);
   }
@@ -24402,7 +26487,7 @@ class ChannelParticipantsRecent extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde3f3c79);
   }
 }
@@ -24425,7 +26510,7 @@ class ChannelParticipantsAdmins extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4608969);
   }
 }
@@ -24454,7 +26539,7 @@ class ChannelParticipantsKicked extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa3b54985);
     buffer.writeString(q);
   }
@@ -24478,7 +26563,7 @@ class ChannelParticipantsBots extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb0d1865b);
   }
 }
@@ -24507,7 +26592,7 @@ class ChannelParticipantsBanned extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1427a5e1);
     buffer.writeString(q);
   }
@@ -24537,7 +26622,7 @@ class ChannelParticipantsSearch extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0656ac4b);
     buffer.writeString(q);
   }
@@ -24567,7 +26652,7 @@ class ChannelParticipantsContacts extends ChannelParticipantsFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb6ae88d);
     buffer.writeString(q);
   }
@@ -24579,7 +26664,6 @@ class ChannelParticipantsContacts extends ChannelParticipantsFilterBase {
 class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
   /// Channel Participants Mentions constructor.
   const ChannelParticipantsMentions({
-    required this.flags,
     this.q,
     this.topMsgId,
   }) : super._();
@@ -24597,13 +26681,24 @@ class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: q != null,
+      b01: topMsgId != null,
+    );
+
+    return v;
+  }
+
+  /// Q.
   final String? q;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe04b5ceb);
     buffer.writeInt(flags);
     final localQCopy = q;
@@ -24662,7 +26757,7 @@ class ChannelsChannelParticipants extends ChannelsChannelParticipantsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9ab0feaf);
     buffer.writeInt(count);
     buffer.writeVectorObject(participants);
@@ -24690,7 +26785,7 @@ class ChannelsChannelParticipantsNotModified
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf0173fe9);
   }
 }
@@ -24735,7 +26830,7 @@ class ChannelsChannelParticipant extends ChannelsChannelParticipantBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdfb80317);
     buffer.writeObject(participant);
     buffer.writeVectorObject(chats);
@@ -24755,7 +26850,7 @@ abstract class HelpTermsOfServiceBase extends TlConstructor {
 class HelpTermsOfService extends HelpTermsOfServiceBase {
   /// Help Terms Of Service constructor.
   const HelpTermsOfService({
-    required this.flags,
+    required this.popup,
     required this.id,
     required this.text,
     required this.entities,
@@ -24778,10 +26873,17 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: popup,
+      b01: minAgeConfirm != null,
+    );
 
-  /// popup: bit
-  bool get popup => _bit(flags, 0);
+    return v;
+  }
+
+  /// popup: bit 0 of flags.0?true
+  final bool popup;
 
   /// Id.
   final DataJSONBase id;
@@ -24791,11 +26893,13 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
 
   /// Entities.
   final List<MessageEntityBase> entities;
+
+  /// Min Age Confirm.
   final int? minAgeConfirm;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x780a0310);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -24832,7 +26936,7 @@ class MessagesSavedGifsNotModified extends MessagesSavedGifsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe8025ca2);
   }
 }
@@ -24866,7 +26970,7 @@ class MessagesSavedGifs extends MessagesSavedGifsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x84a02a0d);
     buffer.writeLong(hash);
     buffer.writeVectorObject(gifs);
@@ -24885,7 +26989,7 @@ abstract class InputBotInlineMessageBase extends TlConstructor {
 class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Auto constructor.
   const InputBotInlineMessageMediaAuto({
-    required this.flags,
+    required this.invertMedia,
     required this.message,
     this.entities,
     this.replyMarkup,
@@ -24906,19 +27010,31 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: invertMedia,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+    return v;
+  }
+
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3380c786);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -24939,7 +27055,8 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
 class InputBotInlineMessageText extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Text constructor.
   const InputBotInlineMessageText({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     required this.message,
     this.entities,
     this.replyMarkup,
@@ -24961,22 +27078,35 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: noWebpage,
+      b03: invertMedia,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 0);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+  /// no_webpage: bit 0 of flags.0?true
+  final bool noWebpage;
+
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dcd7a87);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -24997,7 +27127,6 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
 class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Geo constructor.
   const InputBotInlineMessageMediaGeo({
-    required this.flags,
     required this.geoPoint,
     this.heading,
     this.period,
@@ -25021,18 +27150,35 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: heading != null,
+      b01: period != null,
+      b03: proximityNotificationRadius != null,
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Geo Point.
   final InputGeoPointBase geoPoint;
+
+  /// Heading.
   final int? heading;
+
+  /// Period.
   final int? period;
+
+  /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x96929a85);
     buffer.writeInt(flags);
     buffer.writeObject(geoPoint);
@@ -25061,7 +27207,6 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
 class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Venue constructor.
   const InputBotInlineMessageMediaVenue({
-    required this.flags,
     required this.geoPoint,
     required this.title,
     required this.address,
@@ -25089,7 +27234,13 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Geo Point.
   final InputGeoPointBase geoPoint;
@@ -25108,11 +27259,13 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
 
   /// Venue Type.
   final String venueType;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x417bbf11);
     buffer.writeInt(flags);
     buffer.writeObject(geoPoint);
@@ -25134,7 +27287,6 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
 class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Contact constructor.
   const InputBotInlineMessageMediaContact({
-    required this.flags,
     required this.phoneNumber,
     required this.firstName,
     required this.lastName,
@@ -25158,7 +27310,13 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Phone Number.
   final String phoneNumber;
@@ -25171,11 +27329,13 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
 
   /// Vcard.
   final String vcard;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6edbffd);
     buffer.writeInt(flags);
     buffer.writeString(phoneNumber);
@@ -25195,7 +27355,6 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
 class InputBotInlineMessageGame extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Game constructor.
   const InputBotInlineMessageGame({
-    required this.flags,
     this.replyMarkup,
   }) : super._();
 
@@ -25211,12 +27370,20 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4b425864);
     buffer.writeInt(flags);
     final localReplyMarkupCopy = replyMarkup;
@@ -25232,7 +27399,6 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
 class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Invoice constructor.
   const InputBotInlineMessageMediaInvoice({
-    required this.flags,
     required this.title,
     required this.description,
     this.photo,
@@ -25262,13 +27428,22 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: photo != null,
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Title.
   final String title;
 
   /// Description.
   final String description;
+
+  /// Photo.
   final InputWebDocumentBase? photo;
 
   /// Invoice.
@@ -25282,11 +27457,13 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
 
   /// Provider Data.
   final DataJSONBase providerData;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd7e78225);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -25312,7 +27489,10 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
 class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
   /// Input Bot Inline Message Media Web Page constructor.
   const InputBotInlineMessageMediaWebPage({
-    required this.flags,
+    required this.invertMedia,
+    required this.forceLargeMedia,
+    required this.forceSmallMedia,
+    required this.optional,
     required this.message,
     this.entities,
     required this.url,
@@ -25338,31 +27518,46 @@ class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: invertMedia,
+      b04: forceLargeMedia,
+      b05: forceSmallMedia,
+      b06: optional,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+    return v;
+  }
 
-  /// force_large_media: bit
-  bool get forceLargeMedia => _bit(flags, 4);
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
-  /// force_small_media: bit
-  bool get forceSmallMedia => _bit(flags, 5);
+  /// force_large_media: bit 4 of flags.4?true
+  final bool forceLargeMedia;
 
-  /// optional: bit
-  bool get optional => _bit(flags, 6);
+  /// force_small_media: bit 5 of flags.5?true
+  final bool forceSmallMedia;
+
+  /// optional: bit 6 of flags.6?true
+  final bool optional;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Url.
   final String url;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbddcc510);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -25390,7 +27585,6 @@ abstract class InputBotInlineResultBase extends TlConstructor {
 class InputBotInlineResult extends InputBotInlineResultBase {
   /// Input Bot Inline Result constructor.
   const InputBotInlineResult({
-    required this.flags,
     required this.id,
     required this.type,
     this.title,
@@ -25420,17 +27614,37 @@ class InputBotInlineResult extends InputBotInlineResultBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: title != null,
+      b02: description != null,
+      b03: url != null,
+      b04: thumb != null,
+      b05: content != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final String id;
 
   /// Type.
   final String type;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
+
+  /// Url.
   final String? url;
+
+  /// Thumb.
   final InputWebDocumentBase? thumb;
+
+  /// Content.
   final InputWebDocumentBase? content;
 
   /// Send Message.
@@ -25438,7 +27652,7 @@ class InputBotInlineResult extends InputBotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x88bf9319);
     buffer.writeInt(flags);
     buffer.writeString(id);
@@ -25506,7 +27720,7 @@ class InputBotInlineResultPhoto extends InputBotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa8d864a7);
     buffer.writeString(id);
     buffer.writeString(type);
@@ -25521,7 +27735,6 @@ class InputBotInlineResultPhoto extends InputBotInlineResultBase {
 class InputBotInlineResultDocument extends InputBotInlineResultBase {
   /// Input Bot Inline Result Document constructor.
   const InputBotInlineResultDocument({
-    required this.flags,
     required this.id,
     required this.type,
     this.title,
@@ -25547,14 +27760,25 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: title != null,
+      b02: description != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final String id;
 
   /// Type.
   final String type;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
 
   /// Document.
@@ -25565,7 +27789,7 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfff8fdc4);
     buffer.writeInt(flags);
     buffer.writeString(id);
@@ -25617,7 +27841,7 @@ class InputBotInlineResultGame extends InputBotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4fa417f2);
     buffer.writeString(id);
     buffer.writeString(shortName);
@@ -25637,7 +27861,7 @@ abstract class BotInlineMessageBase extends TlConstructor {
 class BotInlineMessageMediaAuto extends BotInlineMessageBase {
   /// Bot Inline Message Media Auto constructor.
   const BotInlineMessageMediaAuto({
-    required this.flags,
+    required this.invertMedia,
     required this.message,
     this.entities,
     this.replyMarkup,
@@ -25658,19 +27882,31 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: invertMedia,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+    return v;
+  }
+
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x764cf810);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -25691,7 +27927,8 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
 class BotInlineMessageText extends BotInlineMessageBase {
   /// Bot Inline Message Text constructor.
   const BotInlineMessageText({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     required this.message,
     this.entities,
     this.replyMarkup,
@@ -25713,22 +27950,35 @@ class BotInlineMessageText extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: noWebpage,
+      b03: invertMedia,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 0);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+  /// no_webpage: bit 0 of flags.0?true
+  final bool noWebpage;
+
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c7f65e2);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -25749,7 +27999,6 @@ class BotInlineMessageText extends BotInlineMessageBase {
 class BotInlineMessageMediaGeo extends BotInlineMessageBase {
   /// Bot Inline Message Media Geo constructor.
   const BotInlineMessageMediaGeo({
-    required this.flags,
     required this.geo,
     this.heading,
     this.period,
@@ -25773,18 +28022,35 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: heading != null,
+      b01: period != null,
+      b03: proximityNotificationRadius != null,
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Geo.
   final GeoPointBase geo;
+
+  /// Heading.
   final int? heading;
+
+  /// Period.
   final int? period;
+
+  /// Proximity Notification Radius.
   final int? proximityNotificationRadius;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x051846fd);
     buffer.writeInt(flags);
     buffer.writeObject(geo);
@@ -25813,7 +28079,6 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
 class BotInlineMessageMediaVenue extends BotInlineMessageBase {
   /// Bot Inline Message Media Venue constructor.
   const BotInlineMessageMediaVenue({
-    required this.flags,
     required this.geo,
     required this.title,
     required this.address,
@@ -25841,7 +28106,13 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Geo.
   final GeoPointBase geo;
@@ -25860,11 +28131,13 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
 
   /// Venue Type.
   final String venueType;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8a86659c);
     buffer.writeInt(flags);
     buffer.writeObject(geo);
@@ -25886,7 +28159,6 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
 class BotInlineMessageMediaContact extends BotInlineMessageBase {
   /// Bot Inline Message Media Contact constructor.
   const BotInlineMessageMediaContact({
-    required this.flags,
     required this.phoneNumber,
     required this.firstName,
     required this.lastName,
@@ -25910,7 +28182,13 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyMarkup != null,
+    );
+
+    return v;
+  }
 
   /// Phone Number.
   final String phoneNumber;
@@ -25923,11 +28201,13 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
 
   /// Vcard.
   final String vcard;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18d1cdc2);
     buffer.writeInt(flags);
     buffer.writeString(phoneNumber);
@@ -25947,7 +28227,8 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
 class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
   /// Bot Inline Message Media Invoice constructor.
   const BotInlineMessageMediaInvoice({
-    required this.flags,
+    required this.shippingAddressRequested,
+    required this.test,
     required this.title,
     required this.description,
     this.photo,
@@ -25975,19 +28256,30 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: shippingAddressRequested,
+      b03: test,
+      b00: photo != null,
+      b02: replyMarkup != null,
+    );
 
-  /// shipping_address_requested: bit
-  bool get shippingAddressRequested => _bit(flags, 1);
+    return v;
+  }
 
-  /// test: bit
-  bool get test => _bit(flags, 3);
+  /// shipping_address_requested: bit 1 of flags.1?true
+  final bool shippingAddressRequested;
+
+  /// test: bit 3 of flags.3?true
+  final bool test;
 
   /// Title.
   final String title;
 
   /// Description.
   final String description;
+
+  /// Photo.
   final WebDocumentBase? photo;
 
   /// Currency.
@@ -25995,11 +28287,13 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
 
   /// Total Amount.
   final int totalAmount;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x354a9b09);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -26023,7 +28317,11 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
 class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
   /// Bot Inline Message Media Web Page constructor.
   const BotInlineMessageMediaWebPage({
-    required this.flags,
+    required this.invertMedia,
+    required this.forceLargeMedia,
+    required this.forceSmallMedia,
+    required this.manual,
+    required this.safe,
     required this.message,
     this.entities,
     required this.url,
@@ -26050,34 +28348,50 @@ class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: invertMedia,
+      b04: forceLargeMedia,
+      b05: forceSmallMedia,
+      b07: manual,
+      b08: safe,
+      b01: entities != null,
+      b02: replyMarkup != null,
+    );
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 3);
+    return v;
+  }
 
-  /// force_large_media: bit
-  bool get forceLargeMedia => _bit(flags, 4);
+  /// invert_media: bit 3 of flags.3?true
+  final bool invertMedia;
 
-  /// force_small_media: bit
-  bool get forceSmallMedia => _bit(flags, 5);
+  /// force_large_media: bit 4 of flags.4?true
+  final bool forceLargeMedia;
 
-  /// manual: bit
-  bool get manual => _bit(flags, 7);
+  /// force_small_media: bit 5 of flags.5?true
+  final bool forceSmallMedia;
 
-  /// safe: bit
-  bool get safe => _bit(flags, 8);
+  /// manual: bit 7 of flags.7?true
+  final bool manual;
+
+  /// safe: bit 8 of flags.8?true
+  final bool safe;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Url.
   final String url;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x809ad9a6);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -26105,7 +28419,6 @@ abstract class BotInlineResultBase extends TlConstructor {
 class BotInlineResult extends BotInlineResultBase {
   /// Bot Inline Result constructor.
   const BotInlineResult({
-    required this.flags,
     required this.id,
     required this.type,
     this.title,
@@ -26135,17 +28448,37 @@ class BotInlineResult extends BotInlineResultBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: title != null,
+      b02: description != null,
+      b03: url != null,
+      b04: thumb != null,
+      b05: content != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final String id;
 
   /// Type.
   final String type;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
+
+  /// Url.
   final String? url;
+
+  /// Thumb.
   final WebDocumentBase? thumb;
+
+  /// Content.
   final WebDocumentBase? content;
 
   /// Send Message.
@@ -26153,7 +28486,7 @@ class BotInlineResult extends BotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x11965f3a);
     buffer.writeInt(flags);
     buffer.writeString(id);
@@ -26188,7 +28521,6 @@ class BotInlineResult extends BotInlineResultBase {
 class BotInlineMediaResult extends BotInlineResultBase {
   /// Bot Inline Media Result constructor.
   const BotInlineMediaResult({
-    required this.flags,
     required this.id,
     required this.type,
     this.photo,
@@ -26216,16 +28548,33 @@ class BotInlineMediaResult extends BotInlineResultBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: photo != null,
+      b01: document != null,
+      b02: title != null,
+      b03: description != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final String id;
 
   /// Type.
   final String type;
+
+  /// Photo.
   final PhotoBase? photo;
+
+  /// Document.
   final DocumentBase? document;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
 
   /// Send Message.
@@ -26233,7 +28582,7 @@ class BotInlineMediaResult extends BotInlineResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x17db940b);
     buffer.writeInt(flags);
     buffer.writeString(id);
@@ -26270,7 +28619,7 @@ abstract class MessagesBotResultsBase extends TlConstructor {
 class MessagesBotResults extends MessagesBotResultsBase {
   /// Messages Bot Results constructor.
   const MessagesBotResults({
-    required this.flags,
+    required this.gallery,
     required this.queryId,
     this.nextOffset,
     this.switchPm,
@@ -26299,15 +28648,30 @@ class MessagesBotResults extends MessagesBotResultsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: gallery,
+      b01: nextOffset != null,
+      b02: switchPm != null,
+      b03: switchWebview != null,
+    );
 
-  /// gallery: bit
-  bool get gallery => _bit(flags, 0);
+    return v;
+  }
+
+  /// gallery: bit 0 of flags.0?true
+  final bool gallery;
 
   /// Query Id.
   final int queryId;
+
+  /// Next Offset.
   final String? nextOffset;
+
+  /// Switch Pm.
   final InlineBotSwitchPMBase? switchPm;
+
+  /// Switch Webview.
   final InlineBotWebViewBase? switchWebview;
 
   /// Results.
@@ -26321,7 +28685,7 @@ class MessagesBotResults extends MessagesBotResultsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe021f2f6);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -26378,7 +28742,7 @@ class ExportedMessageLink extends ExportedMessageLinkBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5dab1af4);
     buffer.writeString(link);
     buffer.writeString(html);
@@ -26397,7 +28761,8 @@ abstract class MessageFwdHeaderBase extends TlConstructor {
 class MessageFwdHeader extends MessageFwdHeaderBase {
   /// Message Fwd Header constructor.
   const MessageFwdHeader({
-    required this.flags,
+    required this.imported,
+    required this.savedOut,
     this.fromId,
     this.fromName,
     required this.date,
@@ -26435,30 +28800,66 @@ class MessageFwdHeader extends MessageFwdHeaderBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b07: imported,
+      b11: savedOut,
+      b00: fromId != null,
+      b05: fromName != null,
+      b02: channelPost != null,
+      b03: postAuthor != null,
+      b04: savedFromPeer != null || savedFromMsgId != null,
+      b08: savedFromId != null,
+      b09: savedFromName != null,
+      b10: savedDate != null,
+      b06: psaType != null,
+    );
 
-  /// imported: bit
-  bool get imported => _bit(flags, 7);
+    return v;
+  }
 
-  /// saved_out: bit
-  bool get savedOut => _bit(flags, 11);
+  /// imported: bit 7 of flags.7?true
+  final bool imported;
+
+  /// saved_out: bit 11 of flags.11?true
+  final bool savedOut;
+
+  /// From Id.
   final PeerBase? fromId;
+
+  /// From Name.
   final String? fromName;
 
   /// Date.
   final DateTime date;
+
+  /// Channel Post.
   final int? channelPost;
+
+  /// Post Author.
   final String? postAuthor;
+
+  /// Saved From Peer.
   final PeerBase? savedFromPeer;
+
+  /// Saved From Msg Id.
   final int? savedFromMsgId;
+
+  /// Saved From Id.
   final PeerBase? savedFromId;
+
+  /// Saved From Name.
   final String? savedFromName;
+
+  /// Saved Date.
   final DateTime? savedDate;
+
+  /// Psa Type.
   final String? psaType;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4e4df4bb);
     buffer.writeInt(flags);
     final localFromIdCopy = fromId;
@@ -26529,7 +28930,7 @@ class AuthCodeTypeSms extends AuthCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x72a3158c);
   }
 }
@@ -26552,7 +28953,7 @@ class AuthCodeTypeCall extends AuthCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x741cd3e3);
   }
 }
@@ -26575,7 +28976,7 @@ class AuthCodeTypeFlashCall extends AuthCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x226ccefb);
   }
 }
@@ -26598,7 +28999,7 @@ class AuthCodeTypeMissedCall extends AuthCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd61ad6ee);
   }
 }
@@ -26621,7 +29022,7 @@ class AuthCodeTypeFragmentSms extends AuthCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x06ed998c);
   }
 }
@@ -26656,7 +29057,7 @@ class AuthSentCodeTypeApp extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dbb5986);
     buffer.writeInt(length);
   }
@@ -26686,7 +29087,7 @@ class AuthSentCodeTypeSms extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc000bba2);
     buffer.writeInt(length);
   }
@@ -26716,7 +29117,7 @@ class AuthSentCodeTypeCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5353e5a7);
     buffer.writeInt(length);
   }
@@ -26746,7 +29147,7 @@ class AuthSentCodeTypeFlashCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xab03c6d9);
     buffer.writeString(pattern);
   }
@@ -26781,7 +29182,7 @@ class AuthSentCodeTypeMissedCall extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x82006484);
     buffer.writeString(prefix);
     buffer.writeInt(length);
@@ -26794,7 +29195,8 @@ class AuthSentCodeTypeMissedCall extends AuthSentCodeTypeBase {
 class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
   /// Auth Sent Code Type Email Code constructor.
   const AuthSentCodeTypeEmailCode({
-    required this.flags,
+    required this.appleSigninAllowed,
+    required this.googleSigninAllowed,
     required this.emailPattern,
     required this.length,
     this.resetAvailablePeriod,
@@ -26818,25 +29220,38 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: appleSigninAllowed,
+      b01: googleSigninAllowed,
+      b03: resetAvailablePeriod != null,
+      b04: resetPendingDate != null,
+    );
 
-  /// apple_signin_allowed: bit
-  bool get appleSigninAllowed => _bit(flags, 0);
+    return v;
+  }
 
-  /// google_signin_allowed: bit
-  bool get googleSigninAllowed => _bit(flags, 1);
+  /// apple_signin_allowed: bit 0 of flags.0?true
+  final bool appleSigninAllowed;
+
+  /// google_signin_allowed: bit 1 of flags.1?true
+  final bool googleSigninAllowed;
 
   /// Email Pattern.
   final String emailPattern;
 
   /// Length.
   final int length;
+
+  /// Reset Available Period.
   final int? resetAvailablePeriod;
+
+  /// Reset Pending Date.
   final DateTime? resetPendingDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf450f59b);
     buffer.writeInt(flags);
     buffer.writeString(emailPattern);
@@ -26858,7 +29273,8 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
 class AuthSentCodeTypeSetUpEmailRequired extends AuthSentCodeTypeBase {
   /// Auth Sent Code Type Set Up Email Required constructor.
   const AuthSentCodeTypeSetUpEmailRequired({
-    required this.flags,
+    required this.appleSigninAllowed,
+    required this.googleSigninAllowed,
   }) : super._();
 
   /// Deserialize.
@@ -26874,17 +29290,24 @@ class AuthSentCodeTypeSetUpEmailRequired extends AuthSentCodeTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: appleSigninAllowed,
+      b01: googleSigninAllowed,
+    );
 
-  /// apple_signin_allowed: bit
-  bool get appleSigninAllowed => _bit(flags, 0);
+    return v;
+  }
 
-  /// google_signin_allowed: bit
-  bool get googleSigninAllowed => _bit(flags, 1);
+  /// apple_signin_allowed: bit 0 of flags.0?true
+  final bool appleSigninAllowed;
+
+  /// google_signin_allowed: bit 1 of flags.1?true
+  final bool googleSigninAllowed;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa5491dea);
     buffer.writeInt(flags);
   }
@@ -26919,7 +29342,7 @@ class AuthSentCodeTypeFragmentSms extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd9565c39);
     buffer.writeString(url);
     buffer.writeInt(length);
@@ -26932,7 +29355,6 @@ class AuthSentCodeTypeFragmentSms extends AuthSentCodeTypeBase {
 class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
   /// Auth Sent Code Type Firebase Sms constructor.
   const AuthSentCodeTypeFirebaseSms({
-    required this.flags,
     this.nonce,
     this.receipt,
     this.pushTimeout,
@@ -26954,9 +29376,22 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nonce != null,
+      b01: receipt != null || pushTimeout != null,
+    );
+
+    return v;
+  }
+
+  /// Nonce.
   final Uint8List? nonce;
+
+  /// Receipt.
   final String? receipt;
+
+  /// Push Timeout.
   final int? pushTimeout;
 
   /// Length.
@@ -26964,7 +29399,7 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe57b1432);
     buffer.writeInt(flags);
     final localNonceCopy = nonce;
@@ -26995,7 +29430,9 @@ abstract class MessagesBotCallbackAnswerBase extends TlConstructor {
 class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
   /// Messages Bot Callback Answer constructor.
   const MessagesBotCallbackAnswer({
-    required this.flags,
+    required this.alert,
+    required this.hasUrl,
+    required this.nativeUi,
     this.message,
     this.url,
     required this.cacheTime,
@@ -27018,17 +29455,31 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: alert,
+      b03: hasUrl,
+      b04: nativeUi,
+      b00: message != null,
+      b02: url != null,
+    );
 
-  /// alert: bit
-  bool get alert => _bit(flags, 1);
+    return v;
+  }
 
-  /// has_url: bit
-  bool get hasUrl => _bit(flags, 3);
+  /// alert: bit 1 of flags.1?true
+  final bool alert;
 
-  /// native_ui: bit
-  bool get nativeUi => _bit(flags, 4);
+  /// has_url: bit 3 of flags.3?true
+  final bool hasUrl;
+
+  /// native_ui: bit 4 of flags.4?true
+  final bool nativeUi;
+
+  /// Message.
   final String? message;
+
+  /// Url.
   final String? url;
 
   /// Cache Time.
@@ -27036,7 +29487,7 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x36585ea4);
     buffer.writeInt(flags);
     final localMessageCopy = message;
@@ -27063,7 +29514,7 @@ abstract class MessagesMessageEditDataBase extends TlConstructor {
 class MessagesMessageEditData extends MessagesMessageEditDataBase {
   /// Messages Message Edit Data constructor.
   const MessagesMessageEditData({
-    required this.flags,
+    required this.caption,
   }) : super._();
 
   /// Deserialize.
@@ -27078,14 +29529,20 @@ class MessagesMessageEditData extends MessagesMessageEditDataBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: caption,
+    );
 
-  /// caption: bit
-  bool get caption => _bit(flags, 0);
+    return v;
+  }
+
+  /// caption: bit 0 of flags.0?true
+  final bool caption;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x26b5dde6);
     buffer.writeInt(flags);
   }
@@ -27131,7 +29588,7 @@ class InputBotInlineMessageID extends InputBotInlineMessageIDBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x890c3d89);
     buffer.writeInt(dcId);
     buffer.writeLong(id);
@@ -27178,7 +29635,7 @@ class InputBotInlineMessageID64 extends InputBotInlineMessageIDBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6d915d7);
     buffer.writeInt(dcId);
     buffer.writeLong(ownerId);
@@ -27222,7 +29679,7 @@ class InlineBotSwitchPM extends InlineBotSwitchPMBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c20629f);
     buffer.writeString(text);
     buffer.writeString(startParam);
@@ -27279,7 +29736,7 @@ class MessagesPeerDialogs extends MessagesPeerDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3371c354);
     buffer.writeVectorObject(dialogs);
     buffer.writeVectorObject(messages);
@@ -27324,7 +29781,7 @@ class TopPeer extends TopPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xedcdc05b);
     buffer.writeObject(peer);
     buffer.writeDouble(rating);
@@ -27355,7 +29812,7 @@ class TopPeerCategoryBotsPM extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xab661b5b);
   }
 }
@@ -27378,7 +29835,7 @@ class TopPeerCategoryBotsInline extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x148677e2);
   }
 }
@@ -27401,7 +29858,7 @@ class TopPeerCategoryCorrespondents extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0637b7ed);
   }
 }
@@ -27424,7 +29881,7 @@ class TopPeerCategoryGroups extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd17a14a);
   }
 }
@@ -27447,7 +29904,7 @@ class TopPeerCategoryChannels extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x161d9628);
   }
 }
@@ -27470,7 +29927,7 @@ class TopPeerCategoryPhoneCalls extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e76a78c);
   }
 }
@@ -27493,7 +29950,7 @@ class TopPeerCategoryForwardUsers extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa8406ca9);
   }
 }
@@ -27516,7 +29973,7 @@ class TopPeerCategoryForwardChats extends TopPeerCategoryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbeec0f0);
   }
 }
@@ -27561,7 +30018,7 @@ class TopPeerCategoryPeers extends TopPeerCategoryPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfb834291);
     buffer.writeObject(category);
     buffer.writeInt(count);
@@ -27593,7 +30050,7 @@ class ContactsTopPeersNotModified extends ContactsTopPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde266ef5);
   }
 }
@@ -27632,7 +30089,7 @@ class ContactsTopPeers extends ContactsTopPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x70b772a8);
     buffer.writeVectorObject(categories);
     buffer.writeVectorObject(chats);
@@ -27658,7 +30115,7 @@ class ContactsTopPeersDisabled extends ContactsTopPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb52c939d);
   }
 }
@@ -27675,7 +30132,6 @@ abstract class DraftMessageBase extends TlConstructor {
 class DraftMessageEmpty extends DraftMessageBase {
   /// Draft Message Empty constructor.
   const DraftMessageEmpty({
-    required this.flags,
     this.date,
   }) : super._();
 
@@ -27691,12 +30147,20 @@ class DraftMessageEmpty extends DraftMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: date != null,
+    );
+
+    return v;
+  }
+
+  /// Date.
   final DateTime? date;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b0c841a);
     buffer.writeInt(flags);
     final localDateCopy = date;
@@ -27712,7 +30176,8 @@ class DraftMessageEmpty extends DraftMessageBase {
 class DraftMessage extends DraftMessageBase {
   /// Draft Message constructor.
   const DraftMessage({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     this.replyTo,
     required this.message,
     this.entities,
@@ -27738,18 +30203,34 @@ class DraftMessage extends DraftMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: noWebpage,
+      b06: invertMedia,
+      b04: replyTo != null,
+      b03: entities != null,
+      b05: media != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 1);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 6);
+  /// no_webpage: bit 1 of flags.1?true
+  final bool noWebpage;
+
+  /// invert_media: bit 6 of flags.6?true
+  final bool invertMedia;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Media.
   final InputMediaBase? media;
 
   /// Date.
@@ -27757,7 +30238,7 @@ class DraftMessage extends DraftMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3fccf7ef);
     buffer.writeInt(flags);
     final localReplyToCopy = replyTo;
@@ -27807,7 +30288,7 @@ class MessagesFeaturedStickersNotModified extends MessagesFeaturedStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc6dc0c66);
     buffer.writeInt(count);
   }
@@ -27819,7 +30300,7 @@ class MessagesFeaturedStickersNotModified extends MessagesFeaturedStickersBase {
 class MessagesFeaturedStickers extends MessagesFeaturedStickersBase {
   /// Messages Featured Stickers constructor.
   const MessagesFeaturedStickers({
-    required this.flags,
+    required this.premium,
     required this.hash,
     required this.count,
     required this.sets,
@@ -27842,10 +30323,16 @@ class MessagesFeaturedStickers extends MessagesFeaturedStickersBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: premium,
+    );
 
-  /// premium: bit
-  bool get premium => _bit(flags, 0);
+    return v;
+  }
+
+  /// premium: bit 0 of flags.0?true
+  final bool premium;
 
   /// Hash.
   final int hash;
@@ -27861,7 +30348,7 @@ class MessagesFeaturedStickers extends MessagesFeaturedStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbe382906);
     buffer.writeInt(flags);
     buffer.writeLong(hash);
@@ -27895,7 +30382,7 @@ class MessagesRecentStickersNotModified extends MessagesRecentStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0b17f890);
   }
 }
@@ -27939,7 +30426,7 @@ class MessagesRecentStickers extends MessagesRecentStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x88d37c56);
     buffer.writeLong(hash);
     buffer.writeVectorObject(packs);
@@ -27983,7 +30470,7 @@ class MessagesArchivedStickers extends MessagesArchivedStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4fcba9c8);
     buffer.writeInt(count);
     buffer.writeVectorObject(sets);
@@ -28015,7 +30502,7 @@ class MessagesStickerSetInstallResultSuccess
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x38641628);
   }
 }
@@ -28045,7 +30532,7 @@ class MessagesStickerSetInstallResultArchive
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35e410a8);
     buffer.writeVectorObject(sets);
   }
@@ -28086,7 +30573,7 @@ class StickerSetCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6410a5d2);
     buffer.writeObject(set);
     buffer.writeObject(cover);
@@ -28122,7 +30609,7 @@ class StickerSetMultiCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3407e51b);
     buffer.writeObject(set);
     buffer.writeVectorObject(covers);
@@ -28168,7 +30655,7 @@ class StickerSetFullCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x40d13c0e);
     buffer.writeObject(set);
     buffer.writeVectorObject(packs);
@@ -28201,7 +30688,7 @@ class StickerSetNoCovered extends StickerSetCoveredBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77b15d1c);
     buffer.writeObject(set);
   }
@@ -28252,7 +30739,7 @@ class MaskCoords extends MaskCoordsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaed6dbb2);
     buffer.writeInt(n);
     buffer.writeDouble(x);
@@ -28291,7 +30778,7 @@ class InputStickeredMediaPhoto extends InputStickeredMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4a992157);
     buffer.writeObject(id);
   }
@@ -28321,7 +30808,7 @@ class InputStickeredMediaDocument extends InputStickeredMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0438865b);
     buffer.writeObject(id);
   }
@@ -28339,7 +30826,6 @@ abstract class GameBase extends TlConstructor {
 class Game extends GameBase {
   /// Game constructor.
   const Game({
-    required this.flags,
     required this.id,
     required this.accessHash,
     required this.shortName,
@@ -28367,7 +30853,13 @@ class Game extends GameBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: document != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
@@ -28386,11 +30878,13 @@ class Game extends GameBase {
 
   /// Photo.
   final PhotoBase photo;
+
+  /// Document.
   final DocumentBase? document;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdf9653b);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -28441,7 +30935,7 @@ class InputGameID extends InputGameBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x032c3e77);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -28477,7 +30971,7 @@ class InputGameShortName extends InputGameBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc331e80a);
     buffer.writeObject(botId);
     buffer.writeString(shortName);
@@ -28524,7 +31018,7 @@ class HighScore extends HighScoreBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73a379eb);
     buffer.writeInt(pos);
     buffer.writeLong(userId);
@@ -28567,7 +31061,7 @@ class MessagesHighScores extends MessagesHighScoresBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a3bfd99);
     buffer.writeVectorObject(scores);
     buffer.writeVectorObject(users);
@@ -28598,7 +31092,7 @@ class TextEmpty extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdc3d824f);
   }
 }
@@ -28627,7 +31121,7 @@ class TextPlain extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x744694e0);
     buffer.writeString(text);
   }
@@ -28657,7 +31151,7 @@ class TextBold extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6724abc4);
     buffer.writeObject(text);
   }
@@ -28687,7 +31181,7 @@ class TextItalic extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd912a59c);
     buffer.writeObject(text);
   }
@@ -28717,7 +31211,7 @@ class TextUnderline extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc12622c4);
     buffer.writeObject(text);
   }
@@ -28747,7 +31241,7 @@ class TextStrike extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9bf8bb95);
     buffer.writeObject(text);
   }
@@ -28777,7 +31271,7 @@ class TextFixed extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c3f19b9);
     buffer.writeObject(text);
   }
@@ -28817,7 +31311,7 @@ class TextUrl extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c2884c1);
     buffer.writeObject(text);
     buffer.writeString(url);
@@ -28854,7 +31348,7 @@ class TextEmail extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde5a0dd6);
     buffer.writeObject(text);
     buffer.writeString(email);
@@ -28885,7 +31379,7 @@ class TextConcat extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7e6260d7);
     buffer.writeVectorObject(texts);
   }
@@ -28915,7 +31409,7 @@ class TextSubscript extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed6a8504);
     buffer.writeObject(text);
   }
@@ -28945,7 +31439,7 @@ class TextSuperscript extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc7fb5e01);
     buffer.writeObject(text);
   }
@@ -28975,7 +31469,7 @@ class TextMarked extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x034b8621);
     buffer.writeObject(text);
   }
@@ -29010,7 +31504,7 @@ class TextPhone extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ccb966a);
     buffer.writeObject(text);
     buffer.writeString(phone);
@@ -29051,7 +31545,7 @@ class TextImage extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x081ccf4f);
     buffer.writeLong(documentId);
     buffer.writeInt(w);
@@ -29088,7 +31582,7 @@ class TextAnchor extends RichTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35553762);
     buffer.writeObject(text);
     buffer.writeString(name);
@@ -29119,7 +31613,7 @@ class PageBlockUnsupported extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x13567e8a);
   }
 }
@@ -29148,7 +31642,7 @@ class PageBlockTitle extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x70abc3fd);
     buffer.writeObject(text);
   }
@@ -29178,7 +31672,7 @@ class PageBlockSubtitle extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ffa9a1f);
     buffer.writeObject(text);
   }
@@ -29213,7 +31707,7 @@ class PageBlockAuthorDate extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbaafe5e0);
     buffer.writeObject(author);
     buffer.writeDateTime(publishedDate);
@@ -29244,7 +31738,7 @@ class PageBlockHeader extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbfd064ec);
     buffer.writeObject(text);
   }
@@ -29274,7 +31768,7 @@ class PageBlockSubheader extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf12bb6e1);
     buffer.writeObject(text);
   }
@@ -29304,7 +31798,7 @@ class PageBlockParagraph extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x467a0766);
     buffer.writeObject(text);
   }
@@ -29339,7 +31833,7 @@ class PageBlockPreformatted extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc070d93e);
     buffer.writeObject(text);
     buffer.writeString(language);
@@ -29370,7 +31864,7 @@ class PageBlockFooter extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48870999);
     buffer.writeObject(text);
   }
@@ -29394,7 +31888,7 @@ class PageBlockDivider extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb20b188);
   }
 }
@@ -29423,7 +31917,7 @@ class PageBlockAnchor extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xce0d37b0);
     buffer.writeString(name);
   }
@@ -29453,7 +31947,7 @@ class PageBlockList extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe4e88011);
     buffer.writeVectorObject(items);
   }
@@ -29488,7 +31982,7 @@ class PageBlockBlockquote extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x263d7c26);
     buffer.writeObject(text);
     buffer.writeObject(caption);
@@ -29524,7 +32018,7 @@ class PageBlockPullquote extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4f4456d3);
     buffer.writeObject(text);
     buffer.writeObject(caption);
@@ -29537,7 +32031,6 @@ class PageBlockPullquote extends PageBlockBase {
 class PageBlockPhoto extends PageBlockBase {
   /// Page Block Photo constructor.
   const PageBlockPhoto({
-    required this.flags,
     required this.photoId,
     required this.caption,
     this.url,
@@ -29559,19 +32052,29 @@ class PageBlockPhoto extends PageBlockBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: url != null || webpageId != null,
+    );
+
+    return v;
+  }
 
   /// Photo Id.
   final int photoId;
 
   /// Caption.
   final PageCaptionBase caption;
+
+  /// Url.
   final String? url;
+
+  /// Webpage Id.
   final int? webpageId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1759c560);
     buffer.writeInt(flags);
     buffer.writeLong(photoId);
@@ -29593,7 +32096,8 @@ class PageBlockPhoto extends PageBlockBase {
 class PageBlockVideo extends PageBlockBase {
   /// Page Block Video constructor.
   const PageBlockVideo({
-    required this.flags,
+    required this.autoplay,
+    required this.loop,
     required this.videoId,
     required this.caption,
   }) : super._();
@@ -29613,13 +32117,20 @@ class PageBlockVideo extends PageBlockBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: autoplay,
+      b01: loop,
+    );
 
-  /// autoplay: bit
-  bool get autoplay => _bit(flags, 0);
+    return v;
+  }
 
-  /// loop: bit
-  bool get loop => _bit(flags, 1);
+  /// autoplay: bit 0 of flags.0?true
+  final bool autoplay;
+
+  /// loop: bit 1 of flags.1?true
+  final bool loop;
 
   /// Video Id.
   final int videoId;
@@ -29629,7 +32140,7 @@ class PageBlockVideo extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7c8fe7b6);
     buffer.writeInt(flags);
     buffer.writeLong(videoId);
@@ -29661,7 +32172,7 @@ class PageBlockCover extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x39f23300);
     buffer.writeObject(cover);
   }
@@ -29673,7 +32184,8 @@ class PageBlockCover extends PageBlockBase {
 class PageBlockEmbed extends PageBlockBase {
   /// Page Block Embed constructor.
   const PageBlockEmbed({
-    required this.flags,
+    required this.fullWidth,
+    required this.allowScrolling,
     this.url,
     this.html,
     this.posterPhotoId,
@@ -29701,17 +32213,38 @@ class PageBlockEmbed extends PageBlockBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: fullWidth,
+      b03: allowScrolling,
+      b01: url != null,
+      b02: html != null,
+      b04: posterPhotoId != null,
+      b05: w != null || h != null,
+    );
 
-  /// full_width: bit
-  bool get fullWidth => _bit(flags, 0);
+    return v;
+  }
 
-  /// allow_scrolling: bit
-  bool get allowScrolling => _bit(flags, 3);
+  /// full_width: bit 0 of flags.0?true
+  final bool fullWidth;
+
+  /// allow_scrolling: bit 3 of flags.3?true
+  final bool allowScrolling;
+
+  /// Url.
   final String? url;
+
+  /// Html.
   final String? html;
+
+  /// Poster Photo Id.
   final int? posterPhotoId;
+
+  /// W.
   final int? w;
+
+  /// H.
   final int? h;
 
   /// Caption.
@@ -29719,7 +32252,7 @@ class PageBlockEmbed extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa8718dc5);
     buffer.writeInt(flags);
     final localUrlCopy = url;
@@ -29800,7 +32333,7 @@ class PageBlockEmbedPost extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf259a80b);
     buffer.writeString(url);
     buffer.writeLong(webpageId);
@@ -29841,7 +32374,7 @@ class PageBlockCollage extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x65a0fa4d);
     buffer.writeVectorObject(items);
     buffer.writeObject(caption);
@@ -29877,7 +32410,7 @@ class PageBlockSlideshow extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x031f9590);
     buffer.writeVectorObject(items);
     buffer.writeObject(caption);
@@ -29908,7 +32441,7 @@ class PageBlockChannel extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef1751b5);
     buffer.writeObject(channel);
   }
@@ -29943,7 +32476,7 @@ class PageBlockAudio extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x804361ea);
     buffer.writeLong(audioId);
     buffer.writeObject(caption);
@@ -29974,7 +32507,7 @@ class PageBlockKicker extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e148390);
     buffer.writeObject(text);
   }
@@ -29986,7 +32519,8 @@ class PageBlockKicker extends PageBlockBase {
 class PageBlockTable extends PageBlockBase {
   /// Page Block Table constructor.
   const PageBlockTable({
-    required this.flags,
+    required this.bordered,
+    required this.striped,
     required this.title,
     required this.rows,
   }) : super._();
@@ -30006,13 +32540,20 @@ class PageBlockTable extends PageBlockBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: bordered,
+      b01: striped,
+    );
 
-  /// bordered: bit
-  bool get bordered => _bit(flags, 0);
+    return v;
+  }
 
-  /// striped: bit
-  bool get striped => _bit(flags, 1);
+  /// bordered: bit 0 of flags.0?true
+  final bool bordered;
+
+  /// striped: bit 1 of flags.1?true
+  final bool striped;
 
   /// Title.
   final RichTextBase title;
@@ -30022,7 +32563,7 @@ class PageBlockTable extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbf4dea82);
     buffer.writeInt(flags);
     buffer.writeObject(title);
@@ -30054,7 +32595,7 @@ class PageBlockOrderedList extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a8ae1e1);
     buffer.writeVectorObject(items);
   }
@@ -30066,7 +32607,7 @@ class PageBlockOrderedList extends PageBlockBase {
 class PageBlockDetails extends PageBlockBase {
   /// Page Block Details constructor.
   const PageBlockDetails({
-    required this.flags,
+    required this.open,
     required this.blocks,
     required this.title,
   }) : super._();
@@ -30085,10 +32626,16 @@ class PageBlockDetails extends PageBlockBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: open,
+    );
 
-  /// open: bit
-  bool get open => _bit(flags, 0);
+    return v;
+  }
+
+  /// open: bit 0 of flags.0?true
+  final bool open;
 
   /// Blocks.
   final List<PageBlockBase> blocks;
@@ -30098,7 +32645,7 @@ class PageBlockDetails extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x76768bed);
     buffer.writeInt(flags);
     buffer.writeVectorObject(blocks);
@@ -30135,7 +32682,7 @@ class PageBlockRelatedArticles extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x16115a96);
     buffer.writeObject(title);
     buffer.writeVectorObject(articles);
@@ -30186,7 +32733,7 @@ class PageBlockMap extends PageBlockBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa44f3ef6);
     buffer.writeObject(geo);
     buffer.writeInt(zoom);
@@ -30220,7 +32767,7 @@ class PhoneCallDiscardReasonMissed extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x85e42301);
   }
 }
@@ -30243,7 +32790,7 @@ class PhoneCallDiscardReasonDisconnect extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe095c1a0);
   }
 }
@@ -30266,7 +32813,7 @@ class PhoneCallDiscardReasonHangup extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57adc690);
   }
 }
@@ -30289,7 +32836,7 @@ class PhoneCallDiscardReasonBusy extends PhoneCallDiscardReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfaf7e8c9);
   }
 }
@@ -30324,7 +32871,7 @@ class DataJSON extends DataJSONBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7d748d04);
     buffer.writeString(data);
   }
@@ -30365,7 +32912,7 @@ class LabeledPrice extends LabeledPriceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcb296bf8);
     buffer.writeString(label);
     buffer.writeLong(amount);
@@ -30384,7 +32931,15 @@ abstract class InvoiceBase extends TlConstructor {
 class Invoice extends InvoiceBase {
   /// Invoice constructor.
   const Invoice({
-    required this.flags,
+    required this.test,
+    required this.nameRequested,
+    required this.phoneRequested,
+    required this.emailRequested,
+    required this.shippingAddressRequested,
+    required this.flexible,
+    required this.phoneToProvider,
+    required this.emailToProvider,
+    required this.recurring,
     required this.currency,
     required this.prices,
     this.maxTipAmount,
@@ -30417,47 +32972,69 @@ class Invoice extends InvoiceBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: test,
+      b01: nameRequested,
+      b02: phoneRequested,
+      b03: emailRequested,
+      b04: shippingAddressRequested,
+      b05: flexible,
+      b06: phoneToProvider,
+      b07: emailToProvider,
+      b09: recurring,
+      b08: maxTipAmount != null || suggestedTipAmounts != null,
+      b10: termsUrl != null,
+    );
 
-  /// test: bit
-  bool get test => _bit(flags, 0);
+    return v;
+  }
 
-  /// name_requested: bit
-  bool get nameRequested => _bit(flags, 1);
+  /// test: bit 0 of flags.0?true
+  final bool test;
 
-  /// phone_requested: bit
-  bool get phoneRequested => _bit(flags, 2);
+  /// name_requested: bit 1 of flags.1?true
+  final bool nameRequested;
 
-  /// email_requested: bit
-  bool get emailRequested => _bit(flags, 3);
+  /// phone_requested: bit 2 of flags.2?true
+  final bool phoneRequested;
 
-  /// shipping_address_requested: bit
-  bool get shippingAddressRequested => _bit(flags, 4);
+  /// email_requested: bit 3 of flags.3?true
+  final bool emailRequested;
 
-  /// flexible: bit
-  bool get flexible => _bit(flags, 5);
+  /// shipping_address_requested: bit 4 of flags.4?true
+  final bool shippingAddressRequested;
 
-  /// phone_to_provider: bit
-  bool get phoneToProvider => _bit(flags, 6);
+  /// flexible: bit 5 of flags.5?true
+  final bool flexible;
 
-  /// email_to_provider: bit
-  bool get emailToProvider => _bit(flags, 7);
+  /// phone_to_provider: bit 6 of flags.6?true
+  final bool phoneToProvider;
 
-  /// recurring: bit
-  bool get recurring => _bit(flags, 9);
+  /// email_to_provider: bit 7 of flags.7?true
+  final bool emailToProvider;
+
+  /// recurring: bit 9 of flags.9?true
+  final bool recurring;
 
   /// Currency.
   final String currency;
 
   /// Prices.
   final List<LabeledPriceBase> prices;
+
+  /// Max Tip Amount.
   final int? maxTipAmount;
+
+  /// Suggested Tip Amounts.
   final List<int>? suggestedTipAmounts;
+
+  /// Terms Url.
   final String? termsUrl;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5db95a15);
     buffer.writeInt(flags);
     buffer.writeString(currency);
@@ -30512,7 +33089,7 @@ class PaymentCharge extends PaymentChargeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea02c27e);
     buffer.writeString(id);
     buffer.writeString(providerChargeId);
@@ -30574,7 +33151,7 @@ class PostAddress extends PostAddressBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e8caaeb);
     buffer.writeString(streetLine1);
     buffer.writeString(streetLine2);
@@ -30597,7 +33174,6 @@ abstract class PaymentRequestedInfoBase extends TlConstructor {
 class PaymentRequestedInfo extends PaymentRequestedInfoBase {
   /// Payment Requested Info constructor.
   const PaymentRequestedInfo({
-    required this.flags,
     this.name,
     this.phone,
     this.email,
@@ -30619,15 +33195,32 @@ class PaymentRequestedInfo extends PaymentRequestedInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: name != null,
+      b01: phone != null,
+      b02: email != null,
+      b03: shippingAddress != null,
+    );
+
+    return v;
+  }
+
+  /// Name.
   final String? name;
+
+  /// Phone.
   final String? phone;
+
+  /// Email.
   final String? email;
+
+  /// Shipping Address.
   final PostAddressBase? shippingAddress;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x909c3f94);
     buffer.writeInt(flags);
     final localNameCopy = name;
@@ -30684,7 +33277,7 @@ class PaymentSavedCredentialsCard extends PaymentSavedCredentialsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcdc27a1f);
     buffer.writeString(id);
     buffer.writeString(title);
@@ -30741,7 +33334,7 @@ class WebDocument extends WebDocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1c570ed1);
     buffer.writeString(url);
     buffer.writeLong(accessHash);
@@ -30790,7 +33383,7 @@ class WebDocumentNoProxy extends WebDocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf9c8bcc6);
     buffer.writeString(url);
     buffer.writeInt(size);
@@ -30844,7 +33437,7 @@ class InputWebDocument extends InputWebDocumentBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9bed434d);
     buffer.writeString(url);
     buffer.writeInt(size);
@@ -30888,7 +33481,7 @@ class InputWebFileLocation extends InputWebFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc239d686);
     buffer.writeString(url);
     buffer.writeLong(accessHash);
@@ -30944,7 +33537,7 @@ class InputWebFileGeoPointLocation extends InputWebFileLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9f2221c9);
     buffer.writeObject(geoPoint);
     buffer.writeLong(accessHash);
@@ -30961,7 +33554,7 @@ class InputWebFileGeoPointLocation extends InputWebFileLocationBase {
 class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
   /// Input Web File Audio Album Thumb Location constructor.
   const InputWebFileAudioAlbumThumbLocation({
-    required this.flags,
+    required this.small,
     this.document,
     this.title,
     this.performer,
@@ -30982,17 +33575,31 @@ class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: small,
+      b00: document != null,
+      b01: title != null || performer != null,
+    );
 
-  /// small: bit
-  bool get small => _bit(flags, 2);
+    return v;
+  }
+
+  /// small: bit 2 of flags.2?true
+  final bool small;
+
+  /// Document.
   final InputDocumentBase? document;
+
+  /// Title.
   final String? title;
+
+  /// Performer.
   final String? performer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf46fe924);
     buffer.writeInt(flags);
     final localDocumentCopy = document;
@@ -31060,7 +33667,7 @@ class UploadWebFile extends UploadWebFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x21e753bc);
     buffer.writeInt(size);
     buffer.writeString(mimeType);
@@ -31082,7 +33689,8 @@ abstract class PaymentsPaymentFormBase extends TlConstructor {
 class PaymentsPaymentForm extends PaymentsPaymentFormBase {
   /// Payments Payment Form constructor.
   const PaymentsPaymentForm({
-    required this.flags,
+    required this.canSaveCredentials,
+    required this.passwordMissing,
     required this.formId,
     required this.botId,
     required this.title,
@@ -31126,13 +33734,25 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: canSaveCredentials,
+      b03: passwordMissing,
+      b05: photo != null,
+      b04: nativeProvider != null || nativeParams != null,
+      b06: additionalMethods != null,
+      b00: savedInfo != null,
+      b01: savedCredentials != null,
+    );
 
-  /// can_save_credentials: bit
-  bool get canSaveCredentials => _bit(flags, 2);
+    return v;
+  }
 
-  /// password_missing: bit
-  bool get passwordMissing => _bit(flags, 3);
+  /// can_save_credentials: bit 2 of flags.2?true
+  final bool canSaveCredentials;
+
+  /// password_missing: bit 3 of flags.3?true
+  final bool passwordMissing;
 
   /// Form Id.
   final int formId;
@@ -31145,6 +33765,8 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
 
   /// Description.
   final String description;
+
+  /// Photo.
   final WebDocumentBase? photo;
 
   /// Invoice.
@@ -31155,10 +33777,20 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
 
   /// Url.
   final String url;
+
+  /// Native Provider.
   final String? nativeProvider;
+
+  /// Native Params.
   final DataJSONBase? nativeParams;
+
+  /// Additional Methods.
   final List<PaymentFormMethodBase>? additionalMethods;
+
+  /// Saved Info.
   final PaymentRequestedInfoBase? savedInfo;
+
+  /// Saved Credentials.
   final List<PaymentSavedCredentialsBase>? savedCredentials;
 
   /// Users.
@@ -31166,7 +33798,7 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0058751);
     buffer.writeInt(flags);
     buffer.writeLong(formId);
@@ -31217,7 +33849,6 @@ class PaymentsValidatedRequestedInfo
     extends PaymentsValidatedRequestedInfoBase {
   /// Payments Validated Requested Info constructor.
   const PaymentsValidatedRequestedInfo({
-    required this.flags,
     this.id,
     this.shippingOptions,
   }) : super._();
@@ -31235,13 +33866,24 @@ class PaymentsValidatedRequestedInfo
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: id != null,
+      b01: shippingOptions != null,
+    );
+
+    return v;
+  }
+
+  /// Id.
   final String? id;
+
+  /// Shipping Options.
   final List<ShippingOptionBase>? shippingOptions;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd1451883);
     buffer.writeInt(flags);
     final localIdCopy = id;
@@ -31285,7 +33927,7 @@ class PaymentsPaymentResult extends PaymentsPaymentResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4e5f810d);
     buffer.writeObject(updates);
   }
@@ -31315,7 +33957,7 @@ class PaymentsPaymentVerificationNeeded extends PaymentsPaymentResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd8411139);
     buffer.writeString(url);
   }
@@ -31333,7 +33975,6 @@ abstract class PaymentsPaymentReceiptBase extends TlConstructor {
 class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
   /// Payments Payment Receipt constructor.
   const PaymentsPaymentReceipt({
-    required this.flags,
     required this.date,
     required this.botId,
     required this.providerId,
@@ -31375,7 +34016,16 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: photo != null,
+      b00: info != null,
+      b01: shipping != null,
+      b03: tipAmount != null,
+    );
+
+    return v;
+  }
 
   /// Date.
   final DateTime date;
@@ -31391,12 +34041,20 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
 
   /// Description.
   final String description;
+
+  /// Photo.
   final WebDocumentBase? photo;
 
   /// Invoice.
   final InvoiceBase invoice;
+
+  /// Info.
   final PaymentRequestedInfoBase? info;
+
+  /// Shipping.
   final ShippingOptionBase? shipping;
+
+  /// Tip Amount.
   final int? tipAmount;
 
   /// Currency.
@@ -31413,7 +34071,7 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x70c4fe03);
     buffer.writeInt(flags);
     buffer.writeDateTime(date);
@@ -31457,7 +34115,7 @@ abstract class PaymentsSavedInfoBase extends TlConstructor {
 class PaymentsSavedInfo extends PaymentsSavedInfoBase {
   /// Payments Saved Info constructor.
   const PaymentsSavedInfo({
-    required this.flags,
+    required this.hasSavedCredentials,
     this.savedInfo,
   }) : super._();
 
@@ -31474,15 +34132,24 @@ class PaymentsSavedInfo extends PaymentsSavedInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: hasSavedCredentials,
+      b00: savedInfo != null,
+    );
 
-  /// has_saved_credentials: bit
-  bool get hasSavedCredentials => _bit(flags, 1);
+    return v;
+  }
+
+  /// has_saved_credentials: bit 1 of flags.1?true
+  final bool hasSavedCredentials;
+
+  /// Saved Info.
   final PaymentRequestedInfoBase? savedInfo;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfb8fe43c);
     buffer.writeInt(flags);
     final localSavedInfoCopy = savedInfo;
@@ -31527,7 +34194,7 @@ class InputPaymentCredentialsSaved extends InputPaymentCredentialsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc10eb2cf);
     buffer.writeString(id);
     buffer.writeBytes(tmpPassword);
@@ -31540,7 +34207,7 @@ class InputPaymentCredentialsSaved extends InputPaymentCredentialsBase {
 class InputPaymentCredentials extends InputPaymentCredentialsBase {
   /// Input Payment Credentials constructor.
   const InputPaymentCredentials({
-    required this.flags,
+    required this.save,
     required this.data,
   }) : super._();
 
@@ -31557,17 +34224,23 @@ class InputPaymentCredentials extends InputPaymentCredentialsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: save,
+    );
 
-  /// save: bit
-  bool get save => _bit(flags, 0);
+    return v;
+  }
+
+  /// save: bit 0 of flags.0?true
+  final bool save;
 
   /// Data.
   final DataJSONBase data;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3417d728);
     buffer.writeInt(flags);
     buffer.writeObject(data);
@@ -31598,7 +34271,7 @@ class InputPaymentCredentialsApplePay extends InputPaymentCredentialsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0aa1c39f);
     buffer.writeObject(paymentData);
   }
@@ -31628,7 +34301,7 @@ class InputPaymentCredentialsGooglePay extends InputPaymentCredentialsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ac32801);
     buffer.writeObject(paymentToken);
   }
@@ -31669,7 +34342,7 @@ class AccountTmpPassword extends AccountTmpPasswordBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb64fd34);
     buffer.writeBytes(tmpPassword);
     buffer.writeInt(validUntil);
@@ -31716,7 +34389,7 @@ class ShippingOption extends ShippingOptionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6213cdf);
     buffer.writeString(id);
     buffer.writeString(title);
@@ -31736,7 +34409,6 @@ abstract class InputStickerSetItemBase extends TlConstructor {
 class InputStickerSetItem extends InputStickerSetItemBase {
   /// Input Sticker Set Item constructor.
   const InputStickerSetItem({
-    required this.flags,
     required this.document,
     required this.emoji,
     this.maskCoords,
@@ -31758,19 +34430,30 @@ class InputStickerSetItem extends InputStickerSetItemBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: maskCoords != null,
+      b01: keywords != null,
+    );
+
+    return v;
+  }
 
   /// Document.
   final InputDocumentBase document;
 
   /// Emoji.
   final String emoji;
+
+  /// Mask Coords.
   final MaskCoordsBase? maskCoords;
+
+  /// Keywords.
   final String? keywords;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x32da9e9c);
     buffer.writeInt(flags);
     buffer.writeObject(document);
@@ -31821,7 +34504,7 @@ class InputPhoneCall extends InputPhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e36fded);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -31858,7 +34541,7 @@ class PhoneCallEmpty extends PhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5366c915);
     buffer.writeLong(id);
   }
@@ -31870,7 +34553,7 @@ class PhoneCallEmpty extends PhoneCallBase {
 class PhoneCallWaiting extends PhoneCallBase {
   /// Phone Call Waiting constructor.
   const PhoneCallWaiting({
-    required this.flags,
+    required this.video,
     required this.id,
     required this.accessHash,
     required this.date,
@@ -31899,10 +34582,17 @@ class PhoneCallWaiting extends PhoneCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b06: video,
+      b00: receiveDate != null,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+    return v;
+  }
+
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
   /// Id.
   final int id;
@@ -31921,11 +34611,13 @@ class PhoneCallWaiting extends PhoneCallBase {
 
   /// Protocol.
   final PhoneCallProtocolBase protocol;
+
+  /// Receive Date.
   final DateTime? receiveDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc5226f17);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -31947,7 +34639,7 @@ class PhoneCallWaiting extends PhoneCallBase {
 class PhoneCallRequested extends PhoneCallBase {
   /// Phone Call Requested constructor.
   const PhoneCallRequested({
-    required this.flags,
+    required this.video,
     required this.id,
     required this.accessHash,
     required this.date,
@@ -31976,10 +34668,16 @@ class PhoneCallRequested extends PhoneCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b06: video,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+    return v;
+  }
+
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
   /// Id.
   final int id;
@@ -32004,7 +34702,7 @@ class PhoneCallRequested extends PhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x14b0ed0c);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32023,7 +34721,7 @@ class PhoneCallRequested extends PhoneCallBase {
 class PhoneCallAccepted extends PhoneCallBase {
   /// Phone Call Accepted constructor.
   const PhoneCallAccepted({
-    required this.flags,
+    required this.video,
     required this.id,
     required this.accessHash,
     required this.date,
@@ -32052,10 +34750,16 @@ class PhoneCallAccepted extends PhoneCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b06: video,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+    return v;
+  }
+
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
   /// Id.
   final int id;
@@ -32080,7 +34784,7 @@ class PhoneCallAccepted extends PhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3660c311);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32099,7 +34803,8 @@ class PhoneCallAccepted extends PhoneCallBase {
 class PhoneCall extends PhoneCallBase {
   /// Phone Call constructor.
   const PhoneCall({
-    required this.flags,
+    required this.p2pAllowed,
+    required this.video,
     required this.id,
     required this.accessHash,
     required this.date,
@@ -32135,13 +34840,20 @@ class PhoneCall extends PhoneCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: p2pAllowed,
+      b06: video,
+    );
 
-  /// p2p_allowed: bit
-  bool get p2pAllowed => _bit(flags, 5);
+    return v;
+  }
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+  /// p2p_allowed: bit 5 of flags.5?true
+  final bool p2pAllowed;
+
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
   /// Id.
   final int id;
@@ -32175,7 +34887,7 @@ class PhoneCall extends PhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x967f7c67);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32197,7 +34909,9 @@ class PhoneCall extends PhoneCallBase {
 class PhoneCallDiscarded extends PhoneCallBase {
   /// Phone Call Discarded constructor.
   const PhoneCallDiscarded({
-    required this.flags,
+    required this.needRating,
+    required this.needDebug,
+    required this.video,
     required this.id,
     this.reason,
     this.duration,
@@ -32220,25 +34934,39 @@ class PhoneCallDiscarded extends PhoneCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: needRating,
+      b03: needDebug,
+      b06: video,
+      b00: reason != null,
+      b01: duration != null,
+    );
 
-  /// need_rating: bit
-  bool get needRating => _bit(flags, 2);
+    return v;
+  }
 
-  /// need_debug: bit
-  bool get needDebug => _bit(flags, 3);
+  /// need_rating: bit 2 of flags.2?true
+  final bool needRating;
 
-  /// video: bit
-  bool get video => _bit(flags, 6);
+  /// need_debug: bit 3 of flags.3?true
+  final bool needDebug;
+
+  /// video: bit 6 of flags.6?true
+  final bool video;
 
   /// Id.
   final int id;
+
+  /// Reason.
   final PhoneCallDiscardReasonBase? reason;
+
+  /// Duration.
   final int? duration;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50ca4de1);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32265,7 +34993,7 @@ abstract class PhoneConnectionBase extends TlConstructor {
 class PhoneConnection extends PhoneConnectionBase {
   /// Phone Connection constructor.
   const PhoneConnection({
-    required this.flags,
+    required this.tcp,
     required this.id,
     required this.ip,
     required this.ipv6,
@@ -32290,10 +35018,16 @@ class PhoneConnection extends PhoneConnectionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: tcp,
+    );
 
-  /// tcp: bit
-  bool get tcp => _bit(flags, 0);
+    return v;
+  }
+
+  /// tcp: bit 0 of flags.0?true
+  final bool tcp;
 
   /// Id.
   final int id;
@@ -32312,7 +35046,7 @@ class PhoneConnection extends PhoneConnectionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9cc123c7);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32329,7 +35063,8 @@ class PhoneConnection extends PhoneConnectionBase {
 class PhoneConnectionWebrtc extends PhoneConnectionBase {
   /// Phone Connection Webrtc constructor.
   const PhoneConnectionWebrtc({
-    required this.flags,
+    required this.turn,
+    required this.stun,
     required this.id,
     required this.ip,
     required this.ipv6,
@@ -32357,13 +35092,20 @@ class PhoneConnectionWebrtc extends PhoneConnectionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: turn,
+      b01: stun,
+    );
 
-  /// turn: bit
-  bool get turn => _bit(flags, 0);
+    return v;
+  }
 
-  /// stun: bit
-  bool get stun => _bit(flags, 1);
+  /// turn: bit 0 of flags.0?true
+  final bool turn;
+
+  /// stun: bit 1 of flags.1?true
+  final bool stun;
 
   /// Id.
   final int id;
@@ -32385,7 +35127,7 @@ class PhoneConnectionWebrtc extends PhoneConnectionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x635fe375);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -32409,7 +35151,8 @@ abstract class PhoneCallProtocolBase extends TlConstructor {
 class PhoneCallProtocol extends PhoneCallProtocolBase {
   /// Phone Call Protocol constructor.
   const PhoneCallProtocol({
-    required this.flags,
+    required this.udpP2p,
+    required this.udpReflector,
     required this.minLayer,
     required this.maxLayer,
     required this.libraryVersions,
@@ -32431,13 +35174,20 @@ class PhoneCallProtocol extends PhoneCallProtocolBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: udpP2p,
+      b01: udpReflector,
+    );
 
-  /// udp_p2p: bit
-  bool get udpP2p => _bit(flags, 0);
+    return v;
+  }
 
-  /// udp_reflector: bit
-  bool get udpReflector => _bit(flags, 1);
+  /// udp_p2p: bit 0 of flags.0?true
+  final bool udpP2p;
+
+  /// udp_reflector: bit 1 of flags.1?true
+  final bool udpReflector;
 
   /// Min Layer.
   final int minLayer;
@@ -32450,7 +35200,7 @@ class PhoneCallProtocol extends PhoneCallProtocolBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfc878fc8);
     buffer.writeInt(flags);
     buffer.writeInt(minLayer);
@@ -32494,7 +35244,7 @@ class PhonePhoneCall extends PhonePhoneCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xec82e140);
     buffer.writeObject(phoneCall);
     buffer.writeVectorObject(users);
@@ -32531,7 +35281,7 @@ class UploadCdnFileReuploadNeeded extends UploadCdnFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeea8e46e);
     buffer.writeBytes(requestToken);
   }
@@ -32561,7 +35311,7 @@ class UploadCdnFile extends UploadCdnFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa99fca4f);
     buffer.writeBytes(bytes);
   }
@@ -32602,7 +35352,7 @@ class CdnPublicKey extends CdnPublicKeyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc982eaba);
     buffer.writeInt(dcId);
     buffer.writeString(publicKey);
@@ -32639,7 +35389,7 @@ class CdnConfig extends CdnConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5725e40a);
     buffer.writeVectorObject(publicKeys);
   }
@@ -32680,7 +35430,7 @@ class LangPackString extends LangPackStringBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcad181f6);
     buffer.writeString(key);
     buffer.writeString(value);
@@ -32693,7 +35443,6 @@ class LangPackString extends LangPackStringBase {
 class LangPackStringPluralized extends LangPackStringBase {
   /// Lang Pack String Pluralized constructor.
   const LangPackStringPluralized({
-    required this.flags,
     required this.key,
     this.zeroValue,
     this.oneValue,
@@ -32721,14 +35470,34 @@ class LangPackStringPluralized extends LangPackStringBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: zeroValue != null,
+      b01: oneValue != null,
+      b02: twoValue != null,
+      b03: fewValue != null,
+      b04: manyValue != null,
+    );
+
+    return v;
+  }
 
   /// Key.
   final String key;
+
+  /// Zero Value.
   final String? zeroValue;
+
+  /// One Value.
   final String? oneValue;
+
+  /// Two Value.
   final String? twoValue;
+
+  /// Few Value.
   final String? fewValue;
+
+  /// Many Value.
   final String? manyValue;
 
   /// Other Value.
@@ -32736,7 +35505,7 @@ class LangPackStringPluralized extends LangPackStringBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c47ac9f);
     buffer.writeInt(flags);
     buffer.writeString(key);
@@ -32788,7 +35557,7 @@ class LangPackStringDeleted extends LangPackStringBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2979eeb2);
     buffer.writeString(key);
   }
@@ -32839,7 +35608,7 @@ class LangPackDifference extends LangPackDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf385c1f6);
     buffer.writeString(langCode);
     buffer.writeInt(fromVersion);
@@ -32860,7 +35629,9 @@ abstract class LangPackLanguageBase extends TlConstructor {
 class LangPackLanguage extends LangPackLanguageBase {
   /// Lang Pack Language constructor.
   const LangPackLanguage({
-    required this.flags,
+    required this.official,
+    required this.rtl,
+    required this.beta,
     required this.name,
     required this.nativeName,
     required this.langCode,
@@ -32893,16 +35664,25 @@ class LangPackLanguage extends LangPackLanguageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: official,
+      b02: rtl,
+      b03: beta,
+      b01: baseLangCode != null,
+    );
 
-  /// official: bit
-  bool get official => _bit(flags, 0);
+    return v;
+  }
 
-  /// rtl: bit
-  bool get rtl => _bit(flags, 2);
+  /// official: bit 0 of flags.0?true
+  final bool official;
 
-  /// beta: bit
-  bool get beta => _bit(flags, 3);
+  /// rtl: bit 2 of flags.2?true
+  final bool rtl;
+
+  /// beta: bit 3 of flags.3?true
+  final bool beta;
 
   /// Name.
   final String name;
@@ -32912,6 +35692,8 @@ class LangPackLanguage extends LangPackLanguageBase {
 
   /// Lang Code.
   final String langCode;
+
+  /// Base Lang Code.
   final String? baseLangCode;
 
   /// Plural Code.
@@ -32928,7 +35710,7 @@ class LangPackLanguage extends LangPackLanguageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeeca5ce3);
     buffer.writeInt(flags);
     buffer.writeString(name);
@@ -32981,7 +35763,7 @@ class ChannelAdminLogEventActionChangeTitle
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe6dfb825);
     buffer.writeString(prevValue);
     buffer.writeString(newValue);
@@ -33018,7 +35800,7 @@ class ChannelAdminLogEventActionChangeAbout
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x55188a2e);
     buffer.writeString(prevValue);
     buffer.writeString(newValue);
@@ -33056,7 +35838,7 @@ class ChannelAdminLogEventActionChangeUsername
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a4afc38);
     buffer.writeString(prevValue);
     buffer.writeString(newValue);
@@ -33093,7 +35875,7 @@ class ChannelAdminLogEventActionChangePhoto
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x434bd2af);
     buffer.writeObject(prevPhoto);
     buffer.writeObject(newPhoto);
@@ -33126,7 +35908,7 @@ class ChannelAdminLogEventActionToggleInvites
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b7907ae);
     buffer.writeBool(newValue);
   }
@@ -33158,7 +35940,7 @@ class ChannelAdminLogEventActionToggleSignatures
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x26ae0971);
     buffer.writeBool(newValue);
   }
@@ -33189,7 +35971,7 @@ class ChannelAdminLogEventActionUpdatePinned
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe9e82c18);
     buffer.writeObject(message);
   }
@@ -33225,7 +36007,7 @@ class ChannelAdminLogEventActionEditMessage
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x709b2405);
     buffer.writeObject(prevMessage);
     buffer.writeObject(newMessage);
@@ -33258,7 +36040,7 @@ class ChannelAdminLogEventActionDeleteMessage
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x42e047bb);
     buffer.writeObject(message);
   }
@@ -33284,7 +36066,7 @@ class ChannelAdminLogEventActionParticipantJoin
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x183040d3);
   }
 }
@@ -33309,7 +36091,7 @@ class ChannelAdminLogEventActionParticipantLeave
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf89777f2);
   }
 }
@@ -33340,7 +36122,7 @@ class ChannelAdminLogEventActionParticipantInvite
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe31c34d8);
     buffer.writeObject(participant);
   }
@@ -33377,7 +36159,7 @@ class ChannelAdminLogEventActionParticipantToggleBan
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe6d83d7e);
     buffer.writeObject(prevParticipant);
     buffer.writeObject(newParticipant);
@@ -33415,7 +36197,7 @@ class ChannelAdminLogEventActionParticipantToggleAdmin
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd5676710);
     buffer.writeObject(prevParticipant);
     buffer.writeObject(newParticipant);
@@ -33453,7 +36235,7 @@ class ChannelAdminLogEventActionChangeStickerSet
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb1c3caa7);
     buffer.writeObject(prevStickerset);
     buffer.writeObject(newStickerset);
@@ -33486,7 +36268,7 @@ class ChannelAdminLogEventActionTogglePreHistoryHidden
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5f5c95f1);
     buffer.writeBool(newValue);
   }
@@ -33523,7 +36305,7 @@ class ChannelAdminLogEventActionDefaultBannedRights
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2df5fc0a);
     buffer.writeObject(prevBannedRights);
     buffer.writeObject(newBannedRights);
@@ -33555,7 +36337,7 @@ class ChannelAdminLogEventActionStopPoll
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8f079643);
     buffer.writeObject(message);
   }
@@ -33592,7 +36374,7 @@ class ChannelAdminLogEventActionChangeLinkedChat
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x050c7ac8);
     buffer.writeLong(prevValue);
     buffer.writeLong(newValue);
@@ -33630,7 +36412,7 @@ class ChannelAdminLogEventActionChangeLocation
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0e6b76ae);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -33668,7 +36450,7 @@ class ChannelAdminLogEventActionToggleSlowMode
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x53909779);
     buffer.writeInt(prevValue);
     buffer.writeInt(newValue);
@@ -33701,7 +36483,7 @@ class ChannelAdminLogEventActionStartGroupCall
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x23209745);
     buffer.writeObject(call);
   }
@@ -33733,7 +36515,7 @@ class ChannelAdminLogEventActionDiscardGroupCall
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb9f9140);
     buffer.writeObject(call);
   }
@@ -33765,7 +36547,7 @@ class ChannelAdminLogEventActionParticipantMute
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf92424d2);
     buffer.writeObject(participant);
   }
@@ -33797,7 +36579,7 @@ class ChannelAdminLogEventActionParticipantUnmute
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe64429c0);
     buffer.writeObject(participant);
   }
@@ -33829,7 +36611,7 @@ class ChannelAdminLogEventActionToggleGroupCallSetting
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56d6a247);
     buffer.writeBool(joinMuted);
   }
@@ -33842,7 +36624,7 @@ class ChannelAdminLogEventActionParticipantJoinByInvite
     extends ChannelAdminLogEventActionBase {
   /// Channel Admin Log Event Action Participant Join By Invite constructor.
   const ChannelAdminLogEventActionParticipantJoinByInvite({
-    required this.flags,
+    required this.viaChatlist,
     required this.invite,
   }) : super._();
 
@@ -33860,17 +36642,23 @@ class ChannelAdminLogEventActionParticipantJoinByInvite
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: viaChatlist,
+    );
 
-  /// via_chatlist: bit
-  bool get viaChatlist => _bit(flags, 0);
+    return v;
+  }
+
+  /// via_chatlist: bit 0 of flags.0?true
+  final bool viaChatlist;
 
   /// Invite.
   final ExportedChatInviteBase invite;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfe9fc158);
     buffer.writeInt(flags);
     buffer.writeObject(invite);
@@ -33903,7 +36691,7 @@ class ChannelAdminLogEventActionExportedInviteDelete
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5a50fca4);
     buffer.writeObject(invite);
   }
@@ -33935,7 +36723,7 @@ class ChannelAdminLogEventActionExportedInviteRevoke
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x410a134e);
     buffer.writeObject(invite);
   }
@@ -33972,7 +36760,7 @@ class ChannelAdminLogEventActionExportedInviteEdit
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe90ebb59);
     buffer.writeObject(prevInvite);
     buffer.writeObject(newInvite);
@@ -34005,7 +36793,7 @@ class ChannelAdminLogEventActionParticipantVolume
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3e7f6847);
     buffer.writeObject(participant);
   }
@@ -34042,7 +36830,7 @@ class ChannelAdminLogEventActionChangeHistoryTTL
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6e941a38);
     buffer.writeInt(prevValue);
     buffer.writeInt(newValue);
@@ -34080,7 +36868,7 @@ class ChannelAdminLogEventActionParticipantJoinByRequest
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xafb6144a);
     buffer.writeObject(invite);
     buffer.writeLong(approvedBy);
@@ -34113,7 +36901,7 @@ class ChannelAdminLogEventActionToggleNoForwards
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcb2ac766);
     buffer.writeBool(newValue);
   }
@@ -34144,7 +36932,7 @@ class ChannelAdminLogEventActionSendMessage
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x278f2868);
     buffer.writeObject(message);
   }
@@ -34181,7 +36969,7 @@ class ChannelAdminLogEventActionChangeAvailableReactions
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbe4e0ef8);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -34219,7 +37007,7 @@ class ChannelAdminLogEventActionChangeUsernames
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf04fb3a9);
     buffer.writeVectorString(prevValue);
     buffer.writeVectorString(newValue);
@@ -34251,7 +37039,7 @@ class ChannelAdminLogEventActionToggleForum
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x02cc6383);
     buffer.writeBool(newValue);
   }
@@ -34282,7 +37070,7 @@ class ChannelAdminLogEventActionCreateTopic
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x58707d28);
     buffer.writeObject(topic);
   }
@@ -34318,7 +37106,7 @@ class ChannelAdminLogEventActionEditTopic
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf06fe208);
     buffer.writeObject(prevTopic);
     buffer.writeObject(newTopic);
@@ -34350,7 +37138,7 @@ class ChannelAdminLogEventActionDeleteTopic
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xae168909);
     buffer.writeObject(topic);
   }
@@ -34363,7 +37151,6 @@ class ChannelAdminLogEventActionPinTopic
     extends ChannelAdminLogEventActionBase {
   /// Channel Admin Log Event Action Pin Topic constructor.
   const ChannelAdminLogEventActionPinTopic({
-    required this.flags,
     this.prevTopic,
     this.newTopic,
   }) : super._();
@@ -34381,13 +37168,24 @@ class ChannelAdminLogEventActionPinTopic
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: prevTopic != null,
+      b01: newTopic != null,
+    );
+
+    return v;
+  }
+
+  /// Prev Topic.
   final ForumTopicBase? prevTopic;
+
+  /// New Topic.
   final ForumTopicBase? newTopic;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5d8d353b);
     buffer.writeInt(flags);
     final localPrevTopicCopy = prevTopic;
@@ -34427,7 +37225,7 @@ class ChannelAdminLogEventActionToggleAntiSpam
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64f36dfc);
     buffer.writeBool(newValue);
   }
@@ -34464,7 +37262,7 @@ class ChannelAdminLogEventActionChangePeerColor
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5796e780);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -34502,7 +37300,7 @@ class ChannelAdminLogEventActionChangeProfilePeerColor
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5e477b25);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -34540,7 +37338,7 @@ class ChannelAdminLogEventActionChangeWallpaper
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x31bb5d52);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -34578,7 +37376,7 @@ class ChannelAdminLogEventActionChangeEmojiStatus
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3ea9feb1);
     buffer.writeObject(prevValue);
     buffer.writeObject(newValue);
@@ -34630,7 +37428,7 @@ class ChannelAdminLogEvent extends ChannelAdminLogEventBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1fad68cd);
     buffer.writeLong(id);
     buffer.writeDateTime(date);
@@ -34679,7 +37477,7 @@ class ChannelsAdminLogResults extends ChannelsAdminLogResultsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed8af74d);
     buffer.writeVectorObject(events);
     buffer.writeVectorObject(chats);
@@ -34699,7 +37497,24 @@ abstract class ChannelAdminLogEventsFilterBase extends TlConstructor {
 class ChannelAdminLogEventsFilter extends ChannelAdminLogEventsFilterBase {
   /// Channel Admin Log Events Filter constructor.
   const ChannelAdminLogEventsFilter({
-    required this.flags,
+    required this.join,
+    required this.leave,
+    required this.invite,
+    required this.ban,
+    required this.unban,
+    required this.kick,
+    required this.unkick,
+    required this.promote,
+    required this.demote,
+    required this.info,
+    required this.settings,
+    required this.pinned,
+    required this.edit,
+    required this.delete,
+    required this.groupCall,
+    required this.invites,
+    required this.send,
+    required this.forums,
   }) : super._();
 
   /// Deserialize.
@@ -34731,65 +37546,88 @@ class ChannelAdminLogEventsFilter extends ChannelAdminLogEventsFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: join,
+      b01: leave,
+      b02: invite,
+      b03: ban,
+      b04: unban,
+      b05: kick,
+      b06: unkick,
+      b07: promote,
+      b08: demote,
+      b09: info,
+      b10: settings,
+      b11: pinned,
+      b12: edit,
+      b13: delete,
+      b14: groupCall,
+      b15: invites,
+      b16: send,
+      b17: forums,
+    );
 
-  /// join: bit
-  bool get join => _bit(flags, 0);
+    return v;
+  }
 
-  /// leave: bit
-  bool get leave => _bit(flags, 1);
+  /// join: bit 0 of flags.0?true
+  final bool join;
 
-  /// invite: bit
-  bool get invite => _bit(flags, 2);
+  /// leave: bit 1 of flags.1?true
+  final bool leave;
 
-  /// ban: bit
-  bool get ban => _bit(flags, 3);
+  /// invite: bit 2 of flags.2?true
+  final bool invite;
 
-  /// unban: bit
-  bool get unban => _bit(flags, 4);
+  /// ban: bit 3 of flags.3?true
+  final bool ban;
 
-  /// kick: bit
-  bool get kick => _bit(flags, 5);
+  /// unban: bit 4 of flags.4?true
+  final bool unban;
 
-  /// unkick: bit
-  bool get unkick => _bit(flags, 6);
+  /// kick: bit 5 of flags.5?true
+  final bool kick;
 
-  /// promote: bit
-  bool get promote => _bit(flags, 7);
+  /// unkick: bit 6 of flags.6?true
+  final bool unkick;
 
-  /// demote: bit
-  bool get demote => _bit(flags, 8);
+  /// promote: bit 7 of flags.7?true
+  final bool promote;
 
-  /// info: bit
-  bool get info => _bit(flags, 9);
+  /// demote: bit 8 of flags.8?true
+  final bool demote;
 
-  /// settings: bit
-  bool get settings => _bit(flags, 10);
+  /// info: bit 9 of flags.9?true
+  final bool info;
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 11);
+  /// settings: bit 10 of flags.10?true
+  final bool settings;
 
-  /// edit: bit
-  bool get edit => _bit(flags, 12);
+  /// pinned: bit 11 of flags.11?true
+  final bool pinned;
 
-  /// delete: bit
-  bool get delete => _bit(flags, 13);
+  /// edit: bit 12 of flags.12?true
+  final bool edit;
 
-  /// group_call: bit
-  bool get groupCall => _bit(flags, 14);
+  /// delete: bit 13 of flags.13?true
+  final bool delete;
 
-  /// invites: bit
-  bool get invites => _bit(flags, 15);
+  /// group_call: bit 14 of flags.14?true
+  final bool groupCall;
 
-  /// send: bit
-  bool get send => _bit(flags, 16);
+  /// invites: bit 15 of flags.15?true
+  final bool invites;
 
-  /// forums: bit
-  bool get forums => _bit(flags, 17);
+  /// send: bit 16 of flags.16?true
+  final bool send;
+
+  /// forums: bit 17 of flags.17?true
+  final bool forums;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea107ae4);
     buffer.writeInt(flags);
   }
@@ -34830,7 +37668,7 @@ class PopularContact extends PopularContactBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5ce14175);
     buffer.writeLong(clientId);
     buffer.writeInt(importers);
@@ -34861,7 +37699,7 @@ class MessagesFavedStickersNotModified extends MessagesFavedStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9e8fa6d3);
   }
 }
@@ -34900,7 +37738,7 @@ class MessagesFavedStickers extends MessagesFavedStickersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2cb51097);
     buffer.writeLong(hash);
     buffer.writeVectorObject(packs);
@@ -34938,7 +37776,7 @@ class RecentMeUrlUnknown extends RecentMeUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x46e1d13d);
     buffer.writeString(url);
   }
@@ -34973,7 +37811,7 @@ class RecentMeUrlUser extends RecentMeUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb92c09e2);
     buffer.writeString(url);
     buffer.writeLong(userId);
@@ -35009,7 +37847,7 @@ class RecentMeUrlChat extends RecentMeUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2da71d2);
     buffer.writeString(url);
     buffer.writeLong(chatId);
@@ -35045,7 +37883,7 @@ class RecentMeUrlChatInvite extends RecentMeUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeb49081d);
     buffer.writeString(url);
     buffer.writeObject(chatInvite);
@@ -35081,7 +37919,7 @@ class RecentMeUrlStickerSet extends RecentMeUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbc0a57dc);
     buffer.writeString(url);
     buffer.writeObject(set);
@@ -35128,7 +37966,7 @@ class HelpRecentMeUrls extends HelpRecentMeUrlsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0e0310d7);
     buffer.writeVectorObject(urls);
     buffer.writeVectorObject(chats);
@@ -35148,7 +37986,6 @@ abstract class InputSingleMediaBase extends TlConstructor {
 class InputSingleMedia extends InputSingleMediaBase {
   /// Input Single Media constructor.
   const InputSingleMedia({
-    required this.flags,
     required this.media,
     required this.randomId,
     required this.message,
@@ -35170,7 +38007,13 @@ class InputSingleMedia extends InputSingleMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: entities != null,
+    );
+
+    return v;
+  }
 
   /// Media.
   final InputMediaBase media;
@@ -35180,11 +38023,13 @@ class InputSingleMedia extends InputSingleMediaBase {
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1cc6e91f);
     buffer.writeInt(flags);
     buffer.writeObject(media);
@@ -35267,7 +38112,7 @@ class WebAuthorization extends WebAuthorizationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6f8f452);
     buffer.writeLong(hash);
     buffer.writeLong(botId);
@@ -35316,7 +38161,7 @@ class AccountWebAuthorizations extends AccountWebAuthorizationsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed56c9fc);
     buffer.writeVectorObject(authorizations);
     buffer.writeVectorObject(users);
@@ -35353,7 +38198,7 @@ class InputMessageID extends InputMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa676a322);
     buffer.writeInt(id);
   }
@@ -35383,7 +38228,7 @@ class InputMessageReplyTo extends InputMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbad88395);
     buffer.writeInt(id);
   }
@@ -35407,7 +38252,7 @@ class InputMessagePinned extends InputMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86872538);
   }
 }
@@ -35441,7 +38286,7 @@ class InputMessageCallbackQuery extends InputMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xacfa1a7e);
     buffer.writeInt(id);
     buffer.writeLong(queryId);
@@ -35478,7 +38323,7 @@ class InputDialogPeer extends InputDialogPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfcaafeb7);
     buffer.writeObject(peer);
   }
@@ -35508,7 +38353,7 @@ class InputDialogPeerFolder extends InputDialogPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64600527);
     buffer.writeInt(folderId);
   }
@@ -35544,7 +38389,7 @@ class DialogPeer extends DialogPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe56dbf05);
     buffer.writeObject(peer);
   }
@@ -35574,7 +38419,7 @@ class DialogPeerFolder extends DialogPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x514519e2);
     buffer.writeInt(folderId);
   }
@@ -35604,7 +38449,7 @@ class MessagesFoundStickerSetsNotModified extends MessagesFoundStickerSetsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0d54b65d);
   }
 }
@@ -35638,7 +38483,7 @@ class MessagesFoundStickerSets extends MessagesFoundStickerSetsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8af09dd2);
     buffer.writeLong(hash);
     buffer.writeVectorObject(sets);
@@ -35685,7 +38530,7 @@ class FileHash extends FileHashBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf39b035c);
     buffer.writeLong(offset);
     buffer.writeInt(limit);
@@ -35728,7 +38573,7 @@ class InputClientProxy extends InputClientProxyBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x75588b3f);
     buffer.writeString(address);
     buffer.writeInt(port);
@@ -35765,7 +38610,7 @@ class HelpTermsOfServiceUpdateEmpty extends HelpTermsOfServiceUpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe3309f7f);
     buffer.writeInt(expires);
   }
@@ -35800,7 +38645,7 @@ class HelpTermsOfServiceUpdate extends HelpTermsOfServiceUpdateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x28ecf961);
     buffer.writeInt(expires);
     buffer.writeObject(termsOfService);
@@ -35857,7 +38702,7 @@ class InputSecureFileUploaded extends InputSecureFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3334b0f0);
     buffer.writeLong(id);
     buffer.writeInt(parts);
@@ -35896,7 +38741,7 @@ class InputSecureFile extends InputSecureFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5367e5be);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -35927,7 +38772,7 @@ class SecureFileEmpty extends SecureFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64199744);
   }
 }
@@ -35986,7 +38831,7 @@ class SecureFile extends SecureFileBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7d09c27e);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -36038,7 +38883,7 @@ class SecureData extends SecureDataBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8aeabec3);
     buffer.writeBytes(data);
     buffer.writeBytes(dataHash);
@@ -36076,7 +38921,7 @@ class SecurePlainPhone extends SecurePlainDataBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7d6099dd);
     buffer.writeString(phone);
   }
@@ -36106,7 +38951,7 @@ class SecurePlainEmail extends SecurePlainDataBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x21ec5a5f);
     buffer.writeString(email);
   }
@@ -36136,7 +38981,7 @@ class SecureValueTypePersonalDetails extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9d2a81e3);
   }
 }
@@ -36159,7 +39004,7 @@ class SecureValueTypePassport extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dac6a00);
   }
 }
@@ -36182,7 +39027,7 @@ class SecureValueTypeDriverLicense extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x06e425c4);
   }
 }
@@ -36205,7 +39050,7 @@ class SecureValueTypeIdentityCard extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0d0744b);
   }
 }
@@ -36228,7 +39073,7 @@ class SecureValueTypeInternalPassport extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x99a48f23);
   }
 }
@@ -36251,7 +39096,7 @@ class SecureValueTypeAddress extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcbe31e26);
   }
 }
@@ -36274,7 +39119,7 @@ class SecureValueTypeUtilityBill extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfc36954e);
   }
 }
@@ -36297,7 +39142,7 @@ class SecureValueTypeBankStatement extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x89137c0d);
   }
 }
@@ -36320,7 +39165,7 @@ class SecureValueTypeRentalAgreement extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8b883488);
   }
 }
@@ -36343,7 +39188,7 @@ class SecureValueTypePassportRegistration extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x99e3806a);
   }
 }
@@ -36366,7 +39211,7 @@ class SecureValueTypeTemporaryRegistration extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea02ec33);
   }
 }
@@ -36389,7 +39234,7 @@ class SecureValueTypePhone extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb320aadb);
   }
 }
@@ -36412,7 +39257,7 @@ class SecureValueTypeEmail extends SecureValueTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8e3ca7ee);
   }
 }
@@ -36429,7 +39274,6 @@ abstract class SecureValueBase extends TlConstructor {
 class SecureValue extends SecureValueBase {
   /// Secure Value constructor.
   const SecureValue({
-    required this.flags,
     required this.type,
     this.data,
     this.frontSide,
@@ -36461,16 +39305,42 @@ class SecureValue extends SecureValueBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: data != null,
+      b01: frontSide != null,
+      b02: reverseSide != null,
+      b03: selfie != null,
+      b06: translation != null,
+      b04: files != null,
+      b05: plainData != null,
+    );
+
+    return v;
+  }
 
   /// Type.
   final SecureValueTypeBase type;
+
+  /// Data.
   final SecureDataBase? data;
+
+  /// Front Side.
   final SecureFileBase? frontSide;
+
+  /// Reverse Side.
   final SecureFileBase? reverseSide;
+
+  /// Selfie.
   final SecureFileBase? selfie;
+
+  /// Translation.
   final List<SecureFileBase>? translation;
+
+  /// Files.
   final List<SecureFileBase>? files;
+
+  /// Plain Data.
   final SecurePlainDataBase? plainData;
 
   /// Hash.
@@ -36478,7 +39348,7 @@ class SecureValue extends SecureValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x187fa0ca);
     buffer.writeInt(flags);
     buffer.writeObject(type);
@@ -36526,7 +39396,6 @@ abstract class InputSecureValueBase extends TlConstructor {
 class InputSecureValue extends InputSecureValueBase {
   /// Input Secure Value constructor.
   const InputSecureValue({
-    required this.flags,
     required this.type,
     this.data,
     this.frontSide,
@@ -36556,21 +39425,47 @@ class InputSecureValue extends InputSecureValueBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: data != null,
+      b01: frontSide != null,
+      b02: reverseSide != null,
+      b03: selfie != null,
+      b06: translation != null,
+      b04: files != null,
+      b05: plainData != null,
+    );
+
+    return v;
+  }
 
   /// Type.
   final SecureValueTypeBase type;
+
+  /// Data.
   final SecureDataBase? data;
+
+  /// Front Side.
   final InputSecureFileBase? frontSide;
+
+  /// Reverse Side.
   final InputSecureFileBase? reverseSide;
+
+  /// Selfie.
   final InputSecureFileBase? selfie;
+
+  /// Translation.
   final List<InputSecureFileBase>? translation;
+
+  /// Files.
   final List<InputSecureFileBase>? files;
+
+  /// Plain Data.
   final SecurePlainDataBase? plainData;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb21d0a7);
     buffer.writeInt(flags);
     buffer.writeObject(type);
@@ -36640,7 +39535,7 @@ class SecureValueHash extends SecureValueHashBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed1ecdb0);
     buffer.writeObject(type);
     buffer.writeBytes(hash);
@@ -36692,7 +39587,7 @@ class SecureValueErrorData extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe8a40bd9);
     buffer.writeObject(type);
     buffer.writeBytes(dataHash);
@@ -36735,7 +39630,7 @@ class SecureValueErrorFrontSide extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x00be3dfa);
     buffer.writeObject(type);
     buffer.writeBytes(fileHash);
@@ -36777,7 +39672,7 @@ class SecureValueErrorReverseSide extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x868a2aa5);
     buffer.writeObject(type);
     buffer.writeBytes(fileHash);
@@ -36819,7 +39714,7 @@ class SecureValueErrorSelfie extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe537ced6);
     buffer.writeObject(type);
     buffer.writeBytes(fileHash);
@@ -36861,7 +39756,7 @@ class SecureValueErrorFile extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a700873);
     buffer.writeObject(type);
     buffer.writeBytes(fileHash);
@@ -36903,7 +39798,7 @@ class SecureValueErrorFiles extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x666220e9);
     buffer.writeObject(type);
     buffer.writeVectorBytes(fileHash);
@@ -36945,7 +39840,7 @@ class SecureValueError extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x869d758f);
     buffer.writeObject(type);
     buffer.writeBytes(hash);
@@ -36987,7 +39882,7 @@ class SecureValueErrorTranslationFile extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa1144770);
     buffer.writeObject(type);
     buffer.writeBytes(fileHash);
@@ -37029,7 +39924,7 @@ class SecureValueErrorTranslationFiles extends SecureValueErrorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34636dd8);
     buffer.writeObject(type);
     buffer.writeVectorBytes(fileHash);
@@ -37077,7 +39972,7 @@ class SecureCredentialsEncrypted extends SecureCredentialsEncryptedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x33f0ea47);
     buffer.writeBytes(data);
     buffer.writeBytes(hash);
@@ -37097,7 +39992,6 @@ abstract class AccountAuthorizationFormBase extends TlConstructor {
 class AccountAuthorizationForm extends AccountAuthorizationFormBase {
   /// Account Authorization Form constructor.
   const AccountAuthorizationForm({
-    required this.flags,
     required this.requiredTypes,
     required this.values,
     required this.errors,
@@ -37121,7 +40015,13 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: privacyPolicyUrl != null,
+    );
+
+    return v;
+  }
 
   /// Required Types.
   final List<SecureRequiredTypeBase> requiredTypes;
@@ -37134,11 +40034,13 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Privacy Policy Url.
   final String? privacyPolicyUrl;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xad2e1cd8);
     buffer.writeInt(flags);
     buffer.writeVectorObject(requiredTypes);
@@ -37187,7 +40089,7 @@ class AccountSentEmailCode extends AccountSentEmailCodeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x811f854f);
     buffer.writeString(emailPattern);
     buffer.writeInt(length);
@@ -37218,7 +40120,7 @@ class HelpDeepLinkInfoEmpty extends HelpDeepLinkInfoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x66afa166);
   }
 }
@@ -37229,7 +40131,7 @@ class HelpDeepLinkInfoEmpty extends HelpDeepLinkInfoBase {
 class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
   /// Help Deep Link Info constructor.
   const HelpDeepLinkInfo({
-    required this.flags,
+    required this.updateApp,
     required this.message,
     this.entities,
   }) : super._();
@@ -37248,18 +40150,27 @@ class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: updateApp,
+      b01: entities != null,
+    );
 
-  /// update_app: bit
-  bool get updateApp => _bit(flags, 0);
+    return v;
+  }
+
+  /// update_app: bit 0 of flags.0?true
+  final bool updateApp;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a4ee832);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -37315,7 +40226,7 @@ class SavedPhoneContact extends SavedContactBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1142bd56);
     buffer.writeString(phone);
     buffer.writeString(firstName);
@@ -37354,7 +40265,7 @@ class AccountTakeout extends AccountTakeoutBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4dba4501);
     buffer.writeLong(id);
   }
@@ -37384,7 +40295,7 @@ class PasswordKdfAlgoUnknown extends PasswordKdfAlgoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd45ab096);
   }
 }
@@ -37430,7 +40341,7 @@ class PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3a912d4a);
     buffer.writeBytes(salt1);
     buffer.writeBytes(salt2);
@@ -37463,7 +40374,7 @@ class SecurePasswordKdfAlgoUnknown extends SecurePasswordKdfAlgoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x004a8537);
   }
 }
@@ -37494,7 +40405,7 @@ class SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbbf2dda0);
     buffer.writeBytes(salt);
   }
@@ -37524,7 +40435,7 @@ class SecurePasswordKdfAlgoSHA512 extends SecurePasswordKdfAlgoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86471d92);
     buffer.writeBytes(salt);
   }
@@ -37570,7 +40481,7 @@ class SecureSecretSettings extends SecureSecretSettingsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1527bcac);
     buffer.writeObject(secureAlgo);
     buffer.writeBytes(secureSecret);
@@ -37602,7 +40513,7 @@ class InputCheckPasswordEmpty extends InputCheckPasswordSRPBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9880f658);
   }
 }
@@ -37641,7 +40552,7 @@ class InputCheckPasswordSRP extends InputCheckPasswordSRPBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd27ff082);
     buffer.writeLong(srpId);
     buffer.writeBytes(a);
@@ -37661,7 +40572,9 @@ abstract class SecureRequiredTypeBase extends TlConstructor {
 class SecureRequiredType extends SecureRequiredTypeBase {
   /// Secure Required Type constructor.
   const SecureRequiredType({
-    required this.flags,
+    required this.nativeNames,
+    required this.selfieRequired,
+    required this.translationRequired,
     required this.type,
   }) : super._();
 
@@ -37680,23 +40593,31 @@ class SecureRequiredType extends SecureRequiredTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nativeNames,
+      b01: selfieRequired,
+      b02: translationRequired,
+    );
 
-  /// native_names: bit
-  bool get nativeNames => _bit(flags, 0);
+    return v;
+  }
 
-  /// selfie_required: bit
-  bool get selfieRequired => _bit(flags, 1);
+  /// native_names: bit 0 of flags.0?true
+  final bool nativeNames;
 
-  /// translation_required: bit
-  bool get translationRequired => _bit(flags, 2);
+  /// selfie_required: bit 1 of flags.1?true
+  final bool selfieRequired;
+
+  /// translation_required: bit 2 of flags.2?true
+  final bool translationRequired;
 
   /// Type.
   final SecureValueTypeBase type;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x829d99da);
     buffer.writeInt(flags);
     buffer.writeObject(type);
@@ -37727,7 +40648,7 @@ class SecureRequiredTypeOneOf extends SecureRequiredTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x027477b4);
     buffer.writeVectorObject(types);
   }
@@ -37757,7 +40678,7 @@ class HelpPassportConfigNotModified extends HelpPassportConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbfb9f457);
   }
 }
@@ -37791,7 +40712,7 @@ class HelpPassportConfig extends HelpPassportConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa098d6af);
     buffer.writeInt(hash);
     buffer.writeObject(countriesLangs);
@@ -37843,7 +40764,7 @@ class InputAppEvent extends InputAppEventBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1d1b1245);
     buffer.writeDouble(time);
     buffer.writeString(type);
@@ -37887,7 +40808,7 @@ class JsonObjectValue extends JSONObjectValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc0de1bd9);
     buffer.writeString(key);
     buffer.writeObject(value);
@@ -37918,7 +40839,7 @@ class JsonNull extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3f6d7b68);
   }
 }
@@ -37947,7 +40868,7 @@ class JsonBool extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc7345e6a);
     buffer.writeBool(value);
   }
@@ -37977,7 +40898,7 @@ class JsonNumber extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2be0dfa4);
     buffer.writeDouble(value);
   }
@@ -38007,7 +40928,7 @@ class JsonString extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb71e767a);
     buffer.writeString(value);
   }
@@ -38037,7 +40958,7 @@ class JsonArray extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf7444763);
     buffer.writeVectorObject(value);
   }
@@ -38067,7 +40988,7 @@ class JsonObject extends JSONValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x99c1d49d);
     buffer.writeVectorObject(value);
   }
@@ -38085,7 +41006,11 @@ abstract class PageTableCellBase extends TlConstructor {
 class PageTableCell extends PageTableCellBase {
   /// Page Table Cell constructor.
   const PageTableCell({
-    required this.flags,
+    required this.header,
+    required this.alignCenter,
+    required this.alignRight,
+    required this.valignMiddle,
+    required this.valignBottom,
     this.text,
     this.colspan,
     this.rowspan,
@@ -38110,29 +41035,48 @@ class PageTableCell extends PageTableCellBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: header,
+      b03: alignCenter,
+      b04: alignRight,
+      b05: valignMiddle,
+      b06: valignBottom,
+      b07: text != null,
+      b01: colspan != null,
+      b02: rowspan != null,
+    );
 
-  /// header: bit
-  bool get header => _bit(flags, 0);
+    return v;
+  }
 
-  /// align_center: bit
-  bool get alignCenter => _bit(flags, 3);
+  /// header: bit 0 of flags.0?true
+  final bool header;
 
-  /// align_right: bit
-  bool get alignRight => _bit(flags, 4);
+  /// align_center: bit 3 of flags.3?true
+  final bool alignCenter;
 
-  /// valign_middle: bit
-  bool get valignMiddle => _bit(flags, 5);
+  /// align_right: bit 4 of flags.4?true
+  final bool alignRight;
 
-  /// valign_bottom: bit
-  bool get valignBottom => _bit(flags, 6);
+  /// valign_middle: bit 5 of flags.5?true
+  final bool valignMiddle;
+
+  /// valign_bottom: bit 6 of flags.6?true
+  final bool valignBottom;
+
+  /// Text.
   final RichTextBase? text;
+
+  /// Colspan.
   final int? colspan;
+
+  /// Rowspan.
   final int? rowspan;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34566b6a);
     buffer.writeInt(flags);
     final localTextCopy = text;
@@ -38180,7 +41124,7 @@ class PageTableRow extends PageTableRowBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe0c0c5e5);
     buffer.writeVectorObject(cells);
   }
@@ -38221,7 +41165,7 @@ class PageCaption extends PageCaptionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6f747657);
     buffer.writeObject(text);
     buffer.writeObject(credit);
@@ -38258,7 +41202,7 @@ class PageListItemText extends PageListItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb92fb6cd);
     buffer.writeObject(text);
   }
@@ -38288,7 +41232,7 @@ class PageListItemBlocks extends PageListItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x25e073fc);
     buffer.writeVectorObject(blocks);
   }
@@ -38329,7 +41273,7 @@ class PageListOrderedItemText extends PageListOrderedItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5e068047);
     buffer.writeString(num);
     buffer.writeObject(text);
@@ -38365,7 +41309,7 @@ class PageListOrderedItemBlocks extends PageListOrderedItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98dd8936);
     buffer.writeString(num);
     buffer.writeVectorObject(blocks);
@@ -38384,7 +41328,6 @@ abstract class PageRelatedArticleBase extends TlConstructor {
 class PageRelatedArticle extends PageRelatedArticleBase {
   /// Page Related Article constructor.
   const PageRelatedArticle({
-    required this.flags,
     required this.url,
     required this.webpageId,
     this.title,
@@ -38412,22 +41355,42 @@ class PageRelatedArticle extends PageRelatedArticleBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: title != null,
+      b01: description != null,
+      b02: photoId != null,
+      b03: author != null,
+      b04: publishedDate != null,
+    );
+
+    return v;
+  }
 
   /// Url.
   final String url;
 
   /// Webpage Id.
   final int webpageId;
+
+  /// Title.
   final String? title;
+
+  /// Description.
   final String? description;
+
+  /// Photo Id.
   final int? photoId;
+
+  /// Author.
   final String? author;
+
+  /// Published Date.
   final DateTime? publishedDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb390dc08);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -38467,7 +41430,9 @@ abstract class PageBase extends TlConstructor {
 class Page extends PageBase {
   /// Page constructor.
   const Page({
-    required this.flags,
+    required this.part,
+    required this.rtl,
+    required this.v2,
     required this.url,
     required this.blocks,
     required this.photos,
@@ -38494,16 +41459,25 @@ class Page extends PageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: part,
+      b01: rtl,
+      b02: v2,
+      b03: views != null,
+    );
 
-  /// part: bit
-  bool get part => _bit(flags, 0);
+    return v;
+  }
 
-  /// rtl: bit
-  bool get rtl => _bit(flags, 1);
+  /// part: bit 0 of flags.0?true
+  final bool part;
 
-  /// v2: bit
-  bool get v2 => _bit(flags, 2);
+  /// rtl: bit 1 of flags.1?true
+  final bool rtl;
+
+  /// v2: bit 2 of flags.2?true
+  final bool v2;
 
   /// Url.
   final String url;
@@ -38516,11 +41490,13 @@ class Page extends PageBase {
 
   /// Documents.
   final List<DocumentBase> documents;
+
+  /// Views.
   final int? views;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98657f0d);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -38564,7 +41540,7 @@ class HelpSupportName extends HelpSupportNameBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c05f1c9);
     buffer.writeString(name);
   }
@@ -38594,7 +41570,7 @@ class HelpUserInfoEmpty extends HelpUserInfoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf3ae2eed);
   }
 }
@@ -38638,7 +41614,7 @@ class HelpUserInfo extends HelpUserInfoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x01eb3758);
     buffer.writeString(message);
     buffer.writeVectorObject(entities);
@@ -38682,7 +41658,7 @@ class PollAnswer extends PollAnswerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6ca9c2e9);
     buffer.writeString(text);
     buffer.writeBytes(option);
@@ -38702,7 +41678,10 @@ class Poll extends PollBase {
   /// Poll constructor.
   const Poll({
     required this.id,
-    required this.flags,
+    required this.closed,
+    required this.publicVoters,
+    required this.multipleChoice,
+    required this.quiz,
     required this.question,
     required this.answers,
     this.closePeriod,
@@ -38728,35 +41707,50 @@ class Poll extends PollBase {
     throw Exception();
   }
 
+  /// Flags.
+  int get flags {
+    final v = _flag(
+      b00: closed,
+      b01: publicVoters,
+      b02: multipleChoice,
+      b03: quiz,
+      b04: closePeriod != null,
+      b05: closeDate != null,
+    );
+
+    return v;
+  }
+
   /// Id.
   final int id;
 
-  /// Flags.
-  final int flags;
+  /// closed: bit 0 of flags.0?true
+  final bool closed;
 
-  /// closed: bit
-  bool get closed => _bit(flags, 0);
+  /// public_voters: bit 1 of flags.1?true
+  final bool publicVoters;
 
-  /// public_voters: bit
-  bool get publicVoters => _bit(flags, 1);
+  /// multiple_choice: bit 2 of flags.2?true
+  final bool multipleChoice;
 
-  /// multiple_choice: bit
-  bool get multipleChoice => _bit(flags, 2);
-
-  /// quiz: bit
-  bool get quiz => _bit(flags, 3);
+  /// quiz: bit 3 of flags.3?true
+  final bool quiz;
 
   /// Question.
   final String question;
 
   /// Answers.
   final List<PollAnswerBase> answers;
+
+  /// Close Period.
   final int? closePeriod;
+
+  /// Close Date.
   final DateTime? closeDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86e18161);
     buffer.writeLong(id);
     buffer.writeInt(flags);
@@ -38785,7 +41779,8 @@ abstract class PollAnswerVotersBase extends TlConstructor {
 class PollAnswerVoters extends PollAnswerVotersBase {
   /// Poll Answer Voters constructor.
   const PollAnswerVoters({
-    required this.flags,
+    required this.chosen,
+    required this.correct,
     required this.option,
     required this.voters,
   }) : super._();
@@ -38805,13 +41800,20 @@ class PollAnswerVoters extends PollAnswerVotersBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: chosen,
+      b01: correct,
+    );
 
-  /// chosen: bit
-  bool get chosen => _bit(flags, 0);
+    return v;
+  }
 
-  /// correct: bit
-  bool get correct => _bit(flags, 1);
+  /// chosen: bit 0 of flags.0?true
+  final bool chosen;
+
+  /// correct: bit 1 of flags.1?true
+  final bool correct;
 
   /// Option.
   final Uint8List option;
@@ -38821,7 +41823,7 @@ class PollAnswerVoters extends PollAnswerVotersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3b6ddad2);
     buffer.writeInt(flags);
     buffer.writeBytes(option);
@@ -38841,7 +41843,7 @@ abstract class PollResultsBase extends TlConstructor {
 class PollResults extends PollResultsBase {
   /// Poll Results constructor.
   const PollResults({
-    required this.flags,
+    required this.min,
     this.results,
     this.totalVoters,
     this.recentVoters,
@@ -38866,19 +41868,39 @@ class PollResults extends PollResultsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: min,
+      b01: results != null,
+      b02: totalVoters != null,
+      b03: recentVoters != null,
+      b04: solution != null || solutionEntities != null,
+    );
 
-  /// min: bit
-  bool get min => _bit(flags, 0);
+    return v;
+  }
+
+  /// min: bit 0 of flags.0?true
+  final bool min;
+
+  /// Results.
   final List<PollAnswerVotersBase>? results;
+
+  /// Total Voters.
   final int? totalVoters;
+
+  /// Recent Voters.
   final List<PeerBase>? recentVoters;
+
+  /// Solution.
   final String? solution;
+
+  /// Solution Entities.
   final List<MessageEntityBase>? solutionEntities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7adf2420);
     buffer.writeInt(flags);
     final localResultsCopy = results;
@@ -38934,7 +41956,7 @@ class ChatOnlines extends ChatOnlinesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf041e250);
     buffer.writeInt(onlines);
   }
@@ -38970,7 +41992,7 @@ class StatsURL extends StatsURLBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x47a971e0);
     buffer.writeString(url);
   }
@@ -38988,7 +42010,21 @@ abstract class ChatAdminRightsBase extends TlConstructor {
 class ChatAdminRights extends ChatAdminRightsBase {
   /// Chat Admin Rights constructor.
   const ChatAdminRights({
-    required this.flags,
+    required this.changeInfo,
+    required this.postMessages,
+    required this.editMessages,
+    required this.deleteMessages,
+    required this.banUsers,
+    required this.inviteUsers,
+    required this.pinMessages,
+    required this.addAdmins,
+    required this.anonymous,
+    required this.manageCall,
+    required this.other,
+    required this.manageTopics,
+    required this.postStories,
+    required this.editStories,
+    required this.deleteStories,
   }) : super._();
 
   /// Deserialize.
@@ -39017,56 +42053,76 @@ class ChatAdminRights extends ChatAdminRightsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: changeInfo,
+      b01: postMessages,
+      b02: editMessages,
+      b03: deleteMessages,
+      b04: banUsers,
+      b05: inviteUsers,
+      b07: pinMessages,
+      b09: addAdmins,
+      b10: anonymous,
+      b11: manageCall,
+      b12: other,
+      b13: manageTopics,
+      b14: postStories,
+      b15: editStories,
+      b16: deleteStories,
+    );
 
-  /// change_info: bit
-  bool get changeInfo => _bit(flags, 0);
+    return v;
+  }
 
-  /// post_messages: bit
-  bool get postMessages => _bit(flags, 1);
+  /// change_info: bit 0 of flags.0?true
+  final bool changeInfo;
 
-  /// edit_messages: bit
-  bool get editMessages => _bit(flags, 2);
+  /// post_messages: bit 1 of flags.1?true
+  final bool postMessages;
 
-  /// delete_messages: bit
-  bool get deleteMessages => _bit(flags, 3);
+  /// edit_messages: bit 2 of flags.2?true
+  final bool editMessages;
 
-  /// ban_users: bit
-  bool get banUsers => _bit(flags, 4);
+  /// delete_messages: bit 3 of flags.3?true
+  final bool deleteMessages;
 
-  /// invite_users: bit
-  bool get inviteUsers => _bit(flags, 5);
+  /// ban_users: bit 4 of flags.4?true
+  final bool banUsers;
 
-  /// pin_messages: bit
-  bool get pinMessages => _bit(flags, 7);
+  /// invite_users: bit 5 of flags.5?true
+  final bool inviteUsers;
 
-  /// add_admins: bit
-  bool get addAdmins => _bit(flags, 9);
+  /// pin_messages: bit 7 of flags.7?true
+  final bool pinMessages;
 
-  /// anonymous: bit
-  bool get anonymous => _bit(flags, 10);
+  /// add_admins: bit 9 of flags.9?true
+  final bool addAdmins;
 
-  /// manage_call: bit
-  bool get manageCall => _bit(flags, 11);
+  /// anonymous: bit 10 of flags.10?true
+  final bool anonymous;
 
-  /// other: bit
-  bool get other => _bit(flags, 12);
+  /// manage_call: bit 11 of flags.11?true
+  final bool manageCall;
 
-  /// manage_topics: bit
-  bool get manageTopics => _bit(flags, 13);
+  /// other: bit 12 of flags.12?true
+  final bool other;
 
-  /// post_stories: bit
-  bool get postStories => _bit(flags, 14);
+  /// manage_topics: bit 13 of flags.13?true
+  final bool manageTopics;
 
-  /// edit_stories: bit
-  bool get editStories => _bit(flags, 15);
+  /// post_stories: bit 14 of flags.14?true
+  final bool postStories;
 
-  /// delete_stories: bit
-  bool get deleteStories => _bit(flags, 16);
+  /// edit_stories: bit 15 of flags.15?true
+  final bool editStories;
+
+  /// delete_stories: bit 16 of flags.16?true
+  final bool deleteStories;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5fb224d5);
     buffer.writeInt(flags);
   }
@@ -39084,7 +42140,26 @@ abstract class ChatBannedRightsBase extends TlConstructor {
 class ChatBannedRights extends ChatBannedRightsBase {
   /// Chat Banned Rights constructor.
   const ChatBannedRights({
-    required this.flags,
+    required this.viewMessages,
+    required this.sendMessages,
+    required this.sendMedia,
+    required this.sendStickers,
+    required this.sendGifs,
+    required this.sendGames,
+    required this.sendInline,
+    required this.embedLinks,
+    required this.sendPolls,
+    required this.changeInfo,
+    required this.inviteUsers,
+    required this.pinMessages,
+    required this.manageTopics,
+    required this.sendPhotos,
+    required this.sendVideos,
+    required this.sendRoundvideos,
+    required this.sendAudios,
+    required this.sendVoices,
+    required this.sendDocs,
+    required this.sendPlain,
     required this.untilDate,
   }) : super._();
 
@@ -39120,74 +42195,99 @@ class ChatBannedRights extends ChatBannedRightsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: viewMessages,
+      b01: sendMessages,
+      b02: sendMedia,
+      b03: sendStickers,
+      b04: sendGifs,
+      b05: sendGames,
+      b06: sendInline,
+      b07: embedLinks,
+      b08: sendPolls,
+      b10: changeInfo,
+      b15: inviteUsers,
+      b17: pinMessages,
+      b18: manageTopics,
+      b19: sendPhotos,
+      b20: sendVideos,
+      b21: sendRoundvideos,
+      b22: sendAudios,
+      b23: sendVoices,
+      b24: sendDocs,
+      b25: sendPlain,
+    );
 
-  /// view_messages: bit
-  bool get viewMessages => _bit(flags, 0);
+    return v;
+  }
 
-  /// send_messages: bit
-  bool get sendMessages => _bit(flags, 1);
+  /// view_messages: bit 0 of flags.0?true
+  final bool viewMessages;
 
-  /// send_media: bit
-  bool get sendMedia => _bit(flags, 2);
+  /// send_messages: bit 1 of flags.1?true
+  final bool sendMessages;
 
-  /// send_stickers: bit
-  bool get sendStickers => _bit(flags, 3);
+  /// send_media: bit 2 of flags.2?true
+  final bool sendMedia;
 
-  /// send_gifs: bit
-  bool get sendGifs => _bit(flags, 4);
+  /// send_stickers: bit 3 of flags.3?true
+  final bool sendStickers;
 
-  /// send_games: bit
-  bool get sendGames => _bit(flags, 5);
+  /// send_gifs: bit 4 of flags.4?true
+  final bool sendGifs;
 
-  /// send_inline: bit
-  bool get sendInline => _bit(flags, 6);
+  /// send_games: bit 5 of flags.5?true
+  final bool sendGames;
 
-  /// embed_links: bit
-  bool get embedLinks => _bit(flags, 7);
+  /// send_inline: bit 6 of flags.6?true
+  final bool sendInline;
 
-  /// send_polls: bit
-  bool get sendPolls => _bit(flags, 8);
+  /// embed_links: bit 7 of flags.7?true
+  final bool embedLinks;
 
-  /// change_info: bit
-  bool get changeInfo => _bit(flags, 10);
+  /// send_polls: bit 8 of flags.8?true
+  final bool sendPolls;
 
-  /// invite_users: bit
-  bool get inviteUsers => _bit(flags, 15);
+  /// change_info: bit 10 of flags.10?true
+  final bool changeInfo;
 
-  /// pin_messages: bit
-  bool get pinMessages => _bit(flags, 17);
+  /// invite_users: bit 15 of flags.15?true
+  final bool inviteUsers;
 
-  /// manage_topics: bit
-  bool get manageTopics => _bit(flags, 18);
+  /// pin_messages: bit 17 of flags.17?true
+  final bool pinMessages;
 
-  /// send_photos: bit
-  bool get sendPhotos => _bit(flags, 19);
+  /// manage_topics: bit 18 of flags.18?true
+  final bool manageTopics;
 
-  /// send_videos: bit
-  bool get sendVideos => _bit(flags, 20);
+  /// send_photos: bit 19 of flags.19?true
+  final bool sendPhotos;
 
-  /// send_roundvideos: bit
-  bool get sendRoundvideos => _bit(flags, 21);
+  /// send_videos: bit 20 of flags.20?true
+  final bool sendVideos;
 
-  /// send_audios: bit
-  bool get sendAudios => _bit(flags, 22);
+  /// send_roundvideos: bit 21 of flags.21?true
+  final bool sendRoundvideos;
 
-  /// send_voices: bit
-  bool get sendVoices => _bit(flags, 23);
+  /// send_audios: bit 22 of flags.22?true
+  final bool sendAudios;
 
-  /// send_docs: bit
-  bool get sendDocs => _bit(flags, 24);
+  /// send_voices: bit 23 of flags.23?true
+  final bool sendVoices;
 
-  /// send_plain: bit
-  bool get sendPlain => _bit(flags, 25);
+  /// send_docs: bit 24 of flags.24?true
+  final bool sendDocs;
+
+  /// send_plain: bit 25 of flags.25?true
+  final bool sendPlain;
 
   /// Until Date.
   final DateTime untilDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9f120418);
     buffer.writeInt(flags);
     buffer.writeDateTime(untilDate);
@@ -39229,7 +42329,7 @@ class InputWallPaper extends InputWallPaperBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe630b979);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -39260,7 +42360,7 @@ class InputWallPaperSlug extends InputWallPaperBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x72091c80);
     buffer.writeString(slug);
   }
@@ -39290,7 +42390,7 @@ class InputWallPaperNoFile extends InputWallPaperBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x967a462e);
     buffer.writeLong(id);
   }
@@ -39320,7 +42420,7 @@ class AccountWallPapersNotModified extends AccountWallPapersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1c199183);
   }
 }
@@ -39354,7 +42454,7 @@ class AccountWallPapers extends AccountWallPapersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcdc3858c);
     buffer.writeLong(hash);
     buffer.writeVectorObject(wallpapers);
@@ -39373,7 +42473,11 @@ abstract class CodeSettingsBase extends TlConstructor {
 class CodeSettings extends CodeSettingsBase {
   /// Code Settings constructor.
   const CodeSettings({
-    required this.flags,
+    required this.allowFlashcall,
+    required this.currentNumber,
+    required this.allowAppHash,
+    required this.allowMissedCall,
+    required this.allowFirebase,
     this.logoutTokens,
     this.token,
     this.appSandbox,
@@ -39398,29 +42502,47 @@ class CodeSettings extends CodeSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: allowFlashcall,
+      b01: currentNumber,
+      b04: allowAppHash,
+      b05: allowMissedCall,
+      b07: allowFirebase,
+      b06: logoutTokens != null,
+      b08: token != null || appSandbox != null,
+    );
 
-  /// allow_flashcall: bit
-  bool get allowFlashcall => _bit(flags, 0);
+    return v;
+  }
 
-  /// current_number: bit
-  bool get currentNumber => _bit(flags, 1);
+  /// allow_flashcall: bit 0 of flags.0?true
+  final bool allowFlashcall;
 
-  /// allow_app_hash: bit
-  bool get allowAppHash => _bit(flags, 4);
+  /// current_number: bit 1 of flags.1?true
+  final bool currentNumber;
 
-  /// allow_missed_call: bit
-  bool get allowMissedCall => _bit(flags, 5);
+  /// allow_app_hash: bit 4 of flags.4?true
+  final bool allowAppHash;
 
-  /// allow_firebase: bit
-  bool get allowFirebase => _bit(flags, 7);
+  /// allow_missed_call: bit 5 of flags.5?true
+  final bool allowMissedCall;
+
+  /// allow_firebase: bit 7 of flags.7?true
+  final bool allowFirebase;
+
+  /// Logout Tokens.
   final List<Uint8List>? logoutTokens;
+
+  /// Token.
   final String? token;
+
+  /// App Sandbox.
   final bool? appSandbox;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xad253d78);
     buffer.writeInt(flags);
     final localLogoutTokensCopy = logoutTokens;
@@ -39450,7 +42572,8 @@ abstract class WallPaperSettingsBase extends TlConstructor {
 class WallPaperSettings extends WallPaperSettingsBase {
   /// Wall Paper Settings constructor.
   const WallPaperSettings({
-    required this.flags,
+    required this.blur,
+    required this.motion,
     this.backgroundColor,
     this.secondBackgroundColor,
     this.thirdBackgroundColor,
@@ -39480,24 +42603,51 @@ class WallPaperSettings extends WallPaperSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: blur,
+      b02: motion,
+      b00: backgroundColor != null,
+      b04: secondBackgroundColor != null || rotation != null,
+      b05: thirdBackgroundColor != null,
+      b06: fourthBackgroundColor != null,
+      b03: intensity != null,
+      b07: emoticon != null,
+    );
 
-  /// blur: bit
-  bool get blur => _bit(flags, 1);
+    return v;
+  }
 
-  /// motion: bit
-  bool get motion => _bit(flags, 2);
+  /// blur: bit 1 of flags.1?true
+  final bool blur;
+
+  /// motion: bit 2 of flags.2?true
+  final bool motion;
+
+  /// Background Color.
   final int? backgroundColor;
+
+  /// Second Background Color.
   final int? secondBackgroundColor;
+
+  /// Third Background Color.
   final int? thirdBackgroundColor;
+
+  /// Fourth Background Color.
   final int? fourthBackgroundColor;
+
+  /// Intensity.
   final int? intensity;
+
+  /// Rotation.
   final int? rotation;
+
+  /// Emoticon.
   final String? emoticon;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x372efcd0);
     buffer.writeInt(flags);
     final localBackgroundColorCopy = backgroundColor;
@@ -39543,7 +42693,11 @@ abstract class AutoDownloadSettingsBase extends TlConstructor {
 class AutoDownloadSettings extends AutoDownloadSettingsBase {
   /// Auto Download Settings constructor.
   const AutoDownloadSettings({
-    required this.flags,
+    required this.disabled,
+    required this.videoPreloadLarge,
+    required this.audioPreloadNext,
+    required this.phonecallsLessData,
+    required this.storiesPreload,
     required this.photoSizeMax,
     required this.videoSizeMax,
     required this.fileSizeMax,
@@ -39574,22 +42728,32 @@ class AutoDownloadSettings extends AutoDownloadSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: disabled,
+      b01: videoPreloadLarge,
+      b02: audioPreloadNext,
+      b03: phonecallsLessData,
+      b04: storiesPreload,
+    );
 
-  /// disabled: bit
-  bool get disabled => _bit(flags, 0);
+    return v;
+  }
 
-  /// video_preload_large: bit
-  bool get videoPreloadLarge => _bit(flags, 1);
+  /// disabled: bit 0 of flags.0?true
+  final bool disabled;
 
-  /// audio_preload_next: bit
-  bool get audioPreloadNext => _bit(flags, 2);
+  /// video_preload_large: bit 1 of flags.1?true
+  final bool videoPreloadLarge;
 
-  /// phonecalls_less_data: bit
-  bool get phonecallsLessData => _bit(flags, 3);
+  /// audio_preload_next: bit 2 of flags.2?true
+  final bool audioPreloadNext;
 
-  /// stories_preload: bit
-  bool get storiesPreload => _bit(flags, 4);
+  /// phonecalls_less_data: bit 3 of flags.3?true
+  final bool phonecallsLessData;
+
+  /// stories_preload: bit 4 of flags.4?true
+  final bool storiesPreload;
 
   /// Photo Size Max.
   final int photoSizeMax;
@@ -39611,7 +42775,7 @@ class AutoDownloadSettings extends AutoDownloadSettingsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbaa57628);
     buffer.writeInt(flags);
     buffer.writeInt(photoSizeMax);
@@ -39663,7 +42827,7 @@ class AccountAutoDownloadSettings extends AccountAutoDownloadSettingsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x63cacf26);
     buffer.writeObject(low);
     buffer.writeObject(medium);
@@ -39706,7 +42870,7 @@ class EmojiKeyword extends EmojiKeywordBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd5b3b9f9);
     buffer.writeString(keyword);
     buffer.writeVectorString(emoticons);
@@ -39742,7 +42906,7 @@ class EmojiKeywordDeleted extends EmojiKeywordBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x236df622);
     buffer.writeString(keyword);
     buffer.writeVectorString(emoticons);
@@ -39794,7 +42958,7 @@ class EmojiKeywordsDifference extends EmojiKeywordsDifferenceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5cc761bd);
     buffer.writeString(langCode);
     buffer.writeInt(fromVersion);
@@ -39833,7 +42997,7 @@ class EmojiURL extends EmojiURLBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa575739d);
     buffer.writeString(url);
   }
@@ -39869,7 +43033,7 @@ class EmojiLanguage extends EmojiLanguageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb3fb5361);
     buffer.writeString(langCode);
   }
@@ -39887,7 +43051,9 @@ abstract class FolderBase extends TlConstructor {
 class Folder extends FolderBase {
   /// Folder constructor.
   const Folder({
-    required this.flags,
+    required this.autofillNewBroadcasts,
+    required this.autofillPublicGroups,
+    required this.autofillNewCorrespondents,
     required this.id,
     required this.title,
     this.photo,
@@ -39910,27 +43076,38 @@ class Folder extends FolderBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: autofillNewBroadcasts,
+      b01: autofillPublicGroups,
+      b02: autofillNewCorrespondents,
+      b03: photo != null,
+    );
 
-  /// autofill_new_broadcasts: bit
-  bool get autofillNewBroadcasts => _bit(flags, 0);
+    return v;
+  }
 
-  /// autofill_public_groups: bit
-  bool get autofillPublicGroups => _bit(flags, 1);
+  /// autofill_new_broadcasts: bit 0 of flags.0?true
+  final bool autofillNewBroadcasts;
 
-  /// autofill_new_correspondents: bit
-  bool get autofillNewCorrespondents => _bit(flags, 2);
+  /// autofill_public_groups: bit 1 of flags.1?true
+  final bool autofillPublicGroups;
+
+  /// autofill_new_correspondents: bit 2 of flags.2?true
+  final bool autofillNewCorrespondents;
 
   /// Id.
   final int id;
 
   /// Title.
   final String title;
+
+  /// Photo.
   final ChatPhotoBase? photo;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xff544e65);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -39977,7 +43154,7 @@ class InputFolderPeer extends InputFolderPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbd2c296);
     buffer.writeObject(peer);
     buffer.writeInt(folderId);
@@ -40019,7 +43196,7 @@ class FolderPeer extends FolderPeerBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe9baa668);
     buffer.writeObject(peer);
     buffer.writeInt(folderId);
@@ -40038,7 +43215,7 @@ abstract class MessagesSearchCounterBase extends TlConstructor {
 class MessagesSearchCounter extends MessagesSearchCounterBase {
   /// Messages Search Counter constructor.
   const MessagesSearchCounter({
-    required this.flags,
+    required this.inexact,
     required this.filter,
     required this.count,
   }) : super._();
@@ -40057,10 +43234,16 @@ class MessagesSearchCounter extends MessagesSearchCounterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: inexact,
+    );
 
-  /// inexact: bit
-  bool get inexact => _bit(flags, 1);
+    return v;
+  }
+
+  /// inexact: bit 1 of flags.1?true
+  final bool inexact;
 
   /// Filter.
   final MessagesFilterBase filter;
@@ -40070,7 +43253,7 @@ class MessagesSearchCounter extends MessagesSearchCounterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe844ebff);
     buffer.writeInt(flags);
     buffer.writeObject(filter);
@@ -40090,7 +43273,7 @@ abstract class UrlAuthResultBase extends TlConstructor {
 class UrlAuthResultRequest extends UrlAuthResultBase {
   /// Url Auth Result Request constructor.
   const UrlAuthResultRequest({
-    required this.flags,
+    required this.requestWriteAccess,
     required this.bot,
     required this.domain,
   }) : super._();
@@ -40109,10 +43292,16 @@ class UrlAuthResultRequest extends UrlAuthResultBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requestWriteAccess,
+    );
 
-  /// request_write_access: bit
-  bool get requestWriteAccess => _bit(flags, 0);
+    return v;
+  }
+
+  /// request_write_access: bit 0 of flags.0?true
+  final bool requestWriteAccess;
 
   /// Bot.
   final UserBase bot;
@@ -40122,7 +43311,7 @@ class UrlAuthResultRequest extends UrlAuthResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x92d33a0e);
     buffer.writeInt(flags);
     buffer.writeObject(bot);
@@ -40154,7 +43343,7 @@ class UrlAuthResultAccepted extends UrlAuthResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8f8c0e4e);
     buffer.writeString(url);
   }
@@ -40178,7 +43367,7 @@ class UrlAuthResultDefault extends UrlAuthResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa9d6db1f);
   }
 }
@@ -40207,7 +43396,7 @@ class ChannelLocationEmpty extends ChannelLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbfb5ad8b);
   }
 }
@@ -40241,7 +43430,7 @@ class ChannelLocation extends ChannelLocationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x209b82db);
     buffer.writeObject(geoPoint);
     buffer.writeString(address);
@@ -40288,7 +43477,7 @@ class PeerLocated extends PeerLocatedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xca461b5d);
     buffer.writeObject(peer);
     buffer.writeInt(expires);
@@ -40320,7 +43509,7 @@ class PeerSelfLocated extends PeerLocatedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf8ec284b);
     buffer.writeInt(expires);
   }
@@ -40366,7 +43555,7 @@ class RestrictionReason extends RestrictionReasonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd072acb4);
     buffer.writeString(platform);
     buffer.writeString(reason);
@@ -40409,7 +43598,7 @@ class InputTheme extends InputThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c5693e9);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -40440,7 +43629,7 @@ class InputThemeSlug extends InputThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf5890df1);
     buffer.writeString(slug);
   }
@@ -40458,7 +43647,9 @@ abstract class ThemeBase extends TlConstructor {
 class Theme extends ThemeBase {
   /// Theme constructor.
   const Theme({
-    required this.flags,
+    required this.creator,
+    required this.ddefault,
+    required this.forChat,
     required this.id,
     required this.accessHash,
     required this.slug,
@@ -40491,16 +43682,28 @@ class Theme extends ThemeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b01: ddefault,
+      b05: forChat,
+      b02: document != null,
+      b03: settings != null,
+      b06: emoticon != null,
+      b04: installsCount != null,
+    );
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
+    return v;
+  }
 
-  /// default: bit
-  bool get ddefault => _bit(flags, 1);
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
 
-  /// for_chat: bit
-  bool get forChat => _bit(flags, 5);
+  /// default: bit 1 of flags.1?true
+  final bool ddefault;
+
+  /// for_chat: bit 5 of flags.5?true
+  final bool forChat;
 
   /// Id.
   final int id;
@@ -40513,14 +43716,22 @@ class Theme extends ThemeBase {
 
   /// Title.
   final String title;
+
+  /// Document.
   final DocumentBase? document;
+
+  /// Settings.
   final List<ThemeSettingsBase>? settings;
+
+  /// Emoticon.
   final String? emoticon;
+
+  /// Installs Count.
   final int? installsCount;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa00e67d6);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -40570,7 +43781,7 @@ class AccountThemesNotModified extends AccountThemesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf41eb622);
   }
 }
@@ -40604,7 +43815,7 @@ class AccountThemes extends AccountThemesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a3d8c6d);
     buffer.writeLong(hash);
     buffer.writeVectorObject(themes);
@@ -40646,7 +43857,7 @@ class AuthLoginToken extends AuthLoginTokenBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x629f1980);
     buffer.writeInt(expires);
     buffer.writeBytes(token);
@@ -40682,7 +43893,7 @@ class AuthLoginTokenMigrateTo extends AuthLoginTokenBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x068e9916);
     buffer.writeInt(dcId);
     buffer.writeBytes(token);
@@ -40713,7 +43924,7 @@ class AuthLoginTokenSuccess extends AuthLoginTokenBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x390d5c5e);
     buffer.writeObject(authorization);
   }
@@ -40731,7 +43942,8 @@ abstract class AccountContentSettingsBase extends TlConstructor {
 class AccountContentSettings extends AccountContentSettingsBase {
   /// Account Content Settings constructor.
   const AccountContentSettings({
-    required this.flags,
+    required this.sensitiveEnabled,
+    required this.sensitiveCanChange,
   }) : super._();
 
   /// Deserialize.
@@ -40747,17 +43959,24 @@ class AccountContentSettings extends AccountContentSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: sensitiveEnabled,
+      b01: sensitiveCanChange,
+    );
 
-  /// sensitive_enabled: bit
-  bool get sensitiveEnabled => _bit(flags, 0);
+    return v;
+  }
 
-  /// sensitive_can_change: bit
-  bool get sensitiveCanChange => _bit(flags, 1);
+  /// sensitive_enabled: bit 0 of flags.0?true
+  final bool sensitiveEnabled;
+
+  /// sensitive_can_change: bit 1 of flags.1?true
+  final bool sensitiveCanChange;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57e28221);
     buffer.writeInt(flags);
   }
@@ -40803,7 +44022,7 @@ class MessagesInactiveChats extends MessagesInactiveChatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa927fec5);
     buffer.writeVectorInt(dates);
     buffer.writeVectorObject(chats);
@@ -40835,7 +44054,7 @@ class BaseThemeClassic extends BaseThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc3a12462);
   }
 }
@@ -40858,7 +44077,7 @@ class BaseThemeDay extends BaseThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbd81688);
   }
 }
@@ -40881,7 +44100,7 @@ class BaseThemeNight extends BaseThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb7b31ea8);
   }
 }
@@ -40904,7 +44123,7 @@ class BaseThemeTinted extends BaseThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6d5f77ee);
   }
 }
@@ -40927,7 +44146,7 @@ class BaseThemeArctic extends BaseThemeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5b11125a);
   }
 }
@@ -40944,7 +44163,7 @@ abstract class InputThemeSettingsBase extends TlConstructor {
 class InputThemeSettings extends InputThemeSettingsBase {
   /// Input Theme Settings constructor.
   const InputThemeSettings({
-    required this.flags,
+    required this.messageColorsAnimated,
     required this.baseTheme,
     required this.accentColor,
     this.outboxAccentColor,
@@ -40971,24 +44190,41 @@ class InputThemeSettings extends InputThemeSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: messageColorsAnimated,
+      b03: outboxAccentColor != null,
+      b00: messageColors != null,
+      b01: wallpaper != null || wallpaperSettings != null,
+    );
 
-  /// message_colors_animated: bit
-  bool get messageColorsAnimated => _bit(flags, 2);
+    return v;
+  }
+
+  /// message_colors_animated: bit 2 of flags.2?true
+  final bool messageColorsAnimated;
 
   /// Base Theme.
   final BaseThemeBase baseTheme;
 
   /// Accent Color.
   final int accentColor;
+
+  /// Outbox Accent Color.
   final int? outboxAccentColor;
+
+  /// Message Colors.
   final List<int>? messageColors;
+
+  /// Wallpaper.
   final InputWallPaperBase? wallpaper;
+
+  /// Wallpaper Settings.
   final WallPaperSettingsBase? wallpaperSettings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8fde504f);
     buffer.writeInt(flags);
     buffer.writeObject(baseTheme);
@@ -41024,7 +44260,7 @@ abstract class ThemeSettingsBase extends TlConstructor {
 class ThemeSettings extends ThemeSettingsBase {
   /// Theme Settings constructor.
   const ThemeSettings({
-    required this.flags,
+    required this.messageColorsAnimated,
     required this.baseTheme,
     required this.accentColor,
     this.outboxAccentColor,
@@ -41049,23 +44285,38 @@ class ThemeSettings extends ThemeSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: messageColorsAnimated,
+      b03: outboxAccentColor != null,
+      b00: messageColors != null,
+      b01: wallpaper != null,
+    );
 
-  /// message_colors_animated: bit
-  bool get messageColorsAnimated => _bit(flags, 2);
+    return v;
+  }
+
+  /// message_colors_animated: bit 2 of flags.2?true
+  final bool messageColorsAnimated;
 
   /// Base Theme.
   final BaseThemeBase baseTheme;
 
   /// Accent Color.
   final int accentColor;
+
+  /// Outbox Accent Color.
   final int? outboxAccentColor;
+
+  /// Message Colors.
   final List<int>? messageColors;
+
+  /// Wallpaper.
   final WallPaperBase? wallpaper;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa58b6d4);
     buffer.writeInt(flags);
     buffer.writeObject(baseTheme);
@@ -41097,7 +44348,6 @@ abstract class WebPageAttributeBase extends TlConstructor {
 class WebPageAttributeTheme extends WebPageAttributeBase {
   /// Web Page Attribute Theme constructor.
   const WebPageAttributeTheme({
-    required this.flags,
     this.documents,
     this.settings,
   }) : super._();
@@ -41115,13 +44365,24 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: documents != null,
+      b01: settings != null,
+    );
+
+    return v;
+  }
+
+  /// Documents.
   final List<DocumentBase>? documents;
+
+  /// Settings.
   final ThemeSettingsBase? settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x54b56617);
     buffer.writeInt(flags);
     final localDocumentsCopy = documents;
@@ -41141,7 +44402,6 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
 class WebPageAttributeStory extends WebPageAttributeBase {
   /// Web Page Attribute Story constructor.
   const WebPageAttributeStory({
-    required this.flags,
     required this.peer,
     required this.id,
     this.story,
@@ -41161,18 +44421,26 @@ class WebPageAttributeStory extends WebPageAttributeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: story != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final PeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Story.
   final StoryItemBase? story;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2e94c3e7);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -41196,7 +44464,6 @@ abstract class MessagesVotesListBase extends TlConstructor {
 class MessagesVotesList extends MessagesVotesListBase {
   /// Messages Votes List constructor.
   const MessagesVotesList({
-    required this.flags,
     required this.count,
     required this.votes,
     required this.chats,
@@ -41220,7 +44487,13 @@ class MessagesVotesList extends MessagesVotesListBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
@@ -41233,11 +44506,13 @@ class MessagesVotesList extends MessagesVotesListBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4899484e);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -41286,7 +44561,7 @@ class BankCardOpenUrl extends BankCardOpenUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf568028a);
     buffer.writeString(url);
     buffer.writeString(name);
@@ -41328,7 +44603,7 @@ class PaymentsBankCardData extends PaymentsBankCardDataBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3e24e573);
     buffer.writeString(title);
     buffer.writeVectorObject(openUrls);
@@ -41347,7 +44622,14 @@ abstract class DialogFilterBase extends TlConstructor {
 class DialogFilter extends DialogFilterBase {
   /// Dialog Filter constructor.
   const DialogFilter({
-    required this.flags,
+    required this.contacts,
+    required this.nonContacts,
+    required this.groups,
+    required this.broadcasts,
+    required this.bots,
+    required this.excludeMuted,
+    required this.excludeRead,
+    required this.excludeArchived,
     required this.id,
     required this.title,
     this.emoticon,
@@ -41381,37 +44663,53 @@ class DialogFilter extends DialogFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: contacts,
+      b01: nonContacts,
+      b02: groups,
+      b03: broadcasts,
+      b04: bots,
+      b11: excludeMuted,
+      b12: excludeRead,
+      b13: excludeArchived,
+      b25: emoticon != null,
+    );
 
-  /// contacts: bit
-  bool get contacts => _bit(flags, 0);
+    return v;
+  }
 
-  /// non_contacts: bit
-  bool get nonContacts => _bit(flags, 1);
+  /// contacts: bit 0 of flags.0?true
+  final bool contacts;
 
-  /// groups: bit
-  bool get groups => _bit(flags, 2);
+  /// non_contacts: bit 1 of flags.1?true
+  final bool nonContacts;
 
-  /// broadcasts: bit
-  bool get broadcasts => _bit(flags, 3);
+  /// groups: bit 2 of flags.2?true
+  final bool groups;
 
-  /// bots: bit
-  bool get bots => _bit(flags, 4);
+  /// broadcasts: bit 3 of flags.3?true
+  final bool broadcasts;
 
-  /// exclude_muted: bit
-  bool get excludeMuted => _bit(flags, 11);
+  /// bots: bit 4 of flags.4?true
+  final bool bots;
 
-  /// exclude_read: bit
-  bool get excludeRead => _bit(flags, 12);
+  /// exclude_muted: bit 11 of flags.11?true
+  final bool excludeMuted;
 
-  /// exclude_archived: bit
-  bool get excludeArchived => _bit(flags, 13);
+  /// exclude_read: bit 12 of flags.12?true
+  final bool excludeRead;
+
+  /// exclude_archived: bit 13 of flags.13?true
+  final bool excludeArchived;
 
   /// Id.
   final int id;
 
   /// Title.
   final String title;
+
+  /// Emoticon.
   final String? emoticon;
 
   /// Pinned Peers.
@@ -41425,7 +44723,7 @@ class DialogFilter extends DialogFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7438f7e8);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -41458,7 +44756,7 @@ class DialogFilterDefault extends DialogFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x363293ae);
   }
 }
@@ -41469,7 +44767,7 @@ class DialogFilterDefault extends DialogFilterBase {
 class DialogFilterChatlist extends DialogFilterBase {
   /// Dialog Filter Chatlist constructor.
   const DialogFilterChatlist({
-    required this.flags,
+    required this.hasMyInvites,
     required this.id,
     required this.title,
     this.emoticon,
@@ -41494,16 +44792,25 @@ class DialogFilterChatlist extends DialogFilterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b26: hasMyInvites,
+      b25: emoticon != null,
+    );
 
-  /// has_my_invites: bit
-  bool get hasMyInvites => _bit(flags, 26);
+    return v;
+  }
+
+  /// has_my_invites: bit 26 of flags.26?true
+  final bool hasMyInvites;
 
   /// Id.
   final int id;
 
   /// Title.
   final String title;
+
+  /// Emoticon.
   final String? emoticon;
 
   /// Pinned Peers.
@@ -41514,7 +44821,7 @@ class DialogFilterChatlist extends DialogFilterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd64a04a8);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -41563,7 +44870,7 @@ class DialogFilterSuggested extends DialogFilterSuggestedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77744d4a);
     buffer.writeObject(filter);
     buffer.writeString(description);
@@ -41605,7 +44912,7 @@ class StatsDateRangeDays extends StatsDateRangeDaysBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb637edaf);
     buffer.writeDateTime(minDate);
     buffer.writeDateTime(maxDate);
@@ -41647,7 +44954,7 @@ class StatsAbsValueAndPrev extends StatsAbsValueAndPrevBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcb43acde);
     buffer.writeDouble(current);
     buffer.writeDouble(previous);
@@ -41689,7 +44996,7 @@ class StatsPercentValue extends StatsPercentValueBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcbce2fe0);
     buffer.writeDouble(part);
     buffer.writeDouble(total);
@@ -41726,7 +45033,7 @@ class StatsGraphAsync extends StatsGraphBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4a27eb2d);
     buffer.writeString(token);
   }
@@ -41756,7 +45063,7 @@ class StatsGraphError extends StatsGraphBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbedc9822);
     buffer.writeString(error);
   }
@@ -41768,7 +45075,6 @@ class StatsGraphError extends StatsGraphBase {
 class StatsGraph extends StatsGraphBase {
   /// Stats Graph constructor.
   const StatsGraph({
-    required this.flags,
     required this.json,
     this.zoomToken,
   }) : super._();
@@ -41786,15 +45092,23 @@ class StatsGraph extends StatsGraphBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: zoomToken != null,
+    );
+
+    return v;
+  }
 
   /// Json.
   final DataJSONBase json;
+
+  /// Zoom Token.
   final String? zoomToken;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ea464b6);
     buffer.writeInt(flags);
     buffer.writeObject(json);
@@ -41940,7 +45254,7 @@ class StatsBroadcastStats extends StatsBroadcastStatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x396ca5fc);
     buffer.writeObject(period);
     buffer.writeObject(followers);
@@ -41997,7 +45311,7 @@ class HelpPromoDataEmpty extends HelpPromoDataBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98f6ac75);
     buffer.writeInt(expires);
   }
@@ -42009,7 +45323,7 @@ class HelpPromoDataEmpty extends HelpPromoDataBase {
 class HelpPromoData extends HelpPromoDataBase {
   /// Help Promo Data constructor.
   const HelpPromoData({
-    required this.flags,
+    required this.proxy,
     required this.expires,
     required this.peer,
     required this.chats,
@@ -42036,10 +45350,18 @@ class HelpPromoData extends HelpPromoDataBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: proxy,
+      b01: psaType != null,
+      b02: psaMessage != null,
+    );
 
-  /// proxy: bit
-  bool get proxy => _bit(flags, 0);
+    return v;
+  }
+
+  /// proxy: bit 0 of flags.0?true
+  final bool proxy;
 
   /// Expires.
   final int expires;
@@ -42052,12 +45374,16 @@ class HelpPromoData extends HelpPromoDataBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Psa Type.
   final String? psaType;
+
+  /// Psa Message.
   final String? psaMessage;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c39793f);
     buffer.writeInt(flags);
     buffer.writeInt(expires);
@@ -42087,7 +45413,6 @@ abstract class VideoSizeBase extends TlConstructor {
 class VideoSize extends VideoSizeBase {
   /// Video Size constructor.
   const VideoSize({
-    required this.flags,
     required this.type,
     required this.w,
     required this.h,
@@ -42111,7 +45436,13 @@ class VideoSize extends VideoSizeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: videoStartTs != null,
+    );
+
+    return v;
+  }
 
   /// Type.
   final String type;
@@ -42124,11 +45455,13 @@ class VideoSize extends VideoSizeBase {
 
   /// Size.
   final int size;
+
+  /// Video Start Ts.
   final double? videoStartTs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde33b094);
     buffer.writeInt(flags);
     buffer.writeString(type);
@@ -42171,7 +45504,7 @@ class VideoSizeEmojiMarkup extends VideoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf85c413c);
     buffer.writeLong(emojiId);
     buffer.writeVectorInt(backgroundColors);
@@ -42212,7 +45545,7 @@ class VideoSizeStickerMarkup extends VideoSizeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0da082fe);
     buffer.writeObject(stickerset);
     buffer.writeLong(stickerId);
@@ -42260,7 +45593,7 @@ class StatsGroupTopPoster extends StatsGroupTopPosterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9d04af9b);
     buffer.writeLong(userId);
     buffer.writeInt(messages);
@@ -42313,7 +45646,7 @@ class StatsGroupTopAdmin extends StatsGroupTopAdminBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd7584c87);
     buffer.writeLong(userId);
     buffer.writeInt(deleted);
@@ -42357,7 +45690,7 @@ class StatsGroupTopInviter extends StatsGroupTopInviterBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x535f779d);
     buffer.writeLong(userId);
     buffer.writeInt(invitations);
@@ -42474,7 +45807,7 @@ class StatsMegagroupStats extends StatsMegagroupStatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef7ff916);
     buffer.writeObject(period);
     buffer.writeObject(members);
@@ -42508,7 +45841,9 @@ abstract class GlobalPrivacySettingsBase extends TlConstructor {
 class GlobalPrivacySettings extends GlobalPrivacySettingsBase {
   /// Global Privacy Settings constructor.
   const GlobalPrivacySettings({
-    required this.flags,
+    required this.archiveAndMuteNewNoncontactPeers,
+    required this.keepArchivedUnmuted,
+    required this.keepArchivedFolders,
   }) : super._();
 
   /// Deserialize.
@@ -42525,20 +45860,28 @@ class GlobalPrivacySettings extends GlobalPrivacySettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: archiveAndMuteNewNoncontactPeers,
+      b01: keepArchivedUnmuted,
+      b02: keepArchivedFolders,
+    );
 
-  /// archive_and_mute_new_noncontact_peers: bit
-  bool get archiveAndMuteNewNoncontactPeers => _bit(flags, 0);
+    return v;
+  }
 
-  /// keep_archived_unmuted: bit
-  bool get keepArchivedUnmuted => _bit(flags, 1);
+  /// archive_and_mute_new_noncontact_peers: bit 0 of flags.0?true
+  final bool archiveAndMuteNewNoncontactPeers;
 
-  /// keep_archived_folders: bit
-  bool get keepArchivedFolders => _bit(flags, 2);
+  /// keep_archived_unmuted: bit 1 of flags.1?true
+  final bool keepArchivedUnmuted;
+
+  /// keep_archived_folders: bit 2 of flags.2?true
+  final bool keepArchivedFolders;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x734c4ccb);
     buffer.writeInt(flags);
   }
@@ -42556,7 +45899,6 @@ abstract class HelpCountryCodeBase extends TlConstructor {
 class HelpCountryCode extends HelpCountryCodeBase {
   /// Help Country Code constructor.
   const HelpCountryCode({
-    required this.flags,
     required this.countryCode,
     this.prefixes,
     this.patterns,
@@ -42576,16 +45918,27 @@ class HelpCountryCode extends HelpCountryCodeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: prefixes != null,
+      b01: patterns != null,
+    );
+
+    return v;
+  }
 
   /// Country Code.
   final String countryCode;
+
+  /// Prefixes.
   final List<String>? prefixes;
+
+  /// Patterns.
   final List<String>? patterns;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4203c5ef);
     buffer.writeInt(flags);
     buffer.writeString(countryCode);
@@ -42612,7 +45965,7 @@ abstract class HelpCountryBase extends TlConstructor {
 class HelpCountry extends HelpCountryBase {
   /// Help Country constructor.
   const HelpCountry({
-    required this.flags,
+    required this.hidden,
     required this.iso2,
     required this.defaultName,
     this.name,
@@ -42635,16 +45988,25 @@ class HelpCountry extends HelpCountryBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hidden,
+      b01: name != null,
+    );
 
-  /// hidden: bit
-  bool get hidden => _bit(flags, 0);
+    return v;
+  }
+
+  /// hidden: bit 0 of flags.0?true
+  final bool hidden;
 
   /// Iso2.
   final String iso2;
 
   /// Default Name.
   final String defaultName;
+
+  /// Name.
   final String? name;
 
   /// Country Codes.
@@ -42652,7 +46014,7 @@ class HelpCountry extends HelpCountryBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc3878e23);
     buffer.writeInt(flags);
     buffer.writeString(iso2);
@@ -42689,7 +46051,7 @@ class HelpCountriesListNotModified extends HelpCountriesListBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x93cc1f32);
   }
 }
@@ -42723,7 +46085,7 @@ class HelpCountriesList extends HelpCountriesListBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x87d0759e);
     buffer.writeVectorObject(countries);
     buffer.writeInt(hash);
@@ -42742,7 +46104,6 @@ abstract class MessageViewsBase extends TlConstructor {
 class MessageViews extends MessageViewsBase {
   /// Message Views constructor.
   const MessageViews({
-    required this.flags,
     this.views,
     this.forwards,
     this.replies,
@@ -42762,14 +46123,28 @@ class MessageViews extends MessageViewsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: views != null,
+      b01: forwards != null,
+      b02: replies != null,
+    );
+
+    return v;
+  }
+
+  /// Views.
   final int? views;
+
+  /// Forwards.
   final int? forwards;
+
+  /// Replies.
   final MessageRepliesBase? replies;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x455b853d);
     buffer.writeInt(flags);
     final localViewsCopy = views;
@@ -42827,7 +46202,7 @@ class MessagesMessageViews extends MessagesMessageViewsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6c4f543);
     buffer.writeVectorObject(views);
     buffer.writeVectorObject(chats);
@@ -42847,7 +46222,6 @@ abstract class MessagesDiscussionMessageBase extends TlConstructor {
 class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
   /// Messages Discussion Message constructor.
   const MessagesDiscussionMessage({
-    required this.flags,
     required this.messages,
     this.maxId,
     this.readInboxMaxId,
@@ -42875,12 +46249,26 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: maxId != null,
+      b01: readInboxMaxId != null,
+      b02: readOutboxMaxId != null,
+    );
+
+    return v;
+  }
 
   /// Messages.
   final List<MessageBase> messages;
+
+  /// Max Id.
   final int? maxId;
+
+  /// Read Inbox Max Id.
   final int? readInboxMaxId;
+
+  /// Read Outbox Max Id.
   final int? readOutboxMaxId;
 
   /// Unread Count.
@@ -42894,7 +46282,7 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6341782);
     buffer.writeInt(flags);
     buffer.writeVectorObject(messages);
@@ -42928,7 +46316,9 @@ abstract class MessageReplyHeaderBase extends TlConstructor {
 class MessageReplyHeader extends MessageReplyHeaderBase {
   /// Message Reply Header constructor.
   const MessageReplyHeader({
-    required this.flags,
+    required this.replyToScheduled,
+    required this.forumTopic,
+    required this.quote,
     this.replyToMsgId,
     this.replyToPeerId,
     this.replyFrom,
@@ -42961,28 +46351,60 @@ class MessageReplyHeader extends MessageReplyHeaderBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: replyToScheduled,
+      b03: forumTopic,
+      b09: quote,
+      b04: replyToMsgId != null,
+      b00: replyToPeerId != null,
+      b05: replyFrom != null,
+      b08: replyMedia != null,
+      b01: replyToTopId != null,
+      b06: quoteText != null,
+      b07: quoteEntities != null,
+      b10: quoteOffset != null,
+    );
 
-  /// reply_to_scheduled: bit
-  bool get replyToScheduled => _bit(flags, 2);
+    return v;
+  }
 
-  /// forum_topic: bit
-  bool get forumTopic => _bit(flags, 3);
+  /// reply_to_scheduled: bit 2 of flags.2?true
+  final bool replyToScheduled;
 
-  /// quote: bit
-  bool get quote => _bit(flags, 9);
+  /// forum_topic: bit 3 of flags.3?true
+  final bool forumTopic;
+
+  /// quote: bit 9 of flags.9?true
+  final bool quote;
+
+  /// Reply To Msg Id.
   final int? replyToMsgId;
+
+  /// Reply To Peer Id.
   final PeerBase? replyToPeerId;
+
+  /// Reply From.
   final MessageFwdHeaderBase? replyFrom;
+
+  /// Reply Media.
   final MessageMediaBase? replyMedia;
+
+  /// Reply To Top Id.
   final int? replyToTopId;
+
+  /// Quote Text.
   final String? quoteText;
+
+  /// Quote Entities.
   final List<MessageEntityBase>? quoteEntities;
+
+  /// Quote Offset.
   final int? quoteOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xafbc09db);
     buffer.writeInt(flags);
     final localReplyToMsgIdCopy = replyToMsgId;
@@ -43049,7 +46471,7 @@ class MessageReplyStoryHeader extends MessageReplyHeaderBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9c98bfc1);
     buffer.writeLong(userId);
     buffer.writeInt(storyId);
@@ -43068,7 +46490,7 @@ abstract class MessageRepliesBase extends TlConstructor {
 class MessageReplies extends MessageRepliesBase {
   /// Message Replies constructor.
   const MessageReplies({
-    required this.flags,
+    required this.comments,
     required this.replies,
     required this.repliesPts,
     this.recentRepliers,
@@ -43095,24 +46517,41 @@ class MessageReplies extends MessageRepliesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: comments || channelId != null,
+      b01: recentRepliers != null,
+      b02: maxId != null,
+      b03: readMaxId != null,
+    );
 
-  /// comments: bit
-  bool get comments => _bit(flags, 0);
+    return v;
+  }
+
+  /// comments: bit 0 of flags.0?true
+  final bool comments;
 
   /// Replies.
   final int replies;
 
   /// Replies Pts.
   final int repliesPts;
+
+  /// Recent Repliers.
   final List<PeerBase>? recentRepliers;
+
+  /// Channel Id.
   final int? channelId;
+
+  /// Max Id.
   final int? maxId;
+
+  /// Read Max Id.
   final int? readMaxId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x83d60fc2);
     buffer.writeInt(flags);
     buffer.writeInt(replies);
@@ -43171,7 +46610,7 @@ class PeerBlocked extends PeerBlockedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe8fd8014);
     buffer.writeObject(peerId);
     buffer.writeDateTime(date);
@@ -43213,7 +46652,7 @@ class StatsMessageStats extends StatsMessageStatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7fe91c14);
     buffer.writeObject(viewsGraph);
     buffer.writeObject(reactionsByEmotionGraph);
@@ -43260,7 +46699,7 @@ class GroupCallDiscarded extends GroupCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7780bcb4);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -43274,7 +46713,14 @@ class GroupCallDiscarded extends GroupCallBase {
 class GroupCall extends GroupCallBase {
   /// Group Call constructor.
   const GroupCall({
-    required this.flags,
+    required this.joinMuted,
+    required this.canChangeJoinMuted,
+    required this.joinDateAsc,
+    required this.scheduleStartSubscribed,
+    required this.canStartVideo,
+    required this.recordVideoActive,
+    required this.rtmpStream,
+    required this.listenersHidden,
     required this.id,
     required this.accessHash,
     required this.participantsCount,
@@ -43316,31 +46762,49 @@ class GroupCall extends GroupCallBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: joinMuted,
+      b02: canChangeJoinMuted,
+      b06: joinDateAsc,
+      b08: scheduleStartSubscribed,
+      b09: canStartVideo,
+      b11: recordVideoActive,
+      b12: rtmpStream,
+      b13: listenersHidden,
+      b03: title != null,
+      b04: streamDcId != null,
+      b05: recordStartDate != null,
+      b07: scheduleDate != null,
+      b10: unmutedVideoCount != null,
+    );
 
-  /// join_muted: bit
-  bool get joinMuted => _bit(flags, 1);
+    return v;
+  }
 
-  /// can_change_join_muted: bit
-  bool get canChangeJoinMuted => _bit(flags, 2);
+  /// join_muted: bit 1 of flags.1?true
+  final bool joinMuted;
 
-  /// join_date_asc: bit
-  bool get joinDateAsc => _bit(flags, 6);
+  /// can_change_join_muted: bit 2 of flags.2?true
+  final bool canChangeJoinMuted;
 
-  /// schedule_start_subscribed: bit
-  bool get scheduleStartSubscribed => _bit(flags, 8);
+  /// join_date_asc: bit 6 of flags.6?true
+  final bool joinDateAsc;
 
-  /// can_start_video: bit
-  bool get canStartVideo => _bit(flags, 9);
+  /// schedule_start_subscribed: bit 8 of flags.8?true
+  final bool scheduleStartSubscribed;
 
-  /// record_video_active: bit
-  bool get recordVideoActive => _bit(flags, 11);
+  /// can_start_video: bit 9 of flags.9?true
+  final bool canStartVideo;
 
-  /// rtmp_stream: bit
-  bool get rtmpStream => _bit(flags, 12);
+  /// record_video_active: bit 11 of flags.11?true
+  final bool recordVideoActive;
 
-  /// listeners_hidden: bit
-  bool get listenersHidden => _bit(flags, 13);
+  /// rtmp_stream: bit 12 of flags.12?true
+  final bool rtmpStream;
+
+  /// listeners_hidden: bit 13 of flags.13?true
+  final bool listenersHidden;
 
   /// Id.
   final int id;
@@ -43350,10 +46814,20 @@ class GroupCall extends GroupCallBase {
 
   /// Participants Count.
   final int participantsCount;
+
+  /// Title.
   final String? title;
+
+  /// Stream Dc Id.
   final int? streamDcId;
+
+  /// Record Start Date.
   final DateTime? recordStartDate;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Unmuted Video Count.
   final int? unmutedVideoCount;
 
   /// Unmuted Video Limit.
@@ -43364,7 +46838,7 @@ class GroupCall extends GroupCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd597650c);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -43430,7 +46904,7 @@ class InputGroupCall extends InputGroupCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd8aa840f);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -43449,7 +46923,16 @@ abstract class GroupCallParticipantBase extends TlConstructor {
 class GroupCallParticipant extends GroupCallParticipantBase {
   /// Group Call Participant constructor.
   const GroupCallParticipant({
-    required this.flags,
+    required this.muted,
+    required this.left,
+    required this.canSelfUnmute,
+    required this.justJoined,
+    required this.versioned,
+    required this.min,
+    required this.mutedByYou,
+    required this.volumeByAdmin,
+    required this.self,
+    required this.videoJoined,
     required this.peer,
     required this.date,
     this.activeDate,
@@ -43491,56 +46974,89 @@ class GroupCallParticipant extends GroupCallParticipantBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: muted,
+      b01: left,
+      b02: canSelfUnmute,
+      b04: justJoined,
+      b05: versioned,
+      b08: min,
+      b09: mutedByYou,
+      b10: volumeByAdmin,
+      b12: self,
+      b15: videoJoined,
+      b03: activeDate != null,
+      b07: volume != null,
+      b11: about != null,
+      b13: raiseHandRating != null,
+      b06: video != null,
+      b14: presentation != null,
+    );
 
-  /// muted: bit
-  bool get muted => _bit(flags, 0);
+    return v;
+  }
 
-  /// left: bit
-  bool get left => _bit(flags, 1);
+  /// muted: bit 0 of flags.0?true
+  final bool muted;
 
-  /// can_self_unmute: bit
-  bool get canSelfUnmute => _bit(flags, 2);
+  /// left: bit 1 of flags.1?true
+  final bool left;
 
-  /// just_joined: bit
-  bool get justJoined => _bit(flags, 4);
+  /// can_self_unmute: bit 2 of flags.2?true
+  final bool canSelfUnmute;
 
-  /// versioned: bit
-  bool get versioned => _bit(flags, 5);
+  /// just_joined: bit 4 of flags.4?true
+  final bool justJoined;
 
-  /// min: bit
-  bool get min => _bit(flags, 8);
+  /// versioned: bit 5 of flags.5?true
+  final bool versioned;
 
-  /// muted_by_you: bit
-  bool get mutedByYou => _bit(flags, 9);
+  /// min: bit 8 of flags.8?true
+  final bool min;
 
-  /// volume_by_admin: bit
-  bool get volumeByAdmin => _bit(flags, 10);
+  /// muted_by_you: bit 9 of flags.9?true
+  final bool mutedByYou;
 
-  /// self: bit
-  bool get self => _bit(flags, 12);
+  /// volume_by_admin: bit 10 of flags.10?true
+  final bool volumeByAdmin;
 
-  /// video_joined: bit
-  bool get videoJoined => _bit(flags, 15);
+  /// self: bit 12 of flags.12?true
+  final bool self;
+
+  /// video_joined: bit 15 of flags.15?true
+  final bool videoJoined;
 
   /// Peer.
   final PeerBase peer;
 
   /// Date.
   final DateTime date;
+
+  /// Active Date.
   final DateTime? activeDate;
 
   /// Source.
   final int source;
+
+  /// Volume.
   final int? volume;
+
+  /// About.
   final String? about;
+
+  /// Raise Hand Rating.
   final int? raiseHandRating;
+
+  /// Video.
   final GroupCallParticipantVideoBase? video;
+
+  /// Presentation.
   final GroupCallParticipantVideoBase? presentation;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeba636fe);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -43623,7 +47139,7 @@ class PhoneGroupCall extends PhoneGroupCallBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9e727aad);
     buffer.writeObject(call);
     buffer.writeVectorObject(participants);
@@ -43688,7 +47204,7 @@ class PhoneGroupParticipants extends PhoneGroupParticipantsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf47751b6);
     buffer.writeInt(count);
     buffer.writeVectorObject(participants);
@@ -43723,7 +47239,7 @@ class InlineQueryPeerTypeSameBotPM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3081ed9d);
   }
 }
@@ -43746,7 +47262,7 @@ class InlineQueryPeerTypePM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x833c0fac);
   }
 }
@@ -43769,7 +47285,7 @@ class InlineQueryPeerTypeChat extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd766c50a);
   }
 }
@@ -43792,7 +47308,7 @@ class InlineQueryPeerTypeMegagroup extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5ec4be43);
   }
 }
@@ -43815,7 +47331,7 @@ class InlineQueryPeerTypeBroadcast extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6334ee9a);
   }
 }
@@ -43838,7 +47354,7 @@ class InlineQueryPeerTypeBotPM extends InlineQueryPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0e3b2d0c);
   }
 }
@@ -43873,7 +47389,7 @@ class MessagesHistoryImport extends MessagesHistoryImportBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1662af0b);
     buffer.writeLong(id);
   }
@@ -43891,7 +47407,8 @@ abstract class MessagesHistoryImportParsedBase extends TlConstructor {
 class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
   /// Messages History Import Parsed constructor.
   const MessagesHistoryImportParsed({
-    required this.flags,
+    required this.pm,
+    required this.group,
     this.title,
   }) : super._();
 
@@ -43909,18 +47426,28 @@ class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pm,
+      b01: group,
+      b02: title != null,
+    );
 
-  /// pm: bit
-  bool get pm => _bit(flags, 0);
+    return v;
+  }
 
-  /// group: bit
-  bool get group => _bit(flags, 1);
+  /// pm: bit 0 of flags.0?true
+  final bool pm;
+
+  /// group: bit 1 of flags.1?true
+  final bool group;
+
+  /// Title.
   final String? title;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5e0fb7b9);
     buffer.writeInt(flags);
     final localTitleCopy = title;
@@ -43975,7 +47502,7 @@ class MessagesAffectedFoundMessages extends MessagesAffectedFoundMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef8d3e6c);
     buffer.writeInt(pts);
     buffer.writeInt(ptsCount);
@@ -43996,7 +47523,8 @@ abstract class ChatInviteImporterBase extends TlConstructor {
 class ChatInviteImporter extends ChatInviteImporterBase {
   /// Chat Invite Importer constructor.
   const ChatInviteImporter({
-    required this.flags,
+    required this.requested,
+    required this.viaChatlist,
     required this.userId,
     required this.date,
     this.about,
@@ -44020,25 +47548,38 @@ class ChatInviteImporter extends ChatInviteImporterBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requested,
+      b03: viaChatlist,
+      b02: about != null,
+      b01: approvedBy != null,
+    );
 
-  /// requested: bit
-  bool get requested => _bit(flags, 0);
+    return v;
+  }
 
-  /// via_chatlist: bit
-  bool get viaChatlist => _bit(flags, 3);
+  /// requested: bit 0 of flags.0?true
+  final bool requested;
+
+  /// via_chatlist: bit 3 of flags.3?true
+  final bool viaChatlist;
 
   /// User Id.
   final int userId;
 
   /// Date.
   final DateTime date;
+
+  /// About.
   final String? about;
+
+  /// Approved By.
   final int? approvedBy;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c5adfd9);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -44094,7 +47635,7 @@ class MessagesExportedChatInvites extends MessagesExportedChatInvitesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdc62dcc);
     buffer.writeInt(count);
     buffer.writeVectorObject(invites);
@@ -44137,7 +47678,7 @@ class MessagesExportedChatInvite extends MessagesExportedChatInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1871be50);
     buffer.writeObject(invite);
     buffer.writeVectorObject(users);
@@ -44179,7 +47720,7 @@ class MessagesExportedChatInviteReplaced
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x222600ef);
     buffer.writeObject(invite);
     buffer.writeObject(newInvite);
@@ -44227,7 +47768,7 @@ class MessagesChatInviteImporters extends MessagesChatInviteImportersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x81b6b00a);
     buffer.writeInt(count);
     buffer.writeVectorObject(importers);
@@ -44275,7 +47816,7 @@ class ChatAdminWithInvites extends ChatAdminWithInvitesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf2ecef23);
     buffer.writeLong(adminId);
     buffer.writeInt(invitesCount);
@@ -44318,7 +47859,7 @@ class MessagesChatAdminsWithInvites extends MessagesChatAdminsWithInvitesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb69b72d7);
     buffer.writeVectorObject(admins);
     buffer.writeVectorObject(users);
@@ -44356,7 +47897,7 @@ class MessagesCheckedHistoryImportPeer
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa24de717);
     buffer.writeString(confirmText);
   }
@@ -44402,7 +47943,7 @@ class PhoneJoinAsPeers extends PhoneJoinAsPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xafe5623f);
     buffer.writeVectorObject(peers);
     buffer.writeVectorObject(chats);
@@ -44440,7 +47981,7 @@ class PhoneExportedGroupCallInvite extends PhoneExportedGroupCallInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x204bd158);
     buffer.writeString(link);
   }
@@ -44482,7 +48023,7 @@ class GroupCallParticipantVideoSourceGroup
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdcb118b7);
     buffer.writeString(semantics);
     buffer.writeVectorInt(sources);
@@ -44501,7 +48042,7 @@ abstract class GroupCallParticipantVideoBase extends TlConstructor {
 class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
   /// Group Call Participant Video constructor.
   const GroupCallParticipantVideo({
-    required this.flags,
+    required this.paused,
     required this.endpoint,
     required this.sourceGroups,
     this.audioSource,
@@ -44522,21 +48063,30 @@ class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: paused,
+      b01: audioSource != null,
+    );
 
-  /// paused: bit
-  bool get paused => _bit(flags, 0);
+    return v;
+  }
+
+  /// paused: bit 0 of flags.0?true
+  final bool paused;
 
   /// Endpoint.
   final String endpoint;
 
   /// Source Groups.
   final List<GroupCallParticipantVideoSourceGroupBase> sourceGroups;
+
+  /// Audio Source.
   final int? audioSource;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x67753ac8);
     buffer.writeInt(flags);
     buffer.writeString(endpoint);
@@ -44578,7 +48128,7 @@ class StickersSuggestedShortName extends StickersSuggestedShortNameBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x85fea03f);
     buffer.writeString(shortName);
   }
@@ -44608,7 +48158,7 @@ class BotCommandScopeDefault extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2f6cb2ab);
   }
 }
@@ -44631,7 +48181,7 @@ class BotCommandScopeUsers extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c4f04d8);
   }
 }
@@ -44654,7 +48204,7 @@ class BotCommandScopeChats extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6fe1a881);
   }
 }
@@ -44677,7 +48227,7 @@ class BotCommandScopeChatAdmins extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb9aa606a);
   }
 }
@@ -44706,7 +48256,7 @@ class BotCommandScopePeer extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb9d897d);
     buffer.writeObject(peer);
   }
@@ -44736,7 +48286,7 @@ class BotCommandScopePeerAdmins extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3fd863d1);
     buffer.writeObject(peer);
   }
@@ -44771,7 +48321,7 @@ class BotCommandScopePeerUser extends BotCommandScopeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a1321f3);
     buffer.writeObject(peer);
     buffer.writeObject(userId);
@@ -44808,7 +48358,7 @@ class AccountResetPasswordFailedWait extends AccountResetPasswordResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe3779861);
     buffer.writeDateTime(retryDate);
   }
@@ -44838,7 +48388,7 @@ class AccountResetPasswordRequestedWait extends AccountResetPasswordResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe9effc7d);
     buffer.writeDateTime(untilDate);
   }
@@ -44862,7 +48412,7 @@ class AccountResetPasswordOk extends AccountResetPasswordResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe926d63e);
   }
 }
@@ -44879,7 +48429,8 @@ abstract class SponsoredMessageBase extends TlConstructor {
 class SponsoredMessage extends SponsoredMessageBase {
   /// Sponsored Message constructor.
   const SponsoredMessage({
-    required this.flags,
+    required this.recommended,
+    required this.showPeerPhoto,
     required this.randomId,
     this.fromId,
     this.chatInvite,
@@ -44921,34 +48472,73 @@ class SponsoredMessage extends SponsoredMessageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: recommended,
+      b06: showPeerPhoto,
+      b03: fromId != null,
+      b04: chatInvite != null || chatInviteHash != null,
+      b02: channelPost != null,
+      b00: startParam != null,
+      b09: webpage != null,
+      b10: app != null,
+      b01: entities != null,
+      b11: buttonText != null,
+      b07: sponsorInfo != null,
+      b08: additionalInfo != null,
+    );
 
-  /// recommended: bit
-  bool get recommended => _bit(flags, 5);
+    return v;
+  }
 
-  /// show_peer_photo: bit
-  bool get showPeerPhoto => _bit(flags, 6);
+  /// recommended: bit 5 of flags.5?true
+  final bool recommended;
+
+  /// show_peer_photo: bit 6 of flags.6?true
+  final bool showPeerPhoto;
 
   /// Random Id.
   final Uint8List randomId;
+
+  /// From Id.
   final PeerBase? fromId;
+
+  /// Chat Invite.
   final ChatInviteBase? chatInvite;
+
+  /// Chat Invite Hash.
   final String? chatInviteHash;
+
+  /// Channel Post.
   final int? channelPost;
+
+  /// Start Param.
   final String? startParam;
+
+  /// Webpage.
   final SponsoredWebPageBase? webpage;
+
+  /// App.
   final BotAppBase? app;
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Button Text.
   final String? buttonText;
+
+  /// Sponsor Info.
   final String? sponsorInfo;
+
+  /// Additional Info.
   final String? additionalInfo;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xed5383f7);
     buffer.writeInt(flags);
     buffer.writeBytes(randomId);
@@ -45012,7 +48602,6 @@ abstract class MessagesSponsoredMessagesBase extends TlConstructor {
 class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
   /// Messages Sponsored Messages constructor.
   const MessagesSponsoredMessages({
-    required this.flags,
     this.postsBetween,
     required this.messages,
     required this.chats,
@@ -45034,7 +48623,15 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: postsBetween != null,
+    );
+
+    return v;
+  }
+
+  /// Posts Between.
   final int? postsBetween;
 
   /// Messages.
@@ -45048,7 +48645,7 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc9ee1d87);
     buffer.writeInt(flags);
     final localPostsBetweenCopy = postsBetween;
@@ -45079,7 +48676,7 @@ class MessagesSponsoredMessagesEmpty extends MessagesSponsoredMessagesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1839490f);
   }
 }
@@ -45129,7 +48726,7 @@ class SearchResultsCalendarPeriod extends SearchResultsCalendarPeriodBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc9b0539f);
     buffer.writeDateTime(date);
     buffer.writeInt(minMsgId);
@@ -45150,7 +48747,7 @@ abstract class MessagesSearchResultsCalendarBase extends TlConstructor {
 class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
   /// Messages Search Results Calendar constructor.
   const MessagesSearchResultsCalendar({
-    required this.flags,
+    required this.inexact,
     required this.count,
     required this.minDate,
     required this.minMsgId,
@@ -45181,10 +48778,17 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: inexact,
+      b01: offsetIdOffset != null,
+    );
 
-  /// inexact: bit
-  bool get inexact => _bit(flags, 0);
+    return v;
+  }
+
+  /// inexact: bit 0 of flags.0?true
+  final bool inexact;
 
   /// Count.
   final int count;
@@ -45194,6 +48798,8 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
 
   /// Min Msg Id.
   final int minMsgId;
+
+  /// Offset Id Offset.
   final int? offsetIdOffset;
 
   /// Periods.
@@ -45210,7 +48816,7 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x147ee23c);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -45267,7 +48873,7 @@ class SearchResultPosition extends SearchResultsPositionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f648b67);
     buffer.writeInt(msgId);
     buffer.writeDateTime(date);
@@ -45311,7 +48917,7 @@ class MessagesSearchResultsPositions
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x53b22baf);
     buffer.writeInt(count);
     buffer.writeVectorObject(positions);
@@ -45358,7 +48964,7 @@ class ChannelsSendAsPeers extends ChannelsSendAsPeersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf496b0c6);
     buffer.writeVectorObject(peers);
     buffer.writeVectorObject(chats);
@@ -45406,7 +49012,7 @@ class UsersUserFull extends UsersUserFullBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3b6d152e);
     buffer.writeObject(fullUser);
     buffer.writeVectorObject(chats);
@@ -45454,7 +49060,7 @@ class MessagesPeerSettings extends MessagesPeerSettingsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6880b94d);
     buffer.writeObject(settings);
     buffer.writeVectorObject(chats);
@@ -45474,7 +49080,6 @@ abstract class AuthLoggedOutBase extends TlConstructor {
 class AuthLoggedOut extends AuthLoggedOutBase {
   /// Auth Logged Out constructor.
   const AuthLoggedOut({
-    required this.flags,
     this.futureAuthToken,
   }) : super._();
 
@@ -45490,12 +49095,20 @@ class AuthLoggedOut extends AuthLoggedOutBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: futureAuthToken != null,
+    );
+
+    return v;
+  }
+
+  /// Future Auth Token.
   final Uint8List? futureAuthToken;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc3a2835f);
     buffer.writeInt(flags);
     final localFutureAuthTokenCopy = futureAuthToken;
@@ -45517,7 +49130,6 @@ abstract class ReactionCountBase extends TlConstructor {
 class ReactionCount extends ReactionCountBase {
   /// Reaction Count constructor.
   const ReactionCount({
-    required this.flags,
     this.chosenOrder,
     required this.reaction,
     required this.count,
@@ -45537,7 +49149,15 @@ class ReactionCount extends ReactionCountBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: chosenOrder != null,
+    );
+
+    return v;
+  }
+
+  /// Chosen Order.
   final int? chosenOrder;
 
   /// Reaction.
@@ -45548,7 +49168,7 @@ class ReactionCount extends ReactionCountBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa3d1cb80);
     buffer.writeInt(flags);
     final localChosenOrderCopy = chosenOrder;
@@ -45572,7 +49192,8 @@ abstract class MessageReactionsBase extends TlConstructor {
 class MessageReactions extends MessageReactionsBase {
   /// Message Reactions constructor.
   const MessageReactions({
-    required this.flags,
+    required this.min,
+    required this.canSeeList,
     required this.results,
     this.recentReactions,
   }) : super._();
@@ -45592,21 +49213,31 @@ class MessageReactions extends MessageReactionsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: min,
+      b02: canSeeList,
+      b01: recentReactions != null,
+    );
 
-  /// min: bit
-  bool get min => _bit(flags, 0);
+    return v;
+  }
 
-  /// can_see_list: bit
-  bool get canSeeList => _bit(flags, 2);
+  /// min: bit 0 of flags.0?true
+  final bool min;
+
+  /// can_see_list: bit 2 of flags.2?true
+  final bool canSeeList;
 
   /// Results.
   final List<ReactionCountBase> results;
+
+  /// Recent Reactions.
   final List<MessagePeerReactionBase>? recentReactions;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4f2b9479);
     buffer.writeInt(flags);
     buffer.writeVectorObject(results);
@@ -45629,7 +49260,6 @@ abstract class MessagesMessageReactionsListBase extends TlConstructor {
 class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
   /// Messages Message Reactions List constructor.
   const MessagesMessageReactionsList({
-    required this.flags,
     required this.count,
     required this.reactions,
     required this.chats,
@@ -45653,7 +49283,13 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
@@ -45666,11 +49302,13 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x31bd492d);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -45696,7 +49334,8 @@ abstract class AvailableReactionBase extends TlConstructor {
 class AvailableReaction extends AvailableReactionBase {
   /// Available Reaction constructor.
   const AvailableReaction({
-    required this.flags,
+    required this.inactive,
+    required this.premium,
     required this.reaction,
     required this.title,
     required this.staticIcon,
@@ -45730,13 +49369,21 @@ class AvailableReaction extends AvailableReactionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: inactive,
+      b02: premium,
+      b01: aroundAnimation != null || centerIcon != null,
+    );
 
-  /// inactive: bit
-  bool get inactive => _bit(flags, 0);
+    return v;
+  }
 
-  /// premium: bit
-  bool get premium => _bit(flags, 2);
+  /// inactive: bit 0 of flags.0?true
+  final bool inactive;
+
+  /// premium: bit 2 of flags.2?true
+  final bool premium;
 
   /// Reaction.
   final String reaction;
@@ -45758,12 +49405,16 @@ class AvailableReaction extends AvailableReactionBase {
 
   /// Effect Animation.
   final DocumentBase effectAnimation;
+
+  /// Around Animation.
   final DocumentBase? aroundAnimation;
+
+  /// Center Icon.
   final DocumentBase? centerIcon;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc077ec01);
     buffer.writeInt(flags);
     buffer.writeString(reaction);
@@ -45809,7 +49460,7 @@ class MessagesAvailableReactionsNotModified
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9f071957);
   }
 }
@@ -45843,7 +49494,7 @@ class MessagesAvailableReactions extends MessagesAvailableReactionsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x768e3aad);
     buffer.writeInt(hash);
     buffer.writeVectorObject(reactions);
@@ -45862,7 +49513,9 @@ abstract class MessagePeerReactionBase extends TlConstructor {
 class MessagePeerReaction extends MessagePeerReactionBase {
   /// Message Peer Reaction constructor.
   const MessagePeerReaction({
-    required this.flags,
+    required this.big,
+    required this.unread,
+    required this.my,
     required this.peerId,
     required this.date,
     required this.reaction,
@@ -45885,16 +49538,24 @@ class MessagePeerReaction extends MessagePeerReactionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: big,
+      b01: unread,
+      b02: my,
+    );
 
-  /// big: bit
-  bool get big => _bit(flags, 0);
+    return v;
+  }
 
-  /// unread: bit
-  bool get unread => _bit(flags, 1);
+  /// big: bit 0 of flags.0?true
+  final bool big;
 
-  /// my: bit
-  bool get my => _bit(flags, 2);
+  /// unread: bit 1 of flags.1?true
+  final bool unread;
+
+  /// my: bit 2 of flags.2?true
+  final bool my;
 
   /// Peer Id.
   final PeerBase peerId;
@@ -45907,7 +49568,7 @@ class MessagePeerReaction extends MessagePeerReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c79b63c);
     buffer.writeInt(flags);
     buffer.writeObject(peerId);
@@ -45956,7 +49617,7 @@ class GroupCallStreamChannel extends GroupCallStreamChannelBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x80eb48af);
     buffer.writeInt(channel);
     buffer.writeInt(scale);
@@ -45994,7 +49655,7 @@ class PhoneGroupCallStreamChannels extends PhoneGroupCallStreamChannelsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd0e482b2);
     buffer.writeVectorObject(channels);
   }
@@ -46035,7 +49696,7 @@ class PhoneGroupCallStreamRtmpUrl extends PhoneGroupCallStreamRtmpUrlBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2dbf3432);
     buffer.writeString(url);
     buffer.writeString(key);
@@ -46077,7 +49738,7 @@ class AttachMenuBotIconColor extends AttachMenuBotIconColorBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4576f3f0);
     buffer.writeString(name);
     buffer.writeInt(color);
@@ -46096,7 +49757,6 @@ abstract class AttachMenuBotIconBase extends TlConstructor {
 class AttachMenuBotIcon extends AttachMenuBotIconBase {
   /// Attach Menu Bot Icon constructor.
   const AttachMenuBotIcon({
-    required this.flags,
     required this.name,
     required this.icon,
     this.colors,
@@ -46116,18 +49776,26 @@ class AttachMenuBotIcon extends AttachMenuBotIconBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: colors != null,
+    );
+
+    return v;
+  }
 
   /// Name.
   final String name;
 
   /// Icon.
   final DocumentBase icon;
+
+  /// Colors.
   final List<AttachMenuBotIconColorBase>? colors;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2a7386b);
     buffer.writeInt(flags);
     buffer.writeString(name);
@@ -46151,7 +49819,12 @@ abstract class AttachMenuBotBase extends TlConstructor {
 class AttachMenuBot extends AttachMenuBotBase {
   /// Attach Menu Bot constructor.
   const AttachMenuBot({
-    required this.flags,
+    required this.inactive,
+    required this.hasSettings,
+    required this.requestWriteAccess,
+    required this.showInAttachMenu,
+    required this.showInSideMenu,
+    required this.sideMenuDisclaimerNeeded,
     required this.botId,
     required this.shortName,
     this.peerTypes,
@@ -46179,31 +49852,44 @@ class AttachMenuBot extends AttachMenuBotBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: inactive,
+      b01: hasSettings,
+      b02: requestWriteAccess,
+      b03: showInAttachMenu || peerTypes != null,
+      b04: showInSideMenu,
+      b05: sideMenuDisclaimerNeeded,
+    );
 
-  /// inactive: bit
-  bool get inactive => _bit(flags, 0);
+    return v;
+  }
 
-  /// has_settings: bit
-  bool get hasSettings => _bit(flags, 1);
+  /// inactive: bit 0 of flags.0?true
+  final bool inactive;
 
-  /// request_write_access: bit
-  bool get requestWriteAccess => _bit(flags, 2);
+  /// has_settings: bit 1 of flags.1?true
+  final bool hasSettings;
 
-  /// show_in_attach_menu: bit
-  bool get showInAttachMenu => _bit(flags, 3);
+  /// request_write_access: bit 2 of flags.2?true
+  final bool requestWriteAccess;
 
-  /// show_in_side_menu: bit
-  bool get showInSideMenu => _bit(flags, 4);
+  /// show_in_attach_menu: bit 3 of flags.3?true
+  final bool showInAttachMenu;
 
-  /// side_menu_disclaimer_needed: bit
-  bool get sideMenuDisclaimerNeeded => _bit(flags, 5);
+  /// show_in_side_menu: bit 4 of flags.4?true
+  final bool showInSideMenu;
+
+  /// side_menu_disclaimer_needed: bit 5 of flags.5?true
+  final bool sideMenuDisclaimerNeeded;
 
   /// Bot Id.
   final int botId;
 
   /// Short Name.
   final String shortName;
+
+  /// Peer Types.
   final List<AttachMenuPeerTypeBase>? peerTypes;
 
   /// Icons.
@@ -46211,7 +49897,7 @@ class AttachMenuBot extends AttachMenuBotBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd90d8dfe);
     buffer.writeInt(flags);
     buffer.writeLong(botId);
@@ -46248,7 +49934,7 @@ class AttachMenuBotsNotModified extends AttachMenuBotsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf1d88a5c);
   }
 }
@@ -46287,7 +49973,7 @@ class AttachMenuBots extends AttachMenuBotsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c4301c0);
     buffer.writeLong(hash);
     buffer.writeVectorObject(bots);
@@ -46330,7 +50016,7 @@ class AttachMenuBotsBot extends AttachMenuBotsBotBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x93bf667f);
     buffer.writeObject(bot);
     buffer.writeVectorObject(users);
@@ -46372,7 +50058,7 @@ class WebViewResultUrl extends WebViewResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0c14557c);
     buffer.writeLong(queryId);
     buffer.writeString(url);
@@ -46409,7 +50095,7 @@ class SimpleWebViewResultUrl extends SimpleWebViewResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x882f76bb);
     buffer.writeString(url);
   }
@@ -46427,7 +50113,6 @@ abstract class WebViewMessageSentBase extends TlConstructor {
 class WebViewMessageSent extends WebViewMessageSentBase {
   /// Web View Message Sent constructor.
   const WebViewMessageSent({
-    required this.flags,
     this.msgId,
   }) : super._();
 
@@ -46443,12 +50128,20 @@ class WebViewMessageSent extends WebViewMessageSentBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: msgId != null,
+    );
+
+    return v;
+  }
+
+  /// Msg Id.
   final InputBotInlineMessageIDBase? msgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0c94511c);
     buffer.writeInt(flags);
     final localMsgIdCopy = msgId;
@@ -46482,7 +50175,7 @@ class BotMenuButtonDefault extends BotMenuButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7533a588);
   }
 }
@@ -46505,7 +50198,7 @@ class BotMenuButtonCommands extends BotMenuButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4258c205);
   }
 }
@@ -46539,7 +50232,7 @@ class BotMenuButton extends BotMenuButtonBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc7b57ce6);
     buffer.writeString(text);
     buffer.writeString(url);
@@ -46570,7 +50263,7 @@ class AccountSavedRingtonesNotModified extends AccountSavedRingtonesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbf6e8b1);
   }
 }
@@ -46604,7 +50297,7 @@ class AccountSavedRingtones extends AccountSavedRingtonesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc1e92cc5);
     buffer.writeLong(hash);
     buffer.writeVectorObject(ringtones);
@@ -46635,7 +50328,7 @@ class NotificationSoundDefault extends NotificationSoundBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x97e8bebe);
   }
 }
@@ -46658,7 +50351,7 @@ class NotificationSoundNone extends NotificationSoundBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6f0c34df);
   }
 }
@@ -46692,7 +50385,7 @@ class NotificationSoundLocal extends NotificationSoundBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x830b9ae4);
     buffer.writeString(title);
     buffer.writeString(data);
@@ -46723,7 +50416,7 @@ class NotificationSoundRingtone extends NotificationSoundBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xff6c8049);
     buffer.writeLong(id);
   }
@@ -46753,7 +50446,7 @@ class AccountSavedRingtone extends AccountSavedRingtoneBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb7263f6d);
   }
 }
@@ -46782,7 +50475,7 @@ class AccountSavedRingtoneConverted extends AccountSavedRingtoneBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1f307eb7);
     buffer.writeObject(document);
   }
@@ -46812,7 +50505,7 @@ class AttachMenuPeerTypeSameBotPM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7d6be90e);
   }
 }
@@ -46835,7 +50528,7 @@ class AttachMenuPeerTypeBotPM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc32bfa1a);
   }
 }
@@ -46858,7 +50551,7 @@ class AttachMenuPeerTypePM extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf146d31f);
   }
 }
@@ -46881,7 +50574,7 @@ class AttachMenuPeerTypeChat extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0509113f);
   }
 }
@@ -46904,7 +50597,7 @@ class AttachMenuPeerTypeBroadcast extends AttachMenuPeerTypeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7bfbdefc);
   }
 }
@@ -46944,7 +50637,7 @@ class InputInvoiceMessage extends InputInvoiceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc5b56859);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -46975,7 +50668,7 @@ class InputInvoiceSlug extends InputInvoiceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc326caef);
     buffer.writeString(slug);
   }
@@ -47010,7 +50703,7 @@ class InputInvoicePremiumGiftCode extends InputInvoiceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98986c0d);
     buffer.writeObject(purpose);
     buffer.writeObject(option);
@@ -47047,7 +50740,7 @@ class PaymentsExportedInvoice extends PaymentsExportedInvoiceBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaed0cbd9);
     buffer.writeString(url);
   }
@@ -47065,7 +50758,7 @@ abstract class MessagesTranscribedAudioBase extends TlConstructor {
 class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
   /// Messages Transcribed Audio constructor.
   const MessagesTranscribedAudio({
-    required this.flags,
+    required this.pending,
     required this.transcriptionId,
     required this.text,
     this.trialRemainsNum,
@@ -47088,22 +50781,33 @@ class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pending,
+      b01: trialRemainsNum != null || trialRemainsUntilDate != null,
+    );
 
-  /// pending: bit
-  bool get pending => _bit(flags, 0);
+    return v;
+  }
+
+  /// pending: bit 0 of flags.0?true
+  final bool pending;
 
   /// Transcription Id.
   final int transcriptionId;
 
   /// Text.
   final String text;
+
+  /// Trial Remains Num.
   final int? trialRemainsNum;
+
+  /// Trial Remains Until Date.
   final DateTime? trialRemainsUntilDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcfb9d957);
     buffer.writeInt(flags);
     buffer.writeLong(transcriptionId);
@@ -47174,7 +50878,7 @@ class HelpPremiumPromo extends HelpPremiumPromoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5334759c);
     buffer.writeString(statusText);
     buffer.writeVectorObject(statusEntities);
@@ -47198,7 +50902,8 @@ class InputStorePaymentPremiumSubscription
     extends InputStorePaymentPurposeBase {
   /// Input Store Payment Premium Subscription constructor.
   const InputStorePaymentPremiumSubscription({
-    required this.flags,
+    required this.restore,
+    required this.upgrade,
   }) : super._();
 
   /// Deserialize.
@@ -47214,17 +50919,24 @@ class InputStorePaymentPremiumSubscription
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: restore,
+      b01: upgrade,
+    );
 
-  /// restore: bit
-  bool get restore => _bit(flags, 0);
+    return v;
+  }
 
-  /// upgrade: bit
-  bool get upgrade => _bit(flags, 1);
+  /// restore: bit 0 of flags.0?true
+  final bool restore;
+
+  /// upgrade: bit 1 of flags.1?true
+  final bool upgrade;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6751e66);
     buffer.writeInt(flags);
   }
@@ -47264,7 +50976,7 @@ class InputStorePaymentGiftPremium extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x616f7fe8);
     buffer.writeObject(userId);
     buffer.writeString(currency);
@@ -47278,7 +50990,6 @@ class InputStorePaymentGiftPremium extends InputStorePaymentPurposeBase {
 class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
   /// Input Store Payment Premium Gift Code constructor.
   const InputStorePaymentPremiumGiftCode({
-    required this.flags,
     required this.users,
     this.boostPeer,
     required this.currency,
@@ -47300,10 +51011,18 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: boostPeer != null,
+    );
+
+    return v;
+  }
 
   /// Users.
   final List<InputUserBase> users;
+
+  /// Boost Peer.
   final InputPeerBase? boostPeer;
 
   /// Currency.
@@ -47314,7 +51033,7 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa3805f3f);
     buffer.writeInt(flags);
     buffer.writeVectorObject(users);
@@ -47333,7 +51052,8 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
 class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
   /// Input Store Payment Premium Giveaway constructor.
   const InputStorePaymentPremiumGiveaway({
-    required this.flags,
+    required this.onlyNewSubscribers,
+    required this.winnersAreVisible,
     required this.boostPeer,
     this.additionalPeers,
     this.countriesIso2,
@@ -47365,18 +51085,34 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: onlyNewSubscribers,
+      b03: winnersAreVisible,
+      b01: additionalPeers != null,
+      b02: countriesIso2 != null,
+      b04: prizeDescription != null,
+    );
 
-  /// only_new_subscribers: bit
-  bool get onlyNewSubscribers => _bit(flags, 0);
+    return v;
+  }
 
-  /// winners_are_visible: bit
-  bool get winnersAreVisible => _bit(flags, 3);
+  /// only_new_subscribers: bit 0 of flags.0?true
+  final bool onlyNewSubscribers;
+
+  /// winners_are_visible: bit 3 of flags.3?true
+  final bool winnersAreVisible;
 
   /// Boost Peer.
   final InputPeerBase boostPeer;
+
+  /// Additional Peers.
   final List<InputPeerBase>? additionalPeers;
+
+  /// Countries Iso2.
   final List<String>? countriesIso2;
+
+  /// Prize Description.
   final String? prizeDescription;
 
   /// Random Id.
@@ -47393,7 +51129,7 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x160544ca);
     buffer.writeInt(flags);
     buffer.writeObject(boostPeer);
@@ -47428,7 +51164,6 @@ abstract class PremiumGiftOptionBase extends TlConstructor {
 class PremiumGiftOption extends PremiumGiftOptionBase {
   /// Premium Gift Option constructor.
   const PremiumGiftOption({
-    required this.flags,
     required this.months,
     required this.currency,
     required this.amount,
@@ -47452,7 +51187,13 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: storeProduct != null,
+    );
+
+    return v;
+  }
 
   /// Months.
   final int months;
@@ -47465,11 +51206,13 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
 
   /// Bot Url.
   final String botUrl;
+
+  /// Store Product.
   final String? storeProduct;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74c34319);
     buffer.writeInt(flags);
     buffer.writeInt(months);
@@ -47518,7 +51261,7 @@ class PaymentFormMethod extends PaymentFormMethodBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x88f8f21b);
     buffer.writeString(url);
     buffer.writeString(title);
@@ -47549,7 +51292,7 @@ class EmojiStatusEmpty extends EmojiStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2de11aae);
   }
 }
@@ -47578,7 +51321,7 @@ class EmojiStatus extends EmojiStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x929b619d);
     buffer.writeLong(documentId);
   }
@@ -47613,7 +51356,7 @@ class EmojiStatusUntil extends EmojiStatusBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa30a8c7);
     buffer.writeLong(documentId);
     buffer.writeInt(until);
@@ -47644,7 +51387,7 @@ class AccountEmojiStatusesNotModified extends AccountEmojiStatusesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd08ce645);
   }
 }
@@ -47678,7 +51421,7 @@ class AccountEmojiStatuses extends AccountEmojiStatusesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x90c467d1);
     buffer.writeLong(hash);
     buffer.writeVectorObject(statuses);
@@ -47709,7 +51452,7 @@ class ReactionEmpty extends ReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x79f5d419);
   }
 }
@@ -47738,7 +51481,7 @@ class ReactionEmoji extends ReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b2286b8);
     buffer.writeString(emoticon);
   }
@@ -47768,7 +51511,7 @@ class ReactionCustomEmoji extends ReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8935fc73);
     buffer.writeLong(documentId);
   }
@@ -47798,7 +51541,7 @@ class ChatReactionsNone extends ChatReactionsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeafc32bc);
   }
 }
@@ -47809,7 +51552,7 @@ class ChatReactionsNone extends ChatReactionsBase {
 class ChatReactionsAll extends ChatReactionsBase {
   /// Chat Reactions All constructor.
   const ChatReactionsAll({
-    required this.flags,
+    required this.allowCustom,
   }) : super._();
 
   /// Deserialize.
@@ -47824,14 +51567,20 @@ class ChatReactionsAll extends ChatReactionsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: allowCustom,
+    );
 
-  /// allow_custom: bit
-  bool get allowCustom => _bit(flags, 0);
+    return v;
+  }
+
+  /// allow_custom: bit 0 of flags.0?true
+  final bool allowCustom;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x52928bca);
     buffer.writeInt(flags);
   }
@@ -47861,7 +51610,7 @@ class ChatReactionsSome extends ChatReactionsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x661d4037);
     buffer.writeVectorObject(reactions);
   }
@@ -47891,7 +51640,7 @@ class MessagesReactionsNotModified extends MessagesReactionsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb06fdbdf);
   }
 }
@@ -47925,7 +51674,7 @@ class MessagesReactions extends MessagesReactionsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeafdf716);
     buffer.writeLong(hash);
     buffer.writeVectorObject(reactions);
@@ -47967,7 +51716,7 @@ class EmailVerifyPurposeLoginSetup extends EmailVerifyPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4345be73);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -47992,7 +51741,7 @@ class EmailVerifyPurposeLoginChange extends EmailVerifyPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x527d22eb);
   }
 }
@@ -48015,7 +51764,7 @@ class EmailVerifyPurposePassport extends EmailVerifyPurposeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbbf51685);
   }
 }
@@ -48050,7 +51799,7 @@ class EmailVerificationCode extends EmailVerificationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x922e55a9);
     buffer.writeString(code);
   }
@@ -48080,7 +51829,7 @@ class EmailVerificationGoogle extends EmailVerificationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb909ec2);
     buffer.writeString(token);
   }
@@ -48110,7 +51859,7 @@ class EmailVerificationApple extends EmailVerificationBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x96d074fd);
     buffer.writeString(token);
   }
@@ -48146,7 +51895,7 @@ class AccountEmailVerified extends AccountEmailVerifiedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2b96cd1b);
     buffer.writeString(email);
   }
@@ -48181,7 +51930,7 @@ class AccountEmailVerifiedLogin extends AccountEmailVerifiedBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe1bb0d61);
     buffer.writeString(email);
     buffer.writeObject(sentCode);
@@ -48200,7 +51949,8 @@ abstract class PremiumSubscriptionOptionBase extends TlConstructor {
 class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
   /// Premium Subscription Option constructor.
   const PremiumSubscriptionOption({
-    required this.flags,
+    required this.current,
+    required this.canPurchaseUpgrade,
     this.transaction,
     required this.months,
     required this.currency,
@@ -48228,13 +51978,24 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: current,
+      b02: canPurchaseUpgrade,
+      b03: transaction != null,
+      b00: storeProduct != null,
+    );
 
-  /// current: bit
-  bool get current => _bit(flags, 1);
+    return v;
+  }
 
-  /// can_purchase_upgrade: bit
-  bool get canPurchaseUpgrade => _bit(flags, 2);
+  /// current: bit 1 of flags.1?true
+  final bool current;
+
+  /// can_purchase_upgrade: bit 2 of flags.2?true
+  final bool canPurchaseUpgrade;
+
+  /// Transaction.
   final String? transaction;
 
   /// Months.
@@ -48248,11 +52009,13 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
 
   /// Bot Url.
   final String botUrl;
+
+  /// Store Product.
   final String? storeProduct;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5f2d1df2);
     buffer.writeInt(flags);
     final localTransactionCopy = transaction;
@@ -48282,7 +52045,7 @@ abstract class SendAsPeerBase extends TlConstructor {
 class SendAsPeer extends SendAsPeerBase {
   /// Send As Peer constructor.
   const SendAsPeer({
-    required this.flags,
+    required this.premiumRequired,
     required this.peer,
   }) : super._();
 
@@ -48299,17 +52062,23 @@ class SendAsPeer extends SendAsPeerBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: premiumRequired,
+    );
 
-  /// premium_required: bit
-  bool get premiumRequired => _bit(flags, 0);
+    return v;
+  }
+
+  /// premium_required: bit 0 of flags.0?true
+  final bool premiumRequired;
 
   /// Peer.
   final PeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb81c7034);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -48328,7 +52097,6 @@ abstract class MessageExtendedMediaBase extends TlConstructor {
 class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
   /// Message Extended Media Preview constructor.
   const MessageExtendedMediaPreview({
-    required this.flags,
     this.w,
     this.h,
     this.thumb,
@@ -48350,15 +52118,31 @@ class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: w != null || h != null,
+      b01: thumb != null,
+      b02: videoDuration != null,
+    );
+
+    return v;
+  }
+
+  /// W.
   final int? w;
+
+  /// H.
   final int? h;
+
+  /// Thumb.
   final PhotoSizeBase? thumb;
+
+  /// Video Duration.
   final int? videoDuration;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xad628cc8);
     buffer.writeInt(flags);
     final localWCopy = w;
@@ -48404,7 +52188,7 @@ class MessageExtendedMedia extends MessageExtendedMediaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xee479c64);
     buffer.writeObject(media);
   }
@@ -48445,7 +52229,7 @@ class StickerKeyword extends StickerKeywordBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfcfeb29c);
     buffer.writeLong(documentId);
     buffer.writeVectorString(keyword);
@@ -48464,7 +52248,8 @@ abstract class UsernameBase extends TlConstructor {
 class Username extends UsernameBase {
   /// Username constructor.
   const Username({
-    required this.flags,
+    required this.editable,
+    required this.active,
     required this.username,
   }) : super._();
 
@@ -48482,20 +52267,27 @@ class Username extends UsernameBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: editable,
+      b01: active,
+    );
 
-  /// editable: bit
-  bool get editable => _bit(flags, 0);
+    return v;
+  }
 
-  /// active: bit
-  bool get active => _bit(flags, 1);
+  /// editable: bit 0 of flags.0?true
+  final bool editable;
+
+  /// active: bit 1 of flags.1?true
+  final bool active;
 
   /// Username.
   final String username;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4073647);
     buffer.writeInt(flags);
     buffer.writeString(username);
@@ -48532,7 +52324,7 @@ class ForumTopicDeleted extends ForumTopicBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x023f109b);
     buffer.writeInt(id);
   }
@@ -48544,7 +52336,11 @@ class ForumTopicDeleted extends ForumTopicBase {
 class ForumTopic extends ForumTopicBase {
   /// Forum Topic constructor.
   const ForumTopic({
-    required this.flags,
+    required this.my,
+    required this.closed,
+    required this.pinned,
+    required this.short,
+    required this.hidden,
     required this.id,
     required this.date,
     required this.title,
@@ -48591,22 +52387,34 @@ class ForumTopic extends ForumTopicBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: my,
+      b02: closed,
+      b03: pinned,
+      b05: short,
+      b06: hidden,
+      b00: iconEmojiId != null,
+      b04: draft != null,
+    );
 
-  /// my: bit
-  bool get my => _bit(flags, 1);
+    return v;
+  }
 
-  /// closed: bit
-  bool get closed => _bit(flags, 2);
+  /// my: bit 1 of flags.1?true
+  final bool my;
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 3);
+  /// closed: bit 2 of flags.2?true
+  final bool closed;
 
-  /// short: bit
-  bool get short => _bit(flags, 5);
+  /// pinned: bit 3 of flags.3?true
+  final bool pinned;
 
-  /// hidden: bit
-  bool get hidden => _bit(flags, 6);
+  /// short: bit 5 of flags.5?true
+  final bool short;
+
+  /// hidden: bit 6 of flags.6?true
+  final bool hidden;
 
   /// Id.
   final int id;
@@ -48619,6 +52427,8 @@ class ForumTopic extends ForumTopicBase {
 
   /// Icon Color.
   final int iconColor;
+
+  /// Icon Emoji Id.
   final int? iconEmojiId;
 
   /// Top Message.
@@ -48644,11 +52454,13 @@ class ForumTopic extends ForumTopicBase {
 
   /// Notify Settings.
   final PeerNotifySettingsBase notifySettings;
+
+  /// Draft.
   final DraftMessageBase? draft;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x71701da9);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -48686,7 +52498,7 @@ abstract class MessagesForumTopicsBase extends TlConstructor {
 class MessagesForumTopics extends MessagesForumTopicsBase {
   /// Messages Forum Topics constructor.
   const MessagesForumTopics({
-    required this.flags,
+    required this.orderByCreateDate,
     required this.count,
     required this.topics,
     required this.messages,
@@ -48713,10 +52525,16 @@ class MessagesForumTopics extends MessagesForumTopicsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: orderByCreateDate,
+    );
 
-  /// order_by_create_date: bit
-  bool get orderByCreateDate => _bit(flags, 0);
+    return v;
+  }
+
+  /// order_by_create_date: bit 0 of flags.0?true
+  final bool orderByCreateDate;
 
   /// Count.
   final int count;
@@ -48738,7 +52556,7 @@ class MessagesForumTopics extends MessagesForumTopicsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x367617d3);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -48780,7 +52598,7 @@ class DefaultHistoryTTL extends DefaultHistoryTTLBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x43b46b20);
     buffer.writeInt(period);
   }
@@ -48821,7 +52639,7 @@ class ExportedContactToken extends ExportedContactTokenBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x41bf109b);
     buffer.writeString(url);
     buffer.writeInt(expires);
@@ -48840,7 +52658,6 @@ abstract class RequestPeerTypeBase extends TlConstructor {
 class RequestPeerTypeUser extends RequestPeerTypeBase {
   /// Request Peer Type User constructor.
   const RequestPeerTypeUser({
-    required this.flags,
     this.bot,
     this.premium,
   }) : super._();
@@ -48858,13 +52675,24 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: bot != null,
+      b01: premium != null,
+    );
+
+    return v;
+  }
+
+  /// Bot.
   final bool? bot;
+
+  /// Premium.
   final bool? premium;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5f3b8a00);
     buffer.writeInt(flags);
     final localBotCopy = bot;
@@ -48884,7 +52712,8 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
 class RequestPeerTypeChat extends RequestPeerTypeBase {
   /// Request Peer Type Chat constructor.
   const RequestPeerTypeChat({
-    required this.flags,
+    required this.creator,
+    required this.botParticipant,
     this.hasUsername,
     this.forum,
     this.userAdminRights,
@@ -48908,21 +52737,40 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b05: botParticipant,
+      b03: hasUsername != null,
+      b04: forum != null,
+      b01: userAdminRights != null,
+      b02: botAdminRights != null,
+    );
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
+    return v;
+  }
 
-  /// bot_participant: bit
-  bool get botParticipant => _bit(flags, 5);
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
+
+  /// bot_participant: bit 5 of flags.5?true
+  final bool botParticipant;
+
+  /// Has Username.
   final bool? hasUsername;
+
+  /// Forum.
   final bool? forum;
+
+  /// User Admin Rights.
   final ChatAdminRightsBase? userAdminRights;
+
+  /// Bot Admin Rights.
   final ChatAdminRightsBase? botAdminRights;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc9f06e1b);
     buffer.writeInt(flags);
     final localHasUsernameCopy = hasUsername;
@@ -48950,7 +52798,7 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
 class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
   /// Request Peer Type Broadcast constructor.
   const RequestPeerTypeBroadcast({
-    required this.flags,
+    required this.creator,
     this.hasUsername,
     this.userAdminRights,
     this.botAdminRights,
@@ -48971,17 +52819,32 @@ class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: creator,
+      b03: hasUsername != null,
+      b01: userAdminRights != null,
+      b02: botAdminRights != null,
+    );
 
-  /// creator: bit
-  bool get creator => _bit(flags, 0);
+    return v;
+  }
+
+  /// creator: bit 0 of flags.0?true
+  final bool creator;
+
+  /// Has Username.
   final bool? hasUsername;
+
+  /// User Admin Rights.
   final ChatAdminRightsBase? userAdminRights;
+
+  /// Bot Admin Rights.
   final ChatAdminRightsBase? botAdminRights;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x339bef6c);
     buffer.writeInt(flags);
     final localHasUsernameCopy = hasUsername;
@@ -49023,7 +52886,7 @@ class EmojiListNotModified extends EmojiListBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x481eadfa);
   }
 }
@@ -49057,7 +52920,7 @@ class EmojiList extends EmojiListBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a1e11d1);
     buffer.writeLong(hash);
     buffer.writeVectorLong(documentId);
@@ -49104,7 +52967,7 @@ class EmojiGroup extends EmojiGroupBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a9abda9);
     buffer.writeString(title);
     buffer.writeLong(iconEmojiId);
@@ -49136,7 +52999,7 @@ class MessagesEmojiGroupsNotModified extends MessagesEmojiGroupsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6fb4ad87);
   }
 }
@@ -49170,7 +53033,7 @@ class MessagesEmojiGroups extends MessagesEmojiGroupsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x881fb94b);
     buffer.writeInt(hash);
     buffer.writeVectorObject(groups);
@@ -49212,7 +53075,7 @@ class TextWithEntities extends TextWithEntitiesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x751f3146);
     buffer.writeString(text);
     buffer.writeVectorObject(entities);
@@ -49249,7 +53112,7 @@ class MessagesTranslateResult extends MessagesTranslatedTextBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x33db32f8);
     buffer.writeVectorObject(result);
   }
@@ -49267,7 +53130,8 @@ abstract class AutoSaveSettingsBase extends TlConstructor {
 class AutoSaveSettings extends AutoSaveSettingsBase {
   /// Auto Save Settings constructor.
   const AutoSaveSettings({
-    required this.flags,
+    required this.photos,
+    required this.videos,
     this.videoMaxSize,
   }) : super._();
 
@@ -49285,18 +53149,28 @@ class AutoSaveSettings extends AutoSaveSettingsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: photos,
+      b01: videos,
+      b02: videoMaxSize != null,
+    );
 
-  /// photos: bit
-  bool get photos => _bit(flags, 0);
+    return v;
+  }
 
-  /// videos: bit
-  bool get videos => _bit(flags, 1);
+  /// photos: bit 0 of flags.0?true
+  final bool photos;
+
+  /// videos: bit 1 of flags.1?true
+  final bool videos;
+
+  /// Video Max Size.
   final int? videoMaxSize;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc84834ce);
     buffer.writeInt(flags);
     final localVideoMaxSizeCopy = videoMaxSize;
@@ -49341,7 +53215,7 @@ class AutoSaveException extends AutoSaveExceptionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x81602d47);
     buffer.writeObject(peer);
     buffer.writeObject(settings);
@@ -49403,7 +53277,7 @@ class AccountAutoSaveSettings extends AccountAutoSaveSettingsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4c3e069d);
     buffer.writeObject(usersSettings);
     buffer.writeObject(chatsSettings);
@@ -49438,7 +53312,7 @@ class HelpAppConfigNotModified extends HelpAppConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7cde641d);
   }
 }
@@ -49472,7 +53346,7 @@ class HelpAppConfig extends HelpAppConfigBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdd18782e);
     buffer.writeInt(hash);
     buffer.writeObject(config);
@@ -49514,7 +53388,7 @@ class InputBotAppID extends InputBotAppBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa920bd7a);
     buffer.writeLong(id);
     buffer.writeLong(accessHash);
@@ -49550,7 +53424,7 @@ class InputBotAppShortName extends InputBotAppBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x908c0407);
     buffer.writeObject(botId);
     buffer.writeString(shortName);
@@ -49581,7 +53455,7 @@ class BotAppNotModified extends BotAppBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5da674b7);
   }
 }
@@ -49592,7 +53466,6 @@ class BotAppNotModified extends BotAppBase {
 class BotApp extends BotAppBase {
   /// Bot App constructor.
   const BotApp({
-    required this.flags,
     required this.id,
     required this.accessHash,
     required this.shortName,
@@ -49622,7 +53495,13 @@ class BotApp extends BotAppBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: document != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
@@ -49641,6 +53520,8 @@ class BotApp extends BotAppBase {
 
   /// Photo.
   final PhotoBase photo;
+
+  /// Document.
   final DocumentBase? document;
 
   /// Hash.
@@ -49648,7 +53529,7 @@ class BotApp extends BotAppBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x95fcd1d6);
     buffer.writeInt(flags);
     buffer.writeLong(id);
@@ -49677,7 +53558,9 @@ abstract class MessagesBotAppBase extends TlConstructor {
 class MessagesBotApp extends MessagesBotAppBase {
   /// Messages Bot App constructor.
   const MessagesBotApp({
-    required this.flags,
+    required this.inactive,
+    required this.requestWriteAccess,
+    required this.hasSettings,
     required this.app,
   }) : super._();
 
@@ -49696,23 +53579,31 @@ class MessagesBotApp extends MessagesBotAppBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: inactive,
+      b01: requestWriteAccess,
+      b02: hasSettings,
+    );
 
-  /// inactive: bit
-  bool get inactive => _bit(flags, 0);
+    return v;
+  }
 
-  /// request_write_access: bit
-  bool get requestWriteAccess => _bit(flags, 1);
+  /// inactive: bit 0 of flags.0?true
+  final bool inactive;
 
-  /// has_settings: bit
-  bool get hasSettings => _bit(flags, 2);
+  /// request_write_access: bit 1 of flags.1?true
+  final bool requestWriteAccess;
+
+  /// has_settings: bit 2 of flags.2?true
+  final bool hasSettings;
 
   /// App.
   final BotAppBase app;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeb50adf5);
     buffer.writeInt(flags);
     buffer.writeObject(app);
@@ -49749,7 +53640,7 @@ class AppWebViewResultUrl extends AppWebViewResultBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3c1b4f0d);
     buffer.writeString(url);
   }
@@ -49790,7 +53681,7 @@ class InlineBotWebView extends InlineBotWebViewBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb57295d5);
     buffer.writeString(text);
     buffer.writeString(url);
@@ -49832,7 +53723,7 @@ class ReadParticipantDate extends ReadParticipantDateBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4a4ff172);
     buffer.writeLong(userId);
     buffer.writeDateTime(date);
@@ -49869,7 +53760,7 @@ class InputChatlistDialogFilter extends InputChatlistBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf3e0da33);
     buffer.writeInt(filterId);
   }
@@ -49887,7 +53778,6 @@ abstract class ExportedChatlistInviteBase extends TlConstructor {
 class ExportedChatlistInvite extends ExportedChatlistInviteBase {
   /// Exported Chatlist Invite constructor.
   const ExportedChatlistInvite({
-    required this.flags,
     required this.title,
     required this.url,
     required this.peers,
@@ -49907,7 +53797,11 @@ class ExportedChatlistInvite extends ExportedChatlistInviteBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag();
+
+    return v;
+  }
 
   /// Title.
   final String title;
@@ -49920,7 +53814,7 @@ class ExportedChatlistInvite extends ExportedChatlistInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0c5181ac);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -49965,7 +53859,7 @@ class ChatlistsExportedChatlistInvite
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10e6e3a6);
     buffer.writeObject(filter);
     buffer.writeObject(invite);
@@ -50012,7 +53906,7 @@ class ChatlistsExportedInvites extends ChatlistsExportedInvitesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10ab6dc7);
     buffer.writeVectorObject(invites);
     buffer.writeVectorObject(chats);
@@ -50070,7 +53964,7 @@ class ChatlistsChatlistInviteAlready extends ChatlistsChatlistInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa87f659);
     buffer.writeInt(filterId);
     buffer.writeVectorObject(missingPeers);
@@ -50086,7 +53980,6 @@ class ChatlistsChatlistInviteAlready extends ChatlistsChatlistInviteBase {
 class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
   /// Chatlists Chatlist Invite constructor.
   const ChatlistsChatlistInvite({
-    required this.flags,
     required this.title,
     this.emoticon,
     required this.peers,
@@ -50110,10 +54003,18 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: emoticon != null,
+    );
+
+    return v;
+  }
 
   /// Title.
   final String title;
+
+  /// Emoticon.
   final String? emoticon;
 
   /// Peers.
@@ -50127,7 +54028,7 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1dcd839d);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -50181,7 +54082,7 @@ class ChatlistsChatlistUpdates extends ChatlistsChatlistUpdatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x93bd878d);
     buffer.writeVectorObject(missingPeers);
     buffer.writeVectorObject(chats);
@@ -50229,7 +54130,7 @@ class BotsBotInfo extends BotsBotInfoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe8a775b0);
     buffer.writeString(name);
     buffer.writeString(about);
@@ -50277,7 +54178,7 @@ class MessagePeerVote extends MessagePeerVoteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6cc2d5c);
     buffer.writeObject(peer);
     buffer.writeBytes(option);
@@ -50314,7 +54215,7 @@ class MessagePeerVoteInputOption extends MessagePeerVoteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74cda504);
     buffer.writeObject(peer);
     buffer.writeDateTime(date);
@@ -50355,7 +54256,7 @@ class MessagePeerVoteMultiple extends MessagePeerVoteBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4628f6e6);
     buffer.writeObject(peer);
     buffer.writeVectorBytes(options);
@@ -50375,7 +54276,6 @@ abstract class SponsoredWebPageBase extends TlConstructor {
 class SponsoredWebPage extends SponsoredWebPageBase {
   /// Sponsored Web Page constructor.
   const SponsoredWebPage({
-    required this.flags,
     required this.url,
     required this.siteName,
     this.photo,
@@ -50395,18 +54295,26 @@ class SponsoredWebPage extends SponsoredWebPageBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: photo != null,
+    );
+
+    return v;
+  }
 
   /// Url.
   final String url;
 
   /// Site Name.
   final String siteName;
+
+  /// Photo.
   final PhotoBase? photo;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3db8ec63);
     buffer.writeInt(flags);
     buffer.writeString(url);
@@ -50430,7 +54338,7 @@ abstract class StoryViewsBase extends TlConstructor {
 class StoryViews extends StoryViewsBase {
   /// Story Views constructor.
   const StoryViews({
-    required this.flags,
+    required this.hasViewers,
     required this.viewsCount,
     this.forwardsCount,
     this.reactions,
@@ -50455,21 +54363,39 @@ class StoryViews extends StoryViewsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: hasViewers,
+      b02: forwardsCount != null,
+      b03: reactions != null,
+      b04: reactionsCount != null,
+      b00: recentViewers != null,
+    );
 
-  /// has_viewers: bit
-  bool get hasViewers => _bit(flags, 1);
+    return v;
+  }
+
+  /// has_viewers: bit 1 of flags.1?true
+  final bool hasViewers;
 
   /// Views Count.
   final int viewsCount;
+
+  /// Forwards Count.
   final int? forwardsCount;
+
+  /// Reactions.
   final List<ReactionCountBase>? reactions;
+
+  /// Reactions Count.
   final int? reactionsCount;
+
+  /// Recent Viewers.
   final List<int>? recentViewers;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8d595cd6);
     buffer.writeInt(flags);
     buffer.writeInt(viewsCount);
@@ -50522,7 +54448,7 @@ class StoryItemDeleted extends StoryItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x51e6ee4f);
     buffer.writeInt(id);
   }
@@ -50534,7 +54460,7 @@ class StoryItemDeleted extends StoryItemBase {
 class StoryItemSkipped extends StoryItemBase {
   /// Story Item Skipped constructor.
   const StoryItemSkipped({
-    required this.flags,
+    required this.closeFriends,
     required this.id,
     required this.date,
     required this.expireDate,
@@ -50555,10 +54481,16 @@ class StoryItemSkipped extends StoryItemBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b08: closeFriends,
+    );
 
-  /// close_friends: bit
-  bool get closeFriends => _bit(flags, 8);
+    return v;
+  }
+
+  /// close_friends: bit 8 of flags.8?true
+  final bool closeFriends;
 
   /// Id.
   final int id;
@@ -50571,7 +54503,7 @@ class StoryItemSkipped extends StoryItemBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xffadc913);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -50586,7 +54518,15 @@ class StoryItemSkipped extends StoryItemBase {
 class StoryItem extends StoryItemBase {
   /// Story Item constructor.
   const StoryItem({
-    required this.flags,
+    required this.pinned,
+    required this.public,
+    required this.closeFriends,
+    required this.min,
+    required this.noforwards,
+    required this.edited,
+    required this.contacts,
+    required this.selectedContacts,
+    required this.out,
     required this.id,
     required this.date,
     this.fwdFrom,
@@ -50631,57 +54571,92 @@ class StoryItem extends StoryItemBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: pinned,
+      b07: public,
+      b08: closeFriends,
+      b09: min,
+      b10: noforwards,
+      b11: edited,
+      b12: contacts,
+      b13: selectedContacts,
+      b16: out,
+      b17: fwdFrom != null,
+      b00: caption != null,
+      b01: entities != null,
+      b14: mediaAreas != null,
+      b02: privacy != null,
+      b03: views != null,
+      b15: sentReaction != null,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 5);
+    return v;
+  }
 
-  /// public: bit
-  bool get public => _bit(flags, 7);
+  /// pinned: bit 5 of flags.5?true
+  final bool pinned;
 
-  /// close_friends: bit
-  bool get closeFriends => _bit(flags, 8);
+  /// public: bit 7 of flags.7?true
+  final bool public;
 
-  /// min: bit
-  bool get min => _bit(flags, 9);
+  /// close_friends: bit 8 of flags.8?true
+  final bool closeFriends;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 10);
+  /// min: bit 9 of flags.9?true
+  final bool min;
 
-  /// edited: bit
-  bool get edited => _bit(flags, 11);
+  /// noforwards: bit 10 of flags.10?true
+  final bool noforwards;
 
-  /// contacts: bit
-  bool get contacts => _bit(flags, 12);
+  /// edited: bit 11 of flags.11?true
+  final bool edited;
 
-  /// selected_contacts: bit
-  bool get selectedContacts => _bit(flags, 13);
+  /// contacts: bit 12 of flags.12?true
+  final bool contacts;
 
-  /// out: bit
-  bool get out => _bit(flags, 16);
+  /// selected_contacts: bit 13 of flags.13?true
+  final bool selectedContacts;
+
+  /// out: bit 16 of flags.16?true
+  final bool out;
 
   /// Id.
   final int id;
 
   /// Date.
   final DateTime date;
+
+  /// Fwd From.
   final StoryFwdHeaderBase? fwdFrom;
 
   /// Expire Date.
   final DateTime expireDate;
+
+  /// Caption.
   final String? caption;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Media.
   final MessageMediaBase media;
+
+  /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
+
+  /// Privacy.
   final List<PrivacyRuleBase>? privacy;
+
+  /// Views.
   final StoryViewsBase? views;
+
+  /// Sent Reaction.
   final ReactionBase? sentReaction;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaf6365a1);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -50731,7 +54706,6 @@ abstract class StoriesAllStoriesBase extends TlConstructor {
 class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
   /// Stories All Stories Not Modified constructor.
   const StoriesAllStoriesNotModified({
-    required this.flags,
     required this.state,
     required this.stealthMode,
   }) : super._();
@@ -50749,7 +54723,11 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag();
+
+    return v;
+  }
 
   /// State.
   final String state;
@@ -50759,7 +54737,7 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1158fe3e);
     buffer.writeInt(flags);
     buffer.writeString(state);
@@ -50773,7 +54751,7 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
 class StoriesAllStories extends StoriesAllStoriesBase {
   /// Stories All Stories constructor.
   const StoriesAllStories({
-    required this.flags,
+    required this.hasMore,
     required this.count,
     required this.state,
     required this.peerStories,
@@ -50800,10 +54778,16 @@ class StoriesAllStories extends StoriesAllStoriesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hasMore,
+    );
 
-  /// has_more: bit
-  bool get hasMore => _bit(flags, 0);
+    return v;
+  }
+
+  /// has_more: bit 0 of flags.0?true
+  final bool hasMore;
 
   /// Count.
   final int count;
@@ -50825,7 +54809,7 @@ class StoriesAllStories extends StoriesAllStoriesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6efc5e81);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -50882,7 +54866,7 @@ class StoriesStories extends StoriesStoriesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5dd8c3c8);
     buffer.writeInt(count);
     buffer.writeVectorObject(stories);
@@ -50903,7 +54887,8 @@ abstract class StoryViewBase extends TlConstructor {
 class StoryView extends StoryViewBase {
   /// Story View constructor.
   const StoryView({
-    required this.flags,
+    required this.blocked,
+    required this.blockedMyStoriesFrom,
     required this.userId,
     required this.date,
     this.reaction,
@@ -50925,24 +54910,34 @@ class StoryView extends StoryViewBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: blocked,
+      b01: blockedMyStoriesFrom,
+      b02: reaction != null,
+    );
 
-  /// blocked: bit
-  bool get blocked => _bit(flags, 0);
+    return v;
+  }
 
-  /// blocked_my_stories_from: bit
-  bool get blockedMyStoriesFrom => _bit(flags, 1);
+  /// blocked: bit 0 of flags.0?true
+  final bool blocked;
+
+  /// blocked_my_stories_from: bit 1 of flags.1?true
+  final bool blockedMyStoriesFrom;
 
   /// User Id.
   final int userId;
 
   /// Date.
   final DateTime date;
+
+  /// Reaction.
   final ReactionBase? reaction;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb0bdeac5);
     buffer.writeInt(flags);
     buffer.writeLong(userId);
@@ -50960,7 +54955,8 @@ class StoryView extends StoryViewBase {
 class StoryViewPublicForward extends StoryViewBase {
   /// Story View Public Forward constructor.
   const StoryViewPublicForward({
-    required this.flags,
+    required this.blocked,
+    required this.blockedMyStoriesFrom,
     required this.message,
   }) : super._();
 
@@ -50978,20 +54974,27 @@ class StoryViewPublicForward extends StoryViewBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: blocked,
+      b01: blockedMyStoriesFrom,
+    );
 
-  /// blocked: bit
-  bool get blocked => _bit(flags, 0);
+    return v;
+  }
 
-  /// blocked_my_stories_from: bit
-  bool get blockedMyStoriesFrom => _bit(flags, 1);
+  /// blocked: bit 0 of flags.0?true
+  final bool blocked;
+
+  /// blocked_my_stories_from: bit 1 of flags.1?true
+  final bool blockedMyStoriesFrom;
 
   /// Message.
   final MessageBase message;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9083670b);
     buffer.writeInt(flags);
     buffer.writeObject(message);
@@ -51004,7 +55007,8 @@ class StoryViewPublicForward extends StoryViewBase {
 class StoryViewPublicRepost extends StoryViewBase {
   /// Story View Public Repost constructor.
   const StoryViewPublicRepost({
-    required this.flags,
+    required this.blocked,
+    required this.blockedMyStoriesFrom,
     required this.peerId,
     required this.story,
   }) : super._();
@@ -51024,13 +55028,20 @@ class StoryViewPublicRepost extends StoryViewBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: blocked,
+      b01: blockedMyStoriesFrom,
+    );
 
-  /// blocked: bit
-  bool get blocked => _bit(flags, 0);
+    return v;
+  }
 
-  /// blocked_my_stories_from: bit
-  bool get blockedMyStoriesFrom => _bit(flags, 1);
+  /// blocked: bit 0 of flags.0?true
+  final bool blocked;
+
+  /// blocked_my_stories_from: bit 1 of flags.1?true
+  final bool blockedMyStoriesFrom;
 
   /// Peer Id.
   final PeerBase peerId;
@@ -51040,7 +55051,7 @@ class StoryViewPublicRepost extends StoryViewBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd74cf49);
     buffer.writeInt(flags);
     buffer.writeObject(peerId);
@@ -51060,7 +55071,6 @@ abstract class StoriesStoryViewsListBase extends TlConstructor {
 class StoriesStoryViewsList extends StoriesStoryViewsListBase {
   /// Stories Story Views List constructor.
   const StoriesStoryViewsList({
-    required this.flags,
     required this.count,
     required this.viewsCount,
     required this.forwardsCount,
@@ -51090,7 +55100,13 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
@@ -51112,11 +55128,13 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x59d78fc5);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -51168,7 +55186,7 @@ class StoriesStoryViews extends StoriesStoryViewsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde9eed1d);
     buffer.writeVectorObject(views);
     buffer.writeVectorObject(users);
@@ -51187,7 +55205,6 @@ abstract class InputReplyToBase extends TlConstructor {
 class InputReplyToMessage extends InputReplyToBase {
   /// Input Reply To Message constructor.
   const InputReplyToMessage({
-    required this.flags,
     required this.replyToMsgId,
     this.topMsgId,
     this.replyToPeerId,
@@ -51213,19 +55230,39 @@ class InputReplyToMessage extends InputReplyToBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+      b01: replyToPeerId != null,
+      b02: quoteText != null,
+      b03: quoteEntities != null,
+      b04: quoteOffset != null,
+    );
+
+    return v;
+  }
 
   /// Reply To Msg Id.
   final int replyToMsgId;
+
+  /// Top Msg Id.
   final int? topMsgId;
+
+  /// Reply To Peer Id.
   final InputPeerBase? replyToPeerId;
+
+  /// Quote Text.
   final String? quoteText;
+
+  /// Quote Entities.
   final List<MessageEntityBase>? quoteEntities;
+
+  /// Quote Offset.
   final int? quoteOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x22c0f6d5);
     buffer.writeInt(flags);
     buffer.writeInt(replyToMsgId);
@@ -51281,7 +55318,7 @@ class InputReplyToStory extends InputReplyToBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15b0f283);
     buffer.writeObject(userId);
     buffer.writeInt(storyId);
@@ -51318,7 +55355,7 @@ class ExportedStoryLink extends ExportedStoryLinkBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3fc9053b);
     buffer.writeString(link);
   }
@@ -51336,7 +55373,6 @@ abstract class StoriesStealthModeBase extends TlConstructor {
 class StoriesStealthMode extends StoriesStealthModeBase {
   /// Stories Stealth Mode constructor.
   const StoriesStealthMode({
-    required this.flags,
     this.activeUntilDate,
     this.cooldownUntilDate,
   }) : super._();
@@ -51354,13 +55390,24 @@ class StoriesStealthMode extends StoriesStealthModeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: activeUntilDate != null,
+      b01: cooldownUntilDate != null,
+    );
+
+    return v;
+  }
+
+  /// Active Until Date.
   final DateTime? activeUntilDate;
+
+  /// Cooldown Until Date.
   final DateTime? cooldownUntilDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x712e27fd);
     buffer.writeInt(flags);
     final localActiveUntilDateCopy = activeUntilDate;
@@ -51424,7 +55471,7 @@ class MediaAreaCoordinates extends MediaAreaCoordinatesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x03d1ea4e);
     buffer.writeDouble(x);
     buffer.writeDouble(y);
@@ -51494,7 +55541,7 @@ class MediaAreaVenue extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbe82db9c);
     buffer.writeObject(coordinates);
     buffer.writeObject(geo);
@@ -51540,7 +55587,7 @@ class InputMediaAreaVenue extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb282217f);
     buffer.writeObject(coordinates);
     buffer.writeLong(queryId);
@@ -51577,7 +55624,7 @@ class MediaAreaGeoPoint extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdf8b3b22);
     buffer.writeObject(coordinates);
     buffer.writeObject(geo);
@@ -51590,7 +55637,8 @@ class MediaAreaGeoPoint extends MediaAreaBase {
 class MediaAreaSuggestedReaction extends MediaAreaBase {
   /// Media Area Suggested Reaction constructor.
   const MediaAreaSuggestedReaction({
-    required this.flags,
+    required this.dark,
+    required this.flipped,
     required this.coordinates,
     required this.reaction,
   }) : super._();
@@ -51610,13 +55658,20 @@ class MediaAreaSuggestedReaction extends MediaAreaBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+      b01: flipped,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
 
-  /// flipped: bit
-  bool get flipped => _bit(flags, 1);
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
+
+  /// flipped: bit 1 of flags.1?true
+  final bool flipped;
 
   /// Coordinates.
   final MediaAreaCoordinatesBase coordinates;
@@ -51626,7 +55681,7 @@ class MediaAreaSuggestedReaction extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x14455871);
     buffer.writeInt(flags);
     buffer.writeObject(coordinates);
@@ -51668,7 +55723,7 @@ class MediaAreaChannelPost extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x770416af);
     buffer.writeObject(coordinates);
     buffer.writeLong(channelId);
@@ -51710,7 +55765,7 @@ class InputMediaAreaChannelPost extends MediaAreaBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2271f2bf);
     buffer.writeObject(coordinates);
     buffer.writeObject(channel);
@@ -51730,7 +55785,6 @@ abstract class PeerStoriesBase extends TlConstructor {
 class PeerStories extends PeerStoriesBase {
   /// Peer Stories constructor.
   const PeerStories({
-    required this.flags,
     required this.peer,
     this.maxReadId,
     required this.stories,
@@ -51750,10 +55804,18 @@ class PeerStories extends PeerStoriesBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: maxReadId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final PeerBase peer;
+
+  /// Max Read Id.
   final int? maxReadId;
 
   /// Stories.
@@ -51761,7 +55823,7 @@ class PeerStories extends PeerStoriesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a35e999);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -51813,7 +55875,7 @@ class StoriesPeerStories extends StoriesPeerStoriesBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcae68768);
     buffer.writeObject(stories);
     buffer.writeVectorObject(chats);
@@ -51861,7 +55923,7 @@ class MessagesWebPage extends MessagesWebPageBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfd5e12bd);
     buffer.writeObject(webpage);
     buffer.writeVectorObject(chats);
@@ -51881,7 +55943,6 @@ abstract class PremiumGiftCodeOptionBase extends TlConstructor {
 class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
   /// Premium Gift Code Option constructor.
   const PremiumGiftCodeOption({
-    required this.flags,
     required this.users,
     required this.months,
     this.storeProduct,
@@ -51907,14 +55968,25 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: storeProduct != null,
+      b01: storeQuantity != null,
+    );
+
+    return v;
+  }
 
   /// Users.
   final int users;
 
   /// Months.
   final int months;
+
+  /// Store Product.
   final String? storeProduct;
+
+  /// Store Quantity.
   final int? storeQuantity;
 
   /// Currency.
@@ -51925,7 +55997,7 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x257e962b);
     buffer.writeInt(flags);
     buffer.writeInt(users);
@@ -51955,7 +56027,7 @@ abstract class PaymentsCheckedGiftCodeBase extends TlConstructor {
 class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
   /// Payments Checked Gift Code constructor.
   const PaymentsCheckedGiftCode({
-    required this.flags,
+    required this.viaGiveaway,
     this.fromId,
     this.giveawayMsgId,
     this.toId,
@@ -51986,12 +56058,28 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: viaGiveaway,
+      b04: fromId != null,
+      b03: giveawayMsgId != null,
+      b00: toId != null,
+      b01: usedDate != null,
+    );
 
-  /// via_giveaway: bit
-  bool get viaGiveaway => _bit(flags, 2);
+    return v;
+  }
+
+  /// via_giveaway: bit 2 of flags.2?true
+  final bool viaGiveaway;
+
+  /// From Id.
   final PeerBase? fromId;
+
+  /// Giveaway Msg Id.
   final int? giveawayMsgId;
+
+  /// To Id.
   final int? toId;
 
   /// Date.
@@ -51999,6 +56087,8 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
 
   /// Months.
   final int months;
+
+  /// Used Date.
   final DateTime? usedDate;
 
   /// Chats.
@@ -52009,7 +56099,7 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x284a1096);
     buffer.writeInt(flags);
     final localFromIdCopy = fromId;
@@ -52047,7 +56137,8 @@ abstract class PaymentsGiveawayInfoBase extends TlConstructor {
 class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
   /// Payments Giveaway Info constructor.
   const PaymentsGiveawayInfo({
-    required this.flags,
+    required this.participating,
+    required this.preparingResults,
     required this.startDate,
     this.joinedTooEarlyDate,
     this.adminDisallowedChatId,
@@ -52071,23 +56162,39 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: participating,
+      b03: preparingResults,
+      b01: joinedTooEarlyDate != null,
+      b02: adminDisallowedChatId != null,
+      b04: disallowedCountry != null,
+    );
 
-  /// participating: bit
-  bool get participating => _bit(flags, 0);
+    return v;
+  }
 
-  /// preparing_results: bit
-  bool get preparingResults => _bit(flags, 3);
+  /// participating: bit 0 of flags.0?true
+  final bool participating;
+
+  /// preparing_results: bit 3 of flags.3?true
+  final bool preparingResults;
 
   /// Start Date.
   final DateTime startDate;
+
+  /// Joined Too Early Date.
   final DateTime? joinedTooEarlyDate;
+
+  /// Admin Disallowed Chat Id.
   final int? adminDisallowedChatId;
+
+  /// Disallowed Country.
   final String? disallowedCountry;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4367daa0);
     buffer.writeInt(flags);
     buffer.writeDateTime(startDate);
@@ -52112,7 +56219,8 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
 class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
   /// Payments Giveaway Info Results constructor.
   const PaymentsGiveawayInfoResults({
-    required this.flags,
+    required this.winner,
+    required this.refunded,
     required this.startDate,
     this.giftCodeSlug,
     required this.finishDate,
@@ -52138,16 +56246,25 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: winner || giftCodeSlug != null,
+      b01: refunded,
+    );
 
-  /// winner: bit
-  bool get winner => _bit(flags, 0);
+    return v;
+  }
 
-  /// refunded: bit
-  bool get refunded => _bit(flags, 1);
+  /// winner: bit 0 of flags.0?true
+  final bool winner;
+
+  /// refunded: bit 1 of flags.1?true
+  final bool refunded;
 
   /// Start Date.
   final DateTime startDate;
+
+  /// Gift Code Slug.
   final String? giftCodeSlug;
 
   /// Finish Date.
@@ -52161,7 +56278,7 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x00cd5570);
     buffer.writeInt(flags);
     buffer.writeDateTime(startDate);
@@ -52220,7 +56337,7 @@ class PrepaidGiveaway extends PrepaidGiveawayBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2539d54);
     buffer.writeLong(id);
     buffer.writeInt(months);
@@ -52241,7 +56358,9 @@ abstract class BoostBase extends TlConstructor {
 class Boost extends BoostBase {
   /// Boost constructor.
   const Boost({
-    required this.flags,
+    required this.gift,
+    required this.giveaway,
+    required this.unclaimed,
     required this.id,
     this.userId,
     this.giveawayMsgId,
@@ -52272,20 +56391,35 @@ class Boost extends BoostBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: gift,
+      b02: giveaway || giveawayMsgId != null,
+      b03: unclaimed,
+      b00: userId != null,
+      b04: usedGiftSlug != null,
+      b05: multiplier != null,
+    );
 
-  /// gift: bit
-  bool get gift => _bit(flags, 1);
+    return v;
+  }
 
-  /// giveaway: bit
-  bool get giveaway => _bit(flags, 2);
+  /// gift: bit 1 of flags.1?true
+  final bool gift;
 
-  /// unclaimed: bit
-  bool get unclaimed => _bit(flags, 3);
+  /// giveaway: bit 2 of flags.2?true
+  final bool giveaway;
+
+  /// unclaimed: bit 3 of flags.3?true
+  final bool unclaimed;
 
   /// Id.
   final String id;
+
+  /// User Id.
   final int? userId;
+
+  /// Giveaway Msg Id.
   final int? giveawayMsgId;
 
   /// Date.
@@ -52293,12 +56427,16 @@ class Boost extends BoostBase {
 
   /// Expires.
   final int expires;
+
+  /// Used Gift Slug.
   final String? usedGiftSlug;
+
+  /// Multiplier.
   final int? multiplier;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2a1c8c71);
     buffer.writeInt(flags);
     buffer.writeString(id);
@@ -52335,7 +56473,6 @@ abstract class PremiumBoostsListBase extends TlConstructor {
 class PremiumBoostsList extends PremiumBoostsListBase {
   /// Premium Boosts List constructor.
   const PremiumBoostsList({
-    required this.flags,
     required this.count,
     required this.boosts,
     this.nextOffset,
@@ -52357,13 +56494,21 @@ class PremiumBoostsList extends PremiumBoostsListBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
 
   /// Boosts.
   final List<BoostBase> boosts;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Users.
@@ -52371,7 +56516,7 @@ class PremiumBoostsList extends PremiumBoostsListBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x86f8613c);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -52396,7 +56541,6 @@ abstract class MyBoostBase extends TlConstructor {
 class MyBoost extends MyBoostBase {
   /// My Boost constructor.
   const MyBoost({
-    required this.flags,
     required this.slot,
     this.peer,
     required this.date,
@@ -52420,10 +56564,19 @@ class MyBoost extends MyBoostBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: peer != null,
+      b01: cooldownUntilDate != null,
+    );
+
+    return v;
+  }
 
   /// Slot.
   final int slot;
+
+  /// Peer.
   final PeerBase? peer;
 
   /// Date.
@@ -52431,11 +56584,13 @@ class MyBoost extends MyBoostBase {
 
   /// Expires.
   final int expires;
+
+  /// Cooldown Until Date.
   final DateTime? cooldownUntilDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc448415c);
     buffer.writeInt(flags);
     buffer.writeInt(slot);
@@ -52492,7 +56647,7 @@ class PremiumMyBoosts extends PremiumMyBoostsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9ae228e2);
     buffer.writeVectorObject(myBoosts);
     buffer.writeVectorObject(chats);
@@ -52512,7 +56667,7 @@ abstract class PremiumBoostsStatusBase extends TlConstructor {
 class PremiumBoostsStatus extends PremiumBoostsStatusBase {
   /// Premium Boosts Status constructor.
   const PremiumBoostsStatus({
-    required this.flags,
+    required this.myBoost,
     required this.level,
     required this.currentLevelBoosts,
     required this.boosts,
@@ -52545,10 +56700,20 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: myBoost || myBoostSlots != null,
+      b04: giftBoosts != null,
+      b00: nextLevelBoosts != null,
+      b01: premiumAudience != null,
+      b03: prepaidGiveaways != null,
+    );
 
-  /// my_boost: bit
-  bool get myBoost => _bit(flags, 2);
+    return v;
+  }
+
+  /// my_boost: bit 2 of flags.2?true
+  final bool myBoost;
 
   /// Level.
   final int level;
@@ -52558,18 +56723,28 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
 
   /// Boosts.
   final int boosts;
+
+  /// Gift Boosts.
   final int? giftBoosts;
+
+  /// Next Level Boosts.
   final int? nextLevelBoosts;
+
+  /// Premium Audience.
   final StatsPercentValueBase? premiumAudience;
 
   /// Boost Url.
   final String boostUrl;
+
+  /// Prepaid Giveaways.
   final List<PrepaidGiveawayBase>? prepaidGiveaways;
+
+  /// My Boost Slots.
   final List<int>? myBoostSlots;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4959427a);
     buffer.writeInt(flags);
     buffer.writeInt(level);
@@ -52611,7 +56786,7 @@ abstract class StoryFwdHeaderBase extends TlConstructor {
 class StoryFwdHeader extends StoryFwdHeaderBase {
   /// Story Fwd Header constructor.
   const StoryFwdHeader({
-    required this.flags,
+    required this.modified,
     this.from,
     this.fromName,
     this.storyId,
@@ -52632,17 +56807,32 @@ class StoryFwdHeader extends StoryFwdHeaderBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: modified,
+      b00: from != null,
+      b01: fromName != null,
+      b02: storyId != null,
+    );
 
-  /// modified: bit
-  bool get modified => _bit(flags, 3);
+    return v;
+  }
+
+  /// modified: bit 3 of flags.3?true
+  final bool modified;
+
+  /// From.
   final PeerBase? from;
+
+  /// From Name.
   final String? fromName;
+
+  /// Story Id.
   final int? storyId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb826e150);
     buffer.writeInt(flags);
     final localFromCopy = from;
@@ -52705,7 +56895,7 @@ class PostInteractionCountersMessage extends PostInteractionCountersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe7058e7f);
     buffer.writeInt(msgId);
     buffer.writeInt(views);
@@ -52753,7 +56943,7 @@ class PostInteractionCountersStory extends PostInteractionCountersBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8a480e27);
     buffer.writeInt(storyId);
     buffer.writeInt(views);
@@ -52797,7 +56987,7 @@ class StatsStoryStats extends StatsStoryStatsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50cd067c);
     buffer.writeObject(viewsGraph);
     buffer.writeObject(reactionsByEmotionGraph);
@@ -52834,7 +57024,7 @@ class PublicForwardMessage extends PublicForwardBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x01f2bf4a);
     buffer.writeObject(message);
   }
@@ -52869,7 +57059,7 @@ class PublicForwardStory extends PublicForwardBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xedf3add0);
     buffer.writeObject(peer);
     buffer.writeObject(story);
@@ -52888,7 +57078,6 @@ abstract class StatsPublicForwardsBase extends TlConstructor {
 class StatsPublicForwards extends StatsPublicForwardsBase {
   /// Stats Public Forwards constructor.
   const StatsPublicForwards({
-    required this.flags,
     required this.count,
     required this.forwards,
     this.nextOffset,
@@ -52912,13 +57101,21 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
 
   /// Forwards.
   final List<PublicForwardBase> forwards;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Chats.
@@ -52929,7 +57126,7 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x93037e20);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -52955,7 +57152,6 @@ abstract class PeerColorBase extends TlConstructor {
 class PeerColor extends PeerColorBase {
   /// Peer Color constructor.
   const PeerColor({
-    required this.flags,
     this.color,
     this.backgroundEmojiId,
   }) : super._();
@@ -52973,13 +57169,24 @@ class PeerColor extends PeerColorBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: color != null,
+      b01: backgroundEmojiId != null,
+    );
+
+    return v;
+  }
+
+  /// Color.
   final int? color;
+
+  /// Background Emoji Id.
   final int? backgroundEmojiId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb54b5acf);
     buffer.writeInt(flags);
     final localColorCopy = color;
@@ -53023,7 +57230,7 @@ class HelpPeerColorSet extends HelpPeerColorSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x26219a58);
     buffer.writeVectorInt(colors);
   }
@@ -53063,7 +57270,7 @@ class HelpPeerColorProfileSet extends HelpPeerColorSetBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x767d61eb);
     buffer.writeVectorInt(paletteColors);
     buffer.writeVectorInt(bgColors);
@@ -53083,7 +57290,7 @@ abstract class HelpPeerColorOptionBase extends TlConstructor {
 class HelpPeerColorOption extends HelpPeerColorOptionBase {
   /// Help Peer Color Option constructor.
   const HelpPeerColorOption({
-    required this.flags,
+    required this.hidden,
     required this.colorId,
     this.colors,
     this.darkColors,
@@ -53106,20 +57313,35 @@ class HelpPeerColorOption extends HelpPeerColorOptionBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: hidden,
+      b01: colors != null,
+      b02: darkColors != null,
+      b03: channelMinLevel != null,
+    );
 
-  /// hidden: bit
-  bool get hidden => _bit(flags, 0);
+    return v;
+  }
+
+  /// hidden: bit 0 of flags.0?true
+  final bool hidden;
 
   /// Color Id.
   final int colorId;
+
+  /// Colors.
   final HelpPeerColorSetBase? colors;
+
+  /// Dark Colors.
   final HelpPeerColorSetBase? darkColors;
+
+  /// Channel Min Level.
   final int? channelMinLevel;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef8430ab);
     buffer.writeInt(flags);
     buffer.writeInt(colorId);
@@ -53162,7 +57384,7 @@ class HelpPeerColorsNotModified extends HelpPeerColorsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2ba1f5ce);
   }
 }
@@ -53196,7 +57418,7 @@ class HelpPeerColors extends HelpPeerColorsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x00f8ed08);
     buffer.writeInt(hash);
     buffer.writeVectorObject(colors);
@@ -53243,7 +57465,7 @@ class StoryReaction extends StoryReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6090d6d5);
     buffer.writeObject(peerId);
     buffer.writeDateTime(date);
@@ -53275,7 +57497,7 @@ class StoryReactionPublicForward extends StoryReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbbab2643);
     buffer.writeObject(message);
   }
@@ -53310,7 +57532,7 @@ class StoryReactionPublicRepost extends StoryReactionBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcfcd0f13);
     buffer.writeObject(peerId);
     buffer.writeObject(story);
@@ -53329,7 +57551,6 @@ abstract class StoriesStoryReactionsListBase extends TlConstructor {
 class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
   /// Stories Story Reactions List constructor.
   const StoriesStoryReactionsList({
-    required this.flags,
     required this.count,
     required this.reactions,
     required this.chats,
@@ -53353,7 +57574,13 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: nextOffset != null,
+    );
+
+    return v;
+  }
 
   /// Count.
   final int count;
@@ -53366,11 +57593,13 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
 
   /// Users.
   final List<UserBase> users;
+
+  /// Next Offset.
   final String? nextOffset;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaa5f789c);
     buffer.writeInt(flags);
     buffer.writeInt(count);
@@ -53396,7 +57625,7 @@ abstract class SavedDialogBase extends TlConstructor {
 class SavedDialog extends SavedDialogBase {
   /// Saved Dialog constructor.
   const SavedDialog({
-    required this.flags,
+    required this.pinned,
     required this.peer,
     required this.topMessage,
   }) : super._();
@@ -53415,10 +57644,16 @@ class SavedDialog extends SavedDialogBase {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 2);
+    return v;
+  }
+
+  /// pinned: bit 2 of flags.2?true
+  final bool pinned;
 
   /// Peer.
   final PeerBase peer;
@@ -53428,7 +57663,7 @@ class SavedDialog extends SavedDialogBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd87cb6c);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -53481,7 +57716,7 @@ class MessagesSavedDialogs extends MessagesSavedDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf83ae221);
     buffer.writeVectorObject(dialogs);
     buffer.writeVectorObject(messages);
@@ -53534,7 +57769,7 @@ class MessagesSavedDialogsSlice extends MessagesSavedDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x44ba9dd9);
     buffer.writeInt(count);
     buffer.writeVectorObject(dialogs);
@@ -53568,7 +57803,7 @@ class MessagesSavedDialogsNotModified extends MessagesSavedDialogsBase {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc01f6fe8);
     buffer.writeInt(count);
   }
@@ -53603,7 +57838,7 @@ class InvokeAfterMsg<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcb9f372d);
     buffer.writeLong(msgId);
     buffer.writeObject(query);
@@ -53639,7 +57874,7 @@ class InvokeAfterMsgs<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dc4b4f0);
     buffer.writeVectorLong(msgIds);
     buffer.writeObject(query);
@@ -53685,7 +57920,7 @@ class AuthSendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa677244f);
     buffer.writeString(phoneNumber);
     buffer.writeInt(apiId);
@@ -53733,7 +57968,7 @@ class AuthSignUp extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x80eee427);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -53748,7 +57983,6 @@ class AuthSignUp extends TlMethod<AuthAuthorizationBase> {
 class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
   /// Auth Sign In constructor.
   const AuthSignIn({
-    required this.flags,
     required this.phoneNumber,
     required this.phoneCodeHash,
     this.phoneCode,
@@ -53770,19 +58004,30 @@ class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: phoneCode != null,
+      b01: emailVerification != null,
+    );
+
+    return v;
+  }
 
   /// Phone Number.
   final String phoneNumber;
 
   /// Phone Code Hash.
   final String phoneCodeHash;
+
+  /// Phone Code.
   final String? phoneCode;
+
+  /// Email Verification.
   final EmailVerificationBase? emailVerification;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8d52a951);
     buffer.writeInt(flags);
     buffer.writeString(phoneNumber);
@@ -53816,7 +58061,7 @@ class AuthLogOut extends TlMethod<AuthLoggedOutBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3e72ba19);
   }
 }
@@ -53839,7 +58084,7 @@ class AuthResetAuthorizations extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9fab0d1a);
   }
 }
@@ -53868,7 +58113,7 @@ class AuthExportAuthorization extends TlMethod<AuthExportedAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe5bfffcd);
     buffer.writeInt(dcId);
   }
@@ -53903,7 +58148,7 @@ class AuthImportAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa57a7dad);
     buffer.writeLong(id);
     buffer.writeBytes(bytes);
@@ -53949,7 +58194,7 @@ class AuthBindTempAuthKey extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcdd42a05);
     buffer.writeLong(permAuthKeyId);
     buffer.writeLong(nonce);
@@ -53964,7 +58209,7 @@ class AuthBindTempAuthKey extends TlMethod<bool> {
 class AccountRegisterDevice extends TlMethod<bool> {
   /// Account Register Device constructor.
   const AccountRegisterDevice({
-    required this.flags,
+    required this.noMuted,
     required this.tokenType,
     required this.token,
     required this.appSandbox,
@@ -53989,10 +58234,16 @@ class AccountRegisterDevice extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: noMuted,
+    );
 
-  /// no_muted: bit
-  bool get noMuted => _bit(flags, 0);
+    return v;
+  }
+
+  /// no_muted: bit 0 of flags.0?true
+  final bool noMuted;
 
   /// Token Type.
   final int tokenType;
@@ -54011,7 +58262,7 @@ class AccountRegisterDevice extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xec86017a);
     buffer.writeInt(flags);
     buffer.writeInt(tokenType);
@@ -54056,7 +58307,7 @@ class AccountUnregisterDevice extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a0d3206);
     buffer.writeInt(tokenType);
     buffer.writeString(token);
@@ -54093,7 +58344,7 @@ class AccountUpdateNotifySettings extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x84be5b93);
     buffer.writeObject(peer);
     buffer.writeObject(settings);
@@ -54124,7 +58375,7 @@ class AccountGetNotifySettings extends TlMethod<PeerNotifySettingsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x12b3ad31);
     buffer.writeObject(peer);
   }
@@ -54148,7 +58399,7 @@ class AccountResetNotifySettings extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdb7e1747);
   }
 }
@@ -54159,7 +58410,6 @@ class AccountResetNotifySettings extends TlMethod<bool> {
 class AccountUpdateProfile extends TlMethod<UserBase> {
   /// Account Update Profile constructor.
   const AccountUpdateProfile({
-    required this.flags,
     this.firstName,
     this.lastName,
     this.about,
@@ -54179,14 +58429,28 @@ class AccountUpdateProfile extends TlMethod<UserBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: firstName != null,
+      b01: lastName != null,
+      b02: about != null,
+    );
+
+    return v;
+  }
+
+  /// First Name.
   final String? firstName;
+
+  /// Last Name.
   final String? lastName;
+
+  /// About.
   final String? about;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x78515775);
     buffer.writeInt(flags);
     final localFirstNameCopy = firstName;
@@ -54228,7 +58492,7 @@ class AccountUpdateStatus extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6628562c);
     buffer.writeBool(offline);
   }
@@ -54258,7 +58522,7 @@ class AccountGetWallPapers extends TlMethod<AccountWallPapersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x07967d36);
     buffer.writeLong(hash);
   }
@@ -54298,7 +58562,7 @@ class AccountReportPeer extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc5ba3d86);
     buffer.writeObject(peer);
     buffer.writeObject(reason);
@@ -54330,7 +58594,7 @@ class UsersGetUsers extends TlMethod<List<UserBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0d91a548);
     buffer.writeVectorObject(id);
   }
@@ -54360,7 +58624,7 @@ class UsersGetFullUser extends TlMethod<UsersUserFullBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb60f5918);
     buffer.writeObject(id);
   }
@@ -54390,7 +58654,7 @@ class ContactsGetContactIDs extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7adc669d);
     buffer.writeLong(hash);
   }
@@ -54414,7 +58678,7 @@ class ContactsGetStatuses extends TlMethod<List<ContactStatusBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc4a353ee);
   }
 }
@@ -54443,7 +58707,7 @@ class ContactsGetContacts extends TlMethod<ContactsContactsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5dd69e12);
     buffer.writeLong(hash);
   }
@@ -54473,7 +58737,7 @@ class ContactsImportContacts extends TlMethod<ContactsImportedContactsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2c800be5);
     buffer.writeVectorObject(contacts);
   }
@@ -54503,7 +58767,7 @@ class ContactsDeleteContacts extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x096a0e00);
     buffer.writeVectorObject(id);
   }
@@ -54533,7 +58797,7 @@ class ContactsDeleteByPhones extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1013fd9e);
     buffer.writeVectorString(phones);
   }
@@ -54545,7 +58809,7 @@ class ContactsDeleteByPhones extends TlMethod<bool> {
 class ContactsBlock extends TlMethod<bool> {
   /// Contacts Block constructor.
   const ContactsBlock({
-    required this.flags,
+    required this.myStoriesFrom,
     required this.id,
   }) : super._();
 
@@ -54562,17 +58826,23 @@ class ContactsBlock extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: myStoriesFrom,
+    );
 
-  /// my_stories_from: bit
-  bool get myStoriesFrom => _bit(flags, 0);
+    return v;
+  }
+
+  /// my_stories_from: bit 0 of flags.0?true
+  final bool myStoriesFrom;
 
   /// Id.
   final InputPeerBase id;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2e2e8734);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -54585,7 +58855,7 @@ class ContactsBlock extends TlMethod<bool> {
 class ContactsUnblock extends TlMethod<bool> {
   /// Contacts Unblock constructor.
   const ContactsUnblock({
-    required this.flags,
+    required this.myStoriesFrom,
     required this.id,
   }) : super._();
 
@@ -54602,17 +58872,23 @@ class ContactsUnblock extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: myStoriesFrom,
+    );
 
-  /// my_stories_from: bit
-  bool get myStoriesFrom => _bit(flags, 0);
+    return v;
+  }
+
+  /// my_stories_from: bit 0 of flags.0?true
+  final bool myStoriesFrom;
 
   /// Id.
   final InputPeerBase id;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb550d328);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -54625,7 +58901,7 @@ class ContactsUnblock extends TlMethod<bool> {
 class ContactsGetBlocked extends TlMethod<ContactsBlockedBase> {
   /// Contacts Get Blocked constructor.
   const ContactsGetBlocked({
-    required this.flags,
+    required this.myStoriesFrom,
     required this.offset,
     required this.limit,
   }) : super._();
@@ -54644,10 +58920,16 @@ class ContactsGetBlocked extends TlMethod<ContactsBlockedBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: myStoriesFrom,
+    );
 
-  /// my_stories_from: bit
-  bool get myStoriesFrom => _bit(flags, 0);
+    return v;
+  }
+
+  /// my_stories_from: bit 0 of flags.0?true
+  final bool myStoriesFrom;
 
   /// Offset.
   final int offset;
@@ -54657,7 +58939,7 @@ class ContactsGetBlocked extends TlMethod<ContactsBlockedBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a868f80);
     buffer.writeInt(flags);
     buffer.writeInt(offset);
@@ -54689,7 +58971,7 @@ class MessagesGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x63c66506);
     buffer.writeVectorObject(id);
   }
@@ -54701,7 +58983,7 @@ class MessagesGetMessages extends TlMethod<MessagesMessagesBase> {
 class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
   /// Messages Get Dialogs constructor.
   const MessagesGetDialogs({
-    required this.flags,
+    required this.excludePinned,
     this.folderId,
     required this.offsetDate,
     required this.offsetId,
@@ -54728,10 +59010,19 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: excludePinned,
+      b01: folderId != null,
+    );
 
-  /// exclude_pinned: bit
-  bool get excludePinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// exclude_pinned: bit 0 of flags.0?true
+  final bool excludePinned;
+
+  /// Folder Id.
   final int? folderId;
 
   /// Offset Date.
@@ -54751,7 +59042,7 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0f4cb4f);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -54825,7 +59116,7 @@ class MessagesGetHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4423e6c5);
     buffer.writeObject(peer);
     buffer.writeInt(offsetId);
@@ -54844,7 +59135,6 @@ class MessagesGetHistory extends TlMethod<MessagesMessagesBase> {
 class MessagesSearch extends TlMethod<MessagesMessagesBase> {
   /// Messages Search constructor.
   const MessagesSearch({
-    required this.flags,
     required this.peer,
     required this.q,
     this.fromId,
@@ -54886,15 +59176,29 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: fromId != null,
+      b02: savedPeerId != null,
+      b01: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Q.
   final String q;
+
+  /// From Id.
   final InputPeerBase? fromId;
+
+  /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Filter.
@@ -54926,7 +59230,7 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa7b4e929);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -54984,7 +59288,7 @@ class MessagesReadHistory extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0e306d3a);
     buffer.writeObject(peer);
     buffer.writeInt(maxId);
@@ -54997,7 +59301,8 @@ class MessagesReadHistory extends TlMethod<MessagesAffectedMessagesBase> {
 class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
   /// Messages Delete History constructor.
   const MessagesDeleteHistory({
-    required this.flags,
+    required this.justClear,
+    required this.revoke,
     required this.peer,
     required this.maxId,
     this.minDate,
@@ -55021,25 +59326,38 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: justClear,
+      b01: revoke,
+      b02: minDate != null,
+      b03: maxDate != null,
+    );
 
-  /// just_clear: bit
-  bool get justClear => _bit(flags, 0);
+    return v;
+  }
 
-  /// revoke: bit
-  bool get revoke => _bit(flags, 1);
+  /// just_clear: bit 0 of flags.0?true
+  final bool justClear;
+
+  /// revoke: bit 1 of flags.1?true
+  final bool revoke;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Max Id.
   final int maxId;
+
+  /// Min Date.
   final DateTime? minDate;
+
+  /// Max Date.
   final DateTime? maxDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb08f922a);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -55061,7 +59379,7 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
 class MessagesDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
   /// Messages Delete Messages constructor.
   const MessagesDeleteMessages({
-    required this.flags,
+    required this.revoke,
     required this.id,
   }) : super._();
 
@@ -55078,17 +59396,23 @@ class MessagesDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: revoke,
+    );
 
-  /// revoke: bit
-  bool get revoke => _bit(flags, 0);
+    return v;
+  }
+
+  /// revoke: bit 0 of flags.0?true
+  final bool revoke;
 
   /// Id.
   final List<int> id;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe58e95d2);
     buffer.writeInt(flags);
     buffer.writeVectorInt(id);
@@ -55120,7 +59444,7 @@ class MessagesReceivedMessages
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x05a954c0);
     buffer.writeInt(maxId);
   }
@@ -55132,7 +59456,6 @@ class MessagesReceivedMessages
 class MessagesSetTyping extends TlMethod<bool> {
   /// Messages Set Typing constructor.
   const MessagesSetTyping({
-    required this.flags,
     required this.peer,
     this.topMsgId,
     required this.action,
@@ -55152,10 +59475,18 @@ class MessagesSetTyping extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Action.
@@ -55163,7 +59494,7 @@ class MessagesSetTyping extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x58943ee2);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -55181,7 +59512,13 @@ class MessagesSetTyping extends TlMethod<bool> {
 class MessagesSendMessage extends TlMethod<UpdatesBase> {
   /// Messages Send Message constructor.
   const MessagesSendMessage({
-    required this.flags,
+    required this.noWebpage,
+    required this.silent,
+    required this.background,
+    required this.clearDraft,
+    required this.noforwards,
+    required this.updateStickersetsOrder,
+    required this.invertMedia,
     required this.peer,
     this.replyTo,
     required this.message,
@@ -55218,31 +59555,50 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: noWebpage,
+      b05: silent,
+      b06: background,
+      b07: clearDraft,
+      b14: noforwards,
+      b15: updateStickersetsOrder,
+      b16: invertMedia,
+      b00: replyTo != null,
+      b02: replyMarkup != null,
+      b03: entities != null,
+      b10: scheduleDate != null,
+      b13: sendAs != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 1);
+    return v;
+  }
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+  /// no_webpage: bit 1 of flags.1?true
+  final bool noWebpage;
 
-  /// background: bit
-  bool get background => _bit(flags, 6);
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
-  /// clear_draft: bit
-  bool get clearDraft => _bit(flags, 7);
+  /// background: bit 6 of flags.6?true
+  final bool background;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 14);
+  /// clear_draft: bit 7 of flags.7?true
+  final bool clearDraft;
 
-  /// update_stickersets_order: bit
-  bool get updateStickersetsOrder => _bit(flags, 15);
+  /// noforwards: bit 14 of flags.14?true
+  final bool noforwards;
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 16);
+  /// update_stickersets_order: bit 15 of flags.15?true
+  final bool updateStickersetsOrder;
+
+  /// invert_media: bit 16 of flags.16?true
+  final bool invertMedia;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Message.
@@ -55250,14 +59606,22 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
 
   /// Random Id.
   final int randomId;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x280d096f);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -55292,7 +59656,12 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
 class MessagesSendMedia extends TlMethod<UpdatesBase> {
   /// Messages Send Media constructor.
   const MessagesSendMedia({
-    required this.flags,
+    required this.silent,
+    required this.background,
+    required this.clearDraft,
+    required this.noforwards,
+    required this.updateStickersetsOrder,
+    required this.invertMedia,
     required this.peer,
     this.replyTo,
     required this.media,
@@ -55330,28 +59699,46 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: silent,
+      b06: background,
+      b07: clearDraft,
+      b14: noforwards,
+      b15: updateStickersetsOrder,
+      b16: invertMedia,
+      b00: replyTo != null,
+      b02: replyMarkup != null,
+      b03: entities != null,
+      b10: scheduleDate != null,
+      b13: sendAs != null,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+    return v;
+  }
 
-  /// background: bit
-  bool get background => _bit(flags, 6);
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
-  /// clear_draft: bit
-  bool get clearDraft => _bit(flags, 7);
+  /// background: bit 6 of flags.6?true
+  final bool background;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 14);
+  /// clear_draft: bit 7 of flags.7?true
+  final bool clearDraft;
 
-  /// update_stickersets_order: bit
-  bool get updateStickersetsOrder => _bit(flags, 15);
+  /// noforwards: bit 14 of flags.14?true
+  final bool noforwards;
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 16);
+  /// update_stickersets_order: bit 15 of flags.15?true
+  final bool updateStickersetsOrder;
+
+  /// invert_media: bit 16 of flags.16?true
+  final bool invertMedia;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Media.
@@ -55362,14 +59749,22 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
 
   /// Random Id.
   final int randomId;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x72ccc23d);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -55405,7 +59800,12 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
 class MessagesForwardMessages extends TlMethod<UpdatesBase> {
   /// Messages Forward Messages constructor.
   const MessagesForwardMessages({
-    required this.flags,
+    required this.silent,
+    required this.background,
+    required this.withMyScore,
+    required this.dropAuthor,
+    required this.dropMediaCaptions,
+    required this.noforwards,
     required this.fromPeer,
     required this.id,
     required this.randomId,
@@ -55439,25 +59839,39 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: silent,
+      b06: background,
+      b08: withMyScore,
+      b11: dropAuthor,
+      b12: dropMediaCaptions,
+      b14: noforwards,
+      b09: topMsgId != null,
+      b10: scheduleDate != null,
+      b13: sendAs != null,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+    return v;
+  }
 
-  /// background: bit
-  bool get background => _bit(flags, 6);
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
-  /// with_my_score: bit
-  bool get withMyScore => _bit(flags, 8);
+  /// background: bit 6 of flags.6?true
+  final bool background;
 
-  /// drop_author: bit
-  bool get dropAuthor => _bit(flags, 11);
+  /// with_my_score: bit 8 of flags.8?true
+  final bool withMyScore;
 
-  /// drop_media_captions: bit
-  bool get dropMediaCaptions => _bit(flags, 12);
+  /// drop_author: bit 11 of flags.11?true
+  final bool dropAuthor;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 14);
+  /// drop_media_captions: bit 12 of flags.12?true
+  final bool dropMediaCaptions;
+
+  /// noforwards: bit 14 of flags.14?true
+  final bool noforwards;
 
   /// From Peer.
   final InputPeerBase fromPeer;
@@ -55470,13 +59884,19 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
 
   /// To Peer.
   final InputPeerBase toPeer;
+
+  /// Top Msg Id.
   final int? topMsgId;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc661bbc4);
     buffer.writeInt(flags);
     buffer.writeObject(fromPeer);
@@ -55522,7 +59942,7 @@ class MessagesReportSpam extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcf1592db);
     buffer.writeObject(peer);
   }
@@ -55552,7 +59972,7 @@ class MessagesGetPeerSettings extends TlMethod<MessagesPeerSettingsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xefd9a6a2);
     buffer.writeObject(peer);
   }
@@ -55597,7 +60017,7 @@ class MessagesReport extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8953ab4e);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -55630,7 +60050,7 @@ class MessagesGetChats extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x49e9528f);
     buffer.writeVectorLong(id);
   }
@@ -55660,7 +60080,7 @@ class MessagesGetFullChat extends TlMethod<MessagesChatFullBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaeb00b34);
     buffer.writeLong(chatId);
   }
@@ -55695,7 +60115,7 @@ class MessagesEditChatTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73783ffd);
     buffer.writeLong(chatId);
     buffer.writeString(title);
@@ -55731,7 +60151,7 @@ class MessagesEditChatPhoto extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35ddd674);
     buffer.writeLong(chatId);
     buffer.writeObject(photo);
@@ -55772,7 +60192,7 @@ class MessagesAddChatUser extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf24753e3);
     buffer.writeLong(chatId);
     buffer.writeObject(userId);
@@ -55786,7 +60206,7 @@ class MessagesAddChatUser extends TlMethod<UpdatesBase> {
 class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
   /// Messages Delete Chat User constructor.
   const MessagesDeleteChatUser({
-    required this.flags,
+    required this.revokeHistory,
     required this.chatId,
     required this.userId,
   }) : super._();
@@ -55805,10 +60225,16 @@ class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: revokeHistory,
+    );
 
-  /// revoke_history: bit
-  bool get revokeHistory => _bit(flags, 0);
+    return v;
+  }
+
+  /// revoke_history: bit 0 of flags.0?true
+  final bool revokeHistory;
 
   /// Chat Id.
   final int chatId;
@@ -55818,7 +60244,7 @@ class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2185cab);
     buffer.writeInt(flags);
     buffer.writeLong(chatId);
@@ -55832,7 +60258,6 @@ class MessagesDeleteChatUser extends TlMethod<UpdatesBase> {
 class MessagesCreateChat extends TlMethod<UpdatesBase> {
   /// Messages Create Chat constructor.
   const MessagesCreateChat({
-    required this.flags,
     required this.users,
     required this.title,
     this.ttlPeriod,
@@ -55852,18 +60277,26 @@ class MessagesCreateChat extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: ttlPeriod != null,
+    );
+
+    return v;
+  }
 
   /// Users.
   final List<InputUserBase> users;
 
   /// Title.
   final String title;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0034a818);
     buffer.writeInt(flags);
     buffer.writeVectorObject(users);
@@ -55893,7 +60326,7 @@ class UpdatesGetState extends TlMethod<UpdatesStateBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xedd4882a);
   }
 }
@@ -55904,7 +60337,6 @@ class UpdatesGetState extends TlMethod<UpdatesStateBase> {
 class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
   /// Updates Get Difference constructor.
   const UpdatesGetDifference({
-    required this.flags,
     required this.pts,
     this.ptsLimit,
     this.ptsTotalLimit,
@@ -55930,11 +60362,23 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: ptsLimit != null,
+      b00: ptsTotalLimit != null,
+      b02: qtsLimit != null,
+    );
+
+    return v;
+  }
 
   /// Pts.
   final int pts;
+
+  /// Pts Limit.
   final int? ptsLimit;
+
+  /// Pts Total Limit.
   final int? ptsTotalLimit;
 
   /// Date.
@@ -55942,11 +60386,13 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
 
   /// Qts.
   final int qts;
+
+  /// Qts Limit.
   final int? qtsLimit;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x19c2f763);
     buffer.writeInt(flags);
     buffer.writeInt(pts);
@@ -55973,7 +60419,7 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
 class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Photos Update Profile Photo constructor.
   const PhotosUpdateProfilePhoto({
-    required this.flags,
+    required this.fallback,
     this.bot,
     required this.id,
   }) : super._();
@@ -55992,10 +60438,19 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: fallback,
+      b01: bot != null,
+    );
 
-  /// fallback: bit
-  bool get fallback => _bit(flags, 0);
+    return v;
+  }
+
+  /// fallback: bit 0 of flags.0?true
+  final bool fallback;
+
+  /// Bot.
   final InputUserBase? bot;
 
   /// Id.
@@ -56003,7 +60458,7 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x09e82039);
     buffer.writeInt(flags);
     final localBotCopy = bot;
@@ -56020,7 +60475,7 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
 class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Photos Upload Profile Photo constructor.
   const PhotosUploadProfilePhoto({
-    required this.flags,
+    required this.fallback,
     this.bot,
     this.file,
     this.video,
@@ -56045,19 +60500,40 @@ class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: fallback,
+      b05: bot != null,
+      b00: file != null,
+      b01: video != null,
+      b02: videoStartTs != null,
+      b04: videoEmojiMarkup != null,
+    );
 
-  /// fallback: bit
-  bool get fallback => _bit(flags, 3);
+    return v;
+  }
+
+  /// fallback: bit 3 of flags.3?true
+  final bool fallback;
+
+  /// Bot.
   final InputUserBase? bot;
+
+  /// File.
   final InputFileBase? file;
+
+  /// Video.
   final InputFileBase? video;
+
+  /// Video Start Ts.
   final double? videoStartTs;
+
+  /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0388a3b5);
     buffer.writeInt(flags);
     final localBotCopy = bot;
@@ -56107,7 +60583,7 @@ class PhotosDeletePhotos extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x87cf7f2f);
     buffer.writeVectorObject(id);
   }
@@ -56147,7 +60623,7 @@ class UploadSaveFilePart extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb304a621);
     buffer.writeLong(fileId);
     buffer.writeInt(filePart);
@@ -56161,7 +60637,8 @@ class UploadSaveFilePart extends TlMethod<bool> {
 class UploadGetFile extends TlMethod<UploadFileBase> {
   /// Upload Get File constructor.
   const UploadGetFile({
-    required this.flags,
+    required this.precise,
+    required this.cdnSupported,
     required this.location,
     required this.offset,
     required this.limit,
@@ -56183,13 +60660,20 @@ class UploadGetFile extends TlMethod<UploadFileBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: precise,
+      b01: cdnSupported,
+    );
 
-  /// precise: bit
-  bool get precise => _bit(flags, 0);
+    return v;
+  }
 
-  /// cdn_supported: bit
-  bool get cdnSupported => _bit(flags, 1);
+  /// precise: bit 0 of flags.0?true
+  final bool precise;
+
+  /// cdn_supported: bit 1 of flags.1?true
+  final bool cdnSupported;
 
   /// Location.
   final InputFileLocationBase location;
@@ -56202,7 +60686,7 @@ class UploadGetFile extends TlMethod<UploadFileBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbe5335be);
     buffer.writeInt(flags);
     buffer.writeObject(location);
@@ -56229,7 +60713,7 @@ class HelpGetConfig extends TlMethod<ConfigBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc4f9186b);
   }
 }
@@ -56252,7 +60736,7 @@ class HelpGetNearestDc extends TlMethod<NearestDcBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1fb33026);
   }
 }
@@ -56281,7 +60765,7 @@ class HelpGetAppUpdate extends TlMethod<HelpAppUpdateBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x522d5a7d);
     buffer.writeString(source);
   }
@@ -56305,7 +60789,7 @@ class HelpGetInviteText extends TlMethod<HelpInviteTextBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4d392343);
   }
 }
@@ -56349,7 +60833,7 @@ class PhotosGetUserPhotos extends TlMethod<PhotosPhotosBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x91cd32a8);
     buffer.writeObject(userId);
     buffer.writeInt(offset);
@@ -56387,7 +60871,7 @@ class MessagesGetDhConfig extends TlMethod<MessagesDhConfigBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x26cf8950);
     buffer.writeInt(version);
     buffer.writeInt(randomLength);
@@ -56428,7 +60912,7 @@ class MessagesRequestEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf64daf43);
     buffer.writeObject(userId);
     buffer.writeInt(randomId);
@@ -56470,7 +60954,7 @@ class MessagesAcceptEncryption extends TlMethod<EncryptedChatBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dbc0415);
     buffer.writeObject(peer);
     buffer.writeBytes(gB);
@@ -56484,7 +60968,7 @@ class MessagesAcceptEncryption extends TlMethod<EncryptedChatBase> {
 class MessagesDiscardEncryption extends TlMethod<bool> {
   /// Messages Discard Encryption constructor.
   const MessagesDiscardEncryption({
-    required this.flags,
+    required this.deleteHistory,
     required this.chatId,
   }) : super._();
 
@@ -56501,17 +60985,23 @@ class MessagesDiscardEncryption extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: deleteHistory,
+    );
 
-  /// delete_history: bit
-  bool get deleteHistory => _bit(flags, 0);
+    return v;
+  }
+
+  /// delete_history: bit 0 of flags.0?true
+  final bool deleteHistory;
 
   /// Chat Id.
   final int chatId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf393aea0);
     buffer.writeInt(flags);
     buffer.writeInt(chatId);
@@ -56547,7 +61037,7 @@ class MessagesSetEncryptedTyping extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x791451ed);
     buffer.writeObject(peer);
     buffer.writeBool(typing);
@@ -56583,7 +61073,7 @@ class MessagesReadEncryptedHistory extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f4b690a);
     buffer.writeObject(peer);
     buffer.writeDateTime(maxDate);
@@ -56596,7 +61086,7 @@ class MessagesReadEncryptedHistory extends TlMethod<bool> {
 class MessagesSendEncrypted extends TlMethod<MessagesSentEncryptedMessageBase> {
   /// Messages Send Encrypted constructor.
   const MessagesSendEncrypted({
-    required this.flags,
+    required this.silent,
     required this.peer,
     required this.randomId,
     required this.data,
@@ -56617,10 +61107,16 @@ class MessagesSendEncrypted extends TlMethod<MessagesSentEncryptedMessageBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: silent,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 0);
+    return v;
+  }
+
+  /// silent: bit 0 of flags.0?true
+  final bool silent;
 
   /// Peer.
   final InputEncryptedChatBase peer;
@@ -56633,7 +61129,7 @@ class MessagesSendEncrypted extends TlMethod<MessagesSentEncryptedMessageBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x44fa7a15);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -56649,7 +61145,7 @@ class MessagesSendEncryptedFile
     extends TlMethod<MessagesSentEncryptedMessageBase> {
   /// Messages Send Encrypted File constructor.
   const MessagesSendEncryptedFile({
-    required this.flags,
+    required this.silent,
     required this.peer,
     required this.randomId,
     required this.data,
@@ -56672,10 +61168,16 @@ class MessagesSendEncryptedFile
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: silent,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 0);
+    return v;
+  }
+
+  /// silent: bit 0 of flags.0?true
+  final bool silent;
 
   /// Peer.
   final InputEncryptedChatBase peer;
@@ -56691,7 +61193,7 @@ class MessagesSendEncryptedFile
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5559481d);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -56736,7 +61238,7 @@ class MessagesSendEncryptedService
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x32d439a4);
     buffer.writeObject(peer);
     buffer.writeLong(randomId);
@@ -56768,7 +61270,7 @@ class MessagesReceivedQueue extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x55a5bb66);
     buffer.writeInt(maxQts);
   }
@@ -56798,7 +61300,7 @@ class MessagesReportEncryptedSpam extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4b0c8c0f);
     buffer.writeObject(peer);
   }
@@ -56843,7 +61345,7 @@ class UploadSaveBigFilePart extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xde7b673d);
     buffer.writeLong(fileId);
     buffer.writeInt(filePart);
@@ -56858,7 +61360,6 @@ class UploadSaveBigFilePart extends TlMethod<bool> {
 class InitConnection<X> extends TlMethod<X> {
   /// Init Connection constructor.
   const InitConnection({
-    required this.flags,
     required this.apiId,
     required this.deviceModel,
     required this.systemVersion,
@@ -56892,7 +61393,14 @@ class InitConnection<X> extends TlMethod<X> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: proxy != null,
+      b01: params != null,
+    );
+
+    return v;
+  }
 
   /// Api Id.
   final int apiId;
@@ -56914,7 +61422,11 @@ class InitConnection<X> extends TlMethod<X> {
 
   /// Lang Code.
   final String langCode;
+
+  /// Proxy.
   final InputClientProxyBase? proxy;
+
+  /// Params.
   final JSONValueBase? params;
 
   /// Query.
@@ -56922,7 +61434,7 @@ class InitConnection<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc1cd5ea9);
     buffer.writeInt(flags);
     buffer.writeInt(apiId);
@@ -56962,7 +61474,7 @@ class HelpGetSupport extends TlMethod<HelpSupportBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9cdf08cd);
   }
 }
@@ -56992,7 +61504,7 @@ class MessagesReadMessageContents
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x36a73f77);
     buffer.writeVectorInt(id);
   }
@@ -57022,7 +61534,7 @@ class AccountCheckUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2714d86c);
     buffer.writeString(username);
   }
@@ -57052,7 +61564,7 @@ class AccountUpdateUsername extends TlMethod<UserBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3e0bdd7c);
     buffer.writeString(username);
   }
@@ -57087,7 +61599,7 @@ class ContactsSearch extends TlMethod<ContactsFoundBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x11f812d8);
     buffer.writeString(q);
     buffer.writeInt(limit);
@@ -57118,7 +61630,7 @@ class AccountGetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdadbc950);
     buffer.writeObject(key);
   }
@@ -57153,7 +61665,7 @@ class AccountSetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc9f81ce8);
     buffer.writeObject(key);
     buffer.writeVectorObject(rules);
@@ -57166,7 +61678,6 @@ class AccountSetPrivacy extends TlMethod<AccountPrivacyRulesBase> {
 class AccountDeleteAccount extends TlMethod<bool> {
   /// Account Delete Account constructor.
   const AccountDeleteAccount({
-    required this.flags,
     required this.reason,
     this.password,
   }) : super._();
@@ -57184,15 +61695,23 @@ class AccountDeleteAccount extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: password != null,
+    );
+
+    return v;
+  }
 
   /// Reason.
   final String reason;
+
+  /// Password.
   final InputCheckPasswordSRPBase? password;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2c0cf74);
     buffer.writeInt(flags);
     buffer.writeString(reason);
@@ -57221,7 +61740,7 @@ class AccountGetAccountTTL extends TlMethod<AccountDaysTTLBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x08fc711d);
   }
 }
@@ -57250,7 +61769,7 @@ class AccountSetAccountTTL extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2442485e);
     buffer.writeObject(ttl);
   }
@@ -57285,7 +61804,7 @@ class InvokeWithLayer<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xda9b0d0d);
     buffer.writeInt(layer);
     buffer.writeObject(query);
@@ -57316,7 +61835,7 @@ class ContactsResolveUsername extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf93ccba3);
     buffer.writeString(username);
   }
@@ -57351,7 +61870,7 @@ class AccountSendChangePhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x82574ae5);
     buffer.writeString(phoneNumber);
     buffer.writeObject(settings);
@@ -57392,7 +61911,7 @@ class AccountChangePhone extends TlMethod<UserBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x70c32edb);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -57429,7 +61948,7 @@ class MessagesGetStickers extends TlMethod<MessagesStickersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd5a5d3a1);
     buffer.writeString(emoticon);
     buffer.writeLong(hash);
@@ -57460,7 +61979,7 @@ class MessagesGetAllStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb8a0a1a8);
     buffer.writeLong(hash);
   }
@@ -57490,7 +62009,7 @@ class AccountUpdateDeviceLocked extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x38df3532);
     buffer.writeInt(period);
   }
@@ -57535,7 +62054,7 @@ class AuthImportBotAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x67a3ff2c);
     buffer.writeInt(flags);
     buffer.writeInt(apiId);
@@ -57550,7 +62069,6 @@ class AuthImportBotAuthorization extends TlMethod<AuthAuthorizationBase> {
 class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
   /// Messages Get Web Page Preview constructor.
   const MessagesGetWebPagePreview({
-    required this.flags,
     required this.message,
     this.entities,
   }) : super._();
@@ -57568,15 +62086,23 @@ class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: entities != null,
+    );
+
+    return v;
+  }
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8b68b0cc);
     buffer.writeInt(flags);
     buffer.writeString(message);
@@ -57605,7 +62131,7 @@ class AccountGetAuthorizations extends TlMethod<AccountAuthorizationsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe320c158);
   }
 }
@@ -57634,7 +62160,7 @@ class AccountResetAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdf77f3bc);
     buffer.writeLong(hash);
   }
@@ -57658,7 +62184,7 @@ class AccountGetPassword extends TlMethod<AccountPasswordBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x548a30f5);
   }
 }
@@ -57687,7 +62213,7 @@ class AccountGetPasswordSettings extends TlMethod<AccountPasswordSettingsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9cd4eaf9);
     buffer.writeObject(password);
   }
@@ -57722,7 +62248,7 @@ class AccountUpdatePasswordSettings extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa59b102f);
     buffer.writeObject(password);
     buffer.writeObject(newSettings);
@@ -57753,7 +62279,7 @@ class AuthCheckPassword extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd18b4d16);
     buffer.writeObject(password);
   }
@@ -57777,7 +62303,7 @@ class AuthRequestPasswordRecovery extends TlMethod<AuthPasswordRecoveryBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd897bc66);
   }
 }
@@ -57788,7 +62314,6 @@ class AuthRequestPasswordRecovery extends TlMethod<AuthPasswordRecoveryBase> {
 class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
   /// Auth Recover Password constructor.
   const AuthRecoverPassword({
-    required this.flags,
     required this.code,
     this.newSettings,
   }) : super._();
@@ -57806,15 +62331,23 @@ class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: newSettings != null,
+    );
+
+    return v;
+  }
 
   /// Code.
   final String code;
+
+  /// New Settings.
   final AccountPasswordInputSettingsBase? newSettings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x37096c70);
     buffer.writeInt(flags);
     buffer.writeString(code);
@@ -57849,7 +62382,7 @@ class InvokeWithoutUpdates<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbf9459b7);
     buffer.writeObject(query);
   }
@@ -57861,7 +62394,8 @@ class InvokeWithoutUpdates<X> extends TlMethod<X> {
 class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
   /// Messages Export Chat Invite constructor.
   const MessagesExportChatInvite({
-    required this.flags,
+    required this.legacyRevokePermanent,
+    required this.requestNeeded,
     required this.peer,
     this.expireDate,
     this.usageLimit,
@@ -57885,23 +62419,39 @@ class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: legacyRevokePermanent,
+      b03: requestNeeded,
+      b00: expireDate != null,
+      b01: usageLimit != null,
+      b04: title != null,
+    );
 
-  /// legacy_revoke_permanent: bit
-  bool get legacyRevokePermanent => _bit(flags, 2);
+    return v;
+  }
 
-  /// request_needed: bit
-  bool get requestNeeded => _bit(flags, 3);
+  /// legacy_revoke_permanent: bit 2 of flags.2?true
+  final bool legacyRevokePermanent;
+
+  /// request_needed: bit 3 of flags.3?true
+  final bool requestNeeded;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Expire Date.
   final DateTime? expireDate;
+
+  /// Usage Limit.
   final int? usageLimit;
+
+  /// Title.
   final String? title;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa02ce5d5);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -57944,7 +62494,7 @@ class MessagesCheckChatInvite extends TlMethod<ChatInviteBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3eadb1bb);
     buffer.writeString(hash);
   }
@@ -57974,7 +62524,7 @@ class MessagesImportChatInvite extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c50051c);
     buffer.writeString(hash);
   }
@@ -58009,7 +62559,7 @@ class MessagesGetStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc8a0ec74);
     buffer.writeObject(stickerset);
     buffer.writeInt(hash);
@@ -58046,7 +62596,7 @@ class MessagesInstallStickerSet
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc78fe460);
     buffer.writeObject(stickerset);
     buffer.writeBool(archived);
@@ -58077,7 +62627,7 @@ class MessagesUninstallStickerSet extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf96e55de);
     buffer.writeObject(stickerset);
   }
@@ -58122,7 +62672,7 @@ class MessagesStartBot extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe6df7378);
     buffer.writeObject(bot);
     buffer.writeObject(peer);
@@ -58165,7 +62715,7 @@ class MessagesGetMessagesViews extends TlMethod<MessagesMessageViewsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5784d3e1);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -58202,7 +62752,7 @@ class ChannelsReadHistory extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcc104937);
     buffer.writeObject(channel);
     buffer.writeInt(maxId);
@@ -58238,7 +62788,7 @@ class ChannelsDeleteMessages extends TlMethod<MessagesAffectedMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x84c1fd4e);
     buffer.writeObject(channel);
     buffer.writeVectorInt(id);
@@ -58279,7 +62829,7 @@ class ChannelsReportSpam extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf44a8315);
     buffer.writeObject(channel);
     buffer.writeObject(participant);
@@ -58316,7 +62866,7 @@ class ChannelsGetMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xad8c9a23);
     buffer.writeObject(channel);
     buffer.writeVectorObject(id);
@@ -58368,7 +62918,7 @@ class ChannelsGetParticipants
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77ced9d0);
     buffer.writeObject(channel);
     buffer.writeObject(filter);
@@ -58407,7 +62957,7 @@ class ChannelsGetParticipant extends TlMethod<ChannelsChannelParticipantBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa0ab6cc6);
     buffer.writeObject(channel);
     buffer.writeObject(participant);
@@ -58438,7 +62988,7 @@ class ChannelsGetChannels extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a7f6bbb);
     buffer.writeVectorObject(id);
   }
@@ -58468,7 +63018,7 @@ class ChannelsGetFullChannel extends TlMethod<MessagesChatFullBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x08736a09);
     buffer.writeObject(channel);
   }
@@ -58480,7 +63030,10 @@ class ChannelsGetFullChannel extends TlMethod<MessagesChatFullBase> {
 class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
   /// Channels Create Channel constructor.
   const ChannelsCreateChannel({
-    required this.flags,
+    required this.broadcast,
+    required this.megagroup,
+    required this.forImport,
+    required this.forum,
     required this.title,
     required this.about,
     this.geoPoint,
@@ -58508,32 +63061,49 @@ class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: broadcast,
+      b01: megagroup,
+      b03: forImport,
+      b05: forum,
+      b02: geoPoint != null || address != null,
+      b04: ttlPeriod != null,
+    );
 
-  /// broadcast: bit
-  bool get broadcast => _bit(flags, 0);
+    return v;
+  }
 
-  /// megagroup: bit
-  bool get megagroup => _bit(flags, 1);
+  /// broadcast: bit 0 of flags.0?true
+  final bool broadcast;
 
-  /// for_import: bit
-  bool get forImport => _bit(flags, 3);
+  /// megagroup: bit 1 of flags.1?true
+  final bool megagroup;
 
-  /// forum: bit
-  bool get forum => _bit(flags, 5);
+  /// for_import: bit 3 of flags.3?true
+  final bool forImport;
+
+  /// forum: bit 5 of flags.5?true
+  final bool forum;
 
   /// Title.
   final String title;
 
   /// About.
   final String about;
+
+  /// Geo Point.
   final InputGeoPointBase? geoPoint;
+
+  /// Address.
   final String? address;
+
+  /// Ttl Period.
   final int? ttlPeriod;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x91006707);
     buffer.writeInt(flags);
     buffer.writeString(title);
@@ -58592,7 +63162,7 @@ class ChannelsEditAdmin extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd33c8902);
     buffer.writeObject(channel);
     buffer.writeObject(userId);
@@ -58630,7 +63200,7 @@ class ChannelsEditTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x566decd0);
     buffer.writeObject(channel);
     buffer.writeString(title);
@@ -58666,7 +63236,7 @@ class ChannelsEditPhoto extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf12e57c9);
     buffer.writeObject(channel);
     buffer.writeObject(photo);
@@ -58702,7 +63272,7 @@ class ChannelsCheckUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10e6bd2c);
     buffer.writeObject(channel);
     buffer.writeString(username);
@@ -58738,7 +63308,7 @@ class ChannelsUpdateUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3514b3de);
     buffer.writeObject(channel);
     buffer.writeString(username);
@@ -58769,7 +63339,7 @@ class ChannelsJoinChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x24b524c5);
     buffer.writeObject(channel);
   }
@@ -58799,7 +63369,7 @@ class ChannelsLeaveChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf836aa95);
     buffer.writeObject(channel);
   }
@@ -58834,7 +63404,7 @@ class ChannelsInviteToChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x199f3a6c);
     buffer.writeObject(channel);
     buffer.writeVectorObject(users);
@@ -58865,7 +63435,7 @@ class ChannelsDeleteChannel extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc0111fe3);
     buffer.writeObject(channel);
   }
@@ -58878,7 +63448,7 @@ class UpdatesGetChannelDifference
     extends TlMethod<UpdatesChannelDifferenceBase> {
   /// Updates Get Channel Difference constructor.
   const UpdatesGetChannelDifference({
-    required this.flags,
+    required this.force,
     required this.channel,
     required this.filter,
     required this.pts,
@@ -58901,10 +63471,16 @@ class UpdatesGetChannelDifference
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: force,
+    );
 
-  /// force: bit
-  bool get force => _bit(flags, 0);
+    return v;
+  }
+
+  /// force: bit 0 of flags.0?true
+  final bool force;
 
   /// Channel.
   final InputChannelBase channel;
@@ -58920,7 +63496,7 @@ class UpdatesGetChannelDifference
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x03173d78);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -58964,7 +63540,7 @@ class MessagesEditChatAdmin extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa85bd1c2);
     buffer.writeLong(chatId);
     buffer.writeObject(userId);
@@ -58996,7 +63572,7 @@ class MessagesMigrateChat extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2875319);
     buffer.writeLong(chatId);
   }
@@ -59008,7 +63584,6 @@ class MessagesMigrateChat extends TlMethod<UpdatesBase> {
 class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
   /// Messages Search Global constructor.
   const MessagesSearchGlobal({
-    required this.flags,
     this.folderId,
     required this.q,
     required this.filter,
@@ -59040,7 +63615,15 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: folderId != null,
+    );
+
+    return v;
+  }
+
+  /// Folder Id.
   final int? folderId;
 
   /// Q.
@@ -59069,7 +63652,7 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4bc6589a);
     buffer.writeInt(flags);
     final localFolderIdCopy = folderId;
@@ -59093,7 +63676,8 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
 class MessagesReorderStickerSets extends TlMethod<bool> {
   /// Messages Reorder Sticker Sets constructor.
   const MessagesReorderStickerSets({
-    required this.flags,
+    required this.masks,
+    required this.emojis,
     required this.order,
   }) : super._();
 
@@ -59111,20 +63695,27 @@ class MessagesReorderStickerSets extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: emojis,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
+
+  /// emojis: bit 1 of flags.1?true
+  final bool emojis;
 
   /// Order.
   final List<int> order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x78337739);
     buffer.writeInt(flags);
     buffer.writeVectorLong(order);
@@ -59165,7 +63756,7 @@ class MessagesGetDocumentByHash extends TlMethod<DocumentBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb1f2061f);
     buffer.writeBytes(sha256);
     buffer.writeLong(size);
@@ -59197,7 +63788,7 @@ class MessagesGetSavedGifs extends TlMethod<MessagesSavedGifsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5cf09635);
     buffer.writeLong(hash);
   }
@@ -59232,7 +63823,7 @@ class MessagesSaveGif extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x327a30cb);
     buffer.writeObject(id);
     buffer.writeBool(unsave);
@@ -59245,7 +63836,6 @@ class MessagesSaveGif extends TlMethod<bool> {
 class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
   /// Messages Get Inline Bot Results constructor.
   const MessagesGetInlineBotResults({
-    required this.flags,
     required this.bot,
     required this.peer,
     this.geoPoint,
@@ -59269,13 +63859,21 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: geoPoint != null,
+    );
+
+    return v;
+  }
 
   /// Bot.
   final InputUserBase bot;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Geo Point.
   final InputGeoPointBase? geoPoint;
 
   /// Query.
@@ -59286,7 +63884,7 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x514e999d);
     buffer.writeInt(flags);
     buffer.writeObject(bot);
@@ -59306,7 +63904,8 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
 class MessagesSetInlineBotResults extends TlMethod<bool> {
   /// Messages Set Inline Bot Results constructor.
   const MessagesSetInlineBotResults({
-    required this.flags,
+    required this.gallery,
+    required this.private,
     required this.queryId,
     required this.results,
     required this.cacheTime,
@@ -59334,13 +63933,23 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: gallery,
+      b01: private,
+      b02: nextOffset != null,
+      b03: switchPm != null,
+      b04: switchWebview != null,
+    );
 
-  /// gallery: bit
-  bool get gallery => _bit(flags, 0);
+    return v;
+  }
 
-  /// private: bit
-  bool get private => _bit(flags, 1);
+  /// gallery: bit 0 of flags.0?true
+  final bool gallery;
+
+  /// private: bit 1 of flags.1?true
+  final bool private;
 
   /// Query Id.
   final int queryId;
@@ -59350,13 +63959,19 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
 
   /// Cache Time.
   final int cacheTime;
+
+  /// Next Offset.
   final String? nextOffset;
+
+  /// Switch Pm.
   final InlineBotSwitchPMBase? switchPm;
+
+  /// Switch Webview.
   final InlineBotWebViewBase? switchWebview;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb12a419);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -59383,7 +63998,10 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
 class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
   /// Messages Send Inline Bot Result constructor.
   const MessagesSendInlineBotResult({
-    required this.flags,
+    required this.silent,
+    required this.background,
+    required this.clearDraft,
+    required this.hideVia,
     required this.peer,
     this.replyTo,
     required this.randomId,
@@ -59415,22 +64033,36 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: silent,
+      b06: background,
+      b07: clearDraft,
+      b11: hideVia,
+      b00: replyTo != null,
+      b10: scheduleDate != null,
+      b13: sendAs != null,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+    return v;
+  }
 
-  /// background: bit
-  bool get background => _bit(flags, 6);
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
-  /// clear_draft: bit
-  bool get clearDraft => _bit(flags, 7);
+  /// background: bit 6 of flags.6?true
+  final bool background;
 
-  /// hide_via: bit
-  bool get hideVia => _bit(flags, 11);
+  /// clear_draft: bit 7 of flags.7?true
+  final bool clearDraft;
+
+  /// hide_via: bit 11 of flags.11?true
+  final bool hideVia;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Random Id.
@@ -59441,12 +64073,16 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
 
   /// Id.
   final String id;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf7bc68ba);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -59474,7 +64110,8 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
 class ChannelsExportMessageLink extends TlMethod<ExportedMessageLinkBase> {
   /// Channels Export Message Link constructor.
   const ChannelsExportMessageLink({
-    required this.flags,
+    required this.grouped,
+    required this.thread,
     required this.channel,
     required this.id,
   }) : super._();
@@ -59494,13 +64131,20 @@ class ChannelsExportMessageLink extends TlMethod<ExportedMessageLinkBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: grouped,
+      b01: thread,
+    );
 
-  /// grouped: bit
-  bool get grouped => _bit(flags, 0);
+    return v;
+  }
 
-  /// thread: bit
-  bool get thread => _bit(flags, 1);
+  /// grouped: bit 0 of flags.0?true
+  final bool grouped;
+
+  /// thread: bit 1 of flags.1?true
+  final bool thread;
 
   /// Channel.
   final InputChannelBase channel;
@@ -59510,7 +64154,7 @@ class ChannelsExportMessageLink extends TlMethod<ExportedMessageLinkBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe63fadeb);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -59547,7 +64191,7 @@ class ChannelsToggleSignatures extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1f69b606);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -59583,7 +64227,7 @@ class AuthResendCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3ef1a9bf);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -59619,7 +64263,7 @@ class AuthCancelCode extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1f040578);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -59655,7 +64299,7 @@ class MessagesGetMessageEditData extends TlMethod<MessagesMessageEditDataBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfda68d36);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -59668,7 +64312,8 @@ class MessagesGetMessageEditData extends TlMethod<MessagesMessageEditDataBase> {
 class MessagesEditMessage extends TlMethod<UpdatesBase> {
   /// Messages Edit Message constructor.
   const MessagesEditMessage({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     required this.peer,
     required this.id,
     this.message,
@@ -59698,28 +64343,50 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: noWebpage,
+      b16: invertMedia,
+      b11: message != null,
+      b14: media != null,
+      b02: replyMarkup != null,
+      b03: entities != null,
+      b15: scheduleDate != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 1);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 16);
+  /// no_webpage: bit 1 of flags.1?true
+  final bool noWebpage;
+
+  /// invert_media: bit 16 of flags.16?true
+  final bool invertMedia;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Message.
   final String? message;
+
+  /// Media.
   final InputMediaBase? media;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48f71778);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -59753,7 +64420,8 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
 class MessagesEditInlineBotMessage extends TlMethod<bool> {
   /// Messages Edit Inline Bot Message constructor.
   const MessagesEditInlineBotMessage({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     required this.id,
     this.message,
     this.media,
@@ -59779,24 +64447,43 @@ class MessagesEditInlineBotMessage extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: noWebpage,
+      b16: invertMedia,
+      b11: message != null,
+      b14: media != null,
+      b02: replyMarkup != null,
+      b03: entities != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 1);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 16);
+  /// no_webpage: bit 1 of flags.1?true
+  final bool noWebpage;
+
+  /// invert_media: bit 16 of flags.16?true
+  final bool invertMedia;
 
   /// Id.
   final InputBotInlineMessageIDBase id;
+
+  /// Message.
   final String? message;
+
+  /// Media.
   final InputMediaBase? media;
+
+  /// Reply Markup.
   final ReplyMarkupBase? replyMarkup;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x83557dba);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -59826,7 +64513,7 @@ class MessagesGetBotCallbackAnswer
     extends TlMethod<MessagesBotCallbackAnswerBase> {
   /// Messages Get Bot Callback Answer constructor.
   const MessagesGetBotCallbackAnswer({
-    required this.flags,
+    required this.game,
     required this.peer,
     required this.msgId,
     this.data,
@@ -59849,22 +64536,34 @@ class MessagesGetBotCallbackAnswer
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: game,
+      b00: data != null,
+      b02: password != null,
+    );
 
-  /// game: bit
-  bool get game => _bit(flags, 1);
+    return v;
+  }
+
+  /// game: bit 1 of flags.1?true
+  final bool game;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Msg Id.
   final int msgId;
+
+  /// Data.
   final Uint8List? data;
+
+  /// Password.
   final InputCheckPasswordSRPBase? password;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9342ca07);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -59886,7 +64585,7 @@ class MessagesGetBotCallbackAnswer
 class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
   /// Messages Set Bot Callback Answer constructor.
   const MessagesSetBotCallbackAnswer({
-    required this.flags,
+    required this.alert,
     required this.queryId,
     this.message,
     this.url,
@@ -59909,14 +64608,26 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: alert,
+      b00: message != null,
+      b02: url != null,
+    );
 
-  /// alert: bit
-  bool get alert => _bit(flags, 1);
+    return v;
+  }
+
+  /// alert: bit 1 of flags.1?true
+  final bool alert;
 
   /// Query Id.
   final int queryId;
+
+  /// Message.
   final String? message;
+
+  /// Url.
   final String? url;
 
   /// Cache Time.
@@ -59924,7 +64635,7 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd58f130a);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -59946,7 +64657,14 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
 class ContactsGetTopPeers extends TlMethod<ContactsTopPeersBase> {
   /// Contacts Get Top Peers constructor.
   const ContactsGetTopPeers({
-    required this.flags,
+    required this.correspondents,
+    required this.botsPm,
+    required this.botsInline,
+    required this.phoneCalls,
+    required this.forwardUsers,
+    required this.forwardChats,
+    required this.groups,
+    required this.channels,
     required this.offset,
     required this.limit,
     required this.hash,
@@ -59974,31 +64692,44 @@ class ContactsGetTopPeers extends TlMethod<ContactsTopPeersBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: correspondents,
+      b01: botsPm,
+      b02: botsInline,
+      b03: phoneCalls,
+      b04: forwardUsers,
+      b05: forwardChats,
+      b10: groups,
+      b15: channels,
+    );
 
-  /// correspondents: bit
-  bool get correspondents => _bit(flags, 0);
+    return v;
+  }
 
-  /// bots_pm: bit
-  bool get botsPm => _bit(flags, 1);
+  /// correspondents: bit 0 of flags.0?true
+  final bool correspondents;
 
-  /// bots_inline: bit
-  bool get botsInline => _bit(flags, 2);
+  /// bots_pm: bit 1 of flags.1?true
+  final bool botsPm;
 
-  /// phone_calls: bit
-  bool get phoneCalls => _bit(flags, 3);
+  /// bots_inline: bit 2 of flags.2?true
+  final bool botsInline;
 
-  /// forward_users: bit
-  bool get forwardUsers => _bit(flags, 4);
+  /// phone_calls: bit 3 of flags.3?true
+  final bool phoneCalls;
 
-  /// forward_chats: bit
-  bool get forwardChats => _bit(flags, 5);
+  /// forward_users: bit 4 of flags.4?true
+  final bool forwardUsers;
 
-  /// groups: bit
-  bool get groups => _bit(flags, 10);
+  /// forward_chats: bit 5 of flags.5?true
+  final bool forwardChats;
 
-  /// channels: bit
-  bool get channels => _bit(flags, 15);
+  /// groups: bit 10 of flags.10?true
+  final bool groups;
+
+  /// channels: bit 15 of flags.15?true
+  final bool channels;
 
   /// Offset.
   final int offset;
@@ -60011,7 +64742,7 @@ class ContactsGetTopPeers extends TlMethod<ContactsTopPeersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x973478b6);
     buffer.writeInt(flags);
     buffer.writeInt(offset);
@@ -60049,7 +64780,7 @@ class ContactsResetTopPeerRating extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ae373ac);
     buffer.writeObject(category);
     buffer.writeObject(peer);
@@ -60080,7 +64811,7 @@ class MessagesGetPeerDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe470bcfd);
     buffer.writeVectorObject(peers);
   }
@@ -60092,7 +64823,8 @@ class MessagesGetPeerDialogs extends TlMethod<MessagesPeerDialogsBase> {
 class MessagesSaveDraft extends TlMethod<bool> {
   /// Messages Save Draft constructor.
   const MessagesSaveDraft({
-    required this.flags,
+    required this.noWebpage,
+    required this.invertMedia,
     this.replyTo,
     required this.peer,
     required this.message,
@@ -60118,13 +64850,25 @@ class MessagesSaveDraft extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: noWebpage,
+      b06: invertMedia,
+      b04: replyTo != null,
+      b03: entities != null,
+      b05: media != null,
+    );
 
-  /// no_webpage: bit
-  bool get noWebpage => _bit(flags, 1);
+    return v;
+  }
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 6);
+  /// no_webpage: bit 1 of flags.1?true
+  final bool noWebpage;
+
+  /// invert_media: bit 6 of flags.6?true
+  final bool invertMedia;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Peer.
@@ -60132,12 +64876,16 @@ class MessagesSaveDraft extends TlMethod<bool> {
 
   /// Message.
   final String message;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Media.
   final InputMediaBase? media;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7ff3b806);
     buffer.writeInt(flags);
     final localReplyToCopy = replyTo;
@@ -60175,7 +64923,7 @@ class MessagesGetAllDrafts extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a3f8d65);
   }
 }
@@ -60205,7 +64953,7 @@ class MessagesGetFeaturedStickers
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x64780b14);
     buffer.writeLong(hash);
   }
@@ -60235,7 +64983,7 @@ class MessagesReadFeaturedStickers extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5b118126);
     buffer.writeVectorLong(id);
   }
@@ -60247,7 +64995,7 @@ class MessagesReadFeaturedStickers extends TlMethod<bool> {
 class MessagesGetRecentStickers extends TlMethod<MessagesRecentStickersBase> {
   /// Messages Get Recent Stickers constructor.
   const MessagesGetRecentStickers({
-    required this.flags,
+    required this.attached,
     required this.hash,
   }) : super._();
 
@@ -60264,17 +65012,23 @@ class MessagesGetRecentStickers extends TlMethod<MessagesRecentStickersBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: attached,
+    );
 
-  /// attached: bit
-  bool get attached => _bit(flags, 0);
+    return v;
+  }
+
+  /// attached: bit 0 of flags.0?true
+  final bool attached;
 
   /// Hash.
   final int hash;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9da9403b);
     buffer.writeInt(flags);
     buffer.writeLong(hash);
@@ -60287,7 +65041,7 @@ class MessagesGetRecentStickers extends TlMethod<MessagesRecentStickersBase> {
 class MessagesSaveRecentSticker extends TlMethod<bool> {
   /// Messages Save Recent Sticker constructor.
   const MessagesSaveRecentSticker({
-    required this.flags,
+    required this.attached,
     required this.id,
     required this.unsave,
   }) : super._();
@@ -60306,10 +65060,16 @@ class MessagesSaveRecentSticker extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: attached,
+    );
 
-  /// attached: bit
-  bool get attached => _bit(flags, 0);
+    return v;
+  }
+
+  /// attached: bit 0 of flags.0?true
+  final bool attached;
 
   /// Id.
   final InputDocumentBase id;
@@ -60319,7 +65079,7 @@ class MessagesSaveRecentSticker extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x392718f8);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -60333,7 +65093,7 @@ class MessagesSaveRecentSticker extends TlMethod<bool> {
 class MessagesClearRecentStickers extends TlMethod<bool> {
   /// Messages Clear Recent Stickers constructor.
   const MessagesClearRecentStickers({
-    required this.flags,
+    required this.attached,
   }) : super._();
 
   /// Deserialize.
@@ -60348,14 +65108,20 @@ class MessagesClearRecentStickers extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: attached,
+    );
 
-  /// attached: bit
-  bool get attached => _bit(flags, 0);
+    return v;
+  }
+
+  /// attached: bit 0 of flags.0?true
+  final bool attached;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8999602d);
     buffer.writeInt(flags);
   }
@@ -60368,7 +65134,8 @@ class MessagesGetArchivedStickers
     extends TlMethod<MessagesArchivedStickersBase> {
   /// Messages Get Archived Stickers constructor.
   const MessagesGetArchivedStickers({
-    required this.flags,
+    required this.masks,
+    required this.emojis,
     required this.offsetId,
     required this.limit,
   }) : super._();
@@ -60388,13 +65155,20 @@ class MessagesGetArchivedStickers
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: emojis,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
+
+  /// emojis: bit 1 of flags.1?true
+  final bool emojis;
 
   /// Offset Id.
   final int offsetId;
@@ -60404,7 +65178,7 @@ class MessagesGetArchivedStickers
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57f17692);
     buffer.writeInt(flags);
     buffer.writeLong(offsetId);
@@ -60441,7 +65215,7 @@ class AccountSendConfirmPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1b3faa88);
     buffer.writeString(hash);
     buffer.writeObject(settings);
@@ -60477,7 +65251,7 @@ class AccountConfirmPhone extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5f2178c3);
     buffer.writeString(phoneCodeHash);
     buffer.writeString(phoneCode);
@@ -60490,7 +65264,8 @@ class AccountConfirmPhone extends TlMethod<bool> {
 class ChannelsGetAdminedPublicChannels extends TlMethod<MessagesChatsBase> {
   /// Channels Get Admined Public Channels constructor.
   const ChannelsGetAdminedPublicChannels({
-    required this.flags,
+    required this.byLocation,
+    required this.checkLimit,
   }) : super._();
 
   /// Deserialize.
@@ -60506,17 +65281,24 @@ class ChannelsGetAdminedPublicChannels extends TlMethod<MessagesChatsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: byLocation,
+      b01: checkLimit,
+    );
 
-  /// by_location: bit
-  bool get byLocation => _bit(flags, 0);
+    return v;
+  }
 
-  /// check_limit: bit
-  bool get checkLimit => _bit(flags, 1);
+  /// by_location: bit 0 of flags.0?true
+  final bool byLocation;
+
+  /// check_limit: bit 1 of flags.1?true
+  final bool checkLimit;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf8b036af);
     buffer.writeInt(flags);
   }
@@ -60546,7 +65328,7 @@ class MessagesGetMaskStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x640f82b8);
     buffer.writeLong(hash);
   }
@@ -60577,7 +65359,7 @@ class MessagesGetAttachedStickers
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcc5b67cc);
     buffer.writeObject(media);
   }
@@ -60607,7 +65389,7 @@ class AuthDropTempAuthKeys extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8e48a188);
     buffer.writeVectorLong(exceptAuthKeys);
   }
@@ -60619,7 +65401,8 @@ class AuthDropTempAuthKeys extends TlMethod<bool> {
 class MessagesSetGameScore extends TlMethod<UpdatesBase> {
   /// Messages Set Game Score constructor.
   const MessagesSetGameScore({
-    required this.flags,
+    required this.editMessage,
+    required this.force,
     required this.peer,
     required this.id,
     required this.userId,
@@ -60643,13 +65426,20 @@ class MessagesSetGameScore extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: editMessage,
+      b01: force,
+    );
 
-  /// edit_message: bit
-  bool get editMessage => _bit(flags, 0);
+    return v;
+  }
 
-  /// force: bit
-  bool get force => _bit(flags, 1);
+  /// edit_message: bit 0 of flags.0?true
+  final bool editMessage;
+
+  /// force: bit 1 of flags.1?true
+  final bool force;
 
   /// Peer.
   final InputPeerBase peer;
@@ -60665,7 +65455,7 @@ class MessagesSetGameScore extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ef8ecc0);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -60681,7 +65471,8 @@ class MessagesSetGameScore extends TlMethod<UpdatesBase> {
 class MessagesSetInlineGameScore extends TlMethod<bool> {
   /// Messages Set Inline Game Score constructor.
   const MessagesSetInlineGameScore({
-    required this.flags,
+    required this.editMessage,
+    required this.force,
     required this.id,
     required this.userId,
     required this.score,
@@ -60703,13 +65494,20 @@ class MessagesSetInlineGameScore extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: editMessage,
+      b01: force,
+    );
 
-  /// edit_message: bit
-  bool get editMessage => _bit(flags, 0);
+    return v;
+  }
 
-  /// force: bit
-  bool get force => _bit(flags, 1);
+  /// edit_message: bit 0 of flags.0?true
+  final bool editMessage;
+
+  /// force: bit 1 of flags.1?true
+  final bool force;
 
   /// Id.
   final InputBotInlineMessageIDBase id;
@@ -60722,7 +65520,7 @@ class MessagesSetInlineGameScore extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x15ad9f64);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -60765,7 +65563,7 @@ class MessagesGetGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe822649d);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -60802,7 +65600,7 @@ class MessagesGetInlineGameHighScores extends TlMethod<MessagesHighScoresBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0f635e1b);
     buffer.writeObject(id);
     buffer.writeObject(userId);
@@ -60843,7 +65641,7 @@ class MessagesGetCommonChats extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe40ca104);
     buffer.writeObject(userId);
     buffer.writeLong(maxId);
@@ -60880,7 +65678,7 @@ class HelpSetBotUpdatesStatus extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xec22cfcd);
     buffer.writeDateTime(pendingUpdatesCount);
     buffer.writeString(message);
@@ -60916,7 +65714,7 @@ class MessagesGetWebPage extends TlMethod<MessagesWebPageBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8d9692a3);
     buffer.writeString(url);
     buffer.writeInt(hash);
@@ -60929,7 +65727,7 @@ class MessagesGetWebPage extends TlMethod<MessagesWebPageBase> {
 class MessagesToggleDialogPin extends TlMethod<bool> {
   /// Messages Toggle Dialog Pin constructor.
   const MessagesToggleDialogPin({
-    required this.flags,
+    required this.pinned,
     required this.peer,
   }) : super._();
 
@@ -60946,17 +65744,23 @@ class MessagesToggleDialogPin extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Peer.
   final InputDialogPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa731e257);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -60969,7 +65773,7 @@ class MessagesToggleDialogPin extends TlMethod<bool> {
 class MessagesReorderPinnedDialogs extends TlMethod<bool> {
   /// Messages Reorder Pinned Dialogs constructor.
   const MessagesReorderPinnedDialogs({
-    required this.flags,
+    required this.force,
     required this.folderId,
     required this.order,
   }) : super._();
@@ -60988,10 +65792,16 @@ class MessagesReorderPinnedDialogs extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: force,
+    );
 
-  /// force: bit
-  bool get force => _bit(flags, 0);
+    return v;
+  }
+
+  /// force: bit 0 of flags.0?true
+  final bool force;
 
   /// Folder Id.
   final int folderId;
@@ -61001,7 +65811,7 @@ class MessagesReorderPinnedDialogs extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3b1adf37);
     buffer.writeInt(flags);
     buffer.writeInt(folderId);
@@ -61033,7 +65843,7 @@ class MessagesGetPinnedDialogs extends TlMethod<MessagesPeerDialogsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd6b94df2);
     buffer.writeInt(folderId);
   }
@@ -61068,7 +65878,7 @@ class BotsSendCustomRequest extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaa2769ed);
     buffer.writeString(customMethod);
     buffer.writeObject(params);
@@ -61104,7 +65914,7 @@ class BotsAnswerWebhookJSONQuery extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe6213f4d);
     buffer.writeLong(queryId);
     buffer.writeObject(data);
@@ -61145,7 +65955,7 @@ class UploadGetWebFile extends TlMethod<UploadWebFileBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x24e6818d);
     buffer.writeObject(location);
     buffer.writeInt(offset);
@@ -61159,7 +65969,6 @@ class UploadGetWebFile extends TlMethod<UploadWebFileBase> {
 class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
   /// Payments Get Payment Form constructor.
   const PaymentsGetPaymentForm({
-    required this.flags,
     required this.invoice,
     this.themeParams,
   }) : super._();
@@ -61177,15 +65986,23 @@ class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: themeParams != null,
+    );
+
+    return v;
+  }
 
   /// Invoice.
   final InputInvoiceBase invoice;
+
+  /// Theme Params.
   final DataJSONBase? themeParams;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x37148dbb);
     buffer.writeInt(flags);
     buffer.writeObject(invoice);
@@ -61225,7 +66042,7 @@ class PaymentsGetPaymentReceipt extends TlMethod<PaymentsPaymentReceiptBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2478d1cc);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -61239,7 +66056,7 @@ class PaymentsValidateRequestedInfo
     extends TlMethod<PaymentsValidatedRequestedInfoBase> {
   /// Payments Validate Requested Info constructor.
   const PaymentsValidateRequestedInfo({
-    required this.flags,
+    required this.save,
     required this.invoice,
     required this.info,
   }) : super._();
@@ -61258,10 +66075,16 @@ class PaymentsValidateRequestedInfo
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: save,
+    );
 
-  /// save: bit
-  bool get save => _bit(flags, 0);
+    return v;
+  }
+
+  /// save: bit 0 of flags.0?true
+  final bool save;
 
   /// Invoice.
   final InputInvoiceBase invoice;
@@ -61271,7 +66094,7 @@ class PaymentsValidateRequestedInfo
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6c8f12b);
     buffer.writeInt(flags);
     buffer.writeObject(invoice);
@@ -61285,7 +66108,6 @@ class PaymentsValidateRequestedInfo
 class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
   /// Payments Send Payment Form constructor.
   const PaymentsSendPaymentForm({
-    required this.flags,
     required this.formId,
     required this.invoice,
     this.requestedInfoId,
@@ -61311,23 +66133,37 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requestedInfoId != null,
+      b01: shippingOptionId != null,
+      b02: tipAmount != null,
+    );
+
+    return v;
+  }
 
   /// Form Id.
   final int formId;
 
   /// Invoice.
   final InputInvoiceBase invoice;
+
+  /// Requested Info Id.
   final String? requestedInfoId;
+
+  /// Shipping Option Id.
   final String? shippingOptionId;
 
   /// Credentials.
   final InputPaymentCredentialsBase credentials;
+
+  /// Tip Amount.
   final int? tipAmount;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2d03522f);
     buffer.writeInt(flags);
     buffer.writeLong(formId);
@@ -61377,7 +66213,7 @@ class AccountGetTmpPassword extends TlMethod<AccountTmpPasswordBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x449e0b51);
     buffer.writeObject(password);
     buffer.writeInt(period);
@@ -61402,7 +66238,7 @@ class PaymentsGetSavedInfo extends TlMethod<PaymentsSavedInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x227d824b);
   }
 }
@@ -61413,7 +66249,8 @@ class PaymentsGetSavedInfo extends TlMethod<PaymentsSavedInfoBase> {
 class PaymentsClearSavedInfo extends TlMethod<bool> {
   /// Payments Clear Saved Info constructor.
   const PaymentsClearSavedInfo({
-    required this.flags,
+    required this.credentials,
+    required this.info,
   }) : super._();
 
   /// Deserialize.
@@ -61429,17 +66266,24 @@ class PaymentsClearSavedInfo extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: credentials,
+      b01: info,
+    );
 
-  /// credentials: bit
-  bool get credentials => _bit(flags, 0);
+    return v;
+  }
 
-  /// info: bit
-  bool get info => _bit(flags, 1);
+  /// credentials: bit 0 of flags.0?true
+  final bool credentials;
+
+  /// info: bit 1 of flags.1?true
+  final bool info;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd83d70c1);
     buffer.writeInt(flags);
   }
@@ -61451,7 +66295,6 @@ class PaymentsClearSavedInfo extends TlMethod<bool> {
 class MessagesSetBotShippingResults extends TlMethod<bool> {
   /// Messages Set Bot Shipping Results constructor.
   const MessagesSetBotShippingResults({
-    required this.flags,
     required this.queryId,
     this.error,
     this.shippingOptions,
@@ -61471,16 +66314,27 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: error != null,
+      b01: shippingOptions != null,
+    );
+
+    return v;
+  }
 
   /// Query Id.
   final int queryId;
+
+  /// Error.
   final String? error;
+
+  /// Shipping Options.
   final List<ShippingOptionBase>? shippingOptions;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe5f672fa);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -61501,7 +66355,7 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
 class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
   /// Messages Set Bot Precheckout Results constructor.
   const MessagesSetBotPrecheckoutResults({
-    required this.flags,
+    required this.success,
     required this.queryId,
     this.error,
   }) : super._();
@@ -61520,18 +66374,27 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: success,
+      b00: error != null,
+    );
 
-  /// success: bit
-  bool get success => _bit(flags, 1);
+    return v;
+  }
+
+  /// success: bit 1 of flags.1?true
+  final bool success;
 
   /// Query Id.
   final int queryId;
+
+  /// Error.
   final String? error;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x09c2dd95);
     buffer.writeInt(flags);
     buffer.writeLong(queryId);
@@ -61548,7 +66411,11 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
 class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
   /// Stickers Create Sticker Set constructor.
   const StickersCreateStickerSet({
-    required this.flags,
+    required this.masks,
+    required this.animated,
+    required this.videos,
+    required this.emojis,
+    required this.textColor,
     required this.userId,
     required this.title,
     required this.shortName,
@@ -61579,22 +66446,34 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: masks,
+      b01: animated,
+      b04: videos,
+      b05: emojis,
+      b06: textColor,
+      b02: thumb != null,
+      b03: software != null,
+    );
 
-  /// masks: bit
-  bool get masks => _bit(flags, 0);
+    return v;
+  }
 
-  /// animated: bit
-  bool get animated => _bit(flags, 1);
+  /// masks: bit 0 of flags.0?true
+  final bool masks;
 
-  /// videos: bit
-  bool get videos => _bit(flags, 4);
+  /// animated: bit 1 of flags.1?true
+  final bool animated;
 
-  /// emojis: bit
-  bool get emojis => _bit(flags, 5);
+  /// videos: bit 4 of flags.4?true
+  final bool videos;
 
-  /// text_color: bit
-  bool get textColor => _bit(flags, 6);
+  /// emojis: bit 5 of flags.5?true
+  final bool emojis;
+
+  /// text_color: bit 6 of flags.6?true
+  final bool textColor;
 
   /// User Id.
   final InputUserBase userId;
@@ -61604,15 +66483,19 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Short Name.
   final String shortName;
+
+  /// Thumb.
   final InputDocumentBase? thumb;
 
   /// Stickers.
   final List<InputStickerSetItemBase> stickers;
+
+  /// Software.
   final String? software;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9021ab67);
     buffer.writeInt(flags);
     buffer.writeObject(userId);
@@ -61654,7 +66537,7 @@ class StickersRemoveStickerFromSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf7760f51);
     buffer.writeObject(sticker);
   }
@@ -61689,7 +66572,7 @@ class StickersChangeStickerPosition extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xffb6d4ca);
     buffer.writeObject(sticker);
     buffer.writeInt(position);
@@ -61725,7 +66608,7 @@ class StickersAddStickerToSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8653febe);
     buffer.writeObject(stickerset);
     buffer.writeObject(sticker);
@@ -61761,7 +66644,7 @@ class MessagesUploadMedia extends TlMethod<MessageMediaBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x519bc2b1);
     buffer.writeObject(peer);
     buffer.writeObject(media);
@@ -61786,7 +66669,7 @@ class PhoneGetCallConfig extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x55451fa9);
   }
 }
@@ -61797,7 +66680,7 @@ class PhoneGetCallConfig extends TlMethod<DataJSONBase> {
 class PhoneRequestCall extends TlMethod<PhonePhoneCallBase> {
   /// Phone Request Call constructor.
   const PhoneRequestCall({
-    required this.flags,
+    required this.video,
     required this.userId,
     required this.randomId,
     required this.gAHash,
@@ -61820,10 +66703,16 @@ class PhoneRequestCall extends TlMethod<PhonePhoneCallBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: video,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 0);
+    return v;
+  }
+
+  /// video: bit 0 of flags.0?true
+  final bool video;
 
   /// User Id.
   final InputUserBase userId;
@@ -61839,7 +66728,7 @@ class PhoneRequestCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x42ff96ed);
     buffer.writeInt(flags);
     buffer.writeObject(userId);
@@ -61883,7 +66772,7 @@ class PhoneAcceptCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3bd2b4a0);
     buffer.writeObject(peer);
     buffer.writeBytes(gB);
@@ -61930,7 +66819,7 @@ class PhoneConfirmCall extends TlMethod<PhonePhoneCallBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2efe1722);
     buffer.writeObject(peer);
     buffer.writeBytes(gA);
@@ -61963,7 +66852,7 @@ class PhoneReceivedCall extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x17d54f61);
     buffer.writeObject(peer);
   }
@@ -61975,7 +66864,7 @@ class PhoneReceivedCall extends TlMethod<bool> {
 class PhoneDiscardCall extends TlMethod<UpdatesBase> {
   /// Phone Discard Call constructor.
   const PhoneDiscardCall({
-    required this.flags,
+    required this.video,
     required this.peer,
     required this.duration,
     required this.reason,
@@ -61998,10 +66887,16 @@ class PhoneDiscardCall extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: video,
+    );
 
-  /// video: bit
-  bool get video => _bit(flags, 0);
+    return v;
+  }
+
+  /// video: bit 0 of flags.0?true
+  final bool video;
 
   /// Peer.
   final InputPhoneCallBase peer;
@@ -62017,7 +66912,7 @@ class PhoneDiscardCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2cbc1c0);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -62033,7 +66928,7 @@ class PhoneDiscardCall extends TlMethod<UpdatesBase> {
 class PhoneSetCallRating extends TlMethod<UpdatesBase> {
   /// Phone Set Call Rating constructor.
   const PhoneSetCallRating({
-    required this.flags,
+    required this.userInitiative,
     required this.peer,
     required this.rating,
     required this.comment,
@@ -62054,10 +66949,16 @@ class PhoneSetCallRating extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: userInitiative,
+    );
 
-  /// user_initiative: bit
-  bool get userInitiative => _bit(flags, 0);
+    return v;
+  }
+
+  /// user_initiative: bit 0 of flags.0?true
+  final bool userInitiative;
 
   /// Peer.
   final InputPhoneCallBase peer;
@@ -62070,7 +66971,7 @@ class PhoneSetCallRating extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x59ead627);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -62108,7 +67009,7 @@ class PhoneSaveCallDebug extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x277add7e);
     buffer.writeObject(peer);
     buffer.writeObject(debug);
@@ -62149,7 +67050,7 @@ class UploadGetCdnFile extends TlMethod<UploadCdnFileBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x395f69da);
     buffer.writeBytes(fileToken);
     buffer.writeLong(offset);
@@ -62186,7 +67087,7 @@ class UploadReuploadCdnFile extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9b2754a8);
     buffer.writeBytes(fileToken);
     buffer.writeBytes(requestToken);
@@ -62211,7 +67112,7 @@ class HelpGetCdnConfig extends TlMethod<CdnConfigBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x52029342);
   }
 }
@@ -62245,7 +67146,7 @@ class LangpackGetLangPack extends TlMethod<LangPackDifferenceBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf2f2330a);
     buffer.writeString(langPack);
     buffer.writeString(langCode);
@@ -62286,7 +67187,7 @@ class LangpackGetStrings extends TlMethod<List<LangPackStringBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xefea3803);
     buffer.writeString(langPack);
     buffer.writeString(langCode);
@@ -62328,7 +67229,7 @@ class LangpackGetDifference extends TlMethod<LangPackDifferenceBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcd984aa5);
     buffer.writeString(langPack);
     buffer.writeString(langCode);
@@ -62360,7 +67261,7 @@ class LangpackGetLanguages extends TlMethod<List<LangPackLanguageBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x42c6978f);
     buffer.writeString(langPack);
   }
@@ -62400,7 +67301,7 @@ class ChannelsEditBanned extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x96e6cd81);
     buffer.writeObject(channel);
     buffer.writeObject(participant);
@@ -62414,7 +67315,6 @@ class ChannelsEditBanned extends TlMethod<UpdatesBase> {
 class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
   /// Channels Get Admin Log constructor.
   const ChannelsGetAdminLog({
-    required this.flags,
     required this.channel,
     required this.q,
     this.eventsFilter,
@@ -62442,14 +67342,25 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: eventsFilter != null,
+      b01: admins != null,
+    );
+
+    return v;
+  }
 
   /// Channel.
   final InputChannelBase channel;
 
   /// Q.
   final String q;
+
+  /// Events Filter.
   final ChannelAdminLogEventsFilterBase? eventsFilter;
+
+  /// Admins.
   final List<InputUserBase>? admins;
 
   /// Max Id.
@@ -62463,7 +67374,7 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x33ddf480);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -62511,7 +67422,7 @@ class UploadGetCdnFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x91dc3f31);
     buffer.writeBytes(fileToken);
     buffer.writeLong(offset);
@@ -62552,7 +67463,7 @@ class MessagesSendScreenshotNotification extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa1405817);
     buffer.writeObject(peer);
     buffer.writeObject(replyTo);
@@ -62589,7 +67500,7 @@ class ChannelsSetStickers extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xea8ca4f9);
     buffer.writeObject(channel);
     buffer.writeObject(stickerset);
@@ -62620,7 +67531,7 @@ class MessagesGetFavedStickers extends TlMethod<MessagesFavedStickersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x04f1aaa9);
     buffer.writeLong(hash);
   }
@@ -62655,7 +67566,7 @@ class MessagesFaveSticker extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb9ffc55b);
     buffer.writeObject(id);
     buffer.writeBool(unfave);
@@ -62691,7 +67602,7 @@ class ChannelsReadMessageContents extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeab5dc38);
     buffer.writeObject(channel);
     buffer.writeVectorInt(id);
@@ -62716,7 +67627,7 @@ class ContactsResetSaved extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x879537f1);
   }
 }
@@ -62727,7 +67638,6 @@ class ContactsResetSaved extends TlMethod<bool> {
 class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
   /// Messages Get Unread Mentions constructor.
   const MessagesGetUnreadMentions({
-    required this.flags,
     required this.peer,
     this.topMsgId,
     required this.offsetId,
@@ -62755,10 +67665,18 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Offset Id.
@@ -62778,7 +67696,7 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf107e790);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -62800,7 +67718,7 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
 class ChannelsDeleteHistory extends TlMethod<UpdatesBase> {
   /// Channels Delete History constructor.
   const ChannelsDeleteHistory({
-    required this.flags,
+    required this.forEveryone,
     required this.channel,
     required this.maxId,
   }) : super._();
@@ -62819,10 +67737,16 @@ class ChannelsDeleteHistory extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: forEveryone,
+    );
 
-  /// for_everyone: bit
-  bool get forEveryone => _bit(flags, 0);
+    return v;
+  }
+
+  /// for_everyone: bit 0 of flags.0?true
+  final bool forEveryone;
 
   /// Channel.
   final InputChannelBase channel;
@@ -62832,7 +67756,7 @@ class ChannelsDeleteHistory extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9baa9647);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -62864,7 +67788,7 @@ class HelpGetRecentMeUrls extends TlMethod<HelpRecentMeUrlsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dc0f114);
     buffer.writeString(referer);
   }
@@ -62899,7 +67823,7 @@ class ChannelsTogglePreHistoryHidden extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeabbb94c);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -62912,7 +67836,6 @@ class ChannelsTogglePreHistoryHidden extends TlMethod<UpdatesBase> {
 class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
   /// Messages Read Mentions constructor.
   const MessagesReadMentions({
-    required this.flags,
     required this.peer,
     this.topMsgId,
   }) : super._();
@@ -62930,15 +67853,23 @@ class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x36e5bf4d);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -62983,7 +67914,7 @@ class MessagesGetRecentLocations extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x702a40e0);
     buffer.writeObject(peer);
     buffer.writeInt(limit);
@@ -62997,7 +67928,12 @@ class MessagesGetRecentLocations extends TlMethod<MessagesMessagesBase> {
 class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
   /// Messages Send Multi Media constructor.
   const MessagesSendMultiMedia({
-    required this.flags,
+    required this.silent,
+    required this.background,
+    required this.clearDraft,
+    required this.noforwards,
+    required this.updateStickersetsOrder,
+    required this.invertMedia,
     required this.peer,
     this.replyTo,
     required this.multiMedia,
@@ -63027,38 +67963,58 @@ class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: silent,
+      b06: background,
+      b07: clearDraft,
+      b14: noforwards,
+      b15: updateStickersetsOrder,
+      b16: invertMedia,
+      b00: replyTo != null,
+      b10: scheduleDate != null,
+      b13: sendAs != null,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+    return v;
+  }
 
-  /// background: bit
-  bool get background => _bit(flags, 6);
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
-  /// clear_draft: bit
-  bool get clearDraft => _bit(flags, 7);
+  /// background: bit 6 of flags.6?true
+  final bool background;
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 14);
+  /// clear_draft: bit 7 of flags.7?true
+  final bool clearDraft;
 
-  /// update_stickersets_order: bit
-  bool get updateStickersetsOrder => _bit(flags, 15);
+  /// noforwards: bit 14 of flags.14?true
+  final bool noforwards;
 
-  /// invert_media: bit
-  bool get invertMedia => _bit(flags, 16);
+  /// update_stickersets_order: bit 15 of flags.15?true
+  final bool updateStickersetsOrder;
+
+  /// invert_media: bit 16 of flags.16?true
+  final bool invertMedia;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
 
   /// Multi Media.
   final List<InputSingleMediaBase> multiMedia;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x456e8987);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -63107,7 +68063,7 @@ class MessagesUploadEncryptedFile extends TlMethod<EncryptedFileBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5057c497);
     buffer.writeObject(peer);
     buffer.writeObject(file);
@@ -63133,7 +68089,7 @@ class AccountGetWebAuthorizations
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x182e6d6f);
   }
 }
@@ -63162,7 +68118,7 @@ class AccountResetWebAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2d01b9ef);
     buffer.writeLong(hash);
   }
@@ -63186,7 +68142,7 @@ class AccountResetWebAuthorizations extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x682d2594);
   }
 }
@@ -63197,7 +68153,7 @@ class AccountResetWebAuthorizations extends TlMethod<bool> {
 class MessagesSearchStickerSets extends TlMethod<MessagesFoundStickerSetsBase> {
   /// Messages Search Sticker Sets constructor.
   const MessagesSearchStickerSets({
-    required this.flags,
+    required this.excludeFeatured,
     required this.q,
     required this.hash,
   }) : super._();
@@ -63216,10 +68172,16 @@ class MessagesSearchStickerSets extends TlMethod<MessagesFoundStickerSetsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: excludeFeatured,
+    );
 
-  /// exclude_featured: bit
-  bool get excludeFeatured => _bit(flags, 0);
+    return v;
+  }
+
+  /// exclude_featured: bit 0 of flags.0?true
+  final bool excludeFeatured;
 
   /// Q.
   final String q;
@@ -63229,7 +68191,7 @@ class MessagesSearchStickerSets extends TlMethod<MessagesFoundStickerSetsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35705b8a);
     buffer.writeInt(flags);
     buffer.writeString(q);
@@ -63266,7 +68228,7 @@ class UploadGetFileHashes extends TlMethod<List<FileHashBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9156982a);
     buffer.writeObject(location);
     buffer.writeLong(offset);
@@ -63292,7 +68254,7 @@ class HelpGetTermsOfServiceUpdate
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2ca51fd1);
   }
 }
@@ -63321,7 +68283,7 @@ class HelpAcceptTermsOfService extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xee72f79a);
     buffer.writeObject(id);
   }
@@ -63345,7 +68307,7 @@ class AccountGetAllSecureValues extends TlMethod<List<SecureValueBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb288bc7d);
   }
 }
@@ -63374,7 +68336,7 @@ class AccountGetSecureValue extends TlMethod<List<SecureValueBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73665bc2);
     buffer.writeVectorObject(types);
   }
@@ -63409,7 +68371,7 @@ class AccountSaveSecureValue extends TlMethod<SecureValueBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x899fe31d);
     buffer.writeObject(value);
     buffer.writeLong(secureSecretId);
@@ -63440,7 +68402,7 @@ class AccountDeleteSecureValue extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb880bc4b);
     buffer.writeVectorObject(types);
   }
@@ -63475,7 +68437,7 @@ class UsersSetSecureValueErrors extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x90c894b5);
     buffer.writeObject(id);
     buffer.writeVectorObject(errors);
@@ -63517,7 +68479,7 @@ class AccountGetAuthorizationForm
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa929597a);
     buffer.writeLong(botId);
     buffer.writeString(scope);
@@ -63569,7 +68531,7 @@ class AccountAcceptAuthorization extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf3ed4c73);
     buffer.writeLong(botId);
     buffer.writeString(scope);
@@ -63608,7 +68570,7 @@ class AccountSendVerifyPhoneCode extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa5a356f9);
     buffer.writeString(phoneNumber);
     buffer.writeObject(settings);
@@ -63649,7 +68611,7 @@ class AccountVerifyPhone extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4dd3a7f6);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -63686,7 +68648,7 @@ class AccountSendVerifyEmailCode extends TlMethod<AccountSentEmailCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x98e037bb);
     buffer.writeObject(purpose);
     buffer.writeString(email);
@@ -63722,7 +68684,7 @@ class AccountVerifyEmail extends TlMethod<AccountEmailVerifiedBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x032da4cf);
     buffer.writeObject(purpose);
     buffer.writeObject(verification);
@@ -63753,7 +68715,7 @@ class HelpGetDeepLinkInfo extends TlMethod<HelpDeepLinkInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3fedc75f);
     buffer.writeString(path);
   }
@@ -63777,7 +68739,7 @@ class ContactsGetSaved extends TlMethod<List<SavedContactBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x82f1e39f);
   }
 }
@@ -63806,7 +68768,7 @@ class ChannelsGetLeftChannels extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8341ecc0);
     buffer.writeInt(offset);
   }
@@ -63818,7 +68780,12 @@ class ChannelsGetLeftChannels extends TlMethod<MessagesChatsBase> {
 class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
   /// Account Init Takeout Session constructor.
   const AccountInitTakeoutSession({
-    required this.flags,
+    required this.contacts,
+    required this.messageUsers,
+    required this.messageChats,
+    required this.messageMegagroups,
+    required this.messageChannels,
+    required this.files,
     this.fileMaxSize,
   }) : super._();
 
@@ -63840,30 +68807,43 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: contacts,
+      b01: messageUsers,
+      b02: messageChats,
+      b03: messageMegagroups,
+      b04: messageChannels,
+      b05: files || fileMaxSize != null,
+    );
 
-  /// contacts: bit
-  bool get contacts => _bit(flags, 0);
+    return v;
+  }
 
-  /// message_users: bit
-  bool get messageUsers => _bit(flags, 1);
+  /// contacts: bit 0 of flags.0?true
+  final bool contacts;
 
-  /// message_chats: bit
-  bool get messageChats => _bit(flags, 2);
+  /// message_users: bit 1 of flags.1?true
+  final bool messageUsers;
 
-  /// message_megagroups: bit
-  bool get messageMegagroups => _bit(flags, 3);
+  /// message_chats: bit 2 of flags.2?true
+  final bool messageChats;
 
-  /// message_channels: bit
-  bool get messageChannels => _bit(flags, 4);
+  /// message_megagroups: bit 3 of flags.3?true
+  final bool messageMegagroups;
 
-  /// files: bit
-  bool get files => _bit(flags, 5);
+  /// message_channels: bit 4 of flags.4?true
+  final bool messageChannels;
+
+  /// files: bit 5 of flags.5?true
+  final bool files;
+
+  /// File Max Size.
   final int? fileMaxSize;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ef3eab0);
     buffer.writeInt(flags);
     final localFileMaxSizeCopy = fileMaxSize;
@@ -63879,7 +68859,7 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
 class AccountFinishTakeoutSession extends TlMethod<bool> {
   /// Account Finish Takeout Session constructor.
   const AccountFinishTakeoutSession({
-    required this.flags,
+    required this.success,
   }) : super._();
 
   /// Deserialize.
@@ -63894,14 +68874,20 @@ class AccountFinishTakeoutSession extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: success,
+    );
 
-  /// success: bit
-  bool get success => _bit(flags, 0);
+    return v;
+  }
+
+  /// success: bit 0 of flags.0?true
+  final bool success;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1d2652ee);
     buffer.writeInt(flags);
   }
@@ -63925,7 +68911,7 @@ class MessagesGetSplitRanges extends TlMethod<List<MessageRangeBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1cff7e08);
   }
 }
@@ -63959,7 +68945,7 @@ class InvokeWithMessagesRange<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x365275f2);
     buffer.writeObject(range);
     buffer.writeObject(query);
@@ -63995,7 +68981,7 @@ class InvokeWithTakeout<X> extends TlMethod<X> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xaca9fd2e);
     buffer.writeLong(takeoutId);
     buffer.writeObject(query);
@@ -64008,7 +68994,7 @@ class InvokeWithTakeout<X> extends TlMethod<X> {
 class MessagesMarkDialogUnread extends TlMethod<bool> {
   /// Messages Mark Dialog Unread constructor.
   const MessagesMarkDialogUnread({
-    required this.flags,
+    required this.unread,
     required this.peer,
   }) : super._();
 
@@ -64025,17 +69011,23 @@ class MessagesMarkDialogUnread extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: unread,
+    );
 
-  /// unread: bit
-  bool get unread => _bit(flags, 0);
+    return v;
+  }
+
+  /// unread: bit 0 of flags.0?true
+  final bool unread;
 
   /// Peer.
   final InputDialogPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc286d98f);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -64060,7 +69052,7 @@ class MessagesGetDialogUnreadMarks extends TlMethod<List<DialogPeerBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x22e24e22);
   }
 }
@@ -64089,7 +69081,7 @@ class ContactsToggleTopPeers extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8514bdda);
     buffer.writeBool(enabled);
   }
@@ -64113,7 +69105,7 @@ class MessagesClearAllDrafts extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7e58ee9c);
   }
 }
@@ -64142,7 +69134,7 @@ class HelpGetAppConfig extends TlMethod<HelpAppConfigBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x61e3f854);
     buffer.writeInt(hash);
   }
@@ -64172,7 +69164,7 @@ class HelpSaveAppLog extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6f02f748);
     buffer.writeVectorObject(events);
   }
@@ -64202,7 +69194,7 @@ class HelpGetPassportConfig extends TlMethod<HelpPassportConfigBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc661ad08);
     buffer.writeInt(hash);
   }
@@ -64237,7 +69229,7 @@ class LangpackGetLanguage extends TlMethod<LangPackLanguageBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a596502);
     buffer.writeString(langPack);
     buffer.writeString(langCode);
@@ -64250,7 +69242,9 @@ class LangpackGetLanguage extends TlMethod<LangPackLanguageBase> {
 class MessagesUpdatePinnedMessage extends TlMethod<UpdatesBase> {
   /// Messages Update Pinned Message constructor.
   const MessagesUpdatePinnedMessage({
-    required this.flags,
+    required this.silent,
+    required this.unpin,
+    required this.pmOneside,
     required this.peer,
     required this.id,
   }) : super._();
@@ -64271,16 +69265,24 @@ class MessagesUpdatePinnedMessage extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: silent,
+      b01: unpin,
+      b02: pmOneside,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 0);
+    return v;
+  }
 
-  /// unpin: bit
-  bool get unpin => _bit(flags, 1);
+  /// silent: bit 0 of flags.0?true
+  final bool silent;
 
-  /// pm_oneside: bit
-  bool get pmOneside => _bit(flags, 2);
+  /// unpin: bit 1 of flags.1?true
+  final bool unpin;
+
+  /// pm_oneside: bit 2 of flags.2?true
+  final bool pmOneside;
 
   /// Peer.
   final InputPeerBase peer;
@@ -64290,7 +69292,7 @@ class MessagesUpdatePinnedMessage extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd2aaf7ec);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -64322,7 +69324,7 @@ class AccountConfirmPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8fdf1920);
     buffer.writeString(code);
   }
@@ -64346,7 +69348,7 @@ class AccountResendPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a7f2a15);
   }
 }
@@ -64369,7 +69371,7 @@ class AccountCancelPasswordEmail extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc1cbd5b6);
   }
 }
@@ -64392,7 +69394,7 @@ class HelpGetSupportName extends TlMethod<HelpSupportNameBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd360e72c);
   }
 }
@@ -64421,7 +69423,7 @@ class HelpGetUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x038a08d3);
     buffer.writeObject(userId);
   }
@@ -64461,7 +69463,7 @@ class HelpEditUserInfo extends TlMethod<HelpUserInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x66b91b70);
     buffer.writeObject(userId);
     buffer.writeString(message);
@@ -64487,7 +69489,7 @@ class AccountGetContactSignUpNotification extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9f07c728);
   }
 }
@@ -64516,7 +69518,7 @@ class AccountSetContactSignUpNotification extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcff43f61);
     buffer.writeBool(silent);
   }
@@ -64528,7 +69530,8 @@ class AccountSetContactSignUpNotification extends TlMethod<bool> {
 class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
   /// Account Get Notify Exceptions constructor.
   const AccountGetNotifyExceptions({
-    required this.flags,
+    required this.compareSound,
+    required this.compareStories,
     this.peer,
   }) : super._();
 
@@ -64546,18 +69549,28 @@ class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: compareSound,
+      b02: compareStories,
+      b00: peer != null,
+    );
 
-  /// compare_sound: bit
-  bool get compareSound => _bit(flags, 1);
+    return v;
+  }
 
-  /// compare_stories: bit
-  bool get compareStories => _bit(flags, 2);
+  /// compare_sound: bit 1 of flags.1?true
+  final bool compareSound;
+
+  /// compare_stories: bit 2 of flags.2?true
+  final bool compareStories;
+
+  /// Peer.
   final InputNotifyPeerBase? peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x53577479);
     buffer.writeInt(flags);
     final localPeerCopy = peer;
@@ -64601,7 +69614,7 @@ class MessagesSendVote extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10ea6184);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -64638,7 +69651,7 @@ class MessagesGetPollResults extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73bb643b);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -64669,7 +69682,7 @@ class MessagesGetOnlines extends TlMethod<ChatOnlinesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6e2be050);
     buffer.writeObject(peer);
   }
@@ -64704,7 +69717,7 @@ class MessagesEditChatAbout extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdef60797);
     buffer.writeObject(peer);
     buffer.writeString(about);
@@ -64740,7 +69753,7 @@ class MessagesEditChatDefaultBannedRights extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa5866b41);
     buffer.writeObject(peer);
     buffer.writeObject(bannedRights);
@@ -64771,7 +69784,7 @@ class AccountGetWallPaper extends TlMethod<WallPaperBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfc8ddbea);
     buffer.writeObject(wallpaper);
   }
@@ -64783,7 +69796,7 @@ class AccountGetWallPaper extends TlMethod<WallPaperBase> {
 class AccountUploadWallPaper extends TlMethod<WallPaperBase> {
   /// Account Upload Wall Paper constructor.
   const AccountUploadWallPaper({
-    required this.flags,
+    required this.forChat,
     required this.file,
     required this.mimeType,
     required this.settings,
@@ -64804,10 +69817,16 @@ class AccountUploadWallPaper extends TlMethod<WallPaperBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: forChat,
+    );
 
-  /// for_chat: bit
-  bool get forChat => _bit(flags, 0);
+    return v;
+  }
+
+  /// for_chat: bit 0 of flags.0?true
+  final bool forChat;
 
   /// File.
   final InputFileBase file;
@@ -64820,7 +69839,7 @@ class AccountUploadWallPaper extends TlMethod<WallPaperBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe39a8f03);
     buffer.writeInt(flags);
     buffer.writeObject(file);
@@ -64863,7 +69882,7 @@ class AccountSaveWallPaper extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c5a5b37);
     buffer.writeObject(wallpaper);
     buffer.writeBool(unsave);
@@ -64900,7 +69919,7 @@ class AccountInstallWallPaper extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfeed5769);
     buffer.writeObject(wallpaper);
     buffer.writeObject(settings);
@@ -64925,7 +69944,7 @@ class AccountResetWallPapers extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb3b9804);
   }
 }
@@ -64949,7 +69968,7 @@ class AccountGetAutoDownloadSettings
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56da0b3f);
   }
 }
@@ -64960,7 +69979,8 @@ class AccountGetAutoDownloadSettings
 class AccountSaveAutoDownloadSettings extends TlMethod<bool> {
   /// Account Save Auto Download Settings constructor.
   const AccountSaveAutoDownloadSettings({
-    required this.flags,
+    required this.low,
+    required this.high,
     required this.settings,
   }) : super._();
 
@@ -64978,20 +69998,27 @@ class AccountSaveAutoDownloadSettings extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: low,
+      b01: high,
+    );
 
-  /// low: bit
-  bool get low => _bit(flags, 0);
+    return v;
+  }
 
-  /// high: bit
-  bool get high => _bit(flags, 1);
+  /// low: bit 0 of flags.0?true
+  final bool low;
+
+  /// high: bit 1 of flags.1?true
+  final bool high;
 
   /// Settings.
   final AutoDownloadSettingsBase settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x76f36233);
     buffer.writeInt(flags);
     buffer.writeObject(settings);
@@ -65022,7 +70049,7 @@ class MessagesGetEmojiKeywords extends TlMethod<EmojiKeywordsDifferenceBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35a0e062);
     buffer.writeString(langCode);
   }
@@ -65058,7 +70085,7 @@ class MessagesGetEmojiKeywordsDifference
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1508b6af);
     buffer.writeString(langCode);
     buffer.writeInt(fromVersion);
@@ -65090,7 +70117,7 @@ class MessagesGetEmojiKeywordsLanguages
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4e9963b2);
     buffer.writeVectorString(langCodes);
   }
@@ -65120,7 +70147,7 @@ class MessagesGetEmojiURL extends TlMethod<EmojiURLBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd5b10c26);
     buffer.writeString(langCode);
   }
@@ -65150,7 +70177,7 @@ class FoldersEditPeerFolders extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6847d0ab);
     buffer.writeVectorObject(folderPeers);
   }
@@ -65163,7 +70190,6 @@ class MessagesGetSearchCounters
     extends TlMethod<List<MessagesSearchCounterBase>> {
   /// Messages Get Search Counters constructor.
   const MessagesGetSearchCounters({
-    required this.flags,
     required this.peer,
     this.savedPeerId,
     this.topMsgId,
@@ -65185,11 +70211,22 @@ class MessagesGetSearchCounters
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: savedPeerId != null,
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Filters.
@@ -65197,7 +70234,7 @@ class MessagesGetSearchCounters
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1bbcf300);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -65231,7 +70268,7 @@ class ChannelsGetGroupsForDiscussion extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf5dad378);
   }
 }
@@ -65265,7 +70302,7 @@ class ChannelsSetDiscussionGroup extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x40582bb2);
     buffer.writeObject(broadcast);
     buffer.writeObject(group);
@@ -65278,7 +70315,6 @@ class ChannelsSetDiscussionGroup extends TlMethod<bool> {
 class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Messages Request Url Auth constructor.
   const MessagesRequestUrlAuth({
-    required this.flags,
     this.peer,
     this.msgId,
     this.buttonId,
@@ -65300,15 +70336,30 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: peer != null || msgId != null || buttonId != null,
+      b02: url != null,
+    );
+
+    return v;
+  }
+
+  /// Peer.
   final InputPeerBase? peer;
+
+  /// Msg Id.
   final int? msgId;
+
+  /// Button Id.
   final int? buttonId;
+
+  /// Url.
   final String? url;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x198fb446);
     buffer.writeInt(flags);
     final localPeerCopy = peer;
@@ -65336,7 +70387,7 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
 class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
   /// Messages Accept Url Auth constructor.
   const MessagesAcceptUrlAuth({
-    required this.flags,
+    required this.writeAllowed,
     this.peer,
     this.msgId,
     this.buttonId,
@@ -65359,18 +70410,34 @@ class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: writeAllowed,
+      b01: peer != null || msgId != null || buttonId != null,
+      b02: url != null,
+    );
 
-  /// write_allowed: bit
-  bool get writeAllowed => _bit(flags, 0);
+    return v;
+  }
+
+  /// write_allowed: bit 0 of flags.0?true
+  final bool writeAllowed;
+
+  /// Peer.
   final InputPeerBase? peer;
+
+  /// Msg Id.
   final int? msgId;
+
+  /// Button Id.
   final int? buttonId;
+
+  /// Url.
   final String? url;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb12c7125);
     buffer.writeInt(flags);
     final localPeerCopy = peer;
@@ -65416,7 +70483,7 @@ class MessagesHidePeerSettingsBar extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4facb138);
     buffer.writeObject(peer);
   }
@@ -65428,7 +70495,7 @@ class MessagesHidePeerSettingsBar extends TlMethod<bool> {
 class ContactsAddContact extends TlMethod<UpdatesBase> {
   /// Contacts Add Contact constructor.
   const ContactsAddContact({
-    required this.flags,
+    required this.addPhonePrivacyException,
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -65451,10 +70518,16 @@ class ContactsAddContact extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: addPhonePrivacyException,
+    );
 
-  /// add_phone_privacy_exception: bit
-  bool get addPhonePrivacyException => _bit(flags, 0);
+    return v;
+  }
+
+  /// add_phone_privacy_exception: bit 0 of flags.0?true
+  final bool addPhonePrivacyException;
 
   /// Id.
   final InputUserBase id;
@@ -65470,7 +70543,7 @@ class ContactsAddContact extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe8f463d0);
     buffer.writeInt(flags);
     buffer.writeObject(id);
@@ -65504,7 +70577,7 @@ class ContactsAcceptContact extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf831a20f);
     buffer.writeObject(id);
   }
@@ -65544,7 +70617,7 @@ class ChannelsEditCreator extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8f38cd1f);
     buffer.writeObject(channel);
     buffer.writeObject(userId);
@@ -65558,7 +70631,7 @@ class ChannelsEditCreator extends TlMethod<UpdatesBase> {
 class ContactsGetLocated extends TlMethod<UpdatesBase> {
   /// Contacts Get Located constructor.
   const ContactsGetLocated({
-    required this.flags,
+    required this.background,
     required this.geoPoint,
     this.selfExpires,
   }) : super._();
@@ -65577,18 +70650,27 @@ class ContactsGetLocated extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: background,
+      b00: selfExpires != null,
+    );
 
-  /// background: bit
-  bool get background => _bit(flags, 1);
+    return v;
+  }
+
+  /// background: bit 1 of flags.1?true
+  final bool background;
 
   /// Geo Point.
   final InputGeoPointBase geoPoint;
+
+  /// Self Expires.
   final int? selfExpires;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd348bc44);
     buffer.writeInt(flags);
     buffer.writeObject(geoPoint);
@@ -65633,7 +70715,7 @@ class ChannelsEditLocation extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x58e63f6d);
     buffer.writeObject(channel);
     buffer.writeObject(geoPoint);
@@ -65670,7 +70752,7 @@ class ChannelsToggleSlowMode extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xedd49ef0);
     buffer.writeObject(channel);
     buffer.writeInt(seconds);
@@ -65706,7 +70788,7 @@ class MessagesGetScheduledHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf516760b);
     buffer.writeObject(peer);
     buffer.writeLong(hash);
@@ -65742,7 +70824,7 @@ class MessagesGetScheduledMessages extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdbb0464);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -65778,7 +70860,7 @@ class MessagesSendScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd38850a);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -65814,7 +70896,7 @@ class MessagesDeleteScheduledMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x59ae2b16);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -65827,7 +70909,6 @@ class MessagesDeleteScheduledMessages extends TlMethod<UpdatesBase> {
 class AccountUploadTheme extends TlMethod<DocumentBase> {
   /// Account Upload Theme constructor.
   const AccountUploadTheme({
-    required this.flags,
     required this.file,
     this.thumb,
     required this.fileName,
@@ -65849,10 +70930,18 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: thumb != null,
+    );
+
+    return v;
+  }
 
   /// File.
   final InputFileBase file;
+
+  /// Thumb.
   final InputFileBase? thumb;
 
   /// File Name.
@@ -65863,7 +70952,7 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1c3db333);
     buffer.writeInt(flags);
     buffer.writeObject(file);
@@ -65882,7 +70971,6 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
 class AccountCreateTheme extends TlMethod<ThemeBase> {
   /// Account Create Theme constructor.
   const AccountCreateTheme({
-    required this.flags,
     required this.slug,
     required this.title,
     this.document,
@@ -65904,19 +70992,30 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: document != null,
+      b03: settings != null,
+    );
+
+    return v;
+  }
 
   /// Slug.
   final String slug;
 
   /// Title.
   final String title;
+
+  /// Document.
   final InputDocumentBase? document;
+
+  /// Settings.
   final List<InputThemeSettingsBase>? settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x652e4400);
     buffer.writeInt(flags);
     buffer.writeString(slug);
@@ -65938,7 +71037,6 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
 class AccountUpdateTheme extends TlMethod<ThemeBase> {
   /// Account Update Theme constructor.
   const AccountUpdateTheme({
-    required this.flags,
     required this.format,
     required this.theme,
     this.slug,
@@ -65964,21 +71062,38 @@ class AccountUpdateTheme extends TlMethod<ThemeBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: slug != null,
+      b01: title != null,
+      b02: document != null,
+      b03: settings != null,
+    );
+
+    return v;
+  }
 
   /// Format.
   final String format;
 
   /// Theme.
   final InputThemeBase theme;
+
+  /// Slug.
   final String? slug;
+
+  /// Title.
   final String? title;
+
+  /// Document.
   final InputDocumentBase? document;
+
+  /// Settings.
   final List<InputThemeSettingsBase>? settings;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2bf40ccc);
     buffer.writeInt(flags);
     buffer.writeString(format);
@@ -66031,7 +71146,7 @@ class AccountSaveTheme extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf257106c);
     buffer.writeObject(theme);
     buffer.writeBool(unsave);
@@ -66044,7 +71159,7 @@ class AccountSaveTheme extends TlMethod<bool> {
 class AccountInstallTheme extends TlMethod<bool> {
   /// Account Install Theme constructor.
   const AccountInstallTheme({
-    required this.flags,
+    required this.dark,
     this.theme,
     this.format,
     this.baseTheme,
@@ -66065,17 +71180,32 @@ class AccountInstallTheme extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+      b01: theme != null,
+      b02: format != null,
+      b03: baseTheme != null,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
+
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
+
+  /// Theme.
   final InputThemeBase? theme;
+
+  /// Format.
   final String? format;
+
+  /// Base Theme.
   final BaseThemeBase? baseTheme;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc727bb3b);
     buffer.writeInt(flags);
     final localThemeCopy = theme;
@@ -66122,7 +71252,7 @@ class AccountGetTheme extends TlMethod<ThemeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3a5869ec);
     buffer.writeString(format);
     buffer.writeObject(theme);
@@ -66158,7 +71288,7 @@ class AccountGetThemes extends TlMethod<AccountThemesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7206e458);
     buffer.writeString(format);
     buffer.writeLong(hash);
@@ -66199,7 +71329,7 @@ class AuthExportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb7e085fe);
     buffer.writeInt(apiId);
     buffer.writeString(apiHash);
@@ -66231,7 +71361,7 @@ class AuthImportLoginToken extends TlMethod<AuthLoginTokenBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x95ac5ce4);
     buffer.writeBytes(token);
   }
@@ -66261,7 +71391,7 @@ class AuthAcceptLoginToken extends TlMethod<AuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe894ad4d);
     buffer.writeBytes(token);
   }
@@ -66273,7 +71403,7 @@ class AuthAcceptLoginToken extends TlMethod<AuthorizationBase> {
 class AccountSetContentSettings extends TlMethod<bool> {
   /// Account Set Content Settings constructor.
   const AccountSetContentSettings({
-    required this.flags,
+    required this.sensitiveEnabled,
   }) : super._();
 
   /// Deserialize.
@@ -66288,14 +71418,20 @@ class AccountSetContentSettings extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: sensitiveEnabled,
+    );
 
-  /// sensitive_enabled: bit
-  bool get sensitiveEnabled => _bit(flags, 0);
+    return v;
+  }
+
+  /// sensitive_enabled: bit 0 of flags.0?true
+  final bool sensitiveEnabled;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb574b16b);
     buffer.writeInt(flags);
   }
@@ -66319,7 +71455,7 @@ class AccountGetContentSettings extends TlMethod<AccountContentSettingsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8b9b4dae);
   }
 }
@@ -66342,7 +71478,7 @@ class ChannelsGetInactiveChannels extends TlMethod<MessagesInactiveChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x11e831ee);
   }
 }
@@ -66371,7 +71507,7 @@ class AccountGetMultiWallPapers extends TlMethod<List<WallPaperBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x65ad71dc);
     buffer.writeVectorObject(wallpapers);
   }
@@ -66383,7 +71519,6 @@ class AccountGetMultiWallPapers extends TlMethod<List<WallPaperBase>> {
 class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
   /// Messages Get Poll Votes constructor.
   const MessagesGetPollVotes({
-    required this.flags,
     required this.peer,
     required this.id,
     this.option,
@@ -66407,14 +71542,25 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: option != null,
+      b01: offset != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Option.
   final Uint8List? option;
+
+  /// Offset.
   final String? offset;
 
   /// Limit.
@@ -66422,7 +71568,7 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb86e380e);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -66445,7 +71591,9 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
 class MessagesToggleStickerSets extends TlMethod<bool> {
   /// Messages Toggle Sticker Sets constructor.
   const MessagesToggleStickerSets({
-    required this.flags,
+    required this.uninstall,
+    required this.archive,
+    required this.unarchive,
     required this.stickersets,
   }) : super._();
 
@@ -66464,23 +71612,31 @@ class MessagesToggleStickerSets extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: uninstall,
+      b01: archive,
+      b02: unarchive,
+    );
 
-  /// uninstall: bit
-  bool get uninstall => _bit(flags, 0);
+    return v;
+  }
 
-  /// archive: bit
-  bool get archive => _bit(flags, 1);
+  /// uninstall: bit 0 of flags.0?true
+  final bool uninstall;
 
-  /// unarchive: bit
-  bool get unarchive => _bit(flags, 2);
+  /// archive: bit 1 of flags.1?true
+  final bool archive;
+
+  /// unarchive: bit 2 of flags.2?true
+  final bool unarchive;
 
   /// Stickersets.
   final List<InputStickerSetBase> stickersets;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb5052fea);
     buffer.writeInt(flags);
     buffer.writeVectorObject(stickersets);
@@ -66511,7 +71667,7 @@ class PaymentsGetBankCardData extends TlMethod<PaymentsBankCardDataBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2e79d779);
     buffer.writeString(number);
   }
@@ -66535,7 +71691,7 @@ class MessagesGetDialogFilters extends TlMethod<List<DialogFilterBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf19ed96d);
   }
 }
@@ -66559,7 +71715,7 @@ class MessagesGetSuggestedDialogFilters
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa29cd42c);
   }
 }
@@ -66570,7 +71726,6 @@ class MessagesGetSuggestedDialogFilters
 class MessagesUpdateDialogFilter extends TlMethod<bool> {
   /// Messages Update Dialog Filter constructor.
   const MessagesUpdateDialogFilter({
-    required this.flags,
     required this.id,
     this.filter,
   }) : super._();
@@ -66588,15 +71743,23 @@ class MessagesUpdateDialogFilter extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: filter != null,
+    );
+
+    return v;
+  }
 
   /// Id.
   final int id;
+
+  /// Filter.
   final DialogFilterBase? filter;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ad4a04a);
     buffer.writeInt(flags);
     buffer.writeInt(id);
@@ -66631,7 +71794,7 @@ class MessagesUpdateDialogFiltersOrder extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc563c1e4);
     buffer.writeVectorInt(order);
   }
@@ -66643,7 +71806,7 @@ class MessagesUpdateDialogFiltersOrder extends TlMethod<bool> {
 class StatsGetBroadcastStats extends TlMethod<StatsBroadcastStatsBase> {
   /// Stats Get Broadcast Stats constructor.
   const StatsGetBroadcastStats({
-    required this.flags,
+    required this.dark,
     required this.channel,
   }) : super._();
 
@@ -66660,17 +71823,23 @@ class StatsGetBroadcastStats extends TlMethod<StatsBroadcastStatsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
+
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
 
   /// Channel.
   final InputChannelBase channel;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xab42441a);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -66683,7 +71852,6 @@ class StatsGetBroadcastStats extends TlMethod<StatsBroadcastStatsBase> {
 class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
   /// Stats Load Async Graph constructor.
   const StatsLoadAsyncGraph({
-    required this.flags,
     required this.token,
     this.x,
   }) : super._();
@@ -66701,15 +71869,23 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: x != null,
+    );
+
+    return v;
+  }
 
   /// Token.
   final String token;
+
+  /// X.
   final int? x;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x621d5fa0);
     buffer.writeInt(flags);
     buffer.writeString(token);
@@ -66726,7 +71902,6 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
 class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
   /// Stickers Set Sticker Set Thumb constructor.
   const StickersSetStickerSetThumb({
-    required this.flags,
     required this.stickerset,
     this.thumb,
     this.thumbDocumentId,
@@ -66746,16 +71921,27 @@ class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: thumb != null,
+      b01: thumbDocumentId != null,
+    );
+
+    return v;
+  }
 
   /// Stickerset.
   final InputStickerSetBase stickerset;
+
+  /// Thumb.
   final InputDocumentBase? thumb;
+
+  /// Thumb Document Id.
   final int? thumbDocumentId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa76a5392);
     buffer.writeInt(flags);
     buffer.writeObject(stickerset);
@@ -66804,7 +71990,7 @@ class BotsSetBotCommands extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0517165a);
     buffer.writeObject(scope);
     buffer.writeString(langCode);
@@ -66847,7 +72033,7 @@ class MessagesGetOldFeaturedStickers
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7ed094a1);
     buffer.writeInt(offset);
     buffer.writeInt(limit);
@@ -66873,7 +72059,7 @@ class HelpGetPromoData extends TlMethod<HelpPromoDataBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc0977421);
   }
 }
@@ -66902,7 +72088,7 @@ class HelpHidePromoData extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1e251c95);
     buffer.writeObject(peer);
   }
@@ -66937,7 +72123,7 @@ class PhoneSendSignalingData extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xff7a9383);
     buffer.writeObject(peer);
     buffer.writeBytes(data);
@@ -66950,7 +72136,7 @@ class PhoneSendSignalingData extends TlMethod<bool> {
 class StatsGetMegagroupStats extends TlMethod<StatsMegagroupStatsBase> {
   /// Stats Get Megagroup Stats constructor.
   const StatsGetMegagroupStats({
-    required this.flags,
+    required this.dark,
     required this.channel,
   }) : super._();
 
@@ -66967,17 +72153,23 @@ class StatsGetMegagroupStats extends TlMethod<StatsMegagroupStatsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
+
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
 
   /// Channel.
   final InputChannelBase channel;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdcdf8607);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -67003,7 +72195,7 @@ class AccountGetGlobalPrivacySettings
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeb2b4cf6);
   }
 }
@@ -67033,7 +72225,7 @@ class AccountSetGlobalPrivacySettings
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1edaaac2);
     buffer.writeObject(settings);
   }
@@ -67068,7 +72260,7 @@ class HelpDismissSuggestion extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf50dbaa1);
     buffer.writeObject(peer);
     buffer.writeString(suggestion);
@@ -67104,7 +72296,7 @@ class HelpGetCountriesList extends TlMethod<HelpCountriesListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x735787a8);
     buffer.writeString(langCode);
     buffer.writeInt(hash);
@@ -67175,7 +72367,7 @@ class MessagesGetReplies extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x22ddd30c);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -67219,7 +72411,7 @@ class MessagesGetDiscussionMessage
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x446972fd);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -67260,7 +72452,7 @@ class MessagesReadDiscussion extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf731a9f4);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -67274,7 +72466,9 @@ class MessagesReadDiscussion extends TlMethod<bool> {
 class ContactsBlockFromReplies extends TlMethod<UpdatesBase> {
   /// Contacts Block From Replies constructor.
   const ContactsBlockFromReplies({
-    required this.flags,
+    required this.deleteMessage,
+    required this.deleteHistory,
+    required this.reportSpam,
     required this.msgId,
   }) : super._();
 
@@ -67293,23 +72487,31 @@ class ContactsBlockFromReplies extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: deleteMessage,
+      b01: deleteHistory,
+      b02: reportSpam,
+    );
 
-  /// delete_message: bit
-  bool get deleteMessage => _bit(flags, 0);
+    return v;
+  }
 
-  /// delete_history: bit
-  bool get deleteHistory => _bit(flags, 1);
+  /// delete_message: bit 0 of flags.0?true
+  final bool deleteMessage;
 
-  /// report_spam: bit
-  bool get reportSpam => _bit(flags, 2);
+  /// delete_history: bit 1 of flags.1?true
+  final bool deleteHistory;
+
+  /// report_spam: bit 2 of flags.2?true
+  final bool reportSpam;
 
   /// Msg Id.
   final int msgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x29a8962c);
     buffer.writeInt(flags);
     buffer.writeInt(msgId);
@@ -67355,7 +72557,7 @@ class StatsGetMessagePublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5f150144);
     buffer.writeObject(channel);
     buffer.writeInt(msgId);
@@ -67370,7 +72572,7 @@ class StatsGetMessagePublicForwards extends TlMethod<StatsPublicForwardsBase> {
 class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
   /// Stats Get Message Stats constructor.
   const StatsGetMessageStats({
-    required this.flags,
+    required this.dark,
     required this.channel,
     required this.msgId,
   }) : super._();
@@ -67389,10 +72591,16 @@ class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
+
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
 
   /// Channel.
   final InputChannelBase channel;
@@ -67402,7 +72610,7 @@ class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb6e0a3f5);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -67416,7 +72624,6 @@ class StatsGetMessageStats extends TlMethod<StatsMessageStatsBase> {
 class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
   /// Messages Unpin All Messages constructor.
   const MessagesUnpinAllMessages({
-    required this.flags,
     required this.peer,
     this.topMsgId,
   }) : super._();
@@ -67434,15 +72641,23 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xee22b9a8);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -67459,7 +72674,7 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
 class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
   /// Phone Create Group Call constructor.
   const PhoneCreateGroupCall({
-    required this.flags,
+    required this.rtmpStream,
     required this.peer,
     required this.randomId,
     this.title,
@@ -67482,22 +72697,34 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: rtmpStream,
+      b00: title != null,
+      b01: scheduleDate != null,
+    );
 
-  /// rtmp_stream: bit
-  bool get rtmpStream => _bit(flags, 2);
+    return v;
+  }
+
+  /// rtmp_stream: bit 2 of flags.2?true
+  final bool rtmpStream;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Random Id.
   final int randomId;
+
+  /// Title.
   final String? title;
+
+  /// Schedule Date.
   final DateTime? scheduleDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x48cdc6d8);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -67519,7 +72746,8 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
 class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
   /// Phone Join Group Call constructor.
   const PhoneJoinGroupCall({
-    required this.flags,
+    required this.muted,
+    required this.videoStopped,
     required this.call,
     required this.joinAs,
     this.inviteHash,
@@ -67543,19 +72771,29 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: muted,
+      b02: videoStopped,
+      b01: inviteHash != null,
+    );
 
-  /// muted: bit
-  bool get muted => _bit(flags, 0);
+    return v;
+  }
 
-  /// video_stopped: bit
-  bool get videoStopped => _bit(flags, 2);
+  /// muted: bit 0 of flags.0?true
+  final bool muted;
+
+  /// video_stopped: bit 2 of flags.2?true
+  final bool videoStopped;
 
   /// Call.
   final InputGroupCallBase call;
 
   /// Join As.
   final InputPeerBase joinAs;
+
+  /// Invite Hash.
   final String? inviteHash;
 
   /// Params.
@@ -67563,7 +72801,7 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb132ff7b);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -67605,7 +72843,7 @@ class PhoneLeaveGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x500377f9);
     buffer.writeObject(call);
     buffer.writeInt(source);
@@ -67641,7 +72879,7 @@ class PhoneInviteToGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7b393160);
     buffer.writeObject(call);
     buffer.writeVectorObject(users);
@@ -67672,7 +72910,7 @@ class PhoneDiscardGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7a777135);
     buffer.writeObject(call);
   }
@@ -67684,7 +72922,7 @@ class PhoneDiscardGroupCall extends TlMethod<UpdatesBase> {
 class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
   /// Phone Toggle Group Call Settings constructor.
   const PhoneToggleGroupCallSettings({
-    required this.flags,
+    required this.resetInviteHash,
     required this.call,
     this.joinMuted,
   }) : super._();
@@ -67703,18 +72941,27 @@ class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: resetInviteHash,
+      b00: joinMuted != null,
+    );
 
-  /// reset_invite_hash: bit
-  bool get resetInviteHash => _bit(flags, 1);
+    return v;
+  }
+
+  /// reset_invite_hash: bit 1 of flags.1?true
+  final bool resetInviteHash;
 
   /// Call.
   final InputGroupCallBase call;
+
+  /// Join Muted.
   final bool? joinMuted;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74bbb43d);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -67754,7 +73001,7 @@ class PhoneGetGroupCall extends TlMethod<PhoneGroupCallBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x041845db);
     buffer.writeObject(call);
     buffer.writeInt(limit);
@@ -67805,7 +73052,7 @@ class PhoneGetGroupParticipants extends TlMethod<PhoneGroupParticipantsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc558d8ab);
     buffer.writeObject(call);
     buffer.writeVectorObject(ids);
@@ -67844,7 +73091,7 @@ class PhoneCheckGroupCall extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb59cf977);
     buffer.writeObject(call);
     buffer.writeVectorInt(sources);
@@ -67875,7 +73122,7 @@ class MessagesDeleteChat extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5bd0ee50);
     buffer.writeLong(chatId);
   }
@@ -67888,7 +73135,7 @@ class MessagesDeletePhoneCallHistory
     extends TlMethod<MessagesAffectedFoundMessagesBase> {
   /// Messages Delete Phone Call History constructor.
   const MessagesDeletePhoneCallHistory({
-    required this.flags,
+    required this.revoke,
   }) : super._();
 
   /// Deserialize.
@@ -67903,14 +73150,20 @@ class MessagesDeletePhoneCallHistory
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: revoke,
+    );
 
-  /// revoke: bit
-  bool get revoke => _bit(flags, 0);
+    return v;
+  }
+
+  /// revoke: bit 0 of flags.0?true
+  final bool revoke;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf9cbe409);
     buffer.writeInt(flags);
   }
@@ -67941,7 +73194,7 @@ class MessagesCheckHistoryImport
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x43fe19f3);
     buffer.writeString(importHead);
   }
@@ -67981,7 +73234,7 @@ class MessagesInitHistoryImport extends TlMethod<MessagesHistoryImportBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34090c3b);
     buffer.writeObject(peer);
     buffer.writeObject(file);
@@ -68028,7 +73281,7 @@ class MessagesUploadImportedMedia extends TlMethod<MessageMediaBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2a862092);
     buffer.writeObject(peer);
     buffer.writeLong(importId);
@@ -68066,7 +73319,7 @@ class MessagesStartHistoryImport extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb43df344);
     buffer.writeObject(peer);
     buffer.writeLong(importId);
@@ -68080,7 +73333,7 @@ class MessagesGetExportedChatInvites
     extends TlMethod<MessagesExportedChatInvitesBase> {
   /// Messages Get Exported Chat Invites constructor.
   const MessagesGetExportedChatInvites({
-    required this.flags,
+    required this.revoked,
     required this.peer,
     required this.adminId,
     this.offsetDate,
@@ -68105,17 +73358,28 @@ class MessagesGetExportedChatInvites
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: revoked,
+      b02: offsetDate != null || offsetLink != null,
+    );
 
-  /// revoked: bit
-  bool get revoked => _bit(flags, 3);
+    return v;
+  }
+
+  /// revoked: bit 3 of flags.3?true
+  final bool revoked;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Admin Id.
   final InputUserBase adminId;
+
+  /// Offset Date.
   final DateTime? offsetDate;
+
+  /// Offset Link.
   final String? offsetLink;
 
   /// Limit.
@@ -68123,7 +73387,7 @@ class MessagesGetExportedChatInvites
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa2b5a3f6);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -68170,7 +73434,7 @@ class MessagesGetExportedChatInvite
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x73746f5c);
     buffer.writeObject(peer);
     buffer.writeString(link);
@@ -68184,7 +73448,7 @@ class MessagesEditExportedChatInvite
     extends TlMethod<MessagesExportedChatInviteBase> {
   /// Messages Edit Exported Chat Invite constructor.
   const MessagesEditExportedChatInvite({
-    required this.flags,
+    required this.revoked,
     required this.peer,
     required this.link,
     this.expireDate,
@@ -68211,24 +73475,42 @@ class MessagesEditExportedChatInvite
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: revoked,
+      b00: expireDate != null,
+      b01: usageLimit != null,
+      b03: requestNeeded != null,
+      b04: title != null,
+    );
 
-  /// revoked: bit
-  bool get revoked => _bit(flags, 2);
+    return v;
+  }
+
+  /// revoked: bit 2 of flags.2?true
+  final bool revoked;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Link.
   final String link;
+
+  /// Expire Date.
   final DateTime? expireDate;
+
+  /// Usage Limit.
   final int? usageLimit;
+
+  /// Request Needed.
   final bool? requestNeeded;
+
+  /// Title.
   final String? title;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbdca2f75);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -68282,7 +73564,7 @@ class MessagesDeleteRevokedExportedChatInvites extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x56987bd5);
     buffer.writeObject(peer);
     buffer.writeObject(adminId);
@@ -68318,7 +73600,7 @@ class MessagesDeleteExportedChatInvite extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd464a42b);
     buffer.writeObject(peer);
     buffer.writeString(link);
@@ -68350,7 +73632,7 @@ class MessagesGetAdminsWithInvites
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3920e6ef);
     buffer.writeObject(peer);
   }
@@ -68363,7 +73645,7 @@ class MessagesGetChatInviteImporters
     extends TlMethod<MessagesChatInviteImportersBase> {
   /// Messages Get Chat Invite Importers constructor.
   const MessagesGetChatInviteImporters({
-    required this.flags,
+    required this.requested,
     required this.peer,
     this.link,
     this.q,
@@ -68390,14 +73672,26 @@ class MessagesGetChatInviteImporters
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: requested,
+      b01: link != null,
+      b02: q != null,
+    );
 
-  /// requested: bit
-  bool get requested => _bit(flags, 0);
+    return v;
+  }
+
+  /// requested: bit 0 of flags.0?true
+  final bool requested;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Link.
   final String? link;
+
+  /// Q.
   final String? q;
 
   /// Offset Date.
@@ -68411,7 +73705,7 @@ class MessagesGetChatInviteImporters
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdf04dd4e);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -68458,7 +73752,7 @@ class MessagesSetHistoryTTL extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb80e5fe4);
     buffer.writeObject(peer);
     buffer.writeInt(period);
@@ -68504,7 +73798,7 @@ class AccountReportProfilePhoto extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfa8cc6f5);
     buffer.writeObject(peer);
     buffer.writeObject(photoId);
@@ -68537,7 +73831,7 @@ class ChannelsConvertToGigagroup extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0b290c69);
     buffer.writeObject(channel);
   }
@@ -68568,7 +73862,7 @@ class MessagesCheckHistoryImportPeer
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5dc60f03);
     buffer.writeObject(peer);
   }
@@ -68580,7 +73874,8 @@ class MessagesCheckHistoryImportPeer
 class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
   /// Phone Toggle Group Call Record constructor.
   const PhoneToggleGroupCallRecord({
-    required this.flags,
+    required this.start,
+    required this.video,
     required this.call,
     this.title,
     this.videoPortrait,
@@ -68602,22 +73897,34 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: start,
+      b02: video || videoPortrait != null,
+      b01: title != null,
+    );
 
-  /// start: bit
-  bool get start => _bit(flags, 0);
+    return v;
+  }
 
-  /// video: bit
-  bool get video => _bit(flags, 2);
+  /// start: bit 0 of flags.0?true
+  final bool start;
+
+  /// video: bit 2 of flags.2?true
+  final bool video;
 
   /// Call.
   final InputGroupCallBase call;
+
+  /// Title.
   final String? title;
+
+  /// Video Portrait.
   final bool? videoPortrait;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf128c708);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -68638,7 +73945,6 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
 class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
   /// Phone Edit Group Call Participant constructor.
   const PhoneEditGroupCallParticipant({
-    required this.flags,
     required this.call,
     required this.participant,
     this.muted,
@@ -68668,23 +73974,46 @@ class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: muted != null,
+      b01: volume != null,
+      b02: raiseHand != null,
+      b03: videoStopped != null,
+      b04: videoPaused != null,
+      b05: presentationPaused != null,
+    );
+
+    return v;
+  }
 
   /// Call.
   final InputGroupCallBase call;
 
   /// Participant.
   final InputPeerBase participant;
+
+  /// Muted.
   final bool? muted;
+
+  /// Volume.
   final int? volume;
+
+  /// Raise Hand.
   final bool? raiseHand;
+
+  /// Video Stopped.
   final bool? videoStopped;
+
+  /// Video Paused.
   final bool? videoPaused;
+
+  /// Presentation Paused.
   final bool? presentationPaused;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa5273abf);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -68745,7 +74074,7 @@ class PhoneEditGroupCallTitle extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ca6ac0a);
     buffer.writeObject(call);
     buffer.writeString(title);
@@ -68776,7 +74105,7 @@ class PhoneGetGroupCallJoinAs extends TlMethod<PhoneJoinAsPeersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef7c213a);
     buffer.writeObject(peer);
   }
@@ -68789,7 +74118,7 @@ class PhoneExportGroupCallInvite
     extends TlMethod<PhoneExportedGroupCallInviteBase> {
   /// Phone Export Group Call Invite constructor.
   const PhoneExportGroupCallInvite({
-    required this.flags,
+    required this.canSelfUnmute,
     required this.call,
   }) : super._();
 
@@ -68806,17 +74135,23 @@ class PhoneExportGroupCallInvite
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: canSelfUnmute,
+    );
 
-  /// can_self_unmute: bit
-  bool get canSelfUnmute => _bit(flags, 0);
+    return v;
+  }
+
+  /// can_self_unmute: bit 0 of flags.0?true
+  final bool canSelfUnmute;
 
   /// Call.
   final InputGroupCallBase call;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe6aa647f);
     buffer.writeInt(flags);
     buffer.writeObject(call);
@@ -68852,7 +74187,7 @@ class PhoneToggleGroupCallStartSubscription extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x219c34e6);
     buffer.writeObject(call);
     buffer.writeBool(subscribed);
@@ -68883,7 +74218,7 @@ class PhoneStartScheduledGroupCall extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5680e342);
     buffer.writeObject(call);
   }
@@ -68918,7 +74253,7 @@ class PhoneSaveDefaultGroupCallJoinAs extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x575e1f8c);
     buffer.writeObject(peer);
     buffer.writeObject(joinAs);
@@ -68954,7 +74289,7 @@ class PhoneJoinGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xcbea6bc4);
     buffer.writeObject(call);
     buffer.writeObject(params);
@@ -68985,7 +74320,7 @@ class PhoneLeaveGroupCallPresentation extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1c50d144);
     buffer.writeObject(call);
   }
@@ -69015,7 +74350,7 @@ class StickersCheckShortName extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x284b3639);
     buffer.writeString(shortName);
   }
@@ -69046,7 +74381,7 @@ class StickersSuggestShortName
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4dafc503);
     buffer.writeString(title);
   }
@@ -69081,7 +74416,7 @@ class BotsResetBotCommands extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3d8de0f9);
     buffer.writeObject(scope);
     buffer.writeString(langCode);
@@ -69117,7 +74452,7 @@ class BotsGetBotCommands extends TlMethod<List<BotCommandBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe34c0dd6);
     buffer.writeObject(scope);
     buffer.writeString(langCode);
@@ -69142,7 +74477,7 @@ class AccountResetPassword extends TlMethod<AccountResetPasswordResultBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9308ce1b);
   }
 }
@@ -69165,7 +74500,7 @@ class AccountDeclinePasswordReset extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4c9409f6);
   }
 }
@@ -69194,7 +74529,7 @@ class AuthCheckRecoveryPassword extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0d36bf79);
     buffer.writeString(code);
   }
@@ -69224,7 +74559,7 @@ class AccountGetChatThemes extends TlMethod<AccountThemesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd638de89);
     buffer.writeLong(hash);
   }
@@ -69259,7 +74594,7 @@ class MessagesSetChatTheme extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe63be13f);
     buffer.writeObject(peer);
     buffer.writeString(emoticon);
@@ -69295,7 +74630,7 @@ class ChannelsViewSponsoredMessage extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbeaedb94);
     buffer.writeObject(channel);
     buffer.writeBytes(randomId);
@@ -69327,7 +74662,7 @@ class ChannelsGetSponsoredMessages
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xec210fbf);
     buffer.writeObject(channel);
   }
@@ -69363,7 +74698,7 @@ class MessagesGetMessageReadParticipants
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x31c1c44f);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -69377,7 +74712,6 @@ class MessagesGetSearchResultsCalendar
     extends TlMethod<MessagesSearchResultsCalendarBase> {
   /// Messages Get Search Results Calendar constructor.
   const MessagesGetSearchResultsCalendar({
-    required this.flags,
     required this.peer,
     this.savedPeerId,
     required this.filter,
@@ -69401,10 +74735,18 @@ class MessagesGetSearchResultsCalendar
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: savedPeerId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
   /// Filter.
@@ -69418,7 +74760,7 @@ class MessagesGetSearchResultsCalendar
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6aa3f6bd);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69439,7 +74781,6 @@ class MessagesGetSearchResultsPositions
     extends TlMethod<MessagesSearchResultsPositionsBase> {
   /// Messages Get Search Results Positions constructor.
   const MessagesGetSearchResultsPositions({
-    required this.flags,
     required this.peer,
     this.savedPeerId,
     required this.filter,
@@ -69463,10 +74804,18 @@ class MessagesGetSearchResultsPositions
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: savedPeerId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Saved Peer Id.
   final InputPeerBase? savedPeerId;
 
   /// Filter.
@@ -69480,7 +74829,7 @@ class MessagesGetSearchResultsPositions
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9c7f2f10);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69500,7 +74849,7 @@ class MessagesGetSearchResultsPositions
 class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
   /// Messages Hide Chat Join Request constructor.
   const MessagesHideChatJoinRequest({
-    required this.flags,
+    required this.approved,
     required this.peer,
     required this.userId,
   }) : super._();
@@ -69519,10 +74868,16 @@ class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: approved,
+    );
 
-  /// approved: bit
-  bool get approved => _bit(flags, 0);
+    return v;
+  }
+
+  /// approved: bit 0 of flags.0?true
+  final bool approved;
 
   /// Peer.
   final InputPeerBase peer;
@@ -69532,7 +74887,7 @@ class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7fe7e815);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69546,7 +74901,7 @@ class MessagesHideChatJoinRequest extends TlMethod<UpdatesBase> {
 class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
   /// Messages Hide All Chat Join Requests constructor.
   const MessagesHideAllChatJoinRequests({
-    required this.flags,
+    required this.approved,
     required this.peer,
     this.link,
   }) : super._();
@@ -69565,18 +74920,27 @@ class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: approved,
+      b01: link != null,
+    );
 
-  /// approved: bit
-  bool get approved => _bit(flags, 0);
+    return v;
+  }
+
+  /// approved: bit 0 of flags.0?true
+  final bool approved;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Link.
   final String? link;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe085f4ea);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69616,7 +74980,7 @@ class MessagesToggleNoForwards extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb11eafa2);
     buffer.writeObject(peer);
     buffer.writeBool(enabled);
@@ -69652,7 +75016,7 @@ class MessagesSaveDefaultSendAs extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xccfddf96);
     buffer.writeObject(peer);
     buffer.writeObject(sendAs);
@@ -69683,7 +75047,7 @@ class ChannelsGetSendAs extends TlMethod<ChannelsSendAsPeersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0dc770ee);
     buffer.writeObject(peer);
   }
@@ -69713,7 +75077,7 @@ class AccountSetAuthorizationTTL extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbf899aa0);
     buffer.writeInt(authorizationTtlDays);
   }
@@ -69725,7 +75089,7 @@ class AccountSetAuthorizationTTL extends TlMethod<bool> {
 class AccountChangeAuthorizationSettings extends TlMethod<bool> {
   /// Account Change Authorization Settings constructor.
   const AccountChangeAuthorizationSettings({
-    required this.flags,
+    required this.confirmed,
     required this.hash,
     this.encryptedRequestsDisabled,
     this.callRequestsDisabled,
@@ -69746,19 +75110,31 @@ class AccountChangeAuthorizationSettings extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: confirmed,
+      b00: encryptedRequestsDisabled != null,
+      b01: callRequestsDisabled != null,
+    );
 
-  /// confirmed: bit
-  bool get confirmed => _bit(flags, 3);
+    return v;
+  }
+
+  /// confirmed: bit 3 of flags.3?true
+  final bool confirmed;
 
   /// Hash.
   final int hash;
+
+  /// Encrypted Requests Disabled.
   final bool? encryptedRequestsDisabled;
+
+  /// Call Requests Disabled.
   final bool? callRequestsDisabled;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x40f48462);
     buffer.writeInt(flags);
     buffer.writeLong(hash);
@@ -69803,7 +75179,7 @@ class ChannelsDeleteParticipantHistory
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x367544db);
     buffer.writeObject(channel);
     buffer.writeObject(participant);
@@ -69816,7 +75192,8 @@ class ChannelsDeleteParticipantHistory
 class MessagesSendReaction extends TlMethod<UpdatesBase> {
   /// Messages Send Reaction constructor.
   const MessagesSendReaction({
-    required this.flags,
+    required this.big,
+    required this.addToRecent,
     required this.peer,
     required this.msgId,
     this.reaction,
@@ -69838,24 +75215,34 @@ class MessagesSendReaction extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: big,
+      b02: addToRecent,
+      b00: reaction != null,
+    );
 
-  /// big: bit
-  bool get big => _bit(flags, 1);
+    return v;
+  }
 
-  /// add_to_recent: bit
-  bool get addToRecent => _bit(flags, 2);
+  /// big: bit 1 of flags.1?true
+  final bool big;
+
+  /// add_to_recent: bit 2 of flags.2?true
+  final bool addToRecent;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Msg Id.
   final int msgId;
+
+  /// Reaction.
   final List<ReactionBase>? reaction;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd30d78d4);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69896,7 +75283,7 @@ class MessagesGetMessagesReactions extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8bba90e6);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -69910,7 +75297,6 @@ class MessagesGetMessageReactionsList
     extends TlMethod<MessagesMessageReactionsListBase> {
   /// Messages Get Message Reactions List constructor.
   const MessagesGetMessageReactionsList({
-    required this.flags,
     required this.peer,
     required this.id,
     this.reaction,
@@ -69934,14 +75320,25 @@ class MessagesGetMessageReactionsList
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: reaction != null,
+      b01: offset != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Reaction.
   final ReactionBase? reaction;
+
+  /// Offset.
   final String? offset;
 
   /// Limit.
@@ -69949,7 +75346,7 @@ class MessagesGetMessageReactionsList
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x461b3f48);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -69995,7 +75392,7 @@ class MessagesSetChatAvailableReactions extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfeb16771);
     buffer.writeObject(peer);
     buffer.writeObject(availableReactions);
@@ -70027,7 +75424,7 @@ class MessagesGetAvailableReactions
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18dea0ac);
     buffer.writeInt(hash);
   }
@@ -70057,7 +75454,7 @@ class MessagesSetDefaultReaction extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4f47a016);
     buffer.writeObject(reaction);
   }
@@ -70069,7 +75466,6 @@ class MessagesSetDefaultReaction extends TlMethod<bool> {
 class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
   /// Messages Translate Text constructor.
   const MessagesTranslateText({
-    required this.flags,
     this.peer,
     this.id,
     this.text,
@@ -70091,9 +75487,22 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: peer != null || id != null,
+      b01: text != null,
+    );
+
+    return v;
+  }
+
+  /// Peer.
   final InputPeerBase? peer;
+
+  /// Id.
   final List<int>? id;
+
+  /// Text.
   final List<TextWithEntitiesBase>? text;
 
   /// To Lang.
@@ -70101,7 +75510,7 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x63183030);
     buffer.writeInt(flags);
     final localPeerCopy = peer;
@@ -70126,7 +75535,6 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
 class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
   /// Messages Get Unread Reactions constructor.
   const MessagesGetUnreadReactions({
-    required this.flags,
     required this.peer,
     this.topMsgId,
     required this.offsetId,
@@ -70154,10 +75562,18 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Offset Id.
@@ -70177,7 +75593,7 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3223495b);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -70199,7 +75615,6 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
 class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
   /// Messages Read Reactions constructor.
   const MessagesReadReactions({
-    required this.flags,
     required this.peer,
     this.topMsgId,
   }) : super._();
@@ -70217,15 +75632,23 @@ class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: topMsgId != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Top Msg Id.
   final int? topMsgId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x54aa7f8e);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -70260,7 +75683,7 @@ class ContactsResolvePhone extends TlMethod<ContactsResolvedPeerBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8af94344);
     buffer.writeString(phone);
   }
@@ -70291,7 +75714,7 @@ class PhoneGetGroupCallStreamChannels
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1ab21940);
     buffer.writeObject(call);
   }
@@ -70327,7 +75750,7 @@ class PhoneGetGroupCallStreamRtmpUrl
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdeb3abbf);
     buffer.writeObject(peer);
     buffer.writeBool(revoke);
@@ -70368,7 +75791,7 @@ class MessagesSearchSentMedia extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x107e31a0);
     buffer.writeString(q);
     buffer.writeObject(filter);
@@ -70400,7 +75823,7 @@ class MessagesGetAttachMenuBots extends TlMethod<AttachMenuBotsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x16fcc2cb);
     buffer.writeLong(hash);
   }
@@ -70430,7 +75853,7 @@ class MessagesGetAttachMenuBot extends TlMethod<AttachMenuBotsBotBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x77216192);
     buffer.writeObject(bot);
   }
@@ -70442,7 +75865,7 @@ class MessagesGetAttachMenuBot extends TlMethod<AttachMenuBotsBotBase> {
 class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
   /// Messages Toggle Bot In Attach Menu constructor.
   const MessagesToggleBotInAttachMenu({
-    required this.flags,
+    required this.writeAllowed,
     required this.bot,
     required this.enabled,
   }) : super._();
@@ -70461,10 +75884,16 @@ class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: writeAllowed,
+    );
 
-  /// write_allowed: bit
-  bool get writeAllowed => _bit(flags, 0);
+    return v;
+  }
+
+  /// write_allowed: bit 0 of flags.0?true
+  final bool writeAllowed;
 
   /// Bot.
   final InputUserBase bot;
@@ -70474,7 +75903,7 @@ class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x69f59d69);
     buffer.writeInt(flags);
     buffer.writeObject(bot);
@@ -70488,7 +75917,8 @@ class MessagesToggleBotInAttachMenu extends TlMethod<bool> {
 class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
   /// Messages Request Web View constructor.
   const MessagesRequestWebView({
-    required this.flags,
+    required this.fromBotMenu,
+    required this.silent,
     required this.peer,
     required this.bot,
     this.url,
@@ -70520,31 +75950,53 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b04: fromBotMenu,
+      b05: silent,
+      b01: url != null,
+      b03: startParam != null,
+      b02: themeParams != null,
+      b00: replyTo != null,
+      b13: sendAs != null,
+    );
 
-  /// from_bot_menu: bit
-  bool get fromBotMenu => _bit(flags, 4);
+    return v;
+  }
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+  /// from_bot_menu: bit 4 of flags.4?true
+  final bool fromBotMenu;
+
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Bot.
   final InputUserBase bot;
+
+  /// Url.
   final String? url;
+
+  /// Start Param.
   final String? startParam;
+
+  /// Theme Params.
   final DataJSONBase? themeParams;
 
   /// Platform.
   final String platform;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x269dc2c1);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -70579,7 +76031,7 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
 class MessagesProlongWebView extends TlMethod<bool> {
   /// Messages Prolong Web View constructor.
   const MessagesProlongWebView({
-    required this.flags,
+    required this.silent,
     required this.peer,
     required this.bot,
     required this.queryId,
@@ -70604,10 +76056,18 @@ class MessagesProlongWebView extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b05: silent,
+      b00: replyTo != null,
+      b13: sendAs != null,
+    );
 
-  /// silent: bit
-  bool get silent => _bit(flags, 5);
+    return v;
+  }
+
+  /// silent: bit 5 of flags.5?true
+  final bool silent;
 
   /// Peer.
   final InputPeerBase peer;
@@ -70617,12 +76077,16 @@ class MessagesProlongWebView extends TlMethod<bool> {
 
   /// Query Id.
   final int queryId;
+
+  /// Reply To.
   final InputReplyToBase? replyTo;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb0d81a83);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -70645,7 +76109,8 @@ class MessagesProlongWebView extends TlMethod<bool> {
 class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
   /// Messages Request Simple Web View constructor.
   const MessagesRequestSimpleWebView({
-    required this.flags,
+    required this.fromSwitchWebview,
+    required this.fromSideMenu,
     required this.bot,
     this.url,
     this.startParam,
@@ -70671,18 +76136,34 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: fromSwitchWebview,
+      b02: fromSideMenu,
+      b03: url != null,
+      b04: startParam != null,
+      b00: themeParams != null,
+    );
 
-  /// from_switch_webview: bit
-  bool get fromSwitchWebview => _bit(flags, 1);
+    return v;
+  }
 
-  /// from_side_menu: bit
-  bool get fromSideMenu => _bit(flags, 2);
+  /// from_switch_webview: bit 1 of flags.1?true
+  final bool fromSwitchWebview;
+
+  /// from_side_menu: bit 2 of flags.2?true
+  final bool fromSideMenu;
 
   /// Bot.
   final InputUserBase bot;
+
+  /// Url.
   final String? url;
+
+  /// Start Param.
   final String? startParam;
+
+  /// Theme Params.
   final DataJSONBase? themeParams;
 
   /// Platform.
@@ -70690,7 +76171,7 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1a46500a);
     buffer.writeInt(flags);
     buffer.writeObject(bot);
@@ -70740,7 +76221,7 @@ class MessagesSendWebViewResultMessage
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a4314f5);
     buffer.writeString(botQueryId);
     buffer.writeObject(result);
@@ -70786,7 +76267,7 @@ class MessagesSendWebViewData extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdc0242c8);
     buffer.writeObject(bot);
     buffer.writeLong(randomId);
@@ -70824,7 +76305,7 @@ class BotsSetBotMenuButton extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4504d54f);
     buffer.writeObject(userId);
     buffer.writeObject(button);
@@ -70855,7 +76336,7 @@ class BotsGetBotMenuButton extends TlMethod<BotMenuButtonBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9c60eb28);
     buffer.writeObject(userId);
   }
@@ -70885,7 +76366,7 @@ class AccountGetSavedRingtones extends TlMethod<AccountSavedRingtonesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe1902288);
     buffer.writeLong(hash);
   }
@@ -70920,7 +76401,7 @@ class AccountSaveRingtone extends TlMethod<AccountSavedRingtoneBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3dea5b03);
     buffer.writeObject(id);
     buffer.writeBool(unsave);
@@ -70961,7 +76442,7 @@ class AccountUploadRingtone extends TlMethod<DocumentBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x831a83a2);
     buffer.writeObject(file);
     buffer.writeString(fileName);
@@ -70993,7 +76474,7 @@ class BotsSetBotBroadcastDefaultAdminRights extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x788464e1);
     buffer.writeObject(adminRights);
   }
@@ -71023,7 +76504,7 @@ class BotsSetBotGroupDefaultAdminRights extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x925ec9ea);
     buffer.writeObject(adminRights);
   }
@@ -71058,7 +76539,7 @@ class PhoneSaveCallLog extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x41248786);
     buffer.writeObject(peer);
     buffer.writeObject(file);
@@ -71094,7 +76575,7 @@ class ChannelsToggleJoinToSend extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe4cb9580);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -71130,7 +76611,7 @@ class ChannelsToggleJoinRequest extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x4c2985b6);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -71161,7 +76642,7 @@ class PaymentsExportInvoice extends TlMethod<PaymentsExportedInvoiceBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0f91b065);
     buffer.writeObject(invoiceMedia);
   }
@@ -71196,7 +76677,7 @@ class MessagesTranscribeAudio extends TlMethod<MessagesTranscribedAudioBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x269e9a49);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -71242,7 +76723,7 @@ class MessagesRateTranscribedAudio extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7f1d072f);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -71280,7 +76761,7 @@ class PaymentsAssignAppStoreTransaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x80ed747d);
     buffer.writeBytes(receipt);
     buffer.writeObject(purpose);
@@ -71316,7 +76797,7 @@ class PaymentsAssignPlayMarketTransaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdffd50d3);
     buffer.writeObject(receipt);
     buffer.writeObject(purpose);
@@ -71347,7 +76828,7 @@ class PaymentsCanPurchasePremium extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9fc19eb6);
     buffer.writeObject(purpose);
   }
@@ -71371,7 +76852,7 @@ class HelpGetPremiumPromo extends TlMethod<HelpPremiumPromoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb81b93d4);
   }
 }
@@ -71400,7 +76881,7 @@ class MessagesGetCustomEmojiDocuments extends TlMethod<List<DocumentBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd9ab0f54);
     buffer.writeVectorLong(documentId);
   }
@@ -71430,7 +76911,7 @@ class MessagesGetEmojiStickers extends TlMethod<MessagesAllStickersBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbfca18f);
     buffer.writeLong(hash);
   }
@@ -71461,7 +76942,7 @@ class MessagesGetFeaturedEmojiStickers
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0ecf6736);
     buffer.writeLong(hash);
   }
@@ -71491,7 +76972,7 @@ class AccountUpdateEmojiStatus extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfbd3de6b);
     buffer.writeObject(emojiStatus);
   }
@@ -71522,7 +77003,7 @@ class AccountGetDefaultEmojiStatuses
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd6753386);
     buffer.writeLong(hash);
   }
@@ -71552,7 +77033,7 @@ class AccountGetRecentEmojiStatuses extends TlMethod<AccountEmojiStatusesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0f578105);
     buffer.writeLong(hash);
   }
@@ -71576,7 +77057,7 @@ class AccountClearRecentEmojiStatuses extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18201aae);
   }
 }
@@ -71615,7 +77096,7 @@ class MessagesReportReaction extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3f64c076);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -71652,7 +77133,7 @@ class MessagesGetTopReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbb8125ba);
     buffer.writeInt(limit);
     buffer.writeLong(hash);
@@ -71688,7 +77169,7 @@ class MessagesGetRecentReactions extends TlMethod<MessagesReactionsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x39461db2);
     buffer.writeInt(limit);
     buffer.writeLong(hash);
@@ -71713,7 +77194,7 @@ class MessagesClearRecentReactions extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9dfeefb4);
   }
 }
@@ -71747,7 +77228,7 @@ class MessagesGetExtendedMedia extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x84f80814);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -71788,7 +77269,7 @@ class AuthImportWebTokenAuthorization extends TlMethod<AuthAuthorizationBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2db873a9);
     buffer.writeInt(apiId);
     buffer.writeString(apiHash);
@@ -71820,7 +77301,7 @@ class AccountReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xef500eab);
     buffer.writeVectorString(order);
   }
@@ -71855,7 +77336,7 @@ class AccountToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x58d6b376);
     buffer.writeString(username);
     buffer.writeBool(active);
@@ -71891,7 +77372,7 @@ class ChannelsReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb45ced1d);
     buffer.writeObject(channel);
     buffer.writeVectorString(order);
@@ -71932,7 +77413,7 @@ class ChannelsToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x50f24105);
     buffer.writeObject(channel);
     buffer.writeString(username);
@@ -71964,7 +77445,7 @@ class ChannelsDeactivateAllUsernames extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0a245dd3);
     buffer.writeObject(channel);
   }
@@ -71999,7 +77480,7 @@ class ChannelsToggleForum extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa4298b29);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -72012,7 +77493,6 @@ class ChannelsToggleForum extends TlMethod<UpdatesBase> {
 class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
   /// Channels Create Forum Topic constructor.
   const ChannelsCreateForumTopic({
-    required this.flags,
     required this.channel,
     required this.title,
     this.iconColor,
@@ -72038,23 +77518,37 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: iconColor != null,
+      b03: iconEmojiId != null,
+      b02: sendAs != null,
+    );
+
+    return v;
+  }
 
   /// Channel.
   final InputChannelBase channel;
 
   /// Title.
   final String title;
+
+  /// Icon Color.
   final int? iconColor;
+
+  /// Icon Emoji Id.
   final int? iconEmojiId;
 
   /// Random Id.
   final int randomId;
+
+  /// Send As.
   final InputPeerBase? sendAs;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf40c0224);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -72081,7 +77575,6 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
 class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
   /// Channels Get Forum Topics constructor.
   const ChannelsGetForumTopics({
-    required this.flags,
     required this.channel,
     this.q,
     required this.offsetDate,
@@ -72107,10 +77600,18 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: q != null,
+    );
+
+    return v;
+  }
 
   /// Channel.
   final InputChannelBase channel;
+
+  /// Q.
   final String? q;
 
   /// Offset Date.
@@ -72127,7 +77628,7 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0de560d1);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -72171,7 +77672,7 @@ class ChannelsGetForumTopicsByID extends TlMethod<MessagesForumTopicsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb0831eb9);
     buffer.writeObject(channel);
     buffer.writeVectorInt(topics);
@@ -72184,7 +77685,6 @@ class ChannelsGetForumTopicsByID extends TlMethod<MessagesForumTopicsBase> {
 class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
   /// Channels Edit Forum Topic constructor.
   const ChannelsEditForumTopic({
-    required this.flags,
     required this.channel,
     required this.topicId,
     this.title,
@@ -72210,21 +77710,38 @@ class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: title != null,
+      b01: iconEmojiId != null,
+      b02: closed != null,
+      b03: hidden != null,
+    );
+
+    return v;
+  }
 
   /// Channel.
   final InputChannelBase channel;
 
   /// Topic Id.
   final int topicId;
+
+  /// Title.
   final String? title;
+
+  /// Icon Emoji Id.
   final int? iconEmojiId;
+
+  /// Closed.
   final bool? closed;
+
+  /// Hidden.
   final bool? hidden;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf4dfa185);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -72282,7 +77799,7 @@ class ChannelsUpdatePinnedForumTopic extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6c2d9026);
     buffer.writeObject(channel);
     buffer.writeInt(topicId);
@@ -72319,7 +77836,7 @@ class ChannelsDeleteTopicHistory extends TlMethod<MessagesAffectedHistoryBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34435f2d);
     buffer.writeObject(channel);
     buffer.writeInt(topMsgId);
@@ -72332,7 +77849,7 @@ class ChannelsDeleteTopicHistory extends TlMethod<MessagesAffectedHistoryBase> {
 class ChannelsReorderPinnedForumTopics extends TlMethod<UpdatesBase> {
   /// Channels Reorder Pinned Forum Topics constructor.
   const ChannelsReorderPinnedForumTopics({
-    required this.flags,
+    required this.force,
     required this.channel,
     required this.order,
   }) : super._();
@@ -72351,10 +77868,16 @@ class ChannelsReorderPinnedForumTopics extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: force,
+    );
 
-  /// force: bit
-  bool get force => _bit(flags, 0);
+    return v;
+  }
+
+  /// force: bit 0 of flags.0?true
+  final bool force;
 
   /// Channel.
   final InputChannelBase channel;
@@ -72364,7 +77887,7 @@ class ChannelsReorderPinnedForumTopics extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2950a18f);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -72401,7 +77924,7 @@ class ChannelsToggleAntiSpam extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x68f3e4eb);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -72437,7 +77960,7 @@ class ChannelsReportAntiSpamFalsePositive extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa850a693);
     buffer.writeObject(channel);
     buffer.writeInt(msgId);
@@ -72468,7 +77991,7 @@ class MessagesSetDefaultHistoryTTL extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9eb51445);
     buffer.writeInt(period);
   }
@@ -72492,7 +78015,7 @@ class MessagesGetDefaultHistoryTTL extends TlMethod<DefaultHistoryTTLBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x658b7188);
   }
 }
@@ -72515,7 +78038,7 @@ class ContactsExportContactToken extends TlMethod<ExportedContactTokenBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf8654027);
   }
 }
@@ -72544,7 +78067,7 @@ class ContactsImportContactToken extends TlMethod<UserBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x13005788);
     buffer.writeString(token);
   }
@@ -72556,7 +78079,8 @@ class ContactsImportContactToken extends TlMethod<UserBase> {
 class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
   /// Photos Upload Contact Profile Photo constructor.
   const PhotosUploadContactProfilePhoto({
-    required this.flags,
+    required this.suggest,
+    required this.save,
     required this.userId,
     this.file,
     this.video,
@@ -72582,24 +78106,43 @@ class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: suggest,
+      b04: save,
+      b00: file != null,
+      b01: video != null,
+      b02: videoStartTs != null,
+      b05: videoEmojiMarkup != null,
+    );
 
-  /// suggest: bit
-  bool get suggest => _bit(flags, 3);
+    return v;
+  }
 
-  /// save: bit
-  bool get save => _bit(flags, 4);
+  /// suggest: bit 3 of flags.3?true
+  final bool suggest;
+
+  /// save: bit 4 of flags.4?true
+  final bool save;
 
   /// User Id.
   final InputUserBase userId;
+
+  /// File.
   final InputFileBase? file;
+
+  /// Video.
   final InputFileBase? video;
+
+  /// Video Start Ts.
   final double? videoStartTs;
+
+  /// Video Emoji Markup.
   final VideoSizeBase? videoEmojiMarkup;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe14c4a71);
     buffer.writeInt(flags);
     buffer.writeObject(userId);
@@ -72651,7 +78194,7 @@ class ChannelsToggleParticipantsHidden extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6a6e7854);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -72697,7 +78240,7 @@ class MessagesSendBotRequestedPeer extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x91b2d060);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -72730,7 +78273,7 @@ class AccountGetDefaultProfilePhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe2750328);
     buffer.writeLong(hash);
   }
@@ -72760,7 +78303,7 @@ class AccountGetDefaultGroupPhotoEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x915860ae);
     buffer.writeLong(hash);
   }
@@ -72772,7 +78315,6 @@ class AccountGetDefaultGroupPhotoEmojis extends TlMethod<EmojiListBase> {
 class AuthRequestFirebaseSms extends TlMethod<bool> {
   /// Auth Request Firebase Sms constructor.
   const AuthRequestFirebaseSms({
-    required this.flags,
     required this.phoneNumber,
     required this.phoneCodeHash,
     this.safetyNetToken,
@@ -72794,19 +78336,30 @@ class AuthRequestFirebaseSms extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: safetyNetToken != null,
+      b01: iosPushSecret != null,
+    );
+
+    return v;
+  }
 
   /// Phone Number.
   final String phoneNumber;
 
   /// Phone Code Hash.
   final String phoneCodeHash;
+
+  /// Safety Net Token.
   final String? safetyNetToken;
+
+  /// Ios Push Secret.
   final String? iosPushSecret;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x89464b50);
     buffer.writeInt(flags);
     buffer.writeString(phoneNumber);
@@ -72846,7 +78399,7 @@ class MessagesGetEmojiGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7488ce5b);
     buffer.writeInt(hash);
   }
@@ -72876,7 +78429,7 @@ class MessagesGetEmojiStatusGroups extends TlMethod<MessagesEmojiGroupsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2ecd56cd);
     buffer.writeInt(hash);
   }
@@ -72907,7 +78460,7 @@ class MessagesGetEmojiProfilePhotoGroups
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x21a548f3);
     buffer.writeInt(hash);
   }
@@ -72942,7 +78495,7 @@ class MessagesSearchCustomEmoji extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2c11c0d7);
     buffer.writeString(emoticon);
     buffer.writeLong(hash);
@@ -72955,7 +78508,7 @@ class MessagesSearchCustomEmoji extends TlMethod<EmojiListBase> {
 class MessagesTogglePeerTranslations extends TlMethod<bool> {
   /// Messages Toggle Peer Translations constructor.
   const MessagesTogglePeerTranslations({
-    required this.flags,
+    required this.disabled,
     required this.peer,
   }) : super._();
 
@@ -72972,17 +78525,23 @@ class MessagesTogglePeerTranslations extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: disabled,
+    );
 
-  /// disabled: bit
-  bool get disabled => _bit(flags, 0);
+    return v;
+  }
+
+  /// disabled: bit 0 of flags.0?true
+  final bool disabled;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe47cb579);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -73007,7 +78566,7 @@ class AccountGetAutoSaveSettings extends TlMethod<AccountAutoSaveSettingsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xadcbbcda);
   }
 }
@@ -73018,7 +78577,9 @@ class AccountGetAutoSaveSettings extends TlMethod<AccountAutoSaveSettingsBase> {
 class AccountSaveAutoSaveSettings extends TlMethod<bool> {
   /// Account Save Auto Save Settings constructor.
   const AccountSaveAutoSaveSettings({
-    required this.flags,
+    required this.users,
+    required this.chats,
+    required this.broadcasts,
     this.peer,
     required this.settings,
   }) : super._();
@@ -73039,16 +78600,27 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: users,
+      b01: chats,
+      b02: broadcasts,
+      b03: peer != null,
+    );
 
-  /// users: bit
-  bool get users => _bit(flags, 0);
+    return v;
+  }
 
-  /// chats: bit
-  bool get chats => _bit(flags, 1);
+  /// users: bit 0 of flags.0?true
+  final bool users;
 
-  /// broadcasts: bit
-  bool get broadcasts => _bit(flags, 2);
+  /// chats: bit 1 of flags.1?true
+  final bool chats;
+
+  /// broadcasts: bit 2 of flags.2?true
+  final bool broadcasts;
+
+  /// Peer.
   final InputPeerBase? peer;
 
   /// Settings.
@@ -73056,7 +78628,7 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd69b8361);
     buffer.writeInt(flags);
     final localPeerCopy = peer;
@@ -73085,7 +78657,7 @@ class AccountDeleteAutoSaveExceptions extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x53bc0020);
   }
 }
@@ -73096,7 +78668,6 @@ class AccountDeleteAutoSaveExceptions extends TlMethod<bool> {
 class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
   /// Stickers Change Sticker constructor.
   const StickersChangeSticker({
-    required this.flags,
     required this.sticker,
     this.emoji,
     this.maskCoords,
@@ -73118,17 +78689,31 @@ class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: emoji != null,
+      b01: maskCoords != null,
+      b02: keywords != null,
+    );
+
+    return v;
+  }
 
   /// Sticker.
   final InputDocumentBase sticker;
+
+  /// Emoji.
   final String? emoji;
+
+  /// Mask Coords.
   final MaskCoordsBase? maskCoords;
+
+  /// Keywords.
   final String? keywords;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf5537ebc);
     buffer.writeInt(flags);
     buffer.writeObject(sticker);
@@ -73176,7 +78761,7 @@ class StickersRenameStickerSet extends TlMethod<MessagesStickerSetBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x124b1c00);
     buffer.writeObject(stickerset);
     buffer.writeString(title);
@@ -73207,7 +78792,7 @@ class StickersDeleteStickerSet extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x87704394);
     buffer.writeObject(stickerset);
   }
@@ -73242,7 +78827,7 @@ class MessagesGetBotApp extends TlMethod<MessagesBotAppBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x34fdc5c3);
     buffer.writeObject(app);
     buffer.writeLong(hash);
@@ -73255,7 +78840,7 @@ class MessagesGetBotApp extends TlMethod<MessagesBotAppBase> {
 class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
   /// Messages Request App Web View constructor.
   const MessagesRequestAppWebView({
-    required this.flags,
+    required this.writeAllowed,
     required this.peer,
     required this.app,
     this.startParam,
@@ -73280,17 +78865,29 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: writeAllowed,
+      b01: startParam != null,
+      b02: themeParams != null,
+    );
 
-  /// write_allowed: bit
-  bool get writeAllowed => _bit(flags, 0);
+    return v;
+  }
+
+  /// write_allowed: bit 0 of flags.0?true
+  final bool writeAllowed;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// App.
   final InputBotAppBase app;
+
+  /// Start Param.
   final String? startParam;
+
+  /// Theme Params.
   final DataJSONBase? themeParams;
 
   /// Platform.
@@ -73298,7 +78895,7 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8c5a3b3c);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -73321,7 +78918,6 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
 class BotsSetBotInfo extends TlMethod<bool> {
   /// Bots Set Bot Info constructor.
   const BotsSetBotInfo({
-    required this.flags,
     this.bot,
     required this.langCode,
     this.name,
@@ -73345,18 +78941,35 @@ class BotsSetBotInfo extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: bot != null,
+      b03: name != null,
+      b00: about != null,
+      b01: description != null,
+    );
+
+    return v;
+  }
+
+  /// Bot.
   final InputUserBase? bot;
 
   /// Lang Code.
   final String langCode;
+
+  /// Name.
   final String? name;
+
+  /// About.
   final String? about;
+
+  /// Description.
   final String? description;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x10cf3123);
     buffer.writeInt(flags);
     final localBotCopy = bot;
@@ -73385,7 +78998,6 @@ class BotsSetBotInfo extends TlMethod<bool> {
 class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
   /// Bots Get Bot Info constructor.
   const BotsGetBotInfo({
-    required this.flags,
     this.bot,
     required this.langCode,
   }) : super._();
@@ -73403,7 +79015,15 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: bot != null,
+    );
+
+    return v;
+  }
+
+  /// Bot.
   final InputUserBase? bot;
 
   /// Lang Code.
@@ -73411,7 +79031,7 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xdcd914fd);
     buffer.writeInt(flags);
     final localBotCopy = bot;
@@ -73451,7 +79071,7 @@ class AuthResetLoginEmail extends TlMethod<AuthSentCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7e960193);
     buffer.writeString(phoneNumber);
     buffer.writeString(phoneCodeHash);
@@ -73493,7 +79113,7 @@ class ChatlistsExportChatlistInvite
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8472478e);
     buffer.writeObject(chatlist);
     buffer.writeString(title);
@@ -73530,7 +79150,7 @@ class ChatlistsDeleteExportedInvite extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x719c5c5e);
     buffer.writeObject(chatlist);
     buffer.writeString(slug);
@@ -73543,7 +79163,6 @@ class ChatlistsDeleteExportedInvite extends TlMethod<bool> {
 class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
   /// Chatlists Edit Exported Invite constructor.
   const ChatlistsEditExportedInvite({
-    required this.flags,
     required this.chatlist,
     required this.slug,
     this.title,
@@ -73565,19 +79184,30 @@ class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: title != null,
+      b02: peers != null,
+    );
+
+    return v;
+  }
 
   /// Chatlist.
   final InputChatlistBase chatlist;
 
   /// Slug.
   final String slug;
+
+  /// Title.
   final String? title;
+
+  /// Peers.
   final List<InputPeerBase>? peers;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x653db63d);
     buffer.writeInt(flags);
     buffer.writeObject(chatlist);
@@ -73618,7 +79248,7 @@ class ChatlistsGetExportedInvites
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xce03da83);
     buffer.writeObject(chatlist);
   }
@@ -73649,7 +79279,7 @@ class ChatlistsCheckChatlistInvite
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x41c10fff);
     buffer.writeString(slug);
   }
@@ -73684,7 +79314,7 @@ class ChatlistsJoinChatlistInvite extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6b1e39a);
     buffer.writeString(slug);
     buffer.writeVectorObject(peers);
@@ -73716,7 +79346,7 @@ class ChatlistsGetChatlistUpdates
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x89419521);
     buffer.writeObject(chatlist);
   }
@@ -73751,7 +79381,7 @@ class ChatlistsJoinChatlistUpdates extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe089f8f5);
     buffer.writeObject(chatlist);
     buffer.writeVectorObject(peers);
@@ -73782,7 +79412,7 @@ class ChatlistsHideChatlistUpdates extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x66e486fb);
     buffer.writeObject(chatlist);
   }
@@ -73812,7 +79442,7 @@ class ChatlistsGetLeaveChatlistSuggestions extends TlMethod<List<PeerBase>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xfdbcd714);
     buffer.writeObject(chatlist);
   }
@@ -73847,7 +79477,7 @@ class ChatlistsLeaveChatlist extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x74fae13a);
     buffer.writeObject(chatlist);
     buffer.writeVectorObject(peers);
@@ -73883,7 +79513,7 @@ class BotsReorderUsernames extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9709b1c2);
     buffer.writeObject(bot);
     buffer.writeVectorString(order);
@@ -73924,7 +79554,7 @@ class BotsToggleUsername extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x053ca973);
     buffer.writeObject(bot);
     buffer.writeString(username);
@@ -73938,7 +79568,8 @@ class BotsToggleUsername extends TlMethod<bool> {
 class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
   /// Messages Set Chat Wall Paper constructor.
   const MessagesSetChatWallPaper({
-    required this.flags,
+    required this.forBoth,
+    required this.revert,
     required this.peer,
     this.wallpaper,
     this.settings,
@@ -73962,23 +79593,39 @@ class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b03: forBoth,
+      b04: revert,
+      b00: wallpaper != null,
+      b02: settings != null,
+      b01: id != null,
+    );
 
-  /// for_both: bit
-  bool get forBoth => _bit(flags, 3);
+    return v;
+  }
 
-  /// revert: bit
-  bool get revert => _bit(flags, 4);
+  /// for_both: bit 3 of flags.3?true
+  final bool forBoth;
+
+  /// revert: bit 4 of flags.4?true
+  final bool revert;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Wallpaper.
   final InputWallPaperBase? wallpaper;
+
+  /// Settings.
   final WallPaperSettingsBase? settings;
+
+  /// Id.
   final int? id;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8ffacae1);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -74021,7 +79668,7 @@ class AccountInvalidateSignInCodes extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xca8ae8ba);
     buffer.writeVectorString(codes);
   }
@@ -74056,7 +79703,7 @@ class ChannelsClickSponsoredMessage extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x18afbc93);
     buffer.writeObject(channel);
     buffer.writeBytes(randomId);
@@ -74087,7 +79734,7 @@ class ContactsEditCloseFriends extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xba6705f0);
     buffer.writeVectorLong(id);
   }
@@ -74117,7 +79764,7 @@ class StoriesCanSendStory extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xc7dfdfdd);
     buffer.writeObject(peer);
   }
@@ -74129,7 +79776,9 @@ class StoriesCanSendStory extends TlMethod<bool> {
 class StoriesSendStory extends TlMethod<UpdatesBase> {
   /// Stories Send Story constructor.
   const StoriesSendStory({
-    required this.flags,
+    required this.pinned,
+    required this.noforwards,
+    required this.fwdModified,
     required this.peer,
     required this.media,
     this.mediaAreas,
@@ -74166,24 +79815,43 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: pinned,
+      b04: noforwards,
+      b07: fwdModified,
+      b05: mediaAreas != null,
+      b00: caption != null,
+      b01: entities != null,
+      b03: period != null,
+      b06: fwdFromId != null || fwdFromStory != null,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 2);
+    return v;
+  }
 
-  /// noforwards: bit
-  bool get noforwards => _bit(flags, 4);
+  /// pinned: bit 2 of flags.2?true
+  final bool pinned;
 
-  /// fwd_modified: bit
-  bool get fwdModified => _bit(flags, 7);
+  /// noforwards: bit 4 of flags.4?true
+  final bool noforwards;
+
+  /// fwd_modified: bit 7 of flags.7?true
+  final bool fwdModified;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Media.
   final InputMediaBase media;
+
+  /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
+
+  /// Caption.
   final String? caption;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
 
   /// Privacy Rules.
@@ -74191,13 +79859,19 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
 
   /// Random Id.
   final int randomId;
+
+  /// Period.
   final int? period;
+
+  /// Fwd From Id.
   final InputPeerBase? fwdFromId;
+
+  /// Fwd From Story.
   final int? fwdFromStory;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xe4e6694b);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -74237,7 +79911,6 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
 class StoriesEditStory extends TlMethod<UpdatesBase> {
   /// Stories Edit Story constructor.
   const StoriesEditStory({
-    required this.flags,
     required this.peer,
     required this.id,
     this.media,
@@ -74265,22 +79938,41 @@ class StoriesEditStory extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: media != null,
+      b03: mediaAreas != null,
+      b01: caption != null || entities != null,
+      b02: privacyRules != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Media.
   final InputMediaBase? media;
+
+  /// Media Areas.
   final List<MediaAreaBase>? mediaAreas;
+
+  /// Caption.
   final String? caption;
+
+  /// Entities.
   final List<MessageEntityBase>? entities;
+
+  /// Privacy Rules.
   final List<InputPrivacyRuleBase>? privacyRules;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb583ba46);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -74337,7 +80029,7 @@ class StoriesDeleteStories extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xae59db5f);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74378,7 +80070,7 @@ class StoriesTogglePinned extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9a75a1ef);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74392,7 +80084,8 @@ class StoriesTogglePinned extends TlMethod<List<int>> {
 class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
   /// Stories Get All Stories constructor.
   const StoriesGetAllStories({
-    required this.flags,
+    required this.next,
+    required this.hidden,
     this.state,
   }) : super._();
 
@@ -74410,18 +80103,28 @@ class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: next,
+      b02: hidden,
+      b00: state != null,
+    );
 
-  /// next: bit
-  bool get next => _bit(flags, 1);
+    return v;
+  }
 
-  /// hidden: bit
-  bool get hidden => _bit(flags, 2);
+  /// next: bit 1 of flags.1?true
+  final bool next;
+
+  /// hidden: bit 2 of flags.2?true
+  final bool hidden;
+
+  /// State.
   final String? state;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xeeb0d625);
     buffer.writeInt(flags);
     final localStateCopy = state;
@@ -74465,7 +80168,7 @@ class StoriesGetPinnedStories extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5821a5dc);
     buffer.writeObject(peer);
     buffer.writeInt(offsetId);
@@ -74507,7 +80210,7 @@ class StoriesGetStoriesArchive extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb4352016);
     buffer.writeObject(peer);
     buffer.writeInt(offsetId);
@@ -74544,7 +80247,7 @@ class StoriesGetStoriesByID extends TlMethod<StoriesStoriesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5774ca74);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74575,7 +80278,7 @@ class StoriesToggleAllStoriesHidden extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7c2557c4);
     buffer.writeBool(hidden);
   }
@@ -74610,7 +80313,7 @@ class StoriesReadStories extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa556dac8);
     buffer.writeObject(peer);
     buffer.writeInt(maxId);
@@ -74646,7 +80349,7 @@ class StoriesIncrementStoryViews extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb2028afb);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74659,7 +80362,9 @@ class StoriesIncrementStoryViews extends TlMethod<bool> {
 class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
   /// Stories Get Story Views List constructor.
   const StoriesGetStoryViewsList({
-    required this.flags,
+    required this.justContacts,
+    required this.reactionsFirst,
+    required this.forwardsFirst,
     required this.peer,
     this.q,
     required this.id,
@@ -74686,19 +80391,30 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: justContacts,
+      b02: reactionsFirst,
+      b03: forwardsFirst,
+      b01: q != null,
+    );
 
-  /// just_contacts: bit
-  bool get justContacts => _bit(flags, 0);
+    return v;
+  }
 
-  /// reactions_first: bit
-  bool get reactionsFirst => _bit(flags, 2);
+  /// just_contacts: bit 0 of flags.0?true
+  final bool justContacts;
 
-  /// forwards_first: bit
-  bool get forwardsFirst => _bit(flags, 3);
+  /// reactions_first: bit 2 of flags.2?true
+  final bool reactionsFirst;
+
+  /// forwards_first: bit 3 of flags.3?true
+  final bool forwardsFirst;
 
   /// Peer.
   final InputPeerBase peer;
+
+  /// Q.
   final String? q;
 
   /// Id.
@@ -74712,7 +80428,7 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7ed23c57);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -74755,7 +80471,7 @@ class StoriesGetStoriesViews extends TlMethod<StoriesStoryViewsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x28e16cc8);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74791,7 +80507,7 @@ class StoriesExportStoryLink extends TlMethod<ExportedStoryLinkBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7b8def20);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -74837,7 +80553,7 @@ class StoriesReport extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1923fa8c);
     buffer.writeObject(peer);
     buffer.writeVectorInt(id);
@@ -74852,7 +80568,8 @@ class StoriesReport extends TlMethod<bool> {
 class StoriesActivateStealthMode extends TlMethod<UpdatesBase> {
   /// Stories Activate Stealth Mode constructor.
   const StoriesActivateStealthMode({
-    required this.flags,
+    required this.past,
+    required this.future,
   }) : super._();
 
   /// Deserialize.
@@ -74868,17 +80585,24 @@ class StoriesActivateStealthMode extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: past,
+      b01: future,
+    );
 
-  /// past: bit
-  bool get past => _bit(flags, 0);
+    return v;
+  }
 
-  /// future: bit
-  bool get future => _bit(flags, 1);
+  /// past: bit 0 of flags.0?true
+  final bool past;
+
+  /// future: bit 1 of flags.1?true
+  final bool future;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x57bbd166);
     buffer.writeInt(flags);
   }
@@ -74890,7 +80614,7 @@ class StoriesActivateStealthMode extends TlMethod<UpdatesBase> {
 class ContactsSetBlocked extends TlMethod<bool> {
   /// Contacts Set Blocked constructor.
   const ContactsSetBlocked({
-    required this.flags,
+    required this.myStoriesFrom,
     required this.id,
     required this.limit,
   }) : super._();
@@ -74909,10 +80633,16 @@ class ContactsSetBlocked extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: myStoriesFrom,
+    );
 
-  /// my_stories_from: bit
-  bool get myStoriesFrom => _bit(flags, 0);
+    return v;
+  }
+
+  /// my_stories_from: bit 0 of flags.0?true
+  final bool myStoriesFrom;
 
   /// Id.
   final List<InputPeerBase> id;
@@ -74922,7 +80652,7 @@ class ContactsSetBlocked extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x94c65c76);
     buffer.writeInt(flags);
     buffer.writeVectorObject(id);
@@ -74936,7 +80666,7 @@ class ContactsSetBlocked extends TlMethod<bool> {
 class StoriesSendReaction extends TlMethod<UpdatesBase> {
   /// Stories Send Reaction constructor.
   const StoriesSendReaction({
-    required this.flags,
+    required this.addToRecent,
     required this.peer,
     required this.storyId,
     required this.reaction,
@@ -74957,10 +80687,16 @@ class StoriesSendReaction extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: addToRecent,
+    );
 
-  /// add_to_recent: bit
-  bool get addToRecent => _bit(flags, 0);
+    return v;
+  }
+
+  /// add_to_recent: bit 0 of flags.0?true
+  final bool addToRecent;
 
   /// Peer.
   final InputPeerBase peer;
@@ -74973,7 +80709,7 @@ class StoriesSendReaction extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7fd736b2);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -75006,7 +80742,7 @@ class BotsCanSendMessage extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x1359f4e6);
     buffer.writeObject(bot);
   }
@@ -75036,7 +80772,7 @@ class BotsAllowSendMessage extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf132e3ef);
     buffer.writeObject(bot);
   }
@@ -75076,7 +80812,7 @@ class BotsInvokeWebViewCustomMethod extends TlMethod<DataJSONBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x087fc5e7);
     buffer.writeObject(bot);
     buffer.writeString(customMethod);
@@ -75108,7 +80844,7 @@ class StoriesGetPeerStories extends TlMethod<StoriesPeerStoriesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2c4ada50);
     buffer.writeObject(peer);
   }
@@ -75132,7 +80868,7 @@ class StoriesGetAllReadPeerStories extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9b5ae7f9);
   }
 }
@@ -75161,7 +80897,7 @@ class StoriesGetPeerMaxIDs extends TlMethod<List<int>> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x535983c3);
     buffer.writeVectorObject(id);
   }
@@ -75185,7 +80921,7 @@ class StoriesGetChatsToSend extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa56a8b60);
   }
 }
@@ -75219,7 +80955,7 @@ class StoriesTogglePeerStoriesHidden extends TlMethod<bool> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xbd0415c4);
     buffer.writeObject(peer);
     buffer.writeBool(hidden);
@@ -75233,7 +80969,6 @@ class PaymentsGetPremiumGiftCodeOptions
     extends TlMethod<List<PremiumGiftCodeOptionBase>> {
   /// Payments Get Premium Gift Code Options constructor.
   const PaymentsGetPremiumGiftCodeOptions({
-    required this.flags,
     this.boostPeer,
   }) : super._();
 
@@ -75249,12 +80984,20 @@ class PaymentsGetPremiumGiftCodeOptions
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: boostPeer != null,
+    );
+
+    return v;
+  }
+
+  /// Boost Peer.
   final InputPeerBase? boostPeer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x2757ba54);
     buffer.writeInt(flags);
     final localBoostPeerCopy = boostPeer;
@@ -75288,7 +81031,7 @@ class PaymentsCheckGiftCode extends TlMethod<PaymentsCheckedGiftCodeBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8e51b4c1);
     buffer.writeString(slug);
   }
@@ -75318,7 +81061,7 @@ class PaymentsApplyGiftCode extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf6e26854);
     buffer.writeString(slug);
   }
@@ -75353,7 +81096,7 @@ class PaymentsGetGiveawayInfo extends TlMethod<PaymentsGiveawayInfoBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf4239425);
     buffer.writeObject(peer);
     buffer.writeInt(msgId);
@@ -75394,7 +81137,7 @@ class PaymentsLaunchPrepaidGiveaway extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5ff58f20);
     buffer.writeObject(peer);
     buffer.writeLong(giveawayId);
@@ -75408,7 +81151,7 @@ class PaymentsLaunchPrepaidGiveaway extends TlMethod<UpdatesBase> {
 class AccountUpdateColor extends TlMethod<bool> {
   /// Account Update Color constructor.
   const AccountUpdateColor({
-    required this.flags,
+    required this.forProfile,
     this.color,
     this.backgroundEmojiId,
   }) : super._();
@@ -75427,16 +81170,28 @@ class AccountUpdateColor extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: forProfile,
+      b02: color != null,
+      b00: backgroundEmojiId != null,
+    );
 
-  /// for_profile: bit
-  bool get forProfile => _bit(flags, 1);
+    return v;
+  }
+
+  /// for_profile: bit 1 of flags.1?true
+  final bool forProfile;
+
+  /// Color.
   final int? color;
+
+  /// Background Emoji Id.
   final int? backgroundEmojiId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7cefa15d);
     buffer.writeInt(flags);
     final localColorCopy = color;
@@ -75456,7 +81211,7 @@ class AccountUpdateColor extends TlMethod<bool> {
 class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
   /// Channels Update Color constructor.
   const ChannelsUpdateColor({
-    required this.flags,
+    required this.forProfile,
     required this.channel,
     this.color,
     this.backgroundEmojiId,
@@ -75477,19 +81232,31 @@ class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b01: forProfile,
+      b02: color != null,
+      b00: backgroundEmojiId != null,
+    );
 
-  /// for_profile: bit
-  bool get forProfile => _bit(flags, 1);
+    return v;
+  }
+
+  /// for_profile: bit 1 of flags.1?true
+  final bool forProfile;
 
   /// Channel.
   final InputChannelBase channel;
+
+  /// Color.
   final int? color;
+
+  /// Background Emoji Id.
   final int? backgroundEmojiId;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd8aa3671);
     buffer.writeInt(flags);
     buffer.writeObject(channel);
@@ -75528,7 +81295,7 @@ class AccountGetDefaultBackgroundEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa60ab9ce);
     buffer.writeLong(hash);
   }
@@ -75540,7 +81307,7 @@ class AccountGetDefaultBackgroundEmojis extends TlMethod<EmojiListBase> {
 class PremiumGetBoostsList extends TlMethod<PremiumBoostsListBase> {
   /// Premium Get Boosts List constructor.
   const PremiumGetBoostsList({
-    required this.flags,
+    required this.gifts,
     required this.peer,
     required this.offset,
     required this.limit,
@@ -75561,10 +81328,16 @@ class PremiumGetBoostsList extends TlMethod<PremiumBoostsListBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: gifts,
+    );
 
-  /// gifts: bit
-  bool get gifts => _bit(flags, 0);
+    return v;
+  }
+
+  /// gifts: bit 0 of flags.0?true
+  final bool gifts;
 
   /// Peer.
   final InputPeerBase peer;
@@ -75577,7 +81350,7 @@ class PremiumGetBoostsList extends TlMethod<PremiumBoostsListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x60f67660);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -75604,7 +81377,7 @@ class PremiumGetMyBoosts extends TlMethod<PremiumMyBoostsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x0be77b4a);
   }
 }
@@ -75615,7 +81388,6 @@ class PremiumGetMyBoosts extends TlMethod<PremiumMyBoostsBase> {
 class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
   /// Premium Apply Boost constructor.
   const PremiumApplyBoost({
-    required this.flags,
     this.slots,
     required this.peer,
   }) : super._();
@@ -75633,7 +81405,15 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: slots != null,
+    );
+
+    return v;
+  }
+
+  /// Slots.
   final List<int>? slots;
 
   /// Peer.
@@ -75641,7 +81421,7 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6b7da746);
     buffer.writeInt(flags);
     final localSlotsCopy = slots;
@@ -75676,7 +81456,7 @@ class PremiumGetBoostsStatus extends TlMethod<PremiumBoostsStatusBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x042f1f61);
     buffer.writeObject(peer);
   }
@@ -75711,7 +81491,7 @@ class PremiumGetUserBoosts extends TlMethod<PremiumBoostsListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x39854d1f);
     buffer.writeObject(peer);
     buffer.writeObject(userId);
@@ -75747,7 +81527,7 @@ class ChannelsToggleViewForumAsMessages extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x9738bb15);
     buffer.writeObject(channel);
     buffer.writeBool(enabled);
@@ -75761,7 +81541,7 @@ class MessagesSearchEmojiStickerSets
     extends TlMethod<MessagesFoundStickerSetsBase> {
   /// Messages Search Emoji Sticker Sets constructor.
   const MessagesSearchEmojiStickerSets({
-    required this.flags,
+    required this.excludeFeatured,
     required this.q,
     required this.hash,
   }) : super._();
@@ -75780,10 +81560,16 @@ class MessagesSearchEmojiStickerSets
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: excludeFeatured,
+    );
 
-  /// exclude_featured: bit
-  bool get excludeFeatured => _bit(flags, 0);
+    return v;
+  }
+
+  /// exclude_featured: bit 0 of flags.0?true
+  final bool excludeFeatured;
 
   /// Q.
   final String q;
@@ -75793,7 +81579,7 @@ class MessagesSearchEmojiStickerSets
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x92b4494c);
     buffer.writeInt(flags);
     buffer.writeString(q);
@@ -75825,7 +81611,7 @@ class ChannelsGetChannelRecommendations extends TlMethod<MessagesChatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x83b70d97);
     buffer.writeObject(channel);
   }
@@ -75837,7 +81623,7 @@ class ChannelsGetChannelRecommendations extends TlMethod<MessagesChatsBase> {
 class StatsGetStoryStats extends TlMethod<StatsStoryStatsBase> {
   /// Stats Get Story Stats constructor.
   const StatsGetStoryStats({
-    required this.flags,
+    required this.dark,
     required this.peer,
     required this.id,
   }) : super._();
@@ -75856,10 +81642,16 @@ class StatsGetStoryStats extends TlMethod<StatsStoryStatsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: dark,
+    );
 
-  /// dark: bit
-  bool get dark => _bit(flags, 0);
+    return v;
+  }
+
+  /// dark: bit 0 of flags.0?true
+  final bool dark;
 
   /// Peer.
   final InputPeerBase peer;
@@ -75869,7 +81661,7 @@ class StatsGetStoryStats extends TlMethod<StatsStoryStatsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x374fef40);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -75916,7 +81708,7 @@ class StatsGetStoryPublicForwards extends TlMethod<StatsPublicForwardsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xa6437ef6);
     buffer.writeObject(peer);
     buffer.writeInt(id);
@@ -75949,7 +81741,7 @@ class HelpGetPeerColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xda80f42f);
     buffer.writeInt(hash);
   }
@@ -75979,7 +81771,7 @@ class HelpGetPeerProfileColors extends TlMethod<HelpPeerColorsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xabcfa9fd);
     buffer.writeInt(hash);
   }
@@ -75992,7 +81784,7 @@ class StoriesGetStoryReactionsList
     extends TlMethod<StoriesStoryReactionsListBase> {
   /// Stories Get Story Reactions List constructor.
   const StoriesGetStoryReactionsList({
-    required this.flags,
+    required this.forwardsFirst,
     required this.peer,
     required this.id,
     this.reaction,
@@ -76017,17 +81809,29 @@ class StoriesGetStoryReactionsList
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: forwardsFirst,
+      b00: reaction != null,
+      b01: offset != null,
+    );
 
-  /// forwards_first: bit
-  bool get forwardsFirst => _bit(flags, 2);
+    return v;
+  }
+
+  /// forwards_first: bit 2 of flags.2?true
+  final bool forwardsFirst;
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Id.
   final int id;
+
+  /// Reaction.
   final ReactionBase? reaction;
+
+  /// Offset.
   final String? offset;
 
   /// Limit.
@@ -76035,7 +81839,7 @@ class StoriesGetStoryReactionsList
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xb9b2881f);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -76081,7 +81885,7 @@ class ChannelsUpdateEmojiStatus extends TlMethod<UpdatesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xf0d3e6a8);
     buffer.writeObject(channel);
     buffer.writeObject(emojiStatus);
@@ -76113,7 +81917,7 @@ class AccountGetChannelDefaultEmojiStatuses
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x7727a7d5);
     buffer.writeLong(hash);
   }
@@ -76144,7 +81948,7 @@ class AccountGetChannelRestrictedStatusEmojis extends TlMethod<EmojiListBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x35a9e0d5);
     buffer.writeLong(hash);
   }
@@ -76156,7 +81960,7 @@ class AccountGetChannelRestrictedStatusEmojis extends TlMethod<EmojiListBase> {
 class MessagesGetSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
   /// Messages Get Saved Dialogs constructor.
   const MessagesGetSavedDialogs({
-    required this.flags,
+    required this.excludePinned,
     required this.offsetDate,
     required this.offsetId,
     required this.offsetPeer,
@@ -76181,10 +81985,16 @@ class MessagesGetSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: excludePinned,
+    );
 
-  /// exclude_pinned: bit
-  bool get excludePinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// exclude_pinned: bit 0 of flags.0?true
+  final bool excludePinned;
 
   /// Offset Date.
   final DateTime offsetDate;
@@ -76203,7 +82013,7 @@ class MessagesGetSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x5381d21a);
     buffer.writeInt(flags);
     buffer.writeDateTime(offsetDate);
@@ -76273,7 +82083,7 @@ class MessagesGetSavedHistory extends TlMethod<MessagesMessagesBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x3d9a414d);
     buffer.writeObject(peer);
     buffer.writeInt(offsetId);
@@ -76292,7 +82102,6 @@ class MessagesGetSavedHistory extends TlMethod<MessagesMessagesBase> {
 class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
   /// Messages Delete Saved History constructor.
   const MessagesDeleteSavedHistory({
-    required this.flags,
     required this.peer,
     required this.maxId,
     this.minDate,
@@ -76314,19 +82123,30 @@ class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b02: minDate != null,
+      b03: maxDate != null,
+    );
+
+    return v;
+  }
 
   /// Peer.
   final InputPeerBase peer;
 
   /// Max Id.
   final int maxId;
+
+  /// Min Date.
   final DateTime? minDate;
+
+  /// Max Date.
   final DateTime? maxDate;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x6e98102b);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -76360,7 +82180,7 @@ class MessagesGetPinnedSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xd63d94e0);
   }
 }
@@ -76371,7 +82191,7 @@ class MessagesGetPinnedSavedDialogs extends TlMethod<MessagesSavedDialogsBase> {
 class MessagesToggleSavedDialogPin extends TlMethod<bool> {
   /// Messages Toggle Saved Dialog Pin constructor.
   const MessagesToggleSavedDialogPin({
-    required this.flags,
+    required this.pinned,
     required this.peer,
   }) : super._();
 
@@ -76388,17 +82208,23 @@ class MessagesToggleSavedDialogPin extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: pinned,
+    );
 
-  /// pinned: bit
-  bool get pinned => _bit(flags, 0);
+    return v;
+  }
+
+  /// pinned: bit 0 of flags.0?true
+  final bool pinned;
 
   /// Peer.
   final InputDialogPeerBase peer;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0xac81bbde);
     buffer.writeInt(flags);
     buffer.writeObject(peer);
@@ -76411,7 +82237,7 @@ class MessagesToggleSavedDialogPin extends TlMethod<bool> {
 class MessagesReorderPinnedSavedDialogs extends TlMethod<bool> {
   /// Messages Reorder Pinned Saved Dialogs constructor.
   const MessagesReorderPinnedSavedDialogs({
-    required this.flags,
+    required this.force,
     required this.order,
   }) : super._();
 
@@ -76428,17 +82254,23 @@ class MessagesReorderPinnedSavedDialogs extends TlMethod<bool> {
   }
 
   /// Flags.
-  final int flags;
+  int get flags {
+    final v = _flag(
+      b00: force,
+    );
 
-  /// force: bit
-  bool get force => _bit(flags, 0);
+    return v;
+  }
+
+  /// force: bit 0 of flags.0?true
+  final bool force;
 
   /// Order.
   final List<InputDialogPeerBase> order;
 
   /// Serialize.
   @override
-  void serialize(Uint8List buffer) {
+  void serialize(List<int> buffer) {
     buffer.writeInt(0x8b716587);
     buffer.writeInt(flags);
     buffer.writeVectorObject(order);

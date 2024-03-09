@@ -1,8 +1,20 @@
 part of '../tg.dart';
 
+const int _layer = 174;
+
 class Client {
+  const Client({required this.apiId});
+
+  /// API Id.
+  final int apiId;
+
   /// Invoke.
   Future<X> invoke<X>(TlMethod<X> query) async {
+    final buffer = <int>[];
+    query.serialize(buffer);
+
+    print(buffer);
+
     throw Exception();
   }
 
@@ -11,8 +23,7 @@ class Client {
 
   Future<ConfigBase> initConnection() {
     final q = InitConnection(
-      flags: 0,
-      apiId: 0,
+      apiId: apiId,
       deviceModel: "Windows",
       appVersion: "1.0.0",
       systemVersion: "10",
@@ -24,6 +35,6 @@ class Client {
       query: HelpGetConfig(),
     );
 
-    return invokeWithLayer<ConfigBase>(174, q);
+    return invokeWithLayer<ConfigBase>(_layer, q);
   }
 }

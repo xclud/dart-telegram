@@ -2,11 +2,17 @@ part of '../tg.dart';
 
 extension _Y on List<int> {
   void writeInt(int v) {
-    add(0);
+    final b = Uint8List(4);
+    b.buffer.asUint32List(0, 1)[0] = v;
+
+    addAll(b);
   }
 
   void writeLong(int v) {
-    //add(0);
+    final b = Uint8List(4);
+    b.buffer.asUint64List(0, 1)[0] = v;
+
+    addAll(b);
   }
 
   void writeString(String v) {
@@ -18,10 +24,12 @@ extension _Y on List<int> {
   }
 
   void writeBytes(Uint8List v) {
-    //add(0);
+    addAll(v);
   }
+
   void writeDateTime(DateTime v) {
-    //add(0);
+    final time = DateTime.now().millisecondsSinceEpoch;
+    writeInt(time);
   }
 
   void writeBool(bool v) {
@@ -29,7 +37,11 @@ extension _Y on List<int> {
   }
 
   void writeVectorObject<T extends TlObject>(Iterable<T> v) {
-    //add(0);
+    //add(length);
+
+    for (final item in v) {
+      writeObject(item);
+    }
   }
 
   void writeVectorInt(Iterable<int> v) {
@@ -48,7 +60,7 @@ extension _Y on List<int> {
   }
 
   void writeObject<T extends TlObject>(T v) {
-    final buffer = Uint8List.fromList([]);
+    final buffer = <int>[];
     v.serialize(buffer);
 
     addAll(buffer);

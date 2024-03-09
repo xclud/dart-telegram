@@ -6,7 +6,7 @@ abstract class TlObject {
   const TlObject._();
 
   /// Serialize to MTProto binary.
-  void serialize(Uint8List buffer);
+  void serialize(List<int> buffer);
 }
 
 /// Base Constructor class.

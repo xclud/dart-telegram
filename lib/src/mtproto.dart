@@ -16,7 +16,7 @@ class RSAPublicKey extends TlObject {
   final Uint8List e;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
@@ -35,7 +35,7 @@ class RpcResult extends TlObject {
   final Object result;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
@@ -60,7 +60,7 @@ class MsgMessage extends TlObject {
   final TlObject? body;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
@@ -76,7 +76,7 @@ class MsgContainer extends TlObject {
   final List<MsgMessage> messages;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
@@ -92,7 +92,7 @@ class MsgCopy extends TlObject {
   final MsgMessage origMessage;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
@@ -108,7 +108,7 @@ class GzipPacked extends TlObject {
   final Uint8List packedData;
 
   @override
-  int serialize(Uint8List buffer) {
+  int serialize(List<int> buffer) {
     throw UnimplementedError();
   }
 }
