@@ -11,6 +11,7 @@ import 'package:encrypt/encrypt.dart';
 
 part 'src/core.dart';
 part 'src/client.dart';
+part 'src/constants.dart';
 part 'src/stream.dart';
 part 'src/schema.dart';
 part 'src/flag_builder.dart';

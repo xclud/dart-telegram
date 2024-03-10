@@ -1,6 +1,6 @@
 import 'package:tg/tg.dart' as tg;
 
-tg.Client createClient() {
-  const c = tg.Client(apiId: 12345);
+tg.Client createClient(int apiId) {
+  final c = tg.Client(apiId: apiId);
   return c;
 }

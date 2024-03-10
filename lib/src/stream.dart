@@ -49,16 +49,17 @@ extension _Y on List<int> {
   }
 
   void writeDateTime(DateTime v) {
-    final time = DateTime.now().millisecondsSinceEpoch;
-    writeInt(time);
+    final seconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    writeInt(seconds);
   }
 
   void writeBool(bool v) {
-    //add(0);
+    writeInt(v ? 0x997275B5 : 0xBC799737);
   }
 
   void writeVectorObject<T extends TlObject>(Iterable<T> v) {
-    //add(length);
+    writeInt(_vectorCtor);
+    writeInt(v.length);
 
     for (final item in v) {
       writeObject(item);
@@ -66,18 +67,39 @@ extension _Y on List<int> {
   }
 
   void writeVectorInt(Iterable<int> v) {
-    //add(0);
+    writeInt(_vectorCtor);
+    writeInt(v.length);
+
+    for (final item in v) {
+      writeInt(item);
+    }
   }
+
   void writeVectorLong(Iterable<int> v) {
-    //add(0);
+    writeInt(_vectorCtor);
+    writeInt(v.length);
+
+    for (final item in v) {
+      writeLong(item);
+    }
   }
 
   void writeVectorString(Iterable<String> v) {
-    //add(0);
+    writeInt(_vectorCtor);
+    writeInt(v.length);
+
+    for (final item in v) {
+      writeString(item);
+    }
   }
 
   void writeVectorBytes(Iterable<Uint8List> v) {
-    //add(0);
+    writeInt(_vectorCtor);
+    writeInt(v.length);
+
+    for (final item in v) {
+      writeBytes(item);
+    }
   }
 
   void writeObject<T extends TlObject>(T v) {
