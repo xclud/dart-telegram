@@ -1,26 +1,5 @@
 part of '../tg.dart';
 
-/// Telegram object class.
-abstract class TlObject {
-  /// Constructor.
-  const TlObject._();
-
-  /// Serialize to MTProto binary.
-  void serialize(List<int> buffer);
-}
-
-/// Base Constructor class.
-abstract class TlConstructor extends TlObject {
-  /// Constructor.
-  const TlConstructor._() : super._();
-}
-
-/// Base Method class.
-abstract class TlMethod<ReturnType> extends TlObject {
-  /// Constructor.
-  const TlMethod._() : super._();
-}
-
 class Session {
   Session(
     this.apiId,
@@ -104,12 +83,6 @@ class DCSession {
   final int layer;
 }
 
-class Int128 {
-  Int128(this.data);
-  final Uint8List data;
-}
-
-class Int256 {
-  Int256(this.data);
-  final Uint8List data;
+abstract class SessionStore {
+  Future<void> save();
 }

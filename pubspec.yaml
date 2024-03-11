@@ -1,6 +1,6 @@
 name: tg
 description: Telegram Client API (MTProto) to connect to Telegram and control a user programmatically.
-version: 0.0.1
+version: 0.0.2
 homepage: https://pwa.ir
 repository: https://github.com/xclud/dart-telegram
 
@@ -9,6 +9,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  t: ^0.0.1
   crypto: ^3.0.3
   encrypt: ^5.0.3
 
