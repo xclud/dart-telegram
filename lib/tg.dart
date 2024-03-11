@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
+part 'src/binary_reader.dart';
 part 'src/core.dart';
 part 'src/client.dart';
 part 'src/constants.dart';
