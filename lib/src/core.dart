@@ -104,6 +104,12 @@ class DCSession {
   final int layer;
 }
 
-abstract class Int128 {}
+class Int128 {
+  Int128(this.data);
+  final Uint8List data;
+}
 
-abstract class Int256 {}
+class Int256 {
+  Int256(this.data);
+  final Uint8List data;
+}

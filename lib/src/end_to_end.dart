@@ -20,19 +20,28 @@ class DecryptedMessage008 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessage008.deserialize(Uint8List buffer) {
-    // final randomId = _readlong(buffer);
-    // final randomBytes = _readbytes(buffer);
-    // final message = _readstring(buffer);
-    // final media = _readDecryptedMessageMedia(buffer);
-    // final result = DecryptedMessage008(randomId: randomId, randomBytes: randomBytes, message: message, media: media,);
+  factory DecryptedMessage008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessage008] fields.
+    final randomId = reader.readInt64();
+    final randomBytes = reader.readBytes();
+    final message = reader.readString();
+    final media = reader.readObject() as DecryptedMessageMediaBase;
 
-    // return result;
+    // Construct [DecryptedMessage008] object.
+    final returnValue = DecryptedMessage008(
+      randomId: randomId,
+      randomBytes: randomBytes,
+      message: message,
+      media: media,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessage008].
+    return returnValue;
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Random Bytes.
@@ -69,22 +78,33 @@ class DecryptedMessage017 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessage017.deserialize(Uint8List buffer) {
-    // final randomId = _readlong(buffer);
-    // final ttl = _readint(buffer);
-    // final message = _readstring(buffer);
-    // final media = _readDecryptedMessageMedia(buffer);
-    // final result = DecryptedMessage017(randomId: randomId, ttl: ttl, message: message, media: media,);
+  factory DecryptedMessage017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessage017] fields.
+    final randomId = reader.readInt64();
+    final ttl = reader.readInt32();
+    final message = reader.readString();
+    final media = reader.readObject() as DecryptedMessageMediaBase;
 
-    // return result;
+    // Construct [DecryptedMessage017] object.
+    final returnValue = DecryptedMessage017(
+      randomId: randomId,
+      ttl: ttl,
+      message: message,
+      media: media,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessage017].
+    return returnValue;
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Ttl.
+  ///
+  /// Field type is Int32.
   final int ttl;
 
   /// Message.
@@ -121,20 +141,36 @@ class DecryptedMessage045 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessage045.deserialize(Uint8List buffer) {
-    // final flags = _read#(buffer);
-    // final randomId = _readlong(buffer);
-    // final ttl = _readint(buffer);
-    // final message = _readstring(buffer);
-    // final media = _readflags.9?DecryptedMessageMedia(buffer);
-    // final entities = _readflags.7?Vector<MessageEntity>(buffer);
-    // final viaBotName = _readflags.11?string(buffer);
-    // final replyToRandomId = _readflags.3?long(buffer);
-    // final result = DecryptedMessage045(flags: flags, randomId: randomId, ttl: ttl, message: message, media: media, entities: entities, viaBotName: viaBotName, replyToRandomId: replyToRandomId,);
+  factory DecryptedMessage045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessage045] fields.
+    final flags = reader.readInt32();
+    final randomId = reader.readInt64();
+    final ttl = reader.readInt32();
+    final message = reader.readString();
+    final hasMediaField = (flags & 512) != 0;
+    final media =
+        hasMediaField ? reader.readObject() as DecryptedMessageMediaBase : null;
+    final hasEntitiesField = (flags & 128) != 0;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
+    final hasViaBotNameField = (flags & 2048) != 0;
+    final viaBotName = hasViaBotNameField ? reader.readString() : null;
+    final hasReplyToRandomIdField = (flags & 8) != 0;
+    final replyToRandomId = hasReplyToRandomIdField ? reader.readInt64() : null;
 
-    // return result;
+    // Construct [DecryptedMessage045] object.
+    final returnValue = DecryptedMessage045(
+      randomId: randomId,
+      ttl: ttl,
+      message: message,
+      media: media,
+      entities: entities,
+      viaBotName: viaBotName,
+      replyToRandomId: replyToRandomId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessage045].
+    return returnValue;
   }
 
   /// Flags.
@@ -150,9 +186,13 @@ class DecryptedMessage045 extends DecryptedMessageBase {
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Ttl.
+  ///
+  /// Field type is Int32.
   final int ttl;
 
   /// Message.
@@ -215,21 +255,39 @@ class DecryptedMessage073 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessage073.deserialize(Uint8List buffer) {
-    // final flags = _read#(buffer);
-    // final randomId = _readlong(buffer);
-    // final ttl = _readint(buffer);
-    // final message = _readstring(buffer);
-    // final media = _readflags.9?DecryptedMessageMedia(buffer);
-    // final entities = _readflags.7?Vector<MessageEntity>(buffer);
-    // final viaBotName = _readflags.11?string(buffer);
-    // final replyToRandomId = _readflags.3?long(buffer);
-    // final groupedId = _readflags.17?long(buffer);
-    // final result = DecryptedMessage073(flags: flags, randomId: randomId, ttl: ttl, message: message, media: media, entities: entities, viaBotName: viaBotName, replyToRandomId: replyToRandomId, groupedId: groupedId,);
+  factory DecryptedMessage073.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessage073] fields.
+    final flags = reader.readInt32();
+    final randomId = reader.readInt64();
+    final ttl = reader.readInt32();
+    final message = reader.readString();
+    final hasMediaField = (flags & 512) != 0;
+    final media =
+        hasMediaField ? reader.readObject() as DecryptedMessageMediaBase : null;
+    final hasEntitiesField = (flags & 128) != 0;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
+    final hasViaBotNameField = (flags & 2048) != 0;
+    final viaBotName = hasViaBotNameField ? reader.readString() : null;
+    final hasReplyToRandomIdField = (flags & 8) != 0;
+    final replyToRandomId = hasReplyToRandomIdField ? reader.readInt64() : null;
+    final hasGroupedIdField = (flags & 131072) != 0;
+    final groupedId = hasGroupedIdField ? reader.readInt64() : null;
 
-    // return result;
+    // Construct [DecryptedMessage073] object.
+    final returnValue = DecryptedMessage073(
+      randomId: randomId,
+      ttl: ttl,
+      message: message,
+      media: media,
+      entities: entities,
+      viaBotName: viaBotName,
+      replyToRandomId: replyToRandomId,
+      groupedId: groupedId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessage073].
+    return returnValue;
   }
 
   /// Flags.
@@ -246,9 +304,13 @@ class DecryptedMessage073 extends DecryptedMessageBase {
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Ttl.
+  ///
+  /// Field type is Int32.
   final int ttl;
 
   /// Message.
@@ -313,18 +375,26 @@ class DecryptedMessageService008 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageService008.deserialize(Uint8List buffer) {
-    // final randomId = _readlong(buffer);
-    // final randomBytes = _readbytes(buffer);
-    // final action = _readDecryptedMessageAction(buffer);
-    // final result = DecryptedMessageService008(randomId: randomId, randomBytes: randomBytes, action: action,);
+  factory DecryptedMessageService008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageService008] fields.
+    final randomId = reader.readInt64();
+    final randomBytes = reader.readBytes();
+    final action = reader.readObject() as DecryptedMessageActionBase;
 
-    // return result;
+    // Construct [DecryptedMessageService008] object.
+    final returnValue = DecryptedMessageService008(
+      randomId: randomId,
+      randomBytes: randomBytes,
+      action: action,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageService008].
+    return returnValue;
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Random Bytes.
@@ -355,17 +425,24 @@ class DecryptedMessageService017 extends DecryptedMessageBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageService017.deserialize(Uint8List buffer) {
-    // final randomId = _readlong(buffer);
-    // final action = _readDecryptedMessageAction(buffer);
-    // final result = DecryptedMessageService017(randomId: randomId, action: action,);
+  factory DecryptedMessageService017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageService017] fields.
+    final randomId = reader.readInt64();
+    final action = reader.readObject() as DecryptedMessageActionBase;
 
-    // return result;
+    // Construct [DecryptedMessageService017] object.
+    final returnValue = DecryptedMessageService017(
+      randomId: randomId,
+      action: action,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageService017].
+    return returnValue;
   }
 
   /// Random Id.
+  ///
+  /// Field type is Int64.
   final int randomId;
 
   /// Action.
@@ -395,12 +472,12 @@ class DecryptedMessageMediaEmpty008 extends DecryptedMessageMediaBase {
   const DecryptedMessageMediaEmpty008() : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaEmpty008.deserialize(Uint8List buffer) {
-    // final result = DecryptedMessageMediaEmpty008();
+  factory DecryptedMessageMediaEmpty008.deserialize(BinaryReader reader) {
+    // Construct [DecryptedMessageMediaEmpty008] object.
+    final returnValue = DecryptedMessageMediaEmpty008();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaEmpty008].
+    return returnValue;
   }
 
   /// Serialize.
@@ -428,38 +505,59 @@ class DecryptedMessageMediaPhoto008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaPhoto008.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaPhoto008(thumb: thumb, thumbW: thumbW, thumbH: thumbH, w: w, h: h, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaPhoto008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaPhoto008] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaPhoto008] object.
+    final returnValue = DecryptedMessageMediaPhoto008(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      w: w,
+      h: h,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaPhoto008].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -502,39 +600,61 @@ class DecryptedMessageMediaPhoto045 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaPhoto045.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final caption = _readstring(buffer);
-    // final result = DecryptedMessageMediaPhoto045(thumb: thumb, thumbW: thumbW, thumbH: thumbH, w: w, h: h, size: size, key: key, iv: iv, caption: caption,);
+  factory DecryptedMessageMediaPhoto045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaPhoto045] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
+    final caption = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaPhoto045] object.
+    final returnValue = DecryptedMessageMediaPhoto045(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      w: w,
+      h: h,
+      size: size,
+      key: key,
+      iv: iv,
+      caption: caption,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaPhoto045].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -581,42 +701,66 @@ class DecryptedMessageMediaVideo008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaVideo008.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final duration = _readint(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaVideo008(thumb: thumb, thumbW: thumbW, thumbH: thumbH, duration: duration, w: w, h: h, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaVideo008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaVideo008] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final duration = reader.readInt32();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaVideo008] object.
+    final returnValue = DecryptedMessageMediaVideo008(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      duration: duration,
+      w: w,
+      h: h,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaVideo008].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -661,46 +805,71 @@ class DecryptedMessageMediaVideo017 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaVideo017.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final duration = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaVideo017(thumb: thumb, thumbW: thumbW, thumbH: thumbH, duration: duration, mimeType: mimeType, w: w, h: h, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaVideo017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaVideo017] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final duration = reader.readInt32();
+    final mimeType = reader.readString();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaVideo017] object.
+    final returnValue = DecryptedMessageMediaVideo017(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      duration: duration,
+      mimeType: mimeType,
+      w: w,
+      h: h,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaVideo017].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Mime Type.
   final String mimeType;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -747,47 +916,73 @@ class DecryptedMessageMediaVideo045 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaVideo045.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final duration = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final caption = _readstring(buffer);
-    // final result = DecryptedMessageMediaVideo045(thumb: thumb, thumbW: thumbW, thumbH: thumbH, duration: duration, mimeType: mimeType, w: w, h: h, size: size, key: key, iv: iv, caption: caption,);
+  factory DecryptedMessageMediaVideo045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaVideo045] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final duration = reader.readInt32();
+    final mimeType = reader.readString();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
+    final caption = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaVideo045] object.
+    final returnValue = DecryptedMessageMediaVideo045(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      duration: duration,
+      mimeType: mimeType,
+      w: w,
+      h: h,
+      size: size,
+      key: key,
+      iv: iv,
+      caption: caption,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaVideo045].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Mime Type.
   final String mimeType;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -829,14 +1024,19 @@ class DecryptedMessageMediaGeoPoint008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaGeoPoint008.deserialize(Uint8List buffer) {
-    // final lat = _readdouble(buffer);
-    // final long = _readdouble(buffer);
-    // final result = DecryptedMessageMediaGeoPoint008(lat: lat, long: long,);
+  factory DecryptedMessageMediaGeoPoint008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaGeoPoint008] fields.
+    final lat = reader.readFloat64();
+    final long = reader.readFloat64();
 
-    // return result;
+    // Construct [DecryptedMessageMediaGeoPoint008] object.
+    final returnValue = DecryptedMessageMediaGeoPoint008(
+      lat: lat,
+      long: long,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaGeoPoint008].
+    return returnValue;
   }
 
   /// Lat.
@@ -868,16 +1068,23 @@ class DecryptedMessageMediaContact008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaContact008.deserialize(Uint8List buffer) {
-    // final phoneNumber = _readstring(buffer);
-    // final firstName = _readstring(buffer);
-    // final lastName = _readstring(buffer);
-    // final userId = _readint(buffer);
-    // final result = DecryptedMessageMediaContact008(phoneNumber: phoneNumber, firstName: firstName, lastName: lastName, userId: userId,);
+  factory DecryptedMessageMediaContact008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaContact008] fields.
+    final phoneNumber = reader.readString();
+    final firstName = reader.readString();
+    final lastName = reader.readString();
+    final userId = reader.readInt32();
 
-    // return result;
+    // Construct [DecryptedMessageMediaContact008] object.
+    final returnValue = DecryptedMessageMediaContact008(
+      phoneNumber: phoneNumber,
+      firstName: firstName,
+      lastName: lastName,
+      userId: userId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaContact008].
+    return returnValue;
   }
 
   /// Phone Number.
@@ -890,6 +1097,8 @@ class DecryptedMessageMediaContact008 extends DecryptedMessageMediaBase {
   final String lastName;
 
   /// User Id.
+  ///
+  /// Field type is Int32.
   final int userId;
 
   /// Serialize.
@@ -921,29 +1130,44 @@ class DecryptedMessageMediaDocument008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaDocument008.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final fileName = _readstring(buffer);
-    // final mimeType = _readstring(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaDocument008(thumb: thumb, thumbW: thumbW, thumbH: thumbH, fileName: fileName, mimeType: mimeType, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaDocument008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaDocument008] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final fileName = reader.readString();
+    final mimeType = reader.readString();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaDocument008] object.
+    final returnValue = DecryptedMessageMediaDocument008(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      fileName: fileName,
+      mimeType: mimeType,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaDocument008].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// File Name.
@@ -953,6 +1177,8 @@ class DecryptedMessageMediaDocument008 extends DecryptedMessageMediaBase {
   final String mimeType;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -995,36 +1221,54 @@ class DecryptedMessageMediaDocument045 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaDocument045.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final attributes = _readVector<DocumentAttribute>(buffer);
-    // final caption = _readstring(buffer);
-    // final result = DecryptedMessageMediaDocument045(thumb: thumb, thumbW: thumbW, thumbH: thumbH, mimeType: mimeType, size: size, key: key, iv: iv, attributes: attributes, caption: caption,);
+  factory DecryptedMessageMediaDocument045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaDocument045] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final mimeType = reader.readString();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
+    final attributes = reader.readVectorObject<DocumentAttributeBase>();
+    final caption = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaDocument045] object.
+    final returnValue = DecryptedMessageMediaDocument045(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      mimeType: mimeType,
+      size: size,
+      key: key,
+      iv: iv,
+      attributes: attributes,
+      caption: caption,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaDocument045].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// Mime Type.
   final String mimeType;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -1074,36 +1318,54 @@ class DecryptedMessageMediaDocument143 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaDocument143.deserialize(Uint8List buffer) {
-    // final thumb = _readbytes(buffer);
-    // final thumbW = _readint(buffer);
-    // final thumbH = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final size = _readlong(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final attributes = _readVector<DocumentAttribute>(buffer);
-    // final caption = _readstring(buffer);
-    // final result = DecryptedMessageMediaDocument143(thumb: thumb, thumbW: thumbW, thumbH: thumbH, mimeType: mimeType, size: size, key: key, iv: iv, attributes: attributes, caption: caption,);
+  factory DecryptedMessageMediaDocument143.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaDocument143] fields.
+    final thumb = reader.readBytes();
+    final thumbW = reader.readInt32();
+    final thumbH = reader.readInt32();
+    final mimeType = reader.readString();
+    final size = reader.readInt64();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
+    final attributes = reader.readVectorObject<DocumentAttributeBase>();
+    final caption = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaDocument143] object.
+    final returnValue = DecryptedMessageMediaDocument143(
+      thumb: thumb,
+      thumbW: thumbW,
+      thumbH: thumbH,
+      mimeType: mimeType,
+      size: size,
+      key: key,
+      iv: iv,
+      attributes: attributes,
+      caption: caption,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaDocument143].
+    return returnValue;
   }
 
   /// Thumb.
   final Uint8List thumb;
 
   /// Thumb W.
+  ///
+  /// Field type is Int32.
   final int thumbW;
 
   /// Thumb H.
+  ///
+  /// Field type is Int32.
   final int thumbH;
 
   /// Mime Type.
   final String mimeType;
 
   /// Size.
+  ///
+  /// Field type is Int64.
   final int size;
 
   /// Key.
@@ -1148,22 +1410,33 @@ class DecryptedMessageMediaAudio008 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaAudio008.deserialize(Uint8List buffer) {
-    // final duration = _readint(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaAudio008(duration: duration, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaAudio008.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaAudio008] fields.
+    final duration = reader.readInt32();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaAudio008] object.
+    final returnValue = DecryptedMessageMediaAudio008(
+      duration: duration,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaAudio008].
+    return returnValue;
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -1198,26 +1471,38 @@ class DecryptedMessageMediaAudio017 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaAudio017.deserialize(Uint8List buffer) {
-    // final duration = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final size = _readint(buffer);
-    // final key = _readbytes(buffer);
-    // final iv = _readbytes(buffer);
-    // final result = DecryptedMessageMediaAudio017(duration: duration, mimeType: mimeType, size: size, key: key, iv: iv,);
+  factory DecryptedMessageMediaAudio017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaAudio017] fields.
+    final duration = reader.readInt32();
+    final mimeType = reader.readString();
+    final size = reader.readInt32();
+    final key = reader.readBytes();
+    final iv = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageMediaAudio017] object.
+    final returnValue = DecryptedMessageMediaAudio017(
+      duration: duration,
+      mimeType: mimeType,
+      size: size,
+      key: key,
+      iv: iv,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaAudio017].
+    return returnValue;
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Mime Type.
   final String mimeType;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Key.
@@ -1258,26 +1543,41 @@ class DecryptedMessageMediaExternalDocument023
 
   /// Deserialize.
   factory DecryptedMessageMediaExternalDocument023.deserialize(
-      Uint8List buffer) {
-    // final id = _readlong(buffer);
-    // final accessHash = _readlong(buffer);
-    // final date = _readint(buffer);
-    // final mimeType = _readstring(buffer);
-    // final size = _readint(buffer);
-    // final thumb = _readPhotoSize(buffer);
-    // final dcId = _readint(buffer);
-    // final attributes = _readVector<DocumentAttribute>(buffer);
-    // final result = DecryptedMessageMediaExternalDocument023(id: id, accessHash: accessHash, date: date, mimeType: mimeType, size: size, thumb: thumb, dcId: dcId, attributes: attributes,);
+      BinaryReader reader) {
+    // Read [DecryptedMessageMediaExternalDocument023] fields.
+    final id = reader.readInt64();
+    final accessHash = reader.readInt64();
+    final date = reader.readDateTime();
+    final mimeType = reader.readString();
+    final size = reader.readInt32();
+    final thumb = reader.readObject() as PhotoSizeBase;
+    final dcId = reader.readInt32();
+    final attributes = reader.readVectorObject<DocumentAttributeBase>();
 
-    // return result;
+    // Construct [DecryptedMessageMediaExternalDocument023] object.
+    final returnValue = DecryptedMessageMediaExternalDocument023(
+      id: id,
+      accessHash: accessHash,
+      date: date,
+      mimeType: mimeType,
+      size: size,
+      thumb: thumb,
+      dcId: dcId,
+      attributes: attributes,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaExternalDocument023].
+    return returnValue;
   }
 
   /// Id.
+  ///
+  /// Field type is Int64.
   final int id;
 
   /// Access Hash.
+  ///
+  /// Field type is Int64.
   final int accessHash;
 
   /// Date.
@@ -1287,12 +1587,16 @@ class DecryptedMessageMediaExternalDocument023
   final String mimeType;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Thumb.
   final PhotoSizeBase thumb;
 
   /// Dc Id.
+  ///
+  /// Field type is Int32.
   final int dcId;
 
   /// Attributes.
@@ -1329,18 +1633,27 @@ class DecryptedMessageMediaVenue045 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaVenue045.deserialize(Uint8List buffer) {
-    // final lat = _readdouble(buffer);
-    // final long = _readdouble(buffer);
-    // final title = _readstring(buffer);
-    // final address = _readstring(buffer);
-    // final provider = _readstring(buffer);
-    // final venueId = _readstring(buffer);
-    // final result = DecryptedMessageMediaVenue045(lat: lat, long: long, title: title, address: address, provider: provider, venueId: venueId,);
+  factory DecryptedMessageMediaVenue045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaVenue045] fields.
+    final lat = reader.readFloat64();
+    final long = reader.readFloat64();
+    final title = reader.readString();
+    final address = reader.readString();
+    final provider = reader.readString();
+    final venueId = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaVenue045] object.
+    final returnValue = DecryptedMessageMediaVenue045(
+      lat: lat,
+      long: long,
+      title: title,
+      address: address,
+      provider: provider,
+      venueId: venueId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaVenue045].
+    return returnValue;
   }
 
   /// Lat.
@@ -1385,13 +1698,17 @@ class DecryptedMessageMediaWebPage045 extends DecryptedMessageMediaBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageMediaWebPage045.deserialize(Uint8List buffer) {
-    // final url = _readstring(buffer);
-    // final result = DecryptedMessageMediaWebPage045(url: url,);
+  factory DecryptedMessageMediaWebPage045.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageMediaWebPage045] fields.
+    final url = reader.readString();
 
-    // return result;
+    // Construct [DecryptedMessageMediaWebPage045] object.
+    final returnValue = DecryptedMessageMediaWebPage045(
+      url: url,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageMediaWebPage045].
+    return returnValue;
   }
 
   /// Url.
@@ -1423,16 +1740,23 @@ class DecryptedMessageActionSetMessageTTL008
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionSetMessageTTL008.deserialize(Uint8List buffer) {
-    // final ttlSeconds = _readint(buffer);
-    // final result = DecryptedMessageActionSetMessageTTL008(ttlSeconds: ttlSeconds,);
+  factory DecryptedMessageActionSetMessageTTL008.deserialize(
+      BinaryReader reader) {
+    // Read [DecryptedMessageActionSetMessageTTL008] fields.
+    final ttlSeconds = reader.readInt32();
 
-    // return result;
+    // Construct [DecryptedMessageActionSetMessageTTL008] object.
+    final returnValue = DecryptedMessageActionSetMessageTTL008(
+      ttlSeconds: ttlSeconds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionSetMessageTTL008].
+    return returnValue;
   }
 
   /// Ttl Seconds.
+  ///
+  /// Field type is Int32.
   final int ttlSeconds;
 
   /// Serialize.
@@ -1454,13 +1778,18 @@ class DecryptedMessageActionReadMessages008 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionReadMessages008.deserialize(Uint8List buffer) {
-    // final randomIds = _readVector<long>(buffer);
-    // final result = DecryptedMessageActionReadMessages008(randomIds: randomIds,);
+  factory DecryptedMessageActionReadMessages008.deserialize(
+      BinaryReader reader) {
+    // Read [DecryptedMessageActionReadMessages008] fields.
+    final randomIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionReadMessages008] object.
+    final returnValue = DecryptedMessageActionReadMessages008(
+      randomIds: randomIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionReadMessages008].
+    return returnValue;
   }
 
   /// Random Ids.
@@ -1487,13 +1816,17 @@ class DecryptedMessageActionDeleteMessages008
 
   /// Deserialize.
   factory DecryptedMessageActionDeleteMessages008.deserialize(
-      Uint8List buffer) {
-    // final randomIds = _readVector<long>(buffer);
-    // final result = DecryptedMessageActionDeleteMessages008(randomIds: randomIds,);
+      BinaryReader reader) {
+    // Read [DecryptedMessageActionDeleteMessages008] fields.
+    final randomIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionDeleteMessages008] object.
+    final returnValue = DecryptedMessageActionDeleteMessages008(
+      randomIds: randomIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionDeleteMessages008].
+    return returnValue;
   }
 
   /// Random Ids.
@@ -1520,13 +1853,17 @@ class DecryptedMessageActionScreenshotMessages008
 
   /// Deserialize.
   factory DecryptedMessageActionScreenshotMessages008.deserialize(
-      Uint8List buffer) {
-    // final randomIds = _readVector<long>(buffer);
-    // final result = DecryptedMessageActionScreenshotMessages008(randomIds: randomIds,);
+      BinaryReader reader) {
+    // Read [DecryptedMessageActionScreenshotMessages008] fields.
+    final randomIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionScreenshotMessages008] object.
+    final returnValue = DecryptedMessageActionScreenshotMessages008(
+      randomIds: randomIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionScreenshotMessages008].
+    return returnValue;
   }
 
   /// Random Ids.
@@ -1549,12 +1886,13 @@ class DecryptedMessageActionFlushHistory008 extends DecryptedMessageActionBase {
   const DecryptedMessageActionFlushHistory008() : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionFlushHistory008.deserialize(Uint8List buffer) {
-    // final result = DecryptedMessageActionFlushHistory008();
+  factory DecryptedMessageActionFlushHistory008.deserialize(
+      BinaryReader reader) {
+    // Construct [DecryptedMessageActionFlushHistory008] object.
+    final returnValue = DecryptedMessageActionFlushHistory008();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionFlushHistory008].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1576,20 +1914,29 @@ class DecryptedMessageActionResend017 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionResend017.deserialize(Uint8List buffer) {
-    // final startSeqNo = _readint(buffer);
-    // final endSeqNo = _readint(buffer);
-    // final result = DecryptedMessageActionResend017(startSeqNo: startSeqNo, endSeqNo: endSeqNo,);
+  factory DecryptedMessageActionResend017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionResend017] fields.
+    final startSeqNo = reader.readInt32();
+    final endSeqNo = reader.readInt32();
 
-    // return result;
+    // Construct [DecryptedMessageActionResend017] object.
+    final returnValue = DecryptedMessageActionResend017(
+      startSeqNo: startSeqNo,
+      endSeqNo: endSeqNo,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionResend017].
+    return returnValue;
   }
 
   /// Start Seq No.
+  ///
+  /// Field type is Int32.
   final int startSeqNo;
 
   /// End Seq No.
+  ///
+  /// Field type is Int32.
   final int endSeqNo;
 
   /// Serialize.
@@ -1612,16 +1959,23 @@ class DecryptedMessageActionNotifyLayer017 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionNotifyLayer017.deserialize(Uint8List buffer) {
-    // final layer = _readint(buffer);
-    // final result = DecryptedMessageActionNotifyLayer017(layer: layer,);
+  factory DecryptedMessageActionNotifyLayer017.deserialize(
+      BinaryReader reader) {
+    // Read [DecryptedMessageActionNotifyLayer017] fields.
+    final layer = reader.readInt32();
 
-    // return result;
+    // Construct [DecryptedMessageActionNotifyLayer017] object.
+    final returnValue = DecryptedMessageActionNotifyLayer017(
+      layer: layer,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionNotifyLayer017].
+    return returnValue;
   }
 
   /// Layer.
+  ///
+  /// Field type is Int32.
   final int layer;
 
   /// Serialize.
@@ -1643,13 +1997,17 @@ class DecryptedMessageActionTyping017 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionTyping017.deserialize(Uint8List buffer) {
-    // final action = _readSendMessageAction(buffer);
-    // final result = DecryptedMessageActionTyping017(action: action,);
+  factory DecryptedMessageActionTyping017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionTyping017] fields.
+    final action = reader.readObject() as SendMessageActionBase;
 
-    // return result;
+    // Construct [DecryptedMessageActionTyping017] object.
+    final returnValue = DecryptedMessageActionTyping017(
+      action: action,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionTyping017].
+    return returnValue;
   }
 
   /// Action.
@@ -1675,17 +2033,24 @@ class DecryptedMessageActionRequestKey020 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionRequestKey020.deserialize(Uint8List buffer) {
-    // final exchangeId = _readlong(buffer);
-    // final gA = _readbytes(buffer);
-    // final result = DecryptedMessageActionRequestKey020(exchangeId: exchangeId, gA: gA,);
+  factory DecryptedMessageActionRequestKey020.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionRequestKey020] fields.
+    final exchangeId = reader.readInt64();
+    final gA = reader.readBytes();
 
-    // return result;
+    // Construct [DecryptedMessageActionRequestKey020] object.
+    final returnValue = DecryptedMessageActionRequestKey020(
+      exchangeId: exchangeId,
+      gA: gA,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionRequestKey020].
+    return returnValue;
   }
 
   /// Exchange Id.
+  ///
+  /// Field type is Int64.
   final int exchangeId;
 
   /// G A.
@@ -1713,24 +2078,34 @@ class DecryptedMessageActionAcceptKey020 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionAcceptKey020.deserialize(Uint8List buffer) {
-    // final exchangeId = _readlong(buffer);
-    // final gB = _readbytes(buffer);
-    // final keyFingerprint = _readlong(buffer);
-    // final result = DecryptedMessageActionAcceptKey020(exchangeId: exchangeId, gB: gB, keyFingerprint: keyFingerprint,);
+  factory DecryptedMessageActionAcceptKey020.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionAcceptKey020] fields.
+    final exchangeId = reader.readInt64();
+    final gB = reader.readBytes();
+    final keyFingerprint = reader.readInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionAcceptKey020] object.
+    final returnValue = DecryptedMessageActionAcceptKey020(
+      exchangeId: exchangeId,
+      gB: gB,
+      keyFingerprint: keyFingerprint,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionAcceptKey020].
+    return returnValue;
   }
 
   /// Exchange Id.
+  ///
+  /// Field type is Int64.
   final int exchangeId;
 
   /// G B.
   final Uint8List gB;
 
   /// Key Fingerprint.
+  ///
+  /// Field type is Int64.
   final int keyFingerprint;
 
   /// Serialize.
@@ -1754,16 +2129,22 @@ class DecryptedMessageActionAbortKey020 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionAbortKey020.deserialize(Uint8List buffer) {
-    // final exchangeId = _readlong(buffer);
-    // final result = DecryptedMessageActionAbortKey020(exchangeId: exchangeId,);
+  factory DecryptedMessageActionAbortKey020.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionAbortKey020] fields.
+    final exchangeId = reader.readInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionAbortKey020] object.
+    final returnValue = DecryptedMessageActionAbortKey020(
+      exchangeId: exchangeId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionAbortKey020].
+    return returnValue;
   }
 
   /// Exchange Id.
+  ///
+  /// Field type is Int64.
   final int exchangeId;
 
   /// Serialize.
@@ -1786,20 +2167,29 @@ class DecryptedMessageActionCommitKey020 extends DecryptedMessageActionBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionCommitKey020.deserialize(Uint8List buffer) {
-    // final exchangeId = _readlong(buffer);
-    // final keyFingerprint = _readlong(buffer);
-    // final result = DecryptedMessageActionCommitKey020(exchangeId: exchangeId, keyFingerprint: keyFingerprint,);
+  factory DecryptedMessageActionCommitKey020.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageActionCommitKey020] fields.
+    final exchangeId = reader.readInt64();
+    final keyFingerprint = reader.readInt64();
 
-    // return result;
+    // Construct [DecryptedMessageActionCommitKey020] object.
+    final returnValue = DecryptedMessageActionCommitKey020(
+      exchangeId: exchangeId,
+      keyFingerprint: keyFingerprint,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionCommitKey020].
+    return returnValue;
   }
 
   /// Exchange Id.
+  ///
+  /// Field type is Int64.
   final int exchangeId;
 
   /// Key Fingerprint.
+  ///
+  /// Field type is Int64.
   final int keyFingerprint;
 
   /// Serialize.
@@ -1820,12 +2210,12 @@ class DecryptedMessageActionNoop020 extends DecryptedMessageActionBase {
   const DecryptedMessageActionNoop020() : super._();
 
   /// Deserialize.
-  factory DecryptedMessageActionNoop020.deserialize(Uint8List buffer) {
-    // final result = DecryptedMessageActionNoop020();
+  factory DecryptedMessageActionNoop020.deserialize(BinaryReader reader) {
+    // Construct [DecryptedMessageActionNoop020] object.
+    final returnValue = DecryptedMessageActionNoop020();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageActionNoop020].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1856,29 +2246,43 @@ class DecryptedMessageLayer017 extends DecryptedMessageLayerBase {
   }) : super._();
 
   /// Deserialize.
-  factory DecryptedMessageLayer017.deserialize(Uint8List buffer) {
-    // final randomBytes = _readbytes(buffer);
-    // final layer = _readint(buffer);
-    // final inSeqNo = _readint(buffer);
-    // final outSeqNo = _readint(buffer);
-    // final message = _readDecryptedMessage(buffer);
-    // final result = DecryptedMessageLayer017(randomBytes: randomBytes, layer: layer, inSeqNo: inSeqNo, outSeqNo: outSeqNo, message: message,);
+  factory DecryptedMessageLayer017.deserialize(BinaryReader reader) {
+    // Read [DecryptedMessageLayer017] fields.
+    final randomBytes = reader.readBytes();
+    final layer = reader.readInt32();
+    final inSeqNo = reader.readInt32();
+    final outSeqNo = reader.readInt32();
+    final message = reader.readObject() as DecryptedMessageBase;
 
-    // return result;
+    // Construct [DecryptedMessageLayer017] object.
+    final returnValue = DecryptedMessageLayer017(
+      randomBytes: randomBytes,
+      layer: layer,
+      inSeqNo: inSeqNo,
+      outSeqNo: outSeqNo,
+      message: message,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DecryptedMessageLayer017].
+    return returnValue;
   }
 
   /// Random Bytes.
   final Uint8List randomBytes;
 
   /// Layer.
+  ///
+  /// Field type is Int32.
   final int layer;
 
   /// In Seq No.
+  ///
+  /// Field type is Int32.
   final int inSeqNo;
 
   /// Out Seq No.
+  ///
+  /// Field type is Int32.
   final int outSeqNo;
 
   /// Message.
@@ -1905,12 +2309,12 @@ class SendMessageTypingAction017 extends SendMessageActionBase {
   const SendMessageTypingAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageTypingAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageTypingAction017();
+  factory SendMessageTypingAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageTypingAction017] object.
+    final returnValue = SendMessageTypingAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageTypingAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1929,12 +2333,12 @@ class SendMessageCancelAction017 extends SendMessageActionBase {
   const SendMessageCancelAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageCancelAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageCancelAction017();
+  factory SendMessageCancelAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageCancelAction017] object.
+    final returnValue = SendMessageCancelAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageCancelAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1953,12 +2357,12 @@ class SendMessageRecordVideoAction017 extends SendMessageActionBase {
   const SendMessageRecordVideoAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageRecordVideoAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageRecordVideoAction017();
+  factory SendMessageRecordVideoAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageRecordVideoAction017] object.
+    final returnValue = SendMessageRecordVideoAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageRecordVideoAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1977,12 +2381,12 @@ class SendMessageUploadVideoAction017 extends SendMessageActionBase {
   const SendMessageUploadVideoAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageUploadVideoAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageUploadVideoAction017();
+  factory SendMessageUploadVideoAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageUploadVideoAction017] object.
+    final returnValue = SendMessageUploadVideoAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageUploadVideoAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2001,12 +2405,12 @@ class SendMessageRecordAudioAction017 extends SendMessageActionBase {
   const SendMessageRecordAudioAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageRecordAudioAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageRecordAudioAction017();
+  factory SendMessageRecordAudioAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageRecordAudioAction017] object.
+    final returnValue = SendMessageRecordAudioAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageRecordAudioAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2025,12 +2429,12 @@ class SendMessageUploadAudioAction017 extends SendMessageActionBase {
   const SendMessageUploadAudioAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageUploadAudioAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageUploadAudioAction017();
+  factory SendMessageUploadAudioAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageUploadAudioAction017] object.
+    final returnValue = SendMessageUploadAudioAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageUploadAudioAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2049,12 +2453,12 @@ class SendMessageUploadPhotoAction017 extends SendMessageActionBase {
   const SendMessageUploadPhotoAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageUploadPhotoAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageUploadPhotoAction017();
+  factory SendMessageUploadPhotoAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageUploadPhotoAction017] object.
+    final returnValue = SendMessageUploadPhotoAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageUploadPhotoAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2073,12 +2477,12 @@ class SendMessageUploadDocumentAction017 extends SendMessageActionBase {
   const SendMessageUploadDocumentAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageUploadDocumentAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageUploadDocumentAction017();
+  factory SendMessageUploadDocumentAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageUploadDocumentAction017] object.
+    final returnValue = SendMessageUploadDocumentAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageUploadDocumentAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2097,12 +2501,12 @@ class SendMessageGeoLocationAction017 extends SendMessageActionBase {
   const SendMessageGeoLocationAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageGeoLocationAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageGeoLocationAction017();
+  factory SendMessageGeoLocationAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageGeoLocationAction017] object.
+    final returnValue = SendMessageGeoLocationAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageGeoLocationAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2121,12 +2525,12 @@ class SendMessageChooseContactAction017 extends SendMessageActionBase {
   const SendMessageChooseContactAction017() : super._();
 
   /// Deserialize.
-  factory SendMessageChooseContactAction017.deserialize(Uint8List buffer) {
-    // final result = SendMessageChooseContactAction017();
+  factory SendMessageChooseContactAction017.deserialize(BinaryReader reader) {
+    // Construct [SendMessageChooseContactAction017] object.
+    final returnValue = SendMessageChooseContactAction017();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageChooseContactAction017].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2145,12 +2549,12 @@ class SendMessageRecordRoundAction066 extends SendMessageActionBase {
   const SendMessageRecordRoundAction066() : super._();
 
   /// Deserialize.
-  factory SendMessageRecordRoundAction066.deserialize(Uint8List buffer) {
-    // final result = SendMessageRecordRoundAction066();
+  factory SendMessageRecordRoundAction066.deserialize(BinaryReader reader) {
+    // Construct [SendMessageRecordRoundAction066] object.
+    final returnValue = SendMessageRecordRoundAction066();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageRecordRoundAction066].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2169,12 +2573,12 @@ class SendMessageUploadRoundAction066 extends SendMessageActionBase {
   const SendMessageUploadRoundAction066() : super._();
 
   /// Deserialize.
-  factory SendMessageUploadRoundAction066.deserialize(Uint8List buffer) {
-    // final result = SendMessageUploadRoundAction066();
+  factory SendMessageUploadRoundAction066.deserialize(BinaryReader reader) {
+    // Construct [SendMessageUploadRoundAction066] object.
+    final returnValue = SendMessageUploadRoundAction066();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [SendMessageUploadRoundAction066].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2196,20 +2600,29 @@ class DocumentAttributeImageSize023 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeImageSize023.deserialize(Uint8List buffer) {
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final result = DocumentAttributeImageSize023(w: w, h: h,);
+  factory DocumentAttributeImageSize023.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeImageSize023] fields.
+    final w = reader.readInt32();
+    final h = reader.readInt32();
 
-    // return result;
+    // Construct [DocumentAttributeImageSize023] object.
+    final returnValue = DocumentAttributeImageSize023(
+      w: w,
+      h: h,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeImageSize023].
+    return returnValue;
   }
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Serialize.
@@ -2230,12 +2643,12 @@ class DocumentAttributeAnimated023 extends DocumentAttributeBase {
   const DocumentAttributeAnimated023() : super._();
 
   /// Deserialize.
-  factory DocumentAttributeAnimated023.deserialize(Uint8List buffer) {
-    // final result = DocumentAttributeAnimated023();
+  factory DocumentAttributeAnimated023.deserialize(BinaryReader reader) {
+    // Construct [DocumentAttributeAnimated023] object.
+    final returnValue = DocumentAttributeAnimated023();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeAnimated023].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2254,12 +2667,12 @@ class DocumentAttributeSticker023 extends DocumentAttributeBase {
   const DocumentAttributeSticker023() : super._();
 
   /// Deserialize.
-  factory DocumentAttributeSticker023.deserialize(Uint8List buffer) {
-    // final result = DocumentAttributeSticker023();
+  factory DocumentAttributeSticker023.deserialize(BinaryReader reader) {
+    // Construct [DocumentAttributeSticker023] object.
+    final returnValue = DocumentAttributeSticker023();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeSticker023].
+    return returnValue;
   }
 
   /// Serialize.
@@ -2281,14 +2694,19 @@ class DocumentAttributeSticker045 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeSticker045.deserialize(Uint8List buffer) {
-    // final alt = _readstring(buffer);
-    // final stickerset = _readInputStickerSet(buffer);
-    // final result = DocumentAttributeSticker045(alt: alt, stickerset: stickerset,);
+  factory DocumentAttributeSticker045.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeSticker045] fields.
+    final alt = reader.readString();
+    final stickerset = reader.readObject() as InputStickerSetBase;
 
-    // return result;
+    // Construct [DocumentAttributeSticker045] object.
+    final returnValue = DocumentAttributeSticker045(
+      alt: alt,
+      stickerset: stickerset,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeSticker045].
+    return returnValue;
   }
 
   /// Alt.
@@ -2319,24 +2737,36 @@ class DocumentAttributeVideo023 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeVideo023.deserialize(Uint8List buffer) {
-    // final duration = _readint(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final result = DocumentAttributeVideo023(duration: duration, w: w, h: h,);
+  factory DocumentAttributeVideo023.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeVideo023] fields.
+    final duration = reader.readInt32();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
 
-    // return result;
+    // Construct [DocumentAttributeVideo023] object.
+    final returnValue = DocumentAttributeVideo023(
+      duration: duration,
+      w: w,
+      h: h,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeVideo023].
+    return returnValue;
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Serialize.
@@ -2362,16 +2792,22 @@ class DocumentAttributeVideo066 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeVideo066.deserialize(Uint8List buffer) {
-    // final flags = _read#(buffer);
-    // final duration = _readint(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final result = DocumentAttributeVideo066(flags: flags, duration: duration, w: w, h: h,);
+  factory DocumentAttributeVideo066.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeVideo066] fields.
+    final _ = reader.readInt32();
+    final duration = reader.readInt32();
+    final w = reader.readInt32();
+    final h = reader.readInt32();
 
-    // return result;
+    // Construct [DocumentAttributeVideo066] object.
+    final returnValue = DocumentAttributeVideo066(
+      duration: duration,
+      w: w,
+      h: h,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeVideo066].
+    return returnValue;
   }
 
   /// Flags.
@@ -2382,12 +2818,18 @@ class DocumentAttributeVideo066 extends DocumentAttributeBase {
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Serialize.
@@ -2412,16 +2854,22 @@ class DocumentAttributeAudio023 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeAudio023.deserialize(Uint8List buffer) {
-    // final duration = _readint(buffer);
-    // final result = DocumentAttributeAudio023(duration: duration,);
+  factory DocumentAttributeAudio023.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeAudio023] fields.
+    final duration = reader.readInt32();
 
-    // return result;
+    // Construct [DocumentAttributeAudio023] object.
+    final returnValue = DocumentAttributeAudio023(
+      duration: duration,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeAudio023].
+    return returnValue;
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Serialize.
@@ -2445,18 +2893,26 @@ class DocumentAttributeAudio045 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeAudio045.deserialize(Uint8List buffer) {
-    // final duration = _readint(buffer);
-    // final title = _readstring(buffer);
-    // final performer = _readstring(buffer);
-    // final result = DocumentAttributeAudio045(duration: duration, title: title, performer: performer,);
+  factory DocumentAttributeAudio045.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeAudio045] fields.
+    final duration = reader.readInt32();
+    final title = reader.readString();
+    final performer = reader.readString();
 
-    // return result;
+    // Construct [DocumentAttributeAudio045] object.
+    final returnValue = DocumentAttributeAudio045(
+      duration: duration,
+      title: title,
+      performer: performer,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeAudio045].
+    return returnValue;
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Title.
@@ -2489,17 +2945,27 @@ class DocumentAttributeAudio046 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeAudio046.deserialize(Uint8List buffer) {
-    // final flags = _read#(buffer);
-    // final duration = _readint(buffer);
-    // final title = _readflags.0?string(buffer);
-    // final performer = _readflags.1?string(buffer);
-    // final waveform = _readflags.2?bytes(buffer);
-    // final result = DocumentAttributeAudio046(flags: flags, duration: duration, title: title, performer: performer, waveform: waveform,);
+  factory DocumentAttributeAudio046.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeAudio046] fields.
+    final flags = reader.readInt32();
+    final duration = reader.readInt32();
+    final hasTitleField = (flags & 1) != 0;
+    final title = hasTitleField ? reader.readString() : null;
+    final hasPerformerField = (flags & 2) != 0;
+    final performer = hasPerformerField ? reader.readString() : null;
+    final hasWaveformField = (flags & 4) != 0;
+    final waveform = hasWaveformField ? reader.readBytes() : null;
 
-    // return result;
+    // Construct [DocumentAttributeAudio046] object.
+    final returnValue = DocumentAttributeAudio046(
+      duration: duration,
+      title: title,
+      performer: performer,
+      waveform: waveform,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeAudio046].
+    return returnValue;
   }
 
   /// Flags.
@@ -2514,6 +2980,8 @@ class DocumentAttributeAudio046 extends DocumentAttributeBase {
   }
 
   /// Duration.
+  ///
+  /// Field type is Int32.
   final int duration;
 
   /// Title.
@@ -2557,13 +3025,17 @@ class DocumentAttributeFilename023 extends DocumentAttributeBase {
   }) : super._();
 
   /// Deserialize.
-  factory DocumentAttributeFilename023.deserialize(Uint8List buffer) {
-    // final fileName = _readstring(buffer);
-    // final result = DocumentAttributeFilename023(fileName: fileName,);
+  factory DocumentAttributeFilename023.deserialize(BinaryReader reader) {
+    // Read [DocumentAttributeFilename023] fields.
+    final fileName = reader.readString();
 
-    // return result;
+    // Construct [DocumentAttributeFilename023] object.
+    final returnValue = DocumentAttributeFilename023(
+      fileName: fileName,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DocumentAttributeFilename023].
+    return returnValue;
   }
 
   /// File Name.
@@ -2588,13 +3060,17 @@ class PhotoSizeEmpty023 extends PhotoSizeBase {
   }) : super._();
 
   /// Deserialize.
-  factory PhotoSizeEmpty023.deserialize(Uint8List buffer) {
-    // final type = _readstring(buffer);
-    // final result = PhotoSizeEmpty023(type: type,);
+  factory PhotoSizeEmpty023.deserialize(BinaryReader reader) {
+    // Read [PhotoSizeEmpty023] fields.
+    final type = reader.readString();
 
-    // return result;
+    // Construct [PhotoSizeEmpty023] object.
+    final returnValue = PhotoSizeEmpty023(
+      type: type,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PhotoSizeEmpty023].
+    return returnValue;
   }
 
   /// Type.
@@ -2623,17 +3099,25 @@ class PhotoSize023 extends PhotoSizeBase {
   }) : super._();
 
   /// Deserialize.
-  factory PhotoSize023.deserialize(Uint8List buffer) {
-    // final type = _readstring(buffer);
-    // final location = _readFileLocation(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final size = _readint(buffer);
-    // final result = PhotoSize023(type: type, location: location, w: w, h: h, size: size,);
+  factory PhotoSize023.deserialize(BinaryReader reader) {
+    // Read [PhotoSize023] fields.
+    final type = reader.readString();
+    final location = reader.readObject() as FileLocationBase;
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final size = reader.readInt32();
 
-    // return result;
+    // Construct [PhotoSize023] object.
+    final returnValue = PhotoSize023(
+      type: type,
+      location: location,
+      w: w,
+      h: h,
+      size: size,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PhotoSize023].
+    return returnValue;
   }
 
   /// Type.
@@ -2643,12 +3127,18 @@ class PhotoSize023 extends PhotoSizeBase {
   final FileLocationBase location;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Size.
+  ///
+  /// Field type is Int32.
   final int size;
 
   /// Serialize.
@@ -2678,17 +3168,25 @@ class PhotoCachedSize023 extends PhotoSizeBase {
   }) : super._();
 
   /// Deserialize.
-  factory PhotoCachedSize023.deserialize(Uint8List buffer) {
-    // final type = _readstring(buffer);
-    // final location = _readFileLocation(buffer);
-    // final w = _readint(buffer);
-    // final h = _readint(buffer);
-    // final bytes = _readbytes(buffer);
-    // final result = PhotoCachedSize023(type: type, location: location, w: w, h: h, bytes: bytes,);
+  factory PhotoCachedSize023.deserialize(BinaryReader reader) {
+    // Read [PhotoCachedSize023] fields.
+    final type = reader.readString();
+    final location = reader.readObject() as FileLocationBase;
+    final w = reader.readInt32();
+    final h = reader.readInt32();
+    final bytes = reader.readBytes();
 
-    // return result;
+    // Construct [PhotoCachedSize023] object.
+    final returnValue = PhotoCachedSize023(
+      type: type,
+      location: location,
+      w: w,
+      h: h,
+      bytes: bytes,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PhotoCachedSize023].
+    return returnValue;
   }
 
   /// Type.
@@ -2698,9 +3196,13 @@ class PhotoCachedSize023 extends PhotoSizeBase {
   final FileLocationBase location;
 
   /// W.
+  ///
+  /// Field type is Int32.
   final int w;
 
   /// H.
+  ///
+  /// Field type is Int32.
   final int h;
 
   /// Bytes.
@@ -2737,24 +3239,36 @@ class FileLocationUnavailable023 extends FileLocationBase {
   }) : super._();
 
   /// Deserialize.
-  factory FileLocationUnavailable023.deserialize(Uint8List buffer) {
-    // final volumeId = _readlong(buffer);
-    // final localId = _readint(buffer);
-    // final secret = _readlong(buffer);
-    // final result = FileLocationUnavailable023(volumeId: volumeId, localId: localId, secret: secret,);
+  factory FileLocationUnavailable023.deserialize(BinaryReader reader) {
+    // Read [FileLocationUnavailable023] fields.
+    final volumeId = reader.readInt64();
+    final localId = reader.readInt32();
+    final secret = reader.readInt64();
 
-    // return result;
+    // Construct [FileLocationUnavailable023] object.
+    final returnValue = FileLocationUnavailable023(
+      volumeId: volumeId,
+      localId: localId,
+      secret: secret,
+    );
 
-    throw Exception();
+    // Now return the deserialized [FileLocationUnavailable023].
+    return returnValue;
   }
 
   /// Volume Id.
+  ///
+  /// Field type is Int64.
   final int volumeId;
 
   /// Local Id.
+  ///
+  /// Field type is Int32.
   final int localId;
 
   /// Secret.
+  ///
+  /// Field type is Int64.
   final int secret;
 
   /// Serialize.
@@ -2781,28 +3295,43 @@ class FileLocation023 extends FileLocationBase {
   }) : super._();
 
   /// Deserialize.
-  factory FileLocation023.deserialize(Uint8List buffer) {
-    // final dcId = _readint(buffer);
-    // final volumeId = _readlong(buffer);
-    // final localId = _readint(buffer);
-    // final secret = _readlong(buffer);
-    // final result = FileLocation023(dcId: dcId, volumeId: volumeId, localId: localId, secret: secret,);
+  factory FileLocation023.deserialize(BinaryReader reader) {
+    // Read [FileLocation023] fields.
+    final dcId = reader.readInt32();
+    final volumeId = reader.readInt64();
+    final localId = reader.readInt32();
+    final secret = reader.readInt64();
 
-    // return result;
+    // Construct [FileLocation023] object.
+    final returnValue = FileLocation023(
+      dcId: dcId,
+      volumeId: volumeId,
+      localId: localId,
+      secret: secret,
+    );
 
-    throw Exception();
+    // Now return the deserialized [FileLocation023].
+    return returnValue;
   }
 
   /// Dc Id.
+  ///
+  /// Field type is Int32.
   final int dcId;
 
   /// Volume Id.
+  ///
+  /// Field type is Int64.
   final int volumeId;
 
   /// Local Id.
+  ///
+  /// Field type is Int32.
   final int localId;
 
   /// Secret.
+  ///
+  /// Field type is Int64.
   final int secret;
 
   /// Serialize.
@@ -2828,20 +3357,29 @@ class MessageEntityUnknown045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityUnknown045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityUnknown045(offset: offset, length: length,);
+  factory MessageEntityUnknown045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityUnknown045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityUnknown045] object.
+    final returnValue = MessageEntityUnknown045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityUnknown045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -2865,20 +3403,29 @@ class MessageEntityMention045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityMention045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityMention045(offset: offset, length: length,);
+  factory MessageEntityMention045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityMention045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityMention045] object.
+    final returnValue = MessageEntityMention045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityMention045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -2902,20 +3449,29 @@ class MessageEntityHashtag045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityHashtag045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityHashtag045(offset: offset, length: length,);
+  factory MessageEntityHashtag045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityHashtag045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityHashtag045] object.
+    final returnValue = MessageEntityHashtag045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityHashtag045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -2939,20 +3495,29 @@ class MessageEntityBotCommand045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityBotCommand045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityBotCommand045(offset: offset, length: length,);
+  factory MessageEntityBotCommand045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityBotCommand045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityBotCommand045] object.
+    final returnValue = MessageEntityBotCommand045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityBotCommand045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -2976,20 +3541,29 @@ class MessageEntityUrl045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityUrl045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityUrl045(offset: offset, length: length,);
+  factory MessageEntityUrl045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityUrl045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityUrl045] object.
+    final returnValue = MessageEntityUrl045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityUrl045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3013,20 +3587,29 @@ class MessageEntityEmail045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityEmail045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityEmail045(offset: offset, length: length,);
+  factory MessageEntityEmail045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityEmail045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityEmail045] object.
+    final returnValue = MessageEntityEmail045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityEmail045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3050,20 +3633,29 @@ class MessageEntityBold045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityBold045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityBold045(offset: offset, length: length,);
+  factory MessageEntityBold045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityBold045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityBold045] object.
+    final returnValue = MessageEntityBold045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityBold045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3087,20 +3679,29 @@ class MessageEntityItalic045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityItalic045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityItalic045(offset: offset, length: length,);
+  factory MessageEntityItalic045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityItalic045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityItalic045] object.
+    final returnValue = MessageEntityItalic045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityItalic045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3124,20 +3725,29 @@ class MessageEntityCode045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityCode045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityCode045(offset: offset, length: length,);
+  factory MessageEntityCode045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityCode045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityCode045] object.
+    final returnValue = MessageEntityCode045(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityCode045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3162,21 +3772,31 @@ class MessageEntityPre045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityPre045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final language = _readstring(buffer);
-    // final result = MessageEntityPre045(offset: offset, length: length, language: language,);
+  factory MessageEntityPre045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityPre045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
+    final language = reader.readString();
 
-    // return result;
+    // Construct [MessageEntityPre045] object.
+    final returnValue = MessageEntityPre045(
+      offset: offset,
+      length: length,
+      language: language,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityPre045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Language.
@@ -3205,21 +3825,31 @@ class MessageEntityTextUrl045 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityTextUrl045.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final url = _readstring(buffer);
-    // final result = MessageEntityTextUrl045(offset: offset, length: length, url: url,);
+  factory MessageEntityTextUrl045.deserialize(BinaryReader reader) {
+    // Read [MessageEntityTextUrl045] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
+    final url = reader.readString();
 
-    // return result;
+    // Construct [MessageEntityTextUrl045] object.
+    final returnValue = MessageEntityTextUrl045(
+      offset: offset,
+      length: length,
+      url: url,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityTextUrl045].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Url.
@@ -3247,20 +3877,29 @@ class MessageEntityUnderline101 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityUnderline101.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityUnderline101(offset: offset, length: length,);
+  factory MessageEntityUnderline101.deserialize(BinaryReader reader) {
+    // Read [MessageEntityUnderline101] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityUnderline101] object.
+    final returnValue = MessageEntityUnderline101(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityUnderline101].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3284,20 +3923,29 @@ class MessageEntityStrike101 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityStrike101.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityStrike101(offset: offset, length: length,);
+  factory MessageEntityStrike101.deserialize(BinaryReader reader) {
+    // Read [MessageEntityStrike101] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityStrike101] object.
+    final returnValue = MessageEntityStrike101(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityStrike101].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3321,20 +3969,29 @@ class MessageEntityBlockquote101 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityBlockquote101.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntityBlockquote101(offset: offset, length: length,);
+  factory MessageEntityBlockquote101.deserialize(BinaryReader reader) {
+    // Read [MessageEntityBlockquote101] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntityBlockquote101] object.
+    final returnValue = MessageEntityBlockquote101(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityBlockquote101].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3358,20 +4015,29 @@ class MessageEntitySpoiler144 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntitySpoiler144.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final result = MessageEntitySpoiler144(offset: offset, length: length,);
+  factory MessageEntitySpoiler144.deserialize(BinaryReader reader) {
+    // Read [MessageEntitySpoiler144] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
 
-    // return result;
+    // Construct [MessageEntitySpoiler144] object.
+    final returnValue = MessageEntitySpoiler144(
+      offset: offset,
+      length: length,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntitySpoiler144].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Serialize.
@@ -3396,24 +4062,36 @@ class MessageEntityCustomEmoji144 extends MessageEntityBase {
   }) : super._();
 
   /// Deserialize.
-  factory MessageEntityCustomEmoji144.deserialize(Uint8List buffer) {
-    // final offset = _readint(buffer);
-    // final length = _readint(buffer);
-    // final documentId = _readlong(buffer);
-    // final result = MessageEntityCustomEmoji144(offset: offset, length: length, documentId: documentId,);
+  factory MessageEntityCustomEmoji144.deserialize(BinaryReader reader) {
+    // Read [MessageEntityCustomEmoji144] fields.
+    final offset = reader.readInt32();
+    final length = reader.readInt32();
+    final documentId = reader.readInt64();
 
-    // return result;
+    // Construct [MessageEntityCustomEmoji144] object.
+    final returnValue = MessageEntityCustomEmoji144(
+      offset: offset,
+      length: length,
+      documentId: documentId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MessageEntityCustomEmoji144].
+    return returnValue;
   }
 
   /// Offset.
+  ///
+  /// Field type is Int32.
   final int offset;
 
   /// Length.
+  ///
+  /// Field type is Int32.
   final int length;
 
   /// Document Id.
+  ///
+  /// Field type is Int64.
   final int documentId;
 
   /// Serialize.
@@ -3437,13 +4115,17 @@ class InputStickerSetShortName045 extends InputStickerSetBase {
   }) : super._();
 
   /// Deserialize.
-  factory InputStickerSetShortName045.deserialize(Uint8List buffer) {
-    // final shortName = _readstring(buffer);
-    // final result = InputStickerSetShortName045(shortName: shortName,);
+  factory InputStickerSetShortName045.deserialize(BinaryReader reader) {
+    // Read [InputStickerSetShortName045] fields.
+    final shortName = reader.readString();
 
-    // return result;
+    // Construct [InputStickerSetShortName045] object.
+    final returnValue = InputStickerSetShortName045(
+      shortName: shortName,
+    );
 
-    throw Exception();
+    // Now return the deserialized [InputStickerSetShortName045].
+    return returnValue;
   }
 
   /// Short Name.
@@ -3466,12 +4148,12 @@ class InputStickerSetEmpty045 extends InputStickerSetBase {
   const InputStickerSetEmpty045() : super._();
 
   /// Deserialize.
-  factory InputStickerSetEmpty045.deserialize(Uint8List buffer) {
-    // final result = InputStickerSetEmpty045();
+  factory InputStickerSetEmpty045.deserialize(BinaryReader reader) {
+    // Construct [InputStickerSetEmpty045] object.
+    final returnValue = InputStickerSetEmpty045();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [InputStickerSetEmpty045].
+    return returnValue;
   }
 
   /// Serialize.

@@ -24,6 +24,20 @@ class BinaryReader {
     return x.first;
   }
 
+  Int128 readInt128() {
+    final b = Uint8List.fromList(buffer.skip(_position).take(16).toList());
+
+    _position += 16;
+    return Int128(b);
+  }
+
+  Int256 readInt256() {
+    final b = Uint8List.fromList(buffer.skip(_position).take(32).toList());
+
+    _position += 32;
+    return Int256(b);
+  }
+
   double readFloat64() {
     final b = Uint8List.fromList(buffer.skip(_position).take(8).toList());
     final x = b.buffer.asFloat64List(0, 1);
@@ -48,7 +62,7 @@ class BinaryReader {
 
   DateTime readDateTime() {
     final seconds = readInt32();
-    final tmp = DateTime.fromMicrosecondsSinceEpoch(seconds * 1000);
+    final tmp = DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
 
     return tmp;
   }

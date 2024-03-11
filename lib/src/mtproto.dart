@@ -19,16 +19,23 @@ class ResPQ extends ResPQBase {
   }) : super._();
 
   /// Deserialize.
-  factory ResPQ.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final pq = _readbytes(buffer);
-    // final serverPublicKeyFingerprints = _readVector<long>(buffer);
-    // final result = ResPQ(nonce: nonce, serverNonce: serverNonce, pq: pq, serverPublicKeyFingerprints: serverPublicKeyFingerprints,);
+  factory ResPQ.deserialize(BinaryReader reader) {
+    // Read [ResPQ] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final pq = reader.readBytes();
+    final serverPublicKeyFingerprints = reader.readVectorInt64();
 
-    // return result;
+    // Construct [ResPQ] object.
+    final returnValue = ResPQ(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      pq: pq,
+      serverPublicKeyFingerprints: serverPublicKeyFingerprints,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ResPQ].
+    return returnValue;
   }
 
   /// Nonce.
@@ -76,19 +83,29 @@ class PQInnerDataDc extends PQInnerDataBase {
   }) : super._();
 
   /// Deserialize.
-  factory PQInnerDataDc.deserialize(Uint8List buffer) {
-    // final pq = _readbytes(buffer);
-    // final p = _readbytes(buffer);
-    // final q = _readbytes(buffer);
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final newNonce = _readint256(buffer);
-    // final dc = _readint(buffer);
-    // final result = PQInnerDataDc(pq: pq, p: p, q: q, nonce: nonce, serverNonce: serverNonce, newNonce: newNonce, dc: dc,);
+  factory PQInnerDataDc.deserialize(BinaryReader reader) {
+    // Read [PQInnerDataDc] fields.
+    final pq = reader.readBytes();
+    final p = reader.readBytes();
+    final q = reader.readBytes();
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final newNonce = reader.readInt256();
+    final dc = reader.readInt32();
 
-    // return result;
+    // Construct [PQInnerDataDc] object.
+    final returnValue = PQInnerDataDc(
+      pq: pq,
+      p: p,
+      q: q,
+      nonce: nonce,
+      serverNonce: serverNonce,
+      newNonce: newNonce,
+      dc: dc,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PQInnerDataDc].
+    return returnValue;
   }
 
   /// Pq.
@@ -110,6 +127,8 @@ class PQInnerDataDc extends PQInnerDataBase {
   final Int256 newNonce;
 
   /// Dc.
+  ///
+  /// Field type is Int32.
   final int dc;
 
   /// Serialize.
@@ -143,20 +162,31 @@ class PQInnerDataTempDc extends PQInnerDataBase {
   }) : super._();
 
   /// Deserialize.
-  factory PQInnerDataTempDc.deserialize(Uint8List buffer) {
-    // final pq = _readbytes(buffer);
-    // final p = _readbytes(buffer);
-    // final q = _readbytes(buffer);
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final newNonce = _readint256(buffer);
-    // final dc = _readint(buffer);
-    // final expiresIn = _readint(buffer);
-    // final result = PQInnerDataTempDc(pq: pq, p: p, q: q, nonce: nonce, serverNonce: serverNonce, newNonce: newNonce, dc: dc, expiresIn: expiresIn,);
+  factory PQInnerDataTempDc.deserialize(BinaryReader reader) {
+    // Read [PQInnerDataTempDc] fields.
+    final pq = reader.readBytes();
+    final p = reader.readBytes();
+    final q = reader.readBytes();
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final newNonce = reader.readInt256();
+    final dc = reader.readInt32();
+    final expiresIn = reader.readInt32();
 
-    // return result;
+    // Construct [PQInnerDataTempDc] object.
+    final returnValue = PQInnerDataTempDc(
+      pq: pq,
+      p: p,
+      q: q,
+      nonce: nonce,
+      serverNonce: serverNonce,
+      newNonce: newNonce,
+      dc: dc,
+      expiresIn: expiresIn,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PQInnerDataTempDc].
+    return returnValue;
   }
 
   /// Pq.
@@ -178,9 +208,13 @@ class PQInnerDataTempDc extends PQInnerDataBase {
   final Int256 newNonce;
 
   /// Dc.
+  ///
+  /// Field type is Int32.
   final int dc;
 
   /// Expires In.
+  ///
+  /// Field type is Int32.
   final int expiresIn;
 
   /// Serialize.
@@ -216,15 +250,21 @@ class ServerDHParamsOk extends ServerDHParamsBase {
   }) : super._();
 
   /// Deserialize.
-  factory ServerDHParamsOk.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final encryptedAnswer = _readbytes(buffer);
-    // final result = ServerDHParamsOk(nonce: nonce, serverNonce: serverNonce, encryptedAnswer: encryptedAnswer,);
+  factory ServerDHParamsOk.deserialize(BinaryReader reader) {
+    // Read [ServerDHParamsOk] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final encryptedAnswer = reader.readBytes();
 
-    // return result;
+    // Construct [ServerDHParamsOk] object.
+    final returnValue = ServerDHParamsOk(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      encryptedAnswer: encryptedAnswer,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ServerDHParamsOk].
+    return returnValue;
   }
 
   /// Nonce.
@@ -267,18 +307,27 @@ class ServerDHInnerData extends ServerDHInnerDataBase {
   }) : super._();
 
   /// Deserialize.
-  factory ServerDHInnerData.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final g = _readint(buffer);
-    // final dhPrime = _readbytes(buffer);
-    // final gA = _readbytes(buffer);
-    // final serverTime = _readint(buffer);
-    // final result = ServerDHInnerData(nonce: nonce, serverNonce: serverNonce, g: g, dhPrime: dhPrime, gA: gA, serverTime: serverTime,);
+  factory ServerDHInnerData.deserialize(BinaryReader reader) {
+    // Read [ServerDHInnerData] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final g = reader.readInt32();
+    final dhPrime = reader.readBytes();
+    final gA = reader.readBytes();
+    final serverTime = reader.readInt32();
 
-    // return result;
+    // Construct [ServerDHInnerData] object.
+    final returnValue = ServerDHInnerData(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      g: g,
+      dhPrime: dhPrime,
+      gA: gA,
+      serverTime: serverTime,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ServerDHInnerData].
+    return returnValue;
   }
 
   /// Nonce.
@@ -288,6 +337,8 @@ class ServerDHInnerData extends ServerDHInnerDataBase {
   final Int128 serverNonce;
 
   /// G.
+  ///
+  /// Field type is Int32.
   final int g;
 
   /// Dh Prime.
@@ -297,6 +348,8 @@ class ServerDHInnerData extends ServerDHInnerDataBase {
   final Uint8List gA;
 
   /// Server Time.
+  ///
+  /// Field type is Int32.
   final int serverTime;
 
   /// Serialize.
@@ -331,16 +384,23 @@ class ClientDHInnerData extends ClientDHInnerDataBase {
   }) : super._();
 
   /// Deserialize.
-  factory ClientDHInnerData.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final retryId = _readlong(buffer);
-    // final gB = _readbytes(buffer);
-    // final result = ClientDHInnerData(nonce: nonce, serverNonce: serverNonce, retryId: retryId, gB: gB,);
+  factory ClientDHInnerData.deserialize(BinaryReader reader) {
+    // Read [ClientDHInnerData] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final retryId = reader.readInt64();
+    final gB = reader.readBytes();
 
-    // return result;
+    // Construct [ClientDHInnerData] object.
+    final returnValue = ClientDHInnerData(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      retryId: retryId,
+      gB: gB,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ClientDHInnerData].
+    return returnValue;
   }
 
   /// Nonce.
@@ -350,6 +410,8 @@ class ClientDHInnerData extends ClientDHInnerDataBase {
   final Int128 serverNonce;
 
   /// Retry Id.
+  ///
+  /// Field type is Int64.
   final int retryId;
 
   /// G B.
@@ -384,15 +446,21 @@ class DhGenOk extends SetClientDHParamsAnswerBase {
   }) : super._();
 
   /// Deserialize.
-  factory DhGenOk.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final newNonceHash1 = _readint128(buffer);
-    // final result = DhGenOk(nonce: nonce, serverNonce: serverNonce, newNonceHash1: newNonceHash1,);
+  factory DhGenOk.deserialize(BinaryReader reader) {
+    // Read [DhGenOk] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final newNonceHash1 = reader.readInt128();
 
-    // return result;
+    // Construct [DhGenOk] object.
+    final returnValue = DhGenOk(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      newNonceHash1: newNonceHash1,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DhGenOk].
+    return returnValue;
   }
 
   /// Nonce.
@@ -426,15 +494,21 @@ class DhGenRetry extends SetClientDHParamsAnswerBase {
   }) : super._();
 
   /// Deserialize.
-  factory DhGenRetry.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final newNonceHash2 = _readint128(buffer);
-    // final result = DhGenRetry(nonce: nonce, serverNonce: serverNonce, newNonceHash2: newNonceHash2,);
+  factory DhGenRetry.deserialize(BinaryReader reader) {
+    // Read [DhGenRetry] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final newNonceHash2 = reader.readInt128();
 
-    // return result;
+    // Construct [DhGenRetry] object.
+    final returnValue = DhGenRetry(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      newNonceHash2: newNonceHash2,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DhGenRetry].
+    return returnValue;
   }
 
   /// Nonce.
@@ -468,15 +542,21 @@ class DhGenFail extends SetClientDHParamsAnswerBase {
   }) : super._();
 
   /// Deserialize.
-  factory DhGenFail.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final newNonceHash3 = _readint128(buffer);
-    // final result = DhGenFail(nonce: nonce, serverNonce: serverNonce, newNonceHash3: newNonceHash3,);
+  factory DhGenFail.deserialize(BinaryReader reader) {
+    // Read [DhGenFail] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final newNonceHash3 = reader.readInt128();
 
-    // return result;
+    // Construct [DhGenFail] object.
+    final returnValue = DhGenFail(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      newNonceHash3: newNonceHash3,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DhGenFail].
+    return returnValue;
   }
 
   /// Nonce.
@@ -518,32 +598,50 @@ class BindAuthKeyInner extends BindAuthKeyInnerBase {
   }) : super._();
 
   /// Deserialize.
-  factory BindAuthKeyInner.deserialize(Uint8List buffer) {
-    // final nonce = _readlong(buffer);
-    // final tempAuthKeyId = _readlong(buffer);
-    // final permAuthKeyId = _readlong(buffer);
-    // final tempSessionId = _readlong(buffer);
-    // final expiresAt = _readint(buffer);
-    // final result = BindAuthKeyInner(nonce: nonce, tempAuthKeyId: tempAuthKeyId, permAuthKeyId: permAuthKeyId, tempSessionId: tempSessionId, expiresAt: expiresAt,);
+  factory BindAuthKeyInner.deserialize(BinaryReader reader) {
+    // Read [BindAuthKeyInner] fields.
+    final nonce = reader.readInt64();
+    final tempAuthKeyId = reader.readInt64();
+    final permAuthKeyId = reader.readInt64();
+    final tempSessionId = reader.readInt64();
+    final expiresAt = reader.readInt32();
 
-    // return result;
+    // Construct [BindAuthKeyInner] object.
+    final returnValue = BindAuthKeyInner(
+      nonce: nonce,
+      tempAuthKeyId: tempAuthKeyId,
+      permAuthKeyId: permAuthKeyId,
+      tempSessionId: tempSessionId,
+      expiresAt: expiresAt,
+    );
 
-    throw Exception();
+    // Now return the deserialized [BindAuthKeyInner].
+    return returnValue;
   }
 
   /// Nonce.
+  ///
+  /// Field type is Int64.
   final int nonce;
 
   /// Temp Auth Key Id.
+  ///
+  /// Field type is Int64.
   final int tempAuthKeyId;
 
   /// Perm Auth Key Id.
+  ///
+  /// Field type is Int64.
   final int permAuthKeyId;
 
   /// Temp Session Id.
+  ///
+  /// Field type is Int64.
   final int tempSessionId;
 
   /// Expires At.
+  ///
+  /// Field type is Int32.
   final int expiresAt;
 
   /// Serialize.
@@ -575,17 +673,24 @@ class RpcResult extends RpcResultBase {
   }) : super._();
 
   /// Deserialize.
-  factory RpcResult.deserialize(Uint8List buffer) {
-    // final reqMsgId = _readlong(buffer);
-    // final result = _readObject(buffer);
-    // final result = RpcResult(reqMsgId: reqMsgId, result: result,);
+  factory RpcResult.deserialize(BinaryReader reader) {
+    // Read [RpcResult] fields.
+    final reqMsgId = reader.readInt64();
+    final result = reader.readObject() as ObjectBase;
 
-    // return result;
+    // Construct [RpcResult] object.
+    final returnValue = RpcResult(
+      reqMsgId: reqMsgId,
+      result: result,
+    );
 
-    throw Exception();
+    // Now return the deserialized [RpcResult].
+    return returnValue;
   }
 
   /// Req Msg Id.
+  ///
+  /// Field type is Int64.
   final int reqMsgId;
 
   /// Result.
@@ -617,17 +722,24 @@ class RpcError extends RpcErrorBase {
   }) : super._();
 
   /// Deserialize.
-  factory RpcError.deserialize(Uint8List buffer) {
-    // final errorCode = _readint(buffer);
-    // final errorMessage = _readstring(buffer);
-    // final result = RpcError(errorCode: errorCode, errorMessage: errorMessage,);
+  factory RpcError.deserialize(BinaryReader reader) {
+    // Read [RpcError] fields.
+    final errorCode = reader.readInt32();
+    final errorMessage = reader.readString();
 
-    // return result;
+    // Construct [RpcError] object.
+    final returnValue = RpcError(
+      errorCode: errorCode,
+      errorMessage: errorMessage,
+    );
 
-    throw Exception();
+    // Now return the deserialized [RpcError].
+    return returnValue;
   }
 
   /// Error Code.
+  ///
+  /// Field type is Int32.
   final int errorCode;
 
   /// Error Message.
@@ -656,12 +768,12 @@ class RpcAnswerUnknown extends RpcDropAnswerBase {
   const RpcAnswerUnknown() : super._();
 
   /// Deserialize.
-  factory RpcAnswerUnknown.deserialize(Uint8List buffer) {
-    // final result = RpcAnswerUnknown();
+  factory RpcAnswerUnknown.deserialize(BinaryReader reader) {
+    // Construct [RpcAnswerUnknown] object.
+    final returnValue = RpcAnswerUnknown();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [RpcAnswerUnknown].
+    return returnValue;
   }
 
   /// Serialize.
@@ -679,12 +791,12 @@ class RpcAnswerDroppedRunning extends RpcDropAnswerBase {
   const RpcAnswerDroppedRunning() : super._();
 
   /// Deserialize.
-  factory RpcAnswerDroppedRunning.deserialize(Uint8List buffer) {
-    // final result = RpcAnswerDroppedRunning();
+  factory RpcAnswerDroppedRunning.deserialize(BinaryReader reader) {
+    // Construct [RpcAnswerDroppedRunning] object.
+    final returnValue = RpcAnswerDroppedRunning();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [RpcAnswerDroppedRunning].
+    return returnValue;
   }
 
   /// Serialize.
@@ -706,24 +818,36 @@ class RpcAnswerDropped extends RpcDropAnswerBase {
   }) : super._();
 
   /// Deserialize.
-  factory RpcAnswerDropped.deserialize(Uint8List buffer) {
-    // final msgId = _readlong(buffer);
-    // final seqNo = _readint(buffer);
-    // final bytes = _readint(buffer);
-    // final result = RpcAnswerDropped(msgId: msgId, seqNo: seqNo, bytes: bytes,);
+  factory RpcAnswerDropped.deserialize(BinaryReader reader) {
+    // Read [RpcAnswerDropped] fields.
+    final msgId = reader.readInt64();
+    final seqNo = reader.readInt32();
+    final bytes = reader.readInt32();
 
-    // return result;
+    // Construct [RpcAnswerDropped] object.
+    final returnValue = RpcAnswerDropped(
+      msgId: msgId,
+      seqNo: seqNo,
+      bytes: bytes,
+    );
 
-    throw Exception();
+    // Now return the deserialized [RpcAnswerDropped].
+    return returnValue;
   }
 
   /// Msg Id.
+  ///
+  /// Field type is Int64.
   final int msgId;
 
   /// Seq No.
+  ///
+  /// Field type is Int32.
   final int seqNo;
 
   /// Bytes.
+  ///
+  /// Field type is Int32.
   final int bytes;
 
   /// Serialize.
@@ -754,24 +878,36 @@ class FutureSalt extends FutureSaltBase {
   }) : super._();
 
   /// Deserialize.
-  factory FutureSalt.deserialize(Uint8List buffer) {
-    // final validSince = _readint(buffer);
-    // final validUntil = _readint(buffer);
-    // final salt = _readlong(buffer);
-    // final result = FutureSalt(validSince: validSince, validUntil: validUntil, salt: salt,);
+  factory FutureSalt.deserialize(BinaryReader reader) {
+    // Read [FutureSalt] fields.
+    final validSince = reader.readInt32();
+    final validUntil = reader.readInt32();
+    final salt = reader.readInt64();
 
-    // return result;
+    // Construct [FutureSalt] object.
+    final returnValue = FutureSalt(
+      validSince: validSince,
+      validUntil: validUntil,
+      salt: salt,
+    );
 
-    throw Exception();
+    // Now return the deserialized [FutureSalt].
+    return returnValue;
   }
 
   /// Valid Since.
+  ///
+  /// Field type is Int32.
   final int validSince;
 
   /// Valid Until.
+  ///
+  /// Field type is Int32.
   final int validUntil;
 
   /// Salt.
+  ///
+  /// Field type is Int64.
   final int salt;
 
   /// Serialize.
@@ -802,21 +938,31 @@ class FutureSalts extends FutureSaltsBase {
   }) : super._();
 
   /// Deserialize.
-  factory FutureSalts.deserialize(Uint8List buffer) {
-    // final reqMsgId = _readlong(buffer);
-    // final now = _readint(buffer);
-    // final salts = _readvector<future_salt>(buffer);
-    // final result = FutureSalts(reqMsgId: reqMsgId, now: now, salts: salts,);
+  factory FutureSalts.deserialize(BinaryReader reader) {
+    // Read [FutureSalts] fields.
+    final reqMsgId = reader.readInt64();
+    final now = reader.readInt32();
+    final salts = reader.readVectorObject<FutureSaltBase>();
 
-    // return result;
+    // Construct [FutureSalts] object.
+    final returnValue = FutureSalts(
+      reqMsgId: reqMsgId,
+      now: now,
+      salts: salts,
+    );
 
-    throw Exception();
+    // Now return the deserialized [FutureSalts].
+    return returnValue;
   }
 
   /// Req Msg Id.
+  ///
+  /// Field type is Int64.
   final int reqMsgId;
 
   /// Now.
+  ///
+  /// Field type is Int32.
   final int now;
 
   /// Salts.
@@ -849,20 +995,29 @@ class Pong extends PongBase {
   }) : super._();
 
   /// Deserialize.
-  factory Pong.deserialize(Uint8List buffer) {
-    // final msgId = _readlong(buffer);
-    // final pingId = _readlong(buffer);
-    // final result = Pong(msgId: msgId, pingId: pingId,);
+  factory Pong.deserialize(BinaryReader reader) {
+    // Read [Pong] fields.
+    final msgId = reader.readInt64();
+    final pingId = reader.readInt64();
 
-    // return result;
+    // Construct [Pong] object.
+    final returnValue = Pong(
+      msgId: msgId,
+      pingId: pingId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [Pong].
+    return returnValue;
   }
 
   /// Msg Id.
+  ///
+  /// Field type is Int64.
   final int msgId;
 
   /// Ping Id.
+  ///
+  /// Field type is Int64.
   final int pingId;
 
   /// Serialize.
@@ -890,16 +1045,22 @@ class DestroySessionOk extends DestroySessionResBase {
   }) : super._();
 
   /// Deserialize.
-  factory DestroySessionOk.deserialize(Uint8List buffer) {
-    // final sessionId = _readlong(buffer);
-    // final result = DestroySessionOk(sessionId: sessionId,);
+  factory DestroySessionOk.deserialize(BinaryReader reader) {
+    // Read [DestroySessionOk] fields.
+    final sessionId = reader.readInt64();
 
-    // return result;
+    // Construct [DestroySessionOk] object.
+    final returnValue = DestroySessionOk(
+      sessionId: sessionId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DestroySessionOk].
+    return returnValue;
   }
 
   /// Session Id.
+  ///
+  /// Field type is Int64.
   final int sessionId;
 
   /// Serialize.
@@ -920,16 +1081,22 @@ class DestroySessionNone extends DestroySessionResBase {
   }) : super._();
 
   /// Deserialize.
-  factory DestroySessionNone.deserialize(Uint8List buffer) {
-    // final sessionId = _readlong(buffer);
-    // final result = DestroySessionNone(sessionId: sessionId,);
+  factory DestroySessionNone.deserialize(BinaryReader reader) {
+    // Read [DestroySessionNone] fields.
+    final sessionId = reader.readInt64();
 
-    // return result;
+    // Construct [DestroySessionNone] object.
+    final returnValue = DestroySessionNone(
+      sessionId: sessionId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DestroySessionNone].
+    return returnValue;
   }
 
   /// Session Id.
+  ///
+  /// Field type is Int64.
   final int sessionId;
 
   /// Serialize.
@@ -958,24 +1125,36 @@ class NewSessionCreated extends NewSessionBase {
   }) : super._();
 
   /// Deserialize.
-  factory NewSessionCreated.deserialize(Uint8List buffer) {
-    // final firstMsgId = _readlong(buffer);
-    // final uniqueId = _readlong(buffer);
-    // final serverSalt = _readlong(buffer);
-    // final result = NewSessionCreated(firstMsgId: firstMsgId, uniqueId: uniqueId, serverSalt: serverSalt,);
+  factory NewSessionCreated.deserialize(BinaryReader reader) {
+    // Read [NewSessionCreated] fields.
+    final firstMsgId = reader.readInt64();
+    final uniqueId = reader.readInt64();
+    final serverSalt = reader.readInt64();
 
-    // return result;
+    // Construct [NewSessionCreated] object.
+    final returnValue = NewSessionCreated(
+      firstMsgId: firstMsgId,
+      uniqueId: uniqueId,
+      serverSalt: serverSalt,
+    );
 
-    throw Exception();
+    // Now return the deserialized [NewSessionCreated].
+    return returnValue;
   }
 
   /// First Msg Id.
+  ///
+  /// Field type is Int64.
   final int firstMsgId;
 
   /// Unique Id.
+  ///
+  /// Field type is Int64.
   final int uniqueId;
 
   /// Server Salt.
+  ///
+  /// Field type is Int64.
   final int serverSalt;
 
   /// Serialize.
@@ -1004,17 +1183,21 @@ class MsgContainer extends MessageContainerBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgContainer.deserialize(Uint8List buffer) {
-    // final messages = _readvector<%Message>(buffer);
-    // final result = MsgContainer(messages: messages,);
+  factory MsgContainer.deserialize(BinaryReader reader) {
+    // Read [MsgContainer] fields.
+    final messages = reader.readVectorObject<MessageBase>();
 
-    // return result;
+    // Construct [MsgContainer] object.
+    final returnValue = MsgContainer(
+      messages: messages,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgContainer].
+    return returnValue;
   }
 
   /// Messages.
-  final List<Msg> messages;
+  final List<MessageBase> messages;
 
   /// Serialize.
   @override
@@ -1037,25 +1220,38 @@ class Msg extends TlConstructor {
   }) : super._();
 
   /// Deserialize.
-  factory Msg.deserialize(Uint8List buffer) {
-    // final msgId = _readlong(buffer);
-    // final seqno = _readint(buffer);
-    // final bytes = _readint(buffer);
-    // final body = _readObject(buffer);
-    // final result = Message(msgId: msgId, seqno: seqno, bytes: bytes, body: body,);
+  factory Msg.deserialize(BinaryReader reader) {
+    // Read [Message] fields.
+    final msgId = reader.readInt64();
+    final seqno = reader.readInt32();
+    final bytes = reader.readInt32();
+    final body = reader.readObject() as ObjectBase;
 
-    // return result;
+    // Construct [Message] object.
+    final returnValue = Msg(
+      msgId: msgId,
+      seqno: seqno,
+      bytes: bytes,
+      body: body,
+    );
 
-    throw Exception();
+    // Now return the deserialized [Message].
+    return returnValue;
   }
 
   /// Msg Id.
+  ///
+  /// Field type is Int64.
   final int msgId;
 
   /// Seqno.
+  ///
+  /// Field type is Int32.
   final int seqno;
 
   /// Bytes.
+  ///
+  /// Field type is Int32.
   final int bytes;
 
   /// Body.
@@ -1088,17 +1284,21 @@ class MsgCopy extends MessageCopyBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgCopy.deserialize(Uint8List buffer) {
-    // final origMessage = _readMessage(buffer);
-    // final result = MsgCopy(origMessage: origMessage,);
+  factory MsgCopy.deserialize(BinaryReader reader) {
+    // Read [MsgCopy] fields.
+    final origMessage = reader.readObject() as MessageBase;
 
-    // return result;
+    // Construct [MsgCopy] object.
+    final returnValue = MsgCopy(
+      origMessage: origMessage,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgCopy].
+    return returnValue;
   }
 
   /// Orig Message.
-  final Msg origMessage;
+  final MessageBase origMessage;
 
   /// Serialize.
   @override
@@ -1124,13 +1324,17 @@ class GzipPacked extends ObjectBase {
   }) : super._();
 
   /// Deserialize.
-  factory GzipPacked.deserialize(Uint8List buffer) {
-    // final packedData = _readbytes(buffer);
-    // final result = GzipPacked(packedData: packedData,);
+  factory GzipPacked.deserialize(BinaryReader reader) {
+    // Read [GzipPacked] fields.
+    final packedData = reader.readBytes();
 
-    // return result;
+    // Construct [GzipPacked] object.
+    final returnValue = GzipPacked(
+      packedData: packedData,
+    );
 
-    throw Exception();
+    // Now return the deserialized [GzipPacked].
+    return returnValue;
   }
 
   /// Packed Data.
@@ -1160,13 +1364,17 @@ class MsgsAck extends MsgsAckBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgsAck.deserialize(Uint8List buffer) {
-    // final msgIds = _readVector<long>(buffer);
-    // final result = MsgsAck(msgIds: msgIds,);
+  factory MsgsAck.deserialize(BinaryReader reader) {
+    // Read [MsgsAck] fields.
+    final msgIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [MsgsAck] object.
+    final returnValue = MsgsAck(
+      msgIds: msgIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgsAck].
+    return returnValue;
   }
 
   /// Msg Ids.
@@ -1198,24 +1406,36 @@ class BadMsgNotification extends BadMsgNotificationBase {
   }) : super._();
 
   /// Deserialize.
-  factory BadMsgNotification.deserialize(Uint8List buffer) {
-    // final badMsgId = _readlong(buffer);
-    // final badMsgSeqno = _readint(buffer);
-    // final errorCode = _readint(buffer);
-    // final result = BadMsgNotification(badMsgId: badMsgId, badMsgSeqno: badMsgSeqno, errorCode: errorCode,);
+  factory BadMsgNotification.deserialize(BinaryReader reader) {
+    // Read [BadMsgNotification] fields.
+    final badMsgId = reader.readInt64();
+    final badMsgSeqno = reader.readInt32();
+    final errorCode = reader.readInt32();
 
-    // return result;
+    // Construct [BadMsgNotification] object.
+    final returnValue = BadMsgNotification(
+      badMsgId: badMsgId,
+      badMsgSeqno: badMsgSeqno,
+      errorCode: errorCode,
+    );
 
-    throw Exception();
+    // Now return the deserialized [BadMsgNotification].
+    return returnValue;
   }
 
   /// Bad Msg Id.
+  ///
+  /// Field type is Int64.
   final int badMsgId;
 
   /// Bad Msg Seqno.
+  ///
+  /// Field type is Int32.
   final int badMsgSeqno;
 
   /// Error Code.
+  ///
+  /// Field type is Int32.
   final int errorCode;
 
   /// Serialize.
@@ -1241,28 +1461,43 @@ class BadServerSalt extends BadMsgNotificationBase {
   }) : super._();
 
   /// Deserialize.
-  factory BadServerSalt.deserialize(Uint8List buffer) {
-    // final badMsgId = _readlong(buffer);
-    // final badMsgSeqno = _readint(buffer);
-    // final errorCode = _readint(buffer);
-    // final newServerSalt = _readlong(buffer);
-    // final result = BadServerSalt(badMsgId: badMsgId, badMsgSeqno: badMsgSeqno, errorCode: errorCode, newServerSalt: newServerSalt,);
+  factory BadServerSalt.deserialize(BinaryReader reader) {
+    // Read [BadServerSalt] fields.
+    final badMsgId = reader.readInt64();
+    final badMsgSeqno = reader.readInt32();
+    final errorCode = reader.readInt32();
+    final newServerSalt = reader.readInt64();
 
-    // return result;
+    // Construct [BadServerSalt] object.
+    final returnValue = BadServerSalt(
+      badMsgId: badMsgId,
+      badMsgSeqno: badMsgSeqno,
+      errorCode: errorCode,
+      newServerSalt: newServerSalt,
+    );
 
-    throw Exception();
+    // Now return the deserialized [BadServerSalt].
+    return returnValue;
   }
 
   /// Bad Msg Id.
+  ///
+  /// Field type is Int64.
   final int badMsgId;
 
   /// Bad Msg Seqno.
+  ///
+  /// Field type is Int32.
   final int badMsgSeqno;
 
   /// Error Code.
+  ///
+  /// Field type is Int32.
   final int errorCode;
 
   /// New Server Salt.
+  ///
+  /// Field type is Int64.
   final int newServerSalt;
 
   /// Serialize.
@@ -1292,13 +1527,17 @@ class MsgResendReq extends MsgResendReqBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgResendReq.deserialize(Uint8List buffer) {
-    // final msgIds = _readVector<long>(buffer);
-    // final result = MsgResendReq(msgIds: msgIds,);
+  factory MsgResendReq.deserialize(BinaryReader reader) {
+    // Read [MsgResendReq] fields.
+    final msgIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [MsgResendReq] object.
+    final returnValue = MsgResendReq(
+      msgIds: msgIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgResendReq].
+    return returnValue;
   }
 
   /// Msg Ids.
@@ -1328,13 +1567,17 @@ class MsgsStateReq extends MsgsStateReqBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgsStateReq.deserialize(Uint8List buffer) {
-    // final msgIds = _readVector<long>(buffer);
-    // final result = MsgsStateReq(msgIds: msgIds,);
+  factory MsgsStateReq.deserialize(BinaryReader reader) {
+    // Read [MsgsStateReq] fields.
+    final msgIds = reader.readVectorInt64();
 
-    // return result;
+    // Construct [MsgsStateReq] object.
+    final returnValue = MsgsStateReq(
+      msgIds: msgIds,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgsStateReq].
+    return returnValue;
   }
 
   /// Msg Ids.
@@ -1365,17 +1608,24 @@ class MsgsStateInfo extends MsgsStateInfoBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgsStateInfo.deserialize(Uint8List buffer) {
-    // final reqMsgId = _readlong(buffer);
-    // final info = _readbytes(buffer);
-    // final result = MsgsStateInfo(reqMsgId: reqMsgId, info: info,);
+  factory MsgsStateInfo.deserialize(BinaryReader reader) {
+    // Read [MsgsStateInfo] fields.
+    final reqMsgId = reader.readInt64();
+    final info = reader.readBytes();
 
-    // return result;
+    // Construct [MsgsStateInfo] object.
+    final returnValue = MsgsStateInfo(
+      reqMsgId: reqMsgId,
+      info: info,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgsStateInfo].
+    return returnValue;
   }
 
   /// Req Msg Id.
+  ///
+  /// Field type is Int64.
   final int reqMsgId;
 
   /// Info.
@@ -1407,14 +1657,19 @@ class MsgsAllInfo extends MsgsAllInfoBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgsAllInfo.deserialize(Uint8List buffer) {
-    // final msgIds = _readVector<long>(buffer);
-    // final info = _readbytes(buffer);
-    // final result = MsgsAllInfo(msgIds: msgIds, info: info,);
+  factory MsgsAllInfo.deserialize(BinaryReader reader) {
+    // Read [MsgsAllInfo] fields.
+    final msgIds = reader.readVectorInt64();
+    final info = reader.readBytes();
 
-    // return result;
+    // Construct [MsgsAllInfo] object.
+    final returnValue = MsgsAllInfo(
+      msgIds: msgIds,
+      info: info,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgsAllInfo].
+    return returnValue;
   }
 
   /// Msg Ids.
@@ -1451,28 +1706,43 @@ class MsgDetailedInfo extends MsgDetailedInfoBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgDetailedInfo.deserialize(Uint8List buffer) {
-    // final msgId = _readlong(buffer);
-    // final answerMsgId = _readlong(buffer);
-    // final bytes = _readint(buffer);
-    // final status = _readint(buffer);
-    // final result = MsgDetailedInfo(msgId: msgId, answerMsgId: answerMsgId, bytes: bytes, status: status,);
+  factory MsgDetailedInfo.deserialize(BinaryReader reader) {
+    // Read [MsgDetailedInfo] fields.
+    final msgId = reader.readInt64();
+    final answerMsgId = reader.readInt64();
+    final bytes = reader.readInt32();
+    final status = reader.readInt32();
 
-    // return result;
+    // Construct [MsgDetailedInfo] object.
+    final returnValue = MsgDetailedInfo(
+      msgId: msgId,
+      answerMsgId: answerMsgId,
+      bytes: bytes,
+      status: status,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgDetailedInfo].
+    return returnValue;
   }
 
   /// Msg Id.
+  ///
+  /// Field type is Int64.
   final int msgId;
 
   /// Answer Msg Id.
+  ///
+  /// Field type is Int64.
   final int answerMsgId;
 
   /// Bytes.
+  ///
+  /// Field type is Int32.
   final int bytes;
 
   /// Status.
+  ///
+  /// Field type is Int32.
   final int status;
 
   /// Serialize.
@@ -1498,24 +1768,36 @@ class MsgNewDetailedInfo extends MsgDetailedInfoBase {
   }) : super._();
 
   /// Deserialize.
-  factory MsgNewDetailedInfo.deserialize(Uint8List buffer) {
-    // final answerMsgId = _readlong(buffer);
-    // final bytes = _readint(buffer);
-    // final status = _readint(buffer);
-    // final result = MsgNewDetailedInfo(answerMsgId: answerMsgId, bytes: bytes, status: status,);
+  factory MsgNewDetailedInfo.deserialize(BinaryReader reader) {
+    // Read [MsgNewDetailedInfo] fields.
+    final answerMsgId = reader.readInt64();
+    final bytes = reader.readInt32();
+    final status = reader.readInt32();
 
-    // return result;
+    // Construct [MsgNewDetailedInfo] object.
+    final returnValue = MsgNewDetailedInfo(
+      answerMsgId: answerMsgId,
+      bytes: bytes,
+      status: status,
+    );
 
-    throw Exception();
+    // Now return the deserialized [MsgNewDetailedInfo].
+    return returnValue;
   }
 
   /// Answer Msg Id.
+  ///
+  /// Field type is Int64.
   final int answerMsgId;
 
   /// Bytes.
+  ///
+  /// Field type is Int32.
   final int bytes;
 
   /// Status.
+  ///
+  /// Field type is Int32.
   final int status;
 
   /// Serialize.
@@ -1542,12 +1824,12 @@ class DestroyAuthKeyOk extends DestroyAuthKeyResBase {
   const DestroyAuthKeyOk() : super._();
 
   /// Deserialize.
-  factory DestroyAuthKeyOk.deserialize(Uint8List buffer) {
-    // final result = DestroyAuthKeyOk();
+  factory DestroyAuthKeyOk.deserialize(BinaryReader reader) {
+    // Construct [DestroyAuthKeyOk] object.
+    final returnValue = DestroyAuthKeyOk();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DestroyAuthKeyOk].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1565,12 +1847,12 @@ class DestroyAuthKeyNone extends DestroyAuthKeyResBase {
   const DestroyAuthKeyNone() : super._();
 
   /// Deserialize.
-  factory DestroyAuthKeyNone.deserialize(Uint8List buffer) {
-    // final result = DestroyAuthKeyNone();
+  factory DestroyAuthKeyNone.deserialize(BinaryReader reader) {
+    // Construct [DestroyAuthKeyNone] object.
+    final returnValue = DestroyAuthKeyNone();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DestroyAuthKeyNone].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1588,12 +1870,12 @@ class DestroyAuthKeyFail extends DestroyAuthKeyResBase {
   const DestroyAuthKeyFail() : super._();
 
   /// Deserialize.
-  factory DestroyAuthKeyFail.deserialize(Uint8List buffer) {
-    // final result = DestroyAuthKeyFail();
+  factory DestroyAuthKeyFail.deserialize(BinaryReader reader) {
+    // Construct [DestroyAuthKeyFail] object.
+    final returnValue = DestroyAuthKeyFail();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DestroyAuthKeyFail].
+    return returnValue;
   }
 
   /// Serialize.
@@ -1613,13 +1895,17 @@ class ReqPqMulti extends TlMethod<ResPQBase> {
   }) : super._();
 
   /// Deserialize.
-  factory ReqPqMulti.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final result = ReqPqMulti(nonce: nonce,);
+  factory ReqPqMulti.deserialize(BinaryReader reader) {
+    // Read [ReqPqMulti] fields.
+    final nonce = reader.readInt128();
 
-    // return result;
+    // Construct [ReqPqMulti] object.
+    final returnValue = ReqPqMulti(
+      nonce: nonce,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ReqPqMulti].
+    return returnValue;
   }
 
   /// Nonce.
@@ -1648,18 +1934,27 @@ class ReqDHParams extends TlMethod<ServerDHParamsBase> {
   }) : super._();
 
   /// Deserialize.
-  factory ReqDHParams.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final p = _readbytes(buffer);
-    // final q = _readbytes(buffer);
-    // final publicKeyFingerprint = _readlong(buffer);
-    // final encryptedData = _readbytes(buffer);
-    // final result = ReqDHParams(nonce: nonce, serverNonce: serverNonce, p: p, q: q, publicKeyFingerprint: publicKeyFingerprint, encryptedData: encryptedData,);
+  factory ReqDHParams.deserialize(BinaryReader reader) {
+    // Read [ReqDHParams] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final p = reader.readBytes();
+    final q = reader.readBytes();
+    final publicKeyFingerprint = reader.readInt64();
+    final encryptedData = reader.readBytes();
 
-    // return result;
+    // Construct [ReqDHParams] object.
+    final returnValue = ReqDHParams(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      p: p,
+      q: q,
+      publicKeyFingerprint: publicKeyFingerprint,
+      encryptedData: encryptedData,
+    );
 
-    throw Exception();
+    // Now return the deserialized [ReqDHParams].
+    return returnValue;
   }
 
   /// Nonce.
@@ -1675,6 +1970,8 @@ class ReqDHParams extends TlMethod<ServerDHParamsBase> {
   final Uint8List q;
 
   /// Public Key Fingerprint.
+  ///
+  /// Field type is Int64.
   final int publicKeyFingerprint;
 
   /// Encrypted Data.
@@ -1705,15 +2002,21 @@ class SetClientDHParams extends TlMethod<SetClientDHParamsAnswerBase> {
   }) : super._();
 
   /// Deserialize.
-  factory SetClientDHParams.deserialize(Uint8List buffer) {
-    // final nonce = _readint128(buffer);
-    // final serverNonce = _readint128(buffer);
-    // final encryptedData = _readbytes(buffer);
-    // final result = SetClientDHParams(nonce: nonce, serverNonce: serverNonce, encryptedData: encryptedData,);
+  factory SetClientDHParams.deserialize(BinaryReader reader) {
+    // Read [SetClientDHParams] fields.
+    final nonce = reader.readInt128();
+    final serverNonce = reader.readInt128();
+    final encryptedData = reader.readBytes();
 
-    // return result;
+    // Construct [SetClientDHParams] object.
+    final returnValue = SetClientDHParams(
+      nonce: nonce,
+      serverNonce: serverNonce,
+      encryptedData: encryptedData,
+    );
 
-    throw Exception();
+    // Now return the deserialized [SetClientDHParams].
+    return returnValue;
   }
 
   /// Nonce.
@@ -1745,16 +2048,22 @@ class RpcDropAnswer extends TlMethod<RpcDropAnswerBase> {
   }) : super._();
 
   /// Deserialize.
-  factory RpcDropAnswer.deserialize(Uint8List buffer) {
-    // final reqMsgId = _readlong(buffer);
-    // final result = RpcDropAnswer(reqMsgId: reqMsgId,);
+  factory RpcDropAnswer.deserialize(BinaryReader reader) {
+    // Read [RpcDropAnswer] fields.
+    final reqMsgId = reader.readInt64();
 
-    // return result;
+    // Construct [RpcDropAnswer] object.
+    final returnValue = RpcDropAnswer(
+      reqMsgId: reqMsgId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [RpcDropAnswer].
+    return returnValue;
   }
 
   /// Req Msg Id.
+  ///
+  /// Field type is Int64.
   final int reqMsgId;
 
   /// Serialize.
@@ -1775,16 +2084,22 @@ class GetFutureSalts extends TlMethod<FutureSaltsBase> {
   }) : super._();
 
   /// Deserialize.
-  factory GetFutureSalts.deserialize(Uint8List buffer) {
-    // final num = _readint(buffer);
-    // final result = GetFutureSalts(num: num,);
+  factory GetFutureSalts.deserialize(BinaryReader reader) {
+    // Read [GetFutureSalts] fields.
+    final num = reader.readInt32();
 
-    // return result;
+    // Construct [GetFutureSalts] object.
+    final returnValue = GetFutureSalts(
+      num: num,
+    );
 
-    throw Exception();
+    // Now return the deserialized [GetFutureSalts].
+    return returnValue;
   }
 
   /// Num.
+  ///
+  /// Field type is Int32.
   final int num;
 
   /// Serialize.
@@ -1805,16 +2120,22 @@ class Ping extends TlMethod<PongBase> {
   }) : super._();
 
   /// Deserialize.
-  factory Ping.deserialize(Uint8List buffer) {
-    // final pingId = _readlong(buffer);
-    // final result = Ping(pingId: pingId,);
+  factory Ping.deserialize(BinaryReader reader) {
+    // Read [Ping] fields.
+    final pingId = reader.readInt64();
 
-    // return result;
+    // Construct [Ping] object.
+    final returnValue = Ping(
+      pingId: pingId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [Ping].
+    return returnValue;
   }
 
   /// Ping Id.
+  ///
+  /// Field type is Int64.
   final int pingId;
 
   /// Serialize.
@@ -1836,20 +2157,29 @@ class PingDelayDisconnect extends TlMethod<PongBase> {
   }) : super._();
 
   /// Deserialize.
-  factory PingDelayDisconnect.deserialize(Uint8List buffer) {
-    // final pingId = _readlong(buffer);
-    // final disconnectDelay = _readint(buffer);
-    // final result = PingDelayDisconnect(pingId: pingId, disconnectDelay: disconnectDelay,);
+  factory PingDelayDisconnect.deserialize(BinaryReader reader) {
+    // Read [PingDelayDisconnect] fields.
+    final pingId = reader.readInt64();
+    final disconnectDelay = reader.readInt32();
 
-    // return result;
+    // Construct [PingDelayDisconnect] object.
+    final returnValue = PingDelayDisconnect(
+      pingId: pingId,
+      disconnectDelay: disconnectDelay,
+    );
 
-    throw Exception();
+    // Now return the deserialized [PingDelayDisconnect].
+    return returnValue;
   }
 
   /// Ping Id.
+  ///
+  /// Field type is Int64.
   final int pingId;
 
   /// Disconnect Delay.
+  ///
+  /// Field type is Int32.
   final int disconnectDelay;
 
   /// Serialize.
@@ -1871,16 +2201,22 @@ class DestroySession extends TlMethod<DestroySessionResBase> {
   }) : super._();
 
   /// Deserialize.
-  factory DestroySession.deserialize(Uint8List buffer) {
-    // final sessionId = _readlong(buffer);
-    // final result = DestroySession(sessionId: sessionId,);
+  factory DestroySession.deserialize(BinaryReader reader) {
+    // Read [DestroySession] fields.
+    final sessionId = reader.readInt64();
 
-    // return result;
+    // Construct [DestroySession] object.
+    final returnValue = DestroySession(
+      sessionId: sessionId,
+    );
 
-    throw Exception();
+    // Now return the deserialized [DestroySession].
+    return returnValue;
   }
 
   /// Session Id.
+  ///
+  /// Field type is Int64.
   final int sessionId;
 
   /// Serialize.
@@ -1903,24 +2239,36 @@ class HttpWait extends TlMethod<HttpWait> {
   }) : super._();
 
   /// Deserialize.
-  factory HttpWait.deserialize(Uint8List buffer) {
-    // final maxDelay = _readint(buffer);
-    // final waitAfter = _readint(buffer);
-    // final maxWait = _readint(buffer);
-    // final result = HttpWait(maxDelay: maxDelay, waitAfter: waitAfter, maxWait: maxWait,);
+  factory HttpWait.deserialize(BinaryReader reader) {
+    // Read [HttpWait] fields.
+    final maxDelay = reader.readInt32();
+    final waitAfter = reader.readInt32();
+    final maxWait = reader.readInt32();
 
-    // return result;
+    // Construct [HttpWait] object.
+    final returnValue = HttpWait(
+      maxDelay: maxDelay,
+      waitAfter: waitAfter,
+      maxWait: maxWait,
+    );
 
-    throw Exception();
+    // Now return the deserialized [HttpWait].
+    return returnValue;
   }
 
   /// Max Delay.
+  ///
+  /// Field type is Int32.
   final int maxDelay;
 
   /// Wait After.
+  ///
+  /// Field type is Int32.
   final int waitAfter;
 
   /// Max Wait.
+  ///
+  /// Field type is Int32.
   final int maxWait;
 
   /// Serialize.
@@ -1941,12 +2289,12 @@ class DestroyAuthKey extends TlMethod<DestroyAuthKeyResBase> {
   const DestroyAuthKey() : super._();
 
   /// Deserialize.
-  factory DestroyAuthKey.deserialize(Uint8List buffer) {
-    // final result = DestroyAuthKey();
+  factory DestroyAuthKey.deserialize(BinaryReader reader) {
+    // Construct [DestroyAuthKey] object.
+    final returnValue = DestroyAuthKey();
 
-    // return result;
-
-    throw Exception();
+    // Now return the deserialized [DestroyAuthKey].
+    return returnValue;
   }
 
   /// Serialize.
