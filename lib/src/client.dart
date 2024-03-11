@@ -14,18 +14,18 @@ class Client {
   final Sink<List<int>> sender;
   //final SessionStore sessionStore;
 
-  DCSession? _dcSession;
+  //DCSession? _dcSession;
 
-  final List<int> _msgsToAck = [];
-  MsgsAck? _checkMsgsToAck() {
-    if (_msgsToAck.isEmpty) {
-      return null;
-    }
+  // final List<int> _msgsToAck = [];
+  // MsgsAck? _checkMsgsToAck() {
+  //   if (_msgsToAck.isEmpty) {
+  //     return null;
+  //   }
 
-    final msgsAck = MsgsAck(msgIds: [..._msgsToAck]);
-    _msgsToAck.clear();
-    return msgsAck;
-  }
+  //   final msgsAck = MsgsAck(msgIds: [..._msgsToAck]);
+  //   _msgsToAck.clear();
+  //   return msgsAck;
+  // }
 
   // Future<void> send(TlObject msg, bool isContent) async {
   //   final dcSession = _dcSession!;
@@ -77,8 +77,8 @@ class Client {
       invoke(InvokeWithLayer<X>(layer: layer, query: query));
 }
 
-class _MessageIdSeq {
-  const _MessageIdSeq(this.msgId, this.seqno);
-  final int msgId;
-  final int seqno;
-}
+// class _MessageIdSeq {
+//   const _MessageIdSeq(this.msgId, this.seqno);
+//   final int msgId;
+//   final int seqno;
+// }
