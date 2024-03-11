@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:tg/tg.dart' as tg;
 
 void main(List<String> arguments) async {
+  // final obf = tg.Obfuscation.random(false, 4);
   final buffer = <int>[];
 
   final q = tg.InitConnection(

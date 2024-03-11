@@ -708,9 +708,10 @@ class InputMediaUploadedPhoto extends InputMediaBase {
     final spoiler = (flags & 4) != 0;
     final file = reader.readObject() as InputFileBase;
     final hasStickersField = (flags & 1) != 0;
-    final dynamic stickers = hasStickersField ? 0 : null;
+    final stickers =
+        hasStickersField ? reader.readVectorObject<InputDocumentBase>() : null;
     final hasTtlSecondsField = (flags & 2) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [InputMediaUploadedPhoto] object.
     final returnValue = InputMediaUploadedPhoto(
@@ -782,7 +783,7 @@ class InputMediaPhoto extends InputMediaBase {
     final spoiler = (flags & 2) != 0;
     final id = reader.readObject() as InputPhotoBase;
     final hasTtlSecondsField = (flags & 1) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [InputMediaPhoto] object.
     final returnValue = InputMediaPhoto(
@@ -942,13 +943,14 @@ class InputMediaUploadedDocument extends InputMediaBase {
     final spoiler = (flags & 32) != 0;
     final file = reader.readObject() as InputFileBase;
     final hasThumbField = (flags & 4) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb = hasThumbField ? reader.readObject() as InputFileBase : null;
     final mimeType = reader.readString();
     final attributes = reader.readVectorObject<DocumentAttributeBase>();
     final hasStickersField = (flags & 1) != 0;
-    final dynamic stickers = hasStickersField ? 0 : null;
+    final stickers =
+        hasStickersField ? reader.readVectorObject<InputDocumentBase>() : null;
     final hasTtlSecondsField = (flags & 2) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [InputMediaUploadedDocument] object.
     final returnValue = InputMediaUploadedDocument(
@@ -1050,9 +1052,9 @@ class InputMediaDocument extends InputMediaBase {
     final spoiler = (flags & 4) != 0;
     final id = reader.readObject() as InputDocumentBase;
     final hasTtlSecondsField = (flags & 1) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
     final hasQueryField = (flags & 2) != 0;
-    final dynamic query = hasQueryField ? 0 : null;
+    final query = hasQueryField ? reader.readString() : null;
 
     // Construct [InputMediaDocument] object.
     final returnValue = InputMediaDocument(
@@ -1193,7 +1195,7 @@ class InputMediaPhotoExternal extends InputMediaBase {
     final spoiler = (flags & 2) != 0;
     final url = reader.readString();
     final hasTtlSecondsField = (flags & 1) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [InputMediaPhotoExternal] object.
     final returnValue = InputMediaPhotoExternal(
@@ -1256,7 +1258,7 @@ class InputMediaDocumentExternal extends InputMediaBase {
     final spoiler = (flags & 2) != 0;
     final url = reader.readString();
     final hasTtlSecondsField = (flags & 1) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [InputMediaDocumentExternal] object.
     final returnValue = InputMediaDocumentExternal(
@@ -1359,15 +1361,17 @@ class InputMediaInvoice extends InputMediaBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo =
+        hasPhotoField ? reader.readObject() as InputWebDocumentBase : null;
     final invoice = reader.readObject() as InvoiceBase;
     final payload = reader.readBytes();
     final provider = reader.readString();
     final providerData = reader.readObject() as DataJSONBase;
     final hasStartParamField = (flags & 2) != 0;
-    final dynamic startParam = hasStartParamField ? 0 : null;
+    final startParam = hasStartParamField ? reader.readString() : null;
     final hasExtendedMediaField = (flags & 4) != 0;
-    final dynamic extendedMedia = hasExtendedMediaField ? 0 : null;
+    final extendedMedia =
+        hasExtendedMediaField ? reader.readObject() as InputMediaBase : null;
 
     // Construct [InputMediaInvoice] object.
     final returnValue = InputMediaInvoice(
@@ -1470,12 +1474,12 @@ class InputMediaGeoLive extends InputMediaBase {
     final stopped = (flags & 1) != 0;
     final geoPoint = reader.readObject() as InputGeoPointBase;
     final hasHeadingField = (flags & 4) != 0;
-    final dynamic heading = hasHeadingField ? 0 : null;
+    final heading = hasHeadingField ? reader.readInt32() : null;
     final hasPeriodField = (flags & 2) != 0;
-    final dynamic period = hasPeriodField ? 0 : null;
+    final period = hasPeriodField ? reader.readInt32() : null;
     final hasProximityNotificationRadiusField = (flags & 8) != 0;
-    final dynamic proximityNotificationRadius =
-        hasProximityNotificationRadiusField ? 0 : null;
+    final proximityNotificationRadius =
+        hasProximityNotificationRadiusField ? reader.readInt32() : null;
 
     // Construct [InputMediaGeoLive] object.
     final returnValue = InputMediaGeoLive(
@@ -1556,11 +1560,14 @@ class InputMediaPoll extends InputMediaBase {
     final flags = reader.readInt32();
     final poll = reader.readObject() as PollBase;
     final hasCorrectAnswersField = (flags & 1) != 0;
-    final dynamic correctAnswers = hasCorrectAnswersField ? 0 : null;
+    final correctAnswers =
+        hasCorrectAnswersField ? reader.readVectorBytes() : null;
     final hasSolutionField = (flags & 2) != 0;
-    final dynamic solution = hasSolutionField ? 0 : null;
+    final solution = hasSolutionField ? reader.readString() : null;
     final hasSolutionEntitiesField = (flags & 2) != 0;
-    final dynamic solutionEntities = hasSolutionEntitiesField ? 0 : null;
+    final solutionEntities = hasSolutionEntitiesField
+        ? reader.readVectorObject<MessageEntityBase>()
+        : null;
 
     // Construct [InputMediaPoll] object.
     final returnValue = InputMediaPoll(
@@ -1805,13 +1812,14 @@ class InputChatUploadedPhoto extends InputChatPhotoBase {
     // Read [InputChatUploadedPhoto] fields.
     final flags = reader.readInt32();
     final hasFileField = (flags & 1) != 0;
-    final dynamic file = hasFileField ? 0 : null;
+    final file = hasFileField ? reader.readObject() as InputFileBase : null;
     final hasVideoField = (flags & 2) != 0;
-    final dynamic video = hasVideoField ? 0 : null;
+    final video = hasVideoField ? reader.readObject() as InputFileBase : null;
     final hasVideoStartTsField = (flags & 4) != 0;
-    final dynamic videoStartTs = hasVideoStartTsField ? 0 : null;
+    final videoStartTs = hasVideoStartTsField ? reader.readFloat64() : null;
     final hasVideoEmojiMarkupField = (flags & 8) != 0;
-    final dynamic videoEmojiMarkup = hasVideoEmojiMarkupField ? 0 : null;
+    final videoEmojiMarkup =
+        hasVideoEmojiMarkupField ? reader.readObject() as VideoSizeBase : null;
 
     // Construct [InputChatUploadedPhoto] object.
     final returnValue = InputChatUploadedPhoto(
@@ -1954,7 +1962,7 @@ class InputGeoPoint extends InputGeoPointBase {
     final lat = reader.readFloat64();
     final long = reader.readFloat64();
     final hasAccuracyRadiusField = (flags & 1) != 0;
-    final dynamic accuracyRadius = hasAccuracyRadiusField ? 0 : null;
+    final accuracyRadius = hasAccuracyRadiusField ? reader.readInt32() : null;
 
     // Construct [InputGeoPoint] object.
     final returnValue = InputGeoPoint(
@@ -2581,9 +2589,9 @@ class InputGroupCallStream extends InputFileLocationBase {
     final timeMs = reader.readInt64();
     final scale = reader.readInt32();
     final hasVideoChannelField = (flags & 1) != 0;
-    final dynamic videoChannel = hasVideoChannelField ? 0 : null;
+    final videoChannel = hasVideoChannelField ? reader.readInt32() : null;
     final hasVideoQualityField = (flags & 1) != 0;
-    final dynamic videoQuality = hasVideoQualityField ? 0 : null;
+    final videoQuality = hasVideoQualityField ? reader.readInt32() : null;
 
     // Construct [InputGroupCallStream] object.
     final returnValue = InputGroupCallStream(
@@ -3113,38 +3121,45 @@ class User extends UserBase {
     final storiesUnavailable = (flags2 & 16) != 0;
     final id = reader.readInt64();
     final hasAccessHashField = (flags & 1) != 0;
-    final dynamic accessHash = hasAccessHashField ? 0 : null;
+    final accessHash = hasAccessHashField ? reader.readInt64() : null;
     final hasFirstNameField = (flags & 2) != 0;
-    final dynamic firstName = hasFirstNameField ? 0 : null;
+    final firstName = hasFirstNameField ? reader.readString() : null;
     final hasLastNameField = (flags & 4) != 0;
-    final dynamic lastName = hasLastNameField ? 0 : null;
+    final lastName = hasLastNameField ? reader.readString() : null;
     final hasUsernameField = (flags & 8) != 0;
-    final dynamic username = hasUsernameField ? 0 : null;
+    final username = hasUsernameField ? reader.readString() : null;
     final hasPhoneField = (flags & 16) != 0;
-    final dynamic phone = hasPhoneField ? 0 : null;
+    final phone = hasPhoneField ? reader.readString() : null;
     final hasPhotoField = (flags & 32) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo =
+        hasPhotoField ? reader.readObject() as UserProfilePhotoBase : null;
     final hasStatusField = (flags & 64) != 0;
-    final dynamic status = hasStatusField ? 0 : null;
+    final status =
+        hasStatusField ? reader.readObject() as UserStatusBase : null;
     final hasBotInfoVersionField = (flags & 16384) != 0;
-    final dynamic botInfoVersion = hasBotInfoVersionField ? 0 : null;
+    final botInfoVersion = hasBotInfoVersionField ? reader.readInt32() : null;
     final hasRestrictionReasonField = (flags & 262144) != 0;
-    final dynamic restrictionReason = hasRestrictionReasonField ? 0 : null;
+    final restrictionReason = hasRestrictionReasonField
+        ? reader.readVectorObject<RestrictionReasonBase>()
+        : null;
     final hasBotInlinePlaceholderField = (flags & 524288) != 0;
-    final dynamic botInlinePlaceholder =
-        hasBotInlinePlaceholderField ? 0 : null;
+    final botInlinePlaceholder =
+        hasBotInlinePlaceholderField ? reader.readString() : null;
     final hasLangCodeField = (flags & 4194304) != 0;
-    final dynamic langCode = hasLangCodeField ? 0 : null;
+    final langCode = hasLangCodeField ? reader.readString() : null;
     final hasEmojiStatusField = (flags & 1073741824) != 0;
-    final dynamic emojiStatus = hasEmojiStatusField ? 0 : null;
+    final emojiStatus =
+        hasEmojiStatusField ? reader.readObject() as EmojiStatusBase : null;
     final hasUsernamesField = (flags2 & 1) != 0;
-    final dynamic usernames = hasUsernamesField ? 0 : null;
+    final usernames =
+        hasUsernamesField ? reader.readVectorObject<UsernameBase>() : null;
     final hasStoriesMaxIdField = (flags2 & 32) != 0;
-    final dynamic storiesMaxId = hasStoriesMaxIdField ? 0 : null;
+    final storiesMaxId = hasStoriesMaxIdField ? reader.readInt32() : null;
     final hasColorField = (flags2 & 256) != 0;
-    final dynamic color = hasColorField ? 0 : null;
+    final color = hasColorField ? reader.readObject() as PeerColorBase : null;
     final hasProfileColorField = (flags2 & 512) != 0;
-    final dynamic profileColor = hasProfileColorField ? 0 : null;
+    final profileColor =
+        hasProfileColorField ? reader.readObject() as PeerColorBase : null;
 
     // Construct [User] object.
     final returnValue = User(
@@ -3488,7 +3503,7 @@ class UserProfilePhoto extends UserProfilePhotoBase {
     final personal = (flags & 4) != 0;
     final photoId = reader.readInt64();
     final hasStrippedThumbField = (flags & 2) != 0;
-    final dynamic strippedThumb = hasStrippedThumbField ? 0 : null;
+    final strippedThumb = hasStrippedThumbField ? reader.readBytes() : null;
     final dcId = reader.readInt32();
 
     // Construct [UserProfilePhoto] object.
@@ -3800,11 +3815,15 @@ class Chat extends ChatBase {
     final date = reader.readDateTime();
     final version = reader.readInt32();
     final hasMigratedToField = (flags & 64) != 0;
-    final dynamic migratedTo = hasMigratedToField ? 0 : null;
+    final migratedTo =
+        hasMigratedToField ? reader.readObject() as InputChannelBase : null;
     final hasAdminRightsField = (flags & 16384) != 0;
-    final dynamic adminRights = hasAdminRightsField ? 0 : null;
+    final adminRights =
+        hasAdminRightsField ? reader.readObject() as ChatAdminRightsBase : null;
     final hasDefaultBannedRightsField = (flags & 262144) != 0;
-    final dynamic defaultBannedRights = hasDefaultBannedRightsField ? 0 : null;
+    final defaultBannedRights = hasDefaultBannedRightsField
+        ? reader.readObject() as ChatBannedRightsBase
+        : null;
 
     // Construct [Chat] object.
     final returnValue = Chat(
@@ -4044,34 +4063,45 @@ class Channel extends ChatBase {
     final storiesUnavailable = (flags2 & 8) != 0;
     final id = reader.readInt64();
     final hasAccessHashField = (flags & 8192) != 0;
-    final dynamic accessHash = hasAccessHashField ? 0 : null;
+    final accessHash = hasAccessHashField ? reader.readInt64() : null;
     final title = reader.readString();
     final hasUsernameField = (flags & 64) != 0;
-    final dynamic username = hasUsernameField ? 0 : null;
+    final username = hasUsernameField ? reader.readString() : null;
     final photo = reader.readObject() as ChatPhotoBase;
     final date = reader.readDateTime();
     final hasRestrictionReasonField = (flags & 512) != 0;
-    final dynamic restrictionReason = hasRestrictionReasonField ? 0 : null;
+    final restrictionReason = hasRestrictionReasonField
+        ? reader.readVectorObject<RestrictionReasonBase>()
+        : null;
     final hasAdminRightsField = (flags & 16384) != 0;
-    final dynamic adminRights = hasAdminRightsField ? 0 : null;
+    final adminRights =
+        hasAdminRightsField ? reader.readObject() as ChatAdminRightsBase : null;
     final hasBannedRightsField = (flags & 32768) != 0;
-    final dynamic bannedRights = hasBannedRightsField ? 0 : null;
+    final bannedRights = hasBannedRightsField
+        ? reader.readObject() as ChatBannedRightsBase
+        : null;
     final hasDefaultBannedRightsField = (flags & 262144) != 0;
-    final dynamic defaultBannedRights = hasDefaultBannedRightsField ? 0 : null;
+    final defaultBannedRights = hasDefaultBannedRightsField
+        ? reader.readObject() as ChatBannedRightsBase
+        : null;
     final hasParticipantsCountField = (flags & 131072) != 0;
-    final dynamic participantsCount = hasParticipantsCountField ? 0 : null;
+    final participantsCount =
+        hasParticipantsCountField ? reader.readInt32() : null;
     final hasUsernamesField = (flags2 & 1) != 0;
-    final dynamic usernames = hasUsernamesField ? 0 : null;
+    final usernames =
+        hasUsernamesField ? reader.readVectorObject<UsernameBase>() : null;
     final hasStoriesMaxIdField = (flags2 & 16) != 0;
-    final dynamic storiesMaxId = hasStoriesMaxIdField ? 0 : null;
+    final storiesMaxId = hasStoriesMaxIdField ? reader.readInt32() : null;
     final hasColorField = (flags2 & 128) != 0;
-    final dynamic color = hasColorField ? 0 : null;
+    final color = hasColorField ? reader.readObject() as PeerColorBase : null;
     final hasProfileColorField = (flags2 & 256) != 0;
-    final dynamic profileColor = hasProfileColorField ? 0 : null;
+    final profileColor =
+        hasProfileColorField ? reader.readObject() as PeerColorBase : null;
     final hasEmojiStatusField = (flags2 & 512) != 0;
-    final dynamic emojiStatus = hasEmojiStatusField ? 0 : null;
+    final emojiStatus =
+        hasEmojiStatusField ? reader.readObject() as EmojiStatusBase : null;
     final hasLevelField = (flags2 & 1024) != 0;
-    final dynamic level = hasLevelField ? 0 : null;
+    final level = hasLevelField ? reader.readInt32() : null;
 
     // Construct [Channel] object.
     final returnValue = Channel(
@@ -4383,7 +4413,7 @@ class ChannelForbidden extends ChatBase {
     final accessHash = reader.readInt64();
     final title = reader.readString();
     final hasUntilDateField = (flags & 65536) != 0;
-    final dynamic untilDate = hasUntilDateField ? 0 : null;
+    final untilDate = hasUntilDateField ? reader.readDateTime() : null;
 
     // Construct [ChannelForbidden] object.
     final returnValue = ChannelForbidden(
@@ -4491,31 +4521,39 @@ class ChatFull extends ChatFullBase {
     final about = reader.readString();
     final participants = reader.readObject() as ChatParticipantsBase;
     final hasChatPhotoField = (flags & 4) != 0;
-    final dynamic chatPhoto = hasChatPhotoField ? 0 : null;
+    final chatPhoto =
+        hasChatPhotoField ? reader.readObject() as PhotoBase : null;
     final notifySettings = reader.readObject() as PeerNotifySettingsBase;
     final hasExportedInviteField = (flags & 8192) != 0;
-    final dynamic exportedInvite = hasExportedInviteField ? 0 : null;
+    final exportedInvite = hasExportedInviteField
+        ? reader.readObject() as ExportedChatInviteBase
+        : null;
     final hasBotInfoField = (flags & 8) != 0;
-    final dynamic botInfo = hasBotInfoField ? 0 : null;
+    final botInfo =
+        hasBotInfoField ? reader.readVectorObject<BotInfoBase>() : null;
     final hasPinnedMsgIdField = (flags & 64) != 0;
-    final dynamic pinnedMsgId = hasPinnedMsgIdField ? 0 : null;
+    final pinnedMsgId = hasPinnedMsgIdField ? reader.readInt32() : null;
     final hasFolderIdField = (flags & 2048) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final hasCallField = (flags & 4096) != 0;
-    final dynamic call = hasCallField ? 0 : null;
+    final call =
+        hasCallField ? reader.readObject() as InputGroupCallBase : null;
     final hasTtlPeriodField = (flags & 16384) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
     final hasGroupcallDefaultJoinAsField = (flags & 32768) != 0;
-    final dynamic groupcallDefaultJoinAs =
-        hasGroupcallDefaultJoinAsField ? 0 : null;
+    final groupcallDefaultJoinAs =
+        hasGroupcallDefaultJoinAsField ? reader.readObject() as PeerBase : null;
     final hasThemeEmoticonField = (flags & 65536) != 0;
-    final dynamic themeEmoticon = hasThemeEmoticonField ? 0 : null;
+    final themeEmoticon = hasThemeEmoticonField ? reader.readString() : null;
     final hasRequestsPendingField = (flags & 131072) != 0;
-    final dynamic requestsPending = hasRequestsPendingField ? 0 : null;
+    final requestsPending = hasRequestsPendingField ? reader.readInt32() : null;
     final hasRecentRequestersField = (flags & 131072) != 0;
-    final dynamic recentRequesters = hasRecentRequestersField ? 0 : null;
+    final recentRequesters =
+        hasRecentRequestersField ? reader.readVectorInt64() : null;
     final hasAvailableReactionsField = (flags & 262144) != 0;
-    final dynamic availableReactions = hasAvailableReactionsField ? 0 : null;
+    final availableReactions = hasAvailableReactionsField
+        ? reader.readObject() as ChatReactionsBase
+        : null;
 
     // Construct [ChatFull] object.
     final returnValue = ChatFull(
@@ -4766,70 +4804,85 @@ class ChannelFull extends ChatFullBase {
     final id = reader.readInt64();
     final about = reader.readString();
     final hasParticipantsCountField = (flags & 1) != 0;
-    final dynamic participantsCount = hasParticipantsCountField ? 0 : null;
+    final participantsCount =
+        hasParticipantsCountField ? reader.readInt32() : null;
     final hasAdminsCountField = (flags & 2) != 0;
-    final dynamic adminsCount = hasAdminsCountField ? 0 : null;
+    final adminsCount = hasAdminsCountField ? reader.readInt32() : null;
     final hasKickedCountField = (flags & 4) != 0;
-    final dynamic kickedCount = hasKickedCountField ? 0 : null;
+    final kickedCount = hasKickedCountField ? reader.readInt32() : null;
     final hasBannedCountField = (flags & 4) != 0;
-    final dynamic bannedCount = hasBannedCountField ? 0 : null;
+    final bannedCount = hasBannedCountField ? reader.readInt32() : null;
     final hasOnlineCountField = (flags & 8192) != 0;
-    final dynamic onlineCount = hasOnlineCountField ? 0 : null;
+    final onlineCount = hasOnlineCountField ? reader.readInt32() : null;
     final readInboxMaxId = reader.readInt32();
     final readOutboxMaxId = reader.readInt32();
     final unreadCount = reader.readInt32();
     final chatPhoto = reader.readObject() as PhotoBase;
     final notifySettings = reader.readObject() as PeerNotifySettingsBase;
     final hasExportedInviteField = (flags & 8388608) != 0;
-    final dynamic exportedInvite = hasExportedInviteField ? 0 : null;
+    final exportedInvite = hasExportedInviteField
+        ? reader.readObject() as ExportedChatInviteBase
+        : null;
     final botInfo = reader.readVectorObject<BotInfoBase>();
     final hasMigratedFromChatIdField = (flags & 16) != 0;
-    final dynamic migratedFromChatId = hasMigratedFromChatIdField ? 0 : null;
+    final migratedFromChatId =
+        hasMigratedFromChatIdField ? reader.readInt64() : null;
     final hasMigratedFromMaxIdField = (flags & 16) != 0;
-    final dynamic migratedFromMaxId = hasMigratedFromMaxIdField ? 0 : null;
+    final migratedFromMaxId =
+        hasMigratedFromMaxIdField ? reader.readInt32() : null;
     final hasPinnedMsgIdField = (flags & 32) != 0;
-    final dynamic pinnedMsgId = hasPinnedMsgIdField ? 0 : null;
+    final pinnedMsgId = hasPinnedMsgIdField ? reader.readInt32() : null;
     final hasStickersetField = (flags & 256) != 0;
-    final dynamic stickerset = hasStickersetField ? 0 : null;
+    final stickerset =
+        hasStickersetField ? reader.readObject() as StickerSetBase : null;
     final hasAvailableMinIdField = (flags & 512) != 0;
-    final dynamic availableMinId = hasAvailableMinIdField ? 0 : null;
+    final availableMinId = hasAvailableMinIdField ? reader.readInt32() : null;
     final hasFolderIdField = (flags & 2048) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final hasLinkedChatIdField = (flags & 16384) != 0;
-    final dynamic linkedChatId = hasLinkedChatIdField ? 0 : null;
+    final linkedChatId = hasLinkedChatIdField ? reader.readInt64() : null;
     final hasLocationField = (flags & 32768) != 0;
-    final dynamic location = hasLocationField ? 0 : null;
+    final location =
+        hasLocationField ? reader.readObject() as ChannelLocationBase : null;
     final hasSlowmodeSecondsField = (flags & 131072) != 0;
-    final dynamic slowmodeSeconds = hasSlowmodeSecondsField ? 0 : null;
+    final slowmodeSeconds = hasSlowmodeSecondsField ? reader.readInt32() : null;
     final hasSlowmodeNextSendDateField = (flags & 262144) != 0;
-    final dynamic slowmodeNextSendDate =
-        hasSlowmodeNextSendDateField ? 0 : null;
+    final slowmodeNextSendDate =
+        hasSlowmodeNextSendDateField ? reader.readDateTime() : null;
     final hasStatsDcField = (flags & 4096) != 0;
-    final dynamic statsDc = hasStatsDcField ? 0 : null;
+    final statsDc = hasStatsDcField ? reader.readInt32() : null;
     final pts = reader.readInt32();
     final hasCallField = (flags & 2097152) != 0;
-    final dynamic call = hasCallField ? 0 : null;
+    final call =
+        hasCallField ? reader.readObject() as InputGroupCallBase : null;
     final hasTtlPeriodField = (flags & 16777216) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
     final hasPendingSuggestionsField = (flags & 33554432) != 0;
-    final dynamic pendingSuggestions = hasPendingSuggestionsField ? 0 : null;
+    final pendingSuggestions =
+        hasPendingSuggestionsField ? reader.readVectorString() : null;
     final hasGroupcallDefaultJoinAsField = (flags & 67108864) != 0;
-    final dynamic groupcallDefaultJoinAs =
-        hasGroupcallDefaultJoinAsField ? 0 : null;
+    final groupcallDefaultJoinAs =
+        hasGroupcallDefaultJoinAsField ? reader.readObject() as PeerBase : null;
     final hasThemeEmoticonField = (flags & 134217728) != 0;
-    final dynamic themeEmoticon = hasThemeEmoticonField ? 0 : null;
+    final themeEmoticon = hasThemeEmoticonField ? reader.readString() : null;
     final hasRequestsPendingField = (flags & 268435456) != 0;
-    final dynamic requestsPending = hasRequestsPendingField ? 0 : null;
+    final requestsPending = hasRequestsPendingField ? reader.readInt32() : null;
     final hasRecentRequestersField = (flags & 268435456) != 0;
-    final dynamic recentRequesters = hasRecentRequestersField ? 0 : null;
+    final recentRequesters =
+        hasRecentRequestersField ? reader.readVectorInt64() : null;
     final hasDefaultSendAsField = (flags & 536870912) != 0;
-    final dynamic defaultSendAs = hasDefaultSendAsField ? 0 : null;
+    final defaultSendAs =
+        hasDefaultSendAsField ? reader.readObject() as PeerBase : null;
     final hasAvailableReactionsField = (flags & 1073741824) != 0;
-    final dynamic availableReactions = hasAvailableReactionsField ? 0 : null;
+    final availableReactions = hasAvailableReactionsField
+        ? reader.readObject() as ChatReactionsBase
+        : null;
     final hasStoriesField = (flags2 & 16) != 0;
-    final dynamic stories = hasStoriesField ? 0 : null;
+    final stories =
+        hasStoriesField ? reader.readObject() as PeerStoriesBase : null;
     final hasWallpaperField = (flags2 & 128) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as WallPaperBase : null;
 
     // Construct [ChannelFull] object.
     final returnValue = ChannelFull(
@@ -5406,7 +5459,9 @@ class ChatParticipantsForbidden extends ChatParticipantsBase {
     final flags = reader.readInt32();
     final chatId = reader.readInt64();
     final hasSelfParticipantField = (flags & 1) != 0;
-    final dynamic selfParticipant = hasSelfParticipantField ? 0 : null;
+    final selfParticipant = hasSelfParticipantField
+        ? reader.readObject() as ChatParticipantBase
+        : null;
 
     // Construct [ChatParticipantsForbidden] object.
     final returnValue = ChatParticipantsForbidden(
@@ -5548,7 +5603,7 @@ class ChatPhoto extends ChatPhotoBase {
     final hasVideo = (flags & 1) != 0;
     final photoId = reader.readInt64();
     final hasStrippedThumbField = (flags & 2) != 0;
-    final dynamic strippedThumb = hasStrippedThumbField ? 0 : null;
+    final strippedThumb = hasStrippedThumbField ? reader.readBytes() : null;
     final dcId = reader.readInt32();
 
     // Construct [ChatPhoto] object.
@@ -5625,7 +5680,7 @@ class MessageEmpty extends MessageBase {
     final flags = reader.readInt32();
     final id = reader.readInt32();
     final hasPeerIdField = (flags & 1) != 0;
-    final dynamic peerId = hasPeerIdField ? 0 : null;
+    final peerId = hasPeerIdField ? reader.readObject() as PeerBase : null;
 
     // Construct [MessageEmpty] object.
     final returnValue = MessageEmpty(
@@ -5724,42 +5779,52 @@ class Message extends MessageBase {
     final invertMedia = (flags & 134217728) != 0;
     final id = reader.readInt32();
     final hasFromIdField = (flags & 256) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as PeerBase : null;
     final peerId = reader.readObject() as PeerBase;
     final hasSavedPeerIdField = (flags & 268435456) != 0;
-    final dynamic savedPeerId = hasSavedPeerIdField ? 0 : null;
+    final savedPeerId =
+        hasSavedPeerIdField ? reader.readObject() as PeerBase : null;
     final hasFwdFromField = (flags & 4) != 0;
-    final dynamic fwdFrom = hasFwdFromField ? 0 : null;
+    final fwdFrom =
+        hasFwdFromField ? reader.readObject() as MessageFwdHeaderBase : null;
     final hasViaBotIdField = (flags & 2048) != 0;
-    final dynamic viaBotId = hasViaBotIdField ? 0 : null;
+    final viaBotId = hasViaBotIdField ? reader.readInt64() : null;
     final hasReplyToField = (flags & 8) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as MessageReplyHeaderBase : null;
     final date = reader.readDateTime();
     final message = reader.readString();
     final hasMediaField = (flags & 512) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media =
+        hasMediaField ? reader.readObject() as MessageMediaBase : null;
     final hasReplyMarkupField = (flags & 64) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
     final hasEntitiesField = (flags & 128) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasViewsField = (flags & 1024) != 0;
-    final dynamic views = hasViewsField ? 0 : null;
+    final views = hasViewsField ? reader.readInt32() : null;
     final hasForwardsField = (flags & 1024) != 0;
-    final dynamic forwards = hasForwardsField ? 0 : null;
+    final forwards = hasForwardsField ? reader.readInt32() : null;
     final hasRepliesField = (flags & 8388608) != 0;
-    final dynamic replies = hasRepliesField ? 0 : null;
+    final replies =
+        hasRepliesField ? reader.readObject() as MessageRepliesBase : null;
     final hasEditDateField = (flags & 32768) != 0;
-    final dynamic editDate = hasEditDateField ? 0 : null;
+    final editDate = hasEditDateField ? reader.readDateTime() : null;
     final hasPostAuthorField = (flags & 65536) != 0;
-    final dynamic postAuthor = hasPostAuthorField ? 0 : null;
+    final postAuthor = hasPostAuthorField ? reader.readString() : null;
     final hasGroupedIdField = (flags & 131072) != 0;
-    final dynamic groupedId = hasGroupedIdField ? 0 : null;
+    final groupedId = hasGroupedIdField ? reader.readInt64() : null;
     final hasReactionsField = (flags & 1048576) != 0;
-    final dynamic reactions = hasReactionsField ? 0 : null;
+    final reactions =
+        hasReactionsField ? reader.readObject() as MessageReactionsBase : null;
     final hasRestrictionReasonField = (flags & 4194304) != 0;
-    final dynamic restrictionReason = hasRestrictionReasonField ? 0 : null;
+    final restrictionReason = hasRestrictionReasonField
+        ? reader.readVectorObject<RestrictionReasonBase>()
+        : null;
     final hasTtlPeriodField = (flags & 33554432) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [Message] object.
     final returnValue = Message(
@@ -6047,14 +6112,15 @@ class MessageService extends MessageBase {
     final legacy = (flags & 524288) != 0;
     final id = reader.readInt32();
     final hasFromIdField = (flags & 256) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as PeerBase : null;
     final peerId = reader.readObject() as PeerBase;
     final hasReplyToField = (flags & 8) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as MessageReplyHeaderBase : null;
     final date = reader.readDateTime();
     final action = reader.readObject() as MessageActionBase;
     final hasTtlPeriodField = (flags & 33554432) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [MessageService] object.
     final returnValue = MessageService(
@@ -6205,9 +6271,9 @@ class MessageMediaPhoto extends MessageMediaBase {
     final flags = reader.readInt32();
     final spoiler = (flags & 8) != 0;
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as PhotoBase : null;
     final hasTtlSecondsField = (flags & 4) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [MessageMediaPhoto] object.
     final returnValue = MessageMediaPhoto(
@@ -6403,11 +6469,13 @@ class MessageMediaDocument extends MessageMediaBase {
     final round = (flags & 128) != 0;
     final voice = (flags & 256) != 0;
     final hasDocumentField = (flags & 1) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hasAltDocumentField = (flags & 32) != 0;
-    final dynamic altDocument = hasAltDocumentField ? 0 : null;
+    final altDocument =
+        hasAltDocumentField ? reader.readObject() as DocumentBase : null;
     final hasTtlSecondsField = (flags & 4) != 0;
-    final dynamic ttlSeconds = hasTtlSecondsField ? 0 : null;
+    final ttlSeconds = hasTtlSecondsField ? reader.readInt32() : null;
 
     // Construct [MessageMediaDocument] object.
     final returnValue = MessageMediaDocument(
@@ -6687,14 +6755,16 @@ class MessageMediaInvoice extends MessageMediaBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as WebDocumentBase : null;
     final hasReceiptMsgIdField = (flags & 4) != 0;
-    final dynamic receiptMsgId = hasReceiptMsgIdField ? 0 : null;
+    final receiptMsgId = hasReceiptMsgIdField ? reader.readInt32() : null;
     final currency = reader.readString();
     final totalAmount = reader.readInt64();
     final startParam = reader.readString();
     final hasExtendedMediaField = (flags & 16) != 0;
-    final dynamic extendedMedia = hasExtendedMediaField ? 0 : null;
+    final extendedMedia = hasExtendedMediaField
+        ? reader.readObject() as MessageExtendedMediaBase
+        : null;
 
     // Construct [MessageMediaInvoice] object.
     final returnValue = MessageMediaInvoice(
@@ -6802,11 +6872,11 @@ class MessageMediaGeoLive extends MessageMediaBase {
     final flags = reader.readInt32();
     final geo = reader.readObject() as GeoPointBase;
     final hasHeadingField = (flags & 1) != 0;
-    final dynamic heading = hasHeadingField ? 0 : null;
+    final heading = hasHeadingField ? reader.readInt32() : null;
     final period = reader.readInt32();
     final hasProximityNotificationRadiusField = (flags & 2) != 0;
-    final dynamic proximityNotificationRadius =
-        hasProximityNotificationRadiusField ? 0 : null;
+    final proximityNotificationRadius =
+        hasProximityNotificationRadiusField ? reader.readInt32() : null;
 
     // Construct [MessageMediaGeoLive] object.
     final returnValue = MessageMediaGeoLive(
@@ -6966,7 +7036,7 @@ class MessageMediaStory extends MessageMediaBase {
     final peer = reader.readObject() as PeerBase;
     final id = reader.readInt32();
     final hasStoryField = (flags & 1) != 0;
-    final dynamic story = hasStoryField ? 0 : null;
+    final story = hasStoryField ? reader.readObject() as StoryItemBase : null;
 
     // Construct [MessageMediaStory] object.
     final returnValue = MessageMediaStory(
@@ -7042,9 +7112,11 @@ class MessageMediaGiveaway extends MessageMediaBase {
     final winnersAreVisible = (flags & 4) != 0;
     final channels = reader.readVectorInt64();
     final hasCountriesIso2Field = (flags & 2) != 0;
-    final dynamic countriesIso2 = hasCountriesIso2Field ? 0 : null;
+    final countriesIso2 =
+        hasCountriesIso2Field ? reader.readVectorString() : null;
     final hasPrizeDescriptionField = (flags & 8) != 0;
-    final dynamic prizeDescription = hasPrizeDescriptionField ? 0 : null;
+    final prizeDescription =
+        hasPrizeDescriptionField ? reader.readString() : null;
     final quantity = reader.readInt32();
     final months = reader.readInt32();
     final untilDate = reader.readDateTime();
@@ -7152,15 +7224,16 @@ class MessageMediaGiveawayResults extends MessageMediaBase {
     final refunded = (flags & 4) != 0;
     final channelId = reader.readInt64();
     final hasAdditionalPeersCountField = (flags & 8) != 0;
-    final dynamic additionalPeersCount =
-        hasAdditionalPeersCountField ? 0 : null;
+    final additionalPeersCount =
+        hasAdditionalPeersCountField ? reader.readInt32() : null;
     final launchMsgId = reader.readInt32();
     final winnersCount = reader.readInt32();
     final unclaimedCount = reader.readInt32();
     final winners = reader.readVectorInt64();
     final months = reader.readInt32();
     final hasPrizeDescriptionField = (flags & 2) != 0;
-    final dynamic prizeDescription = hasPrizeDescriptionField ? 0 : null;
+    final prizeDescription =
+        hasPrizeDescriptionField ? reader.readString() : null;
     final untilDate = reader.readDateTime();
 
     // Construct [MessageMediaGiveawayResults] object.
@@ -7757,9 +7830,11 @@ class MessageActionPaymentSentMe extends MessageActionBase {
     final totalAmount = reader.readInt64();
     final payload = reader.readBytes();
     final hasInfoField = (flags & 1) != 0;
-    final dynamic info = hasInfoField ? 0 : null;
+    final info =
+        hasInfoField ? reader.readObject() as PaymentRequestedInfoBase : null;
     final hasShippingOptionIdField = (flags & 2) != 0;
-    final dynamic shippingOptionId = hasShippingOptionIdField ? 0 : null;
+    final shippingOptionId =
+        hasShippingOptionIdField ? reader.readString() : null;
     final charge = reader.readObject() as PaymentChargeBase;
 
     // Construct [MessageActionPaymentSentMe] object.
@@ -7858,7 +7933,7 @@ class MessageActionPaymentSent extends MessageActionBase {
     final currency = reader.readString();
     final totalAmount = reader.readInt64();
     final hasInvoiceSlugField = (flags & 1) != 0;
-    final dynamic invoiceSlug = hasInvoiceSlugField ? 0 : null;
+    final invoiceSlug = hasInvoiceSlugField ? reader.readString() : null;
 
     // Construct [MessageActionPaymentSent] object.
     final returnValue = MessageActionPaymentSent(
@@ -7934,9 +8009,11 @@ class MessageActionPhoneCall extends MessageActionBase {
     final video = (flags & 4) != 0;
     final callId = reader.readInt64();
     final hasReasonField = (flags & 1) != 0;
-    final dynamic reason = hasReasonField ? 0 : null;
+    final reason = hasReasonField
+        ? reader.readObject() as PhoneCallDiscardReasonBase
+        : null;
     final hasDurationField = (flags & 2) != 0;
-    final dynamic duration = hasDurationField ? 0 : null;
+    final duration = hasDurationField ? reader.readInt32() : null;
 
     // Construct [MessageActionPhoneCall] object.
     final returnValue = MessageActionPhoneCall(
@@ -8068,9 +8145,9 @@ class MessageActionBotAllowed extends MessageActionBase {
     final attachMenu = (flags & 2) != 0;
     final fromRequest = (flags & 8) != 0;
     final hasDomainField = (flags & 1) != 0;
-    final dynamic domain = hasDomainField ? 0 : null;
+    final domain = hasDomainField ? reader.readString() : null;
     final hasAppField = (flags & 4) != 0;
-    final dynamic app = hasAppField ? 0 : null;
+    final app = hasAppField ? reader.readObject() as BotAppBase : null;
 
     // Construct [MessageActionBotAllowed] object.
     final returnValue = MessageActionBotAllowed(
@@ -8288,7 +8365,7 @@ class MessageActionGroupCall extends MessageActionBase {
     final flags = reader.readInt32();
     final call = reader.readObject() as InputGroupCallBase;
     final hasDurationField = (flags & 1) != 0;
-    final dynamic duration = hasDurationField ? 0 : null;
+    final duration = hasDurationField ? reader.readInt32() : null;
 
     // Construct [MessageActionGroupCall] object.
     final returnValue = MessageActionGroupCall(
@@ -8385,7 +8462,7 @@ class MessageActionSetMessagesTTL extends MessageActionBase {
     final flags = reader.readInt32();
     final period = reader.readInt32();
     final hasAutoSettingFromField = (flags & 1) != 0;
-    final dynamic autoSettingFrom = hasAutoSettingFromField ? 0 : null;
+    final autoSettingFrom = hasAutoSettingFromField ? reader.readInt64() : null;
 
     // Construct [MessageActionSetMessagesTTL] object.
     final returnValue = MessageActionSetMessagesTTL(
@@ -8621,9 +8698,9 @@ class MessageActionGiftPremium extends MessageActionBase {
     final amount = reader.readInt64();
     final months = reader.readInt32();
     final hasCryptoCurrencyField = (flags & 1) != 0;
-    final dynamic cryptoCurrency = hasCryptoCurrencyField ? 0 : null;
+    final cryptoCurrency = hasCryptoCurrencyField ? reader.readString() : null;
     final hasCryptoAmountField = (flags & 1) != 0;
-    final dynamic cryptoAmount = hasCryptoAmountField ? 0 : null;
+    final cryptoAmount = hasCryptoAmountField ? reader.readInt64() : null;
 
     // Construct [MessageActionGiftPremium] object.
     final returnValue = MessageActionGiftPremium(
@@ -8703,7 +8780,7 @@ class MessageActionTopicCreate extends MessageActionBase {
     final title = reader.readString();
     final iconColor = reader.readInt32();
     final hasIconEmojiIdField = (flags & 1) != 0;
-    final dynamic iconEmojiId = hasIconEmojiIdField ? 0 : null;
+    final iconEmojiId = hasIconEmojiIdField ? reader.readInt64() : null;
 
     // Construct [MessageActionTopicCreate] object.
     final returnValue = MessageActionTopicCreate(
@@ -8767,13 +8844,13 @@ class MessageActionTopicEdit extends MessageActionBase {
     // Read [MessageActionTopicEdit] fields.
     final flags = reader.readInt32();
     final hasTitleField = (flags & 1) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasIconEmojiIdField = (flags & 2) != 0;
-    final dynamic iconEmojiId = hasIconEmojiIdField ? 0 : null;
+    final iconEmojiId = hasIconEmojiIdField ? reader.readInt64() : null;
     final hasClosedField = (flags & 4) != 0;
-    final dynamic closed = hasClosedField ? 0 : null;
+    final closed = hasClosedField ? reader.readBool() : null;
     final hasHiddenField = (flags & 8) != 0;
-    final dynamic hidden = hasHiddenField ? 0 : null;
+    final hidden = hasHiddenField ? reader.readBool() : null;
 
     // Construct [MessageActionTopicEdit] object.
     final returnValue = MessageActionTopicEdit(
@@ -8994,17 +9071,18 @@ class MessageActionGiftCode extends MessageActionBase {
     final viaGiveaway = (flags & 1) != 0;
     final unclaimed = (flags & 4) != 0;
     final hasBoostPeerField = (flags & 2) != 0;
-    final dynamic boostPeer = hasBoostPeerField ? 0 : null;
+    final boostPeer =
+        hasBoostPeerField ? reader.readObject() as PeerBase : null;
     final months = reader.readInt32();
     final slug = reader.readString();
     final hasCurrencyField = (flags & 4) != 0;
-    final dynamic currency = hasCurrencyField ? 0 : null;
+    final currency = hasCurrencyField ? reader.readString() : null;
     final hasAmountField = (flags & 4) != 0;
-    final dynamic amount = hasAmountField ? 0 : null;
+    final amount = hasAmountField ? reader.readInt64() : null;
     final hasCryptoCurrencyField = (flags & 8) != 0;
-    final dynamic cryptoCurrency = hasCryptoCurrencyField ? 0 : null;
+    final cryptoCurrency = hasCryptoCurrencyField ? reader.readString() : null;
     final hasCryptoAmountField = (flags & 8) != 0;
-    final dynamic cryptoAmount = hasCryptoAmountField ? 0 : null;
+    final cryptoAmount = hasCryptoAmountField ? reader.readInt64() : null;
 
     // Construct [MessageActionGiftCode] object.
     final returnValue = MessageActionGiftCode(
@@ -9207,13 +9285,14 @@ class Dialog extends DialogBase {
     final unreadReactionsCount = reader.readInt32();
     final notifySettings = reader.readObject() as PeerNotifySettingsBase;
     final hasPtsField = (flags & 1) != 0;
-    final dynamic pts = hasPtsField ? 0 : null;
+    final pts = hasPtsField ? reader.readInt32() : null;
     final hasDraftField = (flags & 2) != 0;
-    final dynamic draft = hasDraftField ? 0 : null;
+    final draft =
+        hasDraftField ? reader.readObject() as DraftMessageBase : null;
     final hasFolderIdField = (flags & 16) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final hasTtlPeriodField = (flags & 32) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [Dialog] object.
     final returnValue = Dialog(
@@ -9514,7 +9593,8 @@ class Photo extends PhotoBase {
     final date = reader.readDateTime();
     final sizes = reader.readVectorObject<PhotoSizeBase>();
     final hasVideoSizesField = (flags & 2) != 0;
-    final dynamic videoSizes = hasVideoSizesField ? 0 : null;
+    final videoSizes =
+        hasVideoSizesField ? reader.readVectorObject<VideoSizeBase>() : null;
     final dcId = reader.readInt32();
 
     // Construct [Photo] object.
@@ -9941,7 +10021,7 @@ class GeoPoint extends GeoPointBase {
     final lat = reader.readFloat64();
     final accessHash = reader.readInt64();
     final hasAccuracyRadiusField = (flags & 1) != 0;
-    final dynamic accuracyRadius = hasAccuracyRadiusField ? 0 : null;
+    final accuracyRadius = hasAccuracyRadiusField ? reader.readInt32() : null;
 
     // Construct [GeoPoint] object.
     final returnValue = GeoPoint(
@@ -10018,9 +10098,10 @@ class AuthSentCode extends AuthSentCodeBase {
     final type = reader.readObject() as AuthSentCodeTypeBase;
     final phoneCodeHash = reader.readString();
     final hasNextTypeField = (flags & 2) != 0;
-    final dynamic nextType = hasNextTypeField ? 0 : null;
+    final nextType =
+        hasNextTypeField ? reader.readObject() as AuthCodeTypeBase : null;
     final hasTimeoutField = (flags & 4) != 0;
-    final dynamic timeout = hasTimeoutField ? 0 : null;
+    final timeout = hasTimeoutField ? reader.readInt32() : null;
 
     // Construct [AuthSentCode] object.
     final returnValue = AuthSentCode(
@@ -10133,12 +10214,12 @@ class AuthAuthorization extends AuthAuthorizationBase {
     final flags = reader.readInt32();
     final setupPasswordRequired = (flags & 2) != 0;
     final hasOtherwiseReloginDaysField = (flags & 2) != 0;
-    final dynamic otherwiseReloginDays =
-        hasOtherwiseReloginDaysField ? 0 : null;
+    final otherwiseReloginDays =
+        hasOtherwiseReloginDaysField ? reader.readInt32() : null;
     final hasTmpSessionsField = (flags & 1) != 0;
-    final dynamic tmpSessions = hasTmpSessionsField ? 0 : null;
+    final tmpSessions = hasTmpSessionsField ? reader.readInt32() : null;
     final hasFutureAuthTokenField = (flags & 4) != 0;
-    final dynamic futureAuthToken = hasFutureAuthTokenField ? 0 : null;
+    final futureAuthToken = hasFutureAuthTokenField ? reader.readBytes() : null;
     final user = reader.readObject() as UserBase;
 
     // Construct [AuthAuthorization] object.
@@ -10215,7 +10296,9 @@ class AuthAuthorizationSignUpRequired extends AuthAuthorizationBase {
     // Read [AuthAuthorizationSignUpRequired] fields.
     final flags = reader.readInt32();
     final hasTermsOfServiceField = (flags & 1) != 0;
-    final dynamic termsOfService = hasTermsOfServiceField ? 0 : null;
+    final termsOfService = hasTermsOfServiceField
+        ? reader.readObject() as HelpTermsOfServiceBase
+        : null;
 
     // Construct [AuthAuthorizationSignUpRequired] object.
     final returnValue = AuthAuthorizationSignUpRequired(
@@ -10477,19 +10560,23 @@ class InputPeerNotifySettings extends InputPeerNotifySettingsBase {
     // Read [InputPeerNotifySettings] fields.
     final flags = reader.readInt32();
     final hasShowPreviewsField = (flags & 1) != 0;
-    final dynamic showPreviews = hasShowPreviewsField ? 0 : null;
+    final showPreviews = hasShowPreviewsField ? reader.readBool() : null;
     final hasSilentField = (flags & 2) != 0;
-    final dynamic silent = hasSilentField ? 0 : null;
+    final silent = hasSilentField ? reader.readBool() : null;
     final hasMuteUntilField = (flags & 4) != 0;
-    final dynamic muteUntil = hasMuteUntilField ? 0 : null;
+    final muteUntil = hasMuteUntilField ? reader.readInt32() : null;
     final hasSoundField = (flags & 8) != 0;
-    final dynamic sound = hasSoundField ? 0 : null;
+    final sound =
+        hasSoundField ? reader.readObject() as NotificationSoundBase : null;
     final hasStoriesMutedField = (flags & 64) != 0;
-    final dynamic storiesMuted = hasStoriesMutedField ? 0 : null;
+    final storiesMuted = hasStoriesMutedField ? reader.readBool() : null;
     final hasStoriesHideSenderField = (flags & 128) != 0;
-    final dynamic storiesHideSender = hasStoriesHideSenderField ? 0 : null;
+    final storiesHideSender =
+        hasStoriesHideSenderField ? reader.readBool() : null;
     final hasStoriesSoundField = (flags & 256) != 0;
-    final dynamic storiesSound = hasStoriesSoundField ? 0 : null;
+    final storiesSound = hasStoriesSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
 
     // Construct [InputPeerNotifySettings] object.
     final returnValue = InputPeerNotifySettings(
@@ -10608,27 +10695,39 @@ class PeerNotifySettings extends PeerNotifySettingsBase {
     // Read [PeerNotifySettings] fields.
     final flags = reader.readInt32();
     final hasShowPreviewsField = (flags & 1) != 0;
-    final dynamic showPreviews = hasShowPreviewsField ? 0 : null;
+    final showPreviews = hasShowPreviewsField ? reader.readBool() : null;
     final hasSilentField = (flags & 2) != 0;
-    final dynamic silent = hasSilentField ? 0 : null;
+    final silent = hasSilentField ? reader.readBool() : null;
     final hasMuteUntilField = (flags & 4) != 0;
-    final dynamic muteUntil = hasMuteUntilField ? 0 : null;
+    final muteUntil = hasMuteUntilField ? reader.readInt32() : null;
     final hasIosSoundField = (flags & 8) != 0;
-    final dynamic iosSound = hasIosSoundField ? 0 : null;
+    final iosSound =
+        hasIosSoundField ? reader.readObject() as NotificationSoundBase : null;
     final hasAndroidSoundField = (flags & 16) != 0;
-    final dynamic androidSound = hasAndroidSoundField ? 0 : null;
+    final androidSound = hasAndroidSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
     final hasOtherSoundField = (flags & 32) != 0;
-    final dynamic otherSound = hasOtherSoundField ? 0 : null;
+    final otherSound = hasOtherSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
     final hasStoriesMutedField = (flags & 64) != 0;
-    final dynamic storiesMuted = hasStoriesMutedField ? 0 : null;
+    final storiesMuted = hasStoriesMutedField ? reader.readBool() : null;
     final hasStoriesHideSenderField = (flags & 128) != 0;
-    final dynamic storiesHideSender = hasStoriesHideSenderField ? 0 : null;
+    final storiesHideSender =
+        hasStoriesHideSenderField ? reader.readBool() : null;
     final hasStoriesIosSoundField = (flags & 256) != 0;
-    final dynamic storiesIosSound = hasStoriesIosSoundField ? 0 : null;
+    final storiesIosSound = hasStoriesIosSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
     final hasStoriesAndroidSoundField = (flags & 512) != 0;
-    final dynamic storiesAndroidSound = hasStoriesAndroidSoundField ? 0 : null;
+    final storiesAndroidSound = hasStoriesAndroidSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
     final hasStoriesOtherSoundField = (flags & 1024) != 0;
-    final dynamic storiesOtherSound = hasStoriesOtherSoundField ? 0 : null;
+    final storiesOtherSound = hasStoriesOtherSoundField
+        ? reader.readObject() as NotificationSoundBase
+        : null;
 
     // Construct [PeerNotifySettings] object.
     final returnValue = PeerNotifySettings(
@@ -10793,11 +10892,13 @@ class PeerSettings extends PeerSettingsBase {
     final inviteMembers = (flags & 256) != 0;
     final requestChatBroadcast = (flags & 1024) != 0;
     final hasGeoDistanceField = (flags & 64) != 0;
-    final dynamic geoDistance = hasGeoDistanceField ? 0 : null;
+    final geoDistance = hasGeoDistanceField ? reader.readInt32() : null;
     final hasRequestChatTitleField = (flags & 512) != 0;
-    final dynamic requestChatTitle = hasRequestChatTitleField ? 0 : null;
+    final requestChatTitle =
+        hasRequestChatTitleField ? reader.readString() : null;
     final hasRequestChatDateField = (flags & 512) != 0;
-    final dynamic requestChatDate = hasRequestChatDateField ? 0 : null;
+    final requestChatDate =
+        hasRequestChatDateField ? reader.readDateTime() : null;
 
     // Construct [PeerSettings] object.
     final returnValue = PeerSettings(
@@ -10930,7 +11031,8 @@ class WallPaper extends WallPaperBase {
     final slug = reader.readString();
     final document = reader.readObject() as DocumentBase;
     final hasSettingsField = (flags & 4) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings =
+        hasSettingsField ? reader.readObject() as WallPaperSettingsBase : null;
 
     // Construct [WallPaper] object.
     final returnValue = WallPaper(
@@ -11029,7 +11131,8 @@ class WallPaperNoFile extends WallPaperBase {
     final ddefault = (flags & 2) != 0;
     final dark = (flags & 16) != 0;
     final hasSettingsField = (flags & 4) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings =
+        hasSettingsField ? reader.readObject() as WallPaperSettingsBase : null;
 
     // Construct [WallPaperNoFile] object.
     final returnValue = WallPaperNoFile(
@@ -11378,39 +11481,50 @@ class UserFull extends UserFullBase {
     final wallpaperOverridden = (flags & 268435456) != 0;
     final id = reader.readInt64();
     final hasAboutField = (flags & 2) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
     final settings = reader.readObject() as PeerSettingsBase;
     final hasPersonalPhotoField = (flags & 2097152) != 0;
-    final dynamic personalPhoto = hasPersonalPhotoField ? 0 : null;
+    final personalPhoto =
+        hasPersonalPhotoField ? reader.readObject() as PhotoBase : null;
     final hasProfilePhotoField = (flags & 4) != 0;
-    final dynamic profilePhoto = hasProfilePhotoField ? 0 : null;
+    final profilePhoto =
+        hasProfilePhotoField ? reader.readObject() as PhotoBase : null;
     final hasFallbackPhotoField = (flags & 4194304) != 0;
-    final dynamic fallbackPhoto = hasFallbackPhotoField ? 0 : null;
+    final fallbackPhoto =
+        hasFallbackPhotoField ? reader.readObject() as PhotoBase : null;
     final notifySettings = reader.readObject() as PeerNotifySettingsBase;
     final hasBotInfoField = (flags & 8) != 0;
-    final dynamic botInfo = hasBotInfoField ? 0 : null;
+    final botInfo = hasBotInfoField ? reader.readObject() as BotInfoBase : null;
     final hasPinnedMsgIdField = (flags & 64) != 0;
-    final dynamic pinnedMsgId = hasPinnedMsgIdField ? 0 : null;
+    final pinnedMsgId = hasPinnedMsgIdField ? reader.readInt32() : null;
     final commonChatsCount = reader.readInt32();
     final hasFolderIdField = (flags & 2048) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final hasTtlPeriodField = (flags & 16384) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
     final hasThemeEmoticonField = (flags & 32768) != 0;
-    final dynamic themeEmoticon = hasThemeEmoticonField ? 0 : null;
+    final themeEmoticon = hasThemeEmoticonField ? reader.readString() : null;
     final hasPrivateForwardNameField = (flags & 65536) != 0;
-    final dynamic privateForwardName = hasPrivateForwardNameField ? 0 : null;
+    final privateForwardName =
+        hasPrivateForwardNameField ? reader.readString() : null;
     final hasBotGroupAdminRightsField = (flags & 131072) != 0;
-    final dynamic botGroupAdminRights = hasBotGroupAdminRightsField ? 0 : null;
+    final botGroupAdminRights = hasBotGroupAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
     final hasBotBroadcastAdminRightsField = (flags & 262144) != 0;
-    final dynamic botBroadcastAdminRights =
-        hasBotBroadcastAdminRightsField ? 0 : null;
+    final botBroadcastAdminRights = hasBotBroadcastAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
     final hasPremiumGiftsField = (flags & 524288) != 0;
-    final dynamic premiumGifts = hasPremiumGiftsField ? 0 : null;
+    final premiumGifts = hasPremiumGiftsField
+        ? reader.readVectorObject<PremiumGiftOptionBase>()
+        : null;
     final hasWallpaperField = (flags & 16777216) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as WallPaperBase : null;
     final hasStoriesField = (flags & 33554432) != 0;
-    final dynamic stories = hasStoriesField ? 0 : null;
+    final stories =
+        hasStoriesField ? reader.readObject() as PeerStoriesBase : null;
 
     // Construct [UserFull] object.
     final returnValue = UserFull(
@@ -12287,9 +12401,9 @@ class MessagesMessagesSlice extends MessagesMessagesBase {
     final inexact = (flags & 2) != 0;
     final count = reader.readInt32();
     final hasNextRateField = (flags & 1) != 0;
-    final dynamic nextRate = hasNextRateField ? 0 : null;
+    final nextRate = hasNextRateField ? reader.readInt32() : null;
     final hasOffsetIdOffsetField = (flags & 4) != 0;
-    final dynamic offsetIdOffset = hasOffsetIdOffsetField ? 0 : null;
+    final offsetIdOffset = hasOffsetIdOffsetField ? reader.readInt32() : null;
     final messages = reader.readVectorObject<MessageBase>();
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
@@ -12387,7 +12501,7 @@ class MessagesChannelMessages extends MessagesMessagesBase {
     final pts = reader.readInt32();
     final count = reader.readInt32();
     final hasOffsetIdOffsetField = (flags & 4) != 0;
-    final dynamic offsetIdOffset = hasOffsetIdOffsetField ? 0 : null;
+    final offsetIdOffset = hasOffsetIdOffsetField ? reader.readInt32() : null;
     final messages = reader.readVectorObject<MessageBase>();
     final topics = reader.readVectorObject<ForumTopicBase>();
     final chats = reader.readVectorObject<ChatBase>();
@@ -13518,11 +13632,11 @@ class UpdateNewAuthorization extends UpdateBase {
     final unconfirmed = (flags & 1) != 0;
     final hash = reader.readInt64();
     final hasDateField = (flags & 1) != 0;
-    final dynamic date = hasDateField ? 0 : null;
+    final date = hasDateField ? reader.readDateTime() : null;
     final hasDeviceField = (flags & 1) != 0;
-    final dynamic device = hasDeviceField ? 0 : null;
+    final device = hasDeviceField ? reader.readString() : null;
     final hasLocationField = (flags & 1) != 0;
-    final dynamic location = hasLocationField ? 0 : null;
+    final location = hasLocationField ? reader.readString() : null;
 
     // Construct [UpdateNewAuthorization] object.
     final returnValue = UpdateNewAuthorization(
@@ -13975,7 +14089,7 @@ class UpdateServiceNotification extends UpdateBase {
     final popup = (flags & 1) != 0;
     final invertMedia = (flags & 4) != 0;
     final hasInboxDateField = (flags & 2) != 0;
-    final dynamic inboxDate = hasInboxDateField ? 0 : null;
+    final inboxDate = hasInboxDateField ? reader.readDateTime() : null;
     final type = reader.readString();
     final message = reader.readString();
     final media = reader.readObject() as MessageMediaBase;
@@ -14147,7 +14261,7 @@ class UpdateReadHistoryInbox extends UpdateBase {
     // Read [UpdateReadHistoryInbox] fields.
     final flags = reader.readInt32();
     final hasFolderIdField = (flags & 1) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final peer = reader.readObject() as PeerBase;
     final maxId = reader.readInt32();
     final stillUnreadCount = reader.readInt32();
@@ -14353,7 +14467,7 @@ class UpdateReadMessagesContents extends UpdateBase {
     final pts = reader.readInt32();
     final ptsCount = reader.readInt32();
     final hasDateField = (flags & 1) != 0;
-    final dynamic date = hasDateField ? 0 : null;
+    final date = hasDateField ? reader.readDateTime() : null;
 
     // Construct [UpdateReadMessagesContents] object.
     final returnValue = UpdateReadMessagesContents(
@@ -14423,7 +14537,7 @@ class UpdateChannelTooLong extends UpdateBase {
     final flags = reader.readInt32();
     final channelId = reader.readInt64();
     final hasPtsField = (flags & 1) != 0;
-    final dynamic pts = hasPtsField ? 0 : null;
+    final pts = hasPtsField ? reader.readInt32() : null;
 
     // Construct [UpdateChannelTooLong] object.
     final returnValue = UpdateChannelTooLong(
@@ -14571,7 +14685,7 @@ class UpdateReadChannelInbox extends UpdateBase {
     // Read [UpdateReadChannelInbox] fields.
     final flags = reader.readInt32();
     final hasFolderIdField = (flags & 1) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final channelId = reader.readInt64();
     final maxId = reader.readInt32();
     final stillUnreadCount = reader.readInt32();
@@ -15002,9 +15116,11 @@ class UpdateBotInlineQuery extends UpdateBase {
     final userId = reader.readInt64();
     final query = reader.readString();
     final hasGeoField = (flags & 1) != 0;
-    final dynamic geo = hasGeoField ? 0 : null;
+    final geo = hasGeoField ? reader.readObject() as GeoPointBase : null;
     final hasPeerTypeField = (flags & 2) != 0;
-    final dynamic peerType = hasPeerTypeField ? 0 : null;
+    final peerType = hasPeerTypeField
+        ? reader.readObject() as InlineQueryPeerTypeBase
+        : null;
     final offset = reader.readString();
 
     // Construct [UpdateBotInlineQuery] object.
@@ -15093,10 +15209,12 @@ class UpdateBotInlineSend extends UpdateBase {
     final userId = reader.readInt64();
     final query = reader.readString();
     final hasGeoField = (flags & 1) != 0;
-    final dynamic geo = hasGeoField ? 0 : null;
+    final geo = hasGeoField ? reader.readObject() as GeoPointBase : null;
     final id = reader.readString();
     final hasMsgIdField = (flags & 2) != 0;
-    final dynamic msgId = hasMsgIdField ? 0 : null;
+    final msgId = hasMsgIdField
+        ? reader.readObject() as InputBotInlineMessageIDBase
+        : null;
 
     // Construct [UpdateBotInlineSend] object.
     final returnValue = UpdateBotInlineSend(
@@ -15234,9 +15352,9 @@ class UpdateBotCallbackQuery extends UpdateBase {
     final msgId = reader.readInt32();
     final chatInstance = reader.readInt64();
     final hasDataField = (flags & 1) != 0;
-    final dynamic data = hasDataField ? 0 : null;
+    final data = hasDataField ? reader.readBytes() : null;
     final hasGameShortNameField = (flags & 2) != 0;
-    final dynamic gameShortName = hasGameShortNameField ? 0 : null;
+    final gameShortName = hasGameShortNameField ? reader.readString() : null;
 
     // Construct [UpdateBotCallbackQuery] object.
     final returnValue = UpdateBotCallbackQuery(
@@ -15388,9 +15506,9 @@ class UpdateInlineBotCallbackQuery extends UpdateBase {
     final msgId = reader.readObject() as InputBotInlineMessageIDBase;
     final chatInstance = reader.readInt64();
     final hasDataField = (flags & 1) != 0;
-    final dynamic data = hasDataField ? 0 : null;
+    final data = hasDataField ? reader.readBytes() : null;
     final hasGameShortNameField = (flags & 2) != 0;
-    final dynamic gameShortName = hasGameShortNameField ? 0 : null;
+    final gameShortName = hasGameShortNameField ? reader.readString() : null;
 
     // Construct [UpdateInlineBotCallbackQuery] object.
     final returnValue = UpdateInlineBotCallbackQuery(
@@ -15522,7 +15640,7 @@ class UpdateDraftMessage extends UpdateBase {
     final flags = reader.readInt32();
     final peer = reader.readObject() as PeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final draft = reader.readObject() as DraftMessageBase;
 
     // Construct [UpdateDraftMessage] object.
@@ -15738,7 +15856,7 @@ class UpdateDialogPinned extends UpdateBase {
     final flags = reader.readInt32();
     final pinned = (flags & 1) != 0;
     final hasFolderIdField = (flags & 2) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final peer = reader.readObject() as DialogPeerBase;
 
     // Construct [UpdateDialogPinned] object.
@@ -15799,9 +15917,10 @@ class UpdatePinnedDialogs extends UpdateBase {
     // Read [UpdatePinnedDialogs] fields.
     final flags = reader.readInt32();
     final hasFolderIdField = (flags & 2) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final hasOrderField = (flags & 1) != 0;
-    final dynamic order = hasOrderField ? 0 : null;
+    final order =
+        hasOrderField ? reader.readVectorObject<DialogPeerBase>() : null;
 
     // Construct [UpdatePinnedDialogs] object.
     final returnValue = UpdatePinnedDialogs(
@@ -16013,9 +16132,11 @@ class UpdateBotPrecheckoutQuery extends UpdateBase {
     final userId = reader.readInt64();
     final payload = reader.readBytes();
     final hasInfoField = (flags & 1) != 0;
-    final dynamic info = hasInfoField ? 0 : null;
+    final info =
+        hasInfoField ? reader.readObject() as PaymentRequestedInfoBase : null;
     final hasShippingOptionIdField = (flags & 2) != 0;
-    final dynamic shippingOptionId = hasShippingOptionIdField ? 0 : null;
+    final shippingOptionId =
+        hasShippingOptionIdField ? reader.readString() : null;
     final currency = reader.readString();
     final totalAmount = reader.readInt64();
 
@@ -16234,7 +16355,7 @@ class UpdateChannelReadMessagesContents extends UpdateBase {
     final flags = reader.readInt32();
     final channelId = reader.readInt64();
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final messages = reader.readVectorInt32();
 
     // Construct [UpdateChannelReadMessagesContents] object.
@@ -16418,7 +16539,7 @@ class UpdateMessagePoll extends UpdateBase {
     final flags = reader.readInt32();
     final pollId = reader.readInt64();
     final hasPollField = (flags & 1) != 0;
-    final dynamic poll = hasPollField ? 0 : null;
+    final poll = hasPollField ? reader.readObject() as PollBase : null;
     final results = reader.readObject() as PollResultsBase;
 
     // Construct [UpdateMessagePoll] object.
@@ -16893,7 +17014,8 @@ class UpdateDialogFilter extends UpdateBase {
     final flags = reader.readInt32();
     final id = reader.readInt32();
     final hasFilterField = (flags & 1) != 0;
-    final dynamic filter = hasFilterField ? 0 : null;
+    final filter =
+        hasFilterField ? reader.readObject() as DialogFilterBase : null;
 
     // Construct [UpdateDialogFilter] object.
     final returnValue = UpdateDialogFilter(
@@ -17110,9 +17232,9 @@ class UpdateReadChannelDiscussionInbox extends UpdateBase {
     final topMsgId = reader.readInt32();
     final readMaxId = reader.readInt32();
     final hasBroadcastIdField = (flags & 1) != 0;
-    final dynamic broadcastId = hasBroadcastIdField ? 0 : null;
+    final broadcastId = hasBroadcastIdField ? reader.readInt64() : null;
     final hasBroadcastPostField = (flags & 1) != 0;
-    final dynamic broadcastPost = hasBroadcastPostField ? 0 : null;
+    final broadcastPost = hasBroadcastPostField ? reader.readInt32() : null;
 
     // Construct [UpdateReadChannelDiscussionInbox] object.
     final returnValue = UpdateReadChannelDiscussionInbox(
@@ -17306,7 +17428,7 @@ class UpdateChannelUserTyping extends UpdateBase {
     final flags = reader.readInt32();
     final channelId = reader.readInt64();
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final fromId = reader.readObject() as PeerBase;
     final action = reader.readObject() as SendMessageActionBase;
 
@@ -17659,7 +17781,7 @@ class UpdatePeerHistoryTTL extends UpdateBase {
     final flags = reader.readInt32();
     final peer = reader.readObject() as PeerBase;
     final hasTtlPeriodField = (flags & 1) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [UpdatePeerHistoryTTL] object.
     final returnValue = UpdatePeerHistoryTTL(
@@ -17724,11 +17846,16 @@ class UpdateChatParticipant extends UpdateBase {
     final actorId = reader.readInt64();
     final userId = reader.readInt64();
     final hasPrevParticipantField = (flags & 1) != 0;
-    final dynamic prevParticipant = hasPrevParticipantField ? 0 : null;
+    final prevParticipant = hasPrevParticipantField
+        ? reader.readObject() as ChatParticipantBase
+        : null;
     final hasNewParticipantField = (flags & 2) != 0;
-    final dynamic newParticipant = hasNewParticipantField ? 0 : null;
+    final newParticipant = hasNewParticipantField
+        ? reader.readObject() as ChatParticipantBase
+        : null;
     final hasInviteField = (flags & 4) != 0;
-    final dynamic invite = hasInviteField ? 0 : null;
+    final invite =
+        hasInviteField ? reader.readObject() as ExportedChatInviteBase : null;
     final qts = reader.readInt32();
 
     // Construct [UpdateChatParticipant] object.
@@ -17842,11 +17969,16 @@ class UpdateChannelParticipant extends UpdateBase {
     final actorId = reader.readInt64();
     final userId = reader.readInt64();
     final hasPrevParticipantField = (flags & 1) != 0;
-    final dynamic prevParticipant = hasPrevParticipantField ? 0 : null;
+    final prevParticipant = hasPrevParticipantField
+        ? reader.readObject() as ChannelParticipantBase
+        : null;
     final hasNewParticipantField = (flags & 2) != 0;
-    final dynamic newParticipant = hasNewParticipantField ? 0 : null;
+    final newParticipant = hasNewParticipantField
+        ? reader.readObject() as ChannelParticipantBase
+        : null;
     final hasInviteField = (flags & 4) != 0;
-    final dynamic invite = hasInviteField ? 0 : null;
+    final invite =
+        hasInviteField ? reader.readObject() as ExportedChatInviteBase : null;
     final qts = reader.readInt32();
 
     // Construct [UpdateChannelParticipant] object.
@@ -18240,7 +18372,7 @@ class UpdateMessageReactions extends UpdateBase {
     final peer = reader.readObject() as PeerBase;
     final msgId = reader.readInt32();
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final reactions = reader.readObject() as MessageReactionsBase;
 
     // Construct [UpdateMessageReactions] object.
@@ -18794,7 +18926,7 @@ class UpdateChannelPinnedTopics extends UpdateBase {
     final flags = reader.readInt32();
     final channelId = reader.readInt64();
     final hasOrderField = (flags & 1) != 0;
-    final dynamic order = hasOrderField ? 0 : null;
+    final order = hasOrderField ? reader.readVectorInt32() : null;
 
     // Construct [UpdateChannelPinnedTopics] object.
     final returnValue = UpdateChannelPinnedTopics(
@@ -19255,7 +19387,8 @@ class UpdatePeerWallpaper extends UpdateBase {
     final wallpaperOverridden = (flags & 2) != 0;
     final peer = reader.readObject() as PeerBase;
     final hasWallpaperField = (flags & 1) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as WallPaperBase : null;
 
     // Construct [UpdatePeerWallpaper] object.
     final returnValue = UpdatePeerWallpaper(
@@ -19511,7 +19644,8 @@ class UpdatePinnedSavedDialogs extends UpdateBase {
     // Read [UpdatePinnedSavedDialogs] fields.
     final flags = reader.readInt32();
     final hasOrderField = (flags & 1) != 0;
-    final dynamic order = hasOrderField ? 0 : null;
+    final order =
+        hasOrderField ? reader.readVectorObject<DialogPeerBase>() : null;
 
     // Construct [UpdatePinnedSavedDialogs] object.
     final returnValue = UpdatePinnedSavedDialogs(
@@ -19914,15 +20048,18 @@ class UpdateShortMessage extends UpdatesBase {
     final ptsCount = reader.readInt32();
     final date = reader.readDateTime();
     final hasFwdFromField = (flags & 4) != 0;
-    final dynamic fwdFrom = hasFwdFromField ? 0 : null;
+    final fwdFrom =
+        hasFwdFromField ? reader.readObject() as MessageFwdHeaderBase : null;
     final hasViaBotIdField = (flags & 2048) != 0;
-    final dynamic viaBotId = hasViaBotIdField ? 0 : null;
+    final viaBotId = hasViaBotIdField ? reader.readInt64() : null;
     final hasReplyToField = (flags & 8) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as MessageReplyHeaderBase : null;
     final hasEntitiesField = (flags & 128) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasTtlPeriodField = (flags & 33554432) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [UpdateShortMessage] object.
     final returnValue = UpdateShortMessage(
@@ -20091,15 +20228,18 @@ class UpdateShortChatMessage extends UpdatesBase {
     final ptsCount = reader.readInt32();
     final date = reader.readDateTime();
     final hasFwdFromField = (flags & 4) != 0;
-    final dynamic fwdFrom = hasFwdFromField ? 0 : null;
+    final fwdFrom =
+        hasFwdFromField ? reader.readObject() as MessageFwdHeaderBase : null;
     final hasViaBotIdField = (flags & 2048) != 0;
-    final dynamic viaBotId = hasViaBotIdField ? 0 : null;
+    final viaBotId = hasViaBotIdField ? reader.readInt64() : null;
     final hasReplyToField = (flags & 8) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as MessageReplyHeaderBase : null;
     final hasEntitiesField = (flags & 128) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasTtlPeriodField = (flags & 33554432) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [UpdateShortChatMessage] object.
     final returnValue = UpdateShortChatMessage(
@@ -20439,11 +20579,13 @@ class UpdateShortSentMessage extends UpdatesBase {
     final ptsCount = reader.readInt32();
     final date = reader.readDateTime();
     final hasMediaField = (flags & 512) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media =
+        hasMediaField ? reader.readObject() as MessageMediaBase : null;
     final hasEntitiesField = (flags & 128) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasTtlPeriodField = (flags & 33554432) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [UpdateShortSentMessage] object.
     final returnValue = UpdateShortSentMessage(
@@ -20829,7 +20971,7 @@ class DcOption extends DcOptionBase {
     final ipAddress = reader.readString();
     final port = reader.readInt32();
     final hasSecretField = (flags & 1024) != 0;
-    final dynamic secret = hasSecretField ? 0 : null;
+    final secret = hasSecretField ? reader.readBytes() : null;
 
     // Construct [DcOption] object.
     final returnValue = DcOption(
@@ -21007,35 +21149,43 @@ class Config extends ConfigBase {
     final stickersRecentLimit = reader.readInt32();
     final channelsReadMediaPeriod = reader.readInt32();
     final hasTmpSessionsField = (flags & 1) != 0;
-    final dynamic tmpSessions = hasTmpSessionsField ? 0 : null;
+    final tmpSessions = hasTmpSessionsField ? reader.readInt32() : null;
     final callReceiveTimeoutMs = reader.readInt32();
     final callRingTimeoutMs = reader.readInt32();
     final callConnectTimeoutMs = reader.readInt32();
     final callPacketTimeoutMs = reader.readInt32();
     final meUrlPrefix = reader.readString();
     final hasAutoupdateUrlPrefixField = (flags & 128) != 0;
-    final dynamic autoupdateUrlPrefix = hasAutoupdateUrlPrefixField ? 0 : null;
+    final autoupdateUrlPrefix =
+        hasAutoupdateUrlPrefixField ? reader.readString() : null;
     final hasGifSearchUsernameField = (flags & 512) != 0;
-    final dynamic gifSearchUsername = hasGifSearchUsernameField ? 0 : null;
+    final gifSearchUsername =
+        hasGifSearchUsernameField ? reader.readString() : null;
     final hasVenueSearchUsernameField = (flags & 1024) != 0;
-    final dynamic venueSearchUsername = hasVenueSearchUsernameField ? 0 : null;
+    final venueSearchUsername =
+        hasVenueSearchUsernameField ? reader.readString() : null;
     final hasImgSearchUsernameField = (flags & 2048) != 0;
-    final dynamic imgSearchUsername = hasImgSearchUsernameField ? 0 : null;
+    final imgSearchUsername =
+        hasImgSearchUsernameField ? reader.readString() : null;
     final hasStaticMapsProviderField = (flags & 4096) != 0;
-    final dynamic staticMapsProvider = hasStaticMapsProviderField ? 0 : null;
+    final staticMapsProvider =
+        hasStaticMapsProviderField ? reader.readString() : null;
     final captionLengthMax = reader.readInt32();
     final messageLengthMax = reader.readInt32();
     final webfileDcId = reader.readInt32();
     final hasSuggestedLangCodeField = (flags & 4) != 0;
-    final dynamic suggestedLangCode = hasSuggestedLangCodeField ? 0 : null;
+    final suggestedLangCode =
+        hasSuggestedLangCodeField ? reader.readString() : null;
     final hasLangPackVersionField = (flags & 4) != 0;
-    final dynamic langPackVersion = hasLangPackVersionField ? 0 : null;
+    final langPackVersion = hasLangPackVersionField ? reader.readInt32() : null;
     final hasBaseLangPackVersionField = (flags & 4) != 0;
-    final dynamic baseLangPackVersion = hasBaseLangPackVersionField ? 0 : null;
+    final baseLangPackVersion =
+        hasBaseLangPackVersionField ? reader.readInt32() : null;
     final hasReactionsDefaultField = (flags & 32768) != 0;
-    final dynamic reactionsDefault = hasReactionsDefaultField ? 0 : null;
+    final reactionsDefault =
+        hasReactionsDefaultField ? reader.readObject() as ReactionBase : null;
     final hasAutologinTokenField = (flags & 65536) != 0;
-    final dynamic autologinToken = hasAutologinTokenField ? 0 : null;
+    final autologinToken = hasAutologinTokenField ? reader.readString() : null;
 
     // Construct [Config] object.
     final returnValue = Config(
@@ -21482,11 +21632,13 @@ class HelpAppUpdate extends HelpAppUpdateBase {
     final text = reader.readString();
     final entities = reader.readVectorObject<MessageEntityBase>();
     final hasDocumentField = (flags & 2) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hasUrlField = (flags & 4) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasStickerField = (flags & 8) != 0;
-    final dynamic sticker = hasStickerField ? 0 : null;
+    final sticker =
+        hasStickerField ? reader.readObject() as DocumentBase : null;
 
     // Construct [HelpAppUpdate] object.
     final returnValue = HelpAppUpdate(
@@ -21761,7 +21913,7 @@ class EncryptedChatRequested extends EncryptedChatBase {
     // Read [EncryptedChatRequested] fields.
     final flags = reader.readInt32();
     final hasFolderIdField = (flags & 1) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final id = reader.readInt32();
     final accessHash = reader.readInt64();
     final date = reader.readDateTime();
@@ -22783,9 +22935,11 @@ class Document extends DocumentBase {
     final mimeType = reader.readString();
     final size = reader.readInt64();
     final hasThumbsField = (flags & 1) != 0;
-    final dynamic thumbs = hasThumbsField ? 0 : null;
+    final thumbs =
+        hasThumbsField ? reader.readVectorObject<PhotoSizeBase>() : null;
     final hasVideoThumbsField = (flags & 2) != 0;
-    final dynamic videoThumbs = hasVideoThumbsField ? 0 : null;
+    final videoThumbs =
+        hasVideoThumbsField ? reader.readVectorObject<VideoSizeBase>() : null;
     final dcId = reader.readInt32();
     final attributes = reader.readVectorObject<DocumentAttributeBase>();
 
@@ -24854,7 +25008,8 @@ class DocumentAttributeSticker extends DocumentAttributeBase {
     final alt = reader.readString();
     final stickerset = reader.readObject() as InputStickerSetBase;
     final hasMaskCoordsField = (flags & 1) != 0;
-    final dynamic maskCoords = hasMaskCoordsField ? 0 : null;
+    final maskCoords =
+        hasMaskCoordsField ? reader.readObject() as MaskCoordsBase : null;
 
     // Construct [DocumentAttributeSticker] object.
     final returnValue = DocumentAttributeSticker(
@@ -24930,7 +25085,8 @@ class DocumentAttributeVideo extends DocumentAttributeBase {
     final w = reader.readInt32();
     final h = reader.readInt32();
     final hasPreloadPrefixSizeField = (flags & 4) != 0;
-    final dynamic preloadPrefixSize = hasPreloadPrefixSizeField ? 0 : null;
+    final preloadPrefixSize =
+        hasPreloadPrefixSizeField ? reader.readInt32() : null;
 
     // Construct [DocumentAttributeVideo] object.
     final returnValue = DocumentAttributeVideo(
@@ -25019,11 +25175,11 @@ class DocumentAttributeAudio extends DocumentAttributeBase {
     final voice = (flags & 1024) != 0;
     final duration = reader.readInt32();
     final hasTitleField = (flags & 1) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasPerformerField = (flags & 2) != 0;
-    final dynamic performer = hasPerformerField ? 0 : null;
+    final performer = hasPerformerField ? reader.readString() : null;
     final hasWaveformField = (flags & 4) != 0;
-    final dynamic waveform = hasWaveformField ? 0 : null;
+    final waveform = hasWaveformField ? reader.readBytes() : null;
 
     // Construct [DocumentAttributeAudio] object.
     final returnValue = DocumentAttributeAudio(
@@ -25474,7 +25630,7 @@ class WebPageEmpty extends WebPageBase {
     final flags = reader.readInt32();
     final id = reader.readInt64();
     final hasUrlField = (flags & 1) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
 
     // Construct [WebPageEmpty] object.
     final returnValue = WebPageEmpty(
@@ -25533,7 +25689,7 @@ class WebPagePending extends WebPageBase {
     final flags = reader.readInt32();
     final id = reader.readInt64();
     final hasUrlField = (flags & 1) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final date = reader.readDateTime();
 
     // Construct [WebPagePending] object.
@@ -25618,33 +25774,37 @@ class WebPage extends WebPageBase {
     final displayUrl = reader.readString();
     final hash = reader.readInt32();
     final hasTypeField = (flags & 1) != 0;
-    final dynamic type = hasTypeField ? 0 : null;
+    final type = hasTypeField ? reader.readString() : null;
     final hasSiteNameField = (flags & 2) != 0;
-    final dynamic siteName = hasSiteNameField ? 0 : null;
+    final siteName = hasSiteNameField ? reader.readString() : null;
     final hasTitleField = (flags & 4) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 8) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final hasPhotoField = (flags & 16) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as PhotoBase : null;
     final hasEmbedUrlField = (flags & 32) != 0;
-    final dynamic embedUrl = hasEmbedUrlField ? 0 : null;
+    final embedUrl = hasEmbedUrlField ? reader.readString() : null;
     final hasEmbedTypeField = (flags & 32) != 0;
-    final dynamic embedType = hasEmbedTypeField ? 0 : null;
+    final embedType = hasEmbedTypeField ? reader.readString() : null;
     final hasEmbedWidthField = (flags & 64) != 0;
-    final dynamic embedWidth = hasEmbedWidthField ? 0 : null;
+    final embedWidth = hasEmbedWidthField ? reader.readInt32() : null;
     final hasEmbedHeightField = (flags & 64) != 0;
-    final dynamic embedHeight = hasEmbedHeightField ? 0 : null;
+    final embedHeight = hasEmbedHeightField ? reader.readInt32() : null;
     final hasDurationField = (flags & 128) != 0;
-    final dynamic duration = hasDurationField ? 0 : null;
+    final duration = hasDurationField ? reader.readInt32() : null;
     final hasAuthorField = (flags & 256) != 0;
-    final dynamic author = hasAuthorField ? 0 : null;
+    final author = hasAuthorField ? reader.readString() : null;
     final hasDocumentField = (flags & 512) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hasCachedPageField = (flags & 1024) != 0;
-    final dynamic cachedPage = hasCachedPageField ? 0 : null;
+    final cachedPage =
+        hasCachedPageField ? reader.readObject() as PageBase : null;
     final hasAttributesField = (flags & 4096) != 0;
-    final dynamic attributes = hasAttributesField ? 0 : null;
+    final attributes = hasAttributesField
+        ? reader.readVectorObject<WebPageAttributeBase>()
+        : null;
 
     // Construct [WebPage] object.
     final returnValue = WebPage(
@@ -25837,7 +25997,7 @@ class WebPageNotModified extends WebPageBase {
     // Read [WebPageNotModified] fields.
     final flags = reader.readInt32();
     final hasCachedPageViewsField = (flags & 1) != 0;
-    final dynamic cachedPageViews = hasCachedPageViewsField ? 0 : null;
+    final cachedPageViews = hasCachedPageViewsField ? reader.readInt32() : null;
 
     // Construct [WebPageNotModified] object.
     final returnValue = WebPageNotModified(
@@ -26129,23 +26289,26 @@ class AccountPassword extends AccountPasswordBase {
     final hasSecureValues = (flags & 2) != 0;
     final hasPassword = (flags & 4) != 0;
     final hasCurrentAlgoField = (flags & 4) != 0;
-    final dynamic currentAlgo = hasCurrentAlgoField ? 0 : null;
+    final currentAlgo =
+        hasCurrentAlgoField ? reader.readObject() as PasswordKdfAlgoBase : null;
     final hasSrpBField = (flags & 4) != 0;
-    final dynamic srpB = hasSrpBField ? 0 : null;
+    final srpB = hasSrpBField ? reader.readBytes() : null;
     final hasSrpIdField = (flags & 4) != 0;
-    final dynamic srpId = hasSrpIdField ? 0 : null;
+    final srpId = hasSrpIdField ? reader.readInt64() : null;
     final hasHintField = (flags & 8) != 0;
-    final dynamic hint = hasHintField ? 0 : null;
+    final hint = hasHintField ? reader.readString() : null;
     final hasEmailUnconfirmedPatternField = (flags & 16) != 0;
-    final dynamic emailUnconfirmedPattern =
-        hasEmailUnconfirmedPatternField ? 0 : null;
+    final emailUnconfirmedPattern =
+        hasEmailUnconfirmedPatternField ? reader.readString() : null;
     final newAlgo = reader.readObject() as PasswordKdfAlgoBase;
     final newSecureAlgo = reader.readObject() as SecurePasswordKdfAlgoBase;
     final secureRandom = reader.readBytes();
     final hasPendingResetDateField = (flags & 32) != 0;
-    final dynamic pendingResetDate = hasPendingResetDateField ? 0 : null;
+    final pendingResetDate =
+        hasPendingResetDateField ? reader.readDateTime() : null;
     final hasLoginEmailPatternField = (flags & 64) != 0;
-    final dynamic loginEmailPattern = hasLoginEmailPatternField ? 0 : null;
+    final loginEmailPattern =
+        hasLoginEmailPatternField ? reader.readString() : null;
 
     // Construct [AccountPassword] object.
     final returnValue = AccountPassword(
@@ -26282,9 +26445,11 @@ class AccountPasswordSettings extends AccountPasswordSettingsBase {
     // Read [AccountPasswordSettings] fields.
     final flags = reader.readInt32();
     final hasEmailField = (flags & 1) != 0;
-    final dynamic email = hasEmailField ? 0 : null;
+    final email = hasEmailField ? reader.readString() : null;
     final hasSecureSettingsField = (flags & 2) != 0;
-    final dynamic secureSettings = hasSecureSettingsField ? 0 : null;
+    final secureSettings = hasSecureSettingsField
+        ? reader.readObject() as SecureSecretSettingsBase
+        : null;
 
     // Construct [AccountPasswordSettings] object.
     final returnValue = AccountPasswordSettings(
@@ -26352,15 +26517,18 @@ class AccountPasswordInputSettings extends AccountPasswordInputSettingsBase {
     // Read [AccountPasswordInputSettings] fields.
     final flags = reader.readInt32();
     final hasNewAlgoField = (flags & 1) != 0;
-    final dynamic newAlgo = hasNewAlgoField ? 0 : null;
+    final newAlgo =
+        hasNewAlgoField ? reader.readObject() as PasswordKdfAlgoBase : null;
     final hasNewPasswordHashField = (flags & 1) != 0;
-    final dynamic newPasswordHash = hasNewPasswordHashField ? 0 : null;
+    final newPasswordHash = hasNewPasswordHashField ? reader.readBytes() : null;
     final hasHintField = (flags & 1) != 0;
-    final dynamic hint = hasHintField ? 0 : null;
+    final hint = hasHintField ? reader.readString() : null;
     final hasEmailField = (flags & 2) != 0;
-    final dynamic email = hasEmailField ? 0 : null;
+    final email = hasEmailField ? reader.readString() : null;
     final hasNewSecureSettingsField = (flags & 4) != 0;
-    final dynamic newSecureSettings = hasNewSecureSettingsField ? 0 : null;
+    final newSecureSettings = hasNewSecureSettingsField
+        ? reader.readObject() as SecureSecretSettingsBase
+        : null;
 
     // Construct [AccountPasswordInputSettings] object.
     final returnValue = AccountPasswordInputSettings(
@@ -26557,17 +26725,17 @@ class ChatInviteExported extends ExportedChatInviteBase {
     final adminId = reader.readInt64();
     final date = reader.readDateTime();
     final hasStartDateField = (flags & 16) != 0;
-    final dynamic startDate = hasStartDateField ? 0 : null;
+    final startDate = hasStartDateField ? reader.readDateTime() : null;
     final hasExpireDateField = (flags & 2) != 0;
-    final dynamic expireDate = hasExpireDateField ? 0 : null;
+    final expireDate = hasExpireDateField ? reader.readDateTime() : null;
     final hasUsageLimitField = (flags & 4) != 0;
-    final dynamic usageLimit = hasUsageLimitField ? 0 : null;
+    final usageLimit = hasUsageLimitField ? reader.readInt32() : null;
     final hasUsageField = (flags & 8) != 0;
-    final dynamic usage = hasUsageField ? 0 : null;
+    final usage = hasUsageField ? reader.readInt32() : null;
     final hasRequestedField = (flags & 128) != 0;
-    final dynamic requested = hasRequestedField ? 0 : null;
+    final requested = hasRequestedField ? reader.readInt32() : null;
     final hasTitleField = (flags & 256) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
 
     // Construct [ChatInviteExported] object.
     final returnValue = ChatInviteExported(
@@ -26778,11 +26946,12 @@ class ChatInvite extends ChatInviteBase {
     final fake = (flags & 512) != 0;
     final title = reader.readString();
     final hasAboutField = (flags & 32) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
     final photo = reader.readObject() as PhotoBase;
     final participantsCount = reader.readInt32();
     final hasParticipantsField = (flags & 16) != 0;
-    final dynamic participants = hasParticipantsField ? 0 : null;
+    final participants =
+        hasParticipantsField ? reader.readVectorObject<UserBase>() : null;
     final color = reader.readInt32();
 
     // Construct [ChatInvite] object.
@@ -27287,19 +27456,20 @@ class StickerSet extends StickerSetBase {
     final textColor = (flags & 512) != 0;
     final channelEmojiStatus = (flags & 1024) != 0;
     final hasInstalledDateField = (flags & 1) != 0;
-    final dynamic installedDate = hasInstalledDateField ? 0 : null;
+    final installedDate = hasInstalledDateField ? reader.readDateTime() : null;
     final id = reader.readInt64();
     final accessHash = reader.readInt64();
     final title = reader.readString();
     final shortName = reader.readString();
     final hasThumbsField = (flags & 16) != 0;
-    final dynamic thumbs = hasThumbsField ? 0 : null;
+    final thumbs =
+        hasThumbsField ? reader.readVectorObject<PhotoSizeBase>() : null;
     final hasThumbDcIdField = (flags & 16) != 0;
-    final dynamic thumbDcId = hasThumbDcIdField ? 0 : null;
+    final thumbDcId = hasThumbDcIdField ? reader.readInt32() : null;
     final hasThumbVersionField = (flags & 16) != 0;
-    final dynamic thumbVersion = hasThumbVersionField ? 0 : null;
+    final thumbVersion = hasThumbVersionField ? reader.readInt32() : null;
     final hasThumbDocumentIdField = (flags & 256) != 0;
-    final dynamic thumbDocumentId = hasThumbDocumentIdField ? 0 : null;
+    final thumbDocumentId = hasThumbDocumentIdField ? reader.readInt64() : null;
     final count = reader.readInt32();
     final hash = reader.readInt32();
 
@@ -27604,17 +27774,22 @@ class BotInfo extends BotInfoBase {
     // Read [BotInfo] fields.
     final flags = reader.readInt32();
     final hasUserIdField = (flags & 1) != 0;
-    final dynamic userId = hasUserIdField ? 0 : null;
+    final userId = hasUserIdField ? reader.readInt64() : null;
     final hasDescriptionField = (flags & 2) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final hasDescriptionPhotoField = (flags & 16) != 0;
-    final dynamic descriptionPhoto = hasDescriptionPhotoField ? 0 : null;
+    final descriptionPhoto =
+        hasDescriptionPhotoField ? reader.readObject() as PhotoBase : null;
     final hasDescriptionDocumentField = (flags & 32) != 0;
-    final dynamic descriptionDocument = hasDescriptionDocumentField ? 0 : null;
+    final descriptionDocument = hasDescriptionDocumentField
+        ? reader.readObject() as DocumentBase
+        : null;
     final hasCommandsField = (flags & 4) != 0;
-    final dynamic commands = hasCommandsField ? 0 : null;
+    final commands =
+        hasCommandsField ? reader.readVectorObject<BotCommandBase>() : null;
     final hasMenuButtonField = (flags & 8) != 0;
-    final dynamic menuButton = hasMenuButtonField ? 0 : null;
+    final menuButton =
+        hasMenuButtonField ? reader.readObject() as BotMenuButtonBase : null;
 
     // Construct [BotInfo] object.
     final returnValue = BotInfo(
@@ -27921,7 +28096,9 @@ class KeyboardButtonSwitchInline extends KeyboardButtonBase {
     final text = reader.readString();
     final query = reader.readString();
     final hasPeerTypesField = (flags & 2) != 0;
-    final dynamic peerTypes = hasPeerTypesField ? 0 : null;
+    final peerTypes = hasPeerTypesField
+        ? reader.readVectorObject<InlineQueryPeerTypeBase>()
+        : null;
 
     // Construct [KeyboardButtonSwitchInline] object.
     final returnValue = KeyboardButtonSwitchInline(
@@ -28057,7 +28234,7 @@ class KeyboardButtonUrlAuth extends KeyboardButtonBase {
     final flags = reader.readInt32();
     final text = reader.readString();
     final hasFwdTextField = (flags & 1) != 0;
-    final dynamic fwdText = hasFwdTextField ? 0 : null;
+    final fwdText = hasFwdTextField ? reader.readString() : null;
     final url = reader.readString();
     final buttonId = reader.readInt32();
 
@@ -28131,7 +28308,7 @@ class InputKeyboardButtonUrlAuth extends KeyboardButtonBase {
     final requestWriteAccess = (flags & 1) != 0;
     final text = reader.readString();
     final hasFwdTextField = (flags & 2) != 0;
-    final dynamic fwdText = hasFwdTextField ? 0 : null;
+    final fwdText = hasFwdTextField ? reader.readString() : null;
     final url = reader.readString();
     final bot = reader.readObject() as InputUserBase;
 
@@ -28203,7 +28380,7 @@ class KeyboardButtonRequestPoll extends KeyboardButtonBase {
     // Read [KeyboardButtonRequestPoll] fields.
     final flags = reader.readInt32();
     final hasQuizField = (flags & 1) != 0;
-    final dynamic quiz = hasQuizField ? 0 : null;
+    final quiz = hasQuizField ? reader.readBool() : null;
     final text = reader.readString();
 
     // Construct [KeyboardButtonRequestPoll] object.
@@ -28577,7 +28754,7 @@ class ReplyKeyboardForceReply extends ReplyMarkupBase {
     final singleUse = (flags & 2) != 0;
     final selective = (flags & 4) != 0;
     final hasPlaceholderField = (flags & 8) != 0;
-    final dynamic placeholder = hasPlaceholderField ? 0 : null;
+    final placeholder = hasPlaceholderField ? reader.readString() : null;
 
     // Construct [ReplyKeyboardForceReply] object.
     final returnValue = ReplyKeyboardForceReply(
@@ -28646,7 +28823,7 @@ class ReplyKeyboardMarkup extends ReplyMarkupBase {
     final persistent = (flags & 16) != 0;
     final rows = reader.readVectorObject<KeyboardButtonRowBase>();
     final hasPlaceholderField = (flags & 8) != 0;
-    final dynamic placeholder = hasPlaceholderField ? 0 : null;
+    final placeholder = hasPlaceholderField ? reader.readString() : null;
 
     // Construct [ReplyKeyboardMarkup] object.
     final returnValue = ReplyKeyboardMarkup(
@@ -29985,7 +30162,7 @@ class UpdatesChannelDifferenceEmpty extends UpdatesChannelDifferenceBase {
     final ffinal = (flags & 1) != 0;
     final pts = reader.readInt32();
     final hasTimeoutField = (flags & 2) != 0;
-    final dynamic timeout = hasTimeoutField ? 0 : null;
+    final timeout = hasTimeoutField ? reader.readInt32() : null;
 
     // Construct [UpdatesChannelDifferenceEmpty] object.
     final returnValue = UpdatesChannelDifferenceEmpty(
@@ -30052,7 +30229,7 @@ class UpdatesChannelDifferenceTooLong extends UpdatesChannelDifferenceBase {
     final flags = reader.readInt32();
     final ffinal = (flags & 1) != 0;
     final hasTimeoutField = (flags & 2) != 0;
-    final dynamic timeout = hasTimeoutField ? 0 : null;
+    final timeout = hasTimeoutField ? reader.readInt32() : null;
     final dialog = reader.readObject() as DialogBase;
     final messages = reader.readVectorObject<MessageBase>();
     final chats = reader.readVectorObject<ChatBase>();
@@ -30138,7 +30315,7 @@ class UpdatesChannelDifference extends UpdatesChannelDifferenceBase {
     final ffinal = (flags & 1) != 0;
     final pts = reader.readInt32();
     final hasTimeoutField = (flags & 2) != 0;
-    final dynamic timeout = hasTimeoutField ? 0 : null;
+    final timeout = hasTimeoutField ? reader.readInt32() : null;
     final newMessages = reader.readVectorObject<MessageBase>();
     final otherUpdates = reader.readVectorObject<UpdateBase>();
     final chats = reader.readVectorObject<ChatBase>();
@@ -30425,7 +30602,7 @@ class ChannelParticipantCreator extends ChannelParticipantBase {
     final userId = reader.readInt64();
     final adminRights = reader.readObject() as ChatAdminRightsBase;
     final hasRankField = (flags & 1) != 0;
-    final dynamic rank = hasRankField ? 0 : null;
+    final rank = hasRankField ? reader.readString() : null;
 
     // Construct [ChannelParticipantCreator] object.
     final returnValue = ChannelParticipantCreator(
@@ -30496,12 +30673,12 @@ class ChannelParticipantAdmin extends ChannelParticipantBase {
     final self = (flags & 2) != 0;
     final userId = reader.readInt64();
     final hasInviterIdField = (flags & 2) != 0;
-    final dynamic inviterId = hasInviterIdField ? 0 : null;
+    final inviterId = hasInviterIdField ? reader.readInt64() : null;
     final promotedBy = reader.readInt64();
     final date = reader.readDateTime();
     final adminRights = reader.readObject() as ChatAdminRightsBase;
     final hasRankField = (flags & 4) != 0;
-    final dynamic rank = hasRankField ? 0 : null;
+    final rank = hasRankField ? reader.readString() : null;
 
     // Construct [ChannelParticipantAdmin] object.
     final returnValue = ChannelParticipantAdmin(
@@ -30912,9 +31089,9 @@ class ChannelParticipantsMentions extends ChannelParticipantsFilterBase {
     // Read [ChannelParticipantsMentions] fields.
     final flags = reader.readInt32();
     final hasQField = (flags & 1) != 0;
-    final dynamic q = hasQField ? 0 : null;
+    final q = hasQField ? reader.readString() : null;
     final hasTopMsgIdField = (flags & 2) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
 
     // Construct [ChannelParticipantsMentions] object.
     final returnValue = ChannelParticipantsMentions(
@@ -31128,7 +31305,7 @@ class HelpTermsOfService extends HelpTermsOfServiceBase {
     final text = reader.readString();
     final entities = reader.readVectorObject<MessageEntityBase>();
     final hasMinAgeConfirmField = (flags & 2) != 0;
-    final dynamic minAgeConfirm = hasMinAgeConfirmField ? 0 : null;
+    final minAgeConfirm = hasMinAgeConfirmField ? reader.readInt32() : null;
 
     // Construct [HelpTermsOfService] object.
     final returnValue = HelpTermsOfService(
@@ -31280,9 +31457,11 @@ class InputBotInlineMessageMediaAuto extends InputBotInlineMessageBase {
     final invertMedia = (flags & 8) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaAuto] object.
     final returnValue = InputBotInlineMessageMediaAuto(
@@ -31357,9 +31536,11 @@ class InputBotInlineMessageText extends InputBotInlineMessageBase {
     final invertMedia = (flags & 8) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageText] object.
     final returnValue = InputBotInlineMessageText(
@@ -31437,14 +31618,15 @@ class InputBotInlineMessageMediaGeo extends InputBotInlineMessageBase {
     final flags = reader.readInt32();
     final geoPoint = reader.readObject() as InputGeoPointBase;
     final hasHeadingField = (flags & 1) != 0;
-    final dynamic heading = hasHeadingField ? 0 : null;
+    final heading = hasHeadingField ? reader.readInt32() : null;
     final hasPeriodField = (flags & 2) != 0;
-    final dynamic period = hasPeriodField ? 0 : null;
+    final period = hasPeriodField ? reader.readInt32() : null;
     final hasProximityNotificationRadiusField = (flags & 8) != 0;
-    final dynamic proximityNotificationRadius =
-        hasProximityNotificationRadiusField ? 0 : null;
+    final proximityNotificationRadius =
+        hasProximityNotificationRadiusField ? reader.readInt32() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaGeo] object.
     final returnValue = InputBotInlineMessageMediaGeo(
@@ -31537,7 +31719,8 @@ class InputBotInlineMessageMediaVenue extends InputBotInlineMessageBase {
     final venueId = reader.readString();
     final venueType = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaVenue] object.
     final returnValue = InputBotInlineMessageMediaVenue(
@@ -31624,7 +31807,8 @@ class InputBotInlineMessageMediaContact extends InputBotInlineMessageBase {
     final lastName = reader.readString();
     final vcard = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaContact] object.
     final returnValue = InputBotInlineMessageMediaContact(
@@ -31693,7 +31877,8 @@ class InputBotInlineMessageGame extends InputBotInlineMessageBase {
     // Read [InputBotInlineMessageGame] fields.
     final flags = reader.readInt32();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageGame] object.
     final returnValue = InputBotInlineMessageGame(
@@ -31751,13 +31936,15 @@ class InputBotInlineMessageMediaInvoice extends InputBotInlineMessageBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo =
+        hasPhotoField ? reader.readObject() as InputWebDocumentBase : null;
     final invoice = reader.readObject() as InvoiceBase;
     final payload = reader.readBytes();
     final provider = reader.readString();
     final providerData = reader.readObject() as DataJSONBase;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaInvoice] object.
     final returnValue = InputBotInlineMessageMediaInvoice(
@@ -31857,10 +32044,12 @@ class InputBotInlineMessageMediaWebPage extends InputBotInlineMessageBase {
     final optional = (flags & 64) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final url = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [InputBotInlineMessageMediaWebPage] object.
     final returnValue = InputBotInlineMessageMediaWebPage(
@@ -31963,15 +32152,17 @@ class InputBotInlineResult extends InputBotInlineResultBase {
     final id = reader.readString();
     final type = reader.readString();
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 4) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final hasUrlField = (flags & 8) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasThumbField = (flags & 16) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb =
+        hasThumbField ? reader.readObject() as InputWebDocumentBase : null;
     final hasContentField = (flags & 32) != 0;
-    final dynamic content = hasContentField ? 0 : null;
+    final content =
+        hasContentField ? reader.readObject() as InputWebDocumentBase : null;
     final sendMessage = reader.readObject() as InputBotInlineMessageBase;
 
     // Construct [InputBotInlineResult] object.
@@ -32134,9 +32325,9 @@ class InputBotInlineResultDocument extends InputBotInlineResultBase {
     final id = reader.readString();
     final type = reader.readString();
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 4) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final document = reader.readObject() as InputDocumentBase;
     final sendMessage = reader.readObject() as InputBotInlineMessageBase;
 
@@ -32275,9 +32466,11 @@ class BotInlineMessageMediaAuto extends BotInlineMessageBase {
     final invertMedia = (flags & 8) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaAuto] object.
     final returnValue = BotInlineMessageMediaAuto(
@@ -32352,9 +32545,11 @@ class BotInlineMessageText extends BotInlineMessageBase {
     final invertMedia = (flags & 8) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageText] object.
     final returnValue = BotInlineMessageText(
@@ -32432,14 +32627,15 @@ class BotInlineMessageMediaGeo extends BotInlineMessageBase {
     final flags = reader.readInt32();
     final geo = reader.readObject() as GeoPointBase;
     final hasHeadingField = (flags & 1) != 0;
-    final dynamic heading = hasHeadingField ? 0 : null;
+    final heading = hasHeadingField ? reader.readInt32() : null;
     final hasPeriodField = (flags & 2) != 0;
-    final dynamic period = hasPeriodField ? 0 : null;
+    final period = hasPeriodField ? reader.readInt32() : null;
     final hasProximityNotificationRadiusField = (flags & 8) != 0;
-    final dynamic proximityNotificationRadius =
-        hasProximityNotificationRadiusField ? 0 : null;
+    final proximityNotificationRadius =
+        hasProximityNotificationRadiusField ? reader.readInt32() : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaGeo] object.
     final returnValue = BotInlineMessageMediaGeo(
@@ -32532,7 +32728,8 @@ class BotInlineMessageMediaVenue extends BotInlineMessageBase {
     final venueId = reader.readString();
     final venueType = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaVenue] object.
     final returnValue = BotInlineMessageMediaVenue(
@@ -32619,7 +32816,8 @@ class BotInlineMessageMediaContact extends BotInlineMessageBase {
     final lastName = reader.readString();
     final vcard = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaContact] object.
     final returnValue = BotInlineMessageMediaContact(
@@ -32699,11 +32897,12 @@ class BotInlineMessageMediaInvoice extends BotInlineMessageBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as WebDocumentBase : null;
     final currency = reader.readString();
     final totalAmount = reader.readInt64();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaInvoice] object.
     final returnValue = BotInlineMessageMediaInvoice(
@@ -32807,10 +33006,12 @@ class BotInlineMessageMediaWebPage extends BotInlineMessageBase {
     final safe = (flags & 256) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final url = reader.readString();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
 
     // Construct [BotInlineMessageMediaWebPage] object.
     final returnValue = BotInlineMessageMediaWebPage(
@@ -32918,15 +33119,16 @@ class BotInlineResult extends BotInlineResultBase {
     final id = reader.readString();
     final type = reader.readString();
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 4) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final hasUrlField = (flags & 8) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasThumbField = (flags & 16) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb = hasThumbField ? reader.readObject() as WebDocumentBase : null;
     final hasContentField = (flags & 32) != 0;
-    final dynamic content = hasContentField ? 0 : null;
+    final content =
+        hasContentField ? reader.readObject() as WebDocumentBase : null;
     final sendMessage = reader.readObject() as BotInlineMessageBase;
 
     // Construct [BotInlineResult] object.
@@ -33035,13 +33237,14 @@ class BotInlineMediaResult extends BotInlineResultBase {
     final id = reader.readString();
     final type = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as PhotoBase : null;
     final hasDocumentField = (flags & 2) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hasTitleField = (flags & 4) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 8) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final sendMessage = reader.readObject() as BotInlineMessageBase;
 
     // Construct [BotInlineMediaResult] object.
@@ -33148,11 +33351,14 @@ class MessagesBotResults extends MessagesBotResultsBase {
     final gallery = (flags & 1) != 0;
     final queryId = reader.readInt64();
     final hasNextOffsetField = (flags & 2) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
     final hasSwitchPmField = (flags & 4) != 0;
-    final dynamic switchPm = hasSwitchPmField ? 0 : null;
+    final switchPm =
+        hasSwitchPmField ? reader.readObject() as InlineBotSwitchPMBase : null;
     final hasSwitchWebviewField = (flags & 8) != 0;
-    final dynamic switchWebview = hasSwitchWebviewField ? 0 : null;
+    final switchWebview = hasSwitchWebviewField
+        ? reader.readObject() as InlineBotWebViewBase
+        : null;
     final results = reader.readVectorObject<BotInlineResultBase>();
     final cacheTime = reader.readInt32();
     final users = reader.readVectorObject<UserBase>();
@@ -33318,26 +33524,28 @@ class MessageFwdHeader extends MessageFwdHeaderBase {
     final imported = (flags & 128) != 0;
     final savedOut = (flags & 2048) != 0;
     final hasFromIdField = (flags & 1) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as PeerBase : null;
     final hasFromNameField = (flags & 32) != 0;
-    final dynamic fromName = hasFromNameField ? 0 : null;
+    final fromName = hasFromNameField ? reader.readString() : null;
     final date = reader.readDateTime();
     final hasChannelPostField = (flags & 4) != 0;
-    final dynamic channelPost = hasChannelPostField ? 0 : null;
+    final channelPost = hasChannelPostField ? reader.readInt32() : null;
     final hasPostAuthorField = (flags & 8) != 0;
-    final dynamic postAuthor = hasPostAuthorField ? 0 : null;
+    final postAuthor = hasPostAuthorField ? reader.readString() : null;
     final hasSavedFromPeerField = (flags & 16) != 0;
-    final dynamic savedFromPeer = hasSavedFromPeerField ? 0 : null;
+    final savedFromPeer =
+        hasSavedFromPeerField ? reader.readObject() as PeerBase : null;
     final hasSavedFromMsgIdField = (flags & 16) != 0;
-    final dynamic savedFromMsgId = hasSavedFromMsgIdField ? 0 : null;
+    final savedFromMsgId = hasSavedFromMsgIdField ? reader.readInt32() : null;
     final hasSavedFromIdField = (flags & 256) != 0;
-    final dynamic savedFromId = hasSavedFromIdField ? 0 : null;
+    final savedFromId =
+        hasSavedFromIdField ? reader.readObject() as PeerBase : null;
     final hasSavedFromNameField = (flags & 512) != 0;
-    final dynamic savedFromName = hasSavedFromNameField ? 0 : null;
+    final savedFromName = hasSavedFromNameField ? reader.readString() : null;
     final hasSavedDateField = (flags & 1024) != 0;
-    final dynamic savedDate = hasSavedDateField ? 0 : null;
+    final savedDate = hasSavedDateField ? reader.readDateTime() : null;
     final hasPsaTypeField = (flags & 64) != 0;
-    final dynamic psaType = hasPsaTypeField ? 0 : null;
+    final psaType = hasPsaTypeField ? reader.readString() : null;
 
     // Construct [MessageFwdHeader] object.
     final returnValue = MessageFwdHeader(
@@ -33802,10 +34010,11 @@ class AuthSentCodeTypeEmailCode extends AuthSentCodeTypeBase {
     final emailPattern = reader.readString();
     final length = reader.readInt32();
     final hasResetAvailablePeriodField = (flags & 8) != 0;
-    final dynamic resetAvailablePeriod =
-        hasResetAvailablePeriodField ? 0 : null;
+    final resetAvailablePeriod =
+        hasResetAvailablePeriodField ? reader.readInt32() : null;
     final hasResetPendingDateField = (flags & 16) != 0;
-    final dynamic resetPendingDate = hasResetPendingDateField ? 0 : null;
+    final resetPendingDate =
+        hasResetPendingDateField ? reader.readDateTime() : null;
 
     // Construct [AuthSentCodeTypeEmailCode] object.
     final returnValue = AuthSentCodeTypeEmailCode(
@@ -33982,11 +34191,11 @@ class AuthSentCodeTypeFirebaseSms extends AuthSentCodeTypeBase {
     // Read [AuthSentCodeTypeFirebaseSms] fields.
     final flags = reader.readInt32();
     final hasNonceField = (flags & 1) != 0;
-    final dynamic nonce = hasNonceField ? 0 : null;
+    final nonce = hasNonceField ? reader.readBytes() : null;
     final hasReceiptField = (flags & 2) != 0;
-    final dynamic receipt = hasReceiptField ? 0 : null;
+    final receipt = hasReceiptField ? reader.readString() : null;
     final hasPushTimeoutField = (flags & 2) != 0;
-    final dynamic pushTimeout = hasPushTimeoutField ? 0 : null;
+    final pushTimeout = hasPushTimeoutField ? reader.readInt32() : null;
     final length = reader.readInt32();
 
     // Construct [AuthSentCodeTypeFirebaseSms] object.
@@ -34074,9 +34283,9 @@ class MessagesBotCallbackAnswer extends MessagesBotCallbackAnswerBase {
     final hasUrl = (flags & 8) != 0;
     final nativeUi = (flags & 16) != 0;
     final hasMessageField = (flags & 1) != 0;
-    final dynamic message = hasMessageField ? 0 : null;
+    final message = hasMessageField ? reader.readString() : null;
     final hasUrlField = (flags & 4) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final cacheTime = reader.readInt32();
 
     // Construct [MessagesBotCallbackAnswer] object.
@@ -34844,7 +35053,7 @@ class DraftMessageEmpty extends DraftMessageBase {
     // Read [DraftMessageEmpty] fields.
     final flags = reader.readInt32();
     final hasDateField = (flags & 1) != 0;
-    final dynamic date = hasDateField ? 0 : null;
+    final date = hasDateField ? reader.readDateTime() : null;
 
     // Construct [DraftMessageEmpty] object.
     final returnValue = DraftMessageEmpty(
@@ -34901,12 +35110,14 @@ class DraftMessage extends DraftMessageBase {
     final noWebpage = (flags & 2) != 0;
     final invertMedia = (flags & 64) != 0;
     final hasReplyToField = (flags & 16) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final message = reader.readString();
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasMediaField = (flags & 32) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media = hasMediaField ? reader.readObject() as InputMediaBase : null;
     final date = reader.readDateTime();
 
     // Construct [DraftMessage] object.
@@ -35646,7 +35857,8 @@ class Game extends GameBase {
     final description = reader.readString();
     final photo = reader.readObject() as PhotoBase;
     final hasDocumentField = (flags & 1) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
 
     // Construct [Game] object.
     final returnValue = Game(
@@ -37017,9 +37229,9 @@ class PageBlockPhoto extends PageBlockBase {
     final photoId = reader.readInt64();
     final caption = reader.readObject() as PageCaptionBase;
     final hasUrlField = (flags & 1) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasWebpageIdField = (flags & 1) != 0;
-    final dynamic webpageId = hasWebpageIdField ? 0 : null;
+    final webpageId = hasWebpageIdField ? reader.readInt64() : null;
 
     // Construct [PageBlockPhoto] object.
     final returnValue = PageBlockPhoto(
@@ -37198,15 +37410,15 @@ class PageBlockEmbed extends PageBlockBase {
     final fullWidth = (flags & 1) != 0;
     final allowScrolling = (flags & 8) != 0;
     final hasUrlField = (flags & 2) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasHtmlField = (flags & 4) != 0;
-    final dynamic html = hasHtmlField ? 0 : null;
+    final html = hasHtmlField ? reader.readString() : null;
     final hasPosterPhotoIdField = (flags & 16) != 0;
-    final dynamic posterPhotoId = hasPosterPhotoIdField ? 0 : null;
+    final posterPhotoId = hasPosterPhotoIdField ? reader.readInt64() : null;
     final hasWField = (flags & 32) != 0;
-    final dynamic w = hasWField ? 0 : null;
+    final w = hasWField ? reader.readInt32() : null;
     final hasHField = (flags & 32) != 0;
-    final dynamic h = hasHField ? 0 : null;
+    final h = hasHField ? reader.readInt32() : null;
     final caption = reader.readObject() as PageCaptionBase;
 
     // Construct [PageBlockEmbed] object.
@@ -38062,11 +38274,12 @@ class Invoice extends InvoiceBase {
     final currency = reader.readString();
     final prices = reader.readVectorObject<LabeledPriceBase>();
     final hasMaxTipAmountField = (flags & 256) != 0;
-    final dynamic maxTipAmount = hasMaxTipAmountField ? 0 : null;
+    final maxTipAmount = hasMaxTipAmountField ? reader.readInt64() : null;
     final hasSuggestedTipAmountsField = (flags & 256) != 0;
-    final dynamic suggestedTipAmounts = hasSuggestedTipAmountsField ? 0 : null;
+    final suggestedTipAmounts =
+        hasSuggestedTipAmountsField ? reader.readVectorInt64() : null;
     final hasTermsUrlField = (flags & 1024) != 0;
-    final dynamic termsUrl = hasTermsUrlField ? 0 : null;
+    final termsUrl = hasTermsUrlField ? reader.readString() : null;
 
     // Construct [Invoice] object.
     final returnValue = Invoice(
@@ -38318,13 +38531,14 @@ class PaymentRequestedInfo extends PaymentRequestedInfoBase {
     // Read [PaymentRequestedInfo] fields.
     final flags = reader.readInt32();
     final hasNameField = (flags & 1) != 0;
-    final dynamic name = hasNameField ? 0 : null;
+    final name = hasNameField ? reader.readString() : null;
     final hasPhoneField = (flags & 2) != 0;
-    final dynamic phone = hasPhoneField ? 0 : null;
+    final phone = hasPhoneField ? reader.readString() : null;
     final hasEmailField = (flags & 4) != 0;
-    final dynamic email = hasEmailField ? 0 : null;
+    final email = hasEmailField ? reader.readString() : null;
     final hasShippingAddressField = (flags & 8) != 0;
-    final dynamic shippingAddress = hasShippingAddressField ? 0 : null;
+    final shippingAddress =
+        hasShippingAddressField ? reader.readObject() as PostAddressBase : null;
 
     // Construct [PaymentRequestedInfo] object.
     final returnValue = PaymentRequestedInfo(
@@ -38771,11 +38985,12 @@ class InputWebFileAudioAlbumThumbLocation extends InputWebFileLocationBase {
     final flags = reader.readInt32();
     final small = (flags & 4) != 0;
     final hasDocumentField = (flags & 1) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as InputDocumentBase : null;
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasPerformerField = (flags & 2) != 0;
-    final dynamic performer = hasPerformerField ? 0 : null;
+    final performer = hasPerformerField ? reader.readString() : null;
 
     // Construct [InputWebFileAudioAlbumThumbLocation] object.
     final returnValue = InputWebFileAudioAlbumThumbLocation(
@@ -38945,20 +39160,27 @@ class PaymentsPaymentForm extends PaymentsPaymentFormBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 32) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as WebDocumentBase : null;
     final invoice = reader.readObject() as InvoiceBase;
     final providerId = reader.readInt64();
     final url = reader.readString();
     final hasNativeProviderField = (flags & 16) != 0;
-    final dynamic nativeProvider = hasNativeProviderField ? 0 : null;
+    final nativeProvider = hasNativeProviderField ? reader.readString() : null;
     final hasNativeParamsField = (flags & 16) != 0;
-    final dynamic nativeParams = hasNativeParamsField ? 0 : null;
+    final nativeParams =
+        hasNativeParamsField ? reader.readObject() as DataJSONBase : null;
     final hasAdditionalMethodsField = (flags & 64) != 0;
-    final dynamic additionalMethods = hasAdditionalMethodsField ? 0 : null;
+    final additionalMethods = hasAdditionalMethodsField
+        ? reader.readVectorObject<PaymentFormMethodBase>()
+        : null;
     final hasSavedInfoField = (flags & 1) != 0;
-    final dynamic savedInfo = hasSavedInfoField ? 0 : null;
+    final savedInfo = hasSavedInfoField
+        ? reader.readObject() as PaymentRequestedInfoBase
+        : null;
     final hasSavedCredentialsField = (flags & 2) != 0;
-    final dynamic savedCredentials = hasSavedCredentialsField ? 0 : null;
+    final savedCredentials = hasSavedCredentialsField
+        ? reader.readVectorObject<PaymentSavedCredentialsBase>()
+        : null;
     final users = reader.readVectorObject<UserBase>();
 
     // Construct [PaymentsPaymentForm] object.
@@ -39116,9 +39338,11 @@ class PaymentsValidatedRequestedInfo
     // Read [PaymentsValidatedRequestedInfo] fields.
     final flags = reader.readInt32();
     final hasIdField = (flags & 1) != 0;
-    final dynamic id = hasIdField ? 0 : null;
+    final id = hasIdField ? reader.readString() : null;
     final hasShippingOptionsField = (flags & 2) != 0;
-    final dynamic shippingOptions = hasShippingOptionsField ? 0 : null;
+    final shippingOptions = hasShippingOptionsField
+        ? reader.readVectorObject<ShippingOptionBase>()
+        : null;
 
     // Construct [PaymentsValidatedRequestedInfo] object.
     final returnValue = PaymentsValidatedRequestedInfo(
@@ -39274,14 +39498,16 @@ class PaymentsPaymentReceipt extends PaymentsPaymentReceiptBase {
     final title = reader.readString();
     final description = reader.readString();
     final hasPhotoField = (flags & 4) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as WebDocumentBase : null;
     final invoice = reader.readObject() as InvoiceBase;
     final hasInfoField = (flags & 1) != 0;
-    final dynamic info = hasInfoField ? 0 : null;
+    final info =
+        hasInfoField ? reader.readObject() as PaymentRequestedInfoBase : null;
     final hasShippingField = (flags & 2) != 0;
-    final dynamic shipping = hasShippingField ? 0 : null;
+    final shipping =
+        hasShippingField ? reader.readObject() as ShippingOptionBase : null;
     final hasTipAmountField = (flags & 8) != 0;
-    final dynamic tipAmount = hasTipAmountField ? 0 : null;
+    final tipAmount = hasTipAmountField ? reader.readInt64() : null;
     final currency = reader.readString();
     final totalAmount = reader.readInt64();
     final credentialsTitle = reader.readString();
@@ -39425,7 +39651,9 @@ class PaymentsSavedInfo extends PaymentsSavedInfoBase {
     final flags = reader.readInt32();
     final hasSavedCredentials = (flags & 2) != 0;
     final hasSavedInfoField = (flags & 1) != 0;
-    final dynamic savedInfo = hasSavedInfoField ? 0 : null;
+    final savedInfo = hasSavedInfoField
+        ? reader.readObject() as PaymentRequestedInfoBase
+        : null;
 
     // Construct [PaymentsSavedInfo] object.
     final returnValue = PaymentsSavedInfo(
@@ -39759,9 +39987,10 @@ class InputStickerSetItem extends InputStickerSetItemBase {
     final document = reader.readObject() as InputDocumentBase;
     final emoji = reader.readString();
     final hasMaskCoordsField = (flags & 1) != 0;
-    final dynamic maskCoords = hasMaskCoordsField ? 0 : null;
+    final maskCoords =
+        hasMaskCoordsField ? reader.readObject() as MaskCoordsBase : null;
     final hasKeywordsField = (flags & 2) != 0;
-    final dynamic keywords = hasKeywordsField ? 0 : null;
+    final keywords = hasKeywordsField ? reader.readString() : null;
 
     // Construct [InputStickerSetItem] object.
     final returnValue = InputStickerSetItem(
@@ -39936,7 +40165,7 @@ class PhoneCallWaiting extends PhoneCallBase {
     final participantId = reader.readInt64();
     final protocol = reader.readObject() as PhoneCallProtocolBase;
     final hasReceiveDateField = (flags & 1) != 0;
-    final dynamic receiveDate = hasReceiveDateField ? 0 : null;
+    final receiveDate = hasReceiveDateField ? reader.readDateTime() : null;
 
     // Construct [PhoneCallWaiting] object.
     final returnValue = PhoneCallWaiting(
@@ -40370,9 +40599,11 @@ class PhoneCallDiscarded extends PhoneCallBase {
     final video = (flags & 64) != 0;
     final id = reader.readInt64();
     final hasReasonField = (flags & 1) != 0;
-    final dynamic reason = hasReasonField ? 0 : null;
+    final reason = hasReasonField
+        ? reader.readObject() as PhoneCallDiscardReasonBase
+        : null;
     final hasDurationField = (flags & 2) != 0;
-    final dynamic duration = hasDurationField ? 0 : null;
+    final duration = hasDurationField ? reader.readInt32() : null;
 
     // Construct [PhoneCallDiscarded] object.
     final returnValue = PhoneCallDiscarded(
@@ -40984,15 +41215,15 @@ class LangPackStringPluralized extends LangPackStringBase {
     final flags = reader.readInt32();
     final key = reader.readString();
     final hasZeroValueField = (flags & 1) != 0;
-    final dynamic zeroValue = hasZeroValueField ? 0 : null;
+    final zeroValue = hasZeroValueField ? reader.readString() : null;
     final hasOneValueField = (flags & 2) != 0;
-    final dynamic oneValue = hasOneValueField ? 0 : null;
+    final oneValue = hasOneValueField ? reader.readString() : null;
     final hasTwoValueField = (flags & 4) != 0;
-    final dynamic twoValue = hasTwoValueField ? 0 : null;
+    final twoValue = hasTwoValueField ? reader.readString() : null;
     final hasFewValueField = (flags & 8) != 0;
-    final dynamic fewValue = hasFewValueField ? 0 : null;
+    final fewValue = hasFewValueField ? reader.readString() : null;
     final hasManyValueField = (flags & 16) != 0;
-    final dynamic manyValue = hasManyValueField ? 0 : null;
+    final manyValue = hasManyValueField ? reader.readString() : null;
     final otherValue = reader.readString();
 
     // Construct [LangPackStringPluralized] object.
@@ -41209,7 +41440,7 @@ class LangPackLanguage extends LangPackLanguageBase {
     final nativeName = reader.readString();
     final langCode = reader.readString();
     final hasBaseLangCodeField = (flags & 2) != 0;
-    final dynamic baseLangCode = hasBaseLangCodeField ? 0 : null;
+    final baseLangCode = hasBaseLangCodeField ? reader.readString() : null;
     final pluralCode = reader.readString();
     final stringsCount = reader.readInt32();
     final translatedCount = reader.readInt32();
@@ -42933,9 +43164,11 @@ class ChannelAdminLogEventActionPinTopic
     // Read [ChannelAdminLogEventActionPinTopic] fields.
     final flags = reader.readInt32();
     final hasPrevTopicField = (flags & 1) != 0;
-    final dynamic prevTopic = hasPrevTopicField ? 0 : null;
+    final prevTopic =
+        hasPrevTopicField ? reader.readObject() as ForumTopicBase : null;
     final hasNewTopicField = (flags & 2) != 0;
-    final dynamic newTopic = hasNewTopicField ? 0 : null;
+    final newTopic =
+        hasNewTopicField ? reader.readObject() as ForumTopicBase : null;
 
     // Construct [ChannelAdminLogEventActionPinTopic] object.
     final returnValue = ChannelAdminLogEventActionPinTopic(
@@ -43893,7 +44126,8 @@ class InputSingleMedia extends InputSingleMediaBase {
     final randomId = reader.readInt64();
     final message = reader.readString();
     final hasEntitiesField = (flags & 1) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
 
     // Construct [InputSingleMedia] object.
     final returnValue = InputSingleMedia(
@@ -45347,19 +45581,25 @@ class SecureValue extends SecureValueBase {
     final flags = reader.readInt32();
     final type = reader.readObject() as SecureValueTypeBase;
     final hasDataField = (flags & 1) != 0;
-    final dynamic data = hasDataField ? 0 : null;
+    final data = hasDataField ? reader.readObject() as SecureDataBase : null;
     final hasFrontSideField = (flags & 2) != 0;
-    final dynamic frontSide = hasFrontSideField ? 0 : null;
+    final frontSide =
+        hasFrontSideField ? reader.readObject() as SecureFileBase : null;
     final hasReverseSideField = (flags & 4) != 0;
-    final dynamic reverseSide = hasReverseSideField ? 0 : null;
+    final reverseSide =
+        hasReverseSideField ? reader.readObject() as SecureFileBase : null;
     final hasSelfieField = (flags & 8) != 0;
-    final dynamic selfie = hasSelfieField ? 0 : null;
+    final selfie =
+        hasSelfieField ? reader.readObject() as SecureFileBase : null;
     final hasTranslationField = (flags & 64) != 0;
-    final dynamic translation = hasTranslationField ? 0 : null;
+    final translation =
+        hasTranslationField ? reader.readVectorObject<SecureFileBase>() : null;
     final hasFilesField = (flags & 16) != 0;
-    final dynamic files = hasFilesField ? 0 : null;
+    final files =
+        hasFilesField ? reader.readVectorObject<SecureFileBase>() : null;
     final hasPlainDataField = (flags & 32) != 0;
-    final dynamic plainData = hasPlainDataField ? 0 : null;
+    final plainData =
+        hasPlainDataField ? reader.readObject() as SecurePlainDataBase : null;
     final hash = reader.readBytes();
 
     // Construct [SecureValue] object.
@@ -45487,19 +45727,26 @@ class InputSecureValue extends InputSecureValueBase {
     final flags = reader.readInt32();
     final type = reader.readObject() as SecureValueTypeBase;
     final hasDataField = (flags & 1) != 0;
-    final dynamic data = hasDataField ? 0 : null;
+    final data = hasDataField ? reader.readObject() as SecureDataBase : null;
     final hasFrontSideField = (flags & 2) != 0;
-    final dynamic frontSide = hasFrontSideField ? 0 : null;
+    final frontSide =
+        hasFrontSideField ? reader.readObject() as InputSecureFileBase : null;
     final hasReverseSideField = (flags & 4) != 0;
-    final dynamic reverseSide = hasReverseSideField ? 0 : null;
+    final reverseSide =
+        hasReverseSideField ? reader.readObject() as InputSecureFileBase : null;
     final hasSelfieField = (flags & 8) != 0;
-    final dynamic selfie = hasSelfieField ? 0 : null;
+    final selfie =
+        hasSelfieField ? reader.readObject() as InputSecureFileBase : null;
     final hasTranslationField = (flags & 64) != 0;
-    final dynamic translation = hasTranslationField ? 0 : null;
+    final translation = hasTranslationField
+        ? reader.readVectorObject<InputSecureFileBase>()
+        : null;
     final hasFilesField = (flags & 16) != 0;
-    final dynamic files = hasFilesField ? 0 : null;
+    final files =
+        hasFilesField ? reader.readVectorObject<InputSecureFileBase>() : null;
     final hasPlainDataField = (flags & 32) != 0;
-    final dynamic plainData = hasPlainDataField ? 0 : null;
+    final plainData =
+        hasPlainDataField ? reader.readObject() as SecurePlainDataBase : null;
 
     // Construct [InputSecureValue] object.
     final returnValue = InputSecureValue(
@@ -46167,7 +46414,8 @@ class AccountAuthorizationForm extends AccountAuthorizationFormBase {
     final errors = reader.readVectorObject<SecureValueErrorBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasPrivacyPolicyUrlField = (flags & 1) != 0;
-    final dynamic privacyPolicyUrl = hasPrivacyPolicyUrlField ? 0 : null;
+    final privacyPolicyUrl =
+        hasPrivacyPolicyUrlField ? reader.readString() : null;
 
     // Construct [AccountAuthorizationForm] object.
     final returnValue = AccountAuthorizationForm(
@@ -46318,7 +46566,8 @@ class HelpDeepLinkInfo extends HelpDeepLinkInfoBase {
     final updateApp = (flags & 1) != 0;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
 
     // Construct [HelpDeepLinkInfo] object.
     final returnValue = HelpDeepLinkInfo(
@@ -47307,11 +47556,11 @@ class PageTableCell extends PageTableCellBase {
     final valignMiddle = (flags & 32) != 0;
     final valignBottom = (flags & 64) != 0;
     final hasTextField = (flags & 128) != 0;
-    final dynamic text = hasTextField ? 0 : null;
+    final text = hasTextField ? reader.readObject() as RichTextBase : null;
     final hasColspanField = (flags & 2) != 0;
-    final dynamic colspan = hasColspanField ? 0 : null;
+    final colspan = hasColspanField ? reader.readInt32() : null;
     final hasRowspanField = (flags & 4) != 0;
-    final dynamic rowspan = hasRowspanField ? 0 : null;
+    final rowspan = hasRowspanField ? reader.readInt32() : null;
 
     // Construct [PageTableCell] object.
     final returnValue = PageTableCell(
@@ -47666,15 +47915,15 @@ class PageRelatedArticle extends PageRelatedArticleBase {
     final url = reader.readString();
     final webpageId = reader.readInt64();
     final hasTitleField = (flags & 1) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDescriptionField = (flags & 2) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
     final hasPhotoIdField = (flags & 4) != 0;
-    final dynamic photoId = hasPhotoIdField ? 0 : null;
+    final photoId = hasPhotoIdField ? reader.readInt64() : null;
     final hasAuthorField = (flags & 8) != 0;
-    final dynamic author = hasAuthorField ? 0 : null;
+    final author = hasAuthorField ? reader.readString() : null;
     final hasPublishedDateField = (flags & 16) != 0;
-    final dynamic publishedDate = hasPublishedDateField ? 0 : null;
+    final publishedDate = hasPublishedDateField ? reader.readDateTime() : null;
 
     // Construct [PageRelatedArticle] object.
     final returnValue = PageRelatedArticle(
@@ -47791,7 +48040,7 @@ class Page extends PageBase {
     final photos = reader.readVectorObject<PhotoBase>();
     final documents = reader.readVectorObject<DocumentBase>();
     final hasViewsField = (flags & 8) != 0;
-    final dynamic views = hasViewsField ? 0 : null;
+    final views = hasViewsField ? reader.readInt32() : null;
 
     // Construct [Page] object.
     final returnValue = Page(
@@ -48067,9 +48316,9 @@ class Poll extends PollBase {
     final question = reader.readString();
     final answers = reader.readVectorObject<PollAnswerBase>();
     final hasClosePeriodField = (flags & 16) != 0;
-    final dynamic closePeriod = hasClosePeriodField ? 0 : null;
+    final closePeriod = hasClosePeriodField ? reader.readInt32() : null;
     final hasCloseDateField = (flags & 32) != 0;
-    final dynamic closeDate = hasCloseDateField ? 0 : null;
+    final closeDate = hasCloseDateField ? reader.readDateTime() : null;
 
     // Construct [Poll] object.
     final returnValue = Poll(
@@ -48249,15 +48498,20 @@ class PollResults extends PollResultsBase {
     final flags = reader.readInt32();
     final min = (flags & 1) != 0;
     final hasResultsField = (flags & 2) != 0;
-    final dynamic results = hasResultsField ? 0 : null;
+    final results = hasResultsField
+        ? reader.readVectorObject<PollAnswerVotersBase>()
+        : null;
     final hasTotalVotersField = (flags & 4) != 0;
-    final dynamic totalVoters = hasTotalVotersField ? 0 : null;
+    final totalVoters = hasTotalVotersField ? reader.readInt32() : null;
     final hasRecentVotersField = (flags & 8) != 0;
-    final dynamic recentVoters = hasRecentVotersField ? 0 : null;
+    final recentVoters =
+        hasRecentVotersField ? reader.readVectorObject<PeerBase>() : null;
     final hasSolutionField = (flags & 16) != 0;
-    final dynamic solution = hasSolutionField ? 0 : null;
+    final solution = hasSolutionField ? reader.readString() : null;
     final hasSolutionEntitiesField = (flags & 16) != 0;
-    final dynamic solutionEntities = hasSolutionEntitiesField ? 0 : null;
+    final solutionEntities = hasSolutionEntitiesField
+        ? reader.readVectorObject<MessageEntityBase>()
+        : null;
 
     // Construct [PollResults] object.
     final returnValue = PollResults(
@@ -48977,11 +49231,11 @@ class CodeSettings extends CodeSettingsBase {
     final allowMissedCall = (flags & 32) != 0;
     final allowFirebase = (flags & 128) != 0;
     final hasLogoutTokensField = (flags & 64) != 0;
-    final dynamic logoutTokens = hasLogoutTokensField ? 0 : null;
+    final logoutTokens = hasLogoutTokensField ? reader.readVectorBytes() : null;
     final hasTokenField = (flags & 256) != 0;
-    final dynamic token = hasTokenField ? 0 : null;
+    final token = hasTokenField ? reader.readString() : null;
     final hasAppSandboxField = (flags & 256) != 0;
-    final dynamic appSandbox = hasAppSandboxField ? 0 : null;
+    final appSandbox = hasAppSandboxField ? reader.readBool() : null;
 
     // Construct [CodeSettings] object.
     final returnValue = CodeSettings(
@@ -49088,22 +49342,22 @@ class WallPaperSettings extends WallPaperSettingsBase {
     final blur = (flags & 2) != 0;
     final motion = (flags & 4) != 0;
     final hasBackgroundColorField = (flags & 1) != 0;
-    final dynamic backgroundColor = hasBackgroundColorField ? 0 : null;
+    final backgroundColor = hasBackgroundColorField ? reader.readInt32() : null;
     final hasSecondBackgroundColorField = (flags & 16) != 0;
-    final dynamic secondBackgroundColor =
-        hasSecondBackgroundColorField ? 0 : null;
+    final secondBackgroundColor =
+        hasSecondBackgroundColorField ? reader.readInt32() : null;
     final hasThirdBackgroundColorField = (flags & 32) != 0;
-    final dynamic thirdBackgroundColor =
-        hasThirdBackgroundColorField ? 0 : null;
+    final thirdBackgroundColor =
+        hasThirdBackgroundColorField ? reader.readInt32() : null;
     final hasFourthBackgroundColorField = (flags & 64) != 0;
-    final dynamic fourthBackgroundColor =
-        hasFourthBackgroundColorField ? 0 : null;
+    final fourthBackgroundColor =
+        hasFourthBackgroundColorField ? reader.readInt32() : null;
     final hasIntensityField = (flags & 8) != 0;
-    final dynamic intensity = hasIntensityField ? 0 : null;
+    final intensity = hasIntensityField ? reader.readInt32() : null;
     final hasRotationField = (flags & 16) != 0;
-    final dynamic rotation = hasRotationField ? 0 : null;
+    final rotation = hasRotationField ? reader.readInt32() : null;
     final hasEmoticonField = (flags & 128) != 0;
-    final dynamic emoticon = hasEmoticonField ? 0 : null;
+    final emoticon = hasEmoticonField ? reader.readString() : null;
 
     // Construct [WallPaperSettings] object.
     final returnValue = WallPaperSettings(
@@ -49650,7 +49904,7 @@ class Folder extends FolderBase {
     final id = reader.readInt32();
     final title = reader.readString();
     final hasPhotoField = (flags & 8) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as ChatPhotoBase : null;
 
     // Construct [Folder] object.
     final returnValue = Folder(
@@ -50337,13 +50591,15 @@ class Theme extends ThemeBase {
     final slug = reader.readString();
     final title = reader.readString();
     final hasDocumentField = (flags & 4) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hasSettingsField = (flags & 8) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings =
+        hasSettingsField ? reader.readVectorObject<ThemeSettingsBase>() : null;
     final hasEmoticonField = (flags & 64) != 0;
-    final dynamic emoticon = hasEmoticonField ? 0 : null;
+    final emoticon = hasEmoticonField ? reader.readString() : null;
     final hasInstallsCountField = (flags & 16) != 0;
-    final dynamic installsCount = hasInstallsCountField ? 0 : null;
+    final installsCount = hasInstallsCountField ? reader.readInt32() : null;
 
     // Construct [Theme] object.
     final returnValue = Theme(
@@ -50903,13 +51159,18 @@ class InputThemeSettings extends InputThemeSettingsBase {
     final baseTheme = reader.readObject() as BaseThemeBase;
     final accentColor = reader.readInt32();
     final hasOutboxAccentColorField = (flags & 8) != 0;
-    final dynamic outboxAccentColor = hasOutboxAccentColorField ? 0 : null;
+    final outboxAccentColor =
+        hasOutboxAccentColorField ? reader.readInt32() : null;
     final hasMessageColorsField = (flags & 1) != 0;
-    final dynamic messageColors = hasMessageColorsField ? 0 : null;
+    final messageColors =
+        hasMessageColorsField ? reader.readVectorInt32() : null;
     final hasWallpaperField = (flags & 2) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as InputWallPaperBase : null;
     final hasWallpaperSettingsField = (flags & 2) != 0;
-    final dynamic wallpaperSettings = hasWallpaperSettingsField ? 0 : null;
+    final wallpaperSettings = hasWallpaperSettingsField
+        ? reader.readObject() as WallPaperSettingsBase
+        : null;
 
     // Construct [InputThemeSettings] object.
     final returnValue = InputThemeSettings(
@@ -51015,11 +51276,14 @@ class ThemeSettings extends ThemeSettingsBase {
     final baseTheme = reader.readObject() as BaseThemeBase;
     final accentColor = reader.readInt32();
     final hasOutboxAccentColorField = (flags & 8) != 0;
-    final dynamic outboxAccentColor = hasOutboxAccentColorField ? 0 : null;
+    final outboxAccentColor =
+        hasOutboxAccentColorField ? reader.readInt32() : null;
     final hasMessageColorsField = (flags & 1) != 0;
-    final dynamic messageColors = hasMessageColorsField ? 0 : null;
+    final messageColors =
+        hasMessageColorsField ? reader.readVectorInt32() : null;
     final hasWallpaperField = (flags & 2) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as WallPaperBase : null;
 
     // Construct [ThemeSettings] object.
     final returnValue = ThemeSettings(
@@ -51110,9 +51374,11 @@ class WebPageAttributeTheme extends WebPageAttributeBase {
     // Read [WebPageAttributeTheme] fields.
     final flags = reader.readInt32();
     final hasDocumentsField = (flags & 1) != 0;
-    final dynamic documents = hasDocumentsField ? 0 : null;
+    final documents =
+        hasDocumentsField ? reader.readVectorObject<DocumentBase>() : null;
     final hasSettingsField = (flags & 2) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings =
+        hasSettingsField ? reader.readObject() as ThemeSettingsBase : null;
 
     // Construct [WebPageAttributeTheme] object.
     final returnValue = WebPageAttributeTheme(
@@ -51174,7 +51440,7 @@ class WebPageAttributeStory extends WebPageAttributeBase {
     final peer = reader.readObject() as PeerBase;
     final id = reader.readInt32();
     final hasStoryField = (flags & 1) != 0;
-    final dynamic story = hasStoryField ? 0 : null;
+    final story = hasStoryField ? reader.readObject() as StoryItemBase : null;
 
     // Construct [WebPageAttributeStory] object.
     final returnValue = WebPageAttributeStory(
@@ -51249,7 +51515,7 @@ class MessagesVotesList extends MessagesVotesListBase {
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
 
     // Construct [MessagesVotesList] object.
     final returnValue = MessagesVotesList(
@@ -51443,7 +51709,7 @@ class DialogFilter extends DialogFilterBase {
     final id = reader.readInt32();
     final title = reader.readString();
     final hasEmoticonField = (flags & 33554432) != 0;
-    final dynamic emoticon = hasEmoticonField ? 0 : null;
+    final emoticon = hasEmoticonField ? reader.readString() : null;
     final pinnedPeers = reader.readVectorObject<InputPeerBase>();
     final includePeers = reader.readVectorObject<InputPeerBase>();
     final excludePeers = reader.readVectorObject<InputPeerBase>();
@@ -51593,7 +51859,7 @@ class DialogFilterChatlist extends DialogFilterBase {
     final id = reader.readInt32();
     final title = reader.readString();
     final hasEmoticonField = (flags & 33554432) != 0;
-    final dynamic emoticon = hasEmoticonField ? 0 : null;
+    final emoticon = hasEmoticonField ? reader.readString() : null;
     final pinnedPeers = reader.readVectorObject<InputPeerBase>();
     final includePeers = reader.readVectorObject<InputPeerBase>();
 
@@ -51935,7 +52201,7 @@ class StatsGraph extends StatsGraphBase {
     final flags = reader.readInt32();
     final json = reader.readObject() as DataJSONBase;
     final hasZoomTokenField = (flags & 1) != 0;
-    final dynamic zoomToken = hasZoomTokenField ? 0 : null;
+    final zoomToken = hasZoomTokenField ? reader.readString() : null;
 
     // Construct [StatsGraph] object.
     final returnValue = StatsGraph(
@@ -52230,9 +52496,9 @@ class HelpPromoData extends HelpPromoDataBase {
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasPsaTypeField = (flags & 2) != 0;
-    final dynamic psaType = hasPsaTypeField ? 0 : null;
+    final psaType = hasPsaTypeField ? reader.readString() : null;
     final hasPsaMessageField = (flags & 4) != 0;
-    final dynamic psaMessage = hasPsaMessageField ? 0 : null;
+    final psaMessage = hasPsaMessageField ? reader.readString() : null;
 
     // Construct [HelpPromoData] object.
     final returnValue = HelpPromoData(
@@ -52331,7 +52597,7 @@ class VideoSize extends VideoSizeBase {
     final h = reader.readInt32();
     final size = reader.readInt32();
     final hasVideoStartTsField = (flags & 1) != 0;
-    final dynamic videoStartTs = hasVideoStartTsField ? 0 : null;
+    final videoStartTs = hasVideoStartTsField ? reader.readFloat64() : null;
 
     // Construct [VideoSize] object.
     final returnValue = VideoSize(
@@ -52904,9 +53170,9 @@ class HelpCountryCode extends HelpCountryCodeBase {
     final flags = reader.readInt32();
     final countryCode = reader.readString();
     final hasPrefixesField = (flags & 1) != 0;
-    final dynamic prefixes = hasPrefixesField ? 0 : null;
+    final prefixes = hasPrefixesField ? reader.readVectorString() : null;
     final hasPatternsField = (flags & 2) != 0;
-    final dynamic patterns = hasPatternsField ? 0 : null;
+    final patterns = hasPatternsField ? reader.readVectorString() : null;
 
     // Construct [HelpCountryCode] object.
     final returnValue = HelpCountryCode(
@@ -52982,7 +53248,7 @@ class HelpCountry extends HelpCountryBase {
     final iso2 = reader.readString();
     final defaultName = reader.readString();
     final hasNameField = (flags & 2) != 0;
-    final dynamic name = hasNameField ? 0 : null;
+    final name = hasNameField ? reader.readString() : null;
     final countryCodes = reader.readVectorObject<HelpCountryCodeBase>();
 
     // Construct [HelpCountry] object.
@@ -53132,11 +53398,12 @@ class MessageViews extends MessageViewsBase {
     // Read [MessageViews] fields.
     final flags = reader.readInt32();
     final hasViewsField = (flags & 1) != 0;
-    final dynamic views = hasViewsField ? 0 : null;
+    final views = hasViewsField ? reader.readInt32() : null;
     final hasForwardsField = (flags & 2) != 0;
-    final dynamic forwards = hasForwardsField ? 0 : null;
+    final forwards = hasForwardsField ? reader.readInt32() : null;
     final hasRepliesField = (flags & 4) != 0;
-    final dynamic replies = hasRepliesField ? 0 : null;
+    final replies =
+        hasRepliesField ? reader.readObject() as MessageRepliesBase : null;
 
     // Construct [MessageViews] object.
     final returnValue = MessageViews(
@@ -53270,11 +53537,11 @@ class MessagesDiscussionMessage extends MessagesDiscussionMessageBase {
     final flags = reader.readInt32();
     final messages = reader.readVectorObject<MessageBase>();
     final hasMaxIdField = (flags & 1) != 0;
-    final dynamic maxId = hasMaxIdField ? 0 : null;
+    final maxId = hasMaxIdField ? reader.readInt32() : null;
     final hasReadInboxMaxIdField = (flags & 2) != 0;
-    final dynamic readInboxMaxId = hasReadInboxMaxIdField ? 0 : null;
+    final readInboxMaxId = hasReadInboxMaxIdField ? reader.readInt32() : null;
     final hasReadOutboxMaxIdField = (flags & 4) != 0;
-    final dynamic readOutboxMaxId = hasReadOutboxMaxIdField ? 0 : null;
+    final readOutboxMaxId = hasReadOutboxMaxIdField ? reader.readInt32() : null;
     final unreadCount = reader.readInt32();
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
@@ -53385,21 +53652,26 @@ class MessageReplyHeader extends MessageReplyHeaderBase {
     final forumTopic = (flags & 8) != 0;
     final quote = (flags & 512) != 0;
     final hasReplyToMsgIdField = (flags & 16) != 0;
-    final dynamic replyToMsgId = hasReplyToMsgIdField ? 0 : null;
+    final replyToMsgId = hasReplyToMsgIdField ? reader.readInt32() : null;
     final hasReplyToPeerIdField = (flags & 1) != 0;
-    final dynamic replyToPeerId = hasReplyToPeerIdField ? 0 : null;
+    final replyToPeerId =
+        hasReplyToPeerIdField ? reader.readObject() as PeerBase : null;
     final hasReplyFromField = (flags & 32) != 0;
-    final dynamic replyFrom = hasReplyFromField ? 0 : null;
+    final replyFrom =
+        hasReplyFromField ? reader.readObject() as MessageFwdHeaderBase : null;
     final hasReplyMediaField = (flags & 256) != 0;
-    final dynamic replyMedia = hasReplyMediaField ? 0 : null;
+    final replyMedia =
+        hasReplyMediaField ? reader.readObject() as MessageMediaBase : null;
     final hasReplyToTopIdField = (flags & 2) != 0;
-    final dynamic replyToTopId = hasReplyToTopIdField ? 0 : null;
+    final replyToTopId = hasReplyToTopIdField ? reader.readInt32() : null;
     final hasQuoteTextField = (flags & 64) != 0;
-    final dynamic quoteText = hasQuoteTextField ? 0 : null;
+    final quoteText = hasQuoteTextField ? reader.readString() : null;
     final hasQuoteEntitiesField = (flags & 128) != 0;
-    final dynamic quoteEntities = hasQuoteEntitiesField ? 0 : null;
+    final quoteEntities = hasQuoteEntitiesField
+        ? reader.readVectorObject<MessageEntityBase>()
+        : null;
     final hasQuoteOffsetField = (flags & 1024) != 0;
-    final dynamic quoteOffset = hasQuoteOffsetField ? 0 : null;
+    final quoteOffset = hasQuoteOffsetField ? reader.readInt32() : null;
 
     // Construct [MessageReplyHeader] object.
     final returnValue = MessageReplyHeader(
@@ -53586,13 +53858,14 @@ class MessageReplies extends MessageRepliesBase {
     final replies = reader.readInt32();
     final repliesPts = reader.readInt32();
     final hasRecentRepliersField = (flags & 2) != 0;
-    final dynamic recentRepliers = hasRecentRepliersField ? 0 : null;
+    final recentRepliers =
+        hasRecentRepliersField ? reader.readVectorObject<PeerBase>() : null;
     final hasChannelIdField = (flags & 1) != 0;
-    final dynamic channelId = hasChannelIdField ? 0 : null;
+    final channelId = hasChannelIdField ? reader.readInt64() : null;
     final hasMaxIdField = (flags & 4) != 0;
-    final dynamic maxId = hasMaxIdField ? 0 : null;
+    final maxId = hasMaxIdField ? reader.readInt32() : null;
     final hasReadMaxIdField = (flags & 8) != 0;
-    final dynamic readMaxId = hasReadMaxIdField ? 0 : null;
+    final readMaxId = hasReadMaxIdField ? reader.readInt32() : null;
 
     // Construct [MessageReplies] object.
     final returnValue = MessageReplies(
@@ -53868,15 +54141,17 @@ class GroupCall extends GroupCallBase {
     final accessHash = reader.readInt64();
     final participantsCount = reader.readInt32();
     final hasTitleField = (flags & 8) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasStreamDcIdField = (flags & 16) != 0;
-    final dynamic streamDcId = hasStreamDcIdField ? 0 : null;
+    final streamDcId = hasStreamDcIdField ? reader.readInt32() : null;
     final hasRecordStartDateField = (flags & 32) != 0;
-    final dynamic recordStartDate = hasRecordStartDateField ? 0 : null;
+    final recordStartDate =
+        hasRecordStartDateField ? reader.readDateTime() : null;
     final hasScheduleDateField = (flags & 128) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasUnmutedVideoCountField = (flags & 1024) != 0;
-    final dynamic unmutedVideoCount = hasUnmutedVideoCountField ? 0 : null;
+    final unmutedVideoCount =
+        hasUnmutedVideoCountField ? reader.readInt32() : null;
     final unmutedVideoLimit = reader.readInt32();
     final version = reader.readInt32();
 
@@ -54125,18 +54400,22 @@ class GroupCallParticipant extends GroupCallParticipantBase {
     final peer = reader.readObject() as PeerBase;
     final date = reader.readDateTime();
     final hasActiveDateField = (flags & 8) != 0;
-    final dynamic activeDate = hasActiveDateField ? 0 : null;
+    final activeDate = hasActiveDateField ? reader.readDateTime() : null;
     final source = reader.readInt32();
     final hasVolumeField = (flags & 128) != 0;
-    final dynamic volume = hasVolumeField ? 0 : null;
+    final volume = hasVolumeField ? reader.readInt32() : null;
     final hasAboutField = (flags & 2048) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
     final hasRaiseHandRatingField = (flags & 8192) != 0;
-    final dynamic raiseHandRating = hasRaiseHandRatingField ? 0 : null;
+    final raiseHandRating = hasRaiseHandRatingField ? reader.readInt64() : null;
     final hasVideoField = (flags & 64) != 0;
-    final dynamic video = hasVideoField ? 0 : null;
+    final video = hasVideoField
+        ? reader.readObject() as GroupCallParticipantVideoBase
+        : null;
     final hasPresentationField = (flags & 16384) != 0;
-    final dynamic presentation = hasPresentationField ? 0 : null;
+    final presentation = hasPresentationField
+        ? reader.readObject() as GroupCallParticipantVideoBase
+        : null;
 
     // Construct [GroupCallParticipant] object.
     final returnValue = GroupCallParticipant(
@@ -54640,7 +54919,7 @@ class MessagesHistoryImportParsed extends MessagesHistoryImportParsedBase {
     final pm = (flags & 1) != 0;
     final group = (flags & 2) != 0;
     final hasTitleField = (flags & 4) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
 
     // Construct [MessagesHistoryImportParsed] object.
     final returnValue = MessagesHistoryImportParsed(
@@ -54781,9 +55060,9 @@ class ChatInviteImporter extends ChatInviteImporterBase {
     final userId = reader.readInt64();
     final date = reader.readDateTime();
     final hasAboutField = (flags & 4) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
     final hasApprovedByField = (flags & 2) != 0;
-    final dynamic approvedBy = hasApprovedByField ? 0 : null;
+    final approvedBy = hasApprovedByField ? reader.readInt64() : null;
 
     // Construct [ChatInviteImporter] object.
     final returnValue = ChatInviteImporter(
@@ -55375,7 +55654,7 @@ class GroupCallParticipantVideo extends GroupCallParticipantVideoBase {
     final sourceGroups =
         reader.readVectorObject<GroupCallParticipantVideoSourceGroupBase>();
     final hasAudioSourceField = (flags & 2) != 0;
-    final dynamic audioSource = hasAudioSourceField ? 0 : null;
+    final audioSource = hasAudioSourceField ? reader.readInt32() : null;
 
     // Construct [GroupCallParticipantVideo] object.
     final returnValue = GroupCallParticipantVideo(
@@ -55806,28 +56085,31 @@ class SponsoredMessage extends SponsoredMessageBase {
     final showPeerPhoto = (flags & 64) != 0;
     final randomId = reader.readBytes();
     final hasFromIdField = (flags & 8) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as PeerBase : null;
     final hasChatInviteField = (flags & 16) != 0;
-    final dynamic chatInvite = hasChatInviteField ? 0 : null;
+    final chatInvite =
+        hasChatInviteField ? reader.readObject() as ChatInviteBase : null;
     final hasChatInviteHashField = (flags & 16) != 0;
-    final dynamic chatInviteHash = hasChatInviteHashField ? 0 : null;
+    final chatInviteHash = hasChatInviteHashField ? reader.readString() : null;
     final hasChannelPostField = (flags & 4) != 0;
-    final dynamic channelPost = hasChannelPostField ? 0 : null;
+    final channelPost = hasChannelPostField ? reader.readInt32() : null;
     final hasStartParamField = (flags & 1) != 0;
-    final dynamic startParam = hasStartParamField ? 0 : null;
+    final startParam = hasStartParamField ? reader.readString() : null;
     final hasWebpageField = (flags & 512) != 0;
-    final dynamic webpage = hasWebpageField ? 0 : null;
+    final webpage =
+        hasWebpageField ? reader.readObject() as SponsoredWebPageBase : null;
     final hasAppField = (flags & 1024) != 0;
-    final dynamic app = hasAppField ? 0 : null;
+    final app = hasAppField ? reader.readObject() as BotAppBase : null;
     final message = reader.readString();
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasButtonTextField = (flags & 2048) != 0;
-    final dynamic buttonText = hasButtonTextField ? 0 : null;
+    final buttonText = hasButtonTextField ? reader.readString() : null;
     final hasSponsorInfoField = (flags & 128) != 0;
-    final dynamic sponsorInfo = hasSponsorInfoField ? 0 : null;
+    final sponsorInfo = hasSponsorInfoField ? reader.readString() : null;
     final hasAdditionalInfoField = (flags & 256) != 0;
-    final dynamic additionalInfo = hasAdditionalInfoField ? 0 : null;
+    final additionalInfo = hasAdditionalInfoField ? reader.readString() : null;
 
     // Construct [SponsoredMessage] object.
     final returnValue = SponsoredMessage(
@@ -55994,7 +56276,7 @@ class MessagesSponsoredMessages extends MessagesSponsoredMessagesBase {
     // Read [MessagesSponsoredMessages] fields.
     final flags = reader.readInt32();
     final hasPostsBetweenField = (flags & 1) != 0;
-    final dynamic postsBetween = hasPostsBetweenField ? 0 : null;
+    final postsBetween = hasPostsBetweenField ? reader.readInt32() : null;
     final messages = reader.readVectorObject<SponsoredMessageBase>();
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
@@ -56169,7 +56451,7 @@ class MessagesSearchResultsCalendar extends MessagesSearchResultsCalendarBase {
     final minDate = reader.readDateTime();
     final minMsgId = reader.readInt32();
     final hasOffsetIdOffsetField = (flags & 2) != 0;
-    final dynamic offsetIdOffset = hasOffsetIdOffsetField ? 0 : null;
+    final offsetIdOffset = hasOffsetIdOffsetField ? reader.readInt32() : null;
     final periods = reader.readVectorObject<SearchResultsCalendarPeriodBase>();
     final messages = reader.readVectorObject<MessageBase>();
     final chats = reader.readVectorObject<ChatBase>();
@@ -56542,7 +56824,7 @@ class AuthLoggedOut extends AuthLoggedOutBase {
     // Read [AuthLoggedOut] fields.
     final flags = reader.readInt32();
     final hasFutureAuthTokenField = (flags & 1) != 0;
-    final dynamic futureAuthToken = hasFutureAuthTokenField ? 0 : null;
+    final futureAuthToken = hasFutureAuthTokenField ? reader.readBytes() : null;
 
     // Construct [AuthLoggedOut] object.
     final returnValue = AuthLoggedOut(
@@ -56599,7 +56881,7 @@ class ReactionCount extends ReactionCountBase {
     // Read [ReactionCount] fields.
     final flags = reader.readInt32();
     final hasChosenOrderField = (flags & 1) != 0;
-    final dynamic chosenOrder = hasChosenOrderField ? 0 : null;
+    final chosenOrder = hasChosenOrderField ? reader.readInt32() : null;
     final reaction = reader.readObject() as ReactionBase;
     final count = reader.readInt32();
 
@@ -56674,7 +56956,9 @@ class MessageReactions extends MessageReactionsBase {
     final canSeeList = (flags & 4) != 0;
     final results = reader.readVectorObject<ReactionCountBase>();
     final hasRecentReactionsField = (flags & 2) != 0;
-    final dynamic recentReactions = hasRecentReactionsField ? 0 : null;
+    final recentReactions = hasRecentReactionsField
+        ? reader.readVectorObject<MessagePeerReactionBase>()
+        : null;
 
     // Construct [MessageReactions] object.
     final returnValue = MessageReactions(
@@ -56752,7 +57036,7 @@ class MessagesMessageReactionsList extends MessagesMessageReactionsListBase {
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
 
     // Construct [MessagesMessageReactionsList] object.
     final returnValue = MessagesMessageReactionsList(
@@ -56848,9 +57132,11 @@ class AvailableReaction extends AvailableReactionBase {
     final activateAnimation = reader.readObject() as DocumentBase;
     final effectAnimation = reader.readObject() as DocumentBase;
     final hasAroundAnimationField = (flags & 2) != 0;
-    final dynamic aroundAnimation = hasAroundAnimationField ? 0 : null;
+    final aroundAnimation =
+        hasAroundAnimationField ? reader.readObject() as DocumentBase : null;
     final hasCenterIconField = (flags & 2) != 0;
-    final dynamic centerIcon = hasCenterIconField ? 0 : null;
+    final centerIcon =
+        hasCenterIconField ? reader.readObject() as DocumentBase : null;
 
     // Construct [AvailableReaction] object.
     final returnValue = AvailableReaction(
@@ -57317,7 +57603,9 @@ class AttachMenuBotIcon extends AttachMenuBotIconBase {
     final name = reader.readString();
     final icon = reader.readObject() as DocumentBase;
     final hasColorsField = (flags & 1) != 0;
-    final dynamic colors = hasColorsField ? 0 : null;
+    final colors = hasColorsField
+        ? reader.readVectorObject<AttachMenuBotIconColorBase>()
+        : null;
 
     // Construct [AttachMenuBotIcon] object.
     final returnValue = AttachMenuBotIcon(
@@ -57399,7 +57687,9 @@ class AttachMenuBot extends AttachMenuBotBase {
     final botId = reader.readInt64();
     final shortName = reader.readString();
     final hasPeerTypesField = (flags & 8) != 0;
-    final dynamic peerTypes = hasPeerTypesField ? 0 : null;
+    final peerTypes = hasPeerTypesField
+        ? reader.readVectorObject<AttachMenuPeerTypeBase>()
+        : null;
     final icons = reader.readVectorObject<AttachMenuBotIconBase>();
 
     // Construct [AttachMenuBot] object.
@@ -57716,7 +58006,9 @@ class WebViewMessageSent extends WebViewMessageSentBase {
     // Read [WebViewMessageSent] fields.
     final flags = reader.readInt32();
     final hasMsgIdField = (flags & 1) != 0;
-    final dynamic msgId = hasMsgIdField ? 0 : null;
+    final msgId = hasMsgIdField
+        ? reader.readObject() as InputBotInlineMessageIDBase
+        : null;
 
     // Construct [WebViewMessageSent] object.
     final returnValue = WebViewMessageSent(
@@ -58420,10 +58712,10 @@ class MessagesTranscribedAudio extends MessagesTranscribedAudioBase {
     final transcriptionId = reader.readInt64();
     final text = reader.readString();
     final hasTrialRemainsNumField = (flags & 2) != 0;
-    final dynamic trialRemainsNum = hasTrialRemainsNumField ? 0 : null;
+    final trialRemainsNum = hasTrialRemainsNumField ? reader.readInt32() : null;
     final hasTrialRemainsUntilDateField = (flags & 2) != 0;
-    final dynamic trialRemainsUntilDate =
-        hasTrialRemainsUntilDateField ? 0 : null;
+    final trialRemainsUntilDate =
+        hasTrialRemainsUntilDateField ? reader.readDateTime() : null;
 
     // Construct [MessagesTranscribedAudio] object.
     final returnValue = MessagesTranscribedAudio(
@@ -58686,7 +58978,8 @@ class InputStorePaymentPremiumGiftCode extends InputStorePaymentPurposeBase {
     final flags = reader.readInt32();
     final users = reader.readVectorObject<InputUserBase>();
     final hasBoostPeerField = (flags & 1) != 0;
-    final dynamic boostPeer = hasBoostPeerField ? 0 : null;
+    final boostPeer =
+        hasBoostPeerField ? reader.readObject() as InputPeerBase : null;
     final currency = reader.readString();
     final amount = reader.readInt64();
 
@@ -58766,11 +59059,15 @@ class InputStorePaymentPremiumGiveaway extends InputStorePaymentPurposeBase {
     final winnersAreVisible = (flags & 8) != 0;
     final boostPeer = reader.readObject() as InputPeerBase;
     final hasAdditionalPeersField = (flags & 2) != 0;
-    final dynamic additionalPeers = hasAdditionalPeersField ? 0 : null;
+    final additionalPeers = hasAdditionalPeersField
+        ? reader.readVectorObject<InputPeerBase>()
+        : null;
     final hasCountriesIso2Field = (flags & 4) != 0;
-    final dynamic countriesIso2 = hasCountriesIso2Field ? 0 : null;
+    final countriesIso2 =
+        hasCountriesIso2Field ? reader.readVectorString() : null;
     final hasPrizeDescriptionField = (flags & 16) != 0;
-    final dynamic prizeDescription = hasPrizeDescriptionField ? 0 : null;
+    final prizeDescription =
+        hasPrizeDescriptionField ? reader.readString() : null;
     final randomId = reader.readInt64();
     final untilDate = reader.readDateTime();
     final currency = reader.readString();
@@ -58894,7 +59191,7 @@ class PremiumGiftOption extends PremiumGiftOptionBase {
     final amount = reader.readInt64();
     final botUrl = reader.readString();
     final hasStoreProductField = (flags & 1) != 0;
-    final dynamic storeProduct = hasStoreProductField ? 0 : null;
+    final storeProduct = hasStoreProductField ? reader.readString() : null;
 
     // Construct [PremiumGiftOption] object.
     final returnValue = PremiumGiftOption(
@@ -59771,13 +60068,13 @@ class PremiumSubscriptionOption extends PremiumSubscriptionOptionBase {
     final current = (flags & 2) != 0;
     final canPurchaseUpgrade = (flags & 4) != 0;
     final hasTransactionField = (flags & 8) != 0;
-    final dynamic transaction = hasTransactionField ? 0 : null;
+    final transaction = hasTransactionField ? reader.readString() : null;
     final months = reader.readInt32();
     final currency = reader.readString();
     final amount = reader.readInt64();
     final botUrl = reader.readString();
     final hasStoreProductField = (flags & 1) != 0;
-    final dynamic storeProduct = hasStoreProductField ? 0 : null;
+    final storeProduct = hasStoreProductField ? reader.readString() : null;
 
     // Construct [PremiumSubscriptionOption] object.
     final returnValue = PremiumSubscriptionOption(
@@ -59935,13 +60232,13 @@ class MessageExtendedMediaPreview extends MessageExtendedMediaBase {
     // Read [MessageExtendedMediaPreview] fields.
     final flags = reader.readInt32();
     final hasWField = (flags & 1) != 0;
-    final dynamic w = hasWField ? 0 : null;
+    final w = hasWField ? reader.readInt32() : null;
     final hasHField = (flags & 1) != 0;
-    final dynamic h = hasHField ? 0 : null;
+    final h = hasHField ? reader.readInt32() : null;
     final hasThumbField = (flags & 2) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb = hasThumbField ? reader.readObject() as PhotoSizeBase : null;
     final hasVideoDurationField = (flags & 4) != 0;
-    final dynamic videoDuration = hasVideoDurationField ? 0 : null;
+    final videoDuration = hasVideoDurationField ? reader.readInt32() : null;
 
     // Construct [MessageExtendedMediaPreview] object.
     final returnValue = MessageExtendedMediaPreview(
@@ -60232,7 +60529,7 @@ class ForumTopic extends ForumTopicBase {
     final title = reader.readString();
     final iconColor = reader.readInt32();
     final hasIconEmojiIdField = (flags & 1) != 0;
-    final dynamic iconEmojiId = hasIconEmojiIdField ? 0 : null;
+    final iconEmojiId = hasIconEmojiIdField ? reader.readInt64() : null;
     final topMessage = reader.readInt32();
     final readInboxMaxId = reader.readInt32();
     final readOutboxMaxId = reader.readInt32();
@@ -60242,7 +60539,8 @@ class ForumTopic extends ForumTopicBase {
     final fromId = reader.readObject() as PeerBase;
     final notifySettings = reader.readObject() as PeerNotifySettingsBase;
     final hasDraftField = (flags & 16) != 0;
-    final dynamic draft = hasDraftField ? 0 : null;
+    final draft =
+        hasDraftField ? reader.readObject() as DraftMessageBase : null;
 
     // Construct [ForumTopic] object.
     final returnValue = ForumTopic(
@@ -60595,9 +60893,9 @@ class RequestPeerTypeUser extends RequestPeerTypeBase {
     // Read [RequestPeerTypeUser] fields.
     final flags = reader.readInt32();
     final hasBotField = (flags & 1) != 0;
-    final dynamic bot = hasBotField ? 0 : null;
+    final bot = hasBotField ? reader.readBool() : null;
     final hasPremiumField = (flags & 2) != 0;
-    final dynamic premium = hasPremiumField ? 0 : null;
+    final premium = hasPremiumField ? reader.readBool() : null;
 
     // Construct [RequestPeerTypeUser] object.
     final returnValue = RequestPeerTypeUser(
@@ -60662,13 +60960,17 @@ class RequestPeerTypeChat extends RequestPeerTypeBase {
     final creator = (flags & 1) != 0;
     final botParticipant = (flags & 32) != 0;
     final hasHasUsernameField = (flags & 8) != 0;
-    final dynamic hasUsername = hasHasUsernameField ? 0 : null;
+    final hasUsername = hasHasUsernameField ? reader.readBool() : null;
     final hasForumField = (flags & 16) != 0;
-    final dynamic forum = hasForumField ? 0 : null;
+    final forum = hasForumField ? reader.readBool() : null;
     final hasUserAdminRightsField = (flags & 2) != 0;
-    final dynamic userAdminRights = hasUserAdminRightsField ? 0 : null;
+    final userAdminRights = hasUserAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
     final hasBotAdminRightsField = (flags & 4) != 0;
-    final dynamic botAdminRights = hasBotAdminRightsField ? 0 : null;
+    final botAdminRights = hasBotAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
 
     // Construct [RequestPeerTypeChat] object.
     final returnValue = RequestPeerTypeChat(
@@ -60758,11 +61060,15 @@ class RequestPeerTypeBroadcast extends RequestPeerTypeBase {
     final flags = reader.readInt32();
     final creator = (flags & 1) != 0;
     final hasHasUsernameField = (flags & 8) != 0;
-    final dynamic hasUsername = hasHasUsernameField ? 0 : null;
+    final hasUsername = hasHasUsernameField ? reader.readBool() : null;
     final hasUserAdminRightsField = (flags & 2) != 0;
-    final dynamic userAdminRights = hasUserAdminRightsField ? 0 : null;
+    final userAdminRights = hasUserAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
     final hasBotAdminRightsField = (flags & 4) != 0;
-    final dynamic botAdminRights = hasBotAdminRightsField ? 0 : null;
+    final botAdminRights = hasBotAdminRightsField
+        ? reader.readObject() as ChatAdminRightsBase
+        : null;
 
     // Construct [RequestPeerTypeBroadcast] object.
     final returnValue = RequestPeerTypeBroadcast(
@@ -61131,7 +61437,7 @@ class AutoSaveSettings extends AutoSaveSettingsBase {
     final photos = (flags & 1) != 0;
     final videos = (flags & 2) != 0;
     final hasVideoMaxSizeField = (flags & 4) != 0;
-    final dynamic videoMaxSize = hasVideoMaxSizeField ? 0 : null;
+    final videoMaxSize = hasVideoMaxSizeField ? reader.readInt64() : null;
 
     // Construct [AutoSaveSettings] object.
     final returnValue = AutoSaveSettings(
@@ -61518,7 +61824,8 @@ class BotApp extends BotAppBase {
     final description = reader.readString();
     final photo = reader.readObject() as PhotoBase;
     final hasDocumentField = (flags & 1) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as DocumentBase : null;
     final hash = reader.readInt64();
 
     // Construct [BotApp] object.
@@ -61864,7 +62171,7 @@ class ExportedChatlistInvite extends ExportedChatlistInviteBase {
   /// Deserialize.
   factory ExportedChatlistInvite.deserialize(BinaryReader reader) {
     // Read [ExportedChatlistInvite] fields.
-    final flags = reader.readInt32();
+    final _ = reader.readInt32(); // flags
     final title = reader.readString();
     final url = reader.readString();
     final peers = reader.readVectorObject<PeerBase>();
@@ -62098,7 +62405,7 @@ class ChatlistsChatlistInvite extends ChatlistsChatlistInviteBase {
     final flags = reader.readInt32();
     final title = reader.readString();
     final hasEmoticonField = (flags & 1) != 0;
-    final dynamic emoticon = hasEmoticonField ? 0 : null;
+    final emoticon = hasEmoticonField ? reader.readString() : null;
     final peers = reader.readVectorObject<PeerBase>();
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
@@ -62431,7 +62738,7 @@ class SponsoredWebPage extends SponsoredWebPageBase {
     final url = reader.readString();
     final siteName = reader.readString();
     final hasPhotoField = (flags & 1) != 0;
-    final dynamic photo = hasPhotoField ? 0 : null;
+    final photo = hasPhotoField ? reader.readObject() as PhotoBase : null;
 
     // Construct [SponsoredWebPage] object.
     final returnValue = SponsoredWebPage(
@@ -62503,13 +62810,15 @@ class StoryViews extends StoryViewsBase {
     final hasViewers = (flags & 2) != 0;
     final viewsCount = reader.readInt32();
     final hasForwardsCountField = (flags & 4) != 0;
-    final dynamic forwardsCount = hasForwardsCountField ? 0 : null;
+    final forwardsCount = hasForwardsCountField ? reader.readInt32() : null;
     final hasReactionsField = (flags & 8) != 0;
-    final dynamic reactions = hasReactionsField ? 0 : null;
+    final reactions =
+        hasReactionsField ? reader.readVectorObject<ReactionCountBase>() : null;
     final hasReactionsCountField = (flags & 16) != 0;
-    final dynamic reactionsCount = hasReactionsCountField ? 0 : null;
+    final reactionsCount = hasReactionsCountField ? reader.readInt32() : null;
     final hasRecentViewersField = (flags & 1) != 0;
-    final dynamic recentViewers = hasRecentViewersField ? 0 : null;
+    final recentViewers =
+        hasRecentViewersField ? reader.readVectorInt64() : null;
 
     // Construct [StoryViews] object.
     final returnValue = StoryViews(
@@ -62736,21 +63045,26 @@ class StoryItem extends StoryItemBase {
     final id = reader.readInt32();
     final date = reader.readDateTime();
     final hasFwdFromField = (flags & 131072) != 0;
-    final dynamic fwdFrom = hasFwdFromField ? 0 : null;
+    final fwdFrom =
+        hasFwdFromField ? reader.readObject() as StoryFwdHeaderBase : null;
     final expireDate = reader.readDateTime();
     final hasCaptionField = (flags & 1) != 0;
-    final dynamic caption = hasCaptionField ? 0 : null;
+    final caption = hasCaptionField ? reader.readString() : null;
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final media = reader.readObject() as MessageMediaBase;
     final hasMediaAreasField = (flags & 16384) != 0;
-    final dynamic mediaAreas = hasMediaAreasField ? 0 : null;
+    final mediaAreas =
+        hasMediaAreasField ? reader.readVectorObject<MediaAreaBase>() : null;
     final hasPrivacyField = (flags & 4) != 0;
-    final dynamic privacy = hasPrivacyField ? 0 : null;
+    final privacy =
+        hasPrivacyField ? reader.readVectorObject<PrivacyRuleBase>() : null;
     final hasViewsField = (flags & 8) != 0;
-    final dynamic views = hasViewsField ? 0 : null;
+    final views = hasViewsField ? reader.readObject() as StoryViewsBase : null;
     final hasSentReactionField = (flags & 32768) != 0;
-    final dynamic sentReaction = hasSentReactionField ? 0 : null;
+    final sentReaction =
+        hasSentReactionField ? reader.readObject() as ReactionBase : null;
 
     // Construct [StoryItem] object.
     final returnValue = StoryItem(
@@ -62925,7 +63239,7 @@ class StoriesAllStoriesNotModified extends StoriesAllStoriesBase {
   /// Deserialize.
   factory StoriesAllStoriesNotModified.deserialize(BinaryReader reader) {
     // Read [StoriesAllStoriesNotModified] fields.
-    final flags = reader.readInt32();
+    final _ = reader.readInt32(); // flags
     final state = reader.readString();
     final stealthMode = reader.readObject() as StoriesStealthModeBase;
 
@@ -63141,7 +63455,8 @@ class StoryView extends StoryViewBase {
     final userId = reader.readInt64();
     final date = reader.readDateTime();
     final hasReactionField = (flags & 4) != 0;
-    final dynamic reaction = hasReactionField ? 0 : null;
+    final reaction =
+        hasReactionField ? reader.readObject() as ReactionBase : null;
 
     // Construct [StoryView] object.
     final returnValue = StoryView(
@@ -63355,7 +63670,7 @@ class StoriesStoryViewsList extends StoriesStoryViewsListBase {
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
 
     // Construct [StoriesStoryViewsList] object.
     final returnValue = StoriesStoryViewsList(
@@ -63506,15 +63821,18 @@ class InputReplyToMessage extends InputReplyToBase {
     final flags = reader.readInt32();
     final replyToMsgId = reader.readInt32();
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final hasReplyToPeerIdField = (flags & 2) != 0;
-    final dynamic replyToPeerId = hasReplyToPeerIdField ? 0 : null;
+    final replyToPeerId =
+        hasReplyToPeerIdField ? reader.readObject() as InputPeerBase : null;
     final hasQuoteTextField = (flags & 4) != 0;
-    final dynamic quoteText = hasQuoteTextField ? 0 : null;
+    final quoteText = hasQuoteTextField ? reader.readString() : null;
     final hasQuoteEntitiesField = (flags & 8) != 0;
-    final dynamic quoteEntities = hasQuoteEntitiesField ? 0 : null;
+    final quoteEntities = hasQuoteEntitiesField
+        ? reader.readVectorObject<MessageEntityBase>()
+        : null;
     final hasQuoteOffsetField = (flags & 16) != 0;
-    final dynamic quoteOffset = hasQuoteOffsetField ? 0 : null;
+    final quoteOffset = hasQuoteOffsetField ? reader.readInt32() : null;
 
     // Construct [InputReplyToMessage] object.
     final returnValue = InputReplyToMessage(
@@ -63696,9 +64014,11 @@ class StoriesStealthMode extends StoriesStealthModeBase {
     // Read [StoriesStealthMode] fields.
     final flags = reader.readInt32();
     final hasActiveUntilDateField = (flags & 1) != 0;
-    final dynamic activeUntilDate = hasActiveUntilDateField ? 0 : null;
+    final activeUntilDate =
+        hasActiveUntilDateField ? reader.readDateTime() : null;
     final hasCooldownUntilDateField = (flags & 2) != 0;
-    final dynamic cooldownUntilDate = hasCooldownUntilDateField ? 0 : null;
+    final cooldownUntilDate =
+        hasCooldownUntilDateField ? reader.readDateTime() : null;
 
     // Construct [StoriesStealthMode] object.
     final returnValue = StoriesStealthMode(
@@ -64173,7 +64493,7 @@ class PeerStories extends PeerStoriesBase {
     final flags = reader.readInt32();
     final peer = reader.readObject() as PeerBase;
     final hasMaxReadIdField = (flags & 1) != 0;
-    final dynamic maxReadId = hasMaxReadIdField ? 0 : null;
+    final maxReadId = hasMaxReadIdField ? reader.readInt32() : null;
     final stories = reader.readVectorObject<StoryItemBase>();
 
     // Construct [PeerStories] object.
@@ -64354,9 +64674,9 @@ class PremiumGiftCodeOption extends PremiumGiftCodeOptionBase {
     final users = reader.readInt32();
     final months = reader.readInt32();
     final hasStoreProductField = (flags & 1) != 0;
-    final dynamic storeProduct = hasStoreProductField ? 0 : null;
+    final storeProduct = hasStoreProductField ? reader.readString() : null;
     final hasStoreQuantityField = (flags & 2) != 0;
-    final dynamic storeQuantity = hasStoreQuantityField ? 0 : null;
+    final storeQuantity = hasStoreQuantityField ? reader.readInt32() : null;
     final currency = reader.readString();
     final amount = reader.readInt64();
 
@@ -64457,15 +64777,15 @@ class PaymentsCheckedGiftCode extends PaymentsCheckedGiftCodeBase {
     final flags = reader.readInt32();
     final viaGiveaway = (flags & 4) != 0;
     final hasFromIdField = (flags & 16) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as PeerBase : null;
     final hasGiveawayMsgIdField = (flags & 8) != 0;
-    final dynamic giveawayMsgId = hasGiveawayMsgIdField ? 0 : null;
+    final giveawayMsgId = hasGiveawayMsgIdField ? reader.readInt32() : null;
     final hasToIdField = (flags & 1) != 0;
-    final dynamic toId = hasToIdField ? 0 : null;
+    final toId = hasToIdField ? reader.readInt64() : null;
     final date = reader.readDateTime();
     final months = reader.readInt32();
     final hasUsedDateField = (flags & 2) != 0;
-    final dynamic usedDate = hasUsedDateField ? 0 : null;
+    final usedDate = hasUsedDateField ? reader.readDateTime() : null;
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
 
@@ -64584,12 +64904,14 @@ class PaymentsGiveawayInfo extends PaymentsGiveawayInfoBase {
     final preparingResults = (flags & 8) != 0;
     final startDate = reader.readDateTime();
     final hasJoinedTooEarlyDateField = (flags & 2) != 0;
-    final dynamic joinedTooEarlyDate = hasJoinedTooEarlyDateField ? 0 : null;
+    final joinedTooEarlyDate =
+        hasJoinedTooEarlyDateField ? reader.readDateTime() : null;
     final hasAdminDisallowedChatIdField = (flags & 4) != 0;
-    final dynamic adminDisallowedChatId =
-        hasAdminDisallowedChatIdField ? 0 : null;
+    final adminDisallowedChatId =
+        hasAdminDisallowedChatIdField ? reader.readInt64() : null;
     final hasDisallowedCountryField = (flags & 16) != 0;
-    final dynamic disallowedCountry = hasDisallowedCountryField ? 0 : null;
+    final disallowedCountry =
+        hasDisallowedCountryField ? reader.readString() : null;
 
     // Construct [PaymentsGiveawayInfo] object.
     final returnValue = PaymentsGiveawayInfo(
@@ -64680,7 +65002,7 @@ class PaymentsGiveawayInfoResults extends PaymentsGiveawayInfoBase {
     final refunded = (flags & 2) != 0;
     final startDate = reader.readDateTime();
     final hasGiftCodeSlugField = (flags & 1) != 0;
-    final dynamic giftCodeSlug = hasGiftCodeSlugField ? 0 : null;
+    final giftCodeSlug = hasGiftCodeSlugField ? reader.readString() : null;
     final finishDate = reader.readDateTime();
     final winnersCount = reader.readInt32();
     final activatedCount = reader.readInt32();
@@ -64851,15 +65173,15 @@ class Boost extends BoostBase {
     final unclaimed = (flags & 8) != 0;
     final id = reader.readString();
     final hasUserIdField = (flags & 1) != 0;
-    final dynamic userId = hasUserIdField ? 0 : null;
+    final userId = hasUserIdField ? reader.readInt64() : null;
     final hasGiveawayMsgIdField = (flags & 4) != 0;
-    final dynamic giveawayMsgId = hasGiveawayMsgIdField ? 0 : null;
+    final giveawayMsgId = hasGiveawayMsgIdField ? reader.readInt32() : null;
     final date = reader.readDateTime();
     final expires = reader.readInt32();
     final hasUsedGiftSlugField = (flags & 16) != 0;
-    final dynamic usedGiftSlug = hasUsedGiftSlugField ? 0 : null;
+    final usedGiftSlug = hasUsedGiftSlugField ? reader.readString() : null;
     final hasMultiplierField = (flags & 32) != 0;
-    final dynamic multiplier = hasMultiplierField ? 0 : null;
+    final multiplier = hasMultiplierField ? reader.readInt32() : null;
 
     // Construct [Boost] object.
     final returnValue = Boost(
@@ -64977,7 +65299,7 @@ class PremiumBoostsList extends PremiumBoostsListBase {
     final count = reader.readInt32();
     final boosts = reader.readVectorObject<BoostBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
     final users = reader.readVectorObject<UserBase>();
 
     // Construct [PremiumBoostsList] object.
@@ -65055,11 +65377,12 @@ class MyBoost extends MyBoostBase {
     final flags = reader.readInt32();
     final slot = reader.readInt32();
     final hasPeerField = (flags & 1) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer = hasPeerField ? reader.readObject() as PeerBase : null;
     final date = reader.readDateTime();
     final expires = reader.readInt32();
     final hasCooldownUntilDateField = (flags & 2) != 0;
-    final dynamic cooldownUntilDate = hasCooldownUntilDateField ? 0 : null;
+    final cooldownUntilDate =
+        hasCooldownUntilDateField ? reader.readDateTime() : null;
 
     // Construct [MyBoost] object.
     final returnValue = MyBoost(
@@ -65209,16 +65532,20 @@ class PremiumBoostsStatus extends PremiumBoostsStatusBase {
     final currentLevelBoosts = reader.readInt32();
     final boosts = reader.readInt32();
     final hasGiftBoostsField = (flags & 16) != 0;
-    final dynamic giftBoosts = hasGiftBoostsField ? 0 : null;
+    final giftBoosts = hasGiftBoostsField ? reader.readInt32() : null;
     final hasNextLevelBoostsField = (flags & 1) != 0;
-    final dynamic nextLevelBoosts = hasNextLevelBoostsField ? 0 : null;
+    final nextLevelBoosts = hasNextLevelBoostsField ? reader.readInt32() : null;
     final hasPremiumAudienceField = (flags & 2) != 0;
-    final dynamic premiumAudience = hasPremiumAudienceField ? 0 : null;
+    final premiumAudience = hasPremiumAudienceField
+        ? reader.readObject() as StatsPercentValueBase
+        : null;
     final boostUrl = reader.readString();
     final hasPrepaidGiveawaysField = (flags & 8) != 0;
-    final dynamic prepaidGiveaways = hasPrepaidGiveawaysField ? 0 : null;
+    final prepaidGiveaways = hasPrepaidGiveawaysField
+        ? reader.readVectorObject<PrepaidGiveawayBase>()
+        : null;
     final hasMyBoostSlotsField = (flags & 4) != 0;
-    final dynamic myBoostSlots = hasMyBoostSlotsField ? 0 : null;
+    final myBoostSlots = hasMyBoostSlotsField ? reader.readVectorInt32() : null;
 
     // Construct [PremiumBoostsStatus] object.
     final returnValue = PremiumBoostsStatus(
@@ -65343,11 +65670,11 @@ class StoryFwdHeader extends StoryFwdHeaderBase {
     final flags = reader.readInt32();
     final modified = (flags & 8) != 0;
     final hasFromField = (flags & 1) != 0;
-    final dynamic from = hasFromField ? 0 : null;
+    final from = hasFromField ? reader.readObject() as PeerBase : null;
     final hasFromNameField = (flags & 2) != 0;
-    final dynamic fromName = hasFromNameField ? 0 : null;
+    final fromName = hasFromNameField ? reader.readString() : null;
     final hasStoryIdField = (flags & 4) != 0;
-    final dynamic storyId = hasStoryIdField ? 0 : null;
+    final storyId = hasStoryIdField ? reader.readInt32() : null;
 
     // Construct [StoryFwdHeader] object.
     final returnValue = StoryFwdHeader(
@@ -65691,7 +66018,7 @@ class StatsPublicForwards extends StatsPublicForwardsBase {
     final count = reader.readInt32();
     final forwards = reader.readVectorObject<PublicForwardBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
 
@@ -65771,9 +66098,10 @@ class PeerColor extends PeerColorBase {
     // Read [PeerColor] fields.
     final flags = reader.readInt32();
     final hasColorField = (flags & 1) != 0;
-    final dynamic color = hasColorField ? 0 : null;
+    final color = hasColorField ? reader.readInt32() : null;
     final hasBackgroundEmojiIdField = (flags & 2) != 0;
-    final dynamic backgroundEmojiId = hasBackgroundEmojiIdField ? 0 : null;
+    final backgroundEmojiId =
+        hasBackgroundEmojiIdField ? reader.readInt64() : null;
 
     // Construct [PeerColor] object.
     final returnValue = PeerColor(
@@ -65931,11 +66259,13 @@ class HelpPeerColorOption extends HelpPeerColorOptionBase {
     final hidden = (flags & 1) != 0;
     final colorId = reader.readInt32();
     final hasColorsField = (flags & 2) != 0;
-    final dynamic colors = hasColorsField ? 0 : null;
+    final colors =
+        hasColorsField ? reader.readObject() as HelpPeerColorSetBase : null;
     final hasDarkColorsField = (flags & 4) != 0;
-    final dynamic darkColors = hasDarkColorsField ? 0 : null;
+    final darkColors =
+        hasDarkColorsField ? reader.readObject() as HelpPeerColorSetBase : null;
     final hasChannelMinLevelField = (flags & 8) != 0;
-    final dynamic channelMinLevel = hasChannelMinLevelField ? 0 : null;
+    final channelMinLevel = hasChannelMinLevelField ? reader.readInt32() : null;
 
     // Construct [HelpPeerColorOption] object.
     final returnValue = HelpPeerColorOption(
@@ -66229,7 +66559,7 @@ class StoriesStoryReactionsList extends StoriesStoryReactionsListBase {
     final chats = reader.readVectorObject<ChatBase>();
     final users = reader.readVectorObject<UserBase>();
     final hasNextOffsetField = (flags & 1) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
 
     // Construct [StoriesStoryReactionsList] object.
     final returnValue = StoriesStoryReactionsList(
@@ -66728,9 +67058,11 @@ class AuthSignIn extends TlMethod<AuthAuthorizationBase> {
     final phoneNumber = reader.readString();
     final phoneCodeHash = reader.readString();
     final hasPhoneCodeField = (flags & 1) != 0;
-    final dynamic phoneCode = hasPhoneCodeField ? 0 : null;
+    final phoneCode = hasPhoneCodeField ? reader.readString() : null;
     final hasEmailVerificationField = (flags & 2) != 0;
-    final dynamic emailVerification = hasEmailVerificationField ? 0 : null;
+    final emailVerification = hasEmailVerificationField
+        ? reader.readObject() as EmailVerificationBase
+        : null;
 
     // Construct [AuthSignIn] object.
     final returnValue = AuthSignIn(
@@ -67215,11 +67547,11 @@ class AccountUpdateProfile extends TlMethod<UserBase> {
     // Read [AccountUpdateProfile] fields.
     final flags = reader.readInt32();
     final hasFirstNameField = (flags & 1) != 0;
-    final dynamic firstName = hasFirstNameField ? 0 : null;
+    final firstName = hasFirstNameField ? reader.readString() : null;
     final hasLastNameField = (flags & 2) != 0;
-    final dynamic lastName = hasLastNameField ? 0 : null;
+    final lastName = hasLastNameField ? reader.readString() : null;
     final hasAboutField = (flags & 4) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
 
     // Construct [AccountUpdateProfile] object.
     final returnValue = AccountUpdateProfile(
@@ -67874,7 +68206,7 @@ class MessagesGetDialogs extends TlMethod<MessagesDialogsBase> {
     final flags = reader.readInt32();
     final excludePinned = (flags & 1) != 0;
     final hasFolderIdField = (flags & 2) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final offsetDate = reader.readDateTime();
     final offsetId = reader.readInt32();
     final offsetPeer = reader.readObject() as InputPeerBase;
@@ -68074,11 +68406,12 @@ class MessagesSearch extends TlMethod<MessagesMessagesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final q = reader.readString();
     final hasFromIdField = (flags & 1) != 0;
-    final dynamic fromId = hasFromIdField ? 0 : null;
+    final fromId = hasFromIdField ? reader.readObject() as InputPeerBase : null;
     final hasSavedPeerIdField = (flags & 4) != 0;
-    final dynamic savedPeerId = hasSavedPeerIdField ? 0 : null;
+    final savedPeerId =
+        hasSavedPeerIdField ? reader.readObject() as InputPeerBase : null;
     final hasTopMsgIdField = (flags & 2) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final filter = reader.readObject() as MessagesFilterBase;
     final minDate = reader.readDateTime();
     final maxDate = reader.readDateTime();
@@ -68273,9 +68606,9 @@ class MessagesDeleteHistory extends TlMethod<MessagesAffectedHistoryBase> {
     final peer = reader.readObject() as InputPeerBase;
     final maxId = reader.readInt32();
     final hasMinDateField = (flags & 4) != 0;
-    final dynamic minDate = hasMinDateField ? 0 : null;
+    final minDate = hasMinDateField ? reader.readDateTime() : null;
     final hasMaxDateField = (flags & 8) != 0;
-    final dynamic maxDate = hasMaxDateField ? 0 : null;
+    final maxDate = hasMaxDateField ? reader.readDateTime() : null;
 
     // Construct [MessagesDeleteHistory] object.
     final returnValue = MessagesDeleteHistory(
@@ -68446,7 +68779,7 @@ class MessagesSetTyping extends TlMethod<bool> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final action = reader.readObject() as SendMessageActionBase;
 
     // Construct [MessagesSetTyping] object.
@@ -68528,17 +68861,20 @@ class MessagesSendMessage extends TlMethod<UpdatesBase> {
     final invertMedia = (flags & 65536) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final message = reader.readString();
     final randomId = reader.readInt64();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasScheduleDateField = (flags & 1024) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesSendMessage] object.
     final returnValue = MessagesSendMessage(
@@ -68696,18 +69032,21 @@ class MessagesSendMedia extends TlMethod<UpdatesBase> {
     final invertMedia = (flags & 65536) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final media = reader.readObject() as InputMediaBase;
     final message = reader.readString();
     final randomId = reader.readInt64();
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasScheduleDateField = (flags & 1024) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesSendMedia] object.
     final returnValue = MessagesSendMedia(
@@ -68866,11 +69205,11 @@ class MessagesForwardMessages extends TlMethod<UpdatesBase> {
     final randomId = reader.readVectorInt64();
     final toPeer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 512) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final hasScheduleDateField = (flags & 1024) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesForwardMessages] object.
     final returnValue = MessagesForwardMessages(
@@ -69382,7 +69721,7 @@ class MessagesCreateChat extends TlMethod<UpdatesBase> {
     final users = reader.readVectorObject<InputUserBase>();
     final title = reader.readString();
     final hasTtlPeriodField = (flags & 1) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [MessagesCreateChat] object.
     final returnValue = MessagesCreateChat(
@@ -69470,13 +69809,13 @@ class UpdatesGetDifference extends TlMethod<UpdatesDifferenceBase> {
     final flags = reader.readInt32();
     final pts = reader.readInt32();
     final hasPtsLimitField = (flags & 2) != 0;
-    final dynamic ptsLimit = hasPtsLimitField ? 0 : null;
+    final ptsLimit = hasPtsLimitField ? reader.readInt32() : null;
     final hasPtsTotalLimitField = (flags & 1) != 0;
-    final dynamic ptsTotalLimit = hasPtsTotalLimitField ? 0 : null;
+    final ptsTotalLimit = hasPtsTotalLimitField ? reader.readInt32() : null;
     final date = reader.readDateTime();
     final qts = reader.readInt32();
     final hasQtsLimitField = (flags & 4) != 0;
-    final dynamic qtsLimit = hasQtsLimitField ? 0 : null;
+    final qtsLimit = hasQtsLimitField ? reader.readInt32() : null;
 
     // Construct [UpdatesGetDifference] object.
     final returnValue = UpdatesGetDifference(
@@ -69565,7 +69904,7 @@ class PhotosUpdateProfilePhoto extends TlMethod<PhotosPhotoBase> {
     final flags = reader.readInt32();
     final fallback = (flags & 1) != 0;
     final hasBotField = (flags & 2) != 0;
-    final dynamic bot = hasBotField ? 0 : null;
+    final bot = hasBotField ? reader.readObject() as InputUserBase : null;
     final id = reader.readObject() as InputPhotoBase;
 
     // Construct [PhotosUpdateProfilePhoto] object.
@@ -69631,15 +69970,16 @@ class PhotosUploadProfilePhoto extends TlMethod<PhotosPhotoBase> {
     final flags = reader.readInt32();
     final fallback = (flags & 8) != 0;
     final hasBotField = (flags & 32) != 0;
-    final dynamic bot = hasBotField ? 0 : null;
+    final bot = hasBotField ? reader.readObject() as InputUserBase : null;
     final hasFileField = (flags & 1) != 0;
-    final dynamic file = hasFileField ? 0 : null;
+    final file = hasFileField ? reader.readObject() as InputFileBase : null;
     final hasVideoField = (flags & 2) != 0;
-    final dynamic video = hasVideoField ? 0 : null;
+    final video = hasVideoField ? reader.readObject() as InputFileBase : null;
     final hasVideoStartTsField = (flags & 4) != 0;
-    final dynamic videoStartTs = hasVideoStartTsField ? 0 : null;
+    final videoStartTs = hasVideoStartTsField ? reader.readFloat64() : null;
     final hasVideoEmojiMarkupField = (flags & 16) != 0;
-    final dynamic videoEmojiMarkup = hasVideoEmojiMarkupField ? 0 : null;
+    final videoEmojiMarkup =
+        hasVideoEmojiMarkupField ? reader.readObject() as VideoSizeBase : null;
 
     // Construct [PhotosUploadProfilePhoto] object.
     final returnValue = PhotosUploadProfilePhoto(
@@ -70675,9 +71015,10 @@ class InitConnection<X> extends TlMethod<X> {
     final langPack = reader.readString();
     final langCode = reader.readString();
     final hasProxyField = (flags & 1) != 0;
-    final dynamic proxy = hasProxyField ? 0 : null;
+    final proxy =
+        hasProxyField ? reader.readObject() as InputClientProxyBase : null;
     final hasParamsField = (flags & 2) != 0;
-    final dynamic params = hasParamsField ? 0 : null;
+    final params = hasParamsField ? reader.readObject() as JSONValueBase : null;
     final query = reader.readObject() as TlMethod<X>;
 
     // Construct [InitConnection] object.
@@ -71024,7 +71365,9 @@ class AccountDeleteAccount extends TlMethod<bool> {
     final flags = reader.readInt32();
     final reason = reader.readString();
     final hasPasswordField = (flags & 1) != 0;
-    final dynamic password = hasPasswordField ? 0 : null;
+    final password = hasPasswordField
+        ? reader.readObject() as InputCheckPasswordSRPBase
+        : null;
 
     // Construct [AccountDeleteAccount] object.
     final returnValue = AccountDeleteAccount(
@@ -71477,7 +71820,8 @@ class MessagesGetWebPagePreview extends TlMethod<MessageMediaBase> {
     final flags = reader.readInt32();
     final message = reader.readString();
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
 
     // Construct [MessagesGetWebPagePreview] object.
     final returnValue = MessagesGetWebPagePreview(
@@ -71747,7 +72091,9 @@ class AuthRecoverPassword extends TlMethod<AuthAuthorizationBase> {
     final flags = reader.readInt32();
     final code = reader.readString();
     final hasNewSettingsField = (flags & 1) != 0;
-    final dynamic newSettings = hasNewSettingsField ? 0 : null;
+    final newSettings = hasNewSettingsField
+        ? reader.readObject() as AccountPasswordInputSettingsBase
+        : null;
 
     // Construct [AuthRecoverPassword] object.
     final returnValue = AuthRecoverPassword(
@@ -71843,11 +72189,11 @@ class MessagesExportChatInvite extends TlMethod<ExportedChatInviteBase> {
     final requestNeeded = (flags & 8) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasExpireDateField = (flags & 1) != 0;
-    final dynamic expireDate = hasExpireDateField ? 0 : null;
+    final expireDate = hasExpireDateField ? reader.readDateTime() : null;
     final hasUsageLimitField = (flags & 2) != 0;
-    final dynamic usageLimit = hasUsageLimitField ? 0 : null;
+    final usageLimit = hasUsageLimitField ? reader.readInt32() : null;
     final hasTitleField = (flags & 16) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
 
     // Construct [MessagesExportChatInvite] object.
     final returnValue = MessagesExportChatInvite(
@@ -72586,11 +72932,12 @@ class ChannelsCreateChannel extends TlMethod<UpdatesBase> {
     final title = reader.readString();
     final about = reader.readString();
     final hasGeoPointField = (flags & 4) != 0;
-    final dynamic geoPoint = hasGeoPointField ? 0 : null;
+    final geoPoint =
+        hasGeoPointField ? reader.readObject() as InputGeoPointBase : null;
     final hasAddressField = (flags & 4) != 0;
-    final dynamic address = hasAddressField ? 0 : null;
+    final address = hasAddressField ? reader.readString() : null;
     final hasTtlPeriodField = (flags & 16) != 0;
-    final dynamic ttlPeriod = hasTtlPeriodField ? 0 : null;
+    final ttlPeriod = hasTtlPeriodField ? reader.readInt32() : null;
 
     // Construct [ChannelsCreateChannel] object.
     final returnValue = ChannelsCreateChannel(
@@ -73219,7 +73566,7 @@ class MessagesSearchGlobal extends TlMethod<MessagesMessagesBase> {
     // Read [MessagesSearchGlobal] fields.
     final flags = reader.readInt32();
     final hasFolderIdField = (flags & 1) != 0;
-    final dynamic folderId = hasFolderIdField ? 0 : null;
+    final folderId = hasFolderIdField ? reader.readInt32() : null;
     final q = reader.readString();
     final filter = reader.readObject() as MessagesFilterBase;
     final minDate = reader.readDateTime();
@@ -73513,7 +73860,8 @@ class MessagesGetInlineBotResults extends TlMethod<MessagesBotResultsBase> {
     final bot = reader.readObject() as InputUserBase;
     final peer = reader.readObject() as InputPeerBase;
     final hasGeoPointField = (flags & 1) != 0;
-    final dynamic geoPoint = hasGeoPointField ? 0 : null;
+    final geoPoint =
+        hasGeoPointField ? reader.readObject() as InputGeoPointBase : null;
     final query = reader.readString();
     final offset = reader.readString();
 
@@ -73596,11 +73944,14 @@ class MessagesSetInlineBotResults extends TlMethod<bool> {
     final results = reader.readVectorObject<InputBotInlineResultBase>();
     final cacheTime = reader.readInt32();
     final hasNextOffsetField = (flags & 4) != 0;
-    final dynamic nextOffset = hasNextOffsetField ? 0 : null;
+    final nextOffset = hasNextOffsetField ? reader.readString() : null;
     final hasSwitchPmField = (flags & 8) != 0;
-    final dynamic switchPm = hasSwitchPmField ? 0 : null;
+    final switchPm =
+        hasSwitchPmField ? reader.readObject() as InlineBotSwitchPMBase : null;
     final hasSwitchWebviewField = (flags & 16) != 0;
-    final dynamic switchWebview = hasSwitchWebviewField ? 0 : null;
+    final switchWebview = hasSwitchWebviewField
+        ? reader.readObject() as InlineBotWebViewBase
+        : null;
 
     // Construct [MessagesSetInlineBotResults] object.
     final returnValue = MessagesSetInlineBotResults(
@@ -73711,14 +74062,15 @@ class MessagesSendInlineBotResult extends TlMethod<UpdatesBase> {
     final hideVia = (flags & 2048) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final randomId = reader.readInt64();
     final queryId = reader.readInt64();
     final id = reader.readString();
     final hasScheduleDateField = (flags & 1024) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesSendInlineBotResult] object.
     final returnValue = MessagesSendInlineBotResult(
@@ -74074,15 +74426,17 @@ class MessagesEditMessage extends TlMethod<UpdatesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final id = reader.readInt32();
     final hasMessageField = (flags & 2048) != 0;
-    final dynamic message = hasMessageField ? 0 : null;
+    final message = hasMessageField ? reader.readString() : null;
     final hasMediaField = (flags & 16384) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media = hasMediaField ? reader.readObject() as InputMediaBase : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasScheduleDateField = (flags & 32768) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
 
     // Construct [MessagesEditMessage] object.
     final returnValue = MessagesEditMessage(
@@ -74198,13 +74552,15 @@ class MessagesEditInlineBotMessage extends TlMethod<bool> {
     final invertMedia = (flags & 65536) != 0;
     final id = reader.readObject() as InputBotInlineMessageIDBase;
     final hasMessageField = (flags & 2048) != 0;
-    final dynamic message = hasMessageField ? 0 : null;
+    final message = hasMessageField ? reader.readString() : null;
     final hasMediaField = (flags & 16384) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media = hasMediaField ? reader.readObject() as InputMediaBase : null;
     final hasReplyMarkupField = (flags & 4) != 0;
-    final dynamic replyMarkup = hasReplyMarkupField ? 0 : null;
+    final replyMarkup =
+        hasReplyMarkupField ? reader.readObject() as ReplyMarkupBase : null;
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
 
     // Construct [MessagesEditInlineBotMessage] object.
     final returnValue = MessagesEditInlineBotMessage(
@@ -74303,9 +74659,11 @@ class MessagesGetBotCallbackAnswer
     final peer = reader.readObject() as InputPeerBase;
     final msgId = reader.readInt32();
     final hasDataField = (flags & 1) != 0;
-    final dynamic data = hasDataField ? 0 : null;
+    final data = hasDataField ? reader.readBytes() : null;
     final hasPasswordField = (flags & 4) != 0;
-    final dynamic password = hasPasswordField ? 0 : null;
+    final password = hasPasswordField
+        ? reader.readObject() as InputCheckPasswordSRPBase
+        : null;
 
     // Construct [MessagesGetBotCallbackAnswer] object.
     final returnValue = MessagesGetBotCallbackAnswer(
@@ -74386,9 +74744,9 @@ class MessagesSetBotCallbackAnswer extends TlMethod<bool> {
     final alert = (flags & 2) != 0;
     final queryId = reader.readInt64();
     final hasMessageField = (flags & 1) != 0;
-    final dynamic message = hasMessageField ? 0 : null;
+    final message = hasMessageField ? reader.readString() : null;
     final hasUrlField = (flags & 4) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final cacheTime = reader.readInt32();
 
     // Construct [MessagesSetBotCallbackAnswer] object.
@@ -74669,13 +75027,15 @@ class MessagesSaveDraft extends TlMethod<bool> {
     final noWebpage = (flags & 2) != 0;
     final invertMedia = (flags & 64) != 0;
     final hasReplyToField = (flags & 16) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final peer = reader.readObject() as InputPeerBase;
     final message = reader.readString();
     final hasEntitiesField = (flags & 8) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasMediaField = (flags & 32) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media = hasMediaField ? reader.readObject() as InputMediaBase : null;
 
     // Construct [MessagesSaveDraft] object.
     final returnValue = MessagesSaveDraft(
@@ -75990,7 +76350,8 @@ class PaymentsGetPaymentForm extends TlMethod<PaymentsPaymentFormBase> {
     final flags = reader.readInt32();
     final invoice = reader.readObject() as InputInvoiceBase;
     final hasThemeParamsField = (flags & 1) != 0;
-    final dynamic themeParams = hasThemeParamsField ? 0 : null;
+    final themeParams =
+        hasThemeParamsField ? reader.readObject() as DataJSONBase : null;
 
     // Construct [PaymentsGetPaymentForm] object.
     final returnValue = PaymentsGetPaymentForm(
@@ -76153,12 +76514,14 @@ class PaymentsSendPaymentForm extends TlMethod<PaymentsPaymentResultBase> {
     final formId = reader.readInt64();
     final invoice = reader.readObject() as InputInvoiceBase;
     final hasRequestedInfoIdField = (flags & 1) != 0;
-    final dynamic requestedInfoId = hasRequestedInfoIdField ? 0 : null;
+    final requestedInfoId =
+        hasRequestedInfoIdField ? reader.readString() : null;
     final hasShippingOptionIdField = (flags & 2) != 0;
-    final dynamic shippingOptionId = hasShippingOptionIdField ? 0 : null;
+    final shippingOptionId =
+        hasShippingOptionIdField ? reader.readString() : null;
     final credentials = reader.readObject() as InputPaymentCredentialsBase;
     final hasTipAmountField = (flags & 4) != 0;
-    final dynamic tipAmount = hasTipAmountField ? 0 : null;
+    final tipAmount = hasTipAmountField ? reader.readInt64() : null;
 
     // Construct [PaymentsSendPaymentForm] object.
     final returnValue = PaymentsSendPaymentForm(
@@ -76362,9 +76725,11 @@ class MessagesSetBotShippingResults extends TlMethod<bool> {
     final flags = reader.readInt32();
     final queryId = reader.readInt64();
     final hasErrorField = (flags & 1) != 0;
-    final dynamic error = hasErrorField ? 0 : null;
+    final error = hasErrorField ? reader.readString() : null;
     final hasShippingOptionsField = (flags & 2) != 0;
-    final dynamic shippingOptions = hasShippingOptionsField ? 0 : null;
+    final shippingOptions = hasShippingOptionsField
+        ? reader.readVectorObject<ShippingOptionBase>()
+        : null;
 
     // Construct [MessagesSetBotShippingResults] object.
     final returnValue = MessagesSetBotShippingResults(
@@ -76433,7 +76798,7 @@ class MessagesSetBotPrecheckoutResults extends TlMethod<bool> {
     final success = (flags & 2) != 0;
     final queryId = reader.readInt64();
     final hasErrorField = (flags & 1) != 0;
-    final dynamic error = hasErrorField ? 0 : null;
+    final error = hasErrorField ? reader.readString() : null;
 
     // Construct [MessagesSetBotPrecheckoutResults] object.
     final returnValue = MessagesSetBotPrecheckoutResults(
@@ -76512,10 +76877,11 @@ class StickersCreateStickerSet extends TlMethod<MessagesStickerSetBase> {
     final title = reader.readString();
     final shortName = reader.readString();
     final hasThumbField = (flags & 4) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb =
+        hasThumbField ? reader.readObject() as InputDocumentBase : null;
     final stickers = reader.readVectorObject<InputStickerSetItemBase>();
     final hasSoftwareField = (flags & 8) != 0;
-    final dynamic software = hasSoftwareField ? 0 : null;
+    final software = hasSoftwareField ? reader.readString() : null;
 
     // Construct [StickersCreateStickerSet] object.
     final returnValue = StickersCreateStickerSet(
@@ -77542,9 +77908,12 @@ class ChannelsGetAdminLog extends TlMethod<ChannelsAdminLogResultsBase> {
     final channel = reader.readObject() as InputChannelBase;
     final q = reader.readString();
     final hasEventsFilterField = (flags & 1) != 0;
-    final dynamic eventsFilter = hasEventsFilterField ? 0 : null;
+    final eventsFilter = hasEventsFilterField
+        ? reader.readObject() as ChannelAdminLogEventsFilterBase
+        : null;
     final hasAdminsField = (flags & 2) != 0;
-    final dynamic admins = hasAdminsField ? 0 : null;
+    final admins =
+        hasAdminsField ? reader.readVectorObject<InputUserBase>() : null;
     final maxId = reader.readInt64();
     final minId = reader.readInt64();
     final limit = reader.readInt32();
@@ -77918,7 +78287,7 @@ class MessagesGetUnreadMentions extends TlMethod<MessagesMessagesBase> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final offsetId = reader.readInt32();
     final addOffset = reader.readInt32();
     final limit = reader.readInt32();
@@ -78149,7 +78518,7 @@ class MessagesReadMentions extends TlMethod<MessagesAffectedHistoryBase> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
 
     // Construct [MessagesReadMentions] object.
     final returnValue = MessagesReadMentions(
@@ -78272,12 +78641,13 @@ class MessagesSendMultiMedia extends TlMethod<UpdatesBase> {
     final invertMedia = (flags & 65536) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final multiMedia = reader.readVectorObject<InputSingleMediaBase>();
     final hasScheduleDateField = (flags & 1024) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesSendMultiMedia] object.
     final returnValue = MessagesSendMultiMedia(
@@ -79235,7 +79605,7 @@ class AccountInitTakeoutSession extends TlMethod<AccountTakeoutBase> {
     final messageChannels = (flags & 16) != 0;
     final files = (flags & 32) != 0;
     final hasFileMaxSizeField = (flags & 32) != 0;
-    final dynamic fileMaxSize = hasFileMaxSizeField ? 0 : null;
+    final fileMaxSize = hasFileMaxSizeField ? reader.readInt64() : null;
 
     // Construct [AccountInitTakeoutSession] object.
     final returnValue = AccountInitTakeoutSession(
@@ -80062,7 +80432,8 @@ class AccountGetNotifyExceptions extends TlMethod<UpdatesBase> {
     final compareSound = (flags & 2) != 0;
     final compareStories = (flags & 4) != 0;
     final hasPeerField = (flags & 1) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer =
+        hasPeerField ? reader.readObject() as InputNotifyPeerBase : null;
 
     // Construct [AccountGetNotifyExceptions] object.
     final returnValue = AccountGetNotifyExceptions(
@@ -80809,9 +81180,10 @@ class MessagesGetSearchCounters
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasSavedPeerIdField = (flags & 4) != 0;
-    final dynamic savedPeerId = hasSavedPeerIdField ? 0 : null;
+    final savedPeerId =
+        hasSavedPeerIdField ? reader.readObject() as InputPeerBase : null;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final filters = reader.readVectorObject<MessagesFilterBase>();
 
     // Construct [MessagesGetSearchCounters] object.
@@ -80947,13 +81319,13 @@ class MessagesRequestUrlAuth extends TlMethod<UrlAuthResultBase> {
     // Read [MessagesRequestUrlAuth] fields.
     final flags = reader.readInt32();
     final hasPeerField = (flags & 2) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer = hasPeerField ? reader.readObject() as InputPeerBase : null;
     final hasMsgIdField = (flags & 2) != 0;
-    final dynamic msgId = hasMsgIdField ? 0 : null;
+    final msgId = hasMsgIdField ? reader.readInt32() : null;
     final hasButtonIdField = (flags & 2) != 0;
-    final dynamic buttonId = hasButtonIdField ? 0 : null;
+    final buttonId = hasButtonIdField ? reader.readInt32() : null;
     final hasUrlField = (flags & 4) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
 
     // Construct [MessagesRequestUrlAuth] object.
     final returnValue = MessagesRequestUrlAuth(
@@ -81032,13 +81404,13 @@ class MessagesAcceptUrlAuth extends TlMethod<UrlAuthResultBase> {
     final flags = reader.readInt32();
     final writeAllowed = (flags & 1) != 0;
     final hasPeerField = (flags & 2) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer = hasPeerField ? reader.readObject() as InputPeerBase : null;
     final hasMsgIdField = (flags & 2) != 0;
-    final dynamic msgId = hasMsgIdField ? 0 : null;
+    final msgId = hasMsgIdField ? reader.readInt32() : null;
     final hasButtonIdField = (flags & 2) != 0;
-    final dynamic buttonId = hasButtonIdField ? 0 : null;
+    final buttonId = hasButtonIdField ? reader.readInt32() : null;
     final hasUrlField = (flags & 4) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
 
     // Construct [MessagesAcceptUrlAuth] object.
     final returnValue = MessagesAcceptUrlAuth(
@@ -81309,7 +81681,7 @@ class ContactsGetLocated extends TlMethod<UpdatesBase> {
     final background = (flags & 2) != 0;
     final geoPoint = reader.readObject() as InputGeoPointBase;
     final hasSelfExpiresField = (flags & 1) != 0;
-    final dynamic selfExpires = hasSelfExpiresField ? 0 : null;
+    final selfExpires = hasSelfExpiresField ? reader.readInt32() : null;
 
     // Construct [ContactsGetLocated] object.
     final returnValue = ContactsGetLocated(
@@ -81629,7 +82001,7 @@ class AccountUploadTheme extends TlMethod<DocumentBase> {
     final flags = reader.readInt32();
     final file = reader.readObject() as InputFileBase;
     final hasThumbField = (flags & 1) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb = hasThumbField ? reader.readObject() as InputFileBase : null;
     final fileName = reader.readString();
     final mimeType = reader.readString();
 
@@ -81700,9 +82072,12 @@ class AccountCreateTheme extends TlMethod<ThemeBase> {
     final slug = reader.readString();
     final title = reader.readString();
     final hasDocumentField = (flags & 4) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as InputDocumentBase : null;
     final hasSettingsField = (flags & 8) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings = hasSettingsField
+        ? reader.readVectorObject<InputThemeSettingsBase>()
+        : null;
 
     // Construct [AccountCreateTheme] object.
     final returnValue = AccountCreateTheme(
@@ -81777,13 +82152,16 @@ class AccountUpdateTheme extends TlMethod<ThemeBase> {
     final format = reader.readString();
     final theme = reader.readObject() as InputThemeBase;
     final hasSlugField = (flags & 1) != 0;
-    final dynamic slug = hasSlugField ? 0 : null;
+    final slug = hasSlugField ? reader.readString() : null;
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasDocumentField = (flags & 4) != 0;
-    final dynamic document = hasDocumentField ? 0 : null;
+    final document =
+        hasDocumentField ? reader.readObject() as InputDocumentBase : null;
     final hasSettingsField = (flags & 8) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings = hasSettingsField
+        ? reader.readVectorObject<InputThemeSettingsBase>()
+        : null;
 
     // Construct [AccountUpdateTheme] object.
     final returnValue = AccountUpdateTheme(
@@ -81914,11 +82292,12 @@ class AccountInstallTheme extends TlMethod<bool> {
     final flags = reader.readInt32();
     final dark = (flags & 1) != 0;
     final hasThemeField = (flags & 2) != 0;
-    final dynamic theme = hasThemeField ? 0 : null;
+    final theme = hasThemeField ? reader.readObject() as InputThemeBase : null;
     final hasFormatField = (flags & 4) != 0;
-    final dynamic format = hasFormatField ? 0 : null;
+    final format = hasFormatField ? reader.readString() : null;
     final hasBaseThemeField = (flags & 8) != 0;
-    final dynamic baseTheme = hasBaseThemeField ? 0 : null;
+    final baseTheme =
+        hasBaseThemeField ? reader.readObject() as BaseThemeBase : null;
 
     // Construct [AccountInstallTheme] object.
     final returnValue = AccountInstallTheme(
@@ -82322,9 +82701,9 @@ class MessagesGetPollVotes extends TlMethod<MessagesVotesListBase> {
     final peer = reader.readObject() as InputPeerBase;
     final id = reader.readInt32();
     final hasOptionField = (flags & 1) != 0;
-    final dynamic option = hasOptionField ? 0 : null;
+    final option = hasOptionField ? reader.readBytes() : null;
     final hasOffsetField = (flags & 2) != 0;
-    final dynamic offset = hasOffsetField ? 0 : null;
+    final offset = hasOffsetField ? reader.readString() : null;
     final limit = reader.readInt32();
 
     // Construct [MessagesGetPollVotes] object.
@@ -82550,7 +82929,8 @@ class MessagesUpdateDialogFilter extends TlMethod<bool> {
     final flags = reader.readInt32();
     final id = reader.readInt32();
     final hasFilterField = (flags & 1) != 0;
-    final dynamic filter = hasFilterField ? 0 : null;
+    final filter =
+        hasFilterField ? reader.readObject() as DialogFilterBase : null;
 
     // Construct [MessagesUpdateDialogFilter] object.
     final returnValue = MessagesUpdateDialogFilter(
@@ -82693,7 +83073,7 @@ class StatsLoadAsyncGraph extends TlMethod<StatsGraphBase> {
     final flags = reader.readInt32();
     final token = reader.readString();
     final hasXField = (flags & 1) != 0;
-    final dynamic x = hasXField ? 0 : null;
+    final x = hasXField ? reader.readInt64() : null;
 
     // Construct [StatsLoadAsyncGraph] object.
     final returnValue = StatsLoadAsyncGraph(
@@ -82750,9 +83130,10 @@ class StickersSetStickerSetThumb extends TlMethod<MessagesStickerSetBase> {
     final flags = reader.readInt32();
     final stickerset = reader.readObject() as InputStickerSetBase;
     final hasThumbField = (flags & 1) != 0;
-    final dynamic thumb = hasThumbField ? 0 : null;
+    final thumb =
+        hasThumbField ? reader.readObject() as InputDocumentBase : null;
     final hasThumbDocumentIdField = (flags & 2) != 0;
-    final dynamic thumbDocumentId = hasThumbDocumentIdField ? 0 : null;
+    final thumbDocumentId = hasThumbDocumentIdField ? reader.readInt64() : null;
 
     // Construct [StickersSetStickerSetThumb] object.
     final returnValue = StickersSetStickerSetThumb(
@@ -83598,7 +83979,7 @@ class MessagesUnpinAllMessages extends TlMethod<MessagesAffectedHistoryBase> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
 
     // Construct [MessagesUnpinAllMessages] object.
     final returnValue = MessagesUnpinAllMessages(
@@ -83659,9 +84040,9 @@ class PhoneCreateGroupCall extends TlMethod<UpdatesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final randomId = reader.readInt32();
     final hasTitleField = (flags & 1) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasScheduleDateField = (flags & 2) != 0;
-    final dynamic scheduleDate = hasScheduleDateField ? 0 : null;
+    final scheduleDate = hasScheduleDateField ? reader.readDateTime() : null;
 
     // Construct [PhoneCreateGroupCall] object.
     final returnValue = PhoneCreateGroupCall(
@@ -83745,7 +84126,7 @@ class PhoneJoinGroupCall extends TlMethod<UpdatesBase> {
     final call = reader.readObject() as InputGroupCallBase;
     final joinAs = reader.readObject() as InputPeerBase;
     final hasInviteHashField = (flags & 2) != 0;
-    final dynamic inviteHash = hasInviteHashField ? 0 : null;
+    final inviteHash = hasInviteHashField ? reader.readString() : null;
     final params = reader.readObject() as DataJSONBase;
 
     // Construct [PhoneJoinGroupCall] object.
@@ -83942,7 +84323,7 @@ class PhoneToggleGroupCallSettings extends TlMethod<UpdatesBase> {
     final resetInviteHash = (flags & 2) != 0;
     final call = reader.readObject() as InputGroupCallBase;
     final hasJoinMutedField = (flags & 1) != 0;
-    final dynamic joinMuted = hasJoinMutedField ? 0 : null;
+    final joinMuted = hasJoinMutedField ? reader.readBool() : null;
 
     // Construct [PhoneToggleGroupCallSettings] object.
     final returnValue = PhoneToggleGroupCallSettings(
@@ -84424,9 +84805,9 @@ class MessagesGetExportedChatInvites
     final peer = reader.readObject() as InputPeerBase;
     final adminId = reader.readObject() as InputUserBase;
     final hasOffsetDateField = (flags & 4) != 0;
-    final dynamic offsetDate = hasOffsetDateField ? 0 : null;
+    final offsetDate = hasOffsetDateField ? reader.readDateTime() : null;
     final hasOffsetLinkField = (flags & 4) != 0;
-    final dynamic offsetLink = hasOffsetLinkField ? 0 : null;
+    final offsetLink = hasOffsetLinkField ? reader.readString() : null;
     final limit = reader.readInt32();
 
     // Construct [MessagesGetExportedChatInvites] object.
@@ -84558,13 +84939,13 @@ class MessagesEditExportedChatInvite
     final peer = reader.readObject() as InputPeerBase;
     final link = reader.readString();
     final hasExpireDateField = (flags & 1) != 0;
-    final dynamic expireDate = hasExpireDateField ? 0 : null;
+    final expireDate = hasExpireDateField ? reader.readDateTime() : null;
     final hasUsageLimitField = (flags & 2) != 0;
-    final dynamic usageLimit = hasUsageLimitField ? 0 : null;
+    final usageLimit = hasUsageLimitField ? reader.readInt32() : null;
     final hasRequestNeededField = (flags & 8) != 0;
-    final dynamic requestNeeded = hasRequestNeededField ? 0 : null;
+    final requestNeeded = hasRequestNeededField ? reader.readBool() : null;
     final hasTitleField = (flags & 16) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
 
     // Construct [MessagesEditExportedChatInvite] object.
     final returnValue = MessagesEditExportedChatInvite(
@@ -84782,9 +85163,9 @@ class MessagesGetChatInviteImporters
     final requested = (flags & 1) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasLinkField = (flags & 2) != 0;
-    final dynamic link = hasLinkField ? 0 : null;
+    final link = hasLinkField ? reader.readString() : null;
     final hasQField = (flags & 4) != 0;
-    final dynamic q = hasQField ? 0 : null;
+    final q = hasQField ? reader.readString() : null;
     final offsetDate = reader.readDateTime();
     final offsetUser = reader.readObject() as InputUserBase;
     final limit = reader.readInt32();
@@ -85046,9 +85427,9 @@ class PhoneToggleGroupCallRecord extends TlMethod<UpdatesBase> {
     final video = (flags & 4) != 0;
     final call = reader.readObject() as InputGroupCallBase;
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasVideoPortraitField = (flags & 4) != 0;
-    final dynamic videoPortrait = hasVideoPortraitField ? 0 : null;
+    final videoPortrait = hasVideoPortraitField ? reader.readBool() : null;
 
     // Construct [PhoneToggleGroupCallRecord] object.
     final returnValue = PhoneToggleGroupCallRecord(
@@ -85129,17 +85510,18 @@ class PhoneEditGroupCallParticipant extends TlMethod<UpdatesBase> {
     final call = reader.readObject() as InputGroupCallBase;
     final participant = reader.readObject() as InputPeerBase;
     final hasMutedField = (flags & 1) != 0;
-    final dynamic muted = hasMutedField ? 0 : null;
+    final muted = hasMutedField ? reader.readBool() : null;
     final hasVolumeField = (flags & 2) != 0;
-    final dynamic volume = hasVolumeField ? 0 : null;
+    final volume = hasVolumeField ? reader.readInt32() : null;
     final hasRaiseHandField = (flags & 4) != 0;
-    final dynamic raiseHand = hasRaiseHandField ? 0 : null;
+    final raiseHand = hasRaiseHandField ? reader.readBool() : null;
     final hasVideoStoppedField = (flags & 8) != 0;
-    final dynamic videoStopped = hasVideoStoppedField ? 0 : null;
+    final videoStopped = hasVideoStoppedField ? reader.readBool() : null;
     final hasVideoPausedField = (flags & 16) != 0;
-    final dynamic videoPaused = hasVideoPausedField ? 0 : null;
+    final videoPaused = hasVideoPausedField ? reader.readBool() : null;
     final hasPresentationPausedField = (flags & 32) != 0;
-    final dynamic presentationPaused = hasPresentationPausedField ? 0 : null;
+    final presentationPaused =
+        hasPresentationPausedField ? reader.readBool() : null;
 
     // Construct [PhoneEditGroupCallParticipant] object.
     final returnValue = PhoneEditGroupCallParticipant(
@@ -85996,7 +86378,8 @@ class MessagesGetSearchResultsCalendar
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasSavedPeerIdField = (flags & 4) != 0;
-    final dynamic savedPeerId = hasSavedPeerIdField ? 0 : null;
+    final savedPeerId =
+        hasSavedPeerIdField ? reader.readObject() as InputPeerBase : null;
     final filter = reader.readObject() as MessagesFilterBase;
     final offsetId = reader.readInt32();
     final offsetDate = reader.readDateTime();
@@ -86076,7 +86459,8 @@ class MessagesGetSearchResultsPositions
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasSavedPeerIdField = (flags & 4) != 0;
-    final dynamic savedPeerId = hasSavedPeerIdField ? 0 : null;
+    final savedPeerId =
+        hasSavedPeerIdField ? reader.readObject() as InputPeerBase : null;
     final filter = reader.readObject() as MessagesFilterBase;
     final offsetId = reader.readInt32();
     final limit = reader.readInt32();
@@ -86214,7 +86598,7 @@ class MessagesHideAllChatJoinRequests extends TlMethod<UpdatesBase> {
     final approved = (flags & 1) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasLinkField = (flags & 2) != 0;
-    final dynamic link = hasLinkField ? 0 : null;
+    final link = hasLinkField ? reader.readString() : null;
 
     // Construct [MessagesHideAllChatJoinRequests] object.
     final returnValue = MessagesHideAllChatJoinRequests(
@@ -86430,11 +86814,11 @@ class AccountChangeAuthorizationSettings extends TlMethod<bool> {
     final confirmed = (flags & 8) != 0;
     final hash = reader.readInt64();
     final hasEncryptedRequestsDisabledField = (flags & 1) != 0;
-    final dynamic encryptedRequestsDisabled =
-        hasEncryptedRequestsDisabledField ? 0 : null;
+    final encryptedRequestsDisabled =
+        hasEncryptedRequestsDisabledField ? reader.readBool() : null;
     final hasCallRequestsDisabledField = (flags & 2) != 0;
-    final dynamic callRequestsDisabled =
-        hasCallRequestsDisabledField ? 0 : null;
+    final callRequestsDisabled =
+        hasCallRequestsDisabledField ? reader.readBool() : null;
 
     // Construct [AccountChangeAuthorizationSettings] object.
     final returnValue = AccountChangeAuthorizationSettings(
@@ -86554,7 +86938,8 @@ class MessagesSendReaction extends TlMethod<UpdatesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final msgId = reader.readInt32();
     final hasReactionField = (flags & 1) != 0;
-    final dynamic reaction = hasReactionField ? 0 : null;
+    final reaction =
+        hasReactionField ? reader.readVectorObject<ReactionBase>() : null;
 
     // Construct [MessagesSendReaction] object.
     final returnValue = MessagesSendReaction(
@@ -86673,9 +87058,10 @@ class MessagesGetMessageReactionsList
     final peer = reader.readObject() as InputPeerBase;
     final id = reader.readInt32();
     final hasReactionField = (flags & 1) != 0;
-    final dynamic reaction = hasReactionField ? 0 : null;
+    final reaction =
+        hasReactionField ? reader.readObject() as ReactionBase : null;
     final hasOffsetField = (flags & 2) != 0;
-    final dynamic offset = hasOffsetField ? 0 : null;
+    final offset = hasOffsetField ? reader.readString() : null;
     final limit = reader.readInt32();
 
     // Construct [MessagesGetMessageReactionsList] object.
@@ -86868,11 +87254,12 @@ class MessagesTranslateText extends TlMethod<MessagesTranslatedTextBase> {
     // Read [MessagesTranslateText] fields.
     final flags = reader.readInt32();
     final hasPeerField = (flags & 1) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer = hasPeerField ? reader.readObject() as InputPeerBase : null;
     final hasIdField = (flags & 1) != 0;
-    final dynamic id = hasIdField ? 0 : null;
+    final id = hasIdField ? reader.readVectorInt32() : null;
     final hasTextField = (flags & 2) != 0;
-    final dynamic text = hasTextField ? 0 : null;
+    final text =
+        hasTextField ? reader.readVectorObject<TextWithEntitiesBase>() : null;
     final toLang = reader.readString();
 
     // Construct [MessagesTranslateText] object.
@@ -86951,7 +87338,7 @@ class MessagesGetUnreadReactions extends TlMethod<MessagesMessagesBase> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
     final offsetId = reader.readInt32();
     final addOffset = reader.readInt32();
     final limit = reader.readInt32();
@@ -87047,7 +87434,7 @@ class MessagesReadReactions extends TlMethod<MessagesAffectedHistoryBase> {
     final flags = reader.readInt32();
     final peer = reader.readObject() as InputPeerBase;
     final hasTopMsgIdField = (flags & 1) != 0;
-    final dynamic topMsgId = hasTopMsgIdField ? 0 : null;
+    final topMsgId = hasTopMsgIdField ? reader.readInt32() : null;
 
     // Construct [MessagesReadReactions] object.
     final returnValue = MessagesReadReactions(
@@ -87403,16 +87790,18 @@ class MessagesRequestWebView extends TlMethod<WebViewResultBase> {
     final peer = reader.readObject() as InputPeerBase;
     final bot = reader.readObject() as InputUserBase;
     final hasUrlField = (flags & 2) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasStartParamField = (flags & 8) != 0;
-    final dynamic startParam = hasStartParamField ? 0 : null;
+    final startParam = hasStartParamField ? reader.readString() : null;
     final hasThemeParamsField = (flags & 4) != 0;
-    final dynamic themeParams = hasThemeParamsField ? 0 : null;
+    final themeParams =
+        hasThemeParamsField ? reader.readObject() as DataJSONBase : null;
     final platform = reader.readString();
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesRequestWebView] object.
     final returnValue = MessagesRequestWebView(
@@ -87531,9 +87920,10 @@ class MessagesProlongWebView extends TlMethod<bool> {
     final bot = reader.readObject() as InputUserBase;
     final queryId = reader.readInt64();
     final hasReplyToField = (flags & 1) != 0;
-    final dynamic replyTo = hasReplyToField ? 0 : null;
+    final replyTo =
+        hasReplyToField ? reader.readObject() as InputReplyToBase : null;
     final hasSendAsField = (flags & 8192) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [MessagesProlongWebView] object.
     final returnValue = MessagesProlongWebView(
@@ -87622,11 +88012,12 @@ class MessagesRequestSimpleWebView extends TlMethod<SimpleWebViewResultBase> {
     final fromSideMenu = (flags & 4) != 0;
     final bot = reader.readObject() as InputUserBase;
     final hasUrlField = (flags & 8) != 0;
-    final dynamic url = hasUrlField ? 0 : null;
+    final url = hasUrlField ? reader.readString() : null;
     final hasStartParamField = (flags & 16) != 0;
-    final dynamic startParam = hasStartParamField ? 0 : null;
+    final startParam = hasStartParamField ? reader.readString() : null;
     final hasThemeParamsField = (flags & 1) != 0;
-    final dynamic themeParams = hasThemeParamsField ? 0 : null;
+    final themeParams =
+        hasThemeParamsField ? reader.readObject() as DataJSONBase : null;
     final platform = reader.readString();
 
     // Construct [MessagesRequestSimpleWebView] object.
@@ -89217,12 +89608,12 @@ class ChannelsCreateForumTopic extends TlMethod<UpdatesBase> {
     final channel = reader.readObject() as InputChannelBase;
     final title = reader.readString();
     final hasIconColorField = (flags & 1) != 0;
-    final dynamic iconColor = hasIconColorField ? 0 : null;
+    final iconColor = hasIconColorField ? reader.readInt32() : null;
     final hasIconEmojiIdField = (flags & 8) != 0;
-    final dynamic iconEmojiId = hasIconEmojiIdField ? 0 : null;
+    final iconEmojiId = hasIconEmojiIdField ? reader.readInt64() : null;
     final randomId = reader.readInt64();
     final hasSendAsField = (flags & 4) != 0;
-    final dynamic sendAs = hasSendAsField ? 0 : null;
+    final sendAs = hasSendAsField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [ChannelsCreateForumTopic] object.
     final returnValue = ChannelsCreateForumTopic(
@@ -89312,7 +89703,7 @@ class ChannelsGetForumTopics extends TlMethod<MessagesForumTopicsBase> {
     final flags = reader.readInt32();
     final channel = reader.readObject() as InputChannelBase;
     final hasQField = (flags & 1) != 0;
-    final dynamic q = hasQField ? 0 : null;
+    final q = hasQField ? reader.readString() : null;
     final offsetDate = reader.readDateTime();
     final offsetId = reader.readInt32();
     final offsetTopic = reader.readInt32();
@@ -89444,13 +89835,13 @@ class ChannelsEditForumTopic extends TlMethod<UpdatesBase> {
     final channel = reader.readObject() as InputChannelBase;
     final topicId = reader.readInt32();
     final hasTitleField = (flags & 1) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasIconEmojiIdField = (flags & 2) != 0;
-    final dynamic iconEmojiId = hasIconEmojiIdField ? 0 : null;
+    final iconEmojiId = hasIconEmojiIdField ? reader.readInt64() : null;
     final hasClosedField = (flags & 4) != 0;
-    final dynamic closed = hasClosedField ? 0 : null;
+    final closed = hasClosedField ? reader.readBool() : null;
     final hasHiddenField = (flags & 8) != 0;
-    final dynamic hidden = hasHiddenField ? 0 : null;
+    final hidden = hasHiddenField ? reader.readBool() : null;
 
     // Construct [ChannelsEditForumTopic] object.
     final returnValue = ChannelsEditForumTopic(
@@ -89898,13 +90289,14 @@ class PhotosUploadContactProfilePhoto extends TlMethod<PhotosPhotoBase> {
     final save = (flags & 16) != 0;
     final userId = reader.readObject() as InputUserBase;
     final hasFileField = (flags & 1) != 0;
-    final dynamic file = hasFileField ? 0 : null;
+    final file = hasFileField ? reader.readObject() as InputFileBase : null;
     final hasVideoField = (flags & 2) != 0;
-    final dynamic video = hasVideoField ? 0 : null;
+    final video = hasVideoField ? reader.readObject() as InputFileBase : null;
     final hasVideoStartTsField = (flags & 4) != 0;
-    final dynamic videoStartTs = hasVideoStartTsField ? 0 : null;
+    final videoStartTs = hasVideoStartTsField ? reader.readFloat64() : null;
     final hasVideoEmojiMarkupField = (flags & 32) != 0;
-    final dynamic videoEmojiMarkup = hasVideoEmojiMarkupField ? 0 : null;
+    final videoEmojiMarkup =
+        hasVideoEmojiMarkupField ? reader.readObject() as VideoSizeBase : null;
 
     // Construct [PhotosUploadContactProfilePhoto] object.
     final returnValue = PhotosUploadContactProfilePhoto(
@@ -90172,9 +90564,9 @@ class AuthRequestFirebaseSms extends TlMethod<bool> {
     final phoneNumber = reader.readString();
     final phoneCodeHash = reader.readString();
     final hasSafetyNetTokenField = (flags & 1) != 0;
-    final dynamic safetyNetToken = hasSafetyNetTokenField ? 0 : null;
+    final safetyNetToken = hasSafetyNetTokenField ? reader.readString() : null;
     final hasIosPushSecretField = (flags & 2) != 0;
-    final dynamic iosPushSecret = hasIosPushSecretField ? 0 : null;
+    final iosPushSecret = hasIosPushSecretField ? reader.readString() : null;
 
     // Construct [AuthRequestFirebaseSms] object.
     final returnValue = AuthRequestFirebaseSms(
@@ -90475,7 +90867,7 @@ class AccountSaveAutoSaveSettings extends TlMethod<bool> {
     final chats = (flags & 2) != 0;
     final broadcasts = (flags & 4) != 0;
     final hasPeerField = (flags & 8) != 0;
-    final dynamic peer = hasPeerField ? 0 : null;
+    final peer = hasPeerField ? reader.readObject() as InputPeerBase : null;
     final settings = reader.readObject() as AutoSaveSettingsBase;
 
     // Construct [AccountSaveAutoSaveSettings] object.
@@ -90572,11 +90964,12 @@ class StickersChangeSticker extends TlMethod<MessagesStickerSetBase> {
     final flags = reader.readInt32();
     final sticker = reader.readObject() as InputDocumentBase;
     final hasEmojiField = (flags & 1) != 0;
-    final dynamic emoji = hasEmojiField ? 0 : null;
+    final emoji = hasEmojiField ? reader.readString() : null;
     final hasMaskCoordsField = (flags & 2) != 0;
-    final dynamic maskCoords = hasMaskCoordsField ? 0 : null;
+    final maskCoords =
+        hasMaskCoordsField ? reader.readObject() as MaskCoordsBase : null;
     final hasKeywordsField = (flags & 4) != 0;
-    final dynamic keywords = hasKeywordsField ? 0 : null;
+    final keywords = hasKeywordsField ? reader.readString() : null;
 
     // Construct [StickersChangeSticker] object.
     final returnValue = StickersChangeSticker(
@@ -90774,9 +91167,10 @@ class MessagesRequestAppWebView extends TlMethod<AppWebViewResultBase> {
     final peer = reader.readObject() as InputPeerBase;
     final app = reader.readObject() as InputBotAppBase;
     final hasStartParamField = (flags & 2) != 0;
-    final dynamic startParam = hasStartParamField ? 0 : null;
+    final startParam = hasStartParamField ? reader.readString() : null;
     final hasThemeParamsField = (flags & 4) != 0;
-    final dynamic themeParams = hasThemeParamsField ? 0 : null;
+    final themeParams =
+        hasThemeParamsField ? reader.readObject() as DataJSONBase : null;
     final platform = reader.readString();
 
     // Construct [MessagesRequestAppWebView] object.
@@ -90859,14 +91253,14 @@ class BotsSetBotInfo extends TlMethod<bool> {
     // Read [BotsSetBotInfo] fields.
     final flags = reader.readInt32();
     final hasBotField = (flags & 4) != 0;
-    final dynamic bot = hasBotField ? 0 : null;
+    final bot = hasBotField ? reader.readObject() as InputUserBase : null;
     final langCode = reader.readString();
     final hasNameField = (flags & 8) != 0;
-    final dynamic name = hasNameField ? 0 : null;
+    final name = hasNameField ? reader.readString() : null;
     final hasAboutField = (flags & 1) != 0;
-    final dynamic about = hasAboutField ? 0 : null;
+    final about = hasAboutField ? reader.readString() : null;
     final hasDescriptionField = (flags & 2) != 0;
-    final dynamic description = hasDescriptionField ? 0 : null;
+    final description = hasDescriptionField ? reader.readString() : null;
 
     // Construct [BotsSetBotInfo] object.
     final returnValue = BotsSetBotInfo(
@@ -90948,7 +91342,7 @@ class BotsGetBotInfo extends TlMethod<BotsBotInfoBase> {
     // Read [BotsGetBotInfo] fields.
     final flags = reader.readInt32();
     final hasBotField = (flags & 1) != 0;
-    final dynamic bot = hasBotField ? 0 : null;
+    final bot = hasBotField ? reader.readObject() as InputUserBase : null;
     final langCode = reader.readString();
 
     // Construct [BotsGetBotInfo] object.
@@ -91139,9 +91533,10 @@ class ChatlistsEditExportedInvite extends TlMethod<ExportedChatlistInviteBase> {
     final chatlist = reader.readObject() as InputChatlistBase;
     final slug = reader.readString();
     final hasTitleField = (flags & 2) != 0;
-    final dynamic title = hasTitleField ? 0 : null;
+    final title = hasTitleField ? reader.readString() : null;
     final hasPeersField = (flags & 4) != 0;
-    final dynamic peers = hasPeersField ? 0 : null;
+    final peers =
+        hasPeersField ? reader.readVectorObject<InputPeerBase>() : null;
 
     // Construct [ChatlistsEditExportedInvite] object.
     final returnValue = ChatlistsEditExportedInvite(
@@ -91603,11 +91998,13 @@ class MessagesSetChatWallPaper extends TlMethod<UpdatesBase> {
     final revert = (flags & 16) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasWallpaperField = (flags & 1) != 0;
-    final dynamic wallpaper = hasWallpaperField ? 0 : null;
+    final wallpaper =
+        hasWallpaperField ? reader.readObject() as InputWallPaperBase : null;
     final hasSettingsField = (flags & 4) != 0;
-    final dynamic settings = hasSettingsField ? 0 : null;
+    final settings =
+        hasSettingsField ? reader.readObject() as WallPaperSettingsBase : null;
     final hasIdField = (flags & 2) != 0;
-    final dynamic id = hasIdField ? 0 : null;
+    final id = hasIdField ? reader.readInt32() : null;
 
     // Construct [MessagesSetChatWallPaper] object.
     final returnValue = MessagesSetChatWallPaper(
@@ -91849,19 +92246,22 @@ class StoriesSendStory extends TlMethod<UpdatesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final media = reader.readObject() as InputMediaBase;
     final hasMediaAreasField = (flags & 32) != 0;
-    final dynamic mediaAreas = hasMediaAreasField ? 0 : null;
+    final mediaAreas =
+        hasMediaAreasField ? reader.readVectorObject<MediaAreaBase>() : null;
     final hasCaptionField = (flags & 1) != 0;
-    final dynamic caption = hasCaptionField ? 0 : null;
+    final caption = hasCaptionField ? reader.readString() : null;
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final privacyRules = reader.readVectorObject<InputPrivacyRuleBase>();
     final randomId = reader.readInt64();
     final hasPeriodField = (flags & 8) != 0;
-    final dynamic period = hasPeriodField ? 0 : null;
+    final period = hasPeriodField ? reader.readInt32() : null;
     final hasFwdFromIdField = (flags & 64) != 0;
-    final dynamic fwdFromId = hasFwdFromIdField ? 0 : null;
+    final fwdFromId =
+        hasFwdFromIdField ? reader.readObject() as InputPeerBase : null;
     final hasFwdFromStoryField = (flags & 64) != 0;
-    final dynamic fwdFromStory = hasFwdFromStoryField ? 0 : null;
+    final fwdFromStory = hasFwdFromStoryField ? reader.readInt32() : null;
 
     // Construct [StoriesSendStory] object.
     final returnValue = StoriesSendStory(
@@ -91999,15 +92399,19 @@ class StoriesEditStory extends TlMethod<UpdatesBase> {
     final peer = reader.readObject() as InputPeerBase;
     final id = reader.readInt32();
     final hasMediaField = (flags & 1) != 0;
-    final dynamic media = hasMediaField ? 0 : null;
+    final media = hasMediaField ? reader.readObject() as InputMediaBase : null;
     final hasMediaAreasField = (flags & 8) != 0;
-    final dynamic mediaAreas = hasMediaAreasField ? 0 : null;
+    final mediaAreas =
+        hasMediaAreasField ? reader.readVectorObject<MediaAreaBase>() : null;
     final hasCaptionField = (flags & 2) != 0;
-    final dynamic caption = hasCaptionField ? 0 : null;
+    final caption = hasCaptionField ? reader.readString() : null;
     final hasEntitiesField = (flags & 2) != 0;
-    final dynamic entities = hasEntitiesField ? 0 : null;
+    final entities =
+        hasEntitiesField ? reader.readVectorObject<MessageEntityBase>() : null;
     final hasPrivacyRulesField = (flags & 4) != 0;
-    final dynamic privacyRules = hasPrivacyRulesField ? 0 : null;
+    final privacyRules = hasPrivacyRulesField
+        ? reader.readVectorObject<InputPrivacyRuleBase>()
+        : null;
 
     // Construct [StoriesEditStory] object.
     final returnValue = StoriesEditStory(
@@ -92196,7 +92600,7 @@ class StoriesGetAllStories extends TlMethod<StoriesAllStoriesBase> {
     final next = (flags & 2) != 0;
     final hidden = (flags & 4) != 0;
     final hasStateField = (flags & 1) != 0;
-    final dynamic state = hasStateField ? 0 : null;
+    final state = hasStateField ? reader.readString() : null;
 
     // Construct [StoriesGetAllStories] object.
     final returnValue = StoriesGetAllStories(
@@ -92529,7 +92933,7 @@ class StoriesGetStoryViewsList extends TlMethod<StoriesStoryViewsListBase> {
     final forwardsFirst = (flags & 8) != 0;
     final peer = reader.readObject() as InputPeerBase;
     final hasQField = (flags & 2) != 0;
-    final dynamic q = hasQField ? 0 : null;
+    final q = hasQField ? reader.readString() : null;
     final id = reader.readInt32();
     final offset = reader.readString();
     final limit = reader.readInt32();
@@ -93209,7 +93613,8 @@ class PaymentsGetPremiumGiftCodeOptions
     // Read [PaymentsGetPremiumGiftCodeOptions] fields.
     final flags = reader.readInt32();
     final hasBoostPeerField = (flags & 1) != 0;
-    final dynamic boostPeer = hasBoostPeerField ? 0 : null;
+    final boostPeer =
+        hasBoostPeerField ? reader.readObject() as InputPeerBase : null;
 
     // Construct [PaymentsGetPremiumGiftCodeOptions] object.
     final returnValue = PaymentsGetPremiumGiftCodeOptions(
@@ -93422,9 +93827,10 @@ class AccountUpdateColor extends TlMethod<bool> {
     final flags = reader.readInt32();
     final forProfile = (flags & 2) != 0;
     final hasColorField = (flags & 4) != 0;
-    final dynamic color = hasColorField ? 0 : null;
+    final color = hasColorField ? reader.readInt32() : null;
     final hasBackgroundEmojiIdField = (flags & 1) != 0;
-    final dynamic backgroundEmojiId = hasBackgroundEmojiIdField ? 0 : null;
+    final backgroundEmojiId =
+        hasBackgroundEmojiIdField ? reader.readInt64() : null;
 
     // Construct [AccountUpdateColor] object.
     final returnValue = AccountUpdateColor(
@@ -93492,9 +93898,10 @@ class ChannelsUpdateColor extends TlMethod<UpdatesBase> {
     final forProfile = (flags & 2) != 0;
     final channel = reader.readObject() as InputChannelBase;
     final hasColorField = (flags & 4) != 0;
-    final dynamic color = hasColorField ? 0 : null;
+    final color = hasColorField ? reader.readInt32() : null;
     final hasBackgroundEmojiIdField = (flags & 1) != 0;
-    final dynamic backgroundEmojiId = hasBackgroundEmojiIdField ? 0 : null;
+    final backgroundEmojiId =
+        hasBackgroundEmojiIdField ? reader.readInt64() : null;
 
     // Construct [ChannelsUpdateColor] object.
     final returnValue = ChannelsUpdateColor(
@@ -93689,7 +94096,7 @@ class PremiumApplyBoost extends TlMethod<PremiumMyBoostsBase> {
     // Read [PremiumApplyBoost] fields.
     final flags = reader.readInt32();
     final hasSlotsField = (flags & 1) != 0;
-    final dynamic slots = hasSlotsField ? 0 : null;
+    final slots = hasSlotsField ? reader.readVectorInt32() : null;
     final peer = reader.readObject() as InputPeerBase;
 
     // Construct [PremiumApplyBoost] object.
@@ -94155,9 +94562,10 @@ class StoriesGetStoryReactionsList
     final peer = reader.readObject() as InputPeerBase;
     final id = reader.readInt32();
     final hasReactionField = (flags & 1) != 0;
-    final dynamic reaction = hasReactionField ? 0 : null;
+    final reaction =
+        hasReactionField ? reader.readObject() as ReactionBase : null;
     final hasOffsetField = (flags & 2) != 0;
-    final dynamic offset = hasOffsetField ? 0 : null;
+    final offset = hasOffsetField ? reader.readString() : null;
     final limit = reader.readInt32();
 
     // Construct [StoriesGetStoryReactionsList] object.
@@ -94541,9 +94949,9 @@ class MessagesDeleteSavedHistory extends TlMethod<MessagesAffectedHistoryBase> {
     final peer = reader.readObject() as InputPeerBase;
     final maxId = reader.readInt32();
     final hasMinDateField = (flags & 4) != 0;
-    final dynamic minDate = hasMinDateField ? 0 : null;
+    final minDate = hasMinDateField ? reader.readDateTime() : null;
     final hasMaxDateField = (flags & 8) != 0;
-    final dynamic maxDate = hasMaxDateField ? 0 : null;
+    final maxDate = hasMaxDateField ? reader.readDateTime() : null;
 
     // Construct [MessagesDeleteSavedHistory] object.
     final returnValue = MessagesDeleteSavedHistory(

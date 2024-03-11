@@ -1,7 +1,5 @@
 part of '../tg.dart';
 
-const int _layer = 174;
-
 class Client {
   const Client({required this.apiId});
 
