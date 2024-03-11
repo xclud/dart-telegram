@@ -18177,7 +18177,7 @@ class Config extends ConfigBase {
   final int forwardedCountMax;
 
   /// Online Update Period Ms.
-  final DateTime onlineUpdatePeriodMs;
+  final int onlineUpdatePeriodMs;
 
   /// Offline Blur Timeout Ms.
   final int offlineBlurTimeoutMs;
@@ -18289,7 +18289,7 @@ class Config extends ConfigBase {
     buffer.writeInt(chatSizeMax);
     buffer.writeInt(megagroupSizeMax);
     buffer.writeInt(forwardedCountMax);
-    buffer.writeDateTime(onlineUpdatePeriodMs);
+    buffer.writeInt(onlineUpdatePeriodMs);
     buffer.writeInt(offlineBlurTimeoutMs);
     buffer.writeInt(offlineIdleTimeoutMs);
     buffer.writeInt(onlineCloudTimeoutMs);
@@ -65671,7 +65671,7 @@ class HelpSetBotUpdatesStatus extends TlMethod<bool> {
   }
 
   /// Pending Updates Count.
-  final DateTime pendingUpdatesCount;
+  final int pendingUpdatesCount;
 
   /// Message.
   final String message;
@@ -65680,7 +65680,7 @@ class HelpSetBotUpdatesStatus extends TlMethod<bool> {
   @override
   void serialize(List<int> buffer) {
     buffer.writeInt(0xec22cfcd);
-    buffer.writeDateTime(pendingUpdatesCount);
+    buffer.writeInt(pendingUpdatesCount);
     buffer.writeString(message);
   }
 }
