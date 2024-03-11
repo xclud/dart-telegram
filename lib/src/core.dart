@@ -103,3 +103,7 @@ class DCSession {
   /// Layer
   final int layer;
 }
+
+abstract class Int128 {}
+
+abstract class Int256 {}

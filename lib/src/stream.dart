@@ -1,19 +1,23 @@
 part of '../tg.dart';
 
 extension _Y on List<int> {
-  void writeInt(int v) {
+  void writeInt32(int v) {
     final b = Uint8List(4);
     b.buffer.asUint32List(0, 1)[0] = v;
 
     addAll(b);
   }
 
-  void writeLong(int v) {
+  void writeInt64(int v) {
     final b = Uint8List(8);
     b.buffer.asUint64List(0, 1)[0] = v;
 
     addAll(b);
   }
+
+  void writeInt128(Int128 v) {}
+
+  void writeInt256(Int256 v) {}
 
   void writeString(String v) {
     final bytes = utf8.encode(v);
@@ -38,7 +42,7 @@ extension _Y on List<int> {
     if (length < 254) {
       add(length);
     } else {
-      writeInt(length << 8 | 254);
+      writeInt32(length << 8 | 254);
       length += 3;
     }
     addAll(bytes);
@@ -50,43 +54,43 @@ extension _Y on List<int> {
 
   void writeDateTime(DateTime v) {
     final seconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    writeInt(seconds);
+    writeInt32(seconds);
   }
 
   void writeBool(bool v) {
-    writeInt(v ? 0x997275B5 : 0xBC799737);
+    writeInt32(v ? 0x997275B5 : 0xBC799737);
   }
 
   void writeVectorObject<T extends TlObject>(Iterable<T> v) {
-    writeInt(_vectorCtor);
-    writeInt(v.length);
+    writeInt32(_vectorCtor);
+    writeInt32(v.length);
 
     for (final item in v) {
       writeObject(item);
     }
   }
 
-  void writeVectorInt(Iterable<int> v) {
-    writeInt(_vectorCtor);
-    writeInt(v.length);
+  void writeVectorInt32(Iterable<int> v) {
+    writeInt32(_vectorCtor);
+    writeInt32(v.length);
 
     for (final item in v) {
-      writeInt(item);
+      writeInt32(item);
     }
   }
 
-  void writeVectorLong(Iterable<int> v) {
-    writeInt(_vectorCtor);
-    writeInt(v.length);
+  void writeVectorInt64(Iterable<int> v) {
+    writeInt32(_vectorCtor);
+    writeInt32(v.length);
 
     for (final item in v) {
-      writeLong(item);
+      writeInt64(item);
     }
   }
 
   void writeVectorString(Iterable<String> v) {
-    writeInt(_vectorCtor);
-    writeInt(v.length);
+    writeInt32(_vectorCtor);
+    writeInt32(v.length);
 
     for (final item in v) {
       writeString(item);
@@ -94,8 +98,8 @@ extension _Y on List<int> {
   }
 
   void writeVectorBytes(Iterable<Uint8List> v) {
-    writeInt(_vectorCtor);
-    writeInt(v.length);
+    writeInt32(_vectorCtor);
+    writeInt32(v.length);
 
     for (final item in v) {
       writeBytes(item);

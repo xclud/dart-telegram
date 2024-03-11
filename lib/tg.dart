@@ -14,6 +14,7 @@ part 'src/client.dart';
 part 'src/constants.dart';
 part 'src/stream.dart';
 part 'src/schema.dart';
+part 'src/end_to_end.dart';
 part 'src/flag_builder.dart';
 part 'src/mtproto.dart';
 part 'src/obfuscation.dart';
