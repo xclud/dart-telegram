@@ -13,6 +13,8 @@ dependencies:
   tg:
     path: ../
 
+  socks5_proxy: ^1.0.4
+
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.24.0

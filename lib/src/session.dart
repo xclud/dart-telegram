@@ -25,33 +25,33 @@ class Session {
 }
 
 class DCSession {
-  const DCSession(
-    this.id,
-    this.authKeyID,
+  DCSession({
+    required this.id,
+    this.authKeyID = 0,
     this.authKey,
-    this.userId,
-    this.oldSalt,
-    this.salt,
+    this.userId = 0,
+    this.oldSalt = 0,
+    this.salt = 0,
     this.salts,
-    this.seqno,
-    this.serverTicksOffset,
-    this.lastSentMsgId,
+    this.seqno = 0,
+    this.serverTicksOffset = 0,
+    this.lastSentMsgId = 0,
     this.dataCenter,
-    this.withoutUpdates,
-    this.layer,
-  );
+    this.withoutUpdates = false,
+    this.layer = 0,
+  });
 
   /// Long.
   final int id;
 
   /// Long.
-  final int authKeyID;
+  int authKeyID;
 
   /// Auth Key.
-  final Uint8List authKey; // 2048-bit = 256 bytes
+  Uint8List? authKey; // 2048-bit = 256 bytes
 
   /// Long.
-  final int userId;
+  int userId;
 
   /// Long.
   /// still accepted for a further 1800 seconds
@@ -62,16 +62,16 @@ class DCSession {
 
   /// Long.
   /// TODO (xclud): SortedMap.
-  final Map<DateTime, int> salts;
+  Map<DateTime, int>? salts;
 
   /// Seq No.
-  final int seqno;
+  int seqno;
 
   /// Long.
-  final int serverTicksOffset;
+  int serverTicksOffset;
 
   /// Long.
-  final int lastSentMsgId;
+  int lastSentMsgId;
 
   /// DC.
   final DcOptionBase? dataCenter;

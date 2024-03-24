@@ -9,7 +9,7 @@ class Obfuscation {
     final random = Uint8List(58);
 
     do {
-      _random(random, 0, 58);
+      _rng.getBytes(random, 0, 58);
     } while (false);
 
 // TODO (xclud):
@@ -43,8 +43,7 @@ class Obfuscation {
     var recvKey = Uint8List.fromList(preamble.sublist(8, 40).toList());
     final recvIV = Uint8List.fromList(preamble.sublist(40, 56).toList());
 
-    final rev = preamble.sublist(8, 8 + 48).reversed.toList();
-    preamble.setRange(8, 8 + 48, rev);
+    preamble.reverse(8, 48);
 
     var sendKey = Uint8List.fromList(preamble.sublist(8, 40).toList());
     final sendIV = Uint8List.fromList(preamble.sublist(40, 56).toList());
@@ -81,15 +80,6 @@ class Obfuscation {
   final Uint8List preamble;
 }
 
-void _random(Uint8List buffer, int index, int count) {
-  final rng = Random();
-
-  for (int i = index; i < count; i++) {
-    buffer[i] = i + 1;
-    rng.nextInt(256);
-  }
-}
-
 /// Implementation of the encrytion/decription of Telegram messages.
 class Aes {
   /// Constructor.
@@ -105,7 +95,7 @@ class Aes {
   int _num = 0;
 
   /// Transforms the input buffer.
-  void encryptDecrypt(Uint8List buffer, int length) {
+  void encryptDecrypt(List<int> buffer, int length) {
     final encryptor = AES(Key(key), mode: AESMode.ecb);
 
     for (int i = 0; i < length; i++) {

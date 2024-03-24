@@ -1,43 +1,62 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:t/t.dart' as t;
 import 'package:tg/tg.dart' as tg;
+import 'package:socks5_proxy/socks.dart';
 
 void main(List<String> arguments) async {
   final obf = tg.Obfuscation.random(false, 4);
-  final socket = await Socket.connect('149.154.167.50', 443);
+
+  final socket = await SocksTCPClient.connect(
+    [
+      ProxySettings(InternetAddress.loopbackIPv4, 1080),
+    ],
+    InternetAddress('149.154.167.50'),
+    443,
+  );
+
+  print('Connected.');
+
+  final sender = StreamController<List<int>>();
+  final receiver = StreamController<Uint8List>();
+
+  sender.stream.listen((v) {
+    print('SEND: ${hex(v)}');
+    socket.add(v);
+  });
+
+  socket.listen((v) {
+    print('RECV: ${hex(v)}');
+    receiver.add(v);
+  });
 
   final c = tg.Client(
     apiId: 123456,
-    receiver: socket,
-    sender: socket,
+    receiver: receiver.stream,
+    sender: sender.sink,
+    obfuscation: obf,
   );
 
-  final buffer = <int>[];
+  sender.add(obf.preamble);
+  await Future.delayed(Duration(seconds: 1));
+  final resPQ = await c.reqPqMulti();
 
-  final q = t.InitConnection(
-    apiId: 123456,
-    deviceModel: "Windows",
-    appVersion: "1.0.0",
-    systemVersion: "10",
-    systemLangCode: "fa",
-    langCode: "fa",
-    langPack: "",
-    proxy: null,
-    params: null,
-    query: t.HelpGetConfig(),
-  );
+  final serverDHparams = await c.reqDHParams(resPQ);
+  print(serverDHparams);
 
-  q.serialize(buffer);
+  await Future.delayed(Duration(seconds: 1));
 
-  socket.listen((event) {
-    print(event);
-  });
+  while (true) {
+    await Future.delayed(Duration(seconds: 1));
+  }
+}
 
-  final br = t.BinaryReader(Uint8List.fromList(buffer));
-  final x = br.readObject<t.InitConnection>();
+String hex(Iterable<int> v) {
+  final h = v
+      .map((vv) => vv.toRadixString(16).padLeft(2, '0'))
+      .join('')
+      .toUpperCase();
 
-  print(buffer);
-  print(x);
+  return '0x$h';
 }
