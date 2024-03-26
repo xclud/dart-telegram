@@ -42,10 +42,13 @@ void main(List<String> arguments) async {
   await Future.delayed(Duration(seconds: 1));
   final resPQ = await c.reqPqMulti();
 
+  await Future.delayed(Duration(seconds: 1));
   final serverDHparams = await c.reqDHParams(resPQ);
-  print(serverDHparams);
 
   await Future.delayed(Duration(seconds: 1));
+  final authKey = await c.createAuthenticationKey(resPQ, serverDHparams);
+
+  print(authKey);
 
   while (true) {
     await Future.delayed(Duration(seconds: 1));

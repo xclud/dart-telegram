@@ -26,9 +26,10 @@ class Client {
   }
 
   final Map<int, Completer<TlObject>> _pending = {};
-  final Map<String, Completer<TlObject>> _reqPq = {};
-  final Map<String, Completer<TlObject>> _reqDH = {};
+  final Map<String, Completer<TlObject>> _dicResPQ = {};
+  final Map<String, Completer<TlObject>> _dicReqDHParams = {};
 
+  final Map<String, Completer<TlObject>> _reqSetClientDHParams = {};
   // final List<int> _msgsToAck = [];
   // MsgsAck? _checkMsgsToAck() {
   //   if (_msgsToAck.isEmpty) {
@@ -73,17 +74,23 @@ class Client {
       task?.complete(msg.result);
       _pending.remove(reqMsgId);
     } else if (msg is ResPQ) {
-      final nonce = msg.nonce.toString();
+      final key = msg.nonce.toString();
 
-      final task = _reqPq[nonce];
+      final task = _dicResPQ[key];
       task?.complete(msg);
-      _reqPq.remove(nonce);
+      _dicResPQ.remove(key);
     } else if (msg is ServerDHParamsOk) {
-      final nonce = msg.serverNonce.toString();
+      final key = '${msg.nonce}-${msg.serverNonce}';
 
-      final task = _reqDH[nonce];
+      final task = _dicReqDHParams[key];
       task?.complete(msg);
-      _reqDH.remove(nonce);
+      _dicReqDHParams.remove(key);
+    } else if (msg is DhGenOk) {
+      final key = '${msg.nonce}-${msg.serverNonce}';
+
+      final task = _reqSetClientDHParams[key];
+      task?.complete(msg);
+      _reqSetClientDHParams.remove(key);
     }
   }
 
@@ -94,7 +101,52 @@ class Client {
     return resPQ;
   }
 
-  Future<ServerDHParamsBase> reqDHParams(
+  Future<SetClientDHParamsAnswerBase> setClientDHParams(
+    ResPQ resPQ,
+    BigInt gB,
+    int retryId,
+    Uint8List key,
+    Uint8List iv,
+  ) async {
+    final clientDHinnerData = ClientDHInnerData(
+      nonce: resPQ.nonce,
+      serverNonce: resPQ.serverNonce,
+      retryId: retryId,
+      gB: gB.toBytes(Endian.big),
+    );
+
+    Uint8List encryptedData;
+    {
+      final messageBuffer = <int>[];
+      messageBuffer.writeObject(clientDHinnerData);
+      final totalLength = messageBuffer.length + 20;
+      final paddingToAdd = (0x7FFFFFF0 - totalLength) % 16;
+      final padding = Uint8List(paddingToAdd);
+      _rng.getBytes(padding);
+
+      final messageHash = sha1.convert(messageBuffer).bytes;
+
+      final clearStream = [...messageHash, ...messageBuffer, ...padding];
+      encryptedData = _aesIgeEncryptDecrypt(
+        Uint8List.fromList(clearStream),
+        key,
+        iv,
+        true,
+      );
+    }
+
+    final setClientDHParams = SetClientDHParams(
+      nonce: resPQ.nonce,
+      serverNonce: resPQ.serverNonce,
+      encryptedData: encryptedData,
+    );
+
+    final answer = send<SetClientDHParamsAnswerBase>(setClientDHParams, false);
+
+    return answer;
+  }
+
+  Future<ServerDHParamsOk> reqDHParams(
     ResPQ resPQ, {
     Int256? newNonce,
     int? dc,
@@ -162,6 +214,7 @@ class Client {
       }
 
       clearBuffer.setRange(32, 256, aesEncrypted);
+
       final x = _bigEndianInteger(clearBuffer);
 
       if (x < n) // if good result, encrypt with RSA key:
@@ -185,6 +238,112 @@ class Client {
     return serverDHparams;
   }
 
+  Future<AuthKey> createAuthenticationKey(
+    ResPQ resPQ,
+    ServerDHParamsOk serverDHparams, {
+    Int256? newNonce,
+    int? dc,
+  }) async {
+    final pq = resPQ.pq.buffer.asByteData().getUint64(0, Endian.big);
+    final p = _pqFactorize(pq);
+    final q = pq ~/ p;
+
+    final pqInnerData = PQInnerDataDc(
+      pq: resPQ.pq,
+      p: _int64ToBigEndian(p),
+      q: _int64ToBigEndian(q),
+      nonce: resPQ.nonce,
+      serverNonce: resPQ.serverNonce,
+      newNonce: newNonce ?? Int256.random(),
+      dc: dc ?? 0,
+    );
+
+    final tmp = _constructTmpAESKeyIV(resPQ.serverNonce, pqInnerData.newNonce);
+    final answer = _aesIgeEncryptDecrypt(
+        serverDHparams.encryptedAnswer, tmp.key, tmp.iv, false);
+
+    final answerReader = BinaryReader(answer);
+    final answerHash = answerReader.readRawBytes(20);
+    final answerObj = answerReader.readObject();
+
+    if (answerObj is! ServerDHInnerData) {
+      throw Exception('ServerDHInnerData expected.');
+    }
+
+    final paddingLength = answer.length - answerReader.position;
+    final hash = sha1.convert(
+        answer.skip(20).take(answer.length - paddingLength - 20).toList());
+
+    print('${_hex(answerHash)} == ${_hex(hash.bytes)}');
+
+    final gA = _bigEndianInteger(answerObj.gA);
+    final dhPrime = _bigEndianInteger(answerObj.dhPrime);
+
+    _checkGoodPrime(dhPrime, answerObj.g);
+
+    dcSession.lastSentMsgId = 0;
+    //dcSession.serverTicksOffset = (answerObj.serverTime - localTime).Ticks;
+
+    final salt = Uint8List(256);
+    _rng.getBytes(salt);
+    final b = _bigEndianInteger(salt);
+
+    final gB = BigInt.from(answerObj.g).modPow(b, dhPrime);
+    _checkGoodGaAndGb(gA, dhPrime);
+    _checkGoodGaAndGb(gB, dhPrime);
+
+    var retryId = 0;
+    final setClientDHparamsAnswer = await setClientDHParams(
+      resPQ,
+      gB,
+      retryId,
+      tmp.key,
+      tmp.iv,
+    );
+
+    //7)
+    final gab = gA.modPow(b, dhPrime);
+    final authKey = gab.toBytes(Endian.big);
+    //8)
+    final authKeyHash = sha1.convert(authKey).bytes;
+    // (auth_key_aux_hash)
+    retryId = BinaryReader(Uint8List.fromList(authKeyHash)).readInt64(false);
+    //9)
+    // if (setClientDHparamsAnswer is not DhGenOk dhGenOk) throw new WTException("not dh_gen_ok");
+    // if (dhGenOk.nonce != nonce) throw new WTException("Nonce mismatch");
+    // if (dhGenOk.server_nonce != resPQ.server_nonce) throw new WTException("Server Nonce mismatch");
+
+    final expectedNewNonceN = [
+      ...pqInnerData.newNonce.data,
+      1,
+      ...authKeyHash.take(8),
+    ];
+
+    final expectedNewNonceNHash = sha1.convert(expectedNewNonceN).bytes;
+
+    if (setClientDHparamsAnswer is DhGenOk) {
+      print(
+          '0x${_hex(expectedNewNonceNHash.skip(4))} == ${setClientDHparamsAnswer.newNonceHash1}');
+    }
+
+    // if (!Enumerable.SequenceEqual(dhGenOk.new_nonce_hash1.raw, sha1.ComputeHash(expected_new_nonceN).Skip(4)))
+    //     throw new WTException("setClientDHparamsAnswer.new_nonce_hashN mismatch");
+
+    final authKeyID =
+        BinaryReader(Uint8List.fromList(authKeyHash.skip(12).toList()))
+            .readInt64(false);
+
+    final saltLeft = BinaryReader(Uint8List.fromList(pqInnerData.newNonce.data))
+        .readInt64(false);
+
+    final saltRight = BinaryReader(Uint8List.fromList(resPQ.serverNonce.data))
+        .readInt64(false);
+
+    final au = AuthKey._(authKeyID, authKey, saltLeft ^ saltRight);
+
+    return au;
+  }
+
   Future<T> send<T extends TlObject>(
     TlObject msg,
     bool preferEncryption,
@@ -193,9 +352,14 @@ class Client {
     final m = _newMessageId(false);
 
     if (msg is ReqPqMulti) {
-      _reqPq[msg.nonce.toString()] = completer;
+      final key = msg.nonce.toString();
+      _dicResPQ[key] = completer;
     } else if (msg is ReqDHParams) {
-      _reqDH[msg.serverNonce.toString()] = completer;
+      final key = '${msg.nonce}-${msg.serverNonce}';
+      _dicReqDHParams[key] = completer;
+    } else if (msg is SetClientDHParams) {
+      final key = '${msg.nonce}-${msg.serverNonce}';
+      _reqSetClientDHParams[key] = completer;
     } else {
       _pending[m.msgId] = completer;
     }

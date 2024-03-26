@@ -58,3 +58,66 @@ extension _AES on AES {
     output.setRange(outputOffset, outputOffset + enc.length, enc);
   }
 }
+
+// 15 is the minimum recommended by Telegram
+// 64 is OpenSSL default for 2048-bits numbers
+const int _millerRabinIterations = 64;
+
+extension _Prime on BigInt {
+  /// Miller–Rabin primality test.
+  ///
+  /// [n] The number to check for primality.
+  bool isProbablePrime() {
+    final n = this;
+    final nMinusOne = n - BigInt.one;
+    if (nMinusOne.sign <= 0) {
+      return false;
+    }
+
+    int s;
+    var d = nMinusOne;
+    for (s = 0; d.isEven; s++) {
+      d >>= 1;
+    }
+
+    final bitLen = n.bitLength;
+    final randomBytes = Uint8List(bitLen ~/ 8 + 1);
+    final lastByteMask = ((1 << (bitLen % 8)) - 1) % 256;
+    BigInt a;
+
+    for (int i = 0; i < _millerRabinIterations; i++) {
+      do {
+        _rng.getBytes(randomBytes);
+        // we don't want more bits than necessary
+        randomBytes[randomBytes.length - 1] &= lastByteMask;
+
+        // Little endian.
+        a = _bigEndianInteger(randomBytes.reversed);
+      } while (a < _n03 || a >= nMinusOne);
+
+      a = a - BigInt.one;
+
+      var x = a.modPow(d, n);
+      if (x == BigInt.one || x == nMinusOne) {
+        continue;
+      }
+
+      int r;
+      for (r = s - 1; r > 0; r--) {
+        x = x.modPow(BigInt.two, n);
+        if (x == BigInt.one) {
+          return false;
+        }
+
+        if (x == nMinusOne) {
+          break;
+        }
+      }
+
+      if (r == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+}

@@ -27,11 +27,9 @@ class Session {
 class DCSession {
   DCSession({
     required this.id,
-    this.authKeyID = 0,
     this.authKey,
     this.userId = 0,
     this.oldSalt = 0,
-    this.salt = 0,
     this.salts,
     this.seqno = 0,
     this.serverTicksOffset = 0,
@@ -45,20 +43,14 @@ class DCSession {
   final int id;
 
   /// Long.
-  int authKeyID;
-
-  /// Auth Key.
-  Uint8List? authKey; // 2048-bit = 256 bytes
+  AuthKey? authKey;
 
   /// Long.
   int userId;
 
   /// Long.
   /// still accepted for a further 1800 seconds
-  final int oldSalt;
-
-  /// Long.
-  final int salt;
+  int oldSalt;
 
   /// Long.
   /// TODO (xclud): SortedMap.
