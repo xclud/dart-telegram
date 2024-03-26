@@ -102,12 +102,7 @@ class Client {
   }
 
   Future<SetClientDHParamsAnswerBase> setClientDHParams(
-    ResPQ resPQ,
-    BigInt gB,
-    int retryId,
-    Uint8List key,
-    Uint8List iv,
-  ) async {
+      ResPQ resPQ, BigInt gB, int retryId, AesKeyIV keys) async {
     final clientDHinnerData = ClientDHInnerData(
       nonce: resPQ.nonce,
       serverNonce: resPQ.serverNonce,
@@ -129,8 +124,7 @@ class Client {
       final clearStream = [...messageHash, ...messageBuffer, ...padding];
       encryptedData = _aesIgeEncryptDecrypt(
         Uint8List.fromList(clearStream),
-        key,
-        iv,
+        keys,
         true,
       );
     }
@@ -147,8 +141,8 @@ class Client {
   }
 
   Future<ServerDHParamsOk> reqDHParams(
-    ResPQ resPQ, {
-    Int256? newNonce,
+    ResPQ resPQ,
+    Int256 newNonce, {
     int? dc,
   }) async {
     final fingerprint = resPQ.serverPublicKeyFingerprints
@@ -168,7 +162,7 @@ class Client {
       q: _int64ToBigEndian(q),
       nonce: resPQ.nonce,
       serverNonce: resPQ.serverNonce,
-      newNonce: newNonce ?? Int256.random(),
+      newNonce: newNonce,
       dc: dc ?? 0,
     );
 
@@ -201,8 +195,7 @@ class Client {
 
       final aesEncrypted = _aesIgeEncryptDecrypt(
         Uint8List.fromList(clearBuffer.skip(32).take(224).toList()),
-        aesKey,
-        zeroIV,
+        AesKeyIV(aesKey, zeroIV),
         true,
       );
 
@@ -240,8 +233,8 @@ class Client {
 
   Future<AuthKey> createAuthenticationKey(
     ResPQ resPQ,
-    ServerDHParamsOk serverDHparams, {
-    Int256? newNonce,
+    ServerDHParamsOk serverDHparams,
+    Int256 newNonce, {
     int? dc,
   }) async {
     final pq = resPQ.pq.buffer.asByteData().getUint64(0, Endian.big);
@@ -254,13 +247,16 @@ class Client {
       q: _int64ToBigEndian(q),
       nonce: resPQ.nonce,
       serverNonce: resPQ.serverNonce,
-      newNonce: newNonce ?? Int256.random(),
+      newNonce: newNonce,
       dc: dc ?? 0,
     );
 
-    final tmp = _constructTmpAESKeyIV(resPQ.serverNonce, pqInnerData.newNonce);
+    final keys = _constructTmpAESKeyIV(resPQ.serverNonce, pqInnerData.newNonce);
     final answer = _aesIgeEncryptDecrypt(
-        serverDHparams.encryptedAnswer, tmp.key, tmp.iv, false);
+      serverDHparams.encryptedAnswer,
+      keys,
+      false,
+    );
 
     final answerReader = BinaryReader(answer);
     final answerHash = answerReader.readRawBytes(20);
@@ -297,8 +293,7 @@ class Client {
       resPQ,
       gB,
       retryId,
-      tmp.key,
-      tmp.iv,
+      keys,
     );
 
     //7)

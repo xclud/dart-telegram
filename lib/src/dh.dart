@@ -81,3 +81,10 @@ class AuthKey {
     return jsonEncode(json);
   }
 }
+
+class AesKeyIV {
+  const AesKeyIV(this.key, this.iv);
+
+  final Uint8List key;
+  final Uint8List iv;
+}

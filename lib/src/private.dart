@@ -47,15 +47,14 @@ Uint8List _fromHexToUint8List(String value) {
 
 Uint8List _aesIgeEncryptDecrypt(
   Uint8List input,
-  Uint8List aesKey,
-  Uint8List aesIV,
+  AesKeyIV keys,
   bool encrypt,
 ) {
   assert(input.length % 16 == 0, 'AES_IGE input size not divisible by 16.');
-  final aes = AES(Key(aesKey), mode: AESMode.ecb, padding: null);
+  final aes = AES(Key(keys.key), mode: AESMode.ecb, padding: null);
 
   final output = Uint8List(input.length);
-  final prevBytes = Uint8List.fromList(aesIV);
+  final prevBytes = Uint8List.fromList(keys.iv);
   final span = input.buffer.asInt64List();
   final sout = output.buffer.asInt64List();
   final prev = prevBytes.buffer.asInt64List();
@@ -99,7 +98,7 @@ Uint8List _aesIgeEncryptDecrypt(
   return output;
 }
 
-_KeyIV _constructTmpAESKeyIV(Int128 serverNonce, Int256 newNonce) {
+AesKeyIV _constructTmpAESKeyIV(Int128 serverNonce, Int256 newNonce) {
   final x1 = sha1.convert([...newNonce.data, ...serverNonce.data]).bytes;
   final x2 = sha1.convert([...serverNonce.data, ...newNonce.data]).bytes;
   final x3 = sha1.convert([...newNonce.data, ...newNonce.data]).bytes;
@@ -107,17 +106,10 @@ _KeyIV _constructTmpAESKeyIV(Int128 serverNonce, Int256 newNonce) {
   final key = [...x1, ...x2.take(12)];
   final iv = [...x2.skip(12), ...x3, ...newNonce.data.take(4)];
 
-  return _KeyIV(
+  return AesKeyIV(
     Uint8List.fromList(key),
     Uint8List.fromList(iv),
   );
-}
-
-class _KeyIV {
-  const _KeyIV(this.key, this.iv);
-
-  final Uint8List key;
-  final Uint8List iv;
 }
 
 void _checkGoodPrime(BigInt p, int g) {

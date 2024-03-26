@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:t/t.dart' as t;
 import 'package:tg/tg.dart' as tg;
 import 'package:socks5_proxy/socks.dart';
 
@@ -42,11 +43,14 @@ void main(List<String> arguments) async {
   await Future.delayed(Duration(seconds: 1));
   final resPQ = await c.reqPqMulti();
 
-  await Future.delayed(Duration(seconds: 1));
-  final serverDHparams = await c.reqDHParams(resPQ);
+  final newNonce = t.Int256.random();
 
   await Future.delayed(Duration(seconds: 1));
-  final authKey = await c.createAuthenticationKey(resPQ, serverDHparams);
+  final serverDHparams = await c.reqDHParams(resPQ, newNonce);
+
+  await Future.delayed(Duration(seconds: 1));
+  final authKey =
+      await c.createAuthenticationKey(resPQ, serverDHparams, newNonce);
 
   print(authKey);
 
