@@ -8,7 +8,7 @@ class BadMessageException implements Exception {
   final BadMsgNotification result;
 
   /// Get the readable error message.
-  String get errorText {
+  String get errorMessage {
     final error = result.errorCode;
 
     switch (error) {
@@ -41,7 +41,8 @@ class BadMessageException implements Exception {
 
   @override
   String toString() {
-    return errorText;
+    final errorCode = result.errorCode;
+    return '$errorCode: $errorMessage';
   }
 }
 
@@ -56,4 +57,9 @@ class RpcException {
 
   /// Error Message.
   final String errorMessage;
+
+  @override
+  String toString() {
+    return '$errorCode: $errorMessage';
+  }
 }

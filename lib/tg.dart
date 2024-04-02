@@ -12,6 +12,7 @@ import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:t/t.dart';
 
+part 'src/encryption.dart';
 part 'src/exceptions.dart';
 part 'src/extensions.dart';
 part 'src/private.dart';

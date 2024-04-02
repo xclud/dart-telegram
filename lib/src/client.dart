@@ -10,7 +10,8 @@ class Client {
     //required this.sessionStore,
   }) {
     auth = ClientAuth._(this);
-    connection = ClienConnection._(this);
+    connection = ClientConnection._(this);
+    account = ClientAccount._(this);
 
     receiver.listen(_readFrame);
   }
@@ -27,7 +28,8 @@ class Client {
   //final SessionStore sessionStore;
 
   late final ClientAuth auth;
-  late final ClienConnection connection;
+  late final ClientConnection connection;
+  late final ClientAccount account;
 
   final Set<int> _msgsToAck = {};
 
@@ -153,7 +155,7 @@ class Client {
 
   Future<ResPQ> reqPqMulti([Int128? nonce]) async {
     nonce ??= Int128.random();
-    final resPQ = await send<ResPQ>(ReqPqMulti(nonce: nonce), false);
+    final resPQ = await invoke<ResPQ>(ReqPqMulti(nonce: nonce), false);
 
     return resPQ;
   }
@@ -192,7 +194,8 @@ class Client {
       encryptedData: encryptedData,
     );
 
-    final answer = send<SetClientDHParamsAnswerBase>(setClientDHParams, false);
+    final answer =
+        invoke<SetClientDHParamsAnswerBase>(setClientDHParams, false);
 
     return answer;
   }
@@ -282,7 +285,7 @@ class Client {
       publicKeyFingerprint: fingerprint,
     );
 
-    final serverDHparams = await send<ServerDHParamsOk>(reqDHParams, false);
+    final serverDHparams = await invoke<ServerDHParamsOk>(reqDHParams, false);
 
     return serverDHparams;
   }
@@ -396,7 +399,7 @@ class Client {
     return au;
   }
 
-  Future<T> send<T extends TlObject>(
+  Future<T> invoke<T extends TlObject>(
       TlObject msg, bool preferEncryption) async {
     final auth = _authKey;
 
@@ -515,7 +518,7 @@ class Client {
     int layer,
     TlMethod query,
   ) =>
-      send(
+      invoke(
         InvokeWithLayer(
           layer: layer,
           query: query,
@@ -547,7 +550,7 @@ class ClientAuth {
       settings: settings,
     );
 
-    final res = await _c.send<AuthSentCodeBase>(req, true);
+    final res = await _c.invoke<AuthSentCodeBase>(req, true);
 
     return res;
   }
@@ -563,14 +566,25 @@ class ClientAuth {
       phoneCode: phoneCode,
     );
 
-    final res = await _c.send<AuthAuthorizationBase>(req, true);
+    final res = await _c.invoke<AuthAuthorizationBase>(req, true);
 
+    return res;
+  }
+
+  Future<AuthAuthorizationBase> checkPassword(
+    InputCheckPasswordSRP password,
+  ) async {
+    final req = AuthCheckPassword(
+      password: password,
+    );
+
+    final res = await _c.invoke<AuthAuthorizationBase>(req, true);
     return res;
   }
 }
 
-class ClienConnection {
-  const ClienConnection._(this._c);
+class ClientConnection {
+  const ClientConnection._(this._c);
 
   final Client _c;
 
@@ -596,5 +610,18 @@ class ClienConnection {
 
     final res = await _c.invokeWithLayer(174, req);
     return res as Config;
+  }
+}
+
+class ClientAccount {
+  const ClientAccount._(this._c);
+
+  final Client _c;
+
+  Future<AccountPassword> getPassword() async {
+    final req = AccountGetPassword();
+
+    final res = await _c.invoke<AccountPassword>(req, true);
+    return res;
   }
 }

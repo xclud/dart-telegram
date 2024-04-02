@@ -9,9 +9,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  t: ^0.0.6
+  t: ^0.0.10
   crypto: ^3.0.3
   encrypt: ^5.0.3
+  archive: ^3.4.10
 
 dev_dependencies:
   lints: ^3.0.0
