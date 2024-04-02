@@ -3,22 +3,37 @@ part of '../tg.dart';
 class Client {
   Client({
     required this.apiId,
+    required this.apiHash,
     required this.receiver,
     required this.sender,
     required this.obfuscation,
     //required this.sessionStore,
   }) {
+    auth = ClientAuth._(this);
+    connection = ClienConnection._(this);
+
     receiver.listen(_readFrame);
   }
 
   /// API Id.
   final int apiId;
+
+  /// API Hash.
+  final String apiHash;
+
   final Obfuscation? obfuscation;
   final Stream<Uint8List> receiver;
   final Sink<List<int>> sender;
   //final SessionStore sessionStore;
 
+  late final ClientAuth auth;
+  late final ClienConnection connection;
+
+  final Set<int> _msgsToAck = {};
+
   DCSession? _dcSession;
+  AuthKey _authKey = AuthKey.empty();
+
   DCSession get dcSession {
     final x = _dcSession ??= DCSession(id: 10);
 
@@ -43,34 +58,44 @@ class Client {
 
   final _read = <int>[];
 
-  void _readFrame(Uint8List l) {
-    _read.addAll(l);
-    if (l.length < 4) {
+  void _handleIncomingMessage(TlObject msg) {
+    if (msg is MsgContainer) {
+      for (final message in msg.messages) {
+        _handleIncomingMessage(message);
+      }
+
       return;
-    }
-
-    final temp = _read.take(4).toList();
-
-    obfuscation?.recv.encryptDecrypt(temp, 4);
-
-    final length =
-        Uint8List.fromList(temp).buffer.asByteData().getInt32(0, Endian.little);
-
-    if (l.length < length + 4) {
+    } else if (msg is Msg) {
+      _handleIncomingMessage(msg.body);
       return;
-    }
-
-    final buffer = Uint8List.fromList(_read.skip(4).take(length).toList());
-    _read.removeRange(0, length + 4);
-
-    final frame = Frame.parse(buffer, obfuscation);
-
-    final msg = frame.message;
-
-    if (msg is RpcResult) {
+    } else if (msg is BadMsgNotification) {
+      final badMsgId = msg.badMsgId;
+      final task = _pending[badMsgId];
+      task?.completeError(BadMessageException._(msg));
+      _pending.remove(badMsgId);
+    } else if (msg is RpcResult) {
       final reqMsgId = msg.reqMsgId;
-
       final task = _pending[reqMsgId];
+
+      final result = msg.result;
+
+      if (result is RpcError) {
+        task?.completeError(
+          RpcException._(result.errorCode, result.errorMessage),
+        );
+        _pending.remove(reqMsgId);
+        return;
+      } else if (result is GzipPacked) {
+        final gZippedData = GZipDecoder().decodeBytes(result.packedData);
+
+        final newObj =
+            BinaryReader(Uint8List.fromList(gZippedData)).readObject();
+
+        final newRpcResult = RpcResult(reqMsgId: reqMsgId, result: newObj);
+        _handleIncomingMessage(newRpcResult);
+        return;
+      }
+
       task?.complete(msg.result);
       _pending.remove(reqMsgId);
     } else if (msg is ResPQ) {
@@ -94,6 +119,38 @@ class Client {
     }
   }
 
+  void _readFrame(Uint8List l) {
+    _read.addAll(l);
+    if (l.length < 4) {
+      return;
+    }
+
+    final temp = _read.take(4).toList();
+
+    obfuscation?.recv.encryptDecrypt(temp, 4);
+
+    final length =
+        Uint8List.fromList(temp).buffer.asByteData().getInt32(0, Endian.little);
+
+    if (l.length < length + 4) {
+      return;
+    }
+
+    final buffer = Uint8List.fromList(_read.skip(4).take(length).toList());
+    _read.removeRange(0, length + 4);
+
+    final frame = Frame.parse(buffer, obfuscation, _authKey);
+    final seqno = frame.seqno;
+
+    if (seqno != null && (seqno & 1) != 0) {
+      _msgsToAck.add(frame.messageId);
+    }
+
+    final msg = frame.message;
+
+    _handleIncomingMessage(msg);
+  }
+
   Future<ResPQ> reqPqMulti([Int128? nonce]) async {
     nonce ??= Int128.random();
     final resPQ = await send<ResPQ>(ReqPqMulti(nonce: nonce), false);
@@ -102,7 +159,11 @@ class Client {
   }
 
   Future<SetClientDHParamsAnswerBase> setClientDHParams(
-      ResPQ resPQ, BigInt gB, int retryId, AesKeyIV keys) async {
+    ResPQ resPQ,
+    BigInt gB,
+    int retryId,
+    AesKeyIV keys,
+  ) async {
     final clientDHinnerData = ClientDHInnerData(
       nonce: resPQ.nonce,
       serverNonce: resPQ.serverNonce,
@@ -110,24 +171,20 @@ class Client {
       gB: gB.toBytes(Endian.big),
     );
 
-    Uint8List encryptedData;
-    {
-      final messageBuffer = <int>[];
-      messageBuffer.writeObject(clientDHinnerData);
-      final totalLength = messageBuffer.length + 20;
-      final paddingToAdd = (0x7FFFFFF0 - totalLength) % 16;
-      final padding = Uint8List(paddingToAdd);
-      _rng.getBytes(padding);
+    final messageBuffer = clientDHinnerData.asUint8List();
+    final totalLength = messageBuffer.length + 20;
+    final paddingToAdd = (0x7FFFFFF0 - totalLength) % 16;
+    final padding = Uint8List(paddingToAdd);
+    _rng.getBytes(padding);
 
-      final messageHash = sha1.convert(messageBuffer).bytes;
+    final messageHash = sha1.convert(messageBuffer).bytes;
 
-      final clearStream = [...messageHash, ...messageBuffer, ...padding];
-      encryptedData = _aesIgeEncryptDecrypt(
-        Uint8List.fromList(clearStream),
-        keys,
-        true,
-      );
-    }
+    final clearStream = [...messageHash, ...messageBuffer, ...padding];
+    final encryptedData = _aesIgeEncryptDecrypt(
+      Uint8List.fromList(clearStream),
+      keys,
+      true,
+    );
 
     final setClientDHParams = SetClientDHParams(
       nonce: resPQ.nonce,
@@ -176,8 +233,7 @@ class Client {
       _rng.getBytes(aesKey);
       clearBuffer.setRange(0, 32, aesKey);
 
-      final msg = <int>[];
-      msg.writeObject(pqInnerData);
+      final msg = pqInnerData.asUint8List();
       clearBuffer.setRange(32, 32 + msg.length, msg);
 
       // length before padding
@@ -336,15 +392,43 @@ class Client {
 
     final au = AuthKey._(authKeyID, authKey, saltLeft ^ saltRight);
 
+    _authKey = au;
     return au;
   }
 
   Future<T> send<T extends TlObject>(
-    TlObject msg,
-    bool preferEncryption,
-  ) async {
+      TlObject msg, bool preferEncryption) async {
+    final auth = _authKey;
+
+    preferEncryption &= auth.id != 0;
+
     final completer = Completer<T>();
-    final m = _newMessageId(false);
+    final m = _newMessageId(preferEncryption);
+
+    // if (preferEncryption && _msgsToAck.isNotEmpty) {
+    //   final ack = _newMessageId(false);
+    //   final ackMsg = MsgsAck(msgIds: _msgsToAck.toList());
+    //   _msgsToAck.clear();
+
+    //   var container = MsgContainer(
+    //     messages: [
+    //       Msg(
+    //         msgId: m.msgId,
+    //         seqno: m.seqno,
+    //         bytes: 0,
+    //         body: msg,
+    //       ),
+    //       Msg(
+    //         msgId: ack.msgId,
+    //         seqno: ack.seqno,
+    //         bytes: 0,
+    //         body: ackMsg,
+    //       )
+    //     ],
+    //   );
+
+    //   return send(container, false);
+    // }
 
     if (msg is ReqPqMulti) {
       final key = msg.nonce.toString();
@@ -359,8 +443,51 @@ class Client {
       _pending[m.msgId] = completer;
     }
 
-    final frame = Frame(msg, m.msgId, 0);
-    sender.add(frame.toUint8List(obfuscation));
+    if (auth.id == 0) {
+      final frame = Frame(msg, m.msgId, 0, null);
+      sender.add(frame.toUint8List(obfuscation));
+    } else {
+      final messageBuffer = msg.asUint8List();
+
+      final clearLength = messageBuffer.length + 32;
+      final padding = ((0x7FFFFFF0 - clearLength) % 16);
+      final paddingRandomized = padding + 112; // ((2 + _rng.nextInt(14)) * 16);
+      final paddingData = Uint8List(paddingRandomized);
+      _rng.getBytes(paddingData);
+
+      final clear = <int>[
+        ...auth.key.skip(88).take(32),
+        ...auth.salt.asUint64List(),
+        ...dcSession.id.asUint64List(),
+        ...m.msgId.asUint64List(),
+        ...m.seqno.asUint32List(),
+        ...messageBuffer.length.asUint32List(),
+        ...messageBuffer,
+        ...paddingData,
+      ];
+
+      final msgKey = Uint8List.fromList(sha256.convert(clear).bytes);
+      final encryptedData = encryptDecryptMessage(
+        Uint8List.fromList(clear.skip(32).toList()),
+        true,
+        0,
+        auth.key,
+        msgKey,
+        8,
+      );
+
+      final writerLength = 8 + 16 + encryptedData.length;
+
+      final buffer = [
+        ...writerLength.asUint32List(),
+        ...auth.id.asUint64List(),
+        ...msgKey.skip(8).take(16),
+        ...encryptedData,
+      ];
+
+      obfuscation?.send.encryptDecrypt(buffer, buffer.length);
+      sender.add(buffer);
+    }
     return completer.future;
   }
 
@@ -384,12 +511,90 @@ class Client {
     return _MessageIdSeq(msgId, seqno);
   }
 
-  Future<X> invokeWithLayer<X>(int layer, TlMethod<X> query) =>
-      send(InvokeWithLayer<X>(layer: layer, query: query), true);
+  Future<TlObject> invokeWithLayer(
+    int layer,
+    TlMethod query,
+  ) =>
+      send(
+        InvokeWithLayer(
+          layer: layer,
+          query: query,
+        ),
+        true,
+      );
 }
 
-class _MessageIdSeq {
-  const _MessageIdSeq(this.msgId, this.seqno);
-  final int msgId;
-  final int seqno;
+class ClientAuth {
+  const ClientAuth._(this._c);
+
+  final Client _c;
+
+  Future<AuthSentCodeBase> sendCode(String phoneNumber,
+      [CodeSettings? settings]) async {
+    settings ??= CodeSettings(
+      allowFlashcall: false,
+      currentNumber: false,
+      allowAppHash: false,
+      allowMissedCall: false,
+      allowFirebase: false,
+      appSandbox: false,
+    );
+
+    final req = AuthSendCode(
+      phoneNumber: phoneNumber,
+      apiId: _c.apiId,
+      apiHash: _c.apiHash,
+      settings: settings,
+    );
+
+    final res = await _c.send<AuthSentCodeBase>(req, true);
+
+    return res;
+  }
+
+  Future<AuthAuthorizationBase> signIn(
+    String phoneNumber,
+    String phoneCodeHash,
+    String phoneCode,
+  ) async {
+    final req = AuthSignIn(
+      phoneNumber: phoneNumber,
+      phoneCodeHash: phoneCodeHash,
+      phoneCode: phoneCode,
+    );
+
+    final res = await _c.send<AuthAuthorizationBase>(req, true);
+
+    return res;
+  }
+}
+
+class ClienConnection {
+  const ClienConnection._(this._c);
+
+  final Client _c;
+
+  Future<Config> initConnection({
+    required String appVersion,
+    required String deviceModel,
+    required String langCode,
+    required String langPack,
+    required String systemLangCode,
+    required String systemVersion,
+  }) async {
+    final req = InitConnection(
+      apiId: _c.apiId,
+      appVersion: 'TG 1.0',
+      deviceModel: 'PC 64bit',
+      langCode: 'en',
+      langPack: '',
+      systemLangCode: 'en',
+      systemVersion: 'Android',
+      params: JsonObject(value: []),
+      query: HelpGetConfig(),
+    );
+
+    final res = await _c.invokeWithLayer(174, req);
+    return res as Config;
+  }
 }

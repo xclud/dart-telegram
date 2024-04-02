@@ -121,3 +121,32 @@ extension _Prime on BigInt {
     return true;
   }
 }
+
+extension _XInt on int {
+  Uint8List asUint64List([bool littleEndian = true]) {
+    final b = Uint8List(8);
+    b.buffer
+        .asByteData()
+        .setUint64(0, this, littleEndian ? Endian.little : Endian.big);
+
+    return b;
+  }
+
+  Uint8List asUint32List([bool littleEndian = true]) {
+    final b = Uint8List(4);
+    b.buffer
+        .asByteData()
+        .setUint32(0, this, littleEndian ? Endian.little : Endian.big);
+
+    return b;
+  }
+}
+
+extension _XObject on TlObject {
+  Uint8List asUint8List() {
+    final buffer = <int>[];
+    serialize(buffer);
+
+    return Uint8List.fromList(buffer);
+  }
+}

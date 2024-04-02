@@ -7,15 +7,16 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:t/t.dart';
 
+part 'src/exceptions.dart';
 part 'src/extensions.dart';
 part 'src/private.dart';
 part 'src/dh.dart';
 part 'src/frame.dart';
-part 'src/binary_writer.dart';
 part 'src/public_keys.dart';
 part 'src/client.dart';
 part 'src/constants.dart';

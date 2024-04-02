@@ -185,3 +185,50 @@ final _n08 = BigInt.from(8);
 final _n19 = BigInt.from(19);
 final _n23 = BigInt.from(23);
 final _n24 = BigInt.from(24);
+
+class _MessageIdSeq {
+  const _MessageIdSeq(this.msgId, this.seqno);
+  final int msgId;
+  final int seqno;
+}
+
+Uint8List encryptDecryptMessage(
+  Uint8List input,
+  bool encrypt,
+  int x,
+  Uint8List authKey,
+  Uint8List msgKey,
+  int msgKeyOffset,
+) {
+  final x1 = [
+    ...msgKey.skip(msgKeyOffset).take(16),
+    ...authKey.skip(x).take(36),
+  ];
+  final x2 = [
+    ...authKey.skip(40 + x).take(36),
+    ...msgKey.skip(msgKeyOffset).take(16),
+  ];
+
+  final sha256A = sha256.convert(x1).bytes;
+  final sha256B = sha256.convert(x2).bytes;
+
+  final aesKey = [
+    ...sha256A.skip(0).take(8),
+    ...sha256B.skip(8).take(16),
+    ...sha256A.skip(24).take(8),
+  ];
+
+  final aesIV = [
+    ...sha256B.skip(0).take(8),
+    ...sha256A.skip(8).take(16),
+    ...sha256B.skip(24).take(8),
+  ];
+
+  final r = _aesIgeEncryptDecrypt(
+    input,
+    AesKeyIV(Uint8List.fromList(aesKey), Uint8List.fromList(aesIV)),
+    encrypt,
+  );
+
+  return r;
+}

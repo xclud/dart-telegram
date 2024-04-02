@@ -64,6 +64,9 @@ int _gcd(int left, int right) {
 /// Authentication Key.
 class AuthKey {
   const AuthKey._(this.id, this.key, this.salt);
+  factory AuthKey.empty() => _empty;
+
+  static final _empty = AuthKey._(0, Uint8List(0), 0);
 
   ///  Auth Key Id (int64).
   final int id;
