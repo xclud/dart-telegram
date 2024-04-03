@@ -1,12 +1,18 @@
 part of '../tg.dart';
 
 extension _BigInt on BigInt {
-  Uint8List toBytes(Endian endian) {
+  Uint8List toBytes([Endian endian = Endian.big]) {
     final bytes = _fromHexToUint8List(toRadixString(16));
 
     if (endian == Endian.little) {
       return Uint8List.fromList(bytes.reversed.toList());
     }
+
+    return bytes;
+  }
+
+  Uint8List to256Bytes() {
+    final bytes = _fromHexToUint8List(toRadixString(16).padLeft(512, '0'));
 
     return bytes;
   }
