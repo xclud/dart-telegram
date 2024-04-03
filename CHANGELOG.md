@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Login functinality.
+
 ## 0.0.2
 
 - Refactor MTProto objects into https://pub.dev/packages/t.
