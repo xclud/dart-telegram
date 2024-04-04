@@ -42,11 +42,11 @@ class Client {
     return x;
   }
 
-  final Map<int, Completer<TlObject>> _pending = {};
-  final Map<String, Completer<TlObject>> _dicResPQ = {};
-  final Map<String, Completer<TlObject>> _dicReqDHParams = {};
+  final Map<int, Completer<Result>> _pending = {};
+  final Map<String, Completer<Result>> _dicResPQ = {};
+  final Map<String, Completer<Result>> _dicReqDHParams = {};
 
-  final Map<String, Completer<TlObject>> _reqSetClientDHParams = {};
+  final Map<String, Completer<Result>> _reqSetClientDHParams = {};
   // final List<int> _msgsToAck = [];
   // MsgsAck? _checkMsgsToAck() {
   //   if (_msgsToAck.isEmpty) {
@@ -59,8 +59,16 @@ class Client {
   // }
 
   final _read = <int>[];
+  final _updateStreamController = StreamController<UpdatesBase>.broadcast();
+
+  Stream<UpdatesBase> get updates => _updateStreamController.stream;
 
   void _handleIncomingMessage(TlObject msg) {
+    if (msg is UpdatesBase) {
+      _updateStreamController.add(msg);
+    }
+
+    //
     if (msg is MsgContainer) {
       for (final message in msg.messages) {
         _handleIncomingMessage(message);
@@ -82,9 +90,7 @@ class Client {
       final result = msg.result;
 
       if (result is RpcError) {
-        task?.completeError(
-          RpcException._(result.errorCode, result.errorMessage),
-        );
+        task?.complete(Result._(null, result));
         _pending.remove(reqMsgId);
         return;
       } else if (result is GzipPacked) {
@@ -98,25 +104,25 @@ class Client {
         return;
       }
 
-      task?.complete(msg.result);
+      task?.complete(Result._(msg.result, null));
       _pending.remove(reqMsgId);
     } else if (msg is ResPQ) {
       final key = msg.nonce.toString();
 
       final task = _dicResPQ[key];
-      task?.complete(msg);
+      task?.complete(Result._(msg, null));
       _dicResPQ.remove(key);
     } else if (msg is ServerDHParamsOk) {
       final key = '${msg.nonce}-${msg.serverNonce}';
 
       final task = _dicReqDHParams[key];
-      task?.complete(msg);
+      task?.complete(Result._(msg, null));
       _dicReqDHParams.remove(key);
     } else if (msg is DhGenOk) {
       final key = '${msg.nonce}-${msg.serverNonce}';
 
       final task = _reqSetClientDHParams[key];
-      task?.complete(msg);
+      task?.complete(Result._(msg, null));
       _reqSetClientDHParams.remove(key);
     }
   }
@@ -153,14 +159,14 @@ class Client {
     _handleIncomingMessage(msg);
   }
 
-  Future<ResPQ> reqPqMulti([Int128? nonce]) async {
+  Future<Result<ResPQ>> reqPqMulti([Int128? nonce]) async {
     nonce ??= Int128.random();
-    final resPQ = await invoke<ResPQ>(ReqPqMulti(nonce: nonce), false);
+    final resPQ = await invoke(ReqPqMulti(nonce: nonce), false);
 
-    return resPQ;
+    return resPQ._to<ResPQ>();
   }
 
-  Future<SetClientDHParamsAnswerBase> setClientDHParams(
+  Future<Result<SetClientDHParamsAnswerBase>> setClientDHParams(
     ResPQ resPQ,
     BigInt gB,
     int retryId,
@@ -194,13 +200,12 @@ class Client {
       encryptedData: encryptedData,
     );
 
-    final answer =
-        invoke<SetClientDHParamsAnswerBase>(setClientDHParams, false);
+    final answer = await invoke(setClientDHParams, false);
 
-    return answer;
+    return answer._to<SetClientDHParamsAnswerBase>();
   }
 
-  Future<ServerDHParamsOk> reqDHParams(
+  Future<Result<ServerDHParamsOk>> reqDHParams(
     ResPQ resPQ,
     Int256 newNonce, {
     int? dc,
@@ -285,9 +290,9 @@ class Client {
       publicKeyFingerprint: fingerprint,
     );
 
-    final serverDHparams = await invoke<ServerDHParamsOk>(reqDHParams, false);
+    final serverDHparams = await invoke(reqDHParams, false);
 
-    return serverDHparams;
+    return serverDHparams._to<ServerDHParamsOk>();
   }
 
   Future<AuthKey> createAuthenticationKey(
@@ -374,10 +379,13 @@ class Client {
     ];
 
     final expectedNewNonceNHash = sha1.convert(expectedNewNonceN).bytes;
+    final result = setClientDHparamsAnswer.result;
 
-    if (setClientDHparamsAnswer is DhGenOk) {
+    if (result == null) {}
+
+    if (result is DhGenOk) {
       print(
-          '0x${_hex(expectedNewNonceNHash.skip(4))} == ${setClientDHparamsAnswer.newNonceHash1}');
+          '0x${_hex(expectedNewNonceNHash.skip(4))} == ${result.newNonceHash1}');
     }
 
     // if (!Enumerable.SequenceEqual(dhGenOk.new_nonce_hash1.raw, sha1.ComputeHash(expected_new_nonceN).Skip(4)))
@@ -399,13 +407,12 @@ class Client {
     return au;
   }
 
-  Future<T> invoke<T extends TlObject>(
-      TlObject msg, bool preferEncryption) async {
+  Future<Result> invoke(TlObject msg, bool preferEncryption) async {
     final auth = _authKey;
 
     preferEncryption &= auth.id != 0;
 
-    final completer = Completer<T>();
+    final completer = Completer<Result>();
     final m = _newMessageId(preferEncryption);
 
     // if (preferEncryption && _msgsToAck.isNotEmpty) {
@@ -514,7 +521,7 @@ class Client {
     return _MessageIdSeq(msgId, seqno);
   }
 
-  Future<TlObject> invokeWithLayer(
+  Future<Result<TlObject>> invokeWithLayer(
     int layer,
     TlMethod query,
   ) =>
@@ -532,7 +539,7 @@ class ClientAuth {
 
   final Client _c;
 
-  Future<AuthSentCodeBase> sendCode(String phoneNumber,
+  Future<Result<AuthSentCodeBase>> sendCode(String phoneNumber,
       [CodeSettings? settings]) async {
     settings ??= CodeSettings(
       allowFlashcall: false,
@@ -550,12 +557,12 @@ class ClientAuth {
       settings: settings,
     );
 
-    final res = await _c.invoke<AuthSentCodeBase>(req, true);
+    final res = await _c.invoke(req, true);
 
-    return res;
+    return res._to<AuthSentCodeBase>();
   }
 
-  Future<AuthAuthorizationBase> signIn(
+  Future<Result<AuthAuthorizationBase>> signIn(
     String phoneNumber,
     String phoneCodeHash,
     String phoneCode,
@@ -566,20 +573,21 @@ class ClientAuth {
       phoneCode: phoneCode,
     );
 
-    final res = await _c.invoke<AuthAuthorizationBase>(req, true);
+    final res = await _c.invoke(req, true);
 
-    return res;
+    return res._to<AuthAuthorizationBase>();
   }
 
-  Future<AuthAuthorizationBase> checkPassword(
+  Future<Result<AuthAuthorizationBase>> checkPassword(
     InputCheckPasswordSRP password,
   ) async {
     final req = AuthCheckPassword(
       password: password,
     );
 
-    final res = await _c.invoke<AuthAuthorizationBase>(req, true);
-    return res;
+    final res = await _c.invoke(req, true);
+
+    return res._to<AuthAuthorizationBase>();
   }
 }
 
@@ -588,7 +596,7 @@ class ClientConnection {
 
   final Client _c;
 
-  Future<Config> initConnection({
+  Future<Result<Config>> initConnection({
     required String appVersion,
     required String deviceModel,
     required String langCode,
@@ -608,8 +616,8 @@ class ClientConnection {
       query: HelpGetConfig(),
     );
 
-    final res = await _c.invokeWithLayer(174, req);
-    return res as Config;
+    final res = await _c.invokeWithLayer(170, req);
+    return res._to<Config>();
   }
 }
 
@@ -618,10 +626,10 @@ class ClientAccount {
 
   final Client _c;
 
-  Future<AccountPassword> getPassword() async {
+  Future<Result<AccountPassword>> getPassword() async {
     final req = AccountGetPassword();
 
-    final res = await _c.invoke<AccountPassword>(req, true);
-    return res;
+    final res = await _c.invoke(req, true);
+    return res._to<AccountPassword>();
   }
 }

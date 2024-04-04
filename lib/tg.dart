@@ -13,6 +13,7 @@ import 'package:encrypt/encrypt.dart';
 import 'package:pointycastle/export.dart' as pc;
 import 'package:t/t.dart';
 
+part 'src/result.dart';
 part 'src/encryption.dart';
 part 'src/exceptions.dart';
 part 'src/extensions.dart';
