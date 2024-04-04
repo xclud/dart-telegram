@@ -4,13 +4,26 @@ InputCheckPasswordSRP check2FA(
   AccountPassword accountPassword,
   String password,
 ) {
-  final algo = accountPassword.newAlgo
-      as PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
+  final currentAlgo = accountPassword.currentAlgo;
+  final newAlgo = accountPassword.newAlgo;
 
-  final saltRandom = Uint8List(32);
-  _rng.getBytes(saltRandom);
+  final algo = currentAlgo != null &&
+          currentAlgo
+              is PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow
+      ? currentAlgo
+      : newAlgo
+          as PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow;
 
-  final salt1 = [...algo.salt1, ...saltRandom];
+  if (algo == newAlgo) {
+    // TODO
+    // final saltRandom = Uint8List(32);
+    // _rng.getBytes(saltRandom);
+    // final salt1 = [
+    //   ...algoTmp.salt1, /*...saltRandom*/
+    // ];
+  }
+
+  final salt1 = [...algo.salt1];
   final salt2 = [...algo.salt2];
 
   final g = BigInt.from(algo.g);
