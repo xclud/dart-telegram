@@ -186,17 +186,11 @@ final _n19 = BigInt.from(19);
 final _n23 = BigInt.from(23);
 final _n24 = BigInt.from(24);
 
-class _MessageIdSeq {
-  const _MessageIdSeq(this.msgId, this.seqno);
-  final int msgId;
-  final int seqno;
-}
-
-Uint8List encryptDecryptMessage(
+Uint8List _encryptDecryptMessage(
   Uint8List input,
   bool encrypt,
   int x,
-  Uint8List authKey,
+  List<int> authKey,
   Uint8List msgKey,
   int msgKeyOffset,
 ) {

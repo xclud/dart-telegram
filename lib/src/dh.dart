@@ -61,30 +61,6 @@ int _gcd(int left, int right) {
   return left;
 }
 
-/// Authentication Key.
-class AuthKey {
-  const AuthKey._(this.id, this.key, this.salt);
-  factory AuthKey.empty() => _empty;
-
-  static final _empty = AuthKey._(0, Uint8List(0), 0);
-
-  ///  Auth Key Id (int64).
-  final int id;
-
-  /// 2048-bit Auth Key (256 bytes).
-  final Uint8List key;
-
-  /// Int64 salt.
-  final int salt;
-
-  @override
-  String toString() {
-    final json = {'id': id, 'salt': salt, 'key': _hex(key)};
-
-    return jsonEncode(json);
-  }
-}
-
 class AesKeyIV {
   const AesKeyIV(this.key, this.iv);
 

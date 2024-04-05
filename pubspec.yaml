@@ -9,7 +9,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  t: ^0.0.12
+  t: ^0.0.13
   crypto: ^3.0.3
   encrypt: ^5.0.3
   archive: ^3.4.10

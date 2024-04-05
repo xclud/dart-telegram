@@ -43,7 +43,7 @@ class DCSession {
   final int id;
 
   /// Long.
-  AuthKey? authKey;
+  AuthorizationKey? authKey;
 
   /// Long.
   int userId;

@@ -12,7 +12,7 @@ class Frame {
   factory Frame.parse(
     Uint8List data,
     Obfuscation? obfuscation,
-    AuthKey authKey,
+    AuthorizationKey authKey,
   ) {
     obfuscation?.recv.encryptDecrypt(data, data.length);
 
@@ -33,7 +33,7 @@ class Frame {
 
     //
 
-    final decryptedData = encryptDecryptMessage(
+    final decryptedData = _encryptDecryptMessage(
       Uint8List.fromList(data.skip(24).toList()),
       false,
       8,
